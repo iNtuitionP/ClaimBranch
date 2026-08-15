@@ -7,6 +7,9 @@ refactor.
 
 - [Domain and versioning model](2026-08-03-domain-model.md) — draft kernel semantics for
   the first contract spike.
+- [Notion MCP coding-journal automation](2026-08-15-notion-coding-journal-automation.md)
+  — in review; safe, resumable task-level developer records without making
+  Notion repository truth.
 
 Create `YYYY-MM-DD-short-name.md` from the
 [design template](../_meta/templates/design.md) when a change is expensive to
