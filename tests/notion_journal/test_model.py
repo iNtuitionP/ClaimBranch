@@ -51,6 +51,22 @@ class ModelTest(unittest.TestCase):
                 verification_status="Passed",
             )
 
+    def test_journal_draft_rejects_scalar_where_item_tuple_is_required(self):
+        with self.assertRaises(ValidationError):
+            JournalDraft(
+                title="Finish journal plan",
+                purpose="Record the coding outcome",
+                outcome="The bounded record is ready",
+                key_decisions="x",
+                verification=(VerificationItem("python tests", "Passed"),),
+                risks=("OAuth is interactive",),
+                next_safe_action="Run the next task",
+                task_status="Completed",
+                change_types=("docs",),
+                ai_contribution="AI-assisted",
+                verification_status="Passed",
+            )
+
 
 if __name__ == "__main__":
     unittest.main()

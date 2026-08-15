@@ -160,6 +160,14 @@ class JournalDraft:
     verification_status: str
 
     def __post_init__(self) -> None:
+        if not isinstance(self.key_decisions, tuple):
+            raise ValidationError("key decisions must be a tuple")
+        if not isinstance(self.verification, tuple):
+            raise ValidationError("verification items must be a tuple")
+        if not isinstance(self.risks, tuple):
+            raise ValidationError("risks must be a tuple")
+        if not isinstance(self.change_types, tuple):
+            raise ValidationError("change types must be a tuple")
         title = _bounded_text(self.title, field="title", limit=120, required=True)
         purpose = _bounded_text(self.purpose, field="purpose", limit=1000, required=True)
         outcome = _bounded_text(self.outcome, field="outcome", limit=1000, required=True)
