@@ -49,6 +49,14 @@ def _contains_unsafe_codepoint(value: str) -> bool:
     return any(ord(character) < 32 or 0xD800 <= ord(character) <= 0xDFFF for character in value)
 
 
+def _contains_unsafe_agent_codepoint(value: str) -> bool:
+    return any(
+        (ord(character) < 32 and character != "\n")
+        or 0xD800 <= ord(character) <= 0xDFFF
+        for character in value
+    )
+
+
 def normalize_repository_path(value: str) -> str:
     """Return a safe, repository-relative, slash-normalized path."""
 
@@ -76,7 +84,7 @@ def sanitize_agent_text(value: str, *, field: str) -> str:
 
     if not isinstance(value, str):
         raise ValidationError(f"{field} must be a string")
-    if _contains_unsafe_codepoint(value):
+    if _contains_unsafe_agent_codepoint(value):
         raise ValidationError(f"{field} contains control characters")
     if ABSOLUTE_PATH.search(value) or SECRET_ASSIGNMENT.search(value) or BEARER.search(value):
         raise ValidationError(f"{field} contains private or secret-like text")

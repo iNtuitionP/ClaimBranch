@@ -58,9 +58,11 @@ def _notion_url(value: str, *, field: str) -> str:
     value = _printable(value, field=field, limit=2000)
     parsed = urlparse(value)
     hostname = (parsed.hostname or "").casefold()
-    if parsed.scheme != "https" or not (
-        hostname == "notion.so" or hostname.endswith(".notion.so")
-    ):
+    allowed = any(
+        hostname == domain or hostname.endswith("." + domain)
+        for domain in ("notion.so", "notion.site")
+    )
+    if parsed.scheme != "https" or not allowed:
         raise JournalError(f"{field} must be an HTTPS Notion URL")
     if parsed.username or parsed.password or parsed.query or parsed.fragment:
         raise JournalError(f"{field} contains unsupported URL components")

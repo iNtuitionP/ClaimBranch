@@ -29,6 +29,15 @@ class ModelTest(unittest.TestCase):
             with self.subTest(value=value), self.assertRaises(ValidationError):
                 sanitize_agent_text(value, field="summary")
 
+    def test_multiline_markdown_is_allowed_but_other_controls_are_rejected(self):
+        self.assertEqual(
+            "Purpose\nOutcome",
+            sanitize_agent_text("Purpose\nOutcome", field="page body"),
+        )
+        for value in ("bad\rline", "bad\x00value", "bad\tvalue"):
+            with self.subTest(value=value), self.assertRaises(ValidationError):
+                sanitize_agent_text(value, field="page body")
+
     def test_canonical_json_is_sorted_utf8_without_ascii_escaping(self):
         self.assertEqual(
             b'{"a":"\xed\x95\x9c\xea\xb8\x80","z":1}',
