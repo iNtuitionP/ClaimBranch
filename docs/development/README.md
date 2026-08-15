@@ -5,3 +5,4 @@ requirements in typed documents so their ownership and review date are
 machine-checkable.
 
 - [Repository checks](workflow.md)
+- [Notion coding journal](notion-coding-journal.md)

@@ -343,7 +343,16 @@ smaller Notion permission boundary.
 ## Outcome
 
 The user approved the safe-mode direction and this written proposal in
-conversation on 2026-08-15. Implementation is governed by the active
+conversation on 2026-08-15. The local implementation now exists across
+`a5bd181^..6b26a85`: deterministic Git capture, versioned local outbox, deny-only
+hook policy, conservative receipt parsing, CLI, launcher, and project hook
+configuration passed 70 offline tests on 2026-08-15. The project hook has not
+yet been trusted, and the official MCP connection, OAuth workspace, database,
+live tool schemas, denial/retry, deduplication, and real-entry flow remain
+unverified. The automation is therefore implemented locally but not yet
+operationally accepted.
+
+Remaining rollout is governed by the active
 [Notion coding-journal automation ExecPlan](../plans/active/2026-08-15-notion-coding-journal-automation.md).
 It may implement only the bounded workflow above; it must not advance
 ClaimBranch product scope or the active F0/H0/H1/V0 plan.

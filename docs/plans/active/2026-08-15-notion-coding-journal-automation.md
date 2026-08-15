@@ -96,11 +96,20 @@ developer workflow automation governed by the approved
   successive tasks in one Codex session cannot repeat earlier changes.
 - [x] 2026-08-15 01:45Z - Rechecked current official OpenAI and Notion docs;
   added deny-only `PreToolUse` validation without bypassing write approval.
-- [ ] Implement deterministic snapshot and redaction primitives.
-- [ ] Implement atomic user-local state and pending/receipt lifecycle.
-- [ ] Implement hook decision engine, pre-write guard, and conservative MCP
-  acknowledgement.
-- [ ] Wire CLI, project hooks, agent contract, and contributor documentation.
+- [x] 2026-08-15 - Implemented deterministic snapshot and redaction primitives
+  in `a5bd181`; the Task 1 model and Git fixture suite passed.
+- [x] 2026-08-15 - Implemented atomic user-local state and the pending/receipt
+  lifecycle in `57af99e`; denial, cursor recovery, concurrency, and quarantine
+  fixtures passed.
+- [x] 2026-08-15 - Implemented the hook decision engine, deny-only pre-write
+  guard, and conservative MCP acknowledgement in `7daf556`; no-network hook
+  fixtures passed.
+- [x] 2026-08-15 - Wired the CLI, Windows launcher, and untrusted project hook
+  definition in `6b26a85`; 70 offline tests and JSON validation passed. Hook
+  trust remains deliberately deferred until the full source manifest is final.
+- [x] 2026-08-15 - Added the agent contract and contributor setup, operation,
+  diagnosis, trust, retry, and rollback guide; the local implementation is now
+  discoverable but remains disabled pending live setup and user trust.
 - [ ] Register and authenticate the official Notion MCP connection.
 - [ ] Provision the private journal database and store its identifiers locally.
 - [ ] Pass synthetic, denial, retry, deduplication, and real-task acceptance.
@@ -122,6 +131,14 @@ developer workflow automation governed by the approved
 - The worktree already contains unrelated uncommitted documentation and an
   untracked `.vscode/` directory. Consequence: snapshot eligibility excludes
   `.vscode/`, and every task stages only its named paths.
+- The official Notion tool catalog now documents synchronous create/update
+  results alongside optional async results, while live MCP input schemas remain
+  workspace/client-advertised. Consequence: the offline parser recognizes only
+  bounded synthetic shapes and Task 7 must compare them with the live schema
+  before hook trust.
+- Page bodies require multiline Markdown, while repository paths must reject
+  all control characters. Consequence: agent prose permits only line feed as a
+  control character; paths, tabs, carriage returns, and NUL remain rejected.
 
 ## Decision Log
 
@@ -1734,8 +1751,25 @@ test.
 - Approved design commit: `1fdd396`.
 - Official endpoint: `https://mcp.notion.com/mcp`.
 - Current pre-implementation observation: `codex mcp list` reported no servers.
-- Hook executable manifest: not recorded until Task 4 produces the final tested
-  config and Python source blobs.
+- Offline implementation commits: `a5bd181`, `57af99e`, `7daf556`, and
+  `6b26a85`.
+- Hook executable manifest at commit
+  `6b26a85fa20df51c526bbf25acb23e55d8a8ae14`:
+  - `.codex/hooks.json`: `1ae9bd11a75418ca7c49891431a9585d7e5c3751`
+  - `.codex/hooks/notion_journal.py`:
+    `3f8b7d896b1ad7d8b8c71085023536ff5fb62d84`
+  - `scripts/notion_journal/__init__.py`:
+    `b91ee90504a8516b70ee33201e7419146e4e381b`
+  - `scripts/notion_journal/cli.py`:
+    `cf6947657a95b7c8282c755619983b6c06cd5d6c`
+  - `scripts/notion_journal/git_state.py`:
+    `b8b504ff122ca8b4f14d74a0edf8cdba6d17d872`
+  - `scripts/notion_journal/hooks.py`:
+    `b078db3b3fc23097951a71113216c8d6593f30ab`
+  - `scripts/notion_journal/model.py`:
+    `c26184be52b8a2b71f5ca06e21f9a957b6856017`
+  - `scripts/notion_journal/store.py`:
+    `c561a74a77c92a355e26d4f261953102cfee1226`
 - Selected workspace: record only that the user confirmed it; keep its name and
   identifiers in user-local state.
 - Journal database: record provisioned/schema-verified booleans only; keep IDs
