@@ -36,6 +36,13 @@ availability and quotas can vary by workspace plan, so bootstrap must inspect
 the live `current_tool_access` result rather than assume every optional query
 surface is unlimited.
 
+The current tool guide also notes that OpenAI clients may expose the direct
+fetch tool without the `notion-` prefix, and that create/update can return an
+asynchronous task when `allow_async` is true. Setup therefore records the live
+advertised names instead of hard-coding a display name, while automatic journal
+writes remain synchronous so `PostToolUse` can validate the returned page
+directly.
+
 Notion states that a connected MCP client acts with the permissions of the
 connected user. It also warns that content read through MCP can contain prompt
 injection and recommends confirmation before changes. The initial ClaimBranch
@@ -48,8 +55,12 @@ support Streamable HTTP with OAuth, and allow server/tool approval policy. It
 also documents project and user configuration layers.
 
 Codex lifecycle hooks can observe session start, stop, and supported MCP tool
-calls. A `Stop` hook can continue the agent with a new prompt, and `PostToolUse`
-receives MCP tool input and output. Current hook handlers are deterministic
-commands only, so the hook cannot write Notion itself. This requires a split
-design: a local command prepares and tracks a redacted envelope, while the
-agent performs the user-approved MCP operation.
+calls. A `Stop` hook can continue the agent with a new prompt. `PreToolUse` can
+inspect and deny a supported MCP call before it executes, while `PostToolUse`
+receives the MCP tool input and output after execution. Current hook handlers
+are deterministic commands only, so the hook cannot write Notion itself. This
+requires a split design: a local command prepares, validates, and tracks a
+redacted envelope, while the agent performs the user-approved MCP operation.
+OpenAI also cautions that specialized tool paths can opt out of the default
+hook path, so the pre-write check is defense in depth rather than a replacement
+for approval or minimal tool exposure.

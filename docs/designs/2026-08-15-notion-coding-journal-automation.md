@@ -1,6 +1,6 @@
 ---
 kind: design
-status: in-review
+status: accepted
 owners: maintainers
 last_reviewed: 2026-08-15
 canonical_for: proposed Notion MCP coding-journal automation for repository agents
@@ -29,9 +29,10 @@ Notion tools.
 The official hosted Notion MCP server uses Streamable HTTP and interactive
 OAuth. It acts with the connected Notion user's permissions and does not yet
 support non-interactive authorization. Codex supports user- and project-scoped
-MCP configuration, write-sensitive approval modes, lifecycle hooks, and
-observation of MCP tool results. The external facts and their applicability are
-recorded in the [Notion MCP automation references](../references/notion-mcp-coding-journal.md).
+MCP configuration, write-sensitive approval modes, lifecycle hooks, pre-call
+policy checks for MCP tools, and observation of MCP tool results. The external
+facts and their applicability are recorded in the
+[Notion MCP automation references](../references/notion-mcp-coding-journal.md).
 
 The user approved the safe starting posture on 2026-08-15: connect the existing
 Notion account, require approval for every Notion write, and automate the rest
@@ -167,31 +168,57 @@ did not help create.
    for a Codex `session_id`: repository root, branch, HEAD, status, changed-path
    set, and a SHA-256 digest computed from Git state. The baseline is
    first-write-wins, so resume, clear, or compaction events cannot replace it.
-   It does not persist raw diff content.
+   It does not persist raw diff content. The same session record also holds a
+   capture cursor, initialized to that immutable baseline.
 2. When the main thread reaches `Stop`, a command hook compares the current Git
-   state with that baseline. No material change means no journal operation.
+   state with the capture cursor. No material change means no journal
+   operation.
 3. A material change with no matching receipt creates a versioned, redacted
    pending envelope in user-local state. The journal key combines a schema
-   version, repository identity, session ID, baseline digest, and current
-   digest.
+   version, repository identity, session ID, capture-cursor digest, and current
+   digest. Only after that envelope is durably written does the helper advance
+   the capture cursor to the current snapshot. This keeps later tasks in the
+   same Codex session from repeating already captured changes, even when the
+   Notion write is denied or delayed.
 4. On the first stop attempt, the hook returns a bounded continuation prompt
-   instructing Codex to query the configured data source for the journal key
-   and then create or update exactly one entry through Notion MCP.
-5. The user reviews and approves the proposed Notion write.
-6. A `PostToolUse` hook observes only the permitted Notion create/update tool
+   instructing Codex to read the envelope, attach one structured journal draft,
+   query the configured data source for the journal key, and then create or
+   update exactly one entry through Notion MCP. The draft contains only bounded,
+   validated title/purpose/outcome/decision/verification/risk/next-action fields;
+   it never contains a prompt, transcript, full tool output, or hidden reasoning.
+5. The draft is stored with the pending envelope before remote access. A later
+   session can therefore retry faithfully without reading an old transcript or
+   asking an LLM to reconstruct the original outcome from memory.
+6. A `PreToolUse` hook denies a Notion create/update call before execution when
+   it lacks exactly one distinct known journal key, a create targets an
+   unconfigured parent, or the call contains a rejected secret-like or
+   absolute-path value. A valid call returns no approval decision, so Codex's
+   normal write approval still applies. Automatic journal writes are
+   synchronous and contain exactly one page so the result can be acknowledged
+   without polling an asynchronous task.
+7. The user reviews and approves the proposed Notion write.
+8. A `PostToolUse` hook observes only the permitted Notion create/update tool
    results. A result marks the envelope synced only when its validated response
    shape contains a Notion page ID and the corresponding tool input contains
    the same journal key. Unknown or changed result shapes remain pending.
-7. The next `Stop` allows the turn to finish. If the MCP call did not succeed,
+9. The next `Stop` allows the turn to finish. If the MCP call did not succeed,
    `stop_hook_active` prevents another continuation loop and the envelope stays
    pending.
-8. A later `SessionStart` contributes a short reminder about pending envelopes.
-   The agent retries them only when Notion MCP is available and still requires
-   write approval.
+10. A later `SessionStart` contributes a short reminder with the total and at
+   most three oldest keys. The agent retries at most one old envelope in that
+   session, only when Notion MCP is available, and still requires write
+   approval.
 
 The hook never parses the transcript because Codex documents that format as
-unstable. The model supplies the prose summary from current conversation
-context; the helper supplies only deterministic repository evidence.
+unstable. The model supplies the prose draft from current conversation context,
+the helper validates and retains that explicit draft for retry, and Git supplies
+the deterministic repository evidence.
+
+When the user explicitly asks to record a material no-change decision, the
+agent invokes a manual helper command with the same structured draft. Its key is
+derived from repository identity, current snapshot digest, and canonical draft
+digest. This path never triggers automatically and does not advance a session
+capture cursor.
 
 The worktree digest is computed over a canonical UTF-8 manifest containing the
 eligible path, tracked/untracked state, and content SHA-256 for each path,
@@ -243,6 +270,16 @@ pending` rather than being hidden.
   content or an LLM's recollection.
 - Redact absolute user paths and reject likely secret-bearing values before a
   pending envelope becomes eligible for MCP transmission.
+- Persist only the validated structured journal draft needed for retry; never
+  derive it by parsing or copying the conversation transcript.
+- Deny a mismatched or secret-like Notion write at `PreToolUse`; do not use the
+  hook to approve a write or bypass the normal user prompt.
+- Treat tool hooks as defense in depth, not a complete enforcement boundary;
+  Codex documents that specialized tool paths can opt out, so the allowlist,
+  agent rule, and visible write approval remain required.
+- Review the hook command and every executable Python source blob before trust.
+  Do not assume a client will invalidate persisted trust when only a referenced
+  script changes; any source-blob change requires an explicit re-review.
 - Never let a Notion failure mutate, revert, commit, or block recovery of the
   repository worktree.
 
@@ -253,9 +290,10 @@ Rollout is staged:
 1. install and test the helper against temporary local state without MCP;
 2. register the official remote server and complete OAuth;
 3. verify `fetch self`, create the private database, and record its identifiers;
-4. run one synthetic journal entry with explicit write approval;
-5. enable the project hooks and trust their exact hashes; and
-6. complete one real task and verify create, receipt, retry, and deduplication.
+4. create one synthetic local pending envelope without a remote write;
+5. enable the project hooks and trust the reviewed executable source manifest;
+6. deny, retry, and approve the synthetic write; and
+7. complete one real task and verify create, receipt, retry, and deduplication.
 
 Rollback disables or removes the repository hook configuration, removes the
 global `notion` MCP entry with the Codex CLI, revokes the connection in Notion,
@@ -267,10 +305,13 @@ database is separate and never part of automated rollback.
 The implementation is complete only when all of the following pass:
 
 - helper unit tests cover clean state, pre-existing dirty state, changed dirty
-  content, untracked paths, redaction, stable keys, and schema-version rejection;
+  content, untracked paths, redaction, stable keys, sequential capture cursors,
+  denied-write draft carryover, explicit no-change decisions, and schema-version
+  rejection;
 - hook fixtures cover startup/resume behavior, first-stop continuation,
-  `stop_hook_active`, success acknowledgement, unavailable MCP, malformed tool
-  output, timeout, rate limit, and pending retry;
+  `stop_hook_active`, pre-write denial, approval pass-through, success
+  acknowledgement, unavailable MCP, malformed tool output, timeout, rate
+  limit, and pending retry;
 - no test fixture contains OAuth tokens, raw transcripts, raw diffs, or
   machine-specific absolute paths;
 - `codex mcp get notion --json` shows only the official endpoint and write
@@ -288,8 +329,10 @@ The implementation is complete only when all of the following pass:
 
 The user-visible acceptance criterion is: after a material ClaimBranch task,
 the final response reports `Notion journal: synced` with the page link or
-`Notion journal: pending` with a local retry state, and no other user action is
-needed beyond OAuth, initial hook trust, and each visible write approval.
+`Notion journal: pending` with a durable local retry key. If even local capture
+fails, it must instead report `Notion journal: error` without claiming a retry
+record exists. No other user action is needed beyond OAuth, initial hook trust,
+and each visible write approval.
 
 ## Open questions
 
@@ -299,7 +342,8 @@ smaller Notion permission boundary.
 
 ## Outcome
 
-The user approved the safe-mode direction in conversation on 2026-08-15. This
-written proposal remains `in-review` until the user reviews it. After approval,
-an ExecPlan may implement only the bounded workflow above; it must not advance
+The user approved the safe-mode direction and this written proposal in
+conversation on 2026-08-15. Implementation is governed by the active
+[Notion coding-journal automation ExecPlan](../plans/active/2026-08-15-notion-coding-journal-automation.md).
+It may implement only the bounded workflow above; it must not advance
 ClaimBranch product scope or the active F0/H0/H1/V0 plan.
