@@ -110,6 +110,10 @@ developer workflow automation governed by the approved
 - [x] 2026-08-15 - Added the agent contract and contributor setup, operation,
   diagnosis, trust, retry, and rollback guide; the local implementation is now
   discoverable but remains disabled pending live setup and user trust.
+- [x] 2026-08-15 - Registered `notion` at the official hosted endpoint, added
+  `default_tools_approval_mode = "writes"`, completed the browser OAuth flow,
+  and observed Codex report `Auth: OAuth`. A fresh client must still prove
+  `fetch self`; this session cannot hot-load a newly registered MCP inventory.
 - [ ] Register and authenticate the official Notion MCP connection.
 - [ ] Provision the private journal database and store its identifiers locally.
 - [ ] Pass synthetic, denial, retry, deduplication, and real-task acceptance.
@@ -139,6 +143,10 @@ developer workflow automation governed by the approved
 - Page bodies require multiline Markdown, while repository paths must reject
   all control characters. Consequence: agent prose permits only line feed as a
   control character; paths, tabs, carriage returns, and NUL remain rejected.
+- The running Codex session does not hot-load MCP servers added after session
+  startup. Consequence: OAuth can be registered and verified by the CLI here,
+  but workspace identity, live schemas, and writes require a fresh client after
+  the repository hook files are integrated.
 
 ## Decision Log
 
@@ -1750,7 +1758,9 @@ test.
 
 - Approved design commit: `1fdd396`.
 - Official endpoint: `https://mcp.notion.com/mcp`.
-- Current pre-implementation observation: `codex mcp list` reported no servers.
+- Initial observation: `codex mcp list` reported no servers. Current global
+  state reports the official `notion` server enabled with OAuth and write
+  approval policy configured; callable live-tool verification remains pending.
 - Offline implementation commits: `a5bd181`, `57af99e`, `7daf556`, and
   `6b26a85`.
 - Hook executable manifest at commit
