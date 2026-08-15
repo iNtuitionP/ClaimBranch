@@ -7,9 +7,10 @@ implemented architecture and read each document's front-matter status.
 
 ## Draft model
 
-- [Domain and versioning design](../designs/2026-08-03-domain-model.md) — proposed node,
-  edge, status, commit, branch, merge, conflict, manuscript, debt, and cache
-  semantics. Front matter records its authority and lifecycle.
+- [Finite F0 domain and versioning design](../designs/2026-08-03-domain-model.md)
+  — proposed closed record, edge, operation, authority, state, resource,
+  manuscript, and replay semantics. Front matter records its authority and
+  lifecycle.
 
 ## Decisions
 

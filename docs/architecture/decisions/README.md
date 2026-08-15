@@ -9,6 +9,9 @@ alternatives, and consequences. Use the [ADR template](../../_meta/templates/adr
 | [0002](0002-semantic-branches.md) | proposed | Keep semantic branches distinct from Git branches |
 | [0003](0003-ai-proposals.md) | accepted | AI produces proposals, never accepted state |
 | [0004](0004-local-layout-and-names.md) | proposed | Normalize local names for the schema spike |
+| [0005](0005-human-authority-provenance-and-understanding-debt.md) | accepted | Preserve human authority, contribution provenance, and understanding debt |
+| [0006](0006-three-graph-planes-and-provider-boundary.md) | accepted | Separate canonical, context, and execution graph planes |
+| [0007](0007-research-episode-and-manuscript-saga.md) | accepted | Bind one research episode to a fenced manuscript saga |
 
 Numbers are never reused. A proposed ADR may change during review. After
 acceptance, repair only wording, links, metadata, or explicit supersession;

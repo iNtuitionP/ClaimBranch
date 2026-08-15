@@ -9,6 +9,8 @@ in-progress material visibly different.
 - Product or UX work: [product map](product/README.md) ->
   [product specification](product/product-spec.md) -> relevant
   [validation case](validation/README.md).
+- Current scope and sequencing: [active execution plans](plans/active/README.md)
+  -> [ClaimBranch graph contract to live-paper validation](plans/active/2026-08-04-claimbranch-v1-and-gpu-systems.md).
 - Domain or architecture work: [target architecture](../ARCHITECTURE.md) ->
   [architecture status](architecture/README.md) ->
   [draft domain design](designs/2026-08-03-domain-model.md) -> relevant ADR.

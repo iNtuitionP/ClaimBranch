@@ -5,8 +5,9 @@ refactor.
 
 ## Proposals
 
-- [Domain and versioning model](2026-08-03-domain-model.md) — draft kernel semantics for
-  the first contract spike.
+- [Finite F0 domain and versioning model](2026-08-03-domain-model.md) — draft
+  closed records, relationships, operations, authority, states, cardinalities,
+  and resource bounds for the first contract spike.
 - [Notion MCP coding-journal automation](2026-08-15-notion-coding-journal-automation.md)
   — accepted; safe, resumable task-level developer records without making
   Notion repository truth.

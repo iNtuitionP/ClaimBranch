@@ -2,608 +2,587 @@
 kind: design
 status: draft
 owners: maintainers
-last_reviewed: 2026-08-03
-canonical_for: proposed domain types semantics and invariants for the contract spike
+last_reviewed: 2026-08-14
+canonical_for: proposed finite F0 domain records relationships operations states and resource bounds
 ---
 
-# Domain and versioning model
+# Finite F0 domain and versioning model
 
-Version: 0.1
-Scope: implementation hypothesis for the contract spike
+Version: 0.2
 
-This document proposes kernel semantics for the first contract spike. `MUST`,
-`SHOULD`, and `MAY` describe conformance to this draft, but the exact taxonomy,
-serialization, event model, and branch algorithm remain revisable until the
-vertical slice is exercised.
+This document is the canonical logical contract proposed for the first
+ClaimBranch spike. It defines a finite saturation-shaped graph, authority,
+provenance, state, replay, and resource boundary. It is not an implemented
+schema and does not settle a programming language, database, package layout,
+wire framework, or UI storage.
+
+The [product specification](../product/product-spec.md) owns intended behavior,
+the [target architecture](../../ARCHITECTURE.md) owns component and trust
+boundaries, the [saturation case](../validation/cases/saturation.md) owns
+observable content, and the
+[active ExecPlan](../plans/active/2026-08-04-claimbranch-v1-and-gpu-systems.md)
+owns sequencing and planned test commands.
 
 ## Purpose
 
-Define a falsifiable domain contract for the first vertical slice: what is
-global evidence, what may branch, which changes are auditable, and what must be
-rebuildable. This document is a design input to a contract spike, not evidence
-that any storage or merge implementation exists.
+Make the first graph-first foundation closed enough that an implementation can:
+
+- accept only known records, edges, operations, states, and resource sizes;
+- keep evidence global and reasoning branchable;
+- preserve complete AI/human Contribution provenance;
+- prove human authorization without trusting caller data;
+- distinguish scientific acceptance from manuscript progress;
+- replay deterministic histories without AI;
+- reject out-of-F0 live cases visibly; and
+- test every allowed and forbidden path before broadening the model.
+
+“Complete” means complete for this fixture-bounded contract, not complete for
+science or future ClaimBranch.
 
 ## Context and current state
 
-The product contract requires immutable accepted evidence, branchable reasoning,
-selective semantic merge, proposal-only AI, manuscript debt, and an AI-free
-deterministic core. ADRs [0001](../architecture/decisions/0001-evidence-and-reasoning.md)
-and [0003](../architecture/decisions/0003-ai-proposals.md) accept the two central
-trust boundaries. There is no implemented schema, event log, ref algorithm, or
-cache yet.
+ADRs 0001, 0003, 0005, 0006, and 0007 accept the evidence/reasoning,
+proposal-only AI, human-authority, three-plane, episode, and manuscript-saga
+constraints. There is no implemented schema, store, gateway, provider adapter,
+authorization broker, projection, or patch saga. The earlier broad domain draft
+has been narrowed to the one approved saturation wedge so the first spike can
+be exhaustive rather than nominally general.
 
 ## Goals and non-goals
 
 Goals:
 
-- make the accepted product constraints enforceable by a small deterministic
-  kernel;
-- support aggregate experiments without inventing synthetic runs;
-- preserve relationship scope, provenance, and human review;
-- make partial merge and revert auditable; and
-- make every disposable projection rebuildable from repository state.
+- close every F0 semantic type, relationship, command, state, cardinality, and
+  resource boundary;
+- make accepted authority and AI Contribution provenance executable;
+- make replay, import, projection, migration, and manuscript recovery
+  falsifiable; and
+- preserve a clear path to record out-of-F0 live evidence without expanding the
+  contract during evaluation.
 
 Non-goals:
 
-- lock a programming language, database binding, wire format, or UI schema;
-- prove every proposed node and status is necessary before the vertical slice;
-- replace Git's transport and file history; or
-- authorize AI to create accepted state.
+- universal scientific ontology or arbitrary extension fields;
+- general semantic VCS, nested branches, LCA merge, revert, or conflict solver;
+- graph database or event-sourcing framework commitment;
+- embeddings, GraphRAG, model memory, or graph canvas;
+- multi-file manuscript editing;
+- collaboration or multi-user authority; and
+- model/provider management.
 
 ## Decision drivers
 
-- The evidence/reasoning boundary must remain visible even if the UI projects
-  both as one graph.
-- Branch diff and merge must operate on scientific meaning rather than file
-  hunks.
-- State must survive restart, remain inspectable, and work with AI disabled.
-- Corrections, invalidation, partial merge, and revert must preserve provenance.
-- Early serialization choices must remain cheap to change after fixture tests.
+- The first foundation must be finite enough for exhaustive positive, negative,
+  crash, replay, and resource tests.
+- Accepted evidence must remain global while one competing interpretation can
+  branch and merge selectively.
+- Human authority must not depend on untrusted request metadata or provider
+  behavior.
+- AI influence and understanding obligations must survive human editing.
+- External manuscript writes must not inherit false atomicity from graph
+  commits.
+- Physical storage and UI technology must remain replaceable until spikes pass.
 
 ## Options considered
 
-- Use Git files and branches as the complete domain model. This cannot enforce
-  global evidence visibility or semantic dependency closure and conflicts with
-  the proposed semantic-branch direction.
-- Store one mutable graph snapshot per reasoning branch, including evidence.
-  This conflicts with accepted ADR 0001 and risks hiding or duplicating
-  evidence.
-- Use a global append-only evidence layer plus branchable reasoning state,
-  durable semantic operations, refs, and a rebuildable projection. This is the
-  proposed model elaborated below.
-- Require a fully event-sourced physical implementation immediately. Deferred:
-  the spike may use a snapshot or simple log until replay, migration, and
-  profiling evidence justify a permanent format.
+- Keep the earlier broad ontology and general semantic-VCS model. Rejected
+  because exhaustive authority, recovery, and live-evaluation outcomes would
+  remain undefined.
+- Build a minimal agent flow first and let the schema emerge from UI behavior.
+  Rejected because authority and provenance would become accidental interface
+  conventions.
+- Freeze every future scientific type before implementation. Rejected because
+  it would substitute speculation for real episode evidence.
+- Close only the saturation-shaped F0 contract and count valid live cases
+  outside it as product failures. Selected.
 
 ## Proposed design
 
-The following numbered sections define the logical contract. Normative words
-apply to the draft contract only; unresolved physical choices remain open.
+## 1. Logical planes
 
-## 1. Two connected graphs
+The model uses the three planes accepted by
+[ADR 0006](../architecture/decisions/0006-three-graph-planes-and-provider-boundary.md).
 
-ClaimBranch presents one research graph but preserves two different kinds of
-truth internally.
+### 1.1 Canonical scientific plane
 
-### 1.1 Evidence Provenance Graph
+Accepted append-only evidence events, branchable reasoning, Decisions,
+Contributions, ReviewBundle/receipt references, debt, anchors, patch-saga
+results, refs, and DomainOperations. This plane alone defines accepted research
+state.
 
-This graph records executed work and direct observations. It is global across
-all semantic branches, append-only after human confirmation, and normally a
-directed acyclic provenance graph.
+### 1.2 Context/retrieval plane
 
-```text
-ExperimentSpec version -> 0..N Run -> Artifact/Metric/Observation
-                      `-----------> aggregate Artifact/Metric/Observation
-```
+Rebuildable current/historical views, typed neighborhoods, full-text indexes,
+summaries, and future retrieval derivations. It contains no independent
+accepted fact.
 
-A Run is optional. Some researchers manage aggregate experiment results only;
-the model MUST NOT require synthetic Run records merely to attach evidence.
+### 1.3 Execution-trace plane
 
-### 1.2 Reasoning and Manuscript Graph
-
-This versioned multigraph records how evidence is understood and expressed.
-Objects and relationships can be active in one branch and absent, superseded,
-or differently scoped in another.
-
-```text
-Observation -> Interpretation -> Claim -> Narrative
-                         |             |
-                         v             v
-               Experiment Plan   Manuscript Anchor
-                                          |
-                                          v
-                                      Patch / Debt
-```
-
-Reasoning can revisit earlier interpretations, so this graph is not required to
-be acyclic.
+Non-authoritative Proposals, revisions, request/response/tool manifests,
+attempts, timing, cancellation, retention, and payload availability. This
+plane is auditable but does not endorse its content.
 
 ## 2. Global invariants
 
 ### INV-1: accepted evidence is branch-independent
 
-A completed Run, raw Artifact, Metric, or human-confirmed Observation MUST be
-visible from every semantic branch. Creating, deleting, or merging a reasoning
-branch MUST NOT hide accepted evidence.
+Every accepted ArtifactRef, Run, Observation, and EvidenceEvent is visible from
+every reasoning ref at the applicable evidence watermark. Branch creation,
+archive, or selected merge cannot hide or delete it.
 
-### INV-2: evidence corrections preserve history
+### INV-2: evidence changes append events
 
-Accepted evidence MUST NOT be edited in place. A parser correction, invalid
-run, or revised observation creates a new record linked with `supersedes` or an
-invalidation event containing a reason. The original remains addressable.
+Confirmation, correction, invalidation, and retraction append EvidenceEvents.
+No command edits an accepted artifact, Run, Observation, or prior event in
+place.
 
-### INV-3: artifacts are content-addressed
+### INV-3: accepted state changes only through a closed operation
 
-An imported raw artifact MUST retain its content hash, source path or external
-reference, import time, and mapping version. ClaimBranch MUST NOT rewrite the
-source file during import.
+The trusted gateway validates and atomically appends a known DomainOperation.
+No raw record write, caller-selected actor, provider output, projection, import,
+or internal field update is an alternate accepted-write path.
 
-### INV-4: scientific relationships are reviewable records
+### INV-4: relationships are typed records
 
-An edge such as `supports` or `challenges` MUST be a first-class record with
-scope, conditions, rationale, provenance, and review status. Its existence
-cannot be inferred solely from graph topology.
+Every scientific relationship uses the closed table in section 5 and retains
+its source, target, rationale, conditions implicit in the typed fixture fields,
+creation operation, and evidence watermark. Topology or similarity alone cannot
+create an accepted edge.
 
-### INV-5: AI output starts unaccepted
+### INV-5: AI influence is never erased
 
-AI-created nodes, edges, conflicts, debt candidates, and patches MUST begin as
-proposals. They MUST NOT affect accepted branch state until a human accepts or
-edits them.
+Every AI-influenced accepted DomainOperation references the immutable Proposal
+and a gap-free ordered Contribution chain. Human edits add Contributions; they
+do not relabel the result purely human.
 
-### INV-6: merge is selective and auditable
+### INV-6: human authority is cryptographic and state-bound
 
-A merge MUST record the source and target refs, base commit, selected semantic
-changes, omitted changes, dependency closure, author, time, and rationale.
+Every human-only accepted action consumes one unexpired, single-use receipt
+bound to the sealed review, project, episode, expected heads/file state,
+operation, impact, provenance, rationale, and teach-back disposition. Request
+metadata never substitutes for the receipt.
 
-### INV-7: revert appends history
+### INV-7: selected merge is explicit and dependency closed
 
-Revert MUST create a new domain commit with inverse reasoning changes. It MUST
-NOT erase previous commits or accepted evidence.
+F0 copies one named selection plus its mandatory dependencies from one
+non-nested branch to main. It records omitted work and does not mutate the
+source branch.
 
-### INV-8: debt follows accepted state
+### INV-8: graph acceptance and manuscript verification are distinct
 
-Manuscript Debt MUST be derived from accepted research/manuscript divergence.
-AI MAY propose impact, but only deterministic state or human-confirmed semantic
-links may create accepted debt.
+A graph operation may open ManuscriptDebt. Patch preparation, file application,
+compile verification, restoration, and human closure remain separate durable
+phases.
 
-### INV-9: repository data works without AI
+### INV-9: projections and providers are disposable dependencies
 
-All accepted objects, refs, diffs, merges, anchors, debt, and deterministic
-checks MUST remain usable with every AI provider disabled.
+Deleting every projection or disabling every provider cannot alter or make
+accepted state unreplayable.
 
-## 3. Common record envelope
+### INV-10: import cannot inherit authority implicitly
 
-Every node has a common envelope. Serialization syntax remains subject to an
-implementation RFC, but the logical fields are stable.
+Untrusted history is verify-only in a new isolated store. Trusted restore
+targets a new empty store and verifies a signed manifest chain, enrolled public
+key, known schema/rules, hashes, and every receipt. F0 has no import-to-live-
+project merge or promotion path.
 
-```yaml
-id: claim_01J...
-type: claim
-schema_version: 1
-title: Joint distortion-sensitivity factorization
-body: >
-  Operator damage is jointly determined by operator-induced logit
-  distortion and score sensitivity.
-created_at: 2026-08-03T12:00:00Z
-created_by:
-  kind: human
-  id: local-user
-provenance:
-  domain_commit: commit_01J...
-  source_refs: []
-attributes: {}
-```
+## 3. Common record contract
 
-Identifiers MUST be stable and globally unique inside a research repository.
-Human-readable short IDs such as `C-12` are display aliases, not durable keys.
+Every canonical record has:
 
-## 4. Node types
+| Field | Rule |
+|---|---|
+| id | stable unique string within the project |
+| kind | closed enum selecting its schema |
+| schema_version | known version; unknown versions fail before append |
+| project_id | exact project authority boundary |
+| created_operation_id | immutable creating DomainOperation |
+| created_at | RFC 3339 UTC supplied by the deterministic clock port |
 
-### 4.1 Evidence layer
+Every record and command payload validates against versioned JSON Schema with
+additional properties forbidden. Schemas close primitive types, enums,
+nullability, numeric ranges, strings, collections, and cross-record
+invariants. Indexes may add physical fields outside canonical serialization;
+they cannot add semantic fields.
 
-| Type | Purpose | Mutability rule |
+Canonical JSON uses fixed UTF-8 normalization, object-key order, number format,
+enum spelling, null treatment, and hash exclusions. Tests inject clock, IDs,
+nonces, signing key, compiler fingerprint, schema/rule versions, and production
+entropy recordings. Replay never regenerates them.
+
+The immutable operation/event log is authoritative. Ref heads and lifecycle
+values are deterministic projections, not mutable fields inside prior hashed
+records.
+
+## 4. Closed record inventory and cardinality
+
+| Record kind | Required type-specific fields | H0 exact / V0 per-valid-episode bound |
 |---|---|---|
-| `experiment_spec` | Versioned protocol, parameters, and measurement intent | New version on accepted change |
-| `run` | One execution with code, environment, parameters, and status | Append events; never rewrite completed payload |
-| `artifact` | JSON, plot, log, checkpoint, or external artifact reference | Content-addressed and immutable |
-| `metric` | A named measurement from a Run or aggregate ExperimentSpec result | Supersede on correction |
-| `observation` | Human-confirmed statement directly grounded in evidence | Supersede on correction |
-
-An Experiment planned only for a branch is an `experiment_plan`. It becomes a
-global `experiment_spec` when the user accepts it for execution. Evidence MAY
-attach to that ExperimentSpec directly or through zero or more Runs; completed
-Runs are never branch-local.
-
-### 4.2 Reasoning and publication layer
-
-| Type | Purpose |
-|---|---|
-| `research_question` | The question the work tries to answer |
-| `hypothesis` | A testable pre-experiment proposition |
-| `scenario` | Expected or alternative result pattern and its implications |
-| `interpretation` | A candidate explanation of observations |
-| `claim` | A proposition the manuscript may communicate |
-| `narrative` | A coherent selection and ordering of claims |
-| `decision` | Human adoption, rejection, deferral, or override rationale |
-| `experiment_plan` | A proposed follow-up experiment and its scientific purpose |
-| `manuscript_anchor` | A stable link to a sentence, paragraph, section, table, or figure |
-| `patch_proposal` | A bounded candidate manuscript change |
-| `debt_bundle` | A group of related synchronization obligations from one change |
-| `debt_item` | One independently reviewable and resolvable manuscript obligation |
-| `literature_item` | A cited or candidate external work |
-| `note` | Low-friction capture pending optional structure |
-| `ai_proposal` | Durable review record of structured changes proposed by AI |
-
-## 5. Edge model
-
-### 5.1 Base relations
-
-| Relation | Meaning |
-|---|---|
-| `contains` | A node structurally contains another |
-| `produces` | An ExperimentSpec, Run, or process produces evidence |
-| `derived_from` | A record is derived from another source |
-| `tests` | An experiment evaluates a hypothesis, claim, or interpretation |
-| `supports` | Evidence raises support for a target proposition |
-| `challenges` | Evidence weakens or conflicts with a target proposition |
-| `qualifies` | Evidence or reasoning restricts the scope or conditions of a proposition |
-| `motivates` | A result or interpretation creates a question or planned action |
-| `supersedes` | A new record replaces an older record without erasing it |
-| `expressed_in` | A Claim or Narrative is expressed at a Manuscript Anchor |
-| `affects` | A change has a reviewed impact on another record or anchor |
-| `cites` | A literature item relates to a Claim or Anchor |
-| `resolves` | A decision, experiment, or patch resolves debt |
-
-Experiment purposes such as `replication`, `validation`, `falsification`,
-`ablation`, `generalization`, `robustness`, `discrimination`, and `measurement`
-are values of `tests.intent`, not additional top-level relation types.
-
-Literature purposes such as `supports`, `challenges`, `contrasts`,
-`uses_similar_method`, `reports_conflicting_evidence`, and `defines_metric` are
-values of `cites.intent`.
-
-### 5.2 Edge record
-
-```yaml
-id: edge_01J...
-relation: supports
-source: observation_controlled_noise
-target: claim_joint_factorization
-scope: sensitivity component only
-conditions:
-  - fixed absolute endpoint noise
-strength: partial
-review_status: human_reviewed
-created_by:
-  kind: human
-rationale: >
-  This result shows a sensitivity difference under controlled distortion,
-  but does not establish the operator-induced distortion component.
-```
-
-`scope`, `conditions`, and `rationale` SHOULD be visible in the inspector and
-semantic diff. The UI MAY offer simpler labels but MUST preserve this detail.
-
-## 6. Independent status axes
-
-A single `status` field is insufficient. Applicable axes are independent.
-
-### 6.1 Lifecycle
-
-```text
-draft | active | resolved | superseded | rejected | archived
-```
-
-### 6.2 Scientific maturity
-
-```text
-speculative | provisional | supported | contested | validated | manuscript_ready
-```
-
-This is advisory metadata, never an automatic merge permission.
-
-### 6.3 Review
-
-```text
-human_created | ai_proposed | human_reviewed | accepted | rejected
-```
-
-### 6.4 Manuscript integration
-
-```text
-unlinked | linked | debt_open | patch_proposed | applied | compile_verified | waived
-```
-
-### 6.5 Proposal disposition
-
-```text
-pending | accepted | accepted_with_edits | rejected | dismissed | expired
-```
-
-Every proposal remains durable regardless of disposition.
-
-### 6.6 Debt disposition
-
-```text
-open | triaged | patch_proposed | applied | verified | waived |
-explicitly_deferred | superseded
-```
-
-### 6.7 Run execution
-
-```text
-planned | queued | running | completed | failed | invalidated
-```
-
-## 7. Domain commits
-
-A domain commit is an atomic, ordered set of semantic operations. It is distinct
-from, but may reference, a Git commit.
-
-```yaml
-id: commit_01J...
-parents: [commit_previous]
-ref: refs/branches/joint-distortion-sensitivity
-author: local-user
-created_at: 2026-08-03T12:30:00Z
-message: Record real-operator mismatch and competing interpretations
-rationale: Real operator results challenge the saturation-only scope.
-operations:
-  - op: create_node
-    object: interpretation_delta_magnitude
-  - op: create_edge
-    object: edge_pruning_challenges_claim01
-  - op: set_branch_state
-    object: claim01
-    field: scientific_maturity
-    value: contested
-```
-
-Allowed logical operations include create object, create or supersede edge,
-change branch-local state, add a decision, create/defer/waive debt, and accept or
-reject a proposal. Evidence import uses global events and is referenced from the
-domain commit that interprets it.
-
-## 8. Refs and branch state
-
-The default semantic ref is `refs/main`. A branch ref points to the head domain
-commit of a competing reasoning state.
-
-```text
-.claimbranch/
-|-- objects/
-|-- events/
-|-- refs/
-|   |-- main
-|   `-- branches/
-|       `-- joint-distortion-sensitivity
-|-- proposals/
-|-- anchors/
-|-- adapters/
-`-- config.toml
-```
-
-A branch controls:
-
-- selected interpretations, claims, narratives, and their independent status
-  axes;
-- branch-local relationships and their scope;
-- planned experiments;
-- decisions;
-- manuscript patch proposals; and
-- debt dispositions.
-
-A branch does not own completed Runs, raw Artifacts, Metrics, or confirmed
-Observations. Removing a branch from the active UI archives or tombstones its
-ref; it MUST NOT garbage-collect its reasoning commits or make rejected and
-superseded histories unreachable.
-
-## 9. Semantic diff
-
-A diff compares two refs or commits and groups changes by domain meaning:
-
-```text
-Claims
-Evidence relationships
-Interpretations and narratives
-Follow-up experiment plans
-Manuscript impact and patches
-Debt
-Decisions and human rationale
-```
-
-Property-level changes MUST retain before and after values. Relationship changes
-MUST show scope, conditions, rationale, and review status. Evidence objects may
-appear as context but are not merged between reasoning branches.
-
-## 10. Merge request and partial merge
-
-A merge request is calculated from the lowest common domain ancestor of source
-and target refs. Its selectable unit is a semantic change, not a file.
-
-Example selection:
-
-```text
-[x] Mark Claim C-01 contested
-[x] Add two follow-up experiment plans
-[x] Open the manuscript-impact Debt Bundle
-[ ] Adopt Claim C-02 as the central claim
-[ ] Apply the Abstract patch
-```
-
-The kernel MUST compute dependencies between selected changes. If a selected
-edge references a new reasoning node, that node must also be selected or the
-edge must be omitted. Global evidence dependencies are already available and do
-not require selection.
-
-Referential-integrity dependencies are mandatory. Higher-level semantic
-dependencies are advisory: the user may omit them by recording an override
-rationale.
-
-A partial merge creates one new commit on the target ref containing only the
-selected change closure, plus a Decision recording omitted changes. It MUST NOT
-mutate or delete the source branch.
-
-## 11. Conflicts
-
-### 11.1 Deterministic conflicts
-
-The kernel can enforce or block on:
-
-- the same branch-local property changed differently on both sides;
-- overlapping accepted patches for one anchor;
-- an anchor unresolved by label, marker, and exact fingerprint;
-- conflicting mappings for the same metric source;
-- use of a superseded observation as current without explicit override; and
-- manuscript compile failure after patch application.
-
-Blocking is scoped to the affected operation. A property conflict blocks that
-selected change; an anchor, patch, or compile conflict blocks only patch
-application and debt verification; an import-mapping conflict blocks only the
-affected import. Unrelated Claim, relationship, Experiment Plan, and Debt
-changes remain eligible for partial merge.
-
-### 11.2 Semantic conflict proposals
-
-AI may flag:
-
-- manuscript language broader than supporting evidence;
-- a mixed result inconsistent with `always` or `consistently`;
-- a new claim incompatible with an accepted conclusion;
-- evidence that supports only one component of a compound claim; or
-- literature that may weaken a novelty claim.
-
-These remain `ai_proposed_possible_conflict` records. They do not block a merge
-unless a human accepts a conflict and the selected merge policy requires it.
-
-## 12. Revert and invalidation
-
-Reverting a reasoning commit appends inverse operations to the current ref.
-Reverting an accepted manuscript patch restores the previous bounded content in
-a new patch commit and reruns compile verification.
-
-Evidence is never reverted out of existence. A bad Run is invalidated with a
-reason; a mistaken Observation is superseded. Branches continue to see the full
-history and can filter invalid evidence from active reasoning.
-
-## 13. Manuscript anchors
-
-An anchor record includes:
-
-```yaml
-id: anchor_abstract_central_claim
-document: main.tex
-kind: paragraph
-locator:
-  marker: anchor-abstract-central-claim
-  label: null
-fingerprint:
-  text_hash: sha256:...
-  context_before: ...
-  context_after: ...
-linked_claims:
-  - claim_saturation_only
-state: linked
-```
-
-Resolution order is LaTeX label, managed marker, exact fingerprint, contextual
-candidate, AI-proposed candidate, then human relinking. Only the first three may
-resolve deterministically; contextual or AI candidates require confirmation.
-
-## 14. Patch lifecycle
-
-```text
-proposed
--> human_reviewed
--> accepted
--> applied
--> compile_tested
--> debt_verified
-```
-
-The AI layer MAY create `proposed`. Deterministic code applies an exact accepted
-patch to its verified anchor. A content mismatch stops application and requests
-review. ClaimBranch MUST NOT silently broaden a patch or write to the active
-manuscript before acceptance.
-
-## 15. Debt bundles and items
-
-A `debt_bundle` groups the effects of one accepted source change. It MUST contain
-one or more `debt_item` records so individual manuscript locations can be
-reviewed and resolved independently.
-
-```yaml
-bundle:
-  id: debt_bundle_real_operator_results
-  source_change: commit_real_operator_review
-  central_issue: Saturation-only scope is challenged across operators.
-items:
-  - id: debt_item_abstract_scope
-    affected_anchor: anchor_abstract_central_claim
-    reason: The Abstract still generalizes across every operator.
-    severity: central_claim
-    disposition: open
-    resolution_condition: Qualify the scope or explicitly defer the change.
-```
-
-Each item MUST retain its source change, affected objects or anchor, reason,
-severity, disposition, resolution condition, and transition history. The bundle
-MUST report partial completion without hiding open items. `contains` links the
-bundle to its items; a reviewed Decision, Experiment, or Patch may `resolve` an
-item.
-
-## 16. Projection and cache rule
-
-Repository objects, events, refs, anchors, adapter mappings, and every proposal
-with its disposition are the durable source of truth. Rejected, dismissed, and
-edited proposals remain available for audit and product metrics. SQLite is a
-disposable projection used for search, tables, graph traversal, branch
-materialization, and inbox queries.
-
-Deleting `.claimbranch-cache/index.sqlite` and replaying repository state MUST
-produce an equivalent accepted graph, refs, and debt state. AI-generated prose
-does not have to be reproducible, but its stored proposal, inputs, model
-identity, and human disposition do.
-
-## Migration and rollback
-
-There is no existing user data to migrate. The contract spike must use versioned
-fixtures and schema identifiers so it can be discarded or migrated without
-pretending draft storage is stable. Revert appends inverse reasoning operations;
-evidence correction uses invalidation or supersession, never destructive
-rollback. A future accepted on-disk format requires a separate migration design
-and recovery test.
+| ResearchEpisode | eligibility_rule_version, baseline_ref_heads, baseline_evidence_watermark, opened_at | H0 exactly 1; V0 project 0-6 total, first 3 valid starts when available and at most 3 invalidated replacements |
+| ArtifactRef | uri_or_relpath, sha256, media_type, sensitivity | exactly 2: result and manuscript |
+| Run | run_key, method_ref, started_at, completed_at, status | exactly 1 completed |
+| Observation | statement, value_or_category, units, run_id | exactly 3 |
+| EvidenceEvent | action, target_id, rationale, nullable supersedes_id | exactly 3 confirmations plus at most 3 correction/invalidation/retraction events; total 3-6 |
+| Claim | statement, scope, status | exactly 1 central Claim |
+| Interpretation | statement, branch_ref, evidence_watermark | exactly 1 |
+| ScientificEdge | edge_type, source_id, target_id, rationale | 3-6 from the closed edge table |
+| ExperimentPlan | objective, claim_id, status | zero or one |
+| Decision | decision_type, selected_ids, rationale, branch_ref | 1-3 including selected-merge Decision |
+| ManuscriptAnchor | file_relpath, marker_id, fingerprint, expected_file_hash | exactly 1 |
+| PatchIntent | anchor_id, expected_file_hash, replacement_digest, reason | exactly 1 |
+| PatchAttempt | patch_intent_id, snapshot_digest, result_file_hash, compile_config_id | 1-3; happy path has exactly one verified result |
+| ManuscriptDebt | anchor_id, cause_id | exactly 1 identity; lifecycle is projected |
+| UnderstandingDebt | accepted_operation_id, review_bundle_id | manual 0; recorded exactly 1; lifecycle is projected |
+| DomainOperation | episode_id, operation_type, actor_class, expected_ref_heads, evidence_watermark, payload, idempotency_key | 1-32 accepted transitions, at most 24 receipt-authorized |
+| Ref | name | exactly 2: main and one non-nested branch |
+| SelectedMerge | source_ref, target_ref, base_operation_id, selected_ids, closure_ids, expected_heads | exactly 1 |
+| Proposal | episode_id, nullable parent_proposal_id, intended_command, normalized_payload, trace_manifest_id | manual 0; recorded 1 root/0 revisions; H1/V0 0-3 total, one root plus at most 2 human-requested revisions |
+| Contribution | target_operation_id, sequence, contributor_class, action, nullable proposal_id | 1-64 per episode, at most 8 per target; proposal_id required for AI influence |
+| ReviewBundle | episode_id, revision, nullable parent_bundle_id, draft_operation_digest, expected_heads, impact_digest, provenance_digest, rationale, teachback_disposition, sealed_at | one immutable sealed revision per authorization; at most 3 revisions per command and 72 per episode |
+| AuthorizationReceipt | review_digest, project_id, episode_id, session_nonce, authorized_operation_id, expected_heads, issued_at, expires_at, signature | exactly one per authorized command, at most 24; unique operation proves single consumption |
+| ExecutionTraceManifest | request_digest, response_digest, model_identity, tool_context_digest, payload_availability, retention_class | manual 0; recorded 1; H1/V0 0-3, exactly one per provider-produced Proposal/revision |
+
+Cardinality counts identities created by an episode, not preexisting records it
+references or append-only transition attempts. Every DomainOperation carries
+episode_id and every canonical record derives its episode from
+created_operation_id.
+
+Start-episode atomically creates the preallocated ResearchEpisode ID and its
+root operation, avoiding circular identity. H0 variants use separate stores.
+V0 uses one cumulative live project, at most one active episode, and recorded
+starting refs/watermark. An episode may reference an earlier Claim without
+recreating it.
+
+The fixture may omit ExperimentPlan. No other record kind or extra branch is
+admitted. A valid episode exceeding any maximum is out-of-F0, incomplete, and
+not eligible for replacement.
+
+## 5. Closed relationship inventory
+
+Every relationship is a ScientificEdge or a named structural reference on its
+owning record. Free-form labels are invalid.
+
+| Relationship | Source -> target | Cardinality and invariant |
+|---|---|---|
+| uses_artifact | Run -> ArtifactRef | one or more; result artifact has one incoming use |
+| produced | Run -> Observation | exactly 3; each Observation has one producer |
+| evidence_targets | EvidenceEvent -> ArtifactRef, Run, or Observation | exactly one target per event |
+| interprets | Interpretation -> Observation | 1-3, resolved at its watermark |
+| supports, challenges, qualifies | Observation or Interpretation -> Claim | at least one challenges; rationale required |
+| tests | ExperimentPlan -> Claim | exactly one when plan exists |
+| decides | Decision -> Claim, Interpretation, SelectedMerge, or PatchIntent | one or more selected targets |
+| expresses | ManuscriptAnchor -> Claim | exactly one |
+| patch_targets | PatchIntent -> ManuscriptAnchor | exactly one |
+| attempts | PatchAttempt -> PatchIntent | exactly one; ordered |
+| debt_concerns | ManuscriptDebt or UnderstandingDebt -> accepted record/operation | exactly one direct cause; transitive impact derived |
+| proposes | Proposal -> draft DomainOperation | exactly one intended operation |
+| contributes_to | Contribution -> DomainOperation | exactly one target; sequence gap-free |
+| reviews | ReviewBundle -> draft DomainOperation | exactly one digest-bound draft |
+| authorizes | AuthorizationReceipt -> ReviewBundle | exactly one; single use |
+| records | ExecutionTraceManifest -> Proposal | exactly one root Proposal/revision |
+| selects | SelectedMerge -> accepted reasoning record | explicit IDs plus mandatory closure |
+
+The operator conditions in the saturation case live in Observation statements
+and edge rationale. F0 does not add a generic condition-node taxonomy.
+
+## 6. Closed operation and capability inventory
+
+| Operation | Capability | Canonical effect |
+|---|---|---|
+| inspect, compute-impact, diagnose | human read or scoped model query | none; model receives bounded redacted fields, no raw artifact bytes/general paths |
+| export | human-only out-of-band export | none in source; creates bounded manifest outside model reach |
+| rebuild-projection | maintenance | replaces disposable projection only |
+| capture-proposal, revise-proposal, reject-proposal, cancel-proposal | model proposal ingress or human | appends bounded non-authoritative Proposal/trace/disposition data |
+| start-episode, close-episode, invalidate-episode | foreground human or frozen V0 runner | changes bounded episode lifecycle; invalidation needs preregistered protocol reason |
+| import-truth-packet | human authorization | creates the bounded initial accepted records |
+| record-evidence-event | human authorization | appends confirmation/correction/invalidation/retraction |
+| create-reasoning-branch, record-interpretation, record-decision | human authorization | changes only branchable reasoning state |
+| prepare-review, seal-review | foreground review session | creates/seals ReviewBundle; no accepted mutation |
+| authorize-review | human authorization broker only | issues one short-lived receipt after foreground presence |
+| materialize-proposal | kernel plus matching unconsumed receipt | creates accepted DomainOperation and Contribution chain |
+| apply-selected-merge | kernel plus matching unconsumed receipt | copies the explicit dependency closure into main |
+| answer-teachback, defer-teachback, close-understanding-debt | human authorization | records answer/deferral or human-only closure |
+| derive-manuscript-debt | deterministic kernel inside accepted operation | atomically opens/updates debt from accepted impact; no public standalone write |
+| prepare-patch, apply-patch | human authorization | starts/runs bounded fenced manuscript saga |
+| verify-compile, restore-patch | bounded saga with prior human authority | records pinned result or exact restore/hard stop |
+| close-manuscript-debt | kernel plus closure-specific receipt | closes exact verified debt/patch/compile tuple |
+| replay, import, verify-manifest | maintenance on new isolated destination | reconstructs/verifies trusted or untrusted history, never appends to source/live project |
+
+Anything else is forbidden. The gateway assigns actor, project, episode, schema,
+and allowed operation; proposal callers cannot choose a canonical table,
+operation type, or human class.
+
+## 7. ResearchEpisode lifecycle
+
+Projected states:
+
+    allocated -> active -> closed
+                      `-> invalidated
+
+Only one episode is active per V0 project. Invalidation is allowed only for a
+preregistered eligibility error discovered after start or corrupted timing.
+Product failure, abandonment, provider failure, anchor failure, authorization
+failure, resource overflow, or out-of-F0 after a valid start cannot invalidate
+or replace it.
+
+At most three protocol-invalid replacements exist. Attempting a fourth ends V0
+as inconclusive without unbounded event append.
+
+## 8. Evidence and temporal views
+
+EvidenceEvent actions are:
+
+    confirm | correct | invalidate | retract
+
+Correction requires supersedes_id. Invalidation/retraction retains reason and
+target. Current view resolves a ref against the latest accepted evidence
+watermark. Historical view resolves a stored ref/head at its stored watermark.
+Re-evaluating historical reasoning with current evidence creates a new
+operation; it does not rewrite the historical view.
+
+## 9. Proposal, Contribution, and trace
+
+Proposal disposition is projected from operations:
+
+    pending | revised | rejected | cancelled | selected_for_review | expired
+
+Proposal content is never moved in place into accepted storage. Materialization
+creates a new accepted DomainOperation and immutable Contribution sequence.
+
+Contribution contributor_class is:
+
+    human | ai | deterministic
+
+Contribution action is a closed enum covering proposal, edit, adoption,
+derivation, and correction. An operation is AI-influenced when any Contribution
+in its transitive source chain references a Proposal. That derived status is
+not a mutable tag.
+
+ExecutionTraceManifest retains digests, model identity, tool-context digest,
+retention class, and payload availability even when raw provider content is
+eligible for erasure. Missing payload is explicit and does not prevent accepted
+operation replay.
+
+## 10. Review, authorization, and debt
+
+A ReviewBundle is mutable only before sealing. Sealing creates an immutable
+revision bound to:
+
+- project and episode;
+- exact draft operation digest;
+- expected ref heads and evidence watermark;
+- expected manuscript file hash when relevant;
+- schema and rule versions;
+- impact and Contribution/provenance digests;
+- human rationale;
+- teach-back answer or deferral;
+- session nonce and expiry; and
+- previous revision identity.
+
+Any bound change makes it stale and requires a new revision. The broker
+independently reloads the sealed bundle, recomputes these values, obtains
+foreground user presence, and sends the receipt privately to the gateway.
+Receipt consumption and accepted operation append share one transaction.
+
+UnderstandingDebt states:
+
+    open -> closed_by_human
+        `-> superseded
+
+It exists only when a high-impact AI-influenced accepted operation defers
+teach-back. Not now creates no accepted operation and no debt. Closure requires
+a separate receipt for the exact debt and current accepted head; AI cannot
+grade or close it.
+
+ManuscriptDebt states:
+
+    open -> patch_prepared -> applied_unverified -> verified -> closed_by_human
+      |           |                 |
+      `-----------+-----------------+-> superseded
+
+Restore does not close debt. Closure binds debt ID, PatchIntent, PatchAttempt,
+source/output/compiler/config digests, graph head, fencing token, and
+non-restored saga state.
+
+## 11. Ref and selected-merge contract
+
+Refs are main and one non-nested branch. Heads are projections over
+DomainOperations. F0 does not compute a general LCA, nested ancestry, rebase,
+conflict resolution, or revert.
+
+SelectedMerge contains:
+
+- source and target refs;
+- frozen base operation and expected heads;
+- explicit selected IDs;
+- deterministic mandatory closure IDs;
+- omitted IDs;
+- evidence watermark;
+- Decision/rationale; and
+- resulting target head.
+
+Mandatory closure includes referenced new Interpretation/ExperimentPlan,
+required ScientificEdges, their endpoints, and resulting ManuscriptDebt. Global
+evidence already exists and is referenced, not copied. Higher-level scientific
+advice cannot add undeclared records automatically.
+
+## 12. Impact closure
+
+Impact is the deterministic transitive set reachable from a changed F0 record
+through the allowed edge/reference directions to:
+
+- the one Claim;
+- Decisions and SelectedMerge;
+- the ManuscriptAnchor and ManuscriptDebt; and
+- applicable UnderstandingDebt.
+
+The traversal uses the sealed ref heads and evidence watermark, returns typed
+paths and omitted/blocked items, and never follows Proposal, similarity, or
+execution-trace links as accepted science. The saturation truth set requires
+100% recall and at most one false-positive debt bundle at fixture scale.
+
+## 13. Manuscript saga
+
+PatchIntent and PatchAttempt project these phases:
+
+    debt_open
+      -> patch_prepared
+      -> applying
+      -> applied_unverified
+      -> compiling
+      -> verified
+
+Failure from applying, applied_unverified, or compiling moves to
+restored_after_failure only after exact byte equality is proved, otherwise to
+recovery_required. Recovery_required dominates all other surfaces and permits
+only inspect, export, and evidence-backed restore.
+
+One active saga exists per project/canonical-file/anchor. A monotonic fencing
+token, expected file identity/hash, ref heads, debt, PatchIntent, and compiler
+fingerprint are rechecked before every side effect and finalization. The
+write-ahead record is durable before mutation and includes authenticated
+encrypted preimage metadata plus expected full postimage digest. Compile uses a
+pinned argument vector in an isolated output copy; verified outputs alone may
+be promoted.
+
+Detailed platform ordering is owned by
+[ADR 0007](../architecture/decisions/0007-research-episode-and-manuscript-saga.md)
+and must be proven on the supported Windows filesystem.
+
+## 14. Resource limits
+
+These are safety limits for the contract spike, not measured product capacity.
+Schemas and ingress enforce them before allocation or append. A spike may lower
+them but cannot silently raise them.
+
+| Resource | F0 maximum |
+|---|---:|
+| stable ID / enum / hash text | 128 UTF-8 bytes / 64 bytes / 128 bytes |
+| normalized relative path or URI | 1,024 UTF-8 bytes |
+| statement, rationale, answer, diagnostic message | 16,384 UTF-8 bytes |
+| semantic collection | 128 items unless a smaller count is specified |
+| canonical DomainOperation JSON | 262,144 bytes |
+| truth-packet manifest | 1 MiB |
+| normalized Proposal or outbound context | 256 KiB each |
+| retained provider request/response blob | 2 MiB each; 8 MiB per revision; 24 MiB per episode |
+| manuscript source, encrypted snapshot, or postimage | 16 MiB each; one marked file |
+| provider calls | 2 attempts per revision, at most 6 per episode |
+| patch/compile attempts | at most 3 per PatchIntent |
+| rejected validation/authorization diagnostics | first 128 detailed attempts; then saturating per-code counters without payload append |
+| V0 project ResearchEpisodes | 6 total: at most 3 valid and 3 invalid replacements |
+| non-authoritative trace/snapshot ledger | 256 MiB per project |
+
+ResourceLimitError is the single overflow result. After a detailed-attempt or
+ledger cap, repeated untrusted calls update only a saturating counter and cannot
+grow retained payloads. Overflow rejects the new proposal/patch work without
+accepted-state change. Artifact bytes remain external references and are never
+silently copied into the store.
+
+## 15. Public state derivation
+
+Product UI state is derived, not canonical. Four orthogonal projections cover:
+
+- workspace review phase;
+- provider attempt phase;
+- manuscript saga phase; and
+- projection health.
+
+Legal events generate the reachable tuples. Impossible combinations are
+rejected during load and render; no raw Cartesian-product flags are persisted.
+Authorization cannot precede a sealed review, remote loading cannot precede
+exact consent, accepted-review-pending requires open UnderstandingDebt,
+manuscript progress requires an accepted PatchIntent, and verified requires the
+matching pinned compile record.
+
+The product specification owns the visible copy and ordering. Model-based tests
+own exhaustive transition reachability.
+
+## 16. Projection, import, and migration
+
+Current, historical, search, context, and UI projections rebuild from canonical
+operations plus retained non-authoritative trace references. Rebuild writes
+beside the last valid projection and swaps only after verification. Failure
+keeps the prior valid projection readable and cannot write accepted state.
+
+Trusted export contains a signed manifest chain and project-authority public
+key, never private key material. Trusted restore verifies the full chain in a
+new empty store. Untrusted import remains labeled historical claims in a new
+isolated store. F0 cannot merge either into an existing live project.
+
+Schema migration is copy-on-write to a new store: compatibility and space check,
+exclusive lock, verified export, destination build, full manifest
+verification, atomic selected-store change, and retained original. Every
+durable boundary has an interruption fixture. Older readers may offer read-only
+status, diagnosis, and export for newer stores but cannot mutate them.
 
 ## Validation
 
-The design advances only if automated fixtures and the
-[saturation validation case](../validation/cases/saturation.md) demonstrate:
+The design advances only when named fixtures prove:
 
-1. accepted evidence remains visible across `main` and a reasoning branch;
-2. the required semantic diff and partial merge preserve dependency closure;
-3. relationship scope and rationale survive save, reopen, diff, and merge;
-4. deleting the cache and replaying durable state produces an equivalent graph,
-   refs, proposals, and debt state; and
-5. the complete deterministic path works with every AI provider disabled.
+1. every record, edge, operation, enum, field, bound, and cross-invariant accepts
+   its valid cases and rejects unknown/invalid cases;
+2. H0-manual and H0-recorded each replay to their own full-audit golden without
+   a provider call;
+3. evidence watermarks and current/historical views are deterministic;
+4. selected merge is dependency closed and preserves global evidence;
+5. Proposal/Contribution/trace and both debts retain exact authority;
+6. model query/export/egress/proposal ingress/accepted store boundaries fail
+   under hostile inputs;
+7. every reachable UI tuple and legal event is generated and all others reject;
+8. every manuscript crash/concurrency/supersession state restores exactly or
+   reaches the sole hard stop;
+9. projection rebuild, import, restore, and migration preserve the expected
+   manifest and trust label; and
+10. 1x and 10x seeded workloads meet the active plan's explicit resource and
+    latency budgets or fail visibly without expanding technology automatically.
 
-The prototype may simplify serialization, arbitrary conflict handling, and
-manuscript patch application when the release scope explicitly defers them.
+## Migration and rollback
+
+There is no existing ClaimBranch user data. This draft may still change before
+the contract spike, but every fixture and schema is versioned. Once an
+implementation stores live accepted state, changes follow the copy-on-write
+migration contract above; deleting the old store is a separate human action
+outside F0. Evidence correction and scientific correction always append history
+rather than destructive rollback.
 
 ## Open questions
 
-- Which proposed node, edge, and status types prove necessary in the fixed
-  vertical slice?
-- Does the first durable format use snapshots, an operation log, or a hybrid?
-- What is the smallest dependency model that makes partial merge safe without
-  turning semantic advice into a blocking rule?
-- Which cache-rebuild and migration benchmarks are required before format
-  acceptance?
-- How should domain commits reference Git state without coupling one domain
-  operation to one Git commit?
+- Which runtime/package implements the public CLI and generated schemas?
+- Does SQLite pass the accepted operation, traversal, concurrency, replay, and
+  copy-on-write migration spikes?
+- Which canonical JSON and signing libraries preserve the specified bytes?
+- Which native-Windows presence, process isolation, credential, IPC, and browser
+  path proves the authority boundary?
+- Which marker/compile configuration survives the real paper's filesystem and
+  toolchain behavior?
+- Can the short-lived browser surface satisfy the broker contract, or is a
+  native/CLI helper required?
+
+These questions may change adapters and physical layout. They cannot weaken the
+logical invariants without a superseding ADR and updated validation contract.
 
 ## Outcome
 
-Pending. The design remains `draft` until the contract spike supplies the
-validation evidence above. Acceptance will require updating the target/current
-architecture distinction, recording durable choices as ADRs, and creating an
-ExecPlan for implementation; a drafted document alone is not an outcome.
+Pending. The design remains draft until P1 fixtures and spikes pass. An accepted
+ADR may constrain implementation before code exists; this draft is still not
+proof that the schema or storage works.
