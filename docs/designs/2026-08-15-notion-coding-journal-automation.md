@@ -349,17 +349,24 @@ smaller Notion permission boundary.
 
 ## Outcome
 
-The user approved the safe-mode direction and this written proposal in
-conversation on 2026-08-15. The local implementation now exists across
-`a5bd181^..6b26a85`: deterministic Git capture, versioned local outbox, deny-only
-hook policy, conservative receipt parsing, CLI, launcher, and project hook
-configuration passed 70 offline tests on 2026-08-15. The project hook has not
-yet been trusted, and the official MCP connection, OAuth workspace, database,
-live tool schemas, denial/retry, deduplication, and real-entry flow remain
-unverified. The automation is therefore implemented locally but not yet
-operationally accepted.
+The safe-mode workflow was operationally accepted on 2026-08-18. The official
+OAuth connection, user-confirmed workspace, private journal database, exact
+schema, four-tool allowlist, and reviewed project hooks are configured. Live
+acceptance covered a denied synthetic write, approved retry, local receipt,
+exact-key deduplication, and a separately approved real ClaimBranch entry whose
+fetched body and properties matched its redacted envelope. The rollback
+rehearsal preserved trusted hook hashes and local state across disable/re-enable
+without removing the Notion connection or data. The installed `codex exec`
+path did not emit project lifecycle events during that rehearsal, so the
+completed plan records this client-path limitation rather than claiming
+automatic dispatch proof from it. The final gate passed 75 journal tests,
+validation of 45 Markdown files, hook JSON parsing, and whitespace checks; the
+configured doctor reported writable state with no pending or quarantined
+entries.
 
-Remaining rollout is governed by the active
-[Notion coding-journal automation ExecPlan](../plans/active/2026-08-15-notion-coding-journal-automation.md).
-It may implement only the bounded workflow above; it must not advance
-ClaimBranch product scope or the active F0/H0/H1/V0 plan.
+The implementation and rollout evidence live in the completed
+[Notion coding-journal automation ExecPlan](../plans/completed/2026-08-15-notion-coding-journal-automation.md).
+Notion remains a convenience projection: Git and version-controlled `docs/`
+are authoritative, repository operations remain usable with AI disabled, and
+this workflow does not advance ClaimBranch product scope or the active
+F0/H0/H1/V0 plan.

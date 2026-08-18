@@ -8,7 +8,3 @@ index and keep its progress current.
   — active execution from canonical scope lock through finite H0/H1 evidence
   and preregistered V0 live-paper validation. The historical filename remains
   stable; GPU systems work is no longer a release gate. Status: `active`.
-- [Notion coding-journal automation](2026-08-15-notion-coding-journal-automation.md)
-  — approval-gated Notion MCP developer records with a structured local outbox,
-  deny-only pre-write guard, bounded stop-hook continuation, and live
-  denial/retry validation. Status: `active`.

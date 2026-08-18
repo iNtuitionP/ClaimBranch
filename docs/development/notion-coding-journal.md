@@ -16,9 +16,9 @@ feature or research record.
 The approved rationale and privacy boundary live in the
 [design](../designs/2026-08-15-notion-coding-journal-automation.md). External
 claims about Notion MCP and Codex hooks are sourced in the
-[reference note](../references/notion-mcp-coding-journal.md). The active
-[ExecPlan](../plans/active/2026-08-15-notion-coding-journal-automation.md)
-records rollout evidence until live acceptance is complete.
+[reference note](../references/notion-mcp-coding-journal.md). The completed
+[ExecPlan](../plans/completed/2026-08-15-notion-coding-journal-automation.md)
+preserves the rollout evidence and observed limitations.
 
 ## Prerequisites and trust boundary
 
@@ -241,6 +241,13 @@ state or receipts. To remove remote access after the local hook is disabled:
 codex mcp logout notion
 codex mcp remove notion
 ```
+
+In the 2026-08-18 rollout environment, the disable/re-enable rehearsal
+preserved pending, receipt, and quarantine counts as well as all trusted hashes.
+The installed `codex exec` path completed normally but emitted no project
+lifecycle events in either state. Check `/hooks` enabled/trusted state and the
+`status` output, and use a fresh interactive client when lifecycle-dispatch
+proof is required.
 
 If the installed Codex version does not support logout, remove the MCP entry
 and revoke the Codex connection from Notion Settings -> Connections. Optionally

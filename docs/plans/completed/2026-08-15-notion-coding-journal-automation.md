@@ -1,6 +1,6 @@
 ---
 kind: exec-plan
-status: active
+status: completed
 owners: maintainers
 last_reviewed: 2026-08-18
 canonical_for: implementation and validation of safe Notion MCP coding-journal automation
@@ -176,12 +176,27 @@ developer workflow automation governed by the approved
   `547d3e1`, then captured that seven-path ClaimBranch change through the normal
   session-start/stop flow. Its real-task draft is durably attached, its initial
   exact-key query returned zero rows, and the generated create projection
-  passed the local pre-write policy. The two changed executable blobs now await
-  explicit hook-manifest review before the approved live create.
+  passed the local pre-write policy. At that checkpoint, the two changed
+  executable blobs awaited explicit hook-manifest review before the approved
+  live create.
+- [x] 2026-08-18 - The user reviewed the complete executable manifest and
+  confirmed all four project hooks as active. After separate approval, the real
+  task create returned one page, the exact response produced a local receipt,
+  and an exact-key fetch/query verified one matching redacted page with no
+  update required.
+- [x] 2026-08-18 - Disabled and re-enabled all four project hooks while
+  preserving their trusted hashes. Two fresh no-change `codex exec` runs
+  completed normally and user-local state remained two receipts with no
+  pending or quarantined entries. This installed exec path emitted no project
+  lifecycle hook events in either state, so it could not prove automatic
+  post-re-enable dispatch.
+- [x] 2026-08-18 - The completion gate passed all 75 journal tests, validation
+  of 45 Markdown files, hook JSON parsing, whitespace checks, and a healthy
+  configured doctor. A final exact-key count query returned one remote page.
 - [x] Register and authenticate the official Notion MCP connection.
 - [x] Provision the private journal database and store its identifiers locally.
-- [ ] Pass synthetic, denial, retry, deduplication, and real-task acceptance.
-- [ ] Reconcile durable docs and move this plan to `plans/completed/`.
+- [x] Pass synthetic, denial, retry, deduplication, and real-task acceptance.
+- [x] Reconcile durable docs and move this plan to `plans/completed/`.
 
 ## Surprises & Discoveries
 
@@ -234,6 +249,14 @@ developer workflow automation governed by the approved
   minute precision. Consequence: live verification compares visible body
   text, parsed option sets, and the same UTC minute rather than raw response
   strings.
+- The nested MCP bridge used for live acceptance does not dispatch the project
+  `PostToolUse` hook, and the installed `codex exec` path emitted no project
+  lifecycle events during the rollback rehearsal. Consequence: the exact
+  unchanged create response was replayed through the local acknowledgement
+  handler, while rollback verification relied on the enabled flags, preserved
+  trusted hashes, readable state, and ordinary no-change completion. This is a
+  client-path limitation, not evidence that interactive project hooks are
+  disabled.
 
 ## Decision Log
 
@@ -281,14 +304,18 @@ developer workflow automation governed by the approved
 
 ## Outcomes & Retrospective
 
-The local implementation, official OAuth connection, workspace confirmation,
-private database provisioning, exact schema verification, and minimal global
-tool allowlist are complete. Live response compatibility is committed and the
-local doctor is healthy. The fresh-client inventory check and the renewed hook
-review are complete. Completion still requires synthetic denial/retry and
-deduplication, one real entry, rollback rehearsal, and final documentation
-reconciliation. Keys, identifiers, workspace labels, and page links remain out
-of Git.
+The safe-mode workflow is operationally accepted. The official OAuth
+connection, user-confirmed workspace, private database, exact schema, minimal
+four-tool allowlist, and reviewed project hooks are configured. The synthetic
+flow proved denial, approved retry, receipt acknowledgement, redaction, and
+exact-key deduplication. A separately approved real ClaimBranch task produced
+one matching page and a readable local receipt. The disable/re-enable rehearsal
+preserved trusted hashes and all local state, with the installed `codex exec`
+lifecycle-dispatch limitation recorded above. Notion remains a convenience
+projection: Git and `docs/` stay authoritative, and repository work remains
+usable with AI disabled. Keys, identifiers, workspace labels, and page links
+remain out of Git. The final gate passed 75 journal tests and validation of 45
+Markdown files.
 
 ## Context and orientation
 
@@ -569,7 +596,7 @@ All commands run from `C:\dev\ClaimBranch` unless a step says otherwise.
 - Produces: `sanitize_agent_text(value: str, *, field: str) -> str`
 - Produces: `canonical_json(value: object) -> bytes`
 
-- [ ] **Step 1: Create failing model tests**
+- [x] **Step 1: Create failing model tests**
 
 Create `tests/notion_journal/test_model.py` with these executable cases:
 
@@ -629,7 +656,7 @@ class ModelTest(unittest.TestCase):
             )
 ```
 
-- [ ] **Step 2: Run the model test and verify failure**
+- [x] **Step 2: Run the model test and verify failure**
 
 Run:
 
@@ -639,7 +666,7 @@ python -m unittest tests.notion_journal.test_model -v
 
 Expected: import failure because `scripts.notion_journal.model` does not exist.
 
-- [ ] **Step 3: Implement strict model primitives**
+- [x] **Step 3: Implement strict model primitives**
 
 Create immutable dataclasses that validate in `__post_init__`. Use
 `json.dumps(value, ensure_ascii=False, sort_keys=True, separators=(",", ":"))`
@@ -660,11 +687,11 @@ BEARER = re.compile(r"(?i)\bbearer\s+[A-Za-z0-9._~+/=-]+")
 Reject rather than silently redact because a partial redaction could make a
 record appear safe when it is not.
 
-- [ ] **Step 4: Run model tests and verify pass**
+- [x] **Step 4: Run model tests and verify pass**
 
 Run the Step 2 command. Expected: all five cases pass.
 
-- [ ] **Step 5: Create failing Git snapshot tests**
+- [x] **Step 5: Create failing Git snapshot tests**
 
 Create `tests/notion_journal/support.py` with a context-managed
 `TemporaryGitRepository`. Its public surface is `path: Path`,
@@ -713,7 +740,7 @@ Add these exact companion cases and assertions:
 Every case also asserts that serialized snapshots contain no source text,
 absolute temporary path, or backslash-normalized repository path.
 
-- [ ] **Step 6: Run Git snapshot tests and verify failure**
+- [x] **Step 6: Run Git snapshot tests and verify failure**
 
 Run:
 
@@ -723,7 +750,7 @@ python -m unittest tests.notion_journal.test_git_state -v
 
 Expected: import failure because `git_state.py` does not exist.
 
-- [ ] **Step 7: Implement Git snapshot and delta capture**
+- [x] **Step 7: Implement Git snapshot and delta capture**
 
 Use only argument-array subprocess calls with `cwd=repo`, `check=True`, and
 captured bytes. Discover changes with:
@@ -759,7 +786,7 @@ claimed as a session-only line count.
 Set that flag exactly when any returned delta path also appears in
 `start.paths`; otherwise set it false.
 
-- [ ] **Step 8: Run Task 1 tests and repository docs check**
+- [x] **Step 8: Run Task 1 tests and repository docs check**
 
 Run:
 
@@ -770,7 +797,7 @@ python scripts/check_docs.py
 
 Expected: all new tests pass; documentation check passes.
 
-- [ ] **Step 9: Commit Task 1 without unrelated files**
+- [x] **Step 9: Commit Task 1 without unrelated files**
 
 Run:
 
@@ -814,7 +841,7 @@ Expected staged names: exactly the seven paths listed above.
 - Produces: `list_pending() -> tuple[PendingEnvelope, ...]`
 - Produces: `list_receipts() -> tuple[Receipt, ...]`
 
-- [ ] **Step 1: Write failing store tests**
+- [x] **Step 1: Write failing store tests**
 
 Create `tests/notion_journal/test_store.py`. This executable test locks the
 denial/cursor behavior that prevents cumulative duplicate task records:
@@ -873,7 +900,7 @@ Add these exact companion cases:
 
 Use a temporary injected root and never the process's real `LOCALAPPDATA`.
 
-- [ ] **Step 2: Run store tests and verify failure**
+- [x] **Step 2: Run store tests and verify failure**
 
 Run:
 
@@ -883,7 +910,7 @@ python -m unittest tests.notion_journal.test_store -v
 
 Expected: import failure because `store.py` does not exist.
 
-- [ ] **Step 3: Implement versioned dataclasses and atomic store**
+- [x] **Step 3: Implement versioned dataclasses and atomic store**
 
 Use these state names and transitions:
 
@@ -998,7 +1025,7 @@ def to_public_dict(self):
     }
 ```
 
-- [ ] **Step 4: Run store and earlier tests**
+- [x] **Step 4: Run store and earlier tests**
 
 Run:
 
@@ -1008,7 +1035,7 @@ python -m unittest discover -s tests/notion_journal -p "test_*.py" -v
 
 Expected: all Task 1 and Task 2 tests pass.
 
-- [ ] **Step 5: Commit Task 2**
+- [x] **Step 5: Commit Task 2**
 
 ```powershell
 git add -- scripts/notion_journal/store.py tests/notion_journal/test_store.py
@@ -1032,7 +1059,7 @@ git commit -m "feat: persist coding journal outbox"
 - Produces: `handle_post_tool_use(event, store) -> dict[str, object]`
 - Produces: `dispatch_hook(event, repo, store) -> dict[str, object]`
 
-- [ ] **Step 1: Write failing hook decision tests**
+- [x] **Step 1: Write failing hook decision tests**
 
 Create exact event dictionaries using documented Codex fields. This executable
 test locks the one-continuation rule:
@@ -1104,7 +1131,7 @@ denied = {
 }
 ```
 
-- [ ] **Step 2: Run hook tests and verify failure**
+- [x] **Step 2: Run hook tests and verify failure**
 
 ```powershell
 python -m unittest tests.notion_journal.test_hooks -v
@@ -1112,7 +1139,7 @@ python -m unittest tests.notion_journal.test_hooks -v
 
 Expected: import failure because `hooks.py` does not exist.
 
-- [ ] **Step 3: Implement event validation and dispatch**
+- [x] **Step 3: Implement event validation and dispatch**
 
 Accept only `SessionStart`, `Stop`, `PreToolUse`, and `PostToolUse`. Require
 `session_id`, `cwd`, and `hook_event_name`; require `turn_id` for turn-scoped
@@ -1177,7 +1204,7 @@ oldest journal keys, ordered by `recorded_at` then key. Its context tells the
 agent to retry at most one old key during that session. It never includes a
 draft, page ID, local path, or workspace identity in hook context.
 
-- [ ] **Step 4: Run all unit tests**
+- [x] **Step 4: Run all unit tests**
 
 ```powershell
 python -m unittest discover -s tests/notion_journal -p "test_*.py" -v
@@ -1185,7 +1212,7 @@ python -m unittest discover -s tests/notion_journal -p "test_*.py" -v
 
 Expected: all tests pass with no network calls.
 
-- [ ] **Step 5: Commit Task 3**
+- [x] **Step 5: Commit Task 3**
 
 ```powershell
 git add -- scripts/notion_journal/hooks.py tests/notion_journal/test_hooks.py
@@ -1217,7 +1244,7 @@ git commit -m "feat: enforce coding journal hook flow"
 - Exit codes: `0` success, `2` invalid input, `3` not configured, `4` journal
   key absent, `5` local state corrupt, `6` Git state unavailable
 
-- [ ] **Step 1: Write failing CLI tests**
+- [x] **Step 1: Write failing CLI tests**
 
 Use injected `CLAIMBRANCH_NOTION_JOURNAL_STATE` only in tests. Cover JSON on
 stdout, diagnostics on stderr, exact exit codes, malformed hook stdin, missing
@@ -1246,7 +1273,7 @@ self.assertEqual(0, result.returncode)
 json.loads(result.stdout)
 ```
 
-- [ ] **Step 2: Run CLI tests and verify failure**
+- [x] **Step 2: Run CLI tests and verify failure**
 
 ```powershell
 python -m unittest tests.notion_journal.test_cli -v
@@ -1254,7 +1281,7 @@ python -m unittest tests.notion_journal.test_cli -v
 
 Expected: import failure because `cli.py` does not exist.
 
-- [ ] **Step 3: Implement CLI and launcher**
+- [x] **Step 3: Implement CLI and launcher**
 
 `state_root()` may honor `CLAIMBRANCH_NOTION_JOURNAL_STATE` only when
 `CLAIMBRANCH_NOTION_JOURNAL_TESTING=1`; otherwise it ignores that override and
@@ -1285,7 +1312,7 @@ response JSON, or an absolute path.
 `git rev-parse --show-toplevel`, inserts it at `sys.path[0]`, imports
 `scripts.notion_journal.cli`, and exits with `main(["hook"])`.
 
-- [ ] **Step 4: Write project hook configuration**
+- [x] **Step 4: Write project hook configuration**
 
 Create `.codex/hooks.json` with this structure and validate it with
 `python -m json.tool`:
@@ -1354,7 +1381,7 @@ Create `.codex/hooks.json` with this structure and validate it with
 }
 ```
 
-- [ ] **Step 5: Exercise hook fixtures without enabling live hooks**
+- [x] **Step 5: Exercise hook fixtures without enabling live hooks**
 
 Run the launcher directly with fixture JSON piped on stdin from PowerShell.
 Use a temporary state root through test-only environment variables. Verify
@@ -1363,7 +1390,7 @@ fixture returns one block decision, an invalid create returns a deny decision,
 and a valid create returns `{}` so normal approval remains in control. Do not
 trust/enable the project hook yet.
 
-- [ ] **Step 6: Run Task 4 checks**
+- [x] **Step 6: Run Task 4 checks**
 
 ```powershell
 python -m unittest discover -s tests/notion_journal -p "test_*.py" -v
@@ -1373,7 +1400,7 @@ python scripts/check_docs.py
 
 Expected: all tests and both validators pass.
 
-- [ ] **Step 7: Commit Task 4 and record the executable source manifest**
+- [x] **Step 7: Commit Task 4 and record the executable source manifest**
 
 ```powershell
 git add -- scripts/notion_journal/cli.py .codex/hooks/notion_journal.py .codex/hooks.json tests/notion_journal/test_cli.py
@@ -1407,7 +1434,7 @@ requires a regenerated manifest and explicit user re-review before re-enable.
   procedures
 - Produces: agent-visible rule to report `synced`, `pending`, or `not required`
 
-- [ ] **Step 1: Add the bounded rule to `AGENTS.md`**
+- [x] **Step 1: Add the bounded rule to `AGENTS.md`**
 
 Add a short section that says:
 
@@ -1432,7 +1459,7 @@ pending state.
 Notion is not project truth and a sync failure must not change repository work.
 ```
 
-- [ ] **Step 2: Write the contributor how-to**
+- [x] **Step 2: Write the contributor how-to**
 
 `docs/development/notion-coding-journal.md` must document:
 
@@ -1451,7 +1478,7 @@ Notion is not project truth and a sync failure must not change repository work.
 - local-state location without a machine-specific absolute path; and
 - a warning that deleting the Notion database is never automated rollback.
 
-- [ ] **Step 3: Update documentation indexes and commands**
+- [x] **Step 3: Update documentation indexes and commands**
 
 Link the how-to from `docs/development/README.md`. Add this durable command to
 `docs/development/workflow.md`:
@@ -1464,7 +1491,7 @@ Keep the user-approved design status `accepted`. Check the implemented files
 against every design section and update its outcome with the implemented commit
 range, without claiming Notion connectivity before Tasks 6-8 pass.
 
-- [ ] **Step 4: Validate and commit Task 5**
+- [x] **Step 4: Validate and commit Task 5**
 
 ```powershell
 python scripts/check_docs.py
@@ -1769,7 +1796,7 @@ Submit the same pending key again. Exact query must find one page. Ask approval
 for an update only if content differs; otherwise perform no write. Query again
 and verify the count for that key is exactly one.
 
-- [ ] **Step 7: Complete one real ClaimBranch task record**
+- [x] **Step 7: Complete one real ClaimBranch task record**
 
 Use the implementation/documentation work from this plan as the first real
 entry. Summarize only the bounded outcome, named commits, changed paths,
@@ -1777,14 +1804,14 @@ verification commands/outcomes, design decisions, limitations, and next safe
 action. Require approval and finish with `Notion journal: synced` plus its page
 link.
 
-- [ ] **Step 8: Rehearse disable and recovery without deleting Notion data**
+- [x] **Step 8: Rehearse disable and recovery without deleting Notion data**
 
 Disable the project hook locally, start a fresh no-change session, and verify no
 journal continuation occurs. Re-enable and re-trust the unchanged hash. Run
 `status` and prove receipts/pending data remain readable. Do not remove the MCP
 connection or delete the database during this rehearsal.
 
-- [ ] **Step 9: Close documentation and the ExecPlan**
+- [x] **Step 9: Close documentation and the ExecPlan**
 
 Update the design outcome and contributor how-to with observed behavior only.
 Fill `Outcomes & Retrospective` and `Artifacts and notes`, mark every progress
@@ -1793,7 +1820,7 @@ item truthfully, change this plan status to `completed`, move it to
 database, journal-key, and page-link checks only as booleans; never paste their
 values into Git. Run all gates again.
 
-- [ ] **Step 10: Commit completion without unrelated worktree files**
+- [x] **Step 10: Commit completion without unrelated worktree files**
 
 Stage only the plan, its indexes, and any directly affected durable docs.
 Inspect `git diff --cached --name-only` before committing:
@@ -1827,8 +1854,10 @@ Live acceptance:
 - Retry creates one page; the same key later reuses or updates that page.
 - `PostToolUse` acknowledges only a matching successful result.
 - A real task ends with `Notion journal: synced` and a working page link.
-- Hook disable restores normal completion, and re-enable resumes without data
-  loss.
+- Hook disable/re-enable preserves ordinary no-change completion, trusted
+  hashes, and user-local state. The installed `codex exec` path did not emit
+  project lifecycle events, so the rehearsal does not claim automatic dispatch
+  proof from that path.
 
 The automation is not complete if only local tests pass. OAuth, hook trust,
 one denied write, one approved retry, exact-key deduplication, and one real task
@@ -1912,5 +1941,15 @@ test.
   approved retry then created one matching page and one local receipt; a
   no-write exact-key recheck still returned exactly one page. Its key and URL
   remain out of Git.
-- Real task entry: record sync/link-verification results only, not its key or
-  URL.
+- Real task entry: the approved create succeeded, the local receipt is present,
+  exact-key query returned one page, and fetched body/properties match the
+  attached redacted envelope. Its key and URL remain out of Git.
+- Rollback rehearsal: all four enabled flags were toggled off and back on,
+  trusted hashes were preserved, local state remained two receipts with no
+  pending or quarantined entries, and no remote page or connection was removed.
+  Fresh no-change `codex exec` runs completed normally but emitted no project
+  lifecycle hook events.
+- Final validation: 75 journal tests passed; 45 Markdown files, hook JSON, and
+  whitespace checks passed; doctor reported configured, writable state with
+  two receipts and no pending or quarantined entries; final exact-key count was
+  one.
