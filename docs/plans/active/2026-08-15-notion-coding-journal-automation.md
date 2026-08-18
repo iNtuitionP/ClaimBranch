@@ -128,6 +128,27 @@ developer workflow automation governed by the approved
   envelope, its initial exact-key remote query returned zero rows, and the
   temporary fixture repository was removed after a validated temp-boundary
   check.
+- [x] 2026-08-18 - The user reviewed and trusted every project hook source in a
+  fresh client. That client exposed zero Notion tools because the initial
+  allowlist used normalized underscore names; official raw hyphenated names
+  were then applied to both global MCP and user-local journal configuration.
+  OAuth remained active, doctor stayed healthy, and the pending envelope was
+  preserved.
+- [x] 2026-08-18 - After another client restart, the model-visible inventory
+  contained exactly the normalized fetch, exact-query, create-pages, and
+  update-page functions. No excluded Notion function was exposed, so the
+  corrected four-tool allowlist passed its fresh-client check.
+- [x] 2026-08-18 - Re-queried the synthetic key before its denial rehearsal:
+  the configured data source still returned zero rows. The bounded one-page,
+  12-database-property create projection passed the local `PreToolUse` policy;
+  no remote write was attempted during this preflight.
+- [x] 2026-08-18 - The first live create attempt then failed validation before
+  page creation because the hosted tool requires expanded SQLite keys for date
+  properties. Exact-key query still returned zero rows and local state remained
+  one pending envelope with no receipt. A regression test failed against the
+  old projection and passed after `Recorded At` was expanded; all 23 focused
+  hook tests and all 73 journal tests passed. The fix was committed as
+  `43522b0`; the changed hook source requires a new manifest review.
 - [x] Register and authenticate the official Notion MCP connection.
 - [x] Provision the private journal database and store its identifiers locally.
 - [ ] Pass synthetic, denial, retry, deduplication, and real-task acceptance.
@@ -166,10 +187,15 @@ developer workflow automation governed by the approved
   Consequence: `PostToolUse` now parses only that single redacted JSON wrapper,
   and URL validation admits the exact app host without broadening to arbitrary
   `notion.com` subdomains.
-- The live raw tool names use underscores, and Codex hook names prepend
-  `mcp__notion__` without changing them. Consequence: user-local configuration
-  stores the four observed names, and the global allowlist excludes database
-  creation and workspace-wide discovery after provisioning.
+- Codex exposes normalized underscore tool identifiers to the model, while the
+  hosted Notion MCP advertises hyphenated raw names and `enabled_tools` matches
+  those raw values. Consequence: an underscore allowlist produced a healthy
+  configured server with zero exposed tools after restart; global and local
+  configuration now store the four official hyphenated names.
+- The live create endpoint rejects a date property passed under its database
+  name even though the database schema itself remains unchanged. Consequence:
+  `Recorded At` is represented by `date:Recorded At:start` plus
+  `date:Recorded At:is_datetime` in create and update tool inputs.
 
 ## Decision Log
 
@@ -202,14 +228,23 @@ developer workflow automation governed by the approved
   JSON response of at most 64 KiB. Rationale: this is the observed hosted-MCP
   contract; broader domains or unbounded/multiple content blocks remain
   unrecognized so the envelope stays pending.
+- 2026-08-18 - Keep raw MCP names in `enabled_tools` and local hook
+  configuration, even when the model-facing call names are normalized.
+  Rationale: the allowlist is evaluated against the server-advertised names
+  before Codex exposes its normalized tool identifiers.
+- 2026-08-18 - Expand date properties at the Notion MCP boundary while keeping
+  the local envelope and database schema unchanged. Rationale: this is the
+  hosted tool's validated SQLite input contract and preserves the existing
+  redacted journal model.
 
 ## Outcomes & Retrospective
 
 The local implementation, official OAuth connection, workspace confirmation,
 private database provisioning, exact schema verification, and minimal global
 tool allowlist are complete. Live response compatibility is committed and the
-local doctor is healthy. Completion still requires a fresh-client allowlist
-check, hook trust for the regenerated manifest, synthetic denial/retry and
+local doctor is healthy. The fresh-client inventory check and the original hook
+review are complete, but the date-contract correction requires one new manifest
+review. Completion still requires that review, synthetic denial/retry and
 deduplication, one real entry, rollback rehearsal, and final documentation
 reconciliation. Keys, identifiers, workspace labels, and page links remain out
 of Git.
@@ -1558,7 +1593,7 @@ The variables are execution-time values returned by OAuth/MCP, not values to
 invent or store in this plan. Expected doctor result: configured, state
 writable, schema version 1, official MCP expected, zero corrupt entries.
 
-- [ ] **Step 5: Narrow the Notion tool allowlist**
+- [x] **Step 5: Narrow the Notion tool allowlist**
 
 In the user's `[mcp_servers.notion]` config, set `enabled_tools` to exactly the
 four raw values recorded in Step 1:
@@ -1662,6 +1697,10 @@ In the fresh Codex client with the narrowed tool set, ask the user to open
 `/hooks`, inspect the command plus every source blob recorded in Task 4, and
 trust it. If any blob differs, stop, inspect the diff, rerun all hook tests, and
 record the complete new manifest before requesting trust.
+
+The first review passed, but the live date-contract correction changed
+`scripts/notion_journal/hooks.py`; regenerate and re-review the complete
+manifest before the next live write.
 
 - [ ] **Step 4: Deny the first Notion write**
 
@@ -1792,12 +1831,15 @@ test.
 - Initial observation: `codex mcp list` reported no servers. Current global
   state reports the official `notion` server enabled with OAuth and write
   approval policy configured; callable live-tool verification passed. The
-  four-tool allowlist is configured and requires a fresh-client inventory check.
+  four-tool allowlist uses official raw names and passed a fresh-client
+  inventory check after correcting an initial normalized-name mismatch; only
+  the four required normalized functions were model-visible.
 - Offline implementation commits: `a5bd181`, `57af99e`, `7daf556`, and
   `6b26a85`.
 - Live tool-contract compatibility commit: `07f2b30`.
+- Expanded-date live-contract commit: `43522b0`.
 - Hook executable manifest at commit
-  `07f2b30a975edc9e138b03a68ccbbb420ca9c605`:
+  `43522b0b4e502353c4b2d3fa1245cae064371c77`:
   - `.codex/hooks.json`: `1ae9bd11a75418ca7c49891431a9585d7e5c3751`
   - `.codex/hooks/notion_journal.py`:
     `3f8b7d896b1ad7d8b8c71085023536ff5fb62d84`
@@ -1808,7 +1850,7 @@ test.
   - `scripts/notion_journal/git_state.py`:
     `b8b504ff122ca8b4f14d74a0edf8cdba6d17d872`
   - `scripts/notion_journal/hooks.py`:
-    `78ee96f4d1fab84c4cd36c322355710048e80ec4`
+    `56e4c8cf904c29576285eea0fd3d3cf8f47d0259`
   - `scripts/notion_journal/model.py`:
     `c26184be52b8a2b71f5ca06e21f9a957b6856017`
   - `scripts/notion_journal/store.py`:
@@ -1818,7 +1860,10 @@ test.
 - Journal database: provisioned and schema-verified; IDs and URLs remain out of
   Git.
 - Synthetic journal entry: pending envelope and redaction checks passed, and
-  its initial exact-key query returned zero rows; denial/retry/deduplication
-  remain pending. Its key and URL remain out of Git.
+  both initial and post-restart exact-key queries returned zero rows. Its
+  first live create was rejected for the now-corrected expanded-date contract,
+  leaving one pending envelope and no receipt or remote row. A new hook
+  manifest review plus denial/retry/deduplication remain pending. Its key and
+  URL remain out of Git.
 - Real task entry: record sync/link-verification results only, not its key or
   URL.
