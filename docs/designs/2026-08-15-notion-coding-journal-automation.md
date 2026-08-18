@@ -151,6 +151,11 @@ Each entry has these properties:
 | AI Contribution | select | AI-assisted or Human-only |
 | Verification | select | Passed, Failed, Partial, or Not run |
 
+The MCP projection keeps `Recorded At` as one database property but encodes its
+value with the expanded SQLite keys `date:Recorded At:start` and
+`date:Recorded At:is_datetime`. The plain `Recorded At` input form is not a
+valid create or update payload.
+
 The page body contains purpose, outcome, changed paths and `diff --stat`, key
 decisions, verification commands with exit outcomes, risks or unresolved work,
 and the next safe action. It ends with the journal key. It does not contain raw

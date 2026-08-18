@@ -406,7 +406,8 @@ class CliTest(unittest.TestCase):
         return {
             "Title": draft.title,
             "Journal Key": envelope.journal_key,
-            "Recorded At": envelope.recorded_at,
+            "date:Recorded At:start": envelope.recorded_at,
+            "date:Recorded At:is_datetime": 1,
             "Status": draft.task_status,
             "Repository": envelope.repository,
             "Branch": envelope.end_snapshot.branch,

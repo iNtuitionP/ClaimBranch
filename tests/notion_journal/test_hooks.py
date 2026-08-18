@@ -126,6 +126,19 @@ class HookTest(unittest.TestCase):
         self.assertNotIn("allow", json.dumps(result))
         self.assertNotIn("approve", json.dumps(result))
 
+    def test_valid_pre_tool_use_accepts_expanded_sqlite_date_keys(self):
+        self._configure()
+        envelope = self._capture_drafted()
+        tool_input = self._create_input(envelope)
+
+        result = dispatch_hook(
+            self._tool_event("PreToolUse", self._create_tool(), tool_input),
+            self.repo.path,
+            self.store,
+        )
+
+        self.assertEqual({}, result)
+
     def test_pre_tool_use_requires_attached_draft(self):
         self._configure()
         envelope = self._capture_pending(active=True)
@@ -475,7 +488,8 @@ class HookTest(unittest.TestCase):
         return {
             "Title": draft.title,
             "Journal Key": envelope.journal_key,
-            "Recorded At": envelope.recorded_at,
+            "date:Recorded At:start": envelope.recorded_at,
+            "date:Recorded At:is_datetime": 1,
             "Status": draft.task_status,
             "Repository": envelope.repository,
             "Branch": envelope.end_snapshot.branch,
