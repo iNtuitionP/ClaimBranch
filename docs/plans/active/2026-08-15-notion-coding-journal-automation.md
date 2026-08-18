@@ -154,6 +154,11 @@ developer workflow automation governed by the approved
   trusted with zero errors or warnings. The corrected live pending projection
   passed `PreToolUse`, contained the two expanded date keys, and its exact-key
   query still returned zero rows.
+- [x] 2026-08-18 - At the first corrected write checkpoint, no create was sent
+  because the proposed write was not approved. The denial-by-default path left
+  repository HEAD and status unchanged, retained exactly one pending envelope
+  with no receipt or quarantine, and a post-denial exact-key query still
+  returned zero rows.
 - [x] Register and authenticate the official Notion MCP connection.
 - [x] Provision the private journal database and store its identifiers locally.
 - [ ] Pass synthetic, denial, retry, deduplication, and real-task acceptance.
@@ -1707,7 +1712,7 @@ The first review passed, and the live date-contract correction changed
 re-reviewed; `hooks/list` reported all four project hooks enabled and trusted
 with zero errors or warnings.
 
-- [ ] **Step 4: Deny the first Notion write**
+- [x] **Step 4: Deny the first Notion write**
 
 Let the hook request a create operation and have the user deny it. Verify:
 
@@ -1868,7 +1873,8 @@ test.
   both initial and post-restart exact-key queries returned zero rows. Its
   first live create was rejected for the now-corrected expanded-date contract,
   leaving one pending envelope and no receipt or remote row. The regenerated
-  hook manifest is trusted, the corrected pre-write projection passed, and
-  denial/retry/deduplication remain pending. Its key and URL remain out of Git.
+  hook manifest is trusted, the corrected pre-write projection passed, and the
+  denial-by-default check preserved the same local and remote state. Retry and
+  deduplication remain pending. Its key and URL remain out of Git.
 - Real task entry: record sync/link-verification results only, not its key or
   URL.
