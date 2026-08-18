@@ -314,7 +314,7 @@ class HookTest(unittest.TestCase):
             "PostToolUse", self._create_tool(), self._create_input(envelope)
         )
         page_id = "12345678-1234-1234-1234-123456789abc"
-        page_url = "https://app.notion.com/p/12345678123412341234123456789abc"
+        page_url = "https://app.notion.com/p/12345678123412341234123456789abc?pvs=4"
         event["tool_response"] = {
             "content": [
                 {

@@ -2,7 +2,7 @@
 kind: development
 status: active
 owners: maintainers
-last_reviewed: 2026-08-15
+last_reviewed: 2026-08-18
 canonical_for: setup, operation, diagnosis, and rollback of the ClaimBranch Notion coding journal
 ---
 
@@ -130,7 +130,10 @@ The user reviews every Notion create or update in the normal approval UI. A
 denial, timeout, rate limit, unavailable MCP connection, or unrecognized result
 leaves the envelope pending and does not change repository work. A validated
 successful response creates a separate receipt and marks the retained envelope
-synced. The final response reports exactly one of:
+synced. Current hosted results may append a decimal `pvs` query to the returned
+`app.notion.com` page URL; that exact bounded form is retained in the receipt,
+while other query components remain invalid. The final response reports
+exactly one of:
 
 - `Notion journal: synced` with the returned page link;
 - `Notion journal: pending` with the durable retry key;

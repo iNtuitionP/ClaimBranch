@@ -159,6 +159,19 @@ developer workflow automation governed by the approved
   repository HEAD and status unchanged, retained exactly one pending envelope
   with no receipt or quarantine, and a post-denial exact-key query still
   returned zero rows.
+- [x] 2026-08-18 - Retried the same synthetic key after explicit approval. The
+  synchronous create returned one page, the exact live response was accepted
+  by the local acknowledgement handler, and local state became one receipt
+  with no pending or quarantined entries.
+- [x] 2026-08-18 - Compared the created page with the attached redacted draft.
+  All body fields and database properties were preserved after accounting for
+  Notion's visible-link, multi-select, and minute-precision date
+  normalizations; the page contained no raw source, absolute path, credential,
+  or private session value.
+- [x] 2026-08-18 - Re-ran the exact-key query without sending an update because
+  the normalized projection already matched. The configured data source
+  returned exactly one row with no additional page, proving the retry was
+  deduplicated.
 - [x] Register and authenticate the official Notion MCP connection.
 - [x] Provision the private journal database and store its identifiers locally.
 - [ ] Pass synthetic, denial, retry, deduplication, and real-task acceptance.
@@ -206,6 +219,15 @@ developer workflow automation governed by the approved
   name even though the database schema itself remains unchanged. Consequence:
   `Recorded At` is represented by `date:Recorded At:start` plus
   `date:Recorded At:is_datetime` in create and update tool inputs.
+- The current hosted create result appends a decimal `pvs` query parameter to
+  its `app.notion.com` page URL. Consequence: result and receipt validation
+  admit that one bounded query form while continuing to reject fragments,
+  user information, and every unrecognized query component.
+- Notion fetch/query output canonicalizes stored Markdown links, renders a
+  multi-select as JSON text in SQL results, and returns date-time values at
+  minute precision. Consequence: live verification compares visible body
+  text, parsed option sets, and the same UTC minute rather than raw response
+  strings.
 
 ## Decision Log
 
@@ -246,6 +268,10 @@ developer workflow automation governed by the approved
   the local envelope and database schema unchanged. Rationale: this is the
   hosted tool's validated SQLite input contract and preserves the existing
   redacted journal model.
+- 2026-08-18 - Preserve the hosted page URL in the local receipt while allowing
+  only an optional decimal `pvs` query. Rationale: the live result uses that
+  representation, and a narrow allowlist keeps unrecognized remote URL data
+  fail-closed.
 
 ## Outcomes & Retrospective
 
@@ -1722,14 +1748,16 @@ Let the hook request a create operation and have the user deny it. Verify:
 - the final state is reported as `Notion journal: pending`; and
 - a query for its exact Journal Key returns no page.
 
-- [ ] **Step 5: Retry and approve the same key**
+- [x] **Step 5: Retry and approve the same key**
 
 Start or resume an eligible session, query the exact key in the configured data
 source, and ask approval for one create. After approval, verify the
 `PostToolUse` receipt contains the returned page ID/URL, the local envelope is
-synced, and the Notion page body/properties match the redacted envelope.
+synced, and the Notion page body/properties match the redacted envelope. The
+live response was replayed unchanged through the acknowledgement handler
+because the nested MCP test bridge did not dispatch the project hook itself.
 
-- [ ] **Step 6: Re-run the same key and prove deduplication**
+- [x] **Step 6: Re-run the same key and prove deduplication**
 
 Submit the same pending key again. Exact query must find one page. Ask approval
 for an update only if content differs; otherwise perform no write. Query again
@@ -1873,8 +1901,10 @@ test.
   both initial and post-restart exact-key queries returned zero rows. Its
   first live create was rejected for the now-corrected expanded-date contract,
   leaving one pending envelope and no receipt or remote row. The regenerated
-  hook manifest is trusted, the corrected pre-write projection passed, and the
-  denial-by-default check preserved the same local and remote state. Retry and
-  deduplication remain pending. Its key and URL remain out of Git.
+  hook manifest was trusted, the corrected pre-write projection passed, and
+  the denial-by-default check preserved the same local and remote state. The
+  approved retry then created one matching page and one local receipt; a
+  no-write exact-key recheck still returned exactly one page. Its key and URL
+  remain out of Git.
 - Real task entry: record sync/link-verification results only, not its key or
   URL.

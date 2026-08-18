@@ -2,7 +2,7 @@
 kind: design
 status: accepted
 owners: maintainers
-last_reviewed: 2026-08-15
+last_reviewed: 2026-08-18
 canonical_for: proposed Notion MCP coding-journal automation for repository agents
 ---
 
@@ -204,8 +204,10 @@ did not help create.
 7. The user reviews and approves the proposed Notion write.
 8. A `PostToolUse` hook observes only the permitted Notion create/update tool
    results. A result marks the envelope synced only when its validated response
-   shape contains a Notion page ID and the corresponding tool input contains
-   the same journal key. Unknown or changed result shapes remain pending.
+   shape contains a Notion page ID, its HTTPS Notion page URL has either no
+   query or only a decimal `pvs` query, and the corresponding tool input
+   contains the same journal key. Unknown or changed result shapes remain
+   pending.
 9. The next `Stop` allows the turn to finish. If the MCP call did not succeed,
    `stop_hook_active` prevents another continuation loop and the envelope stays
    pending.

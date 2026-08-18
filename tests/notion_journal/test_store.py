@@ -223,7 +223,42 @@ class StoreTest(unittest.TestCase):
             self.assertEqual(receipt.synced_at, synced.synced_at)
             self.assertTrue((root / "pending" / f"{pending.journal_key}.json").exists())
             self.assertEqual((receipt,), store.list_receipts())
+
+    def test_receipt_accepts_current_app_notion_page_url_with_query(self):
+        with TemporaryDirectory() as directory:
+            store = JournalStore(Path(directory))
+            pending = self._capture_drafted(store)
+            page_url = "https://app.notion.com/p/" + "a" * 32 + "?pvs=4"
+
+            try:
+                receipt = store.record_receipt(
+                    pending.journal_key,
+                    "page-result",
+                    page_url,
+                    SEOUL_NOW,
+                )
+            except JournalError as error:
+                self.fail(f"current app Notion page URL should be accepted: {error}")
+
+            self.assertEqual(page_url, receipt.page_url)
+            self.assertEqual("synced", store.read_envelope(pending.journal_key).sync_state)
             self.assertEqual((), store.list_pending())
+
+    def test_receipt_rejects_unrecognized_notion_url_query(self):
+        with TemporaryDirectory() as directory:
+            store = JournalStore(Path(directory))
+            pending = self._capture_drafted(store)
+
+            with self.assertRaises(JournalError):
+                store.record_receipt(
+                    pending.journal_key,
+                    "page-result",
+                    "https://app.notion.com/p/" + "a" * 32 + "?view=compact",
+                    SEOUL_NOW,
+                )
+
+            self.assertEqual((), store.list_receipts())
+            self.assertEqual("pending", store.read_envelope(pending.journal_key).sync_state)
 
     def test_malformed_json_is_quarantined_and_reported(self):
         with TemporaryDirectory() as directory:

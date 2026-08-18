@@ -35,6 +35,7 @@ _HEX_64 = re.compile(r"[0-9a-f]{64}\Z")
 _GIT_HEAD = re.compile(r"[0-9a-f]{40}(?:[0-9a-f]{24})?\Z")
 _TOOL_NAME = re.compile(r"[A-Za-z0-9_-]{1,128}\Z")
 _ISO_SEOUL = re.compile(r"\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\+09:00\Z")
+_NOTION_PAGE_QUERY = re.compile(r"pvs=[0-9]+\Z")
 _LOCKS_GUARD = threading.Lock()
 _ROOT_LOCKS: dict[str, threading.RLock] = {}
 _T = TypeVar("_T")
@@ -64,7 +65,12 @@ def _notion_url(value: str, *, field: str) -> str:
     )
     if parsed.scheme != "https" or not allowed:
         raise JournalError(f"{field} must be an HTTPS Notion URL")
-    if parsed.username or parsed.password or parsed.query or parsed.fragment:
+    if (
+        parsed.username
+        or parsed.password
+        or parsed.fragment
+        or (parsed.query and not _NOTION_PAGE_QUERY.fullmatch(parsed.query))
+    ):
         raise JournalError(f"{field} contains unsupported URL components")
     return value
 

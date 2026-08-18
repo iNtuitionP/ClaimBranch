@@ -20,6 +20,7 @@ from .store import JournalConfig, JournalStore, PendingEnvelope, Receipt
 
 _SEOUL = timezone(timedelta(hours=9))
 _KEY_PATTERN = re.compile(r"(?<![0-9a-z])cbj-v1-[0-9a-f]{24}(?![0-9a-z])")
+_NOTION_PAGE_QUERY = re.compile(r"pvs=[0-9]+\Z")
 _DENIED = {
     "hookSpecificOutput": {
         "hookEventName": "PreToolUse",
@@ -398,6 +399,7 @@ def _validated_result_url(value: object) -> str:
         or parsed.username
         or parsed.password
         or parsed.fragment
+        or (parsed.query and not _NOTION_PAGE_QUERY.fullmatch(parsed.query))
     ):
         raise JournalError("Notion result URL is invalid")
     return value
