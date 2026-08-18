@@ -294,6 +294,41 @@ class HookTest(unittest.TestCase):
         self.assertEqual((), self.store.list_receipts())
         self.assertNotIn(marker.encode("utf-8"), b"".join(self._state_bytes().values()))
 
+    def test_live_text_wrapped_app_notion_result_is_accepted(self):
+        self._configure()
+        envelope = self._capture_drafted()
+        event = self._tool_event(
+            "PostToolUse", self._create_tool(), self._create_input(envelope)
+        )
+        page_id = "12345678-1234-1234-1234-123456789abc"
+        page_url = "https://app.notion.com/p/12345678123412341234123456789abc"
+        event["tool_response"] = {
+            "content": [
+                {
+                    "type": "text",
+                    "text": json.dumps(
+                        {
+                            "pages": [
+                                {
+                                    "id": page_id,
+                                    "url": page_url,
+                                    "properties": {
+                                        "title": "Redacted live-shape fixture"
+                                    },
+                                }
+                            ]
+                        }
+                    ),
+                }
+            ]
+        }
+
+        self.assertEqual({}, dispatch_hook(event, self.repo.path, self.store))
+        receipts = self.store.list_receipts()
+        self.assertEqual(1, len(receipts))
+        self.assertEqual(page_id, receipts[0].page_id)
+        self.assertEqual(page_url, receipts[0].page_url)
+
     def test_async_and_multiple_page_writes_are_denied(self):
         self._configure()
         envelope = self._capture_drafted()

@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from datetime import datetime, timedelta, timezone
+import json
 import re
 from pathlib import Path
 from typing import Any, Iterable
@@ -339,6 +340,24 @@ def _result_page(tool_response: object, *, is_create: bool) -> tuple[str, str] |
     if not isinstance(tool_response, dict) or _response_failed(tool_response):
         return None
     payload: object = tool_response.get("structuredContent", tool_response)
+    if payload is tool_response and "content" in tool_response:
+        content = tool_response.get("content")
+        if not isinstance(content, list) or len(content) != 1:
+            return None
+        block = content[0]
+        if (
+            not isinstance(block, dict)
+            or block.get("type") != "text"
+            or set(block) - {"type", "text", "annotations", "_meta"}
+        ):
+            return None
+        text = block.get("text")
+        if not isinstance(text, str) or len(text.encode("utf-8")) > 64 * 1024:
+            return None
+        try:
+            payload = json.loads(text)
+        except (json.JSONDecodeError, UnicodeError):
+            return None
     if not isinstance(payload, dict):
         return None
     page: object
@@ -368,7 +387,7 @@ def _validated_result_url(value: object) -> str:
 
     parsed = urlparse(value)
     host = (parsed.hostname or "").casefold()
-    allowed = any(
+    allowed = host == "app.notion.com" or any(
         host == domain or host.endswith("." + domain)
         for domain in ("notion.so", "notion.site")
     )

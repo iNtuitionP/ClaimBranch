@@ -58,7 +58,7 @@ def _notion_url(value: str, *, field: str) -> str:
     value = _printable(value, field=field, limit=2000)
     parsed = urlparse(value)
     hostname = (parsed.hostname or "").casefold()
-    allowed = any(
+    allowed = hostname == "app.notion.com" or any(
         hostname == domain or hostname.endswith("." + domain)
         for domain in ("notion.so", "notion.site")
     )

@@ -1,5 +1,5 @@
 from concurrent.futures import ThreadPoolExecutor
-from dataclasses import asdict
+from dataclasses import asdict, replace
 from datetime import datetime, timedelta, timezone
 from hashlib import sha256
 import json
@@ -86,6 +86,17 @@ def config() -> JournalConfig:
 
 
 class StoreTest(unittest.TestCase):
+    def test_config_accepts_current_app_notion_database_url(self):
+        current = replace(
+            config(),
+            database_url="https://app.notion.com/p/" + "a" * 32,
+        )
+
+        self.assertEqual(
+            "https://app.notion.com/p/" + "a" * 32,
+            current.database_url,
+        )
+
     def test_denied_first_task_does_not_reappear_in_second_task_delta(self):
         with TemporaryDirectory() as directory:
             store = JournalStore(Path(directory))
