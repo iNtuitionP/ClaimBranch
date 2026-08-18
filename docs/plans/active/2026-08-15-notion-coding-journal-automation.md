@@ -172,6 +172,12 @@ developer workflow automation governed by the approved
   the normalized projection already matched. The configured data source
   returned exactly one row with no additional page, proving the retry was
   deduplicated.
+- [x] 2026-08-18 - Committed the bounded live-response compatibility fix as
+  `547d3e1`, then captured that seven-path ClaimBranch change through the normal
+  session-start/stop flow. Its real-task draft is durably attached, its initial
+  exact-key query returned zero rows, and the generated create projection
+  passed the local pre-write policy. The two changed executable blobs now await
+  explicit hook-manifest review before the approved live create.
 - [x] Register and authenticate the official Notion MCP connection.
 - [x] Provision the private journal database and store its identifiers locally.
 - [ ] Pass synthetic, denial, retry, deduplication, and real-task acceptance.
@@ -1877,7 +1883,7 @@ test.
 - Live tool-contract compatibility commit: `07f2b30`.
 - Expanded-date live-contract commit: `43522b0`.
 - Hook executable manifest at commit
-  `43522b0b4e502353c4b2d3fa1245cae064371c77`:
+  `547d3e1521283c3084a9d0fb2c1fa53239ca71ac`:
   - `.codex/hooks.json`: `1ae9bd11a75418ca7c49891431a9585d7e5c3751`
   - `.codex/hooks/notion_journal.py`:
     `3f8b7d896b1ad7d8b8c71085023536ff5fb62d84`
@@ -1888,11 +1894,11 @@ test.
   - `scripts/notion_journal/git_state.py`:
     `b8b504ff122ca8b4f14d74a0edf8cdba6d17d872`
   - `scripts/notion_journal/hooks.py`:
-    `56e4c8cf904c29576285eea0fd3d3cf8f47d0259`
+    `ac98e6013f1c3cd5c5792589dda9ecb09e3f6b2a`
   - `scripts/notion_journal/model.py`:
     `c26184be52b8a2b71f5ca06e21f9a957b6856017`
   - `scripts/notion_journal/store.py`:
-    `6843e2a31d3996a861b71ed68715d54dc6e1cc7a`
+    `f5354b1a5504763fd8c169d734725f2a746a5a52`
 - Selected workspace: confirmed; its name and identifiers remain in user-local
   state only.
 - Journal database: provisioned and schema-verified; IDs and URLs remain out of
