@@ -149,6 +149,11 @@ developer workflow automation governed by the approved
   old projection and passed after `Recorded At` was expanded; all 23 focused
   hook tests and all 73 journal tests passed. The fix was committed as
   `43522b0`; the changed hook source requires a new manifest review.
+- [x] 2026-08-18 - The user re-reviewed the changed hook manifest. A direct
+  Codex `hooks/list` protocol check reported all four project hooks enabled and
+  trusted with zero errors or warnings. The corrected live pending projection
+  passed `PreToolUse`, contained the two expanded date keys, and its exact-key
+  query still returned zero rows.
 - [x] Register and authenticate the official Notion MCP connection.
 - [x] Provision the private journal database and store its identifiers locally.
 - [ ] Pass synthetic, denial, retry, deduplication, and real-task acceptance.
@@ -242,9 +247,8 @@ developer workflow automation governed by the approved
 The local implementation, official OAuth connection, workspace confirmation,
 private database provisioning, exact schema verification, and minimal global
 tool allowlist are complete. Live response compatibility is committed and the
-local doctor is healthy. The fresh-client inventory check and the original hook
-review are complete, but the date-contract correction requires one new manifest
-review. Completion still requires that review, synthetic denial/retry and
+local doctor is healthy. The fresh-client inventory check and the renewed hook
+review are complete. Completion still requires synthetic denial/retry and
 deduplication, one real entry, rollback rehearsal, and final documentation
 reconciliation. Keys, identifiers, workspace labels, and page links remain out
 of Git.
@@ -1691,16 +1695,17 @@ Remove-Item -LiteralPath $resolvedJournalTestRoot -Recurse -Force
 The durable redacted pending entry remains in the normal local outbox for the
 denial test.
 
-- [ ] **Step 3: Trust and enable the project hook once**
+- [x] **Step 3: Trust and enable the project hook once**
 
 In the fresh Codex client with the narrowed tool set, ask the user to open
 `/hooks`, inspect the command plus every source blob recorded in Task 4, and
 trust it. If any blob differs, stop, inspect the diff, rerun all hook tests, and
 record the complete new manifest before requesting trust.
 
-The first review passed, but the live date-contract correction changed
-`scripts/notion_journal/hooks.py`; regenerate and re-review the complete
-manifest before the next live write.
+The first review passed, and the live date-contract correction changed
+`scripts/notion_journal/hooks.py`. The complete regenerated manifest was then
+re-reviewed; `hooks/list` reported all four project hooks enabled and trusted
+with zero errors or warnings.
 
 - [ ] **Step 4: Deny the first Notion write**
 
@@ -1862,8 +1867,8 @@ test.
 - Synthetic journal entry: pending envelope and redaction checks passed, and
   both initial and post-restart exact-key queries returned zero rows. Its
   first live create was rejected for the now-corrected expanded-date contract,
-  leaving one pending envelope and no receipt or remote row. A new hook
-  manifest review plus denial/retry/deduplication remain pending. Its key and
-  URL remain out of Git.
+  leaving one pending envelope and no receipt or remote row. The regenerated
+  hook manifest is trusted, the corrected pre-write projection passed, and
+  denial/retry/deduplication remain pending. Its key and URL remain out of Git.
 - Real task entry: record sync/link-verification results only, not its key or
   URL.
