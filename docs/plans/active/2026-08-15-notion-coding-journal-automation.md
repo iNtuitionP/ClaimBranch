@@ -2,7 +2,7 @@
 kind: exec-plan
 status: active
 owners: maintainers
-last_reviewed: 2026-08-15
+last_reviewed: 2026-08-18
 canonical_for: implementation and validation of safe Notion MCP coding-journal automation
 ---
 
@@ -114,8 +114,22 @@ developer workflow automation governed by the approved
   `default_tools_approval_mode = "writes"`, completed the browser OAuth flow,
   and observed Codex report `Auth: OAuth`. A fresh client must still prove
   `fetch self`; this session cannot hot-load a newly registered MCP inventory.
-- [ ] Register and authenticate the official Notion MCP connection.
-- [ ] Provision the private journal database and store its identifiers locally.
+- [x] 2026-08-18 - A fresh client called `fetch self`, the user confirmed the
+  selected workspace, and the live read, exact-query, create, and update tools
+  were available without exposing workspace identifiers.
+- [x] 2026-08-18 - With separate approval for each create, provisioned the
+  private parent page and journal database, verified all 12 properties and
+  options, and stored the returned connection metadata in user-local state.
+- [x] 2026-08-18 - Aligned the hook acknowledgement and local URL validator
+  with the redacted live MCP response in `07f2b30`; 72 tests passed when run by
+  module, and documentation, JSON, and whitespace checks passed.
+- [x] 2026-08-18 - The complete offline gate passed with 72 tests and a healthy
+  configured doctor. The normal CLI produced one redacted synthetic pending
+  envelope, its initial exact-key remote query returned zero rows, and the
+  temporary fixture repository was removed after a validated temp-boundary
+  check.
+- [x] Register and authenticate the official Notion MCP connection.
+- [x] Provision the private journal database and store its identifiers locally.
 - [ ] Pass synthetic, denial, retry, deduplication, and real-task acceptance.
 - [ ] Reconcile durable docs and move this plan to `plans/completed/`.
 
@@ -147,6 +161,15 @@ developer workflow automation governed by the approved
   startup. Consequence: OAuth can be registered and verified by the CLI here,
   but workspace identity, live schemas, and writes require a fresh client after
   the repository hook files are integrated.
+- The live hosted MCP returns synchronous create results as one text content
+  block containing bounded JSON and uses exact `app.notion.com` page URLs.
+  Consequence: `PostToolUse` now parses only that single redacted JSON wrapper,
+  and URL validation admits the exact app host without broadening to arbitrary
+  `notion.com` subdomains.
+- The live raw tool names use underscores, and Codex hook names prepend
+  `mcp__notion__` without changing them. Consequence: user-local configuration
+  stores the four observed names, and the global allowlist excludes database
+  creation and workspace-wide discovery after provisioning.
 
 ## Decision Log
 
@@ -175,14 +198,21 @@ developer workflow automation governed by the approved
   Rationale: user approval is still required, while an unknown journal key,
   wrong create parent, absolute path, or secret-like value can be rejected
   before remote side effects occur.
+- 2026-08-18 - Accept exact `app.notion.com` result URLs and one text-wrapped
+  JSON response of at most 64 KiB. Rationale: this is the observed hosted-MCP
+  contract; broader domains or unbounded/multiple content blocks remain
+  unrecognized so the envelope stays pending.
 
 ## Outcomes & Retrospective
 
-No implementation outcome exists yet. On completion, record the commit set,
-test evidence, workspace confirmation as a boolean without its name or IDs,
-database/schema verification as booleans, hook trust evidence, synthetic and
-real-entry acceptance results without keys or URLs, rollback rehearsal, and
-remaining limitations.
+The local implementation, official OAuth connection, workspace confirmation,
+private database provisioning, exact schema verification, and minimal global
+tool allowlist are complete. Live response compatibility is committed and the
+local doctor is healthy. Completion still requires a fresh-client allowlist
+check, hook trust for the regenerated manifest, synthetic denial/retry and
+deduplication, one real entry, rollback rehearsal, and final documentation
+reconciliation. Keys, identifiers, workspace labels, and page links remain out
+of Git.
 
 ## Context and orientation
 
@@ -1383,7 +1413,7 @@ git commit -m "docs: document Notion coding journal workflow"
 - Produces: a configured `notion` Streamable HTTP server with interactive OAuth
 - Human checkpoint: browser workspace selection and authorization
 
-- [ ] **Step 1: Recheck local prerequisites and existing server state**
+- [x] **Step 1: Recheck local prerequisites and existing server state**
 
 Run:
 
@@ -1398,7 +1428,7 @@ Expected before first setup: Codex reports its version, the list has no
 server exists, stop unless its URL is exactly the official endpoint; never
 overwrite a different entry silently.
 
-- [ ] **Step 2: Add the official hosted server**
+- [x] **Step 2: Add the official hosted server**
 
 Run:
 
@@ -1413,7 +1443,7 @@ official URL. Inspect the user config and add
 `apply_patch`; preserve all unrelated user settings. Re-run `get --json` and
 verify the policy if exposed. Do not configure `approve` for create/update.
 
-- [ ] **Step 3: Start OAuth and pause for the user**
+- [x] **Step 3: Start OAuth and pause for the user**
 
 Run:
 
@@ -1426,7 +1456,7 @@ browser and authorize the connection. Do not ask for a token, cookie, password,
 or screenshot. Wait for the CLI to exit successfully; if the callback expires,
 rerun the command rather than changing callback configuration.
 
-- [ ] **Step 4: Verify authentication and refresh the client**
+- [x] **Step 4: Verify authentication and refresh the client**
 
 Run `codex mcp list` and record only authenticated/not-authenticated state, not
 credential material. End this Codex session and start a fresh session in the
@@ -1439,8 +1469,8 @@ same trusted repository so the Notion MCP tool inventory becomes callable.
 - Modify outside Git: Notion private page/database
 - Modify outside Git: user-local `config.json`
 - Modify outside Git: user Codex Notion MCP tool allowlist
-- Modify only if live schemas differ: `scripts/notion_journal/hooks.py` and
-  `tests/notion_journal/test_hooks.py`
+- Modify only if live contracts differ: `scripts/notion_journal/hooks.py`,
+  `scripts/notion_journal/store.py`, and their focused tests
 - Update: this plan's living sections
 
 **Interfaces:**
@@ -1450,7 +1480,7 @@ same trusted repository so the Notion MCP tool inventory becomes callable.
   and a minimal tool allowlist
 - Human checkpoint: approve each Notion create operation
 
-- [ ] **Step 1: Verify workspace identity and live tool access**
+- [x] **Step 1: Verify workspace identity and live tool access**
 
 Call the Notion fetch tool with `self`. Show the user only the workspace name
 needed to confirm selection; do not echo email or user ID into chat or docs.
@@ -1470,12 +1500,13 @@ schema cannot express the projection without an unacknowledged partial write,
 stop provisioning and amend the accepted design; do not invent a multi-write
 saga during execution.
 
-If only field names or response wrapping differ, add the redacted live-shape
-fixture, update the narrow parser, run the full journal test suite, commit only
-the two conditional files with `git commit -m "fix: align Notion journal tool contract"`,
-and regenerate the complete executable source manifest before requesting trust.
+If only field names, response wrapping, or official result-host validation
+differ, add redacted live-shape fixtures, update the narrow parser/validator,
+run the full journal test suite, commit only the conditional implementation and
+test files with `git commit -m "fix: align Notion journal tool contract"`, and
+regenerate the complete executable source manifest before requesting trust.
 
-- [ ] **Step 2: Create the private journal parent page**
+- [x] **Step 2: Create the private journal parent page**
 
 Call `notion-create-pages` without a parent to create one private page:
 
@@ -1489,7 +1520,7 @@ Icon: 🧭
 Ask the user to approve the write and retain the returned page ID/URL only in
 local state.
 
-- [ ] **Step 3: Create the database under that page**
+- [x] **Step 3: Create the database under that page**
 
 Call `notion-create-database` with the parent page from Step 2, title
 `ClaimBranch Coding Journal`, and these exact properties:
@@ -1512,7 +1543,7 @@ Verification      select: Passed, Failed, Partial, Not run
 Ask the user to approve. Fetch the resulting database/data source and verify
 property names and types byte-for-byte against this list.
 
-- [ ] **Step 4: Store non-secret connection metadata locally**
+- [x] **Step 4: Store non-secret connection metadata locally**
 
 Assign the exact strings returned by the successful MCP operations and live
 tool inventory to the ten PowerShell variables below without printing them,
@@ -1555,7 +1586,7 @@ required tools remain callable while excluded tools are absent.
 - Consumes: all prior tasks and live Notion connection
 - Produces: observable end-to-end evidence and completed plan lifecycle
 
-- [ ] **Step 1: Run the full offline gate**
+- [x] **Step 1: Run the full offline gate**
 
 ```powershell
 python -m unittest discover -s tests/notion_journal -p "test_*.py" -v
@@ -1569,7 +1600,7 @@ Expected: tests and validators pass; doctor is configured and has no corrupt
 state. Existing unrelated diff warnings may be reported, but no new whitespace
 error is allowed.
 
-- [ ] **Step 2: Create a synthetic pending envelope**
+- [x] **Step 2: Create a synthetic pending envelope**
 
 Drive the normal CLI against a temporary repository whose basename is
 `ClaimBranch`; do not inject or copy a handcrafted envelope:
@@ -1760,11 +1791,13 @@ test.
 - Official endpoint: `https://mcp.notion.com/mcp`.
 - Initial observation: `codex mcp list` reported no servers. Current global
   state reports the official `notion` server enabled with OAuth and write
-  approval policy configured; callable live-tool verification remains pending.
+  approval policy configured; callable live-tool verification passed. The
+  four-tool allowlist is configured and requires a fresh-client inventory check.
 - Offline implementation commits: `a5bd181`, `57af99e`, `7daf556`, and
   `6b26a85`.
+- Live tool-contract compatibility commit: `07f2b30`.
 - Hook executable manifest at commit
-  `6b26a85fa20df51c526bbf25acb23e55d8a8ae14`:
+  `07f2b30a975edc9e138b03a68ccbbb420ca9c605`:
   - `.codex/hooks.json`: `1ae9bd11a75418ca7c49891431a9585d7e5c3751`
   - `.codex/hooks/notion_journal.py`:
     `3f8b7d896b1ad7d8b8c71085023536ff5fb62d84`
@@ -1775,16 +1808,17 @@ test.
   - `scripts/notion_journal/git_state.py`:
     `b8b504ff122ca8b4f14d74a0edf8cdba6d17d872`
   - `scripts/notion_journal/hooks.py`:
-    `b078db3b3fc23097951a71113216c8d6593f30ab`
+    `78ee96f4d1fab84c4cd36c322355710048e80ec4`
   - `scripts/notion_journal/model.py`:
     `c26184be52b8a2b71f5ca06e21f9a957b6856017`
   - `scripts/notion_journal/store.py`:
-    `c561a74a77c92a355e26d4f261953102cfee1226`
-- Selected workspace: record only that the user confirmed it; keep its name and
-  identifiers in user-local state.
-- Journal database: record provisioned/schema-verified booleans only; keep IDs
-  and URLs out of Git.
-- Synthetic journal entry: record denial/retry/deduplication results only, not
-  its key or URL.
+    `6843e2a31d3996a861b71ed68715d54dc6e1cc7a`
+- Selected workspace: confirmed; its name and identifiers remain in user-local
+  state only.
+- Journal database: provisioned and schema-verified; IDs and URLs remain out of
+  Git.
+- Synthetic journal entry: pending envelope and redaction checks passed, and
+  its initial exact-key query returned zero rows; denial/retry/deduplication
+  remain pending. Its key and URL remain out of Git.
 - Real task entry: record sync/link-verification results only, not its key or
   URL.
