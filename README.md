@@ -107,7 +107,7 @@ deferred.
 - [Architecture decision index](docs/architecture/decisions/README.md)
 - [Active execution plan](docs/plans/active/2026-08-04-claimbranch-v1-and-gpu-systems.md)
 
-The only executable repository check today is documented in
+Executable repository checks are documented in
 [the contributor workflow](docs/development/workflow.md). Do not publish
-planned ClaimBranch commands as working setup instructions until H0 implements
-and verifies them.
+planned ClaimBranch product commands as working setup instructions until H0
+implements and verifies them.

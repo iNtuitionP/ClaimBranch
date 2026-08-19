@@ -1,0 +1,7 @@
+interface:
+  display_name: "Set Up Notion Journal"
+  short_description: "Set up the ClaimBranch Notion journal safely"
+  default_prompt: "Use $setup-notion-journal to connect or reconfigure the ClaimBranch journal."
+
+policy:
+  allow_implicit_invocation: false

@@ -2,7 +2,7 @@
 kind: development
 status: active
 owners: maintainers
-last_reviewed: 2026-08-18
+last_reviewed: 2026-08-20
 canonical_for: setup, operation, diagnosis, and rollback of the ClaimBranch Notion coding journal
 ---
 
@@ -55,6 +55,37 @@ environment values, credentials, prompts, transcripts, and hidden reasoning.
 A symlink contributes its link text hash and is not dereferenced. A read-only or
 no-change task needs no entry unless the user explicitly requests a decision
 record.
+
+## Repository skills
+
+Codex discovers three version-controlled workflows from `.agents/skills`:
+
+- [`record-notion-journal`](../../.agents/skills/record-notion-journal/SKILL.md)
+  handles one hook-provided pending key, an explicit retry, or an explicitly
+  requested no-change decision record. Its narrow trigger may invoke it
+  implicitly, but each Notion create or update still needs fresh approval.
+- [`diagnose-notion-journal`](../../.agents/skills/diagnose-notion-journal/SKILL.md)
+  performs read-only diagnosis of local state, MCP/OAuth, hook trust, live-tool
+  drift, duplicates, and acknowledgement failures. It may invoke implicitly on
+  those symptoms and never repairs state itself.
+- [`setup-notion-journal`](../../.agents/skills/setup-notion-journal/SKILL.md)
+  covers connection, provisioning, trust review, disable, revoke, and rollback.
+  Implicit invocation is disabled; call `$setup-notion-journal` explicitly.
+
+These skills orchestrate the existing helper and live MCP tools. They do not
+replace `AGENTS.md`, per-write approval, the deterministic hook guard, or this
+guide as the policy and command sources. The record skill's bundled
+`sync_context.py` reads validated local state and emits exactly one
+parameterized query, create, or update input. It performs no MCP call or local
+write; pass its `tool_input` unchanged and never copy its routing values into
+chat or Git.
+
+Validate packaging, projection compatibility, and safety contracts without
+contacting Notion:
+
+```powershell
+python -m unittest discover -s tests/skills -p "test_*.py" -v
+```
 
 ## One-time connection and setup
 

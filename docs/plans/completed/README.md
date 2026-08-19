@@ -8,3 +8,8 @@ distilled into the relevant canonical documents.
   — approval-gated Notion MCP developer records with a structured local outbox,
   deny-only pre-write guard, bounded stop-hook continuation, and live
   denial/retry/deduplication acceptance. Status: `completed`.
+
+- [Deployable Notion journal skills](2026-08-19-notion-journal-skills.md)
+  — repository-scoped record, diagnose, and explicit-only setup workflows,
+  with deterministic projection generation, adversarial contracts, and CI
+  validation. Status: `completed`.

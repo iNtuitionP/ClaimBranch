@@ -22,3 +22,5 @@ jobs:
           python-version: "3.13"
       - name: Validate documentation
         run: python scripts/check_docs.py
+      - name: Validate repository skills
+        run: python -m unittest discover -s tests/skills -p "test_*.py" -v

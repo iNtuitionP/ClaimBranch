@@ -2,7 +2,7 @@
 kind: development
 status: active
 owners: maintainers
-last_reviewed: 2026-08-15
+last_reviewed: 2026-08-20
 canonical_for: repository-local validation commands and documentation enforcement
 ---
 
@@ -27,6 +27,17 @@ python -m unittest discover -s tests/notion_journal -p "test_*.py" -v
 This suite uses temporary Git repositories and injected temporary state roots.
 It must not use the contributor's real `LOCALAPPDATA` journal state or require
 OAuth.
+
+Validate the repository-scoped Notion journal skills:
+
+```powershell
+python -m unittest discover -s tests/skills -p "test_*.py" -v
+```
+
+This suite verifies skill discovery metadata, invocation policy, documentation
+links, platform-safe encoding, adversarial safety contracts, and the record
+skill's deterministic query/create/update projection. It is offline and uses
+only injected temporary journal state.
 
 The checker validates repository-owned Markdown links and headings, required
 agent instruction files, canonical-document front matter and location, nearest

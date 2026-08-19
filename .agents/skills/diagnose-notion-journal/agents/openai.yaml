@@ -1,0 +1,7 @@
+interface:
+  display_name: "Diagnose Notion Journal"
+  short_description: "Diagnose ClaimBranch journal failures safely"
+  default_prompt: "Use $diagnose-notion-journal to diagnose the current ClaimBranch journal failure."
+
+policy:
+  allow_implicit_invocation: true

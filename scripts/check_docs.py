@@ -16,6 +16,7 @@ from urllib.parse import unquote
 
 ROOT = Path(__file__).resolve().parents[1]
 DOCS = ROOT / "docs"
+REPO_SKILLS = ROOT / ".agents" / "skills"
 REQUIRED_FILES = {
     ROOT / "README.md",
     ROOT / "AGENTS.md",
@@ -157,6 +158,18 @@ def is_within(path: Path, directory: Path) -> bool:
     return path == directory or directory in path.parents
 
 
+def is_repo_skill_instruction(path: Path) -> bool:
+    try:
+        parts = path.relative_to(REPO_SKILLS).parts
+    except ValueError:
+        return False
+    return (
+        len(parts) == 2
+        and parts[1] == "SKILL.md"
+        and re.fullmatch(r"[a-z0-9][a-z0-9-]*", parts[0]) is not None
+    )
+
+
 def check_required_files(errors: list[str]) -> None:
     for path in sorted(REQUIRED_FILES, key=relative):
         if not path.is_file():
@@ -180,6 +193,8 @@ def check_managed_location(path: Path, errors: list[str]) -> None:
     if DOCS in path.parents or path.parent == ROOT:
         return
     if ".github" in path.relative_to(ROOT).parts:
+        return
+    if is_repo_skill_instruction(path):
         return
     if path.name not in LOCAL_SPECIAL_NAMES:
         errors.append(
