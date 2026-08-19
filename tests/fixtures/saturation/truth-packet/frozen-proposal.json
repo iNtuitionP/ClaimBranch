@@ -1,0 +1,9 @@
+{
+  "schema_version": 1,
+  "proposal_id": "P-01",
+  "trace_id": "T-01",
+  "intended_operation": "record-interpretation",
+  "normalized_text": "Sensitivity is real but insufficient by itself; operator damage may also depend on properties of the induced distortion.",
+  "payload_availability": "frozen-redacted",
+  "live_provider_required": false
+}

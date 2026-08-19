@@ -2,7 +2,7 @@
 kind: exec-plan
 status: active
 owners: maintainers
-last_reviewed: 2026-08-14
+last_reviewed: 2026-08-20
 ---
 
 # ExecPlan: ClaimBranch graph contract to live-paper validation
@@ -85,6 +85,11 @@ success. Do not call the product v1.0 before the live-paper gate passes.
       target architecture, finite domain design, saturation case, accepted ADRs
       0005-0007, indexes, and external-research references. P0 remains open for
       the redacted truth packet and frozen Markdown/checklist baseline.
+- [x] 2026-08-20 - Added a committed partial redacted-substitution saturation
+      source fixture, frozen blank baseline, deterministic standard-library
+      validator, adversarial tests, and CI gate. The complete F0 replay/trace
+      inputs, private mapping to the real episode, and actual compiler/source
+      evidence remain maintainer work, so this does not close P0.
 - [ ] P0 - Reconcile canonical product, architecture, release, validation, ADR,
       and plan documents; assemble the real saturation truth packet.
 - [ ] P1 - Close the F0 graph and authority contract with readable fixtures.
@@ -102,6 +107,11 @@ The executable milestone names used throughout this plan are:
 | `V0` | preregistered live-paper evaluation with the Markdown/checklist baseline | `H1` passes and the restore drill succeeds | an outcome is assigned by the frozen decision rule: `VALIDATED`, `VALUE_NOT_DEMONSTRATED`, `NOT_VALIDATED`, or `INCONCLUSIVE` |
 
 ## Surprises & Discoveries
+
+- 2026-08-20 - A committed packet can prove its closed inventory, digests,
+  redaction contract, cross-file semantics, and expected P0 truth set, but it
+  cannot prove that a private episode was mapped faithfully. That last check is
+  intentionally a local human gate rather than a repository or AI assertion.
 
 - 2026-08-14 - The prior plan was four efforts joined by scheduling: a research
   product, a graph platform, a GPU curriculum, and a local-serving study. Two
@@ -1125,7 +1135,7 @@ weakening a gate.
 
 | Gate | Command/artifact | Pass oracle |
 |---|---|---|
-| P0 scope lock | `python scripts/check_docs.py` and redacted `tests/fixtures/saturation/truth-packet/` | exit 0; all canonical indexes resolve; packet schema and expected impact truth set are present |
+| P0 committed-fixture sub-gate | `python scripts/check_docs.py`, `python scripts/check_truth_packet.py`, and `python -m unittest discover -s tests/validation -p "test_*.py" -v` | exit 0; all canonical indexes resolve; the partial redacted source fixture has an exact hashed inventory, closed P0 source truth set, marked manuscript replacement, offline proposal, blank baseline, and no detected path/secret leakage; the complete F0 inputs and private mapping remain separate gates |
 | P1 contract | `python -m pytest tests/contract -q` | every closed record, edge, command, state, invariant, authorization denial, temporal/privacy rule, and invalid transition has a named passing fixture |
 | H0 clean checkout (public) | `pwsh -NoProfile -File .\scripts\bootstrap.ps1`, then `claimbranch doctor --format json` | standard user, declared prerequisites only, isolated pinned environment, version printed, all core probes pass; three cold trials reach the demo gate within 300 seconds wall/90 seconds active |
 | H0 offline demo (public) | `claimbranch demo saturation --ai off --network deny` | first meaningful output within 60 seconds after bootstrap; verified lineage from 3 Observations to 1 Claim and 1 manuscript consequence; AI text remains unaccepted; no provider/compiler/user-project write |
@@ -1371,7 +1381,8 @@ automatically authorize a graph database.
 | local names and marker syntax | proposed ADR 0004 | validate through the bounded spike before acceptance |
 | branch hypothesis | proposed ADR 0002 | retain as proposed until the selected-merge fixture and live comparison justify it |
 | documentation governance | docs policy, indexes, and `scripts/check_docs.py` | use as the current executable quality gate |
-| implementation | none | no code or settled stack exists to reuse yet |
+| product implementation | none | no application code or settled stack exists to reuse yet |
+| P0 validation tooling | partial redacted source fixture, blank baseline, standard-library checker, and adversarial tests | extend toward the complete P0/P1 fixture boundary; do not infer a runtime stack, full F0 contract, or private-episode proof |
 | agent runtime/channels | OpenClaw and MCP ecosystems | integrate later; do not rebuild inside ClaimBranch |
 | local inference transport | OpenAI-compatible servers such as `llama.cpp` | use only behind the provider contract after P2 |
 
@@ -2932,8 +2943,10 @@ deduplicated dependency order rather than task-file order:
 5. pass the unfamiliar-user/second-profile gates before preregistered V0.
 
 Canonical documentation reconciliation tasks completed during this review are
-recorded in Progress; implementation, fixtures, visual artifacts, and live
-validation remain unchecked.
+recorded in Progress. The bounded partial P0 redacted source fixture and checker
+are now implemented; product implementation, complete F0 contract fixtures,
+visual artifacts, the private episode mapping, and live validation remain
+unchecked.
 
 ### Final approval disposition
 

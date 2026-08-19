@@ -17,6 +17,14 @@ from urllib.parse import unquote
 ROOT = Path(__file__).resolve().parents[1]
 DOCS = ROOT / "docs"
 REPO_SKILLS = ROOT / ".agents" / "skills"
+TRUTH_PACKET_BASELINE = (
+    ROOT
+    / "tests"
+    / "fixtures"
+    / "saturation"
+    / "truth-packet"
+    / "decision-log-baseline.md"
+)
 REQUIRED_FILES = {
     ROOT / "README.md",
     ROOT / "AGENTS.md",
@@ -195,6 +203,8 @@ def check_managed_location(path: Path, errors: list[str]) -> None:
     if ".github" in path.relative_to(ROOT).parts:
         return
     if is_repo_skill_instruction(path):
+        return
+    if path == TRUTH_PACKET_BASELINE:
         return
     if path.name not in LOCAL_SPECIAL_NAMES:
         errors.append(

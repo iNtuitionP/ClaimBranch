@@ -11,6 +11,12 @@ authorizes.
 > Status: specification, architecture, and validation design. There is no
 > usable application or settled implementation stack in this repository yet.
 
+The first executable validation asset is a committed, redacted saturation
+source fixture with an offline integrity and contract checker. It validates a
+bounded subset of the planned truth packet; it is not an application, a
+product schema, the complete F0 fixture, or evidence that the private source
+episode has been mapped locally.
+
 Start at the [documentation map](docs/README.md) for canonical product,
 architecture, validation, decision, and execution sources.
 

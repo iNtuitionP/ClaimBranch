@@ -2,7 +2,7 @@
 kind: validation-case
 status: active
 owners: maintainers
-last_reviewed: 2026-08-14
+last_reviewed: 2026-08-20
 canonical_for: saturation workflow acceptance criteria
 ---
 
@@ -38,6 +38,25 @@ The redacted fixture contains:
 Private source artifacts remain outside version control. The committed truth
 packet uses redacted substitutions with a local-only manifest connecting them
 to the real episode.
+
+The repository now commits a partial P0 source fixture—deliberately not the
+complete F0 truth packet specified above—through its [integrity
+manifest](../../../tests/fixtures/saturation/truth-packet/manifest.json) and
+validates it with:
+
+```powershell
+python scripts/check_truth_packet.py
+python -m unittest discover -s tests/validation -p "test_*.py" -v
+```
+
+This executable source fixture freezes the bounded P0 source facts, cross-file
+references, expected impact, marked before/after text, offline frozen proposal,
+and blank V0 baseline. It is a validation fixture rather than an implemented
+product import schema. It does not yet freeze the optional ExperimentPlan, the
+proposal trace manifest, deterministic replay clocks/entropy/signing inputs,
+the compiler fingerprint, or the expected compile-output digest. Those full
+F0 inputs and the private mapping to the real episode remain separate local
+maintainer gates, so this checker cannot close P0.
 
 ## 2. Initial accepted state
 
