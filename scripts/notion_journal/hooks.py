@@ -8,18 +8,20 @@ import re
 from pathlib import Path
 from typing import Any, Iterable
 
-from .git_state import capture_snapshot, compare_snapshots
 from .model import (
+    JudgmentDraft,
+    JournalDraft,
     JournalError,
     ValidationError,
     canonical_json,
     sanitize_agent_text,
 )
+from .presentation import render_judgment_body
 from .store import JournalConfig, JournalStore, PendingEnvelope, Receipt
 
 
 _SEOUL = timezone(timedelta(hours=9))
-_KEY_PATTERN = re.compile(r"(?<![0-9a-z])cbj-v1-[0-9a-f]{24}(?![0-9a-z])")
+_KEY_PATTERN = re.compile(r"(?<![0-9a-z])cbj-v[12]-[0-9a-f]{24}(?![0-9a-z])")
 _NOTION_PAGE_QUERY = re.compile(r"pvs=[0-9]+\Z")
 _DENIED = {
     "hookSpecificOutput": {
@@ -49,70 +51,18 @@ def validate_common_event(event: object) -> dict[str, Any]:
     return event
 
 
-def _validate_repo_event(event: dict[str, Any], repo: Path) -> None:
-    try:
-        event_cwd = Path(event["cwd"]).resolve()
-        repository = Path(repo).resolve()
-        event_cwd.relative_to(repository)
-    except (KeyError, OSError, ValueError) as error:
-        raise ValidationError("hook cwd is outside the repository") from error
-
-
 def handle_session_start(
     event: dict[str, Any], repo: Path, store: JournalStore
 ) -> dict[str, object]:
-    _validate_repo_event(event, repo)
-    snapshot = capture_snapshot(repo)
-    store.create_session(event["session_id"], snapshot, datetime.now(_SEOUL))
-    pending = sorted(
-        store.list_pending(), key=lambda envelope: (envelope.recorded_at, envelope.journal_key)
-    )
-    visible_keys = ", ".join(envelope.journal_key for envelope in pending[:3])
-    keys_text = visible_keys if visible_keys else "none"
-    context = (
-        f"ClaimBranch coding journal is local-first. Pending entries: {len(pending)}. "
-        f"Oldest pending keys (up to 3): {keys_text}. "
-        "Retry at most one old key during this session. Use only its public pending "
-        "projection, query the configured data source by exact Journal Key, and keep "
-        "every Notion write approval-gated."
-    )
-    return {
-        "hookSpecificOutput": {
-            "hookEventName": "SessionStart",
-            "additionalContext": context,
-        }
-    }
-
-
-def _pending_reason(envelope: PendingEnvelope) -> str:
-    return (
-        f"A ClaimBranch coding-journal envelope is pending: {envelope.journal_key}. "
-        "Use only the configured Notion journal data source. Read it with "
-        "`python -m scripts.notion_journal.cli pending --journal-key "
-        f"{envelope.journal_key} --format json`, attach the structured draft with "
-        "`python -m scripts.notion_journal.cli draft --journal-key "
-        f"{envelope.journal_key} --input-json -`, query the exact Journal Key, and "
-        "ask for approval before one create or update. Do not search the workspace. "
-        "If Notion is unavailable, report `Notion journal: pending`."
-    )
+    _ = event, repo, store
+    return {}
 
 
 def handle_stop(
     event: dict[str, Any], repo: Path, store: JournalStore
 ) -> dict[str, object]:
-    _validate_repo_event(event, repo)
-    active = event.get("stop_hook_active")
-    if type(active) is not bool:
-        raise ValidationError("Stop hook requires stop_hook_active")
-    session = store.recover_cursor(event["session_id"])
-    end = capture_snapshot(repo)
-    delta = compare_snapshots(repo, session.cursor, end)
-    if not delta.paths:
-        return {}
-    envelope = store.capture_pending(event["session_id"], end, delta, datetime.now(_SEOUL))
-    if active:
-        return {}
-    return {"decision": "block", "reason": _pending_reason(envelope)}
+    _ = event, repo, store
+    return {}
 
 
 def _canonical_tool_names(config: JournalConfig) -> tuple[str, str]:
@@ -145,10 +95,33 @@ def _keys_in(value: object) -> set[str]:
     return keys
 
 
+def _projected_journal_key(tool_input: dict[str, Any]) -> str:
+    pages = tool_input.get("pages")
+    if not isinstance(pages, list) or len(pages) != 1 or not isinstance(pages[0], dict):
+        raise JournalError("create must contain exactly one page")
+    properties = pages[0].get("properties")
+    if not isinstance(properties, dict):
+        raise JournalError("journal properties are invalid")
+    journal_key = properties.get("Journal Key")
+    if not isinstance(journal_key, str) or _KEY_PATTERN.fullmatch(journal_key) is None:
+        raise JournalError("projected journal key is invalid")
+    return journal_key
+
+
 def _expected_properties(envelope: PendingEnvelope) -> dict[str, object]:
     draft = envelope.draft
     if draft is None:
         raise JournalError("pending envelope has no structured draft")
+    if isinstance(draft, JudgmentDraft):
+        return {
+            "Title": draft.title,
+            "Journal Key": envelope.journal_key,
+            "date:Recorded At:start": envelope.recorded_at,
+            "date:Recorded At:is_datetime": 1,
+            "AI Contribution": draft.ai_contribution,
+        }
+    if not isinstance(draft, JournalDraft):
+        raise JournalError("pending envelope has an unsupported draft")
     return {
         "Title": draft.title,
         "Journal Key": envelope.journal_key,
@@ -175,6 +148,10 @@ def _expected_body(envelope: PendingEnvelope) -> str:
     draft = envelope.draft
     if draft is None:
         raise JournalError("pending envelope has no structured draft")
+    if isinstance(draft, JudgmentDraft):
+        return render_judgment_body(draft, envelope.journal_language)
+    if not isinstance(draft, JournalDraft):
+        raise JournalError("pending envelope has an unsupported draft")
     visible_paths = envelope.delta.paths[:200]
     paths = _bullets((f"`{path}`" for path in visible_paths), empty="- None")
     decisions = _bullets(draft.key_decisions, empty="- None")
@@ -201,13 +178,6 @@ def _expected_body(envelope: PendingEnvelope) -> str:
         f"## Risks or unresolved work\n\n{risks}\n\n"
         f"## Next safe action\n\n{draft.next_safe_action}\n\n"
         f"## Journal Key\n\n`{envelope.journal_key}`"
-    )
-
-
-def _receipt_for(store: JournalStore, journal_key: str) -> Receipt | None:
-    return next(
-        (receipt for receipt in store.list_receipts() if receipt.journal_key == journal_key),
-        None,
     )
 
 
@@ -252,34 +222,14 @@ def _validate_create_input(
         raise JournalError("create content does not match the journal projection")
 
 
-def _validate_update_input(
-    tool_input: dict[str, Any], envelope: PendingEnvelope, receipt: Receipt | None
-) -> str:
-    allowed = {"page_id", "command", "new_str", "properties", "allow_async"}
-    if set(tool_input) - allowed:
-        raise JournalError("update input contains unsupported fields")
-    if tool_input.get("allow_async", False) is not False:
-        raise JournalError("asynchronous journal writes are not supported")
-    page_id = _bounded_page_id(tool_input.get("page_id"))
-    if receipt is not None and page_id != receipt.page_id:
-        raise JournalError("update page does not match the journal receipt")
-    if tool_input.get("command") != "replace_content":
-        raise JournalError("update command cannot leave a complete projection")
-    if tool_input.get("new_str") != _expected_body(envelope):
-        raise JournalError("update content does not match the journal projection")
-    if tool_input.get("properties") != _expected_properties(envelope):
-        raise JournalError("update properties do not match the journal projection")
-    return page_id
-
-
 def _validate_write_event(
     event: dict[str, Any], store: JournalStore
-) -> tuple[str, dict[str, Any], PendingEnvelope, Receipt | None, bool, str | None]:
+) -> tuple[str, dict[str, Any], PendingEnvelope, Receipt | None]:
     config = store.read_config()
     tool_name = event.get("tool_name")
-    create_name, update_name = _canonical_tool_names(config)
-    if tool_name not in {create_name, update_name}:
-        raise JournalError("hook tool is not a configured Notion journal write")
+    create_name, _ = _canonical_tool_names(config)
+    if tool_name != create_name:
+        raise JournalError("journal pages are human-owned; only configured creates are allowed")
     tool_input = event.get("tool_input")
     if not isinstance(tool_input, dict):
         raise JournalError("Notion tool input must be an object")
@@ -290,21 +240,19 @@ def _validate_write_event(
     if payload_size > 64 * 1024:
         raise JournalError("Notion tool input is too large")
     _validate_string_leaves(tool_input)
-    keys = _keys_in(tool_input)
-    if len(keys) != 1:
-        raise JournalError("Notion tool input must contain one journal key")
-    journal_key = next(iter(keys))
+    journal_key = _projected_journal_key(tool_input)
     envelope = store.read_envelope(journal_key)
     if envelope.draft is None:
         raise JournalError("journal draft must be attached before a write")
-    receipt = _receipt_for(store, journal_key)
-    is_create = tool_name == create_name
-    page_id: str | None = None
-    if is_create:
-        _validate_create_input(tool_input, config, envelope, receipt)
-    else:
-        page_id = _validate_update_input(tool_input, envelope, receipt)
-    return journal_key, tool_input, envelope, receipt, is_create, page_id
+    allowed_keys = {journal_key}
+    if isinstance(envelope.draft, JudgmentDraft) and envelope.draft.supersedes:
+        allowed_keys.add(envelope.draft.supersedes)
+    keys = _keys_in(tool_input)
+    if keys != allowed_keys:
+        raise JournalError("Notion tool input contains unexpected journal keys")
+    receipt = store.read_receipt(journal_key)
+    _validate_create_input(tool_input, config, envelope, receipt)
+    return journal_key, tool_input, envelope, receipt
 
 
 def handle_pre_tool_use(
@@ -338,7 +286,7 @@ def _response_failed(value: object) -> bool:
     return False
 
 
-def _result_page(tool_response: object, *, is_create: bool) -> tuple[str, str] | None:
+def _result_page(tool_response: object) -> tuple[str, str] | None:
     if not isinstance(tool_response, dict) or _response_failed(tool_response):
         return None
     payload: object = tool_response.get("structuredContent", tool_response)
@@ -360,18 +308,12 @@ def _result_page(tool_response: object, *, is_create: bool) -> tuple[str, str] |
             payload = json.loads(text)
         except (json.JSONDecodeError, UnicodeError):
             return None
-    if not isinstance(payload, dict):
+    if not isinstance(payload, dict) or _response_failed(payload):
         return None
-    page: object
-    if is_create:
-        pages = payload.get("pages")
-        if not isinstance(pages, list) or len(pages) != 1:
-            return None
-        page = pages[0]
-    elif isinstance(payload.get("page"), dict):
-        page = payload["page"]
-    else:
-        page = payload
+    pages = payload.get("pages")
+    if not isinstance(pages, list) or len(pages) != 1:
+        return None
+    page = pages[0]
     if not isinstance(page, dict):
         return None
     page_id = page.get("id", page.get("page_id"))
@@ -412,15 +354,13 @@ def handle_post_tool_use(
     if not isinstance(tool_name, str) or not tool_name.startswith("mcp__notion__"):
         return {}
     try:
-        journal_key, _, _, _, is_create, input_page_id = _validate_write_event(event, store)
+        journal_key, _, _, _ = _validate_write_event(event, store)
     except (JournalError, ValidationError):
         return {}
-    result = _result_page(event.get("tool_response"), is_create=is_create)
+    result = _result_page(event.get("tool_response"))
     if result is None:
         return {}
     page_id, page_url = result
-    if not is_create and input_page_id != page_id:
-        return {}
     try:
         store.record_receipt(journal_key, page_id, page_url, datetime.now(_SEOUL))
     except JournalError:

@@ -2,16 +2,17 @@
 kind: target-architecture
 status: draft
 owners: maintainers
-last_reviewed: 2026-08-14
+last_reviewed: 2026-09-21
 canonical_for: target pre-implementation system boundaries and quality constraints
 ---
 
 # ClaimBranch target architecture
 
-ClaimBranch has no implementation or settled stack. This document defines the
-target boundaries and quality constraints that the first finite slice must
-test. It does not claim that any package, process, database, browser protocol,
-or Windows isolation mechanism exists.
+ClaimBranch has no usable application or settled stack. Repository contract
+models and disposable probes provide bounded evidence, not the implemented
+target architecture. This document defines boundaries and quality constraints
+that the first finite slice must test; it does not claim a production store,
+authorization broker, or provider isolation boundary exists.
 
 Intended behavior lives in the
 [product specification](docs/product/product-spec.md), the closed logical
@@ -53,9 +54,13 @@ In order:
             |
             `--> canonical operation store --> disposable projections
 
-The paper Git repository remains researcher-owned. ClaimBranch keeps
-project-local durable metadata, but Git is transport and file history rather
-than the scientific authorization mechanism. ClaimBranch never commits,
+The paper Git repository remains researcher-owned. ClaimBranch's default
+durable research workspace is project-specific and outside the application
+and paper/code Git trees, under [ADR 0008](docs/architecture/decisions/0008-private-research-workspaces.md).
+Project association and physical layout are P1 contracts, not implemented
+storage. Raw artifacts remain at their linked source unless explicitly imported.
+Git is transport and file history rather than the scientific authorization
+mechanism or an implicit backup of private records. ClaimBranch never commits,
 pushes, or promotes a live manuscript automatically.
 
 ## Three graph planes
@@ -150,6 +155,15 @@ structured output, cancellation, time to first token, usage, and throughput
 when available. ClaimBranch does not install, download, quantize, supervise,
 route, update, or choose models. AI-off and a deterministic stub remain the
 correctness baseline.
+
+[ADR 0009](docs/architecture/decisions/0009-external-inference-and-local-authority.md)
+separates the externally operated inference service from any restricted local
+tool worker and the trusted accepted-state writer. These responsibilities do
+not prescribe three services or add a generic agent runtime. A sandbox around
+the connector proves nothing about an unrestricted external server's file
+permissions. Before live use, validate the actual server topology separately
+from API compatibility and egress consent; unavailable protection must not
+downgrade the authority gate. The current disposable helper is not that proof.
 
 ## Browser authorization boundary
 

@@ -2,7 +2,7 @@
 kind: product-spec
 status: draft
 owners: maintainers
-last_reviewed: 2026-08-14
+last_reviewed: 2026-09-21
 canonical_for: intended product behavior and boundaries
 ---
 
@@ -35,6 +35,20 @@ Semantic version control is a mechanism for competing interpretations and
 selective adoption. It is not the product identity. The product is the focused
 decision workflow that helps a researcher understand what changed, decide what
 they believe, keep AI influence legible, and bring the paper back into alignment.
+
+For an eligible result-to-paper episode, ClaimBranch is the intended primary
+workspace for forming and recording the judgment, not a mandatory second pass
+after deciding elsewhere. The researcher must not first complete a separate
+decision log to use it. This does not expand the finite episode scope into a
+replacement for experiment execution, general note-taking, or the LaTeX editor.
+
+Starting an episode requires source context, not an already-completed
+interpretation. As the researcher judges, review reuses the entered context
+and rationale rather than requiring a second retrospective form. Changed
+meaning, evidence, or scope still requires the applicable new review and
+authorization; reuse never carries old consent forward. Necessary audit
+history remains inspectable without requiring the researcher to author it as
+another narrative. The contributor Notion journal is not part of this workflow.
 
 The mnemonic remains:
 
@@ -291,6 +305,15 @@ endpoint. Add, probe, test, and explain actions teach:
 ClaimBranch does not install, download, quantize, start, stop, route, update, or
 benchmark model servers. A local model is not automatically the default.
 
+Inference, any tool execution, and accepted writing are separate responsibilities
+under [ADR 0009](../architecture/decisions/0009-external-inference-and-local-authority.md).
+API compatibility is not a protection verdict. A live provider becomes usable
+for the protected workflow only after its deployment satisfies the authority
+and privacy gates; an unrestricted same-user server is not made safe by
+isolating its connector or acknowledging a warning. Unknown or unsupported
+protection leaves manual work available and accepted state unchanged. There is
+no new model-server manager, general tool executor, or second journal form.
+
 ### 6.5 Review, authorize, defer, and resume
 
 The command-launched Episode Review is one linear decision sheet:
@@ -402,6 +425,13 @@ background daemon are post-V0 hypotheses.
 
 - Accepted state, refs, review history, deterministic impact, replay, export,
   and manuscript recovery work without AI or network access.
+- Research records default to a user-owned, project-specific private workspace
+  outside application and paper/code Git trees. Initialization shows the paper
+  and workspace locations separately. Publishing or cloning code does not
+  publish or back up those records; sharing requires a separately approved
+  export. [ADR 0008](../architecture/decisions/0008-private-research-workspaces.md)
+  owns placement, association, and backup boundaries; the DB and key-loss
+  recovery implementation are not yet selected.
 - Provider work is asynchronous, cancellable, bounded, and never blocks manual
   work.
 - Human export is separate from model-readable context.
@@ -441,8 +471,13 @@ background daemon are post-V0 hypotheses.
 
 ### Live-paper V0
 
-The first three consecutive qualifying result-to-decision episodes within eight
-weeks are compared with a frozen Markdown/checklist baseline. The protocol
+Compare complete first-pass workflows: from starting interpretation of an
+eligible result through recording the decision and its manuscript consequence,
+using equivalent boundaries for ClaimBranch and Markdown/checklist work. Do not
+use a second judgment of an already-decided episode as first-pass timing.
+The comparison protocol is not yet frozen; the
+[release scope](releases/validation-prototype.md#62-baseline-and-observation)
+owns the required user approval before V0. The protocol
 records trace completeness, active and wait time, human rationale/edits,
 accepted AI contribution, debt, false alarms, manuscript outcome, and any
 attested material omission surfaced before the final decision.
@@ -450,7 +485,10 @@ attested material omission surfaced before the final decision.
 V0 may show directional utility and workflow noninferiority; it does not prove
 causal prevention. The
 [validation prototype](releases/validation-prototype.md) owns the exact outcome
-rule. Only VALIDATED opens candidate product expansion.
+rule. Only VALIDATED opens ordinary candidate product expansion. Its
+[bounded hypothesis-revision rule](releases/validation-prototype.md#64-bounded-revision-after-a-failed-hypothesis)
+allows the user to authorize a minimum evidence-backed correction to a failed
+initial shape, without erasing the failure or waiving safety gates.
 
 ## 11. Explicit non-goals before validated V0
 
@@ -483,7 +521,7 @@ product authority:
   versions;
 - marker behavior and compiler isolation on the real paper;
 - physical serialization, canonical JSON, key storage, and signed export shape;
-- provider envelope details and retention settings; and
+- supported provider deployment evidence, envelope details, and retention settings; and
 - measured UI, graph traversal, recovery, and onboarding budgets.
 
 Technology choices must preserve the accepted human-owned, AI-optional,

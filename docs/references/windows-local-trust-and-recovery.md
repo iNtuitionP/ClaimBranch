@@ -2,13 +2,14 @@
 kind: reference
 status: active
 owners: maintainers
-last_reviewed: 2026-08-14
+last_reviewed: 2026-09-19
 canonical_for: external research on native-Windows isolation, loopback-browser security, and local durability
 ---
 
 # Native-Windows trust and recovery references
 
-Reviewed 2026-08-14. These are inputs to bounded platform spikes, not claims
+Process-profile lifecycle sources rechecked 2026-09-19; other source summaries
+retain their 2026-08-14 review. These are inputs to bounded platform spikes, not claims
 that ClaimBranch already enforces the described guarantees.
 
 ## Process and IPC isolation
@@ -17,6 +18,8 @@ Primary sources:
 
 - [AppContainer isolation](https://learn.microsoft.com/en-us/windows/win32/secauthz/appcontainer-isolation)
 - [Implementing an AppContainer](https://learn.microsoft.com/en-us/windows/win32/secauthz/implementing-an-appcontainer)
+- [CreateAppContainerProfile](https://learn.microsoft.com/en-us/windows/win32/api/userenv/nf-userenv-createappcontainerprofile)
+- [DeleteAppContainerProfile](https://learn.microsoft.com/en-us/windows/win32/api/userenv/nf-userenv-deleteappcontainerprofile)
 - [Windows application IPC](https://learn.microsoft.com/en-us/windows/apps/develop/communication/interprocess-communication)
 
 Windows provides sandbox identities, capability-scoped resources, and IPC
@@ -25,6 +28,13 @@ canonical store, authorization key, and private receipt channel. The P1 spike
 must prove the exact standard-user denial and user-presence path on the
 supported Windows build. Merely encrypting a key with the current user or
 checking a request's actor field does not prove a foreground human gesture.
+
+An AppContainer profile creates per-user/per-app folders and registry storage.
+Deletion targets the exact profile name and should follow closing its storage
+handles; a failed deletion leaves undetermined state. The
+[disposable isolation probe](../plans/active/2026-08-04-claimbranch-v1-and-gpu-systems.md#windows-isolation-probe)
+uses this lifecycle without adopting or deleting existing profiles. Its
+observed results belong to that plan, not to these general API descriptions.
 
 ## Browser-loopback boundary
 

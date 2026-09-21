@@ -28,7 +28,6 @@ from scripts.notion_journal.cli import (  # noqa: E402
     resolve_state_root,
 )
 from scripts.notion_journal.hooks import (  # noqa: E402
-    _bounded_page_id,
     _expected_body,
     _expected_properties,
 )
@@ -37,10 +36,11 @@ from scripts.notion_journal.store import (  # noqa: E402
     JournalConfig,
     JournalStore,
     PendingEnvelope,
+    pending_envelope_path,
 )
 
 
-_JOURNAL_KEY = re.compile(r"cbj-v1-[0-9a-f]{24}\Z")
+_JOURNAL_KEY = re.compile(r"cbj-v[12]-[0-9a-f]{24}\Z")
 _FORBIDDEN_TOOL_TOKENS = frozenset({"delete", "move", "search", "duplicate"})
 
 
@@ -55,9 +55,8 @@ class SafeArgumentParser(argparse.ArgumentParser):
 
 def _parser() -> argparse.ArgumentParser:
     parser = SafeArgumentParser(add_help=True)
-    parser.add_argument("action", choices=("query", "create", "update"))
+    parser.add_argument("action", choices=("query", "create"))
     parser.add_argument("--journal-key", required=True)
-    parser.add_argument("--page-id")
     return parser
 
 
@@ -68,7 +67,7 @@ def _load_pending(
         raise SyncContextInputError("journal key is invalid")
     root = resolve_state_root(env)
     config_path = root / "config.json"
-    pending_path = root / "pending" / f"{journal_key}.json"
+    pending_path = pending_envelope_path(root, journal_key)
     if not config_path.is_file():
         return None, None, EXIT_NOT_CONFIGURED
     if not pending_path.is_file():
@@ -76,7 +75,10 @@ def _load_pending(
     with TemporaryDirectory() as directory:
         store = JournalStore(Path(directory))
         shutil.copyfile(config_path, store.root / "config.json")
-        shutil.copyfile(pending_path, store.pending / pending_path.name)
+        shutil.copyfile(
+            pending_path,
+            pending_envelope_path(store.root, journal_key),
+        )
         config = store.read_config()
         envelope = store.read_envelope(journal_key)
     if envelope.sync_state != "pending" or envelope.draft is None:
@@ -147,32 +149,10 @@ def _create_context(
     return _base(envelope.journal_key, config.create_tool_name, tool_input)
 
 
-def _update_context(
-    config: JournalConfig, envelope: PendingEnvelope, page_id: str
-) -> dict[str, object]:
-    _require_tool_role(config.update_tool_name, "update")
-    try:
-        bounded_page_id = _bounded_page_id(page_id)
-    except JournalError as error:
-        raise SyncContextInputError("page ID is invalid") from error
-    tool_input = {
-        "page_id": bounded_page_id,
-        "command": "replace_content",
-        "new_str": _expected_body(envelope),
-        "properties": _expected_properties(envelope),
-        "allow_async": False,
-    }
-    return _base(envelope.journal_key, config.update_tool_name, tool_input)
-
-
 def main(argv: Sequence[str] | None = None, env: Mapping[str, str] | None = None) -> int:
     active_env = os.environ if env is None else env
     try:
         args = _parser().parse_args(argv)
-        if args.action == "update" and args.page_id is None:
-            raise SyncContextInputError("update requires a page ID")
-        if args.action != "update" and args.page_id is not None:
-            raise SyncContextInputError("page ID is update-only")
         config, envelope, status = _load_pending(args.journal_key, active_env)
         if status == EXIT_NOT_CONFIGURED:
             sys.stderr.write("Notion journal is not configured; run doctor.\n")
@@ -182,10 +162,8 @@ def main(argv: Sequence[str] | None = None, env: Mapping[str, str] | None = None
         assert config is not None and envelope is not None
         if args.action == "query":
             output = _query_context(config, envelope)
-        elif args.action == "create":
-            output = _create_context(config, envelope)
         else:
-            output = _update_context(config, envelope, args.page_id)
+            output = _create_context(config, envelope)
         sys.stdout.write(json.dumps(output, ensure_ascii=True, sort_keys=True, separators=(",", ":")))
         sys.stdout.write("\n")
         return EXIT_OK

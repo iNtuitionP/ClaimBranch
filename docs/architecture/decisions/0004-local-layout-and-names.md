@@ -2,7 +2,7 @@
 kind: adr
 status: proposed
 owners: maintainers
-last_reviewed: 2026-08-03
+last_reviewed: 2026-09-11
 ---
 
 # ADR 0004: Normalize local repository names for the schema spike
@@ -38,9 +38,13 @@ implementation would create avoidable migration and collision risk.
 
 ## Decision
 
-The first contract spike uses:
+The names below are proposed relative to the private workspace, not the paper
+Git root. [ADR 0008](0008-private-research-workspaces.md) owns the accepted
+default placement outside Git; it does not accept these physical names.
 
-- `.claimbranch/` for durable repository state;
+The first contract spike proposes:
+
+- `.claimbranch/` for durable project state inside that private workspace;
 - `.claimbranch-cache/` for disposable local projections;
 - `.claimbranch/config.toml` for project configuration;
 - `% claimbranch:start id=...` and `% claimbranch:end id=...` for LaTeX
@@ -60,7 +64,8 @@ programming language or database binding.
 
 ## Validation
 
-The contract spike must initialize the proposed durable and cache directories,
+The contract spike must initialize the proposed durable and cache directories
+under the external private workspace,
 rebuild state after deleting only the cache, parse and round-trip
 `config.toml`, insert markers without changing rendered LaTeX, and serialize a
 `motivates` edge in the documented direction.

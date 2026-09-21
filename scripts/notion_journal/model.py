@@ -7,15 +7,29 @@ import json
 from pathlib import PurePosixPath
 import re
 from typing import Any
+from urllib.parse import urlsplit
 
 from . import SCHEMA_VERSION
 
 
-ABSOLUTE_PATH = re.compile(r"(?:[A-Za-z]:[\\/]|/(?:home|Users|tmp)/)")
+ABSOLUTE_PATH = re.compile(
+    r"(?:"
+    r"(?<![A-Za-z0-9+.-])[A-Za-z]:[\\/]"
+    r"|(?<![\\])\\\\[^\\/\s]+[\\/][^\\/\s]+"
+    r"|(?<![:/])//[^/\s]+/[^/\s]+"
+    r"|(?<![A-Za-z0-9:/])/(?:home|Users|tmp|root|etc|var|opt|srv|mnt|media)"
+    r"(?:/|(?=\b))"
+    r"|(?<!\S)~[\\/]"
+    r")"
+)
 SECRET_ASSIGNMENT = re.compile(
-    r"(?i)(?:api[_-]?key|token|password|secret|authorization)\s*[:=]\s*\S+"
+    r"(?i)\b[A-Za-z0-9_-]*"
+    r"(?:api[_-]?key|access[_-]?key|private[_-]?key|token|password|secret|"
+    r"authorization|credential)"
+    r"[A-Za-z0-9_-]*\s*[:=]\s*\S+"
 )
 BEARER = re.compile(r"(?i)\bbearer\s+[A-Za-z0-9._~+/=-]+")
+_URL_CANDIDATE = re.compile(r'''(?i)\b[a-z][a-z0-9+.-]*://[^\s<>"'`]+''')
 _SHA256 = re.compile(r"[0-9a-f]{64}\Z")
 _WINDOWS_DRIVE = re.compile(r"^[A-Za-z]:/")
 _SECRET_BASENAME = re.compile(
@@ -27,14 +41,20 @@ _ALLOWED_CHANGE_TYPES = frozenset(
 )
 _ALLOWED_TASK_STATUSES = frozenset({"Completed", "Blocked"})
 _ALLOWED_AI_CONTRIBUTIONS = frozenset({"AI-assisted", "Human-only"})
+_ALLOWED_JOURNAL_LANGUAGES = frozenset({"ko", "en"})
 _ALLOWED_VERIFICATION_OUTCOMES = frozenset({"Passed", "Failed", "Not run"})
 _ALLOWED_VERIFICATION_STATUSES = frozenset(
     {"Passed", "Failed", "Partial", "Not run"}
 )
+_SUPERSEDES_KEY = re.compile(r"cbj-v[12]-[0-9a-f]{24}\Z")
 
 
 class JournalError(Exception):
     """Base error for safe, user-actionable journal failures."""
+
+
+class JournalNotFoundError(JournalError):
+    """Raised when an exact journal key has no retained local record."""
 
 
 class ValidationError(JournalError):
@@ -43,6 +63,18 @@ class ValidationError(JournalError):
 
 class GitStateError(JournalError):
     """Raised when a repository snapshot cannot be captured safely."""
+
+
+def validate_journal_language(
+    value: object, *, allow_legacy: bool = False
+) -> str | None:
+    """Validate an explicit presentation language or one legacy missing value."""
+
+    if value is None and allow_legacy:
+        return None
+    if not isinstance(value, str) or value not in _ALLOWED_JOURNAL_LANGUAGES:
+        raise ValidationError("journal language must be ko or en")
+    return value
 
 
 def _contains_unsafe_codepoint(value: str) -> bool:
@@ -55,6 +87,20 @@ def _contains_unsafe_agent_codepoint(value: str) -> bool:
         or 0xD800 <= ord(character) <= 0xDFFF
         for character in value
     )
+
+
+def _contains_url_userinfo(value: str) -> bool:
+    """Return whether prose contains a URL authority with embedded credentials."""
+
+    for match in _URL_CANDIDATE.finditer(value):
+        try:
+            parsed = urlsplit(match.group(0))
+            if parsed.username is not None or parsed.password is not None:
+                return True
+        except ValueError:
+            # A malformed URL-like authority is not safe to project remotely.
+            return True
+    return False
 
 
 def normalize_repository_path(value: str) -> str:
@@ -86,7 +132,12 @@ def sanitize_agent_text(value: str, *, field: str) -> str:
         raise ValidationError(f"{field} must be a string")
     if _contains_unsafe_agent_codepoint(value):
         raise ValidationError(f"{field} contains control characters")
-    if ABSOLUTE_PATH.search(value) or SECRET_ASSIGNMENT.search(value) or BEARER.search(value):
+    if (
+        ABSOLUTE_PATH.search(value)
+        or SECRET_ASSIGNMENT.search(value)
+        or BEARER.search(value)
+        or _contains_url_userinfo(value)
+    ):
         raise ValidationError(f"{field} contains private or secret-like text")
     return value.strip()
 
@@ -213,6 +264,88 @@ class JournalDraft:
             raise ValidationError("journal draft exceeds the safe size limit")
 
 
+@dataclass(frozen=True)
+class JudgmentDraft:
+    title: str
+    why_now: str
+    understanding_shift: str
+    human_judgment: str
+    tradeoff_boundary: str
+    revisit_signal: str
+    evidence_pointers: tuple[str, ...]
+    ai_contribution: str
+    supersedes: str | None
+    background: str | None = None
+
+    def __post_init__(self) -> None:
+        if not isinstance(self.evidence_pointers, tuple):
+            raise ValidationError("evidence pointers must be a tuple")
+
+        object.__setattr__(
+            self,
+            "title",
+            _bounded_text(self.title, field="title", limit=160, required=True),
+        )
+        if self.background is not None:
+            object.__setattr__(
+                self,
+                "background",
+                _bounded_text(
+                    self.background,
+                    field="background",
+                    limit=1000,
+                    required=True,
+                ),
+            )
+        for field in (
+            "why_now",
+            "understanding_shift",
+            "human_judgment",
+            "tradeoff_boundary",
+            "revisit_signal",
+        ):
+            object.__setattr__(
+                self,
+                field,
+                _bounded_text(
+                    getattr(self, field),
+                    field=field.replace("_", " "),
+                    limit=1000,
+                    required=True,
+                ),
+            )
+
+        if len(self.evidence_pointers) > 10:
+            raise ValidationError("evidence pointer list exceeds its item limit")
+        evidence_pointers = tuple(
+            normalize_repository_path(pointer) for pointer in self.evidence_pointers
+        )
+        if any(len(pointer) > 300 for pointer in evidence_pointers):
+            raise ValidationError("evidence pointer exceeds its size limit")
+        object.__setattr__(self, "evidence_pointers", evidence_pointers)
+
+        if self.ai_contribution not in _ALLOWED_AI_CONTRIBUTIONS:
+            raise ValidationError("AI contribution is not supported")
+        if self.supersedes is not None and (
+            not isinstance(self.supersedes, str)
+            or _SUPERSEDES_KEY.fullmatch(self.supersedes) is None
+        ):
+            raise ValidationError("supersedes must be a valid v1 or v2 journal key")
+        if len(canonical_json(judgment_draft_to_dict(self))) > 6000:
+            raise ValidationError("judgment draft exceeds the safe size limit")
+
+
+def judgment_draft_to_dict(draft: JudgmentDraft) -> dict[str, object]:
+    """Return the persisted judgment shape without normalizing legacy absence."""
+
+    if not isinstance(draft, JudgmentDraft):
+        raise ValidationError("judgment draft has an invalid type")
+    value = asdict(draft)
+    if draft.background is None:
+        value.pop("background")
+    return value
+
+
 def _bounded_text(value: str, *, field: str, limit: int, required: bool) -> str:
     normalized = sanitize_agent_text(value, field=field)
     if required and not normalized:
@@ -242,8 +375,11 @@ def dataclass_dict(value: Any) -> dict[str, Any]:
 __all__ = [
     "SCHEMA_VERSION",
     "GitStateError",
+    "JudgmentDraft",
+    "judgment_draft_to_dict",
     "JournalDraft",
     "JournalError",
+    "JournalNotFoundError",
     "PathState",
     "Snapshot",
     "SnapshotDelta",
@@ -253,4 +389,5 @@ __all__ = [
     "dataclass_dict",
     "normalize_repository_path",
     "sanitize_agent_text",
+    "validate_journal_language",
 ]

@@ -4,6 +4,7 @@ from pathlib import Path
 from tempfile import TemporaryDirectory
 import unittest
 
+from scripts.notion_journal.git_state import capture_snapshot, compare_snapshots
 from scripts.notion_journal.hooks import dispatch_hook
 from scripts.notion_journal.model import (
     JournalDraft,
@@ -17,6 +18,16 @@ from tests.notion_journal.support import TemporaryGitRepository
 
 
 SEOUL_NOW = datetime(2026, 8, 15, 12, 0, tzinfo=timezone(timedelta(hours=9)))
+REPOSITORY_ROOT = Path(__file__).resolve().parents[2]
+
+
+class HookRegistrationTest(unittest.TestCase):
+    def test_only_write_guard_and_receipt_hooks_are_registered(self):
+        manifest = json.loads(
+            (REPOSITORY_ROOT / ".codex" / "hooks.json").read_text(encoding="utf-8")
+        )
+
+        self.assertEqual({"PreToolUse", "PostToolUse"}, set(manifest["hooks"]))
 
 
 class HookTest(unittest.TestCase):
@@ -30,9 +41,19 @@ class HookTest(unittest.TestCase):
         self.addCleanup(self.state_context.cleanup)
         self.state_root = Path(self.state_context.name)
         self.store = JournalStore(self.state_root)
-        dispatch_hook(self._session_event("startup"), self.repo.path, self.store)
+        self.baseline = capture_snapshot(self.repo.path)
 
-    def test_second_stop_does_not_loop_when_stop_hook_active(self):
+    def test_stop_never_creates_state_without_a_user_record_request(self):
+        self.store.create_session("session-1", self.baseline, SEOUL_NOW)
+        self.repo.write_text("changed.md", "material change\n")
+
+        result = dispatch_hook(self._stop_event(False), self.repo.path, self.store)
+
+        self.assertEqual({}, result)
+        self.assertEqual((), self.store.list_pending())
+
+    def test_stop_is_noop_when_stop_hook_is_already_active(self):
+        self.store.create_session("session-1", self.baseline, SEOUL_NOW)
         event = {
             "session_id": "session-1",
             "turn_id": "turn-2",
@@ -43,59 +64,51 @@ class HookTest(unittest.TestCase):
         self.repo.write_text("changed.md", "material change\n")
         result = dispatch_hook(event, self.repo.path, self.store)
         self.assertEqual({}, result)
-        self.assertEqual(1, len(self.store.list_pending()))
+        self.assertEqual((), self.store.list_pending())
+        self.assertEqual(self.baseline, self.store.read_session("session-1").cursor)
 
-    def test_session_start_captures_once_and_reports_pending_count(self):
-        original = self.store.read_session("session-1")
+    def test_session_start_is_noop_even_when_a_legacy_pending_entry_exists(self):
         pending = self._capture_pending(active=True)
+        before = self._state_bytes()
 
         result = dispatch_hook(
             self._session_event("resume"), self.repo.path, self.store
         )
 
-        self.assertEqual(original.baseline, self.store.read_session("session-1").baseline)
-        output = result["hookSpecificOutput"]
-        self.assertEqual("SessionStart", output["hookEventName"])
-        self.assertIn("Pending entries: 1.", output["additionalContext"])
-        self.assertIn(pending.journal_key, output["additionalContext"])
-        self.assertIn("Retry at most one old key", output["additionalContext"])
-        self.assertNotIn(str(self.state_root), output["additionalContext"])
+        self.assertEqual({}, result)
+        self.assertEqual(before, self._state_bytes())
+        self.assertEqual(pending, self.store.read_envelope(pending.journal_key))
 
     def test_stop_with_no_material_delta_returns_empty_object(self):
+        self.store.create_session("session-1", self.baseline, SEOUL_NOW)
         result = dispatch_hook(self._stop_event(False), self.repo.path, self.store)
         self.assertEqual({}, result)
         self.assertEqual((), self.store.list_pending())
 
-    def test_first_stop_creates_pending_and_returns_block_decision(self):
+    def test_first_stop_does_not_create_pending_or_block(self):
+        self.store.create_session("session-1", self.baseline, SEOUL_NOW)
         self.repo.write_text("changed.md", "material change\n")
         result = dispatch_hook(self._stop_event(False), self.repo.path, self.store)
-        envelope = self.store.list_pending()[0]
-        reason = (
-            f"A ClaimBranch coding-journal envelope is pending: {envelope.journal_key}. "
-            "Use only the configured Notion journal data source. Read it with "
-            "`python -m scripts.notion_journal.cli pending --journal-key "
-            f"{envelope.journal_key} --format json`, attach the structured draft with "
-            "`python -m scripts.notion_journal.cli draft --journal-key "
-            f"{envelope.journal_key} --input-json -`, query the exact Journal Key, and "
-            "ask for approval before one create or update. Do not search the workspace. "
-            "If Notion is unavailable, report `Notion journal: pending`."
-        )
-        self.assertEqual({"decision": "block", "reason": reason}, result)
-        self.assertEqual(1, len(self.store.list_pending()))
+        self.assertEqual({}, result)
+        self.assertEqual((), self.store.list_pending())
 
-    def test_cursor_advances_after_pending_before_remote_sync(self):
-        envelope = self._capture_pending(active=True)
+    def test_stop_does_not_advance_a_legacy_capture_cursor(self):
+        self.store.create_session("session-1", self.baseline, SEOUL_NOW)
+        self.repo.write_text("changed.md", "material change\n")
+
+        dispatch_hook(self._stop_event(True), self.repo.path, self.store)
+
         session = self.store.read_session("session-1")
-        self.assertEqual(envelope.end_snapshot, session.cursor)
+        self.assertEqual(self.baseline, session.cursor)
+        self.assertEqual((), self.store.list_pending())
         self.assertEqual((), self.store.list_receipts())
 
-    def test_unconfigured_notion_still_leaves_pending(self):
+    def test_unconfigured_notion_does_not_create_pending(self):
+        self.store.create_session("session-1", self.baseline, SEOUL_NOW)
         self.repo.write_text("changed.md", "material change\n")
         result = dispatch_hook(self._stop_event(False), self.repo.path, self.store)
-        envelope = self.store.list_pending()[0]
-        self.assertEqual("block", result["decision"])
-        self.assertIn("Notion journal: pending", result["reason"])
-        self.assertEqual("pending", envelope.sync_state)
+        self.assertEqual({}, result)
+        self.assertEqual((), self.store.list_pending())
         with self.assertRaises(JournalError):
             self.store.read_config()
 
@@ -138,6 +151,51 @@ class HookTest(unittest.TestCase):
         )
 
         self.assertEqual({}, result)
+
+    def test_exact_key_write_ignores_unrelated_corrupt_receipts(self):
+        self._configure()
+        envelope = self._capture_drafted()
+        unrelated = [
+            self.store.receipts / ("cbj-v1-" + "f" * 24 + ".json"),
+            self.store.v2_receipts / ("cbj-v2-" + "f" * 24 + ".json"),
+        ]
+        for path in unrelated:
+            path.write_bytes(b"{broken-unrelated-receipt")
+        before = self._state_bytes()
+        tool_input = self._create_input(envelope)
+        pre = self._tool_event("PreToolUse", self._create_tool(), tool_input)
+        self.assertEqual({}, dispatch_hook(pre, self.repo.path, self.store))
+        self.assertEqual(before, self._state_bytes())
+
+        post = self._tool_event("PostToolUse", self._create_tool(), tool_input)
+        post["tool_response"] = {"pages": [{
+            "id": "page-result", "url": "https://www.notion.so/page-result",
+        }]}
+        self.assertEqual({}, dispatch_hook(post, self.repo.path, self.store))
+        self.assertEqual("synced", self.store.read_envelope(envelope.journal_key).sync_state)
+        for path in unrelated:
+            self.assertEqual(b"{broken-unrelated-receipt", path.read_bytes())
+        self.assertEqual([], list(self.store.quarantine.iterdir()))
+
+        # The matching receipt must still prevent a duplicate create and a wrong-page update.
+        self.assertEqual(self._denied(), dispatch_hook(pre, self.repo.path, self.store))
+        wrong_page = self._tool_event(
+            "PreToolUse", self._update_tool(), self._update_input(envelope, "wrong-page"),
+        )
+        self.assertEqual(self._denied(), dispatch_hook(wrong_page, self.repo.path, self.store))
+
+    def test_exact_key_write_denies_a_corrupt_matching_receipt(self):
+        self._configure()
+        envelope = self._capture_drafted()
+        receipt_path = self.store.receipts / f"{envelope.journal_key}.json"
+        receipt_path.write_bytes(b"{broken-matching-receipt")
+        event = self._tool_event(
+            "PreToolUse", self._create_tool(), self._create_input(envelope),
+        )
+        self.assertEqual(self._denied(), dispatch_hook(event, self.repo.path, self.store))
+        self.assertEqual("pending", self.store.read_envelope(envelope.journal_key).sync_state)
+        self.assertFalse(receipt_path.exists())
+        self.assertEqual(1, len(list(self.store.quarantine.iterdir())))
 
     def test_pre_tool_use_requires_attached_draft(self):
         self._configure()
@@ -214,9 +272,14 @@ class HookTest(unittest.TestCase):
         self.assertEqual({}, dispatch_hook(update_event, self.repo.path, self.store))
         self.assertEqual(1, len(self.store.list_receipts()))
 
-    def test_existing_page_update_can_create_first_receipt(self):
+    def test_existing_page_update_without_receipt_is_denied_without_state_change(self):
         self._configure()
         envelope = self._capture_drafted()
+        before = self._state_bytes()
+        pre = self._tool_event(
+            "PreToolUse", self._update_tool(), self._update_input(envelope, "existing-page"),
+        )
+        self.assertEqual(self._denied(), dispatch_hook(pre, self.repo.path, self.store))
         event = self._tool_event(
             "PostToolUse",
             self._update_tool(),
@@ -230,9 +293,28 @@ class HookTest(unittest.TestCase):
         }
 
         self.assertEqual({}, dispatch_hook(event, self.repo.path, self.store))
-        self.assertEqual("existing-page", self.store.list_receipts()[0].page_id)
+        self.assertEqual((), self.store.list_receipts())
+        self.assertEqual(before, self._state_bytes())
 
-    def test_update_result_page_id_must_match_input(self):
+    def test_existing_receipt_does_not_authorize_overwriting_a_human_owned_page(self):
+        self._configure()
+        envelope = self._capture_drafted()
+        self.store.record_receipt(
+            envelope.journal_key, "existing-page", "https://www.notion.so/existing-page", SEOUL_NOW,
+        )
+        before = self._state_bytes()
+        event = self._tool_event(
+            "PreToolUse", self._update_tool(), self._update_input(envelope, "existing-page"),
+        )
+        self.assertEqual(self._denied(), dispatch_hook(event, self.repo.path, self.store))
+        event["hook_event_name"] = "PostToolUse"
+        event["tool_response"] = {"page": {
+            "id": "existing-page", "url": "https://www.notion.so/existing-page",
+        }}
+        self.assertEqual({}, dispatch_hook(event, self.repo.path, self.store))
+        self.assertEqual(before, self._state_bytes())
+
+    def test_update_result_cannot_acknowledge_an_unrelated_page(self):
         self._configure()
         envelope = self._capture_drafted()
         event = self._tool_event(
@@ -307,6 +389,23 @@ class HookTest(unittest.TestCase):
         self.assertEqual((), self.store.list_receipts())
         self.assertNotIn(marker.encode("utf-8"), b"".join(self._state_bytes().values()))
 
+    def test_text_wrapped_failure_never_records_a_receipt(self):
+        self._configure()
+        envelope = self._capture_drafted()
+        before = self._state_bytes()
+        identity = {"pages": [{"id": "page-result", "url": "https://www.notion.so/page-result"}]}
+        for failure in ({"isError": True}, {"error": "write failed"},
+                        {"failed": True}, {"status": "failed"}):
+            with self.subTest(failure=failure):
+                event = self._tool_event("PostToolUse", self._create_tool(), self._create_input(envelope))
+                event["tool_response"] = {"content": [{
+                    "type": "text", "text": json.dumps({**identity, **failure}),
+                }]}
+                self.assertEqual({}, dispatch_hook(event, self.repo.path, self.store))
+                self.assertEqual(before, self._state_bytes())
+                self.assertEqual((), self.store.list_receipts())
+                self.assertEqual("pending", self.store.read_envelope(envelope.journal_key).sync_state)
+
     def test_live_text_wrapped_app_notion_result_is_accepted(self):
         self._configure()
         envelope = self._capture_drafted()
@@ -361,8 +460,7 @@ class HookTest(unittest.TestCase):
         self._configure()
         for index in range(205):
             self.repo.write_text(f"generated/path-{index:03}.txt", "bounded fixture\n")
-        dispatch_hook(self._stop_event(True), self.repo.path, self.store)
-        pending = self.store.list_pending()[0]
+        pending = self._capture_current_pending()
         envelope = self.store.attach_draft(pending.journal_key, self._draft())
         event = self._tool_event(
             "PreToolUse", self._create_tool(), self._create_input(envelope)
@@ -443,8 +541,13 @@ class HookTest(unittest.TestCase):
 
     def _capture_pending(self, *, active: bool):
         self.repo.write_text("changed.md", "material change\n")
-        dispatch_hook(self._stop_event(active), self.repo.path, self.store)
-        return self.store.list_pending()[0]
+        return self._capture_current_pending()
+
+    def _capture_current_pending(self):
+        self.store.create_session("session-1", self.baseline, SEOUL_NOW)
+        current = capture_snapshot(self.repo.path)
+        changes = compare_snapshots(self.repo.path, self.baseline, current)
+        return self.store.capture_pending("session-1", current, changes, SEOUL_NOW)
 
     def _capture_drafted(self):
         envelope = self._capture_pending(active=True)

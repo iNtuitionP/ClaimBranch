@@ -1,12 +1,17 @@
 ---
 kind: design
-status: accepted
+status: superseded
 owners: maintainers
-last_reviewed: 2026-08-18
-canonical_for: proposed Notion MCP coding-journal automation for repository agents
+last_reviewed: 2026-08-26
+canonical_for: historical automatic Notion MCP coding-journal automation for repository agents
 ---
 
 # Design: safe Notion MCP coding journal automation
+
+> Superseded on 2026-08-26 by the
+> [user-invoked judgment-journal design](2026-08-26-user-invoked-notion-judgment-journal.md).
+> The MCP redaction, exact-query, write-approval, receipt, and failure-isolation
+> boundaries remain applicable; automatic material-task capture does not.
 
 ## Purpose
 

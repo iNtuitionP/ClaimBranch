@@ -17,6 +17,18 @@ bounded subset of the planned truth packet; it is not an application, a
 product schema, the complete F0 fixture, or evidence that the private source
 episode has been mapped locally.
 
+Separate [synthetic contract checks](docs/development/workflow.md) cover
+first-pass drafts, append-only observation corrections, evidence/manuscript-bound
+review freshness, proposal-only ingress, external placement,
+reopening, and interrupted-save retries. They do not establish application
+readiness, process isolation, or completion of the private-source validation.
+
+To see the research structure now, run `python -B -m scripts.graph_demo show`
+from the checkout. The [read-only graph walkthrough](docs/development/workflow.md#read-only-graph-walkthrough)
+also compares two synthetic views and previews selected changes. It needs no
+AI or workspace and changes no research records or manuscript. This is a
+contributor prototype, not the installed product CLI or a final-UI choice.
+
 Start at the [documentation map](docs/README.md) for canonical product,
 architecture, validation, decision, and execution sources.
 
@@ -89,8 +101,10 @@ It is exercised in three stages:
 - H1: a command-launched local Episode Review adds real foreground
   authorization, teach-back/defer UX, a small pending-review list, and an
   optional bring-your-own OpenAI-compatible endpoint learning path.
-- V0: the first three qualifying episodes on the next real paper are compared
-  with a preregistered Markdown/checklist baseline.
+- V0: compare first-pass judgment and recording with the Markdown/checklist
+  workflow on the next real paper. The replacement comparison design requires
+  user approval before preregistration; see the
+  [release gate](docs/product/releases/validation-prototype.md#62-baseline-and-observation).
 
 Passing fixtures validates a foundation, not product success. The candidate
 release and integrations remain gated by the live-paper result.

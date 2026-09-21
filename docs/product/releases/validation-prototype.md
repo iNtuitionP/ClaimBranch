@@ -2,7 +2,7 @@
 kind: release-scope
 status: proposed
 owners: maintainers
-last_reviewed: 2026-08-14
+last_reviewed: 2026-09-21
 canonical_for: smallest product-validation release scope
 ---
 
@@ -31,12 +31,48 @@ Passing a retrospective fixture means **foundation validated**, not product
 success. The release requires both deterministic contract evidence and a
 preregistered prospective live-paper evaluation.
 
+### 1.1 Development and real-use gates
+
+Private original-source verification remains an unchecked P0 requirement. It
+must pass before **any real research use**: writing real workspace records,
+adopting research judgments, editing a real manuscript, or running a real-use
+pilot. It is no longer a prerequisite for starting explicitly synthetic
+development. Passing synthetic tests neither confirms the private case nor
+closes P0. P1 trust/toolchain decisions, OS isolation, H0 safety requirements,
+and all applicable H1/V0 release gates remain unchanged.
+
+While the real source case is unavailable, the user-approved
+[source-independent storage probe](../../plans/active/2026-08-04-claimbranch-v1-and-gpu-systems.md#source-independent-storage-probe)
+may test external placement, synthetic judgment save/read, and interrupted
+retry using disposable data only. It does not close P0, select the application
+stack, authorize real research storage, or satisfy any H0/H1/V0 release gate.
+
+The user also approved the [bounded P1 early slice](../../plans/active/2026-08-04-claimbranch-v1-and-gpu-systems.md#p1-early-slice-first-pass-and-placement-contracts):
+synthetic first-pass draft/review contracts, project placement/association,
+and model-originated acceptance denial. It leaves P0 source fidelity open and
+does not authorize a production trust, storage, or recovery choice. The
+[augmented synthetic cases](../../plans/active/2026-08-04-claimbranch-v1-and-gpu-systems.md#augmented-synthetic-contract-cases)
+extend invariant checks without modifying the original truth packet. Wider
+synthetic development and release completion retain their phase-local gates;
+source verification cannot be deferred beyond the first real research use.
+
+The [read-only graph walkthrough](../../development/workflow.md#read-only-graph-walkthrough)
+may precede the real foreground-authorization experiment. It exposes the
+existing fixture's typed relationships, hypothetical branch differences, and
+selected-change preview without persistence or authority. It does not replace
+the H0 demo or prove any release gate; A1 remains complete and A2 remains open.
+
 ## 2. Product question
 
 Does the focused workflow preserve important reasoning, AI provenance,
 understanding obligations, and manuscript consequences better than the
 researcher's existing Markdown/checklist process without adding more than 10%
 median active-time overhead?
+
+The user selected ClaimBranch as the primary workspace for the bounded
+result-to-paper judgment. Compare the full first-pass interpretation and
+recording workflow, not an added review after a completed external decision.
+This changes the evaluation design, not the admitted product features.
 
 A schema, graph viewer, chat demo, AI answer, or passing unit suite cannot
 answer this alone.
@@ -217,10 +253,22 @@ result is visibly unaccepted and the accepted-state hash does not change.
 ClaimBranch does not download, quantize, supervise, route, update, or benchmark
 model servers. Deterministic CI invokes only the stub.
 
+The [external-inference decision](../../architecture/decisions/0009-external-inference-and-local-authority.md)
+retains this operational boundary. H0 manual/frozen-proposal authority comes
+before live integration. The live loopback and hosted targets above are gated
+deployments, not permission to trust any compatible endpoint: the
+[provider authority oracle](../../validation/cases/saturation.md#13-provider-authority-and-support-oracle)
+must pass for the actual topology. Unknown same-user isolation cannot be waived
+by a warning; AI-off remains available, but does not itself close H1's live
+provider-learning gate. No provider has passed that gate yet.
+
 ### 5.4 H1 exit
 
 Before V0:
 
+- initialization and reopening satisfy the external-private-workspace cases
+  in the [operator oracle](../../validation/cases/saturation.md#10-operator-experience-oracle);
+  relocation, export ownership, and the declared restore boundary are tested;
 - all browser/IPC/presence/receipt hostile cases pass, or the reviewed native/
   CLI helper satisfies the same authority contract;
 - one unfamiliar supported-Windows researcher completes bootstrap, doctor,
@@ -238,6 +286,11 @@ Before V0:
 V0 observes the first three consecutive qualifying valid starts within eight
 weeks after a protocol, baseline template, timing rules, evaluator prompts,
 privacy fields, and decision checker are frozen in version control.
+
+V0 is not ready to preregister: the primary-workspace choice retires the
+baseline-first, same-episode comparison. The three-start/eight-week budget and
+outcome thresholds below remain existing planning constraints, not a completed
+replacement comparison design. Resolve section 6.2 before freezing any run.
 
 ### 6.1 Eligibility
 
@@ -261,9 +314,22 @@ with that start.
 
 ### 6.2 Baseline and observation
 
-For each eligible episode, the researcher first completes a frozen blank
-Markdown/checklist decision log without ClaimBranch suggestions. ClaimBranch
-then receives the raw episode artifacts, not the baseline answer.
+Each compared workflow must start before its research judgment has been made
+and use equivalent start/end boundaries: interpretation of the eligible result
+through recorded decision and manuscript consequence. Include context entry,
+review, corrections, and recording in active work; report manuscript execution
+and verification consistently in both workflows. Do not require a completed
+Markdown answer before ClaimBranch use or treat a repeat attempt as first-pass
+time, even if the model never receives that answer.
+
+Before preregistration, obtain user approval for comparison allocation, the
+number of baseline and product episodes, treatment of prior knowledge and
+episode difficulty, and equivalent completion/timing boundaries. Reconcile
+eligibility, stopping rules, and the outcome checker with that approved design.
+Do not silently select an allocation or change thresholds. The committed blank
+P0 baseline remains a historical source-fixture artifact, not an authorized
+prospective protocol; revise its version and integrity manifest only after the
+replacement design is approved.
 
 Record:
 
@@ -295,10 +361,37 @@ catastrophe is inconclusive.
 | 3 | VALUE_NOT_DEMONSTRATED | three starts and all trust/file rules pass, but any flow/trace is incomplete including out-of-F0, median active time exceeds baseline median by more than 10%, or no attested material omission is surfaced |
 | 4 | VALIDATED | all three flows complete voluntarily, trace completeness is 100%, trust/file rules pass, median active time is at most baseline median plus 10%, and at least one attested material omission is surfaced |
 
-Only VALIDATED opens the candidate MVP and conditional integration/serving/
-graph/UI expansions. Any other result permits only changes to the failed
-contract, fixture, safety mechanism, or minimum surface followed by a newly
-preregistered V0.
+Only VALIDATED opens the candidate MVP and ordinary conditional integration/
+serving/graph/UI expansions. Other outcomes preserve the failed result and
+permit failed-gate repairs followed by a newly preregistered V0. A necessary
+change to the initial representation hypothesis follows the separate revision
+rule below; it is not a successful validation or an ordinary expansion.
+
+### 6.4 Bounded revision after a failed hypothesis
+
+A failed initial shape must be learnable without admitting an adjacent feature
+program. If observed evidence shows that a frozen representation or technical
+hypothesis prevents the intended workflow, the maintainer may authorize one
+minimum, evidence-backed revision before VALIDATED. Before implementation:
+
+- retain the original failure, artifacts, and assigned outcome unchanged;
+- identify the falsified hypothesis and show why an in-scope repair cannot
+  address it; satisfy the applicable existing admission evidence threshold
+  in the ExecPlan, without requiring V0 success for this revision;
+- obtain explicit user approval of the exact revised boundary, update the
+  canonical scope and ExecPlan, create any required superseding ADR, and obtain
+  independent review.
+
+After implementing that approved revision, repeat every affected foundation
+and safety gate, then freeze a new protocol before collecting a new prospective
+run. Old episodes may support the revision but never count as new prospective
+validation episodes.
+
+For example, two independent prospective eligible cases that need the same unsupported
+branch shape can justify considering that one shape. They do not authorize a
+general merge engine, other graph features, or a wider platform. No revision
+waives human authority, privacy, recovery, or manuscript-safety requirements,
+changes a running evaluation's goalposts, or relabels a failed run successful.
 
 ## 7. Explicitly outside this release
 
@@ -317,5 +410,7 @@ preregistered V0.
   collaboration, SaaS, or mobile; and
 - v1.0 or market-success claims based on H0/H1 alone.
 
-The numeric admission triggers for those possibilities live in the active
-ExecPlan and require VALIDATED V0 evidence.
+The numeric admission triggers for ordinary expansion live in the active
+ExecPlan and require VALIDATED V0 evidence. The bounded hypothesis-revision
+rule above is the only pre-success scope-change route; no excluded capability
+is admitted merely because this route exists.

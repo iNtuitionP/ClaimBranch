@@ -146,20 +146,13 @@ class SyncContextScriptTests(unittest.TestCase):
         self.assertEqual(self.envelope.journal_key, validated[0])
         self.assertFalse(output["tool_input"]["allow_async"])
 
-    def test_update_payload_passes_the_guard_for_the_selected_page(self) -> None:
+    def test_update_cannot_generate_a_payload_or_change_state(self) -> None:
+        before = self.state_bytes()
         result = self.run_script("update", "--page-id", "page-result-fixture")
 
-        self.assertEqual(0, result.returncode, result.stderr)
-        output = json.loads(result.stdout)
-        self.assertEqual("notion-update-page", output["configured_tool"])
-        self.assertEqual("mcp__notion__notion_update_page", output["model_tool"])
-        event = {
-            "tool_name": "mcp__notion__" + self.config.update_tool_name,
-            "tool_input": output["tool_input"],
-        }
-        validated = _validate_write_event(event, self.store)
-        self.assertEqual("page-result-fixture", validated[-1])
-        self.assertFalse(output["tool_input"]["allow_async"])
+        self.assertEqual(2, result.returncode)
+        self.assertEqual("", result.stdout)
+        self.assertEqual(before, self.state_bytes())
 
     def test_invalid_page_id_fails_closed_without_output(self) -> None:
         result = self.run_script("update", "--page-id", "https://notion.so/wrong")
@@ -186,7 +179,6 @@ class SyncContextScriptTests(unittest.TestCase):
         for action, extra in (
             ("query", ()),
             ("create", ()),
-            ("update", ("--page-id", "page-result-fixture")),
         ):
             result = self.run_script(action, *extra)
             self.assertEqual(0, result.returncode, result.stderr)
@@ -212,13 +204,11 @@ class SyncContextScriptTests(unittest.TestCase):
             ("query", replace(self.config, query_tool_name="notion-search")),
             ("create", replace(self.config, create_tool_name="notion-move-page")),
             ("create", replace(self.config, create_tool_name="notion-create-pager")),
-            ("update", replace(self.config, update_tool_name="notion-delete-page")),
         )
         for action, config in cases:
             with self.subTest(action=action):
                 self.store.write_config(config)
-                extra = ("--page-id", "page-result-fixture") if action == "update" else ()
-                result = self.run_script(action, *extra)
+                result = self.run_script(action)
                 self.assertEqual(5, result.returncode)
                 self.assertEqual("", result.stdout)
                 self.assertEqual(

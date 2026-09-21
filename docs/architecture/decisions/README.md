@@ -12,6 +12,8 @@ alternatives, and consequences. Use the [ADR template](../../_meta/templates/adr
 | [0005](0005-human-authority-provenance-and-understanding-debt.md) | accepted | Preserve human authority, contribution provenance, and understanding debt |
 | [0006](0006-three-graph-planes-and-provider-boundary.md) | accepted | Separate canonical, context, and execution graph planes |
 | [0007](0007-research-episode-and-manuscript-saga.md) | accepted | Bind one research episode to a fenced manuscript saga |
+| [0008](0008-private-research-workspaces.md) | accepted | Keep research records in private workspaces outside Git by default |
+| [0009](0009-external-inference-and-local-authority.md) | accepted | Keep inference externally operated and enforce research authority locally |
 
 Numbers are never reused. A proposed ADR may change during review. After
 acceptance, repair only wording, links, metadata, or explicit supersession;

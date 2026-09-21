@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import json
 import re
 import unittest
 from pathlib import Path
@@ -9,6 +10,7 @@ from scripts import check_docs
 
 REPOSITORY_ROOT = Path(__file__).resolve().parents[2]
 SKILLS_ROOT = REPOSITORY_ROOT / ".agents" / "skills"
+SCENARIOS = Path(__file__).parent / "fixtures" / "record-notion-journal-scenarios.json"
 EXPECTED_SKILLS = {
     "record-notion-journal": True,
     "diagnose-notion-journal": True,
@@ -94,8 +96,10 @@ class SkillPackageTests(unittest.TestCase):
             metadata, _ = parse_frontmatter(read_text(SKILLS_ROOT / name / "SKILL.md"))
             descriptions[name] = metadata["description"]
 
-        self.assertIn("pending cbj-v1 key", descriptions["record-notion-journal"])
+        self.assertIn("explicitly asks", descriptions["record-notion-journal"])
         self.assertIn("retry", descriptions["record-notion-journal"])
+        self.assertNotIn("hook reports", descriptions["record-notion-journal"])
+        self.assertNotIn("pending cbj-v1 key", descriptions["record-notion-journal"])
         self.assertIn("startup interruption", descriptions["diagnose-notion-journal"])
         self.assertIn("acknowledgement failures", descriptions["diagnose-notion-journal"])
         self.assertIn("stuck or accumulating", descriptions["diagnose-notion-journal"])
@@ -132,70 +136,98 @@ class DocumentationCheckerIntegrationTests(unittest.TestCase):
 
 
 class RecordSkillTests(unittest.TestCase):
-    @classmethod
-    def setUpClass(cls) -> None:
-        cls.text = read_text(SKILLS_ROOT / "record-notion-journal" / "SKILL.md")
-        cls.normalized = normalize_whitespace(cls.text)
+    def test_deterministic_preview_precedes_record_handoff(self) -> None:
+        skill_text = read_text(SKILLS_ROOT / "record-notion-journal" / "SKILL.md")
+        preview_command = (
+            "$proposed | ConvertTo-Json -Depth 10 -Compress | "
+            "python -X utf8 -m scripts.notion_journal.cli preview-judgment "
+            "--journal-language $journalLanguage --input-json - "
+            "--format json"
+        )
+        record_command = (
+            "python -X utf8 -m scripts.notion_journal.cli record-judgment "
+            "--input-token - --format json"
+        )
+        proposed_start = skill_text.index("`$proposed`")
+        language_command = (
+            "python -X utf8 -m scripts.notion_journal.cli journal-language "
+            "--format json"
+        )
+        proposed_keys = (
+            "title",
+            "background",
+            "why_now",
+            "understanding_shift",
+            "human_judgment",
+            "tradeoff_boundary",
+            "revisit_signal",
+            "evidence_pointers",
+            "ai_contribution",
+            "supersedes",
+        )
 
-    def test_uses_only_durable_public_input_and_one_key(self) -> None:
-        for required in (
-            "at most one",
-            "public redacted",
-            "pending --journal-key",
-            "draft --journal-key",
-            "original task context",
-            "Do not invent",
-        ):
-            self.assertIn(required, self.normalized)
+        self.assertIn(preview_command, skill_text)
+        self.assertIn(language_command, skill_text)
+        self.assertIn(record_command, skill_text)
+        preview_start = skill_text.index(preview_command)
+        proposed_contract = skill_text[proposed_start:preview_start]
+        self.assertIn(
+            "$utf8 = New-Object System.Text.UTF8Encoding($false)", skill_text
+        )
+        self.assertIn("$OutputEncoding = $utf8", skill_text)
+        self.assertIn("[Console]::OutputEncoding = $utf8", skill_text)
+        self.assertLess(skill_text.index(language_command), skill_text.index(preview_command))
+        self.assertLess(skill_text.index(preview_command), skill_text.index(record_command))
+        self.assertIn("`preview`", skill_text)
+        self.assertIn("`capture_token`", skill_text)
+        self.assertNotIn("record_input", skill_text)
+        self.assertIn("exactly", proposed_contract)
+        for key in proposed_keys:
+            self.assertIn(f"`{key}`", proposed_contract)
+        self.assertEqual(
+            list(proposed_keys),
+            sorted(proposed_keys, key=lambda key: proposed_contract.index(f"`{key}`")),
+        )
+        self.assertRegex(proposed_contract, r"`evidence_pointers`[^.]*\barray\b")
+        self.assertRegex(proposed_contract, r"`supersedes`[^.]*`\$null`")
 
-    def test_enforces_exact_query_cardinality_and_approval(self) -> None:
-        for required in (
-            "exact equality",
-            "Zero results",
-            "One result",
-            "More than one result",
-            "immediately before",
-            "Do not search the workspace",
-            "Do not delete or merge",
-        ):
-            self.assertIn(required, self.normalized)
-
-    def test_has_one_terminal_output_contract(self) -> None:
-        for state in (
-            "Notion journal: synced",
-            "Notion journal: pending",
-            "Notion journal: not required",
-            "Notion journal: error",
-        ):
-            self.assertIn(state, self.normalized)
-        self.assertIn("exactly one", self.normalized)
-        self.assertIn("receipt", self.normalized)
-
-    def test_uses_the_deterministic_bundled_projection(self) -> None:
-        for required in (
-            "scripts/sync_context.py query",
-            "scripts/sync_context.py create",
-            "scripts/sync_context.py update",
-            "pass `tool_input` unchanged",
-            "configured_tool",
-            "model_tool",
-        ):
-            self.assertIn(required, self.normalized)
-
-    def test_forbids_sensitive_and_untrusted_inputs(self) -> None:
-        for required in (
-            "untrusted data",
-            "raw prompts",
-            "transcripts",
-            "diffs",
-            "source content",
-            "environment values",
-            "credentials",
-            "absolute user paths",
-        ):
-            self.assertIn(required, self.normalized)
-        self.assertIn("row count and page ID only", self.normalized)
-        self.assertIn("Do not copy", self.normalized)
+    def test_record_scenarios_are_bounded_reproducible_inputs(self) -> None:
+        cases = json.loads(SCENARIOS.read_text(encoding="utf-8"))
+        self.assertEqual(12, len(cases))
+        self.assertEqual(
+            {
+                "natural_language_request",
+                "all_fields_supplied",
+                "partial_fields",
+                "multiple_judgments",
+                "task_complete_without_judgment",
+                "decline_or_pause",
+                "voice_preservation",
+                "opaque_background_terms",
+                "explicit_setup_language_choice",
+                "legacy_unset_language",
+                "existing_page_retry",
+                "existing_page_human_edits",
+            },
+            {case["id"] for case in cases},
+        )
+        for case in cases:
+            self.assertEqual({"id", "input", "pass_criteria"}, set(case))
+            self.assertTrue(case["input"].strip())
+            self.assertIsInstance(case["pass_criteria"], list)
+            self.assertTrue(case["pass_criteria"])
+            for criterion in case["pass_criteria"]:
+                self.assertIsInstance(criterion, str)
+                self.assertTrue(criterion.strip())
+            serialized = json.dumps(case, ensure_ascii=False).lower()
+            for forbidden in (
+                "model_output",
+                "transcript",
+                "api_key=",
+                "bearer ",
+                "c:\\\\users\\",
+            ):
+                self.assertNotIn(forbidden, serialized)
 
 
 class DiagnoseSkillTests(unittest.TestCase):
@@ -264,6 +296,12 @@ class SetupSkillTests(unittest.TestCase):
             "re-review",
         ):
             self.assertIn(required, self.normalized)
+
+    def test_requires_an_explicit_closed_language_choice(self) -> None:
+        self.assertIn("ko", self.normalized)
+        self.assertIn("en", self.normalized)
+        self.assertIn("--journal-language", self.normalized)
+        self.assertIn("journal-language --set", self.normalized)
 
     def test_rollback_is_non_destructive(self) -> None:
         for required in (

@@ -1,7 +1,7 @@
 interface:
   display_name: "Record Notion Journal"
-  short_description: "Safely sync one ClaimBranch journal entry"
-  default_prompt: "Use $record-notion-journal to sync the pending ClaimBranch journal entry."
+  short_description: "Record one grounded, user-confirmed coding judgment"
+  default_prompt: "Use $record-notion-journal to ground, interview, and record one coding judgment."
 
 dependencies:
   tools:

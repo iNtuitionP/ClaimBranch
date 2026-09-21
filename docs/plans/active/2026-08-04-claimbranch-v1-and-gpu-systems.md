@@ -2,7 +2,7 @@
 kind: exec-plan
 status: active
 owners: maintainers
-last_reviewed: 2026-08-20
+last_reviewed: 2026-09-21
 ---
 
 # ExecPlan: ClaimBranch graph contract to live-paper validation
@@ -16,6 +16,23 @@ pre-review plan remains recoverable from Git history. GPU learning may
 continue in its own repository and plan, but it does
 not block ClaimBranch.
 
+For execution, use the user-selected native implementation harness described
+in the contributor workflow; do not restart brainstorming or require repeated
+plan approval for already authorized work. The user has
+authorized explicitly synthetic development, including the bounded augmented
+contract cases below, not unrestricted
+application implementation, commits, or remote writes. Read the [product spec](../../product/product-spec.md) and
+[release scope](../../product/releases/validation-prototype.md) alongside this
+plan. P0 private-source verification remains unchecked and mandatory before
+any real research use, but is no longer a development-start prerequisite.
+Synthetic work does not waive P1 trust/toolchain or H0 safety gates.
+
+The current source-fixture and journal tools use Python's standard library;
+the application stack is not selected. P0 below is executable now. P1-P4 are
+gated deliverables: before implementing one, freeze its paths, interfaces, and
+failing tests in that phase after its prerequisite decisions. Do not invent
+application APIs or select a framework just to make this plan look finished.
+
 ## Purpose and big picture
 
 ClaimBranch is a local-first personal research agent that preserves human
@@ -27,6 +44,14 @@ Its single product promise is:
 > preserves the lineage from evidence through AI contribution and human
 > judgment to manuscript consequence, and accepts only changes that the
 > researcher knowingly authorizes.
+
+The user-approved working principle is: form the judgment once in ClaimBranch,
+and retain the minimum human-readable context needed to understand it again.
+Necessary authorization, provenance, and recovery history still exists; it
+must not become another explanation the researcher has to write. The
+[primary-workspace contract](../../product/product-spec.md#1-product-definition)
+owns the boundary. The Notion coding journal remains separate, user-invoked
+contributor tooling, not a product dependency or a second research record.
 
 The first wedge is deliberately concrete: one real saturation truth packet,
 three confirmed Observations, one central Claim, one reasoning branch, one
@@ -57,11 +82,12 @@ This plan is complete when:
 4. a supported native-Windows builder can bootstrap the repository, run
    `doctor`, and reach the isolated offline saturation demo in at most five
    minutes without administrator access, a provider, or a LaTeX installation;
-5. the smallest local review surface supports real human authorization,
-   contextual teach-back, deferral, and visible debt;
-6. V0 observes the first three qualifying result-to-decision episodes on the
-   next real paper or reaches its eight-week horizon, compares them with the
-   Markdown decision-log/checklist baseline, and assigns the frozen outcome;
+5. the smallest local review surface supports first-pass judgment without an
+   external decision log, real human authorization, contextual teach-back,
+   deferral, and visible debt;
+6. V0 runs the user-approved first-pass comparison to its preregistered stopping
+   rule and assigns the frozen outcome; its allocation and sample budget must
+   be resolved before the run, not inferred from the retired second-pass design;
    and
 7. evidence from that live gate determines whether OpenClaw integration, local
    serving work, broader UI, and generalized graph behavior proceed.
@@ -71,6 +97,132 @@ success. Do not call the product v1.0 before the live-paper gate passes.
 
 ## Progress
 
+- [x] 2026-09-21 - Implement the user-authorized read-only graph CLI before
+      A2: A1 was already a closed pure contract and needed no continuity bridge.
+      `show`, `diff`, and `preview` expose the fixed synthetic research
+      structure and explicit selection without persistence. Fifteen CLI tests
+      and all 50 contract tests pass after scoped review and two regression
+      fixes. Full-regression evidence belongs in the increment checklist below.
+      A2/A3 and real-use gates remain open; no production CLI, stack, or write
+      authority is selected.
+- [x] 2026-09-21 - Implement A1 synthetic review/action binding. Twelve new
+      tests first failed because the binding module was absent, then passed
+      after the immutable matcher was added. Scoped independent review found
+      no must-fix issues; its populated-evidence/target preservation coverage
+      suggestion was added. Core scope completed with 35 contract passes,
+      27/28 probe passes, and 39/40 validation passes; both skips were the
+      existing symlink-privilege cases, so the harness returned incomplete
+      coverage (exit 3). Full regression ran 277 tests in 218.381 seconds:
+      275 passed, zero failed, and the same two privilege cases skipped;
+      the full runner also returned exit 3. Documentation (57 files), original
+      source-fixture, and tracked-diff whitespace checks passed. No accepted-write
+      path, receipt, real source access, or journal operation is added. Next:
+      A2's bounded foreground-authorization investigation, not live deployment.
+- [x] 2026-09-21 - The user accepted the external-inference/local-authority
+      direction. Recorded ADR 0009, aligned intended behavior, release gates,
+      target responsibilities, and the provider oracle, and planned the
+      authority-first increments below. This is a planning change only, not
+      implementation or selection of a production server/runtime/store.
+      Documentation verification passed for 57 Markdown files, four related
+      documentation integration tests passed, and tracked-diff whitespace
+      passed. Application regression was not rerun for this docs-only change.
+- [x] 2026-09-19 - Build the user-requested Astra-oriented implementation
+      harness: concise repository execution guidance plus an explicit-scope
+      verification runner. No API/model configuration, journal operation,
+      commit, or remote write is included. The user then explicitly requested
+      implementation as well: apply the harness to the separate bounded
+      Windows isolation probe below, not to a production-stack commitment.
+- [x] 2026-09-19 - Harness TDD: observed 14 missing-runner failures, then
+      implemented the scoped runner and passed those tests. Independent review
+      reproduced a clean-success misclassification for `expectedFailure`;
+      added a failing regression and now report that case as incomplete
+      coverage. All 15 harness tests, the 56-document check, and tracked-diff
+      whitespace check passed; review confirmed the fix. Full integrated
+      verification follows the isolation probe, not this targeted result.
+      The first full run then exposed an incompatible unittest discovery root
+      (`tests/` is not a package); a failing discovery regression and the
+      corrected top-level directory bring harness coverage to 16 tests.
+- [x] 2026-09-19 - Completed the bounded Windows file-isolation probe with
+      five passing tests and no remaining findings from independent scoped
+      review. Final integrated execution through
+      `python scripts/verify.py --scope all --temp-root <existing-non-git-root>`
+      ran 265 tests in 213.473 seconds: 263 passed, zero failed, and two existing
+      symlink-creation privilege cases skipped. The runner reported incomplete
+      coverage, not a clean pass, and still ran the passing whitespace check.
+      The 56-document check and unchanged original source-fixture check also
+      passed. No production runtime, external-server trust, human-presence,
+      receipt, or P0/P1 completion was established.
+- [x] 2026-09-16 - The user moved private original-source verification from a
+      development-start prerequisite to a mandatory pre-real-use gate. P0 stays
+      open; explicitly hypothetical contract work may continue. Real workspace
+      writes, adoption, manuscript edits, and real-use pilots remain blocked
+      until source verification and all applicable safety gates pass.
+- [x] 2026-09-16 - Implemented and verified the five augmented synthetic
+      scenarios below. The original truth-packet fixtures remain unchanged.
+- [x] 2026-09-16 - Augmented-case targeted verification: nine new contract tests
+      failed before evidence/target support existed; the two proposal-boundary
+      cases already passed. After the minimal reference-model additions, all
+      23 contract tests passed. The 23-test probe suite passed 22 and skipped
+      one directory-symlink privilege case, including both real process-exit
+      cuts using the exact first-pass judgment. Independent scoped review
+      approved this synthetic slice with no remaining findings; it separately
+      reran the new contract/storage cases and source/documentation checkers.
+      Full regression then passed: 244 tests, 242 passes and two platform
+      symlink-privilege skips (5108.025 seconds elapsed; not a performance
+      benchmark). Source-fixture validation, documentation checks (55 Markdown
+      files), and scoped whitespace checks passed. No P0/P1 completion is
+      implied; no journal capture, real manuscript write, commit, or push occurred.
+- [x] 2026-09-16 - The user approved a bounded P1 early slice while P0 remains
+      unconfirmed: first-pass draft/review reuse, external project association,
+      and model-originated acceptance denial. No real research, production
+      storage/toolchain decision, or OS-enforcement claim is authorized.
+- [x] 2026-09-16 - P1-A: implemented the non-authoritative first-pass reference
+      model; 12 tests passed after an observed 12-test RED baseline. Controller
+      rerun passed and independent spec/quality review reported no findings.
+- [x] 2026-09-16 - P1-B: extended the existing disposable workspace probe with
+      project-specific selection and bound-ID checks on all five operations.
+      Final review exposed a Windows mixed-case path collision; a failing
+      regression and lowercase-only probe ID validation fixed it. Final
+      controller runs: probe 22 tests (21 passed, one symlink privilege skip),
+      first-pass 12 tests (all passed). These are not product isolation proofs.
+- [x] 2026-09-16 - Final scoped review passed after the case-collision fix.
+      Full unittest discovery started before that final fix: 231 tests,
+      229 passed and two platform skips (275.883 seconds). The final changed
+      probe and first-pass code were separately rerun afterward as noted above.
+      Source-fixture validation, documentation checks (55 Markdown files), and
+      whitespace checks passed. No production store, journal, or manuscript
+      was written; no commit or push was made.
+- [x] 2026-09-11 - The user authorized source-independent storage verification
+      before private-source P0 completion. Added the bounded probe lane below;
+      P0 remains open and no application stack or production schema is selected.
+- [x] 2026-09-11 - Implemented and ran the bounded synthetic storage probe in
+      the user-selected dirty feature workspace, preserving prior changes.
+      Final targeted run: 15 tests, 14 passed and one directory-symlink test
+      skipped for insufficient privilege. Save/read, explicit rebind, corrupt
+      store preservation, changed-retry rejection, and both process-exit cuts
+      passed. No real research or journal state was used. Independent review
+      found one missing-parent error-contract gap; a failing regression and
+      minimal pre-write rejection resolved it.
+- [x] 2026-09-11 - Regression evidence: the full unittest run started before
+      the missing-parent fix completed with 212 tests, 210 passes and two
+      platform skips (262.224 seconds). After that fix, the 15-test probe suite
+      was rerun successfully, including by the independent reviewer. Source
+      fixture validation, documentation checks (55 Markdown files), and
+      whitespace checks passed. This is not a claim of live Notion readiness.
+- [ ] 2026-09-11 - Run the directory-alias case on a link-capable host before
+      claiming the probe's full location/reopen coverage. Do not broaden this
+      experimental result into a product storage or security guarantee.
+- [x] 2026-09-11 - The user approved external private research workspaces by
+      default. Recorded ADR 0008 and reconciled placement, project discovery,
+      product expectations, and validation tasks. No application store or
+      journal state was created, moved, or migrated.
+      Documentation checks passed for 55 Markdown files; the source checker
+      passed; validation ran 40 tests (39 passed, one platform skip); whitespace
+      checks passed. Product workspace behavior remains unimplemented.
+- [ ] 2026-09-11 - P0 source confirmation remains open: the user reports that
+      the real artifacts are on a remote server and cannot provide a path now.
+      Do not request a local copy as a product prerequisite, infer fidelity,
+      or repeat the path request without a change in available evidence.
 - [x] 2026-08-14 - Completed builder-mode office hours and approved the
       human-authorship-preserving, graph-contract-first direction.
 - [x] 2026-08-14 - CEO scope synthesis removed the co-equal GPU curriculum,
@@ -92,21 +244,94 @@ success. Do not call the product v1.0 before the live-paper gate passes.
       evidence remain maintainer work, so this does not close P0.
 - [ ] P0 - Reconcile canonical product, architecture, release, validation, ADR,
       and plan documents; assemble the real saturation truth packet.
+- [x] 2026-09-11 - Separated P0 source-truth confirmation from P1
+      implementation-dependent replay inputs, and added a bounded,
+      user-approved failed-hypothesis revision route. Neither change closes P0
+      or admits a new graph capability.
+- [x] 2026-09-11 - Verified the three bounded Notion repairs: token-only public
+      capture, decoded-response failure rejection, and exact-key receipt
+      lookup. Each reproduced defect changed from failing to passing; full
+      discovery ran 196 tests (195 passed, one platform skip), documentation
+      checks passed for 54 Markdown files, the source fixture checker passed,
+      and `git diff --check` passed. Independent code and gate reviews found
+      no blocking issue. The [operator guide](../../development/notion-coding-journal.md)
+      owns journal behavior; journal state and remote pages are outside this
+      repository implementation task. Live hook re-review remains required
+      before using the changed helper code; no trust settings were changed.
+- [ ] 2026-09-11 - Obtain the external local-server trust decision before
+      locking P1 isolation. Do not infer it from review recommendations.
+- [x] 2026-09-11 - Implemented the user's human-owned Notion policy: create-only
+      payload generation, update denial with or without receipts, and no update
+      acknowledgement. Full discovery ran 198 tests (197 passed, one platform
+      skip); the compact skill passed its existing length check and sampled
+      existing-page/human-edit scenarios. Independent code review found no
+      blocking issue. State formats, configuration, and live pages were not
+      changed; live hook re-review remains required.
+- [x] 2026-09-11 - The user selected ClaimBranch as the primary first-pass
+      judgment workspace. Updated product intent and retired the same-episode
+      baseline-first protocol; no product capability or P0 gate was expanded.
+- [x] 2026-09-11 - Replanned execution around that choice: actionable remaining
+      P0 source checks, first-pass acceptance cases for H0/H1, phase-local human
+      decisions, and a bounded V0 protocol approval/validation sequence. This
+      is a plan update, not completion of an application or live evaluation.
+      Verification: source checker passed; validation discovery ran 40 tests
+      (39 passed, one platform skip); documentation and whitespace checks passed.
+- [ ] 2026-09-11 - Before V0 preregistration, obtain user approval of the
+      replacement first-pass comparison design, then reconcile episode counts,
+      timing/completion boundaries, baseline version, and checker. The
+      [release scope](../../product/releases/validation-prototype.md#62-baseline-and-observation)
+      owns this open gate; the historical blank fixture is not a live protocol.
 - [ ] P1 - Close the F0 graph and authority contract with readable fixtures.
 - [ ] P2 - Implement and verify the minimal headless kernel.
 - [ ] P3 - Add provider-neutral proposals and the minimum local review surface.
-- [ ] P4 - Run and evaluate three prospective episodes on the next real paper.
+- [ ] P4 - Run the approved first-pass comparison on the next real paper.
 - [ ] P5 - Admit only expansions whose gates pass.
 
 The executable milestone names used throughout this plan are:
 
 | Milestone | Deliverable | Entry gate | Exit gate |
 |---|---|---|---|
-| `H0` | deterministic headless F0 kernel plus the `H0-manual` and `H0-recorded` goldens | P0 scope lock and P1 contract fixtures pass | both variants complete, forbidden paths fail closed, and each log replays to its own golden |
+| `H0` | deterministic headless F0 kernel plus the `H0-manual` and `H0-recorded` goldens | canonical scope lock and P1 contract/safety fixtures pass; private-source verification is separately required before real research use | both variants complete, forbidden paths fail closed, and each log replays to its own golden |
 | `H1` | minimum local review experience plus a provider-neutral proposal boundary | `H0` passes | review/authorization negative tests pass and the bounded provider smoke test changes no accepted state |
-| `V0` | preregistered live-paper evaluation with the Markdown/checklist baseline | `H1` passes and the restore drill succeeds | an outcome is assigned by the frozen decision rule: `VALIDATED`, `VALUE_NOT_DEMONSTRATED`, `NOT_VALIDATED`, or `INCONCLUSIVE` |
+| `V0` | preregistered first-pass live-paper comparison | `H1` passes, restore succeeds, and the user-approved comparison protocol/checker is frozen | an outcome is assigned by the frozen decision rule: `VALIDATED`, `VALUE_NOT_DEMONSTRATED`, `NOT_VALIDATED`, or `INCONCLUSIVE` |
 
 ## Surprises & Discoveries
+
+- 2026-09-21 - The earlier manage-or-trust-server question conflated operating
+  inference with controlling authority. ADR 0006 and product section 6.4
+  already exclude server lifecycle management. Isolating the connector also
+  cannot establish confinement of an unrestricted same-user server. The new
+  decision retains those distinctions instead of expanding the product.
+- 2026-09-16 - The new storage integration test initially retained its own
+  SQLite inspection connection after the transaction context exited, causing
+  Windows cleanup failures. Explicit connection closing fixed both cut cases;
+  no storage implementation change was needed. Cleanup of the two failed-run
+  synthetic temporary directories was denied by the environment; no research
+  data was present. Their basenames under the selected system temporary root
+  are `claimbranch-storage-probe-bp9slq4u` and
+  `claimbranch-storage-probe-66ay67bn`. Successful reruns clean their own
+  disposable sandboxes.
+- 2026-09-11 - The default temporary directory was under an ancestor Git
+  working tree, so all 14 probe tests stopped at location validation. Using an
+  existing non-Git system temporary directory for the test process alone gave
+  13 passes and one directory-symlink privilege skip, without changing the
+  storage boundary. Default temporary placement is not evidence of separation.
+- 2026-09-11 - Requiring a new live comparison protocol at P0 would couple
+  source-truth verification to the later evaluation design. P0 checks the
+  historical source fixture; the replacement live protocol is a separate
+  pre-V0 gate. Neither a retired baseline nor its passing checksum authorizes
+  collecting prospective evidence.
+- 2026-09-11 - The saturation source case had made P0 completion depend on
+  replay/signing/compiler inputs whose contracts are defined in P1. The source
+  facts remain a P0 gate; implementation-dependent inputs now belong to P1.
+- 2026-09-11 - The former success-only expansion firewall had no usable route
+  for a failing initial representation. A separate bounded revision preserves
+  that failure and requires user approval and fresh validation, not a waived
+  success gate.
+- 2026-09-11 - The journal's direct-JSON capture path could create new legacy
+  records; text-wrapped error results could be acknowledged; and exact-key
+  writes enumerated unrelated receipts. Regression tests reproduce these
+  failures. Passing earlier suites did not establish these three contracts.
 
 - 2026-08-20 - A committed packet can prove its closed inventory, digests,
   redaction contract, cross-file semantics, and expected P0 truth set, but it
@@ -146,6 +371,80 @@ The executable milestone names used throughout this plan are:
   provider, a real paper, or a compiler.
 
 ## Decision Log
+
+- 2026-09-21 - **Expose the research structure before extending authority.**
+  The user delegated the continuity check. A1 needs no unfinished bridge into
+  A2; its public digest must not become a pretend approval. Add only a
+  fixture-backed, read-only graph walkthrough before resuming A2. Keep it
+  separate from the eventual installed `claimbranch` interface and retain the
+  existing workspace, no auto-journal or extra execution ledger.
+- 2026-09-21 - **External inference, locally enforced research authority.**
+  The user approved the recommendation to keep server operation out of scope,
+  establish manual/frozen-proposal authority first, and accept narrower live
+  support rather than claim unverified protection. [ADR 0009](../../architecture/decisions/0009-external-inference-and-local-authority.md)
+  owns the durable decision. Actual topology, foreground presence, runtime,
+  store, and recovery evidence remain open; no trust-warning bypass or real
+  research use is authorized by this planning request.
+- 2026-09-16 - **Verify private originals before real use, not synthetic
+  development.** The user approved moving only the timing of P0 private-source
+  verification. Its evidence standard and unchecked status remain unchanged.
+  No real workspace write, adoption, manuscript edit, or real-use pilot may
+  precede it. P1 trust/toolchain, OS isolation, H0 safety, and later release gates
+  remain binding. Augmented hypothetical cases test invariants, not the actual
+  episode or scientific inference. This supersedes the strict source-first
+  sequencing in earlier plan entries and review schedules, not accepted ADRs.
+- 2026-09-16 - **Bounded P1 may precede source confirmation.** The user
+  approved the early slice below. This changes execution order, not P0's
+  evidence standard or any accepted authority rule. Stop before research
+  meaning must be assumed, or before selecting the production trust, storage,
+  or recovery boundary. The first-pass model is non-authoritative and
+  nonpersistent; the existing SQLite experiment remains disposable.
+- 2026-09-11 - **Unavailable research evidence does not block unrelated storage
+  experiments.** The user approved a pre-P0 synthetic probe of external location,
+  reopening, judgment save/read, and failure/retry. Keep private-case fidelity
+  unconfirmed; probe success cannot establish F0, human authorization, product
+  value, or an implementation-stack choice. Record coding judgments only through
+  the existing user-confirmed Notion workflow, never milestone auto-capture.
+  The user confirmed the stop condition: if storage design requires assuming
+  the meaning of the actual research case, pause and return to source inspection.
+- 2026-09-11 - **Separate public code from private research.** The user approved
+  the default workspace outside Git; [ADR 0008](../../architecture/decisions/0008-private-research-workspaces.md)
+  owns the choice. Keep raw results at their source and sharing separate from
+  canonical storage. Database, association format, and key-loss recovery are
+  not settled by this approval. No Notion or existing source-fixture migration
+  follows from it.
+- 2026-09-11 - **Plan around the human decision, not another recording system.**
+  Apply the primary-workspace choice through first-pass acceptance scenarios
+  and reuse of episode context. Keep the safety audit complete but secondary;
+  do not import the Notion six-field schema, sync, or milestone journaling into
+  the product. Put unresolved choices immediately before the phase they affect.
+- 2026-09-11 - **Judge once in the primary workspace.** The user chose
+  ClaimBranch for first-pass judgment and recording, rather than supplementary
+  review after deciding elsewhere. Compare the whole equivalent workflow;
+  withholding the baseline answer from AI does not undo the human's previous
+  judgment. Retire the old timing sequence and require approval of a replacement
+  comparison before V0. Keep the existing finite product scope and safety gates.
+- 2026-09-11 - **People own their Notion edits.** The user approved preserving
+  existing pages and pausing unacknowledged retries. Journal automation now
+  creates pages only; even a prior receipt does not authorize replacement.
+  Inspection alone does not prove transport success. Keep the existing pending
+  state, no automatic reminders or new recovery engine. The
+  [operator guide](../../development/notion-coding-journal.md#exact-sync-and-retry)
+  owns the procedure.
+- 2026-09-11 - **Apply review findings by narrowing existing paths.** The user
+  approved the review's next-step sequence. Keep the journal's six fields and
+  confirmation boundaries; remove direct-JSON public capture, reject decoded
+  errors, and read only the requested receipt. Preserve legacy reads. Do not
+  add auto-recording, new fields, a sync engine, or new product capabilities.
+- 2026-09-11 - **Source truth precedes implementation goldens (historical;
+  strict development sequencing superseded on 2026-09-16).** Keep private
+  mapping and source evidence human-confirmed in P0; freeze the trace,
+  deterministic replay/signing inputs, compiler fingerprint, and expected
+  output digest after the P1 contracts and spikes. Preserve strict phase
+  order with these corrected gate responsibilities.
+- 2026-09-11 - **A falsified initial hypothesis may be revised, not regraded.**
+  Use the [release revision rule](../../product/releases/validation-prototype.md#64-bounded-revision-after-a-failed-hypothesis).
+  No actual shape revision is approved by this procedural repair.
 
 - 2026-08-14 - **Human-owned research agent is the product; semantic version
   control is a mechanism.** This supersedes the plan's product framing, not ADR
@@ -190,6 +489,34 @@ The executable milestone names used throughout this plan are:
   AI and graph machinery remain visibly attributable but visually secondary.
 
 ## Outcomes & Retrospective
+
+The bounded read-only CLI now makes fixture research structure inspectable
+without AI, an accepted store, or a new record. Its verified behavior and
+remaining limits are in the continuity-increment checklist. Human assessment
+of whether that structure is understandable remains open; this does not prove
+the usefulness of a real research workflow or select the final interface.
+
+The 2026-09-11 review repairs do not establish P0 completion, product utility,
+or live Notion readiness. Code/test evidence for the journal repairs is recorded
+in Progress. Notion page ownership and the primary ClaimBranch workflow are
+settled; replacement V0 comparison design remains open. The 2026-09-21
+external-inference authority policy is now accepted in ADR 0009, while actual
+provider topology and production enforcement remain unverified. No prospective
+comparison or product validation has been run.
+
+The source-independent storage probe has bounded passing evidence in Progress;
+its directory-alias check still needs a link-capable host. The user has since
+authorized the bounded P1 early slice below, now implemented and reviewed;
+wider synthetic development may proceed under the current phase-local P1
+decisions and safety gates. P0 private source confirmation instead gates every
+real research use; it is still unchecked.
+First-pass acceptance
+criteria now connect the product contract, saturation oracle, and phase tasks.
+Its remote source is currently unavailable for inspection; P0 remains open.
+External private storage is an accepted direction, not implemented security or
+backup. The placement decision does not make a remote-source connector a gate.
+The detailed V0 comparison and application interfaces are not yet approved;
+their explicit gates prevent this plan from silently making those decisions.
 
 Pending. Record whether the graph contract survived implementation, whether the
 live paper produced repeated voluntary use, which material omissions surfaced,
@@ -256,18 +583,20 @@ The filesystem topology remains legible and separated:
 
 ```text
 [ClaimBranch source/install]       read-only program and lockfile
-             |
-             +--> [paper Git root] source controlled by the researcher
-                    |-- .claimbranch/   canonical/project-local metadata
-                    |-- manuscript/     researcher-owned LaTeX source
-                    `-- build output    compiler policy decides location
+[paper/code Git root]             researcher-owned source; no default private store
+[private research workspace]      project-specific durable records outside Git
+             |-- association      verified link to the paper, not its install path
+             `-- disposable cache separate from accepted history
+[original artifact source]        remote/local results; referenced, not auto-copied
 
 [Windows user profile]            credentials, signing key, bounded logs
 [owner-only temp/saga area]        encrypted snapshots and isolated compile
 [disposable demo root]             never aliases or follows links into a paper
 ```
 
-P1 freezes what may be copied, backed up, ignored by Git, or safely deleted.
+The default placement follows [ADR 0008](../../architecture/decisions/0008-private-research-workspaces.md).
+P1 freezes the physical names, association format, and what may be copied,
+backed up, exported, or safely deleted. Git clone is not a private-state restore.
 Secrets never enter the paper tree. Demo cleanup rejects symlinks/reparse
 points and refuses any path that resolves inside a real project.
 
@@ -318,8 +647,9 @@ points and refuses any path that resolves inside a real project.
   evaluation without claiming that all referenced scientific records were
   created inside the episode.
 - **Qualifying live episode** - a prospective result that meets the frozen V0
-  eligibility rule and enters both baseline and ClaimBranch capture before the
-  researcher records the final interpretation or manuscript decision.
+  eligibility rule and begins its assigned first-pass workflow before the
+  researcher makes the final interpretation or manuscript decision. Comparison
+  allocation is still subject to user approval before preregistration.
 
 ### Three graph planes
 
@@ -543,7 +873,7 @@ foreground presence.
 
 | Global option | Contract |
 |---|---|
-| `--project <path>` | explicit paper root; otherwise search parents for one validated project marker |
+| `--project <path>` | explicit paper root resolved through a validated local workspace association; otherwise use unambiguous registered context; missing/ambiguous context requires selection, never silent new history |
 | `--format human|json` | human is default on a terminal; JSON is one versioned document and never prompts |
 | `--ai off|configured` | separates inference availability from network policy; default is `off` until a profile exists |
 | `--network deny|local-only|consented` | `deny` forbids even provider probing; `local-only` requires proven loopback isolation; remote use still needs exact foreground consent |
@@ -589,8 +919,10 @@ The minimum JSON envelope is versioned and stable through H0:
 | 130 | user interruption normalized on the supported shell/runtime |
 
 Configuration precedence is explicit flag, project config, user config, then
-built-in default. Project configuration is a validated
-`.claimbranch/config.toml`; user secrets and the authorization key live in the
+built-in default. Project configuration is validated inside its private
+workspace (the proposed
+`.claimbranch/config.toml` name is workspace-relative, not paper-relative);
+user secrets and the authorization key live in the
 Windows credential store and never appear in a command argument, project file,
 log, trace, or diagnostic bundle. `provider show --effective` redacts secrets
 and records only effective nonsecret configuration in the trace.
@@ -696,8 +1028,10 @@ sealed ReviewBundle, recomputes its digest and expected state, and requests an
 OS-backed user-presence operation with a non-exportable key. It delivers the
 single-use receipt directly to the kernel over an ACL-protected private IPC
 channel; JavaScript receives only a result/receipt ID. The model/provider
-process runs under an AppContainer, sandbox, or distinct identity that cannot
-connect to that IPC endpoint or read the key/store.
+worker runs under an AppContainer, sandbox, or distinct identity that cannot
+connect to that IPC endpoint or read the key/store. An external inference
+server must separately meet ADR 0009's topology gate; restricting the worker
+does not restrict a same-user server with independent resource access.
 
 The target-Windows spike must demonstrate strict Host/Origin/CSRF handling,
 frame denial, direct-IPC denial, broker-key non-exportability, hostile local
@@ -764,48 +1098,665 @@ not build separate sentinel software.
 ## Plan of work
 
 ```text
-P0 scope lock + truth packet
+Canonical scope lock + explicitly synthetic fixtures
   -> P1 complete F0 contract and fixtures
       -> P2 headless deterministic kernel
           -> P3 provider boundary + minimal review surface
-              -> P4 three live-paper episodes + baseline comparison
+              -> P4 approved first-pass live-paper comparison
                   -> P5 conditional expansion gates
+
+P0 private-source verification (still open)
+  -> required before ANY real research use in the sequence above
 ```
 
 ## Concrete steps
 
-Execute P0 through V0 strictly in the order below. The exact planned commands,
-artifacts, and pass oracles are in `Validation and acceptance`; a later phase
-does not start because code exists, only because the preceding named gate
-passes.
+Execute the phase-local contract, safety, and release gates in order. Explicitly
+synthetic development may continue while private sources are unavailable;
+P0 private-source verification must pass before any real research use, including
+real workspace writes, adoption, manuscript edits, or a real-use pilot. The
+exact planned commands, artifacts, and pass oracles are in `Validation and
+acceptance`. Code or passing synthetic tests alone never complete P0, P1, or H0.
+
+### Source-independent storage probe
+
+This user-approved experiment is not an early production kernel. Use only
+synthetic judgments and disposable roots; no private sources, live workspace,
+Notion state, server connection, or manuscript write is permitted. Repository
+Python tooling may host the probe without choosing the application's stack.
+
+Implemented files: `scripts/probes/workspace_storage.py` for the bounded experiment,
+`tests/probes/test_workspace_storage.py` for isolated behavior tests, and this
+plan for its measured result. All test state must be explicitly supplied
+temporary directories; never fall back to a user's real data directory. Before
+each code step, freeze the small tested interface in this section, write the
+failing test, then implement only that behavior. Do not design the full product
+schema or a new framework to host the probe.
+
+Probe interface: `WorkspaceProbe(sandbox, workspace, paper)` resolves paths but
+writes nothing; `preview()` returns the three locations; `initialize(project_id)`
+creates only a new synthetic store; `reopen(project_id)` checks identity and
+paper association; `rebind(project_id, paper)` explicitly changes that
+association; `save_judgment(project_id, key, text, rationale, checkpoint=None)`
+persists one synthetic record, with an optional experiment checkpoint observer;
+`read_judgment(project_id, key)` returns its exact text/rationale. Invalid or
+ambiguous state raises `ProbeError`, never repairs or creates state implicitly.
+The sandbox must be an explicitly supplied, probe-prefixed temporary directory.
+SQLite is the experiment backend only. Real process-exit tests exercise
+`before_commit` and `after_commit`; these are not power-loss proofs.
+
+- [ ] Location and reopen: from synthetic application/paper Git roots, preview
+  an external research location without writes; initialize the disposable
+  association; reopen the same identity; reject missing or ambiguous association
+  instead of silently creating replacement history. Check path aliases and
+  preserve the synthetic paper bytes.
+- [x] Judgment save/read: enter one synthetic judgment and rationale once,
+  store it, close, and reopen the same values without a second retrospective
+  form. Mark these as probe records, not accepted F0 operations or human receipts.
+- [x] Failure and retry: interrupt at the probe's named durable boundaries,
+  reopen, and prove exact prior or completed state with no duplicate judgment.
+  A non-identical retry must not silently overwrite the prior record. This
+  does not claim OS-level power-loss durability or manuscript-saga safety.
+
+Run the probe suite with:
+
+```powershell
+python -m unittest discover -s tests/probes -p "test_*.py" -v
+```
+
+The [contributor workflow](../../development/workflow.md) owns the temporary-root
+requirements and coverage limits. Location/reopen remains partially verified
+until a directory-link-capable run exercises the skipped alias test. No
+production security, initialization-crash recovery, or concurrency guarantee
+is established by this experiment.
+
+Expected: each supported case has an observed failure-before-fix and passing
+assertion afterward; unsupported cases and platform skips are explicit. Finish
+with the repository source, documentation, and relevant regression checks.
+Store only the bounded result and limitations in Progress. At P1, either retire
+the probe or deliberately port its proven cases into the approved implementation;
+never promote prototype code or claim P0 complete merely because it passes.
+
+### P1 early slice: first-pass and placement contracts
+
+**Goal:** implement executable rules for starting before a judgment, reusing
+its exact rationale in review, rejecting model-originated acceptance, and
+selecting distinct disposable project workspaces. This is not P1 completion.
+**Spec:** product-spec section 1, saturation operator oracle, ADRs 0003/0005/0008.
+**Implementation:** Python standard library as existing validation tooling,
+not the product runtime. Use the current user-selected workspace; no commits,
+new worktrees, transcript documents, journal capture, or remote writes.
+Keep execution evidence here instead of additional handoff/ledger documents.
+
+Global constraints: synthetic data only; no accepted-state mutation, receipt
+issuance, debt resolution, manuscript write, network, or real data storage.
+No caller-provided human label confers authority. Tests of an in-process API
+do not prove hostile-process isolation. Existing research fixtures stay intact.
+At the full P1 toolchain lock, deliberately port these cases to the chosen
+runtime and retire the reference model, or explicitly adopt its reviewed
+parts. Do not maintain a parallel product implementation by inertia.
+
+#### P1-A: non-authoritative first-pass reference model
+
+Files: create `scripts/contracts/first_pass.py`, `tests/contract/__init__.py`,
+and `tests/contract/test_first_pass.py`. No new persistence layer or public CLI.
+
+Interfaces: frozen `Draft` values carry project/episode identity, source context,
+existing claim, optional interpretation/rationale, and a revision. `start_draft`
+requires only identity, source context, and existing claim; it does not create
+the canonical ResearchEpisode or claim that evidence is confirmed. Functions
+return new draft values, never mutate an accepted record:
+
+```python
+d = start_draft("project-one", "episode-one", "synthetic context", "prior claim")
+d = record_judgment(d, "tentative interpretation", "entered reason")
+r = prepare_review(d)
+assert r.draft.rationale == "entered reason"
+assert review_is_current(r, d)
+d2 = revise_context(d, "changed context", "prior claim")
+assert not review_is_current(r, d2)
+```
+
+`record_judgment` requires nonblank interpretation/rationale; `revise_context`
+requires nonblank context/claim. A content change increments revision; an
+identical retry returns the unchanged draft. `prepare_review` requires a
+judgment and reuses its exact text; no second rationale parameter exists.
+The immutable review contains the draft and a canonical SHA-256 content digest
+(UTF-8 JSON, sorted keys, compact separators). `review_is_current` compares
+identity, revision, and content/digest; a revert cannot revive an old review.
+This digest checks freshness only and is never an authorization receipt.
+
+`receive_model_proposal(draft, request)` accepts exactly `operation="propose"`
+and nonblank `text`, returning a separate immutable `Proposal` value bound to
+project/episode with `accepted=False`. Unknown operations/fields, including
+`actor_class="human"`, are rejected with `ContractError`. It cannot edit the
+draft, prepare a review, issue a receipt, confirm evidence, accept a judgment,
+merge, change a manuscript, or close debt. No accepted-write API exists here.
+
+- [x] Write/run failing tests for manual undecided start, exact Unicode reuse,
+  missing judgment, immutable outputs, changed context/judgment, revert,
+  cross-project/episode freshness, malformed inputs, positive proposal ingress,
+  and denial of each accepted-operation family including forged human labels.
+- [x] Implement only the frozen values and functions above; run
+  `python -m unittest discover -s tests/contract -p "test_*.py" -v`.
+- [x] Review spec compliance and code quality; retain test evidence below.
+
+P1-A test evidence (2026-09-16): before implementation the 12 contract tests
+failed at the missing-module assertion; afterward all 12 passed, including a
+controller rerun. Independent spec/quality review passed without findings.
+This verifies only the declared reference-model behavior.
+
+#### P1-B: project default and association in the existing probe
+
+Files: extend `scripts/probes/workspace_storage.py` and
+`tests/probes/test_workspace_storage.py`. Reuse the existing database and
+identity checks, not a second store. Add
+`WorkspaceProbe.for_project(sandbox, workspace_root, paper, project_id)`:
+select `workspace_root / project_id`, require an existing root, and validate
+with the existing sandbox/Git/paper boundary. Probe-only IDs are nonempty
+lowercase ASCII letter/digit/hyphen segments; reject uppercase without normalization,
+traversal/separators/Windows reserved
+names rather than guessing a safe spelling. The returned probe binds the
+expected project ID: initialize/reopen/rebind/read/write must reject a
+different ID. This is an experimental path component, not a product naming ADR.
+
+```python
+p = WorkspaceProbe.for_project(sandbox, external_root, paper, "project-one")
+assert not p.workspace.exists()  # selection is a dry run
+p.initialize("project-one")
+assert p.reopen("project-one") == "project-one"
+```
+
+- [x] Write/run failing tests for default selection independent of caller Git
+  tree, zero-write preview, two distinct project histories, invalid IDs/roots,
+  wrong-ID rejection across all operations, explicit relocation, and unchanged
+  manuscript bytes. Keep existing interruption/retry tests.
+- [x] Implement the minimal factory and expected-ID binding; run the probe
+  suite with a process-local non-Git temporary root when needed.
+- [x] Review spec compliance and code quality; report any alias/platform skip.
+
+P1-B test evidence (2026-09-16): the six added cases failed before the factory
+existed (21 tests, 22 subtest errors, one skip); a separate malformed-root
+regression exposed a TypeError and was fixed. After implementation, 21 tests
+ran with 20 passes and the existing directory-symlink privilege skip, including
+a controller rerun. Review and full regression evidence remain separate gates.
+Final review found that mixed-case IDs select the same Windows path. The
+probe-only ID alphabet is therefore narrowed to lowercase rather than silently
+normalizing names or choosing a product identity policy; the uppercase input
+must fail before any store is created. The added regression failed before the
+one-line validation change; afterward 22 probe tests ran with 21 passes and
+one symlink privilege skip, independently rerun by the controller. Scoped
+re-review found the issue addressed and no introduced regression; the final
+bounded-slice spec and quality verdicts are PASS.
+
+Preflight (2026-09-16):
+
+| Tasks checked | Interface/file consistency | Result |
+|---|---|---|
+| P1-A against itself | frozen drafts, snapshots, and proposal-only ingress match the listed tests | no accepted-write API or source-truth assertion |
+| P1-B against itself | the project factory reuses existing probe identity checks and database | no second store or product naming choice |
+| P1-A / P1-B | no shared runtime interface or edited code file | neither promotes the other into product storage |
+
+The controller owns documentation and final integration checks. At the end run full unittest discovery, the
+source fixture checker, documentation checker, and whitespace checks; update
+the contributor workflow with the new command and exact limitations.
+
+### Augmented synthetic contract cases
+
+Scope: add `tests/fixtures/saturation/augmented-cases.json`,
+`tests/contract/test_augmented_cases.py`, and
+`tests/probes/test_augmented_storage.py`; extend only the bounded reference
+model in `scripts/contracts/first_pass.py`. Keep the original truth packet and
+its manifest unchanged. Every added case is explicitly hypothetical, not a
+correction to private source facts or an expansion of accepted F0 records.
+
+Use immutable, append-only synthetic observation revisions outside the
+reasoning `Draft`. Bind review freshness to the evidence snapshot and manuscript
+anchor/content hash as well as the draft. These are non-authoritative contract
+values, not accepted evidence, a production schema, or authorization receipts.
+Reuse the existing disposable SQLite probe for storage interruption tests;
+do not introduce another persistence layer.
+
+- [x] Write tests for all five oracles in the
+  [augmented validation cases](../../validation/cases/saturation.md#12-augmented-synthetic-contract-oracles):
+  append-only correction, competing proposals, compression-only proposal
+  boundary, stale evidence/manuscript review, and process crash with exact retry.
+  Before implementation, nine new contract tests failed on the missing evidence
+  API; two proposal-boundary tests passed against existing behavior. The storage
+  scenario is an integration regression over existing behavior, not new storage
+  implementation. Do not manufacture failures for previously supported cases.
+- [x] Implement the smallest frozen revision/snapshot and freshness additions.
+  Preserve old observation values and keep proposals unaccepted. Reject model
+  confirmation through the existing generic authority boundary, without
+  implementing a scientific-text inference engine or automatic merge.
+- [x] Exercise actual subprocess termination immediately before and after
+  SQLite commit. Reopen and retry the exact judgment; prove one preserved
+  record and reject changed retry contents. This is not a power-loss proof.
+- [x] Run contract and probe unittest discovery, the source-fixture checker,
+  documentation checker, full unittest regression, and whitespace checks.
+  Record actual failures, passes, and platform skips in Progress; obtain scoped
+  independent review before claiming this slice complete.
+
+Run from the repository root using the contributor guide's disposable temporary
+root requirements:
+
+```powershell
+python -m unittest discover -s tests/contract -p "test_*.py" -v
+python -m unittest discover -s tests/probes -p "test_*.py" -v
+python scripts/check_truth_packet.py
+python scripts/check_docs.py
+python -m unittest discover -s tests -p "test_*.py" -v
+git diff --check
+```
+
+Targeted tests, full regression, and scoped independent review passed as
+recorded in Progress. No real project/manuscript write, receipt issuance,
+OS-isolation proof, application-stack selection, or P0/P1/H0 completion is
+implied. Existing phase-local trust and recovery choices remain open.
+
+### Native implementation harness
+
+The user explicitly replaced the brainstorming-driven approval loop with
+native execution. Preserve product gates and user-owned trade-offs; remove
+ceremonial approval of routine implementation mechanics. The runner itself is
+not an isolation boundary or a product-stack decision. The user's subsequent
+request also authorizes the separate disposable Windows probe below.
+
+Files: add `scripts/verify.py`, `tests/harness/__init__.py`,
+`tests/harness/test_verify.py`, and a contributor guide at
+`docs/development/implementation-harness.md`; link it from the development
+index and root agent guide. Keep the detailed execution procedure out of the
+root guide. Reuse existing checkers and unittest suites, with no dependencies.
+
+Interfaces: `make_plan(scopes)` returns deduplicated ordered checks;
+`build_environment(temp_root, needs_probe)` validates temporary placement and
+returns child-only environment overrides; `run_checks(checks, root, env)` runs
+argument-vector subprocesses without a shell; `run_suite(suite, stream)`
+distinguishes failure, zero tests, skips, and clean success.
+`python scripts/verify.py --scope core --plan` previews without running checks;
+`--scope` is repeatable and admits `docs`, `core`, `journal`, `harness`, `all`.
+Core includes the dependent storage tests; all uses one full discovery, not
+both full and per-area runs. Every scope includes docs and whitespace checks.
+
+- [x] Write failing tests for missing runner, scope selection/deduplication,
+  explicit selection, non-Git temporary roots, failure short-circuit, zero-test
+  rejection, skip reporting, and invocation from a different working directory.
+- [x] Implement the minimum runner. Stream output, persist no reports/cache,
+  never infer authorization from test success, and expose no arbitrary command
+  or auto-retry interface. Test subprocess failures using real child processes.
+- [x] Document native continuation, bounded questions, focused review, and
+  evidence-based stopping; update existing guidance rather than create another
+  session log or approval schema.
+- [x] Run harness tests, the runner's full suite with an explicitly selected
+  non-Git temporary root, and an independent bounded code/policy review. Record
+  outcomes and platform skips; do not call partial verification product safety.
+
+### Windows isolation probe
+
+Implement one synthetic OS-boundary experiment before choosing a production
+trust perimeter. This is an authorized next implementation increment, not a
+new brainstorming phase or permission to isolate an existing model server.
+All targets are disposable fake accepted state, manuscript text, signing
+material, and proposal output. No real research files, account settings,
+machine-wide ACLs, dependency installation, or Notion state may change. Any
+explicit filesystem ACL changes belong exclusively to the newly created
+temporary sandbox. Windows may require a uniquely named disposable
+AppContainer profile, creating OS-managed per-user folders and registry
+storage; delete only that exact successfully created profile after closing
+owned handles. Never adopt or delete an existing profile. Cleanup failure
+fails the probe; a forcibly killed host is not a completed cleanup proof.
+
+Files: `scripts/probes/windows_isolation.py`,
+`tests/probes/test_windows_isolation.py`, and at most one small trusted child
+source helper. Existing Windows system APIs and an already-installed compiler
+may be used as probe prerequisites; their use does not select the application
+stack. The runner's `core` and `all` scopes discover the new tests.
+
+Interface: `run_probe()` has no user-data path parameter and returns a bounded
+result with `status`, `mechanism`, ordinary `control` and `isolated` access
+results, exact `access_errors`, `protected_unchanged`, `cleanup_complete`, and
+`profile_cleanup_complete`. Both child results
+report `accepted_write`, `manuscript_write`, `secret_read`, `proposal_write`,
+and observed `appcontainer` status. Unsupported operating systems raise
+`UnsupportedPlatform`; Windows setup, launch, access, or cleanup mismatches
+raise `ProbeError`, never a successful denial or an unavailable-platform skip.
+
+The ordinary child must actually reach all four synthetic targets. The
+isolated child must start and finish successfully, be observed as an
+AppContainer, fail protected writes and secret reads with access denied, and
+still write the permitted proposal. Recheck protected contents and clean only
+the exact sandbox created by that run. Use a unique immediate child of a
+validated non-Git temporary root and reject reparse-point topology. This is a
+bounded local measurement, not an adversarial filesystem-race or sandbox-escape
+proof, and does not cover an independently running unrestricted model server.
+
+- [x] Observe failing tests before adding the launcher and trusted child.
+- [x] Demonstrate ordinary access, genuine restricted-child operation,
+  protected access denial, allowed proposal output, and exact cleanup.
+- [x] Review the native API/resource handling and run the integrated full suite
+  through the harness. Record prerequisites, skips, and unsupported claims.
+- [x] Use measured results to frame the still-open P1 trust/toolchain choice;
+  do not mark P1 complete or imply source fidelity from this experiment.
+
+Measured 2026-09-19 on Windows build 26200, AMD64, without an elevated process:
+the ordinary child returned success for all four operations; the AppContainer
+child returned Win32 error 5 for both protected writes and the secret read,
+and success for proposal output. The parent inspected `TokenIsAppContainer`
+before resuming each child. Protected bytes were unchanged. Cleanup confirmed
+the sandbox's absence, successful exact-profile deletion, and absence of its
+OS-reported app-data folder; registry internals were not independently audited.
+No inherited handles or inherited environment were passed to the child.
+
+The SID-only candidate failed child creation with error 2. Creating a unique
+disposable profile advanced startup but exposed error 203; supplying controlled
+`LOCALAPPDATA` inside the probe's output directory completed startup. These
+failures were never counted as denial evidence. Five probe tests passed,
+including placement and failed-termination cases; full integration and final
+review are recorded separately in Progress. The existing .NET Framework 4
+compiler/runtime is an experimental prerequisite, not an installation or
+application-stack decision.
+
+The 2026-09-21 decision resolves the former manage-or-trust policy question:
+[ADR 0009](../../architecture/decisions/0009-external-inference-and-local-authority.md)
+keeps inference externally operated and local research authority enforced.
+The experiment is reusable evidence for a restricted worker, not confinement
+of an already unrestricted server. Broker presence, IPC/egress controls,
+real-runtime compatibility, and the other phase gates remain unproved.
+
+### Authority-first execution sequence
+
+This is the next implementation route selected on 2026-09-21, using the native
+harness. It refines P1-P3 below rather than creating a second roadmap. Product
+authority is fixed by ADRs 0005, 0006, and 0009; deployment and enforcement are
+not yet implemented. Use only synthetic data until the P0 real-use gate passes.
+Do not add a provider manager, arbitrary tool execution, automatic Notion
+capture, or a second judgment form. Later production package paths must be
+frozen at the existing P1 toolchain gate, not invented by the reference model.
+
+#### A1. Bind one exact review to one proposed action
+
+Files: add `scripts/contracts/review_binding.py` and
+`tests/contract/test_review_binding.py`; consume the existing `Review` and
+freshness validation in `scripts/contracts/first_pass.py` without changing
+their meaning. Update the contract-check paragraph in
+`docs/development/workflow.md` with this increment. Python's standard library
+is the reference-model toolchain only, not a production-stack selection.
+
+Freeze these internal test-only interfaces:
+
+```python
+@dataclass(frozen=True)
+class BoundReview:
+    review: Review
+    operation_digest: str
+    session_nonce: str
+    expires_at: int
+    binding_digest: str
+
+def bind_review(review: Review, *, operation_digest: str,
+                session_nonce: str, expires_at: int) -> BoundReview: ...
+
+def matches_bound_review(binding: BoundReview, current_review: Review, *,
+                         operation_digest: str, session_nonce: str,
+                         now: int) -> bool: ...
+```
+
+`operation_digest` is a lowercase SHA-256 of the exact synthetic action;
+`session_nonce` is nonblank test input, not generated consent; expiry and time
+are nonnegative integers (not booleans), and `now >= expires_at` is expired.
+Version-one canonical JSON binds all fields except `binding_digest`, including
+the complete existing review snapshot; recompute digests and reject malformed
+or substituted inputs. `bind_review` raises the existing `ContractError` on
+invalid input; `matches_bound_review` returns `False` for invalid or mismatched
+input. The caller supplies a newly prepared current review,
+not a claim that an old review is current. No filesystem state is read here.
+
+- [x] Write failing tests for exact matching, altered action/session/project/
+  episode, stale evidence or target, tampered digests, omitted or malformed
+  values, and expiry at the exact boundary. Include this concrete oracle:
+
+  ```python
+  binding = bind_review(review, operation_digest="a" * 64,
+                        session_nonce="synthetic-session", expires_at=20)
+  assert matches_bound_review(binding, review, operation_digest="a" * 64,
+                              session_nonce="synthetic-session", now=19)
+  assert not matches_bound_review(binding, review, operation_digest="b" * 64,
+                                  session_nonce="synthetic-session", now=19)
+  assert not matches_bound_review(binding, review, operation_digest="a" * 64,
+                                  session_nonce="synthetic-session", now=20)
+  ```
+
+  Prepare `review` using the existing synthetic first-pass fixture helpers;
+  input does not require a second rationale. Assert binding/rechecking leaves
+  the original draft, evidence, proposal, and manuscript-target values unchanged.
+- [x] Run `python -m unittest tests.contract.test_review_binding -v` from the
+  repository root and observe the new behavior missing before implementing it.
+- [x] Implement immutable binding and matching only; then rerun that command
+  and `python scripts/verify.py --scope core --temp-root <existing-non-git-root>`.
+  Inspect skips instead of reporting a clean pass. Review the bounded change
+  and record evidence here before widening the slice.
+
+Exit: altered or expired review/action context cannot match, and unchanged
+human meaning is reused exactly. This is NOT a signed receipt, an issuer,
+human authentication, single-use consumption, an accepted operation, or a
+production sealed ReviewBundle. Its digest is public and forgeable by a caller;
+never wire it to an accepted-write path. Real issuance and atomic consumption
+belong to A2/A3, not an `actor=human` or `approved=True` shortcut.
+
+#### Read-only graph CLI continuity increment
+
+This user-approved increment precedes A2. A1 remains complete; this changes
+sequencing, not its enforcement limits.
+
+Files: `scripts/graph_demo.py`, `tests/contract/test_graph_demo.py`, and the
+existing workflow, validation case, release scope, and repository introduction.
+Reuse `TruthPacketValidator.verified_bytes` and the committed redacted packet;
+never reread artifact paths after validation or change the source fixture.
+Python standard library remains contributor tooling, not the production stack.
+
+Interface: `python -B -m scripts.graph_demo show|diff|preview`. `show` takes
+`--view main|candidate` (default candidate); `preview` takes repeated
+`--select <change-id>`, defaulting to an empty selection. Each command accepts
+`--format human|json`; Korean human output is default. No project, file input,
+output-file, provider, apply, accept, store, or authorization option exists.
+Human help lists follow-up commands; JSON is one deterministic UTF-8 document.
+
+This is a synthetic projection of the redacted case, not accepted research:
+main contains the fixture's initial Claim, global observations, and manuscript
+anchor. Candidate adds the reviewed observation-to-claim relations and the
+recorded Interpretation with its observation references, and changes the Claim
+to contested. Both are computed views, never real refs. Five selectable changes
+are the claim status, Interpretation, and three relationship additions. Show
+original statements/rationales and operator conditions; preserve `qualifies`
+for compression. Do not invent a new claim, experiment, or scientific edge.
+
+Preview shows selected/omitted changes, the existing endpoint/evidence records
+they require, and manuscript review impact reachable through the resulting
+view's explicit directed reasoning links. Existing evidence is referenced,
+never copied or selected for merge. Missing dependencies reject; absence of a
+recorded impact path is not proof of no scientific impact. Nothing is applied,
+and no manuscript debt, proposal, journal, receipt, or workspace is created.
+This deliberately does not implement general dependency-closed merge or replay.
+
+- [x] RED: 13 tests failed for the missing module before implementation.
+  Contract/subprocess tests cover visible typed conditions, computed
+  differences, empty/partial/full selection, omitted changes, dependency and
+  impact paths, invalid IDs/options, JSON streams, Unicode, unchanged input,
+  unchanged fixture bytes, and no files in a disposable invocation directory.
+- [x] GREEN: implement the projection and renderer; inspect Korean
+  show/diff/preview output. One scoped review identified branch judgments
+  leaking into the global-observation JSON projection. Remove those fields
+  from observation views, keeping type/rationale only in selected relations.
+  A separately reproduced ASCII-stream help failure was fixed by initializing
+  UTF-8 before argument parsing. Both regressions failed first, then passed;
+  the final 15 CLI tests and all 50 contract tests pass.
+- [x] Run `python scripts/verify.py --scope all --temp-root C:/Windows/Temp`:
+  290 tests in 959.196 seconds, 288 passed, zero failed, two existing symlink-
+  privilege tests skipped. The runner reported completed checks with incomplete
+  coverage, not a clean pass; the host shell surfaced a nonzero exit. This run
+  began with the initial 13 CLI tests; after the two
+  review/debug fixes, the final 15 CLI tests and all 50 contract tests were
+  rerun successfully. Documentation (57 files), original source-fixture, and
+  tracked whitespace checks pass. Actual commands and limitations are in the
+  existing workflow. User comprehension remains for the user to assess.
+
+Exit: an operator can inspect the graph, compare the two synthetic views, and
+preview a subset without a model or accepted write. This is not the H0 demo,
+production graph schema, authenticated accepted state, P0/P1 completion, or a
+decision to make CLI the final UX. Retire/adapt this thin projection when P2
+provides the real graph; do not grow a second canonical store here. Next is A2,
+unless user inspection reveals a concrete problem within this bounded view.
+
+#### A2. Demonstrate a real foreground authorization boundary
+
+- [ ] Extend the P1 Windows broker spike specified below, using
+  `scripts/probes/windows_authorization.py` and
+  `tests/probes/test_windows_authorization.py` plus the minimum native helper
+  required by the measured API. First freeze the selected API and helper
+  interface in this section; do not infer presence from terminal input or
+  manufacture a production signing scheme in Python.
+- [ ] Use only disposable keys, synthetic reviews, and own temporary objects.
+  Pin positive human-presence and cancellation cases, independent sealed-review
+  reload, private receipt delivery, and negative worker/key/store/IPC access
+  before implementation. Automated denial tests cannot replace the separately
+  observed human gesture. Ask before any device enrollment, account setup, or
+  existing permission change; do not alter Windows settings to make a test pass.
+- [ ] Run scoped unittest discovery for that probe, the documented manual
+  presence/cancellation procedure, and `--scope core`. Record actual runtime
+  compatibility and residual failures, then resolve the existing P1 toolchain
+  gate with the user. If a primitive fails, preserve the result and compare
+  the existing native/CLI fallback without weakening foreground authorization.
+
+Exit: actual enforcement evidence, not only schema tests. A2 does not authorize
+installation, enrollment, deployment topology, or recovery-policy choices.
+
+#### A3. Complete the offline judgment-to-record path
+
+After A2 and the P1 stack decision, execute the existing P2 minimal-kernel tasks:
+manual and frozen-proposal histories, exact review reuse, atomic accepted
+append plus one-time receipt consumption, reopen/replay, and manuscript
+apply/restore. Reuse the disposable storage/crash findings; do not silently
+promote its SQLite backend or the reference dataclasses to the application.
+Freeze exact production paths/interfaces in P2 before coding them. Its existing
+H0 gates and full-suite command remain mandatory; no live provider is needed.
+
+#### A4. Admit one demonstrated provider topology
+
+Only after the offline authority path works, execute P3's bounded provider
+adapter. Map tests to the
+[provider oracle](../../validation/cases/saturation.md#13-provider-authority-and-support-oracle):
+compatibility is separate from protection, actual server context cannot bypass
+the store/key/IPC boundary, changed egress needs renewed consent, and hostile,
+late, or repeated responses cannot execute tools or alter accepted state.
+Use the deterministic stub first; do not contact or configure a real endpoint
+without a user-selected permitted target. Support no live topology until its
+evidence passes; a VM, separate host, localhost URL, or trust checkbox is not
+proof. Preserve existing release limits instead of adding more providers.
+
+Review focus across these increments: stale/reverted scope (A1/A2), forged human
+assertions and receipt replay (A2/A3), concurrent/crashed consumption (A3),
+unsupported same-user servers (A4), and provider cancellation/late output with
+manual continuation (A3/A4). Each maps to a named oracle rather than a new
+policy engine or transcript log.
+
+Resume from the first unchecked increment and existing test evidence. Pure A1
+creates no durable state; A2 must name and clean only its owned resources and
+preserve diagnostic identifiers on failure. A3 uses P2's existing recovery-only
+and idempotence rules. No failed probe justifies resetting a workspace or
+loosening authority. Source verification, key-loss recovery, H1 context review,
+and V0 study choices remain separate human checkpoints.
+
+### Human decision checkpoints
+
+Ask one concrete question at the relevant checkpoint, explain the recommended
+boundary and cost, and wait for the user's choice. Do not batch these into an
+up-front questionnaire or treat an AI recommendation as approval.
+
+| Before | User decides | Work that can continue without this decision |
+|---|---|---|
+| P0 private-source exit, before any real research use | whether the redacted observations, interpretation, and manuscript change faithfully represent the private case | explicitly synthetic development and offline fixture checks; no assumed private-source fidelity |
+| P1 toolchain/enforcement lock | measured runtime, presence primitive, and any installation/account/recovery trade-off; ADR 0009 policy is already chosen | synthetic contracts and bounded probes; no assumed deployment permission or production isolation |
+| First live provider | the permitted endpoint and evidenced deployment consistent with ADR 0009, plus exact outbound consent | AI-off/frozen-proposal implementation and hostile-response tests; no assumed server access or warning bypass |
+| Private-data recovery contract | key-loss and cross-device recovery trade-off before promising custody of irreplaceable research | placement and association contract tests; no claim that Git clone or a readable export restores all private state |
+| H1 surface implementation | whether the proposed decision sheet provides enough context without requiring duplicate explanation | approved headless kernel and safety tests |
+| V0 protocol implementation | comparison allocation, case/time budget, AI availability, and equivalent completion boundaries | H0/H1 work and a proposed comparison in the release scope; no prospective collection |
+| A failed hypothesis needs wider scope | the exact minimum revision and its evidence | repairs within the existing failed gate; no automatic expansion |
 
 ### P0 - Scope lock and research truth packet
 
-- Update the canonical product promise and release sequence.
-- Add one primary-operator card, one secondary unfamiliar-user card, the
-  support/exclusion hypothesis, and the nine-stage journey to the canonical
-  product and validation sources. Keep internal `P0`/`H0`/`V0` names out of
-  user copy; use `offline demo`, `episode review`, and `live-paper evaluation`.
-- Extend the accepted AI-proposal decision with a new ADR for human-only
-  authorization, contribution provenance, and understanding debt.
-- Record the three-plane boundary and derived-state rule as an ADR.
-- Reconcile the draft domain model with the approved office-hours design.
-- Assemble one redaction-aware truth packet: pre-result claim, run artifact,
-  three observations, unaided human interpretation, affected marked LaTeX
-  block, compile command, and expected manuscript-impact truth set.
-- Define the Markdown decision-log/checklist baseline that the live product
-  must beat or match.
-- Define the DX stopwatch and privacy-safe local measurement fields before any
-  onboarding implementation: clean-checkout prerequisites, bootstrap start,
-  first demo screen, demo completion, active/wall time, copied commands, help
-  invocations, recoverable errors, and abandoned attempts.
+Purpose: verify what happened in the real case before any real research use.
+Private-source verification is not a prerequisite for explicitly synthetic
+development. The existing fixture and ADRs are inputs, not work to recreate.
 
-Exit: documentation checks pass; one fact has one canonical home; the F0
-inventory and exclusions are explicit; no unresolved authority ambiguity is
-left to implementation.
+Files: inspect `tests/fixtures/saturation/truth-packet/truth-packet.json`,
+`result-summary.json`, `manuscript-before.tex`, `manuscript-after.tex`, and
+`manifest.json` in that directory; inspect `scripts/check_truth_packet.py` and
+`tests/validation/test_truth_packet.py`. Update
+`docs/validation/cases/saturation.md` only if confirmed source facts change;
+record gate evidence in this plan. No private source goes into Git or Notion.
+
+- [x] 2026-09-11 - Run the current offline checks from the repository root:
+
+  ```powershell
+  python scripts/check_truth_packet.py
+  python -m unittest discover -s tests/validation -p "test_*.py" -v
+  python scripts/check_docs.py
+  ```
+
+  Expected: zero failures; report any platform skip. These checks establish
+  fixture consistency, not private-source fidelity.
+- [ ] Ask the user to identify the permitted local source or confirm that they
+  will inspect it themselves. Do not search unrelated personal directories.
+  Compare only the pre-result claim, run/method, three observations, actual
+  interpretation, affected manuscript text, and source compile configuration.
+- [ ] Present any mismatch in plain research language and obtain explicit human
+  confirmation of the source-to-redacted mapping. If access is unavailable,
+  leave this gate open and identify the missing item; never infer confirmation
+  from the committed anonymized case or a prior coding log.
+- [ ] If a source correction is needed, first add the exact mismatch as a
+  failing regression in `tests/validation/test_truth_packet.py`, correct the
+  confirmed fixture/checker contract, update only affected manifest digests,
+  and rerun the three commands. Do not rewrite fixtures to make tests pass
+  without the human source decision.
+- [ ] Record only the confirmed scope, check result, and remaining exception in
+  Progress. Close P0 only when all source evidence is confirmed. Preserve the
+  blank historical baseline; its prospective replacement belongs to P4.
+
+Exit: the source packet, scientific/manuscript outcome, local private mapping,
+and source compile evidence are confirmed; canonical constraints agree.
+Existing accepted authority principles remain binding. OS enforcement and
+toolchain realization, trace/replay/signing inputs, compiler fingerprint, and
+compile-output golden remain P1 work. Neither implementing them early nor
+designing the V0 comparison substitutes for source confirmation.
+Until this exit passes, real workspace writes, adoption, manuscript edits, and
+real-use pilots are prohibited regardless of synthetic test results.
 
 ### P1 - F0 graph and authority contract
 
+- Freeze the external-workspace contract from ADR 0008 before implementing
+  initialization. Use the existing planned `tests/contract/` and `tests/cli/`
+  boundaries; select exact files/interfaces with the toolchain, not a second
+  storage subsystem. Required cases: invocation inside each Git tree still
+  resolves an external default, path aliases cannot bypass that check,
+  dry-run writes nothing, two papers do not alias one history accidentally,
+  and missing/ambiguous associations cannot silently create records.
+- Freeze reopen/relocation and backup scope alongside initialization: a moved
+  paper must be explicitly rebound to the verified existing workspace; a
+  readable export is distinct from a complete restore artifact. Present the
+  unresolved key-loss/cross-device recovery choice to the user before promising
+  safe custody. Do not implement cloud sync or export private signing keys as
+  a shortcut. Exercise model-write denial at the external location too.
+- Start by making the [first-pass operator oracle](../../validation/cases/saturation.md#10-operator-experience-oracle)
+  a contract fixture alongside the safety cases: an undecided episode may enter
+  with source evidence and an existing claim, without a final interpretation,
+  completed external decision log, or Proposal. Later review uses the same
+  episode and entered rationale; an audit summary is not a second required form.
+- Before locking OS isolation and the toolchain, show the spike evidence and
+  apply ADR 0009's already-approved authority policy and ask the user to approve
+  the measured implementation/deployment choices that remain open. Do not ask
+  the user to re-decide model-server ownership. Unknown server isolation must not be labeled safe
+  merely because the endpoint uses loopback. If the choice changes an accepted
+  ADR, use a superseding ADR; do not weaken the accepted rule in code.
 - Freeze the public CLI contract separately from internal DomainOperations and
   the validation harness: command grammar, project/episode discovery, global
   options, help snapshots, streams, UTF-8/color rules, JSON envelope, exit
@@ -866,6 +1817,11 @@ left to implementation.
   paths, reparse points, controlled folders, and antivirus sharing failures.
   No Python, SQLite, browser, or TeX choice becomes product truth before this
   evidence exists.
+- After those contracts and spikes, freeze the source packet's remaining F0
+  inputs: proposal trace manifest, deterministic clocks/IDs/entropy/signing
+  inputs, schema/rule versions, compiler fingerprint, and expected compile-
+  output digest. Keep these implementation choices separate from the P0
+  human-confirmed research facts; H0 later proves full execution and replay.
 - Define import trust modes: verify-only untrusted history and trusted restore
   into a new empty destination. Trusted restore requires a signed manifest
   chain and explicitly enrolled authority public-key fingerprint; F0 never
@@ -882,7 +1838,8 @@ left to implementation.
   bundle preview, and the rule that no telemetry, crash report, or feedback is
   transmitted automatically.
 
-Exit: every closed-F0 definition has a readable fixture, allowed transition,
+Exit: the remaining F0 replay/trace/compiler inputs above are frozen; every
+closed-F0 definition has a readable fixture, allowed transition,
 invalid transition, and named assertion; authorization, read scope, egress,
 proposal ingress, and raw-write denials are enforced outside caller-controlled
 request data. SQLite is only the measured storage-spike baseline; adopting it
@@ -893,6 +1850,12 @@ manual application when deterministic relocation is unsafe.
 
 ### P2 - Minimal headless kernel (`H0`)
 
+- Implement one complete AI-off episode before adding provider assistance:
+  evidence review, interpretation, selected merge, manuscript consequence,
+  exact patch/compile/recovery, and human debt closure. Reuse entered context
+  and rationale at review; do not require a separate retrospective record.
+  The first-pass scenario complements the known-answer replay fixture; passing
+  either one is not evidence of live product value.
 - After the toolchain ADR, provide one repository-owned, standard-user
   PowerShell bootstrap from a clean checkout. It creates an isolated pinned
   environment, installs the `claimbranch` entry point, prints
@@ -950,11 +1913,22 @@ and cannot make the provider-free demo depend on LaTeX.
 
 ### P3 - Proposal providers and minimum review experience (`H1`)
 
+- Before implementing the surface, present the existing single-sheet design
+  using the saturation case in plain language: what changed, what it means,
+  what the researcher decides, and what remains open. Ask whether the context
+  is sufficient and the questions necessary. Revise that sheet if rejected;
+  do not respond by adding a dashboard, fixed journal form, or chat subsystem.
+- Turn every first-pass operator-oracle row into a failing H1 interaction test
+  before its corresponding behavior. Use the approved app test runner under
+  the planned `tests/h1/` boundary; freeze concrete files and adapter interfaces
+  at P1 toolchain exit. Verify manual start, rationale reuse, return after
+  deferral, changed-context reauthorization, and AI/provider failure separately.
 - Add a safe real-project path before the review UI:
   `project init --dry-run`, `project init`, `episode template`, `episode start`,
   `manuscript doctor`, and marker add/verify. The generated episode template
   uses researcher concepts rather than store schemas. Initialization reports
-  intended paths, Git state, compiler policy, marker state, egress state, and
+  paper and external-workspace paths, their association, Git state, compiler
+  policy, marker state, egress state, and
   rollback; a failure leaves the paper and accepted state unchanged.
 - Add one provider-neutral proposal request/response contract and durable
   request manifest. Raw provider bytes are retention-policy dependent; replay
@@ -1012,90 +1986,122 @@ cancellation are visible and leave accepted state unchanged.
 
 ### P4 - Prospective live-paper validation (`V0`)
 
-Freeze the protocol, checklist, clocks, evaluator prompts, and decision rule in
-version control before the first episode. V0 observes the first three
-consecutive qualifying valid starts within eight weeks; it is not a randomized
-or causal study. A valid start is an eligible, correctly timed episode after
-baseline capture begins; later product failure still belongs to that start.
+Purpose: test the primary-workspace promise through complete first-pass work,
+not faster repetition of an already-decided case. H1 and recovery gates must
+pass before collection. Protocol design may be discussed earlier, but does not
+authorize prospective data collection or application expansion.
 
-An episode qualifies only when all of these are true: the result was produced
-after preregistration; it may change an already accepted central/supporting
-Claim or its marked manuscript block; it is entered before the final
-interpretation or manuscript decision; and the researcher is legally and
-ethically permitted to capture the required artifacts locally. Eligibility is
-decided before and independently of whether ClaimBranch's current schema,
-limits, or adapters can represent them. A representability or size failure
-after a valid start is `out_of_f0` and counts against the product. Retrospective
-rehearsals, formatting-only changes, known-answer demo cases, and results with
-no claim/manuscript consequence are ineligible.
+The [release scope](../../product/releases/validation-prototype.md#6-v0-prospective-live-paper-evaluation)
+owns eligibility, safety, the outcome rule, and required approval. Do not copy
+its decision table here. Its current three-product-start/eight-week and +10%
+constraints are not a completed replacement protocol.
 
-For every eligible episode, the researcher first completes the frozen plain
-Markdown checklist/decision log without ClaimBranch suggestions and records a
-timestamped baseline artifact. This checklist is the sentinel; no sentinel
-software is built. ClaimBranch then receives the raw episode artifacts, not the
-baseline answer, and runs H1. Baseline active time runs from opening the blank
-template to its saved decision; ClaimBranch active time runs from opening the
-episode context to its recorded decision. Deliberate pauses are excluded from
-active time but captured as wall-clock interruption time; provider and compile
-wait are reported separately, not silently removed.
-Separately report the setup funnel from discovery through bootstrap, doctor,
-project initialization, first review, help use, rescue attempts, and
-abandonment; setup friction is not hidden by the episode active-time clock.
+#### Task P4.1 - Approve an interpretable, tolerable comparison
 
-The same-episode order creates a learning effect, so V0 may show directional
-utility and workflow noninferiority, not causal prevention. A `material
-omission surfaced` means a concrete claim dependency, rationale, provenance
-link, debt, or manuscript consequence absent from the frozen baseline was
-raised by ClaimBranch before the final decision and the researcher attested in
-writing that it changed what they checked, recorded, or wrote. Report that
-language; never report “ClaimBranch prevented an omission” from V0 alone.
+Modify `docs/product/releases/validation-prototype.md` section 6 and this plan;
+reconcile `docs/product/product-spec.md` and
+`docs/validation/cases/saturation.md` if the approved boundaries change.
 
-An attempted capture can be marked invalid only for a preregistered eligibility failure
-discovered after capture or corrupted timing instrumentation; log it with the
-reason and take the next consecutive eligible episode. Provider failure,
-abandonment, anchor failure, authorization failure, or any product failure
-after a valid start counts against the product and is not replaceable. Stop at
-three valid starts, a fourth protocol-invalid replacement, or eight weeks,
-whichever comes first; the fourth invalidation makes the run `INCONCLUSIVE`.
-Keep the real
-repository in an isolated Git worktree or verified copy; require compile and
-manifest verification before an explicit human promotion; run the exact
-byte-restore drill before V0. ClaimBranch never commits, pushes, or promotes
-the live manuscript automatically.
+- [ ] Present one proposed comparison: different prospective eligible episodes
+  use either the existing Markdown/checklist workflow or ClaimBranch, with
+  assignment fixed before interpreting the result. Each scientific judgment is
+  made once. This is a proposal, not an approved allocation.
+- [ ] Ask the user to choose the feasible baseline/product case budget and
+  allocation rule. Explain that different episode difficulty and carryover
+  from earlier research still limit comparison; withholding a previous answer
+  from a model does not remove prior human knowledge. If comparable cases are
+  unavailable, report insufficient evidence rather than rerun the same case
+  and count it as a new first pass.
+- [ ] Agree on equivalent work and allowed assistance: source inspection,
+  interpretation, rationale, recorded decision, and manuscript consequence.
+  Freeze AI availability in each workflow and whether the question is about the
+  whole assistance package; do not attribute a package difference to the UI
+  alone. Separate decision/recording completion from manuscript application,
+  verification, and promotion, and observe both workflows through the same
+  agreed endpoint.
+- [ ] Freeze timing boundaries: count source/context entry, reading, edits,
+  questions, recording, and recovery work; report waiting, interruptions, and
+  setup separately. Record duplicate entry or explanation demands as friction
+  using existing local measurement fields, not a new telemetry subsystem.
+- [ ] Obtain approval of the exact protocol, including allocation, sample/time
+  budget, AI conditions, comparability limits, missing-data handling, and the
+  outcome thresholds. Reconcile all affected rules before a run, preserve
+  catastrophic failure precedence, and leave no count in conflict with the
+  approved allocation.
 
-For each episode record trace completeness, baseline and product active time,
-wait/interruption time, accepted AI contribution, human edits/rationale,
-teach-back/debt state, manuscript consequence, attested material omissions,
-false alarms, anchor repair, abandonment, and promotion/restore outcome. After
-self-use, repeat the already-gated unfamiliar-user path only when a V0 change
-invalidated it; this observation never replaces the three scientific episodes.
-Freeze application, lockfile, store/schema/rule, compiler, and fixture versions
-before V0. Rehearse clean checkout, first real project, verified export,
-copy-on-write migration, rollback selection, and diagnostics on a second clean
-user profile or supported machine before the first qualifying episode.
+Exit: the user-approved release section describes a feasible comparison and
+unambiguous stopping/outcome rules. Until then, do not rewrite the source
+baseline, implement a new evaluator, or claim V0 is ready.
 
-Assign exactly one outcome by evaluating the rows in order and taking the first
-match. This makes the outcomes mutually exclusive and exhaustive:
+#### Task P4.2 - Make the approved protocol executable
 
-Global catastrophic predicates in row 1 are evaluated even when no valid start
-exists. The completion-ratio and trace-count predicates are evaluated only when
-`valid_starts > 0`; with zero valid starts and no catastrophic breach they are
-false and row 2 assigns `INCONCLUSIVE`. The checker freezes the equivalent
-truth table and tests zero starts both with and without every row-1 breach.
+Planned artifacts, not existing application commands:
 
-| Order/outcome | Frozen decision rule |
-|---|---|
-| 1. `NOT_VALIDATED` | any unauthorized accepted mutation, unrecovered manuscript loss, or silent promotion; completion ratio across valid starts is below 2/3; or at least two valid starts have incomplete trace |
-| 2. `INCONCLUSIVE` | fewer than 3 valid starts occur by eight weeks, or timing/protocol corruption makes the frozen comparison unusable |
-| 3. `VALUE_NOT_DEMONSTRATED` | all trust/file rules pass and 3 valid starts exist, but any one of the three product flows or trace sets is incomplete (including `out_of_f0`), median ClaimBranch active time exceeds baseline median +10%, or no attested material omission is surfaced |
-| 4. `VALIDATED` | all 3 flows complete voluntarily; trace completeness is 100%; trust/file rules pass; median ClaimBranch active time <= baseline median +10%; and at least one attested material omission is surfaced |
+- Create `docs/validation/live/v0-protocol.yaml` for the approved machine-readable
+  protocol and link it from `docs/validation/README.md` when it exists.
+- Update `tests/fixtures/saturation/truth-packet/decision-log-baseline.md`,
+  its version and `manifest.json`, and the baseline checks in
+  `scripts/check_truth_packet.py` / `tests/validation/test_truth_packet.py`
+  together. Preserve the historical version in Git; do not fill the blank
+  source fixture with live answers.
+- Create `scripts/check_live_protocol.py` and
+  `tests/validation/test_live_protocol.py` as offline validation tooling, not
+  an application runtime choice. Input: approved protocol plus redacted
+  measurement/episode manifests. Output: a validated assigned outcome or an
+  explicit invalid-input error; no scientific or Notion mutation.
 
-Only `VALIDATED` permits P5 product expansion. Other outcomes permit fixes to
-the failed gate and a newly preregistered V0 run, not adjacent features.
+- [ ] First specify the exact JSON/YAML fields and CLI arguments from the
+  approved protocol, then write failing table-driven tests for zero starts,
+  every catastrophic breach, incomplete traces, missing baseline/time fields,
+  wrong allocation, late registration, repeated known-answer episodes, and
+  the approved threshold boundary on either side and exactly at equality.
+- [ ] Implement the smallest deterministic checker for those cases. Unknown
+  or missing fields must never silently earn a success; a valid run with
+  insufficient evidence follows the approved inconclusive rule.
+- [ ] Run the existing source/docs checks and the new checker tests:
+
+  ```powershell
+  python scripts/check_truth_packet.py
+  python -m unittest tests.validation.test_live_protocol -v
+  python -m unittest discover -s tests/validation -p "test_*.py" -v
+  python scripts/check_docs.py
+  ```
+
+  Expected: zero failures, explicit platform skips; denied cases retain their
+  intended failure/outcome. These commands do not establish live utility.
+- [ ] Rehearse the full protocol offline with synthetic measurements and exact
+  restore in an isolated paper copy. Verify no live promotion, provider call,
+  Notion write, or automatic telemetry. Freeze the approved protocol hash,
+  app/toolchain/compiler versions, and measurement policy before the first
+  qualifying episode.
+
+#### Task P4.3 - Observe and decide without moving the goalposts
+
+- [ ] Observe consecutive eligible starts under the approved assignment and
+  stopping rules. Eligibility is independent of whether F0 can represent the
+  case. Retain provider, representation, authorization, abandonment, anchor,
+  and recovery failures; do not replace them as inconvenient samples.
+- [ ] Keep private artifacts local and outside version control. Reuse
+  operational measurements where available; collect only the approved bounded
+  human attestation, not a second complete retrospective of each judgment.
+  Freeze any measurement sharing as a separate human action.
+- [ ] Preserve compile/manifest verification, exact restore, explicit human
+  promotion, unfamiliar-user gates, and the second-profile rehearsal. No
+  workflow convenience waives these safety gates.
+- [ ] Run the approved checker on the redacted result, explain the assigned
+  outcome and limitations in ordinary language, and record evidence in this
+  plan. An unusable comparison cannot establish time noninferiority; an
+  attested omission is not proof of causal prevention.
+- [ ] If the result fails, change only the failed gate or request the separately
+  approved minimum hypothesis revision. Do not add graph, serving, or journal
+  features as a substitute for demonstrated value.
+
+Exit: a reproducible outcome under the frozen approved protocol, not a promised
+positive result. Only `VALIDATED` opens ordinary P5 expansion.
 
 ### P5 - Conditional expansion
 
-Only the maintainer may admit an expansion, in a dated plan/ADR entry that
+Only the maintainer may admit an ordinary expansion, in a dated plan/ADR entry that
 links the named evidence artifact and confirms V0 is `VALIDATED`:
 
 The measurement configuration is frozen before qualifying evidence is seen:
@@ -1118,12 +2124,21 @@ revision and discards evidence collected under the old value for that trigger.
 
 ### Failed-gate scope firewall
 
+Unavailable private originals leave P0 source verification open; they do not
+constitute a failed synthetic-development gate. The approved synthetic lane
+may continue, but no real research use may bypass source verification.
+
 When P0, P1, H0, H1, or V0 fails, work may change only the failing contract,
 fixture, safety mechanism, or minimum surface and its tests. It may not add a
 provider, channel, graph type, database, general merge behavior, canvas,
-dashboard, serving stack, or packaging. Widening the boundary requires an
-updated ExecPlan, applicable ADR, independent review, and an observed P5
-trigger; “the fix would be easier with the larger platform” is not a trigger.
+dashboard, serving stack, or packaging as an ordinary repair. If evidence
+falsifies the initial representation or technical hypothesis, use only the
+[bounded release revision rule](../../product/releases/validation-prototype.md#64-bounded-revision-after-a-failed-hypothesis).
+That route requires the applicable P5 evidence threshold but not a successful
+V0, plus explicit user approval of one minimum boundary change, canonical
+document/ADR updates, independent review, and new validation. Preserve the
+failed run and all safety gates. “The fix would be easier with the larger
+platform” is not evidence, and unrelated capabilities remain excluded.
 
 ## Validation and acceptance
 
@@ -1145,7 +2160,7 @@ weakening a gate.
 | H0 replay/recovery | `python -m pytest tests/f0/test_replay.py tests/f0/test_crash_matrix.py tests/f0/test_manuscript_saga.py -q` | fresh-store replay matches each respective golden; RPO/RTO assertions below pass; failed write/compile restores exact bytes or enters the sole hard stop |
 | H0 migration | `python -m pytest tests/migration -q` and `claimbranch store migrate --check` against a disposable older fixture | export and copy-on-write destination verify before selection; every interrupted boundary retains the original; newer-store status/diagnose/export remain read-only |
 | H1 first project (public) | `claimbranch project init --dry-run <paper>`, then the frozen unfamiliar-user script | dry run is non-mutating; supported paper initializes without internal edits; marker/compiler/browser rescues are actionable; the full path passes before V0 |
-| H1 authority/UX | `python -m pytest tests/h1 -q` | forged/stale/replayed/cross-project receipts and direct model/store writes are denied; all allowed UI states and error rescues pass; non-authoritative actions leave accepted manifest unchanged |
+| H1 authority/UX | `python -m pytest tests/h1 -q` | first-pass operator-oracle cases pass without duplicate judgment entry; forged/stale/replayed/cross-project receipts and direct model/store writes are denied; UI/error rescues pass; non-authoritative actions leave accepted manifest unchanged |
 | H1 provider learning (public) | `claimbranch provider probe <name>` and `claimbranch provider test <name> --fixture saturation` | deterministic stub plus one already-running loopback endpoint report compatibility, trust, schema, timing, cancellation, and visibly unaccepted output within ten active minutes; accepted-state hash is unchanged |
 | H1 provider smoke | `python scripts/run_provider_smoke.py --fixtures tests/fixtures/provider --max-cases 5` | configured local/hosted endpoints return or visibly fail the same versioned envelope; no accepted-state hash changes; deterministic tests invoke only the stub |
 | V0 preregistration/result | frozen `docs/validation/live/v0-protocol.yaml`, private episode manifests, and redacted `v0-result.json` checked by `python scripts/check_live_protocol.py` | protocol hash predates all episodes; eligibility/replacement/time fields are complete; checker assigns exactly one frozen outcome |
@@ -1154,9 +2169,20 @@ The paths are deliverables, not claims about files that already exist.
 
 ### Scope-lock gate
 
+Canonical scope lock and private-source verification have separate timing.
+Scope and phase-local safety contracts still constrain synthetic development;
+the source-verification item below must pass before any real research use and
+is still required to close P0. Its deferral is not a waiver of any other gate.
+
 - Canonical documents use the same product promise and milestone order.
 - F0 records and operations are enumerated; everything else is excluded or
   trigger-gated.
+- Source truth, readable scientific/manuscript outcomes, the historical blank
+  source-fixture baseline, and source-level compile configuration are fixed; the maintainer
+  confirms the private source mapping. P1 owns implementation-dependent
+  replay/trace/signing and compiler goldens. A passing repository source
+  checker is necessary but not sufficient for P0 completion. The replacement
+  prospective comparison is a pre-V0 gate, not another P0 dependency.
 - Primary operator, supported environment, public command grammar, first
   success, first-project path, provider-learning boundary, and upgrade policy
   each have one canonical contract and no machine-local dependency.
@@ -1241,6 +2267,9 @@ automatically authorize a graph database.
 
 ### Live-use gate
 
+- P0 private-source verification passes before any real workspace write,
+  adoption, manuscript edit, or real-use pilot, including such use during H1;
+  waiting until V0 would be too late.
 - Apply the preregistered V0 eligibility, order, timing, invalidation, safety,
   and frozen outcome rules; do not reinterpret the result retrospectively.
 - Report “material omission surfaced” only under the attestation rule, never
@@ -1387,6 +2416,15 @@ automatically authorize a graph database.
 | local inference transport | OpenAI-compatible servers such as `llama.cpp` | use only behind the provider contract after P2 |
 
 ## Autoplan review
+
+This section preserves the earlier review and its estimates, not current
+implementation evidence or blanket permission to decide for the user. Follow
+the current [concrete steps](#concrete-steps) and
+[human decision checkpoints](#human-decision-checkpoints) where scheduling or
+approval assumptions differ. Historical scores do not close a present gate.
+The old source-first development schedules in this review are superseded by
+the 2026-09-16 decision: private-source verification precedes real use, while
+explicitly synthetic development follows the unchanged phase-local gates.
 
 In task labels throughout this review, `P1`, `P2`, and `P3` mean task priority,
 not execution phases `P0` through `P5`. Each task body names its actual phase or
@@ -2424,7 +3462,7 @@ readers fail visibly on a newer schema.
 | anchor/patch/compiler-recovery spike | after PatchIntent/journal schema | redacted marked manuscript fixture | P1 recovery gate |
 | headless domain/gateway/store kernel | after all P1 gates | prior four streams | H0 manual/recorded E2E |
 | provider/context and Episode Review | after H0 | proposal/state contracts | H1 E2E/security/a11y |
-| V0 checker and baseline artifacts | may prepare after P0; run only after H1 | frozen protocol and H1 gate | one V0 outcome |
+| V0 checker and baseline artifacts | implement after user protocol approval; collect only after H1 | P4.1 approval, frozen protocol/checker, and H1 gate | one V0 outcome |
 
 Separate worktrees are useful for the three P1 spikes because their code does
 not overlap after schemas freeze. H0 integration, H1, and V0 are sequential.
@@ -2485,9 +3523,10 @@ root Markdown, so no duplicate `TODOS.md` is created.
 - [ ] **ENG-08 (P2, human: 1-2 days / CC: 2-4 hours) - Performance** -
   Generate seeded 1x/10x workloads and record query plans, latency, RSS,
   database/WAL/temp size, contention, and degraded-projection evidence.
-- [ ] **ENG-09 (P1, human: 1 day / CC: 1-2 hours) - V0 checker** -
-  Implement eligibility, invalid-replacement cap, zero-start/catastrophic
-  ordering, out-of-F0, timing, and serving-trigger population truth tables.
+- [ ] **ENG-09 (P4.2, prior estimate: human 1 day / CC 1-2 hours) - V0 checker** -
+  Follow P4.1 approval before implementing eligibility, allocation, replacement,
+  zero-start/catastrophic ordering, out-of-F0, and timing truth tables. Keep
+  serving-trigger measurement separate; no current V0 result opens it by default.
 
 #### Engineering completion summary
 
@@ -2600,7 +3639,8 @@ renders:
 ```text
 Unexpected result mapped.
 
-3 confirmed observations challenge 1 central claim.
+2 observations challenge the central claim.
+1 observation qualifies it under the compression condition.
 1 marked manuscript block would require review.
 AI: off.  Network: denied.
 Your project and manuscript files were not changed.
@@ -2934,12 +3974,15 @@ The four phase artifacts contain 35 build-actionable tasks: 29 priority-P1 and
 section and the local gstack JSONL artifacts; repository execution follows the
 deduplicated dependency order rather than task-file order:
 
-1. finish P0's redacted truth packet and frozen Markdown/checklist baseline;
+1. lock canonical scope and use explicitly synthetic fixtures while P0's
+   private mapping and source evidence remain open; retain the historical blank
+   baseline separately from the prospective protocol;
 2. freeze P1 schemas, authority, platform/toolchain, migration, and error/CLI
-   contracts through bounded spikes;
+   contracts through bounded spikes without waiving any trust/safety decision;
 3. build H0 kernel, recovery, bootstrap, doctor, and offline demo;
 4. build H1 first-project, Episode Review, accessibility, and provider-learning
-   flows; and
+   flows; verify P0 private originals before any real workspace write, adoption,
+   manuscript edit, or real-use pilot, whether during H1 or earlier; and
 5. pass the unfamiliar-user/second-profile gates before preregistered V0.
 
 Canonical documentation reconciliation tasks completed during this review are
@@ -2954,8 +3997,11 @@ The user explicitly directed the review to continue without further questions
 and to take recommended choices. The final gate is therefore approved as
 recommended: the finite graph-first sequence remains, the quiet editorial lab-
 notebook direction is selected, and no user challenge changes the stated
-product premise. There are no unresolved decisions. The next executable work is
-P0 truth-packet/baseline assembly, not feature expansion or a release claim.
+product premise at that review. This historical approval does not settle the
+later primary-workspace comparison, source confirmation, or server-trust
+choices; the current human decision checkpoints govern. See Progress and
+Concrete steps for the subsequently approved synthetic-development lane; it does
+not close P0 or authorize a release claim.
 
 ## Decision Audit Trail
 

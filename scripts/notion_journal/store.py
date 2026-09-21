@@ -17,20 +17,24 @@ from uuid import uuid4
 
 from . import SCHEMA_VERSION
 from .model import (
+    JudgmentDraft,
     JournalDraft,
     JournalError,
+    JournalNotFoundError,
     PathState,
     Snapshot,
     SnapshotDelta,
     ValidationError,
     VerificationItem,
     canonical_json,
+    judgment_draft_to_dict,
     normalize_repository_path,
+    validate_journal_language,
 )
 
 
 _SEOUL = timezone(timedelta(hours=9))
-_JOURNAL_KEY = re.compile(r"cbj-v1-[0-9a-f]{24}\Z")
+_JOURNAL_KEY = re.compile(r"cbj-v[12]-[0-9a-f]{24}\Z")
 _HEX_64 = re.compile(r"[0-9a-f]{64}\Z")
 _GIT_HEAD = re.compile(r"[0-9a-f]{40}(?:[0-9a-f]{24})?\Z")
 _TOOL_NAME = re.compile(r"[A-Za-z0-9_-]{1,128}\Z")
@@ -113,6 +117,30 @@ def state_root(env: Mapping[str, str]) -> Path:
     return Path(local_app_data) / "ClaimBranch" / "NotionJournal"
 
 
+def pending_envelope_path(root: Path, journal_key: str) -> Path:
+    """Return the version-isolated path for one immutable envelope."""
+
+    key = _journal_key(journal_key)
+    directory = (
+        Path(root) / "v2" / "pending"
+        if key.startswith("cbj-v2-")
+        else Path(root) / "pending"
+    )
+    return directory / f"{key}.json"
+
+
+def receipt_state_path(root: Path, journal_key: str) -> Path:
+    """Return the version-isolated path for one write receipt."""
+
+    key = _journal_key(journal_key)
+    directory = (
+        Path(root) / "v2" / "receipts"
+        if key.startswith("cbj-v2-")
+        else Path(root) / "receipts"
+    )
+    return directory / f"{key}.json"
+
+
 def iso_seoul(value: datetime) -> str:
     """Render an aware datetime with a deterministic fixed Seoul offset."""
 
@@ -145,6 +173,14 @@ def make_decision_key(repository: str, snapshot_digest: str, draft_digest: str) 
     return "cbj-v1-" + sha256(material.encode("utf-8")).hexdigest()[:24]
 
 
+def make_judgment_key(repository: str, snapshot_digest: str, draft_digest: str) -> str:
+    repository = _printable(repository, field="repository", limit=128)
+    if not _HEX_64.fullmatch(snapshot_digest) or not _HEX_64.fullmatch(draft_digest):
+        raise JournalError("judgment digest is invalid")
+    material = f"v2\0{repository}\0explicit-judgment\0{snapshot_digest}\0{draft_digest}"
+    return "cbj-v2-" + sha256(material.encode("utf-8")).hexdigest()[:24]
+
+
 @dataclass(frozen=True)
 class JournalConfig:
     schema_version: int
@@ -158,6 +194,7 @@ class JournalConfig:
     query_tool_name: str
     create_tool_name: str
     update_tool_name: str
+    journal_language: str | None = None
 
     def __post_init__(self) -> None:
         _schema_version(self.schema_version)
@@ -179,6 +216,10 @@ class JournalConfig:
             value = getattr(self, field)
             if not isinstance(value, str) or not _TOOL_NAME.fullmatch(value):
                 raise JournalError(f"{field} is invalid")
+        try:
+            validate_journal_language(self.journal_language, allow_legacy=True)
+        except ValidationError as error:
+            raise JournalError("journal_language is invalid") from error
 
 
 @dataclass(frozen=True)
@@ -202,14 +243,15 @@ class PendingEnvelope:
     start_snapshot: Snapshot
     end_snapshot: Snapshot
     delta: SnapshotDelta
-    draft: JournalDraft | None
+    draft: JournalDraft | JudgmentDraft | None
     page_id: str | None
     page_url: str | None
     synced_at: str | None
+    journal_language: str | None = None
 
     def to_public_dict(self) -> dict[str, Any]:
         visible_paths = self.delta.paths[:200]
-        return {
+        result = {
             "schema_version": self.schema_version,
             "journal_key": self.journal_key,
             "recorded_at": self.recorded_at,
@@ -225,11 +267,25 @@ class PendingEnvelope:
             "commit_stat": self.delta.commit_stat,
             "worktree_stat": self.delta.worktree_stat,
             "includes_pre_session_edits": self.delta.includes_pre_session_edits,
-            "draft": asdict(self.draft) if self.draft is not None else None,
+            "draft": _draft_to_dict(self.draft) if self.draft is not None else None,
         }
+        if self.journal_language is not None:
+            result["journal_language"] = self.journal_language
+        return result
 
     def to_storage_dict(self) -> dict[str, Any]:
-        return asdict(self)
+        result = asdict(self)
+        if self.draft is not None:
+            result["draft"] = _draft_to_dict(self.draft)
+        if self.journal_language is None:
+            result.pop("journal_language")
+        return result
+
+
+def _draft_to_dict(draft: JournalDraft | JudgmentDraft) -> dict[str, Any]:
+    if isinstance(draft, JudgmentDraft):
+        return judgment_draft_to_dict(draft)
+    return asdict(draft)
 
 
 @dataclass(frozen=True)
@@ -329,8 +385,18 @@ def _validate_envelope(value: PendingEnvelope) -> PendingEnvelope:
     _validate_timestamp(value.recorded_at, field="recorded time")
     if value.sync_state not in {"pending", "synced"}:
         raise JournalError("sync state is invalid")
-    if value.trigger not in {"material-change", "explicit-decision"}:
+    if value.trigger not in {
+        "material-change",
+        "explicit-decision",
+        "explicit-judgment",
+    }:
         raise JournalError("journal trigger is invalid")
+    try:
+        validate_journal_language(value.journal_language, allow_legacy=True)
+    except ValidationError as error:
+        raise JournalError("pending envelope language is invalid") from error
+    if value.trigger != "explicit-judgment" and value.journal_language is not None:
+        raise JournalError("legacy envelope cannot contain a journal language")
     _validate_snapshot(value.start_snapshot)
     _validate_snapshot(value.end_snapshot)
     _validate_delta(value.delta)
@@ -347,8 +413,19 @@ def _validate_envelope(value: PendingEnvelope) -> PendingEnvelope:
         or value.delta.end_head != value.end_snapshot.head
     ):
         raise JournalError("envelope delta does not match its snapshots")
-    if value.draft is not None and not isinstance(value.draft, JournalDraft):
+    if value.draft is not None and not isinstance(
+        value.draft, (JournalDraft, JudgmentDraft)
+    ):
         raise JournalError("journal draft has an invalid type")
+    if value.trigger == "explicit-judgment":
+        if not value.journal_key.startswith("cbj-v2-") or not isinstance(
+            value.draft, JudgmentDraft
+        ):
+            raise JournalError("explicit-judgment envelope has an invalid version")
+    elif not value.journal_key.startswith("cbj-v1-") or isinstance(
+        value.draft, JudgmentDraft
+    ):
+        raise JournalError("legacy envelope has an invalid version")
     if value.trigger == "material-change" and not value.delta.paths:
         raise JournalError("material-change envelope has no changed paths")
     if value.trigger == "explicit-decision" and (
@@ -357,6 +434,12 @@ def _validate_envelope(value: PendingEnvelope) -> PendingEnvelope:
         or value.draft is None
     ):
         raise JournalError("explicit-decision envelope is inconsistent")
+    if value.trigger == "explicit-judgment" and (
+        value.delta.paths
+        or value.start_snapshot != value.end_snapshot
+        or value.draft is None
+    ):
+        raise JournalError("explicit-judgment envelope is inconsistent")
     if value.sync_state == "pending":
         if any(item is not None for item in (value.page_id, value.page_url, value.synced_at)):
             raise JournalError("pending envelope contains receipt fields")
@@ -438,9 +521,42 @@ def _verification_from_dict(value: object) -> VerificationItem:
         raise JournalError("verification item is invalid") from error
 
 
-def _draft_from_dict(value: object) -> JournalDraft:
+def _draft_from_dict(value: object) -> JournalDraft | JudgmentDraft:
     item = _mapping(value, field="journal draft")
-    keys = {
+    legacy_judgment_keys = {
+        "title",
+        "why_now",
+        "understanding_shift",
+        "human_judgment",
+        "tradeoff_boundary",
+        "revisit_signal",
+        "evidence_pointers",
+        "ai_contribution",
+        "supersedes",
+    }
+    judgment_keys = legacy_judgment_keys | {"background"}
+    if set(item) in (legacy_judgment_keys, judgment_keys):
+        if set(item) == judgment_keys and item["background"] is None:
+            raise JournalError("judgment draft is invalid")
+        try:
+            return JudgmentDraft(
+                title=item["title"],
+                background=item.get("background"),
+                why_now=item["why_now"],
+                understanding_shift=item["understanding_shift"],
+                human_judgment=item["human_judgment"],
+                tradeoff_boundary=item["tradeoff_boundary"],
+                revisit_signal=item["revisit_signal"],
+                evidence_pointers=tuple(
+                    _sequence(item["evidence_pointers"], field="evidence pointers")
+                ),
+                ai_contribution=item["ai_contribution"],
+                supersedes=item["supersedes"],
+            )
+        except (KeyError, TypeError, ValidationError) as error:
+            raise JournalError("judgment draft is invalid") from error
+
+    legacy_keys = {
         "title",
         "purpose",
         "outcome",
@@ -453,7 +569,7 @@ def _draft_from_dict(value: object) -> JournalDraft:
         "ai_contribution",
         "verification_status",
     }
-    _exact_keys(item, keys, field="journal draft")
+    _exact_keys(item, legacy_keys, field="journal draft")
     try:
         return JournalDraft(
             title=item["title"],
@@ -479,7 +595,11 @@ def _config_from_dict(value: object) -> JournalConfig:
     item = _mapping(value, field="configuration")
     _schema_version(item.get("schema_version"))
     keys = {field.name for field in JournalConfig.__dataclass_fields__.values()}
-    _exact_keys(item, keys, field="configuration")
+    legacy_keys = keys - {"journal_language"}
+    if set(item) == legacy_keys:
+        item = {**item, "journal_language": None}
+    else:
+        _exact_keys(item, keys, field="configuration")
     try:
         return JournalConfig(**item)
     except (TypeError, JournalError) as error:
@@ -511,7 +631,11 @@ def _envelope_from_dict(value: object) -> PendingEnvelope:
     item = _mapping(value, field="pending envelope")
     _schema_version(item.get("schema_version"))
     keys = {field.name for field in PendingEnvelope.__dataclass_fields__.values()}
-    _exact_keys(item, keys, field="pending envelope")
+    legacy_keys = keys - {"journal_language"}
+    if set(item) == legacy_keys:
+        item = {**item, "journal_language": None}
+    else:
+        _exact_keys(item, keys, field="pending envelope")
     draft_value = item.get("draft")
     try:
         result = PendingEnvelope(
@@ -529,6 +653,7 @@ def _envelope_from_dict(value: object) -> PendingEnvelope:
             page_id=item["page_id"],
             page_url=item["page_url"],
             synced_at=item["synced_at"],
+            journal_language=item["journal_language"],
         )
     except (KeyError, TypeError) as error:
         raise JournalError("pending envelope is invalid") from error
@@ -547,6 +672,23 @@ def _receipt_from_dict(value: object) -> Receipt:
     return _validate_receipt(result)
 
 
+def read_config_file(root: Path) -> JournalConfig:
+    """Read configuration without creating, quarantining, or rewriting state."""
+
+    path = Path(root) / "config.json"
+    if not path.is_file():
+        raise JournalNotFoundError("journal configuration was not found")
+    try:
+        return _config_from_dict(json.loads(path.read_bytes()))
+    except (
+        OSError,
+        UnicodeDecodeError,
+        json.JSONDecodeError,
+        JournalError,
+    ) as error:
+        raise JournalError("journal configuration is invalid") from error
+
+
 class JournalStore:
     """Own local versioned state and monotonic pending/receipt transitions."""
 
@@ -555,8 +697,19 @@ class JournalStore:
         self.sessions = self.root / "sessions"
         self.pending = self.root / "pending"
         self.receipts = self.root / "receipts"
+        self.v2 = self.root / "v2"
+        self.v2_pending = self.v2 / "pending"
+        self.v2_receipts = self.v2 / "receipts"
         self.quarantine = self.root / "quarantine"
-        for directory in (self.root, self.sessions, self.pending, self.receipts, self.quarantine):
+        for directory in (
+            self.root,
+            self.sessions,
+            self.pending,
+            self.receipts,
+            self.v2_pending,
+            self.v2_receipts,
+            self.quarantine,
+        ):
             directory.mkdir(parents=True, exist_ok=True)
         self._lock = _root_lock(self.root)
 
@@ -566,10 +719,10 @@ class JournalStore:
         return self.sessions / filename
 
     def _pending_path(self, journal_key: str) -> Path:
-        return self.pending / f"{_journal_key(journal_key)}.json"
+        return pending_envelope_path(self.root, journal_key)
 
     def _receipt_path(self, journal_key: str) -> Path:
-        return self.receipts / f"{_journal_key(journal_key)}.json"
+        return receipt_state_path(self.root, journal_key)
 
     def _replace_bytes(self, path: Path, payload: bytes) -> None:
         temporary = path.with_name(f".{path.name}.{uuid4().hex}.tmp")
@@ -619,7 +772,7 @@ class JournalStore:
 
     def _read_document(self, path: Path, decoder: Callable[[object], _T]) -> _T:
         if not path.is_file():
-            raise JournalError("local journal state was not found")
+            raise JournalNotFoundError("local journal state was not found")
         last_error: Exception | None = None
         for attempt in range(6):
             try:
@@ -679,9 +832,12 @@ class JournalStore:
         self._replace_bytes(self._session_path(session.session_id), canonical_json(asdict(validated)))
 
     def _all_envelopes(self) -> tuple[PendingEnvelope, ...]:
+        paths = tuple(self.pending.glob("cbj-v1-*.json")) + tuple(
+            self.v2_pending.glob("cbj-v2-*.json")
+        )
         return tuple(
             self._read_document(path, _envelope_from_dict)
-            for path in sorted(self.pending.glob("*.json"), key=lambda item: item.name)
+            for path in sorted(paths, key=lambda item: item.name)
         )
 
     def recover_cursor(self, session_id: str) -> SessionState:
@@ -845,6 +1001,80 @@ class JournalStore:
                 raise JournalError("decision key conflicts with an existing envelope")
             return self._write_pending_if_absent(candidate)
 
+    def capture_explicit_judgment(
+        self,
+        snapshot: Snapshot,
+        draft: JudgmentDraft,
+        now: datetime,
+        *,
+        journal_language: str | None = None,
+    ) -> PendingEnvelope:
+        _validate_snapshot(snapshot)
+        if not isinstance(draft, JudgmentDraft):
+            raise JournalError("judgment draft has an invalid type")
+        try:
+            language = validate_journal_language(
+                journal_language, allow_legacy=True
+            )
+        except ValidationError as error:
+            raise JournalError("journal language is invalid") from error
+        digest_value: object = judgment_draft_to_dict(draft)
+        if language is not None:
+            digest_value = {
+                "draft": digest_value,
+                "journal_language": language,
+            }
+        draft_digest = sha256(canonical_json(digest_value)).hexdigest()
+        key = make_judgment_key(snapshot.repository, snapshot.digest, draft_digest)
+        empty_delta = SnapshotDelta(
+            paths=(),
+            start_head=snapshot.head,
+            end_head=snapshot.head,
+            start_digest=snapshot.digest,
+            end_digest=snapshot.digest,
+            commit_stat="",
+            worktree_stat="",
+            includes_pre_session_edits=False,
+        )
+        candidate = PendingEnvelope(
+            schema_version=SCHEMA_VERSION,
+            journal_key=key,
+            session_id="explicit-judgment",
+            repository=snapshot.repository,
+            recorded_at=iso_seoul(now),
+            sync_state="pending",
+            trigger="explicit-judgment",
+            start_snapshot=snapshot,
+            end_snapshot=snapshot,
+            delta=empty_delta,
+            draft=draft,
+            page_id=None,
+            page_url=None,
+            synced_at=None,
+            journal_language=language,
+        )
+        with self._lock:
+            if draft.supersedes is not None:
+                original = self.read_envelope(draft.supersedes)
+                if original.draft is None:
+                    raise JournalNotFoundError(
+                        "superseded journal record has no retained draft"
+                    )
+            path = self._pending_path(key)
+            if path.exists():
+                existing = self.read_envelope(key)
+                if (
+                    existing.trigger == candidate.trigger
+                    and existing.start_snapshot == snapshot
+                    and existing.end_snapshot == snapshot
+                    and existing.delta == empty_delta
+                    and existing.draft == draft
+                    and existing.journal_language == language
+                ):
+                    return existing
+                raise JournalError("judgment key conflicts with an existing envelope")
+            return self._write_pending_if_absent(candidate)
+
     def record_receipt(
         self,
         journal_key: str,
@@ -895,11 +1125,25 @@ class JournalStore:
                 envelope for envelope in self._all_envelopes() if envelope.sync_state == "pending"
             )
 
+    def read_receipt(self, journal_key: str) -> Receipt | None:
+        """Read only the requested key; unrelated receipts are diagnostic scope."""
+        with self._lock:
+            path = self._receipt_path(journal_key)
+            if not path.exists():
+                return None
+            receipt = self._read_document(path, _receipt_from_dict)
+            if receipt.journal_key != journal_key:
+                raise JournalError("journal receipt key does not match its filename")
+            return receipt
+
     def list_receipts(self) -> tuple[Receipt, ...]:
         with self._lock:
+            paths = tuple(self.receipts.glob("cbj-v1-*.json")) + tuple(
+                self.v2_receipts.glob("cbj-v2-*.json")
+            )
             return tuple(
                 self._read_document(path, _receipt_from_dict)
-                for path in sorted(self.receipts.glob("*.json"), key=lambda item: item.name)
+                for path in sorted(paths, key=lambda item: item.name)
             )
 
 
@@ -911,6 +1155,10 @@ __all__ = [
     "SessionState",
     "iso_seoul",
     "make_decision_key",
+    "make_judgment_key",
     "make_journal_key",
+    "pending_envelope_path",
+    "read_config_file",
+    "receipt_state_path",
     "state_root",
 ]

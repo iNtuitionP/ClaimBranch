@@ -2,7 +2,7 @@
 kind: validation-case
 status: active
 owners: maintainers
-last_reviewed: 2026-08-20
+last_reviewed: 2026-09-21
 canonical_for: saturation workflow acceptance criteria
 ---
 
@@ -54,9 +54,22 @@ references, expected impact, marked before/after text, offline frozen proposal,
 and blank V0 baseline. It is a validation fixture rather than an implemented
 product import schema. It does not yet freeze the optional ExperimentPlan, the
 proposal trace manifest, deterministic replay clocks/entropy/signing inputs,
-the compiler fingerprint, or the expected compile-output digest. Those full
-F0 inputs and the private mapping to the real episode remain separate local
-maintainer gates, so this checker cannot close P0.
+the compiler fingerprint, or the expected compile-output digest. These
+implementation-dependent F0 inputs are frozen at P1 exit, after the schema,
+authority, and toolchain decisions; they are not prerequisites for entering P1.
+P0 still requires the private human-confirmed mapping to the real episode and
+source-level manuscript/compile evidence, which the repository checker cannot
+prove. Passing this checker alone therefore cannot close P0. The
+[scope-lock gate](../../plans/active/2026-08-04-claimbranch-v1-and-gpu-systems.md#scope-lock-gate)
+owns the complete P0 exit criteria.
+
+Private-source verification remains unchecked and mandatory before any real
+research use, including real workspace writes, adoption, manuscript edits, or
+a real-use pilot. It no longer blocks explicitly synthetic development; the
+[release gate](../../product/releases/validation-prototype.md#11-development-and-real-use-gates)
+keeps the unchanged P1/H0 safety and trust requirements separate. Augmented
+synthetic cases below do not change this source fixture or assert private-case
+fidelity.
 
 ## 2. Initial accepted state
 
@@ -268,6 +281,28 @@ disk full.
 
 ## 10. Operator experience oracle
 
+The primary-workspace contract adds these observable cases to the existing
+foundation and H1 checks. They test interaction behavior, not scientific truth
+or live-study timing:
+
+| Case | Pass condition | Failure |
+|---|---|---|
+| Start before deciding, AI off | source evidence and the existing claim open the manual path; the researcher forms an interpretation inside it | a final interpretation, external completed log, or AI Proposal is required at entry |
+| Review an entered judgment | the same episode context and human rationale are available for inspection/editing | the researcher must rewrite unchanged meaning into a second journal or retrospective form |
+| Context changes during review | changed evidence, meaning, selection, or manuscript state invalidates the applicable authorization | reused text silently reuses consent or accepts stale scope |
+| Defer and return | the episode shows what was decided and what remains open, with the existing distinct Not now and debt-opening paths | the researcher must reconstruct the situation from raw audit events or AI silently closes debt |
+| Inspect without an audit dump | situation, evidence basis, decision, and manuscript consequence are legible; detailed provenance is available on demand | internal IDs, provider traces, or a mandatory Notion record are needed to understand the decision |
+| Initialize and reopen private research | dry-run shows separate paper/workspace locations without writing; initialization defaults outside Git; reopening finds the same accepted history | private records enter a Git tree by default, or moving the paper silently creates replacement history |
+
+The [private-workspace decision](../../architecture/decisions/0008-private-research-workspaces.md)
+also requires tests for resolved path aliases, source unavailability, export
+ownership, and verified restore. These are future product tests, not claims
+that the current source-fixture checker proves storage safety.
+
+The user reviews whether the proposed context and questions are sufficient
+before H1 surface implementation. AI cannot certify human understanding from
+these tests. A known-answer demonstration remains distinct from prospective use.
+
 The disposable demo renders the same lineage without a provider, LaTeX
 installation, browser requirement, or real-project write:
 
@@ -286,6 +321,25 @@ Before V0, an unfamiliar supported-Windows researcher must complete the
 documented demo, project dry run, one manual episode, deferred-review resume,
 and recovery inspection without coaching or internal storage edits.
 
+### 10.1 Early read-only graph inspection
+
+The executable [graph walkthrough](../../development/workflow.md#read-only-graph-walkthrough)
+exposes a smaller, synthetic inspection path before the full demo above.
+It checks two challenge relationships and one compression-qualified
+relationship, each with its condition and original rationale; main and
+candidate retain identical observations. Its five computed differences are
+the claim status, existing fixture interpretation, and three relationships.
+Selection is explicit and empty by default. Preview retains omissions,
+references existing dependencies, rejects missing dependencies, and follows
+only displayed links toward the manuscript anchor. It creates no accepted
+state, manuscript debt, approval, or manuscript edit.
+
+`tests/contract/test_graph_demo.py` covers these projection and subprocess
+contracts. The views are not real refs; interpretation-to-observation paths
+are references, not new scientific inference. Passing this suite does not
+implement SelectedMerge, validate the original private research, establish
+user comprehension, or meet the full demo's time and onboarding gates.
+
 ## 11. Prospective use
 
 The saturation fixture is retrospective and known-answer. V0 applies the same
@@ -296,5 +350,60 @@ out-of-F0.
 
 The [validation prototype](../../product/releases/validation-prototype.md)
 defines eligibility, baseline, timing, replacement limits, recorded fields, and
-the ordered outcome rule. The fixture cannot be cited as market evidence or as
+the ordered outcome rule. Its first-pass comparison design requires user
+approval before prospective use: the committed baseline's instruction to
+finish Markdown first is historical, not the primary-workspace workflow.
+This retrospective fixture cannot establish first-pass timing. It also cannot
+be cited as market evidence or as
 proof that ClaimBranch prevented an omission.
+
+## 12. Augmented synthetic contract oracles
+
+These five hypothetical scenarios extend test coverage only. They are not
+new facts about the original saturation episode, additional accepted F0
+records, or scientific findings. The fixture is
+[augmented-cases.json](../../../tests/fixtures/saturation/augmented-cases.json); contract and disposable-store
+tests live in `tests/contract/test_augmented_cases.py` and
+`tests/probes/test_augmented_storage.py`. The original truth-packet files and
+integrity manifest remain unchanged.
+
+| Hypothetical case | Observable pass condition |
+|---|---|
+| Observation correction | a new immutable synthetic revision supersedes the old value without deleting or mutating it; reasoning drafts do not own evidence; the earlier evidence-bound review is stale |
+| Competing interpretations | two model proposals coexist as unaccepted alternatives; neither rewrites the draft nor selects, merges, or accepts the other |
+| Compression-only support | a proposal asserting general support remains unaccepted; model confirmation is denied through the generic proposal-only boundary, irrespective of persuasive wording |
+| Review basis changes | changing the evidence snapshot or manuscript anchor/content hash invalidates the old review even when draft text and rationale are unchanged |
+| Storage crash and retry | actual subprocess exits immediately before and after SQLite commit leave either no judgment or the exact completed judgment; reopening and identical retry leave exactly one record, and changed retries cannot overwrite it |
+
+The compression case tests authority, not an automated inference that decides
+which scientific claims the observations entail. Synthetic observation
+revisions and review digests are non-authoritative reference values, not
+human-confirmed evidence or consent receipts. Manuscript target versions are
+caller-supplied; the model neither reads files nor detects external edits.
+The storage case uses disposable
+roots and tests process termination, not power-loss durability, OS isolation,
+or manuscript-saga recovery. Passing these cases alone cannot satisfy P0, P1,
+H0, or a real-use gate. Execution steps and actual results belong in the
+[active plan](../../plans/active/2026-08-04-claimbranch-v1-and-gpu-systems.md#augmented-synthetic-contract-cases).
+
+## 13. Provider authority and support oracle
+
+These planned product checks implement
+[ADR 0009](../../architecture/decisions/0009-external-inference-and-local-authority.md).
+They are not capabilities established by the current helper or source fixture.
+
+| Case | Observable pass condition |
+|---|---|
+| AI off or provider lost | the same episode, rationale, review, and manual path remain usable; no provider request or duplicate explanation is required |
+| Compatible but unverified server | compatibility is reported separately from protection; live protected use remains unavailable, with manual continuation and no accepted change |
+| Same-user server behind an isolated connector | direct file/approval-channel access is tested from the actual server context; connector denial alone cannot earn a supported verdict |
+| Separately hosted or isolated server | verify no accepted-store/key/manuscript write route through mounts, credentials, IPC, or exposed APIs; topology names alone cannot pass |
+| Hostile provider output | commands, forged human labels, approval fields, oversized/malformed responses, and markup cannot authorize or execute writes; accepted state stays unchanged |
+| Changed outbound destination or content | prior consent is invalidated before transmission; localhost is not local-only without external-network denial evidence |
+| Cancelled, stale, late, or repeated response | no automatic adoption, tool execution, debt closure, or duplicate accepted operation occurs; any later human review uses current state |
+| Exact human authorization | broker independently reloads the sealed review; cancellation, expiry, replay, changed scope, and direct model-originated requests fail without mutation |
+
+H0 exercises offline/manual and frozen malicious inputs. H1 additionally needs
+observed actual-runtime topology and egress evidence. A pure synthetic receipt
+or binding test cannot close the foreground-presence, key-custody, IPC, or
+durability gate. Execution order and test ownership belong to the active plan.
