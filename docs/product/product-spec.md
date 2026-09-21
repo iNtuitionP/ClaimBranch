@@ -2,480 +2,527 @@
 kind: product-spec
 status: draft
 owners: maintainers
-last_reviewed: 2026-08-03
+last_reviewed: 2026-09-21
 canonical_for: intended product behavior and boundaries
 ---
 
 # ClaimBranch product specification
 
-Version: 0.3
-Basis: consolidated design draft
+Version: 0.4
 
-Implementation planning is split between the smallest
-[validation prototype](releases/validation-prototype.md) and the broader
-[candidate MVP release](releases/candidate-mvp.md).
+Basis: user-approved office-hours direction, accepted architecture decisions,
+and the reviewed finite validation plan. ClaimBranch still has no usable
+application or settled implementation stack.
+
+Implementation and validation sequencing is owned by the
+[validation prototype](releases/validation-prototype.md), the conditional
+[candidate MVP](releases/candidate-mvp.md), and the
+[active ExecPlan](../plans/active/2026-08-04-claimbranch-v1-and-gpu-systems.md).
 
 ## 1. Product definition
 
-ClaimBranch is a local-first semantic version-control system that helps an
-empirical researcher track how experimental results change interpretations,
-claims, follow-up experiments, and manuscript text.
-
-The product is built around one principle:
-
-> **Evidence stays. Claims branch.**
-
-It is not primarily a place to run experiments or write prose. It records the
-reasoning transition between an experimental result and the paper that should
-eventually express it.
-
-## 2. Target user and initial setting
-
-The first user is a solo empirical AI researcher who:
-
-- keeps code, results, figures, and a LaTeX manuscript in a Git repository;
-- receives results as JSON or similar local files;
-- may use Overleaf through Git sync but compiles the manuscript locally;
-- often explores several explanations and experiments in parallel;
-- needs AI assistance without delegating scientific judgment to AI; and
-- values fast, polished daily interaction more than broad feature coverage.
+ClaimBranch is a local-first personal research agent that preserves human
+authorship while making AI available throughout empirical research.
+
+Its product promise is:
+
+> When an unexpected result challenges an important claim, ClaimBranch
+> preserves the lineage from evidence through AI contribution and human
+> judgment to manuscript consequence, and accepts only changes that the
+> researcher knowingly authorizes.
+
+Semantic version control is a mechanism for competing interpretations and
+selective adoption. It is not the product identity. The product is the focused
+decision workflow that helps a researcher understand what changed, decide what
+they believe, keep AI influence legible, and bring the paper back into alignment.
+
+For an eligible result-to-paper episode, ClaimBranch is the intended primary
+workspace for forming and recording the judgment, not a mandatory second pass
+after deciding elsewhere. The researcher must not first complete a separate
+decision log to use it. This does not expand the finite episode scope into a
+replacement for experiment execution, general note-taking, or the LaTeX editor.
+
+Starting an episode requires source context, not an already-completed
+interpretation. As the researcher judges, review reuses the entered context
+and rationale rather than requiring a second retrospective form. Changed
+meaning, evidence, or scope still requires the applicable new review and
+authorization; reuse never carries old consent forward. Necessary audit
+history remains inspectable without requiring the researcher to author it as
+another narrative. The contributor Notion journal is not part of this workflow.
+
+The mnemonic remains:
+
+> **Evidence stays. Claims branch. The researcher remains the author.**
+
+## 2. Target user and support setting
+
+The first product user and repository operator are one solo empirical AI
+researcher-builder who:
+
+- maintains a Git-tracked LaTeX paper on a native-Windows workstation;
+- can clone a repository, run documented PowerShell commands, read a relative
+  path, and make scientific judgments;
+- records local result artifacts and may compile the manuscript locally;
+- wants AI critique and drafting without delegating evidence acceptance,
+  scientific decisions, or authorship;
+- is willing to capture one important result-to-paper decision when the value is
+  visible; and
+- values a calm, fast daily workflow more than broad platform coverage.
+
+They are not expected to manage a language runtime environment, inspect a
+database, edit ClaimBranch internals, configure OS ACLs, debug provider JSON, or
+understand graph traversal syntax.
+
+An unfamiliar researcher with the same scientific context is the secondary H1
+usability persona. The implementation maintainer is separate and may use
+internal validation commands that never appear in normal product help.
+
+The initial support hypothesis is one standard-user Windows 11 x64 machine, a
+local NTFS Git repository, one LaTeX root and marked block, one supported
+browser, and one pinned noninteractive compile workflow. Exact versions and
+unsupported path/security combinations are frozen by platform spikes before
+H0 is accepted. macOS, Linux, WSL, network/synced roots, ARM64, non-LaTeX
+manuscripts, collaboration, and unattended authorization are not implied.
+
+## 3. Problem
+
+Unexpected results create obligations that ordinary tools split apart:
+
+- which accepted observations support, challenge, or qualify a claim;
+- which alternative interpretation remains plausible;
+- why a follow-up experiment was planned;
+- where existing evidence supports only one component of a compound claim;
+- how an AI suggestion influenced the accepted reasoning;
+- what the researcher actually authorized and why;
+- which explanations the researcher deliberately deferred reviewing; and
+- which manuscript sentence is now inconsistent with accepted research state.
+
+Git tracks file history but not scientific meaning. Experiment trackers explain
+how a metric was produced, not how it changed the paper. A chat transcript can
+contain useful reasoning but is not a durable authority model. The result is
+lost lineage, hidden AI contribution, understanding debt, and manuscript debt.
+
+## 4. Product principles
+
+### 4.1 Evidence is global and append-only; reasoning may branch
 
-Multi-author collaboration, cloud hosting, and generalized laboratory
-workflows are later concerns.
+Completed runs, raw artifact references, and human-confirmed observations are
+accepted evidence visible from every reasoning branch. Corrections,
+invalidations, and retractions append events; they never rewrite or hide the
+prior record.
+
+Interpretations, Claims, selected scientific relationships, Decisions,
+Experiment Plans, manuscript impact, and debt may differ between reasoning
+branches. A selected merge adopts an explicit dependency-closed set of
+reasoning changes; it never decides whether an Observation happened.
+
+The accepted boundary is [ADR 0001](../architecture/decisions/0001-evidence-and-reasoning.md).
+The finite first merge is deliberately smaller than the general behavior still
+proposed in [ADR 0002](../architecture/decisions/0002-semantic-branches.md).
+
+### 4.2 AI is always available as an assistant, never as accepted authority
+
+AI may help capture, compare, critique, interpret, propose follow-up experiments,
+find manuscript impact, draft bounded changes, and formulate teach-back
+questions. Every AI result is a non-authoritative Proposal.
 
-## 3. Problem statement
+AI cannot:
+
+- confirm, correct, invalidate, or retract evidence;
+- accept a Claim, Interpretation, relationship, or Decision;
+- create a human authorization receipt;
+- merge reasoning into the accepted branch;
+- apply a manuscript patch;
+- mark compile verification;
+- close understanding or manuscript debt; or
+- assert that the researcher understands a decision.
 
-A paper begins with hypotheses and expected scenarios. Real results can match
-some expectations and contradict others. The researcher then has to remember:
+Provider failure, cancellation, malformed output, deletion, or total absence
+leaves accepted state unchanged and the manual path usable. These constraints
+are accepted in [ADR 0003](../architecture/decisions/0003-ai-proposals.md).
 
-- which observations support, challenge, or qualify which claims;
-- which alternative interpretations remain plausible;
-- why each follow-up experiment was created;
-- which existing experiments support only part of a revised claim;
-- which sentences, sections, figures, and tables are now stale; and
-- which changes were considered, adopted, deferred, or reverted.
+### 4.3 Provenance and understanding are independent
 
-These obligations accumulate as **manuscript debt**: a traceable mismatch
-between the currently accepted research state and the state expressed by the
-manuscript.
+An accepted AI-influenced operation retains an ordered Contribution chain:
+proposal, human edits, human adoption, deterministic derivations, and later
+corrections. Editing AI text does not erase its influence.
 
-Git tracks textual history but not this scientific meaning. Experiment trackers
-answer how a metric was produced, not how it changes the paper's argument.
+Review burden follows impact:
 
-## 4. Product promise
+- low-impact non-authoritative capture remains quiet;
+- medium-impact AI-influenced acceptance requires a concise human rationale;
+- high-impact AI-influenced acceptance asks one to three contextual teach-back
+  questions.
 
-When a result differs from an expected scenario, a researcher should be able to
-complete the following loop without losing provenance:
+For high-impact work, the researcher may:
 
-```text
-Result
--> Mismatch
--> Reasoning branch
--> Competing interpretations
--> Revised or contested claims
--> Discriminating follow-up experiments
--> Manuscript impact
--> Human rationale
--> Selective merge
--> Verified manuscript update
-```
+- answer and authorize;
+- edit the proposal or rationale;
+- choose **Not now**, which changes no accepted state; or
+- choose **Authorize now; review explanation later**, which permits only the
+  displayed operation and atomically opens visible UnderstandingDebt.
 
-For the [canonical saturation case](../validation/cases/saturation.md), this
-loop should take no more than ten minutes once the scientific judgment and any
-required experiments are complete.
+AI can help the researcher work through debt, but only a later foreground human
+decision can close it. There are no comprehension scores, shame mechanics, or
+AI grades. The accepted contract is
+[ADR 0005](../architecture/decisions/0005-human-authority-provenance-and-understanding-debt.md).
 
-## 5. Decision provenance
+### 4.4 Human authority is technical
 
-This specification distinguishes three levels of confidence:
+Accepted mutations require an exact sealed review, an explicit foreground human
+gesture, a short-lived single-use receipt, and unchanged expected research and
+file state. A request field claiming to be human is not authority.
 
-- **User-confirmed constraint:** explicitly chosen in the design interview and
-  treated as stable unless the user revises it.
-- **Product hypothesis:** a recommended behavior that must be validated in the
-  saturation workflow and usability testing.
-- **Implementation hypothesis:** a reversible technical choice for an early
-  contract spike, not a user requirement.
+Model-facing processes receive scoped read/proposal capabilities, no signing
+material, no portable receipt, no human export capability, and no writable
+accepted-state handle. The researcher must see exactly which operation and
+consequences are authorized.
 
-| Decision | Provenance |
-|---|---|
-| Global immutable evidence and branchable reasoning | User-confirmed constraint |
-| `damage = delta-logit distortion × sensitivity` as conceptual factorization | User-confirmed constraint |
-| Semantic partial merge | User-confirmed constraint |
-| AI suggestions require human understanding and approval | User-confirmed constraint |
-| Solo, local-first initial product with optional AI | User-confirmed constraint |
-| Application-managed LaTeX comment markers are allowed | User-confirmed constraint |
-| JSON drag-and-drop, then CLI, form, and reviewed chat | User-confirmed priority |
-| Soft rationale for ordinary proposals and stronger review for central changes | User-confirmed direction |
-| Exact Node, Edge, status, and debt taxonomy | Product hypothesis |
-| Inbox-first information architecture | Product hypothesis |
-| Separate domain commits and semantic refs | Implementation hypothesis |
-| `.claimbranch/`, `config.toml`, and marker spelling | Implementation hypothesis |
+### 4.5 The graph has three authority planes
 
-### 5.1 Evidence and reasoning are separate
+ClaimBranch projects one experience from:
 
-Decision level: **user-confirmed constraint**.
+1. canonical accepted scientific state;
+2. disposable context and retrieval derivations; and
+3. append-only provider/tool execution traces.
 
-Completed runs, raw artifacts, and human-confirmed observations are global and
-append-only. Branches contain interpretations of evidence, not alternative
-versions of what happened.
+Only the first is scientific source of truth. Similarity, extraction, community
+summaries, model memory, and tool traces never become accepted science
+implicitly. The architecture and expansion rules are in
+[ADR 0006](../architecture/decisions/0006-three-graph-planes-and-provider-boundary.md).
 
-Reasoning objects can branch: scenarios, interpretations, claims, narratives,
-planned experiments, evidence relations, decisions, and manuscript patches.
+### 4.6 Manuscript progress is not one transaction
 
-### 5.2 ClaimBranch branches are semantic
+An accepted graph decision may open manuscript debt before any file is changed.
+Patch preparation, application, compile verification, exact restoration, and
+human debt closure are distinct, visible phases. ClaimBranch never reports
+global success merely because the graph operation committed.
 
-Decision level: **implementation hypothesis**, derived from the confirmed
-evidence/reasoning separation.
+If it cannot prove current manuscript bytes, it stops accepted and manuscript
+mutation and enters a recovery-only surface. It never guesses or overwrites a
+divergent external edit. See
+[ADR 0007](../architecture/decisions/0007-research-episode-and-manuscript-saga.md).
 
-A ClaimBranch branch is a versioned research narrative stored in
-`.claimbranch/refs`. It is not required to be a Git branch. Git remains the
-transport and audit layer for repository files; ClaimBranch provides domain
-commits, semantic diff, partial merge, and revert.
+## 5. Closed first foundation
 
-An accepted manuscript patch may optionally be materialized on a Git branch.
+“Graph-first” means the logical contract for one finite wedge is complete before
+the product UI is generalized. It does not mean a universal ontology, graph
+database, full graph canvas, or complete semantic VCS is built first.
 
-### 5.3 Merge belongs to the researcher
-
-Decision level: **user-confirmed constraint**.
-
-Lifecycle and maturity labels help the user judge state. They never become a
-mandatory evidence gate that prevents a merge. A user may override an advisory
-gate by recording a reason.
-
-Partial merge is mandatory. A researcher may, for example:
-
-- mark an old claim contested;
-- merge new follow-up experiment plans;
-- open manuscript debt;
-- postpone the replacement central claim; and
-- reject or defer all proposed prose.
-
-### 5.4 AI is a proposal engine
-
-Decision level: **user-confirmed constraint**.
-
-AI can suggest observations, interpretations, relationships, conflicts,
-follow-up experiments, affected manuscript locations, and patches. Every such
-change enters an AI Proposal Inbox and must be confirmed or edited by a human.
-
-AI cannot independently:
-
-- alter raw results;
-- confirm an observation;
-- accept a claim or relationship;
-- merge or revert a branch;
-- modify the active manuscript;
-- close manuscript debt; or
-- assert that a researcher does or does not understand a decision.
-
-### 5.5 Capture first, structure progressively
-
-Decision level: **product hypothesis** motivated by the user's UX priority and
-request for flexible granularity.
-
-The quick path accepts an untyped note such as:
-
-```text
-Pruning did not follow the saturation prediction.
-```
-
-The user can structure it later, or review an AI proposal that splits it into
-an Observation, Interpretation, and Follow-up Experiment. Rich internal types
-must not become mandatory form-filling at capture time.
-
-### 5.6 The inbox is home
-
-Decision level: **product hypothesis** based on the user's preference for a
-task/approval inbox and polished control-plane UX.
-
-The full graph is an advanced view. The default screen is a combined Task,
-Debt, and Approval Inbox showing decisions that need attention. Other screens
-are projections of the same graph rather than independent sources of truth.
-
-## 6. Core concepts
-
-### 6.1 Evidence layer
-
-The evidence layer records what occurred:
-
-- ExperimentSpec version
-- Run
-- raw Artifact
-- Metric
-- Observation
-- code reference
-- environment reference
-
-Accepted evidence is not edited in place. Corrections create a new object or
-version with a `supersedes` relationship. Invalid runs remain recorded and are
-marked invalid with a reason.
-
-### 6.2 Reasoning and publication layer
-
-This layer records how evidence is interpreted and used:
-
-- Research Question
-- Hypothesis
-- Expected Scenario
-- Interpretation
-- Claim
-- Narrative
-- Decision
-- Follow-up Experiment Plan
-- Manuscript Anchor
-- Patch Proposal
-- Debt Bundle and independently resolvable Debt Item
-- Literature Item and relation
-- AI Proposal
-
-The detailed contract is defined in the
-[draft domain and versioning design](../designs/2026-08-03-domain-model.md).
-
-## 7. Primary user journeys
-
-### 7.1 Initialize an existing paper
-
-1. Select an existing Git repository.
-2. Confirm the root manuscript, initially `main.tex`.
-3. Confirm the existing local compile command.
-4. Create `.claimbranch/` without reorganizing the user's project.
-5. Add or import the first Research Question and Claim.
-6. Select manuscript text and link it to the Claim.
-7. Enter the Inbox.
-
-The target onboarding time is under five minutes for a compatible repository.
-
-### 7.2 Import an experiment result
-
-1. Drag a JSON file into the application.
-2. Preview its structure and content hash.
-3. Map fields to experiment identity, optional run parameters, metrics, and
-   artifact paths.
-4. Save the mapping as a reusable adapter template.
-5. Review the proposed Experiment-level result, optional Runs, and Observations.
-6. Confirm the observations; store the original file unchanged.
-
-Input priority is JSON drag-and-drop, then CLI, structured web form, and
-reviewed natural-language capture.
-
-### 7.3 Respond to an unexpected result
-
-1. Compare the expected and observed scenarios.
-2. Confirm a match or mismatch; semantic comparison may be AI-proposed.
-3. Review affected claims and evidence relationships.
-4. Create a reasoning branch.
-5. Record competing interpretations and discriminating experiments.
-6. Review a derived manuscript-impact bundle.
-7. Open a semantic merge request against `main`.
-8. Select individual changes and record a merge rationale.
-
-### 7.4 Synchronize the manuscript
-
-1. Open a Debt Bundle caused by an accepted research change.
-2. Review linked evidence, claim scope, and affected anchors side by side.
-3. Request or write a bounded patch.
-4. Accept, edit, reject, or defer the patch.
-5. Apply an accepted patch deterministically.
-6. Run the configured compile command.
-7. Verify or explicitly waive the debt item.
-
-## 8. Manuscript integration
-
-ClaimBranch initially supports a single root LaTeX manuscript and local compile
-command. The user's existing directory structure remains intact.
-
-Anchors use a hybrid strategy:
-
-1. existing LaTeX `\label{...}` for sections, figures, and tables;
-2. automatically managed comment markers for paragraphs or sentences;
-3. sidecar metadata containing content hash and surrounding context; and
-4. AI-proposed relocation followed by human confirmation as a last resort.
-
-Example marker:
-
-```latex
-% claimbranch:start id=anchor-central-claim
-Saturation determines the damage induced by efficiency operators.
-% claimbranch:end id=anchor-central-claim
-```
-
-Markers occupy their own comment lines, never affect the rendered PDF, and are
-inserted by the application rather than typed by the user. The application must
-run the configured compile check after insertion and must not silently relink a
-missing or moved marker.
-
-Overleaf API control is out of scope. Overleaf Git sync can continue to work as
-normal.
-
-## 9. Manuscript debt
-
-Debt is derived from accepted graph changes, not merely entered as a TODO. A
-Debt Bundle groups related effects so that one observation does not generate a
-storm of independent alerts.
-
-Initial debt reasons include:
-
-- stale claim wording;
-- missing result update;
-- evidence-scope mismatch;
-- numeric drift;
-- unlinked evidence;
-- unresolved contradiction;
-- orphaned anchor;
-- unapplied or unverified patch;
-- related-work gap; and
-- follow-up experiment without rationale.
-
-Each item records the source change, affected objects and anchors, severity,
-resolution condition, status, and history. Closing a debt requires `verified`,
-`waived`, or `explicitly_deferred`; AI cannot choose that state.
-
-## 10. Explain-back checkpoints
-
-ClaimBranch preserves human ownership by requesting rationale at high-impact
-transitions, not by placing quizzes on routine actions.
-
-Soft checkpoints require a one-sentence rationale for ordinary AI proposals or
-new follow-up plans.
-
-Hard checkpoints apply to central-claim changes, narrative merges, central
-manuscript patches, and waiving important debt. Prompts cover:
-
-- what evidence changed the previous claim;
-- which part of the new claim is supported;
-- which alternatives remain;
-- what experiment could discriminate between them;
-- what would falsify the new claim; and
-- where the manuscript must change.
-
-The user can override a checkpoint, but the reason is recorded. Product copy
-uses `Merge rationale`, `Decision note`, and `Human review pending`, never an
-unsupported assertion that the user failed to understand.
-
-## 11. Information architecture
-
-### 11.1 Inbox
-
-The home screen groups work such as:
-
-```text
-1 central claim challenged
-3 manuscript locations may be stale
-2 AI proposals await review
-1 follow-up experiment lacks rationale
-1 manuscript anchor needs relinking
-```
-
-### 11.2 Focused Graph
-
-Shows the selected object and its one- or two-hop neighborhood. Full-graph mode
-is optional and advanced.
-
-### 11.3 Branches
-
-Shows active claims, experiment plans, evidence relationships, manuscript
-patches, and debt differences between semantic branches.
-
-### 11.4 Claim Dashboard
-
-Shows support, challenge, qualification, scientific maturity, human review,
-and manuscript integration for each Claim.
-
-### 11.5 Manuscript Impact
-
-Projects research changes onto affected sentences, sections, tables, figures,
-and captions.
-
-### 11.6 Scenario Board
-
-Places expected outcomes, observed outcomes, competing explanations, and
-discriminating experiments together.
-
-### 11.7 Context inspector
-
-Evidence, proposal history, actions, and provenance appear beside the current
-object. Chat is a contextual capture and query surface, not the source of truth.
-
-## 12. Local-first behavior and performance
-
-- Graph navigation, search, branch switching, and deterministic checks work
-  without an AI provider or network connection.
-- AI work runs asynchronously, is cancellable and retryable, and never blocks
-  the core UI.
-- Repository files are the durable source of truth.
-- `.claimbranch-cache/index.sqlite` is a rebuildable index and is not committed.
-- Raw evidence remains in the user's repository or an explicitly linked
-  artifact store.
-- Remote AI providers are opt-in per project. Before a request, the product
-  shows which nodes or files will leave the machine, excludes configured secret
-  paths, and records the provider, model, and input references with the
-  resulting proposal. A local provider can implement the same interface.
-
-Initial design targets for a paper project are 100 experiments, 5,000 runs,
-2,000 observations, 200 claims, 1,000 anchors, 500 literature items, and 50,000
-edges. These are stress-test targets, not measured promises.
-
-Interaction targets are approximately 100 ms for ordinary navigation, 300 ms
-for a focused graph, 150 ms to first search results, 500 ms for a basic branch
-diff, and one second for a 10,000-row JSON import preview. They must be measured
-and revised during implementation.
-
-The candidate daily workspace uses a local daemon to watch configured result
-paths, manuscript anchors, and Git state; execute compile and background tasks;
-and report cancellable progress to the browser UI. This is a product and
-architecture hypothesis to validate after the smallest workflow prototype.
-
-## 13. Non-goals for the first release
-
-- real-time coauthor collaboration;
-- cloud SaaS and remote access;
-- experiment execution or scheduling;
-- checkpoint hosting or artifact synchronization;
-- replacing DVC, W&B, or MLflow;
-- direct Overleaf API control;
-- autonomous or unapproved AI actions;
-- automatic manuscript merge;
-- generalized PDF RAG and related-work automation;
-- simultaneous support for every manuscript format;
-- mobile clients or a plugin marketplace; and
-- a broad Research OS.
-
-Related work begins with `.bib` import, Literature Items, claim relationships,
-and related-work debt. Full-paper analysis comes after the kernel is stable.
-
-## 14. Product success measures
-
-### Scientific synchronization
-
-- Every accepted central-claim change is compile-verified, waived, or explicitly
-  deferred at a submission tag.
-- The median time from a human-confirmed observation to resolved manuscript
-  debt falls from the user's current baseline toward ten minutes, excluding the
-  time needed to run new experiments.
-- Every active Experiment Plan has a motivation relationship, rationale, and
-  target claim or interpretation.
-- Open debt count, central debt count, debt age, and verified resolution rate
-  improve over a paper's lifecycle.
-
-### UX guardrails
-
-- time to import and confirm one result;
-- alerts generated per result and the bundling ratio;
-- AI proposals accepted, edited, rejected, or ignored;
-- median proposal review time;
-- manual anchor repair count; and
-- instances where background AI work blocks the UI.
-
-## 15. Open implementation questions
-
-The product semantics above are fixed enough to implement. The following remain
-engineering inputs rather than product ambiguities:
-
-- representative anonymized JSON fixtures and mapping patterns;
-- the user's exact LaTeX compile command and failure modes;
-- implementation stack for the daemon, web application, and shared core;
-- event and object serialization details after replay/profiling spikes;
-- default AI provider interfaces and privacy disclosure; and
-- measured ergonomics of markers and explain-back checkpoints.
-
-Technology choices must preserve the domain invariants and the offline,
-human-owned core rather than redefining them.
+The F0 saturation episode contains:
+
+- one ResearchEpisode;
+- one result ArtifactRef and one manuscript ArtifactRef;
+- one completed Run and three confirmed Observations;
+- one central Claim;
+- one competing Interpretation on one non-nested reasoning branch;
+- a small closed set of typed scientific relationships;
+- zero or one ExperimentPlan;
+- one selected dependency-closed merge into main;
+- one marked ManuscriptAnchor, one PatchIntent, one ManuscriptDebt;
+- separate AI-off and frozen-proposal histories; and
+- bounded Decisions, Contributions, reviews, receipts, attempts, traces, and
+  resource sizes.
+
+The [draft domain model](../designs/2026-08-03-domain-model.md) owns exact
+records, edges, operations, cardinalities, state machines, and resource limits.
+A valid live episode outside those bounds is recorded as out-of-F0 and counts
+against the product; it does not silently expand the contract during V0.
+
+## 6. Primary journeys
+
+Planned commands below describe intended product behavior, not working
+instructions in the current repository.
+
+### 6.1 Discover and learn without risk
+
+From a clean supported checkout with declared prerequisites, the researcher:
+
+1. runs one standard-user repository bootstrap;
+2. runs ClaimBranch doctor and sees core, manuscript, authorization, and
+   optional-provider readiness separately; and
+3. runs the disposable saturation demo with AI off and network denied.
+
+Within five minutes, the demo shows three observations challenging one central
+Claim and one marked manuscript consequence, verifies its audit manifest, and
+states that no project or manuscript file changed. It requires no provider,
+credential, browser, LaTeX installation, or graph knowledge.
+
+### 6.2 Initialize one compatible paper
+
+The researcher first previews project initialization. The dry run reports:
+
+- resolved paper root and planned ClaimBranch paths;
+- Git and dirty-worktree state;
+- durable, secret, projection, temporary, and demo locations;
+- root manuscript and marker status;
+- exact compiler configuration/readiness;
+- browser and authorization readiness;
+- AI and network state; and
+- what would change or how failure leaves the paper untouched.
+
+The real operation initializes only after review. The researcher can generate a
+human-readable episode template and add or verify the one F0 marker without
+editing internal storage.
+
+### 6.3 Record an unexpected result manually
+
+The researcher:
+
+1. starts one ResearchEpisode;
+2. references the original result artifact and completed Run;
+3. confirms exactly three Observations through append-only evidence events;
+4. sees how they support, challenge, or qualify the central Claim;
+5. opens one competing reasoning branch and records one Interpretation;
+6. optionally records one discriminating ExperimentPlan;
+7. reviews the exact impact closure and human rationale;
+8. authorizes one selected merge; and
+9. sees one manuscript debt for the marked block.
+
+The AI-off path is complete. No empty “ask AI” state blocks the workflow.
+
+### 6.4 Request optional AI help and learn serving
+
+AI is an explicit action inside the current episode, not a mandatory onboarding
+step or chat home.
+
+Before any remote-capable request, ClaimBranch shows the destination, exact
+normalized content, redactions, retention expectation, and request digest. The
+researcher may send, edit, cancel, or continue manually.
+
+H1 supports a deterministic stub plus one already-running OpenAI-compatible
+endpoint. Add, probe, test, and explain actions teach:
+
+- endpoint reachability and redirect behavior;
+- local-only versus external-network-capable trust classification;
+- model identity and context ceiling;
+- structured-output compatibility;
+- cancellation and visible failure;
+- time to first token, token usage, and throughput when the endpoint exposes
+  them; and
+- that the returned Proposal remains **Not accepted**.
+
+ClaimBranch does not install, download, quantize, start, stop, route, update, or
+benchmark model servers. A local model is not automatically the default.
+
+Inference, any tool execution, and accepted writing are separate responsibilities
+under [ADR 0009](../architecture/decisions/0009-external-inference-and-local-authority.md).
+API compatibility is not a protection verdict. A live provider becomes usable
+for the protected workflow only after its deployment satisfies the authority
+and privacy gates; an unrestricted same-user server is not made safe by
+isolating its connector or acknowledging a warning. Unknown or unsupported
+protection leaves manual work available and accepted state unchanged. There is
+no new model-server manager, general tool executor, or second journal form.
+
+### 6.5 Review, authorize, defer, and resume
+
+The command-launched Episode Review is one linear decision sheet:
+
+1. situation and what changed;
+2. AI suggestion labeled **Not accepted**, when present;
+3. scientific before/after and evidence basis;
+4. exact dependency closure and omitted items;
+5. manuscript consequence and exact source diff when applicable;
+6. human rationale and contextual teach-back or deferral;
+7. action-specific authorization controls; and
+8. collapsed audit details.
+
+Persistent context states which branch/ref, evidence watermark, Claim, marked
+block, and manuscript file an action would affect. There is no generic
+“Accept.” Labels describe the actual effect, such as recording an
+interpretation, merging selected reasoning, or applying a manuscript patch.
+
+A small Review Pending list groups unaccepted proposals and accepted work with
+open UnderstandingDebt. It shows consequence and age without scores or shame,
+restores the exact episode context, and distinguishes understanding debt from
+manuscript debt.
+
+### 6.6 Apply and verify one manuscript consequence
+
+The researcher reviews the exact marked block, expected source hash, proposed
+replacement, compile configuration, and plain-language consequence before
+authorizing patch preparation or application.
+
+The UI and receipts distinguish:
+
+- graph decision accepted;
+- manuscript debt open;
+- patch prepared;
+- applying;
+- applied but unverified;
+- compiling;
+- verified;
+- restored after failure;
+- recovery required; and
+- human manuscript-debt closure.
+
+Compile failure restores exact prior bytes when provable and leaves debt open.
+Only a human closure bound to the exact verified source, output, compiler,
+PatchIntent, debt, and graph head resolves manuscript debt.
+
+### 6.7 Diagnose, recover, export, and migrate
+
+Every handled failure states:
+
+- a stable code and plain title;
+- what changed and what did not;
+- what work was preserved;
+- one safe next command;
+- a copyable diagnostic ID; and
+- a version-matched help topic.
+
+Read-only diagnosis, audit export, and recovery status remain available when
+normal mutation is locked. The product never tells the researcher to edit its
+database, journal, encrypted snapshot, or project metadata manually.
+
+Before a schema upgrade, ClaimBranch checks compatibility and space, creates a
+verified export, builds and verifies a new store, atomically selects it, and
+retains the original. Nothing uploads automatically; a redacted diagnostic
+bundle is previewed locally and sharing it is a separate human act.
+
+## 7. Interaction and visual character
+
+The first H1 surface is a quiet editorial laboratory notebook, not a command
+console, chat application, graph dashboard, or control-room UI. Scientific
+evidence, decision consequence, and manuscript diff receive the strongest
+hierarchy. AI provenance and graph machinery stay visible but secondary.
+
+Required interaction qualities:
+
+- progressive disclosure follows orient me, show what matters, inspect evidence,
+  confirm my judgment, reassure me what happened, return me to the paper;
+- long operations expose phase, cancellation, late-result, stale, and resume
+  behavior;
+- success receipts say exactly what changed and what remains open;
+- corrections append history rather than presenting destructive undo;
+- every state is keyboard reachable and meaningful without color;
+- focus is restored after async changes; errors associate with their control;
+- status changes use appropriate live regions; and
+- reflow, contrast, target size, reduced motion, and NVDA behavior are verified
+  before V0.
+
+Chat, a broad Inbox home, full graph canvas, dashboards, command palette, and
+background daemon are post-V0 hypotheses.
+
+## 8. Authority matrix
+
+| Action | AI/model | Deterministic kernel | Foreground human |
+|---|---|---|---|
+| inspect scoped context | allowed through bounded query capability | allowed | allowed |
+| export project/audit data | forbidden | prepares only | authorizes destination |
+| create/revise/cancel Proposal | allowed through bounded ingress | validates and records as non-authoritative | allowed |
+| confirm or correct evidence | propose wording only | validates append-only event | authorizes |
+| record Interpretation/Decision | propose only | validates operation | authorizes |
+| merge selected reasoning | forbidden | computes closure and consumes receipt | authorizes exact selection |
+| answer teach-back | suggest question/context only | records answer/deferral | answers or defers |
+| close UnderstandingDebt | forbidden | validates exact debt transition | authorizes |
+| prepare/apply manuscript patch | propose patch only | runs fenced saga after receipt | authorizes exact patch |
+| mark compile verified | forbidden | records pinned observed result | reviews result |
+| close ManuscriptDebt | forbidden | validates exact closure receipt | authorizes |
+| rebuild disposable projection | no authority effect | allowed | may request |
+
+## 9. Local-first, privacy, and availability
+
+- Accepted state, refs, review history, deterministic impact, replay, export,
+  and manuscript recovery work without AI or network access.
+- Research records default to a user-owned, project-specific private workspace
+  outside application and paper/code Git trees. Initialization shows the paper
+  and workspace locations separately. Publishing or cloning code does not
+  publish or back up those records; sharing requires a separately approved
+  export. [ADR 0008](../architecture/decisions/0008-private-research-workspaces.md)
+  owns placement, association, and backup boundaries; the DB and key-loss
+  recovery implementation are not yet selected.
+- Provider work is asynchronous, cancellable, bounded, and never blocks manual
+  work.
+- Human export is separate from model-readable context.
+- Raw artifacts remain at their linked source unless the researcher explicitly
+  imports them; model context excludes raw bytes and secrets by default.
+- Remote-capable requests require exact one-shot review and record provider,
+  model, normalized input digest, redaction manifest, timing, disposition, and
+  payload availability.
+- Hard erasure applies only to eligible raw provider payloads. The immutable
+  trace retains a payload-unavailable marker and digest.
+- Operational logs and measurements are local, bounded, redacted, previewable,
+  and never transmitted automatically.
+
+## 10. Product gates and success
+
+### Foundation H0
+
+- canonical docs agree on the promise and finite F0 contract;
+- AI-off and frozen-proposal histories each replay to their own byte-identical
+  full-audit golden;
+- unauthorized mutation, read/export bypass, and provider egress fail closed;
+- exact manuscript restoration or the sole recovery hard stop is proven;
+- clean supported checkout reaches the offline demo within five minutes; and
+- migration and restore drills retain authority and the original store.
+
+### Minimum experience H1
+
+- one real-paper initialization and manual episode complete without internal
+  edits;
+- Episode Review makes accepted versus proposed, impact, target, manuscript
+  phase, and debt legible;
+- forged, stale, replayed, cross-project, and model-originated authorization
+  fail;
+- deterministic stub and already-running local endpoint exercises change no
+  accepted state; and
+- an unfamiliar researcher completes the gated journey without coaching.
+
+### Live-paper V0
+
+Compare complete first-pass workflows: from starting interpretation of an
+eligible result through recording the decision and its manuscript consequence,
+using equivalent boundaries for ClaimBranch and Markdown/checklist work. Do not
+use a second judgment of an already-decided episode as first-pass timing.
+The comparison protocol is not yet frozen; the
+[release scope](releases/validation-prototype.md#62-baseline-and-observation)
+owns the required user approval before V0. The protocol
+records trace completeness, active and wait time, human rationale/edits,
+accepted AI contribution, debt, false alarms, manuscript outcome, and any
+attested material omission surfaced before the final decision.
+
+V0 may show directional utility and workflow noninferiority; it does not prove
+causal prevention. The
+[validation prototype](releases/validation-prototype.md) owns the exact outcome
+rule. Only VALIDATED opens ordinary candidate product expansion. Its
+[bounded hypothesis-revision rule](releases/validation-prototype.md#64-bounded-revision-after-a-failed-hypothesis)
+allows the user to authorize a minimum evidence-backed correction to a failed
+initial shape, without erasing the failure or waiving safety gates.
+
+## 11. Explicit non-goals before validated V0
+
+- autonomous research decisions or accepted model writes;
+- a general semantic VCS, arbitrary/nested merges, or automatic conflict solver;
+- universal scientific ontology, graph canvas, graph database, embeddings, or
+  GraphRAG without measured need;
+- full paper/repository rewriting or multi-file atomic manuscript editing;
+- experiment scheduling, artifact hosting, checkpoint management, or direct
+  Overleaf control;
+- related-work/PDF automation;
+- public installer, automatic update, daemon, hosted telemetry, SaaS, mobile,
+  collaboration, or multi-tenant permissions;
+- OpenClaw clone, channel runtime, MCP integration, plugin marketplace, or
+  provider marketplace;
+- model download, quantization, supervision, routing, fallback, rental, or broad
+  serving benchmarks; and
+- a v1.0 claim based only on retrospective fixtures.
+
+## 12. Open implementation questions
+
+The following are engineering hypotheses with explicit spikes, not unresolved
+product authority:
+
+- package/runtime and public CLI implementation;
+- canonical store after SQLite replay, crash, concurrency, and migration tests;
+- native-Windows process isolation and user-presence primitive;
+- browser versus native/CLI authorization helper;
+- exact supported Windows, PowerShell, Git, browser, filesystem, and LaTeX
+  versions;
+- marker behavior and compiler isolation on the real paper;
+- physical serialization, canonical JSON, key storage, and signed export shape;
+- supported provider deployment evidence, envelope details, and retention settings; and
+- measured UI, graph traversal, recovery, and onboarding budgets.
+
+Technology choices must preserve the accepted human-owned, AI-optional,
+three-plane contract rather than redefine it.

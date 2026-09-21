@@ -7,14 +7,15 @@ behavior against code and tests once implementation exists.
 ## Product contract
 
 - [ClaimBranch product specification](product-spec.md) — the canonical intended
-  behavior, users, invariants, journeys, non-goals, and success measures.
+  human-owned research-agent behavior, authority rules, journeys, non-goals,
+  and success gates.
 
 ## Candidate releases
 
 - [Smallest validation prototype](releases/validation-prototype.md) — the first
-  narrow product-validation slice.
-- [Candidate MVP release scope](releases/candidate-mvp.md) — a broader staged
-  release hypothesis, conditional on the prototype.
+  finite graph-contract, minimum-experience, and prospective live-paper sequence.
+- [Candidate MVP release scope](releases/candidate-mvp.md) — trigger-gated
+  capabilities considered only after a VALIDATED live-paper result.
 
 The [saturation validation case](../validation/cases/saturation.md) supplies the
 observable end-to-end fixture used by both release scopes.

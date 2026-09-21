@@ -5,8 +5,15 @@ refactor.
 
 ## Proposals
 
-- [Domain and versioning model](2026-08-03-domain-model.md) — draft kernel semantics for
-  the first contract spike.
+- [Finite F0 domain and versioning model](2026-08-03-domain-model.md) — draft
+  closed records, relationships, operations, authority, states, cardinalities,
+  and resource bounds for the first contract spike.
+- [Notion MCP coding-journal automation](2026-08-15-notion-coding-journal-automation.md)
+  — superseded automatic task-level capture; retained for the original MCP
+  safety boundary and rollout history.
+- [User-invoked Notion judgment journal](2026-08-26-user-invoked-notion-judgment-journal.md)
+  — accepted; one grounded, human-confirmed judgment per compact record with no
+  automatic local or remote capture and exact legacy preservation.
 
 Create `YYYY-MM-DD-short-name.md` from the
 [design template](../_meta/templates/design.md) when a change is expensive to

@@ -1,0 +1,45 @@
+{
+  "classification": "synthetic-augmentation",
+  "derived_from": "tests/fixtures/saturation/truth-packet/truth-packet.json",
+  "source_verified": false,
+  "notice": "Hypothetical software-contract cases, not additional research observations or proof of scientific correctness.",
+  "context": "Synthetic variation of the redacted saturation case: pruning and quantization challenge a saturation-only damage ordering; compression supports it only under a compression condition.",
+  "claim": "Saturation-based sensitivity determines damage across operators.",
+  "judgment": "Keep compression-only support conditional; revisit the general claim.",
+  "rationale": "The synthetic pruning and quantization counterexamples are not explained by compression-only support.",
+  "cases": {
+    "observation-correction": {
+      "original": "Hypothetical compression result follows the expected ordering.",
+      "correction": "Hypothetical correction: the compression condition was mislabeled; support is unresolved.",
+      "expected_history_length": 2,
+      "expected_review_current": false
+    },
+    "competing-interpretations": {
+      "proposals": [
+        "Operator-specific distortion may explain the counterexamples.",
+        "A measurement mismatch may explain the counterexamples."
+      ],
+      "expected_accepted": false,
+      "denied_operation": "merge"
+    },
+    "conditional-support": {
+      "proposal": "Compression support proves the claim for all operators.",
+      "denied_operation": "confirm_evidence",
+      "expected_accepted": false
+    },
+    "changed-review-target": {
+      "anchor": "anchor-central-claim",
+      "before": "Synthetic manuscript claim before an external edit.",
+      "after": "Synthetic manuscript claim after an external edit.",
+      "expected_review_current": false
+    },
+    "crash-and-retry": {
+      "key": "synthetic-conditional-judgment",
+      "cuts": [
+        {"phase": "before_commit", "expected_present": false},
+        {"phase": "after_commit", "expected_present": true}
+      ],
+      "expected_rows_after_retry": 2
+    }
+  }
+}

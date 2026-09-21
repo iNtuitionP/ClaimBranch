@@ -1,0 +1,33 @@
+{
+  "description": "Validate and acknowledge explicitly requested, approval-gated ClaimBranch Notion journal writes.",
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "(?i).*notion.*(create|update).*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"$(git rev-parse --show-toplevel)/.codex/hooks/notion_journal.py\"",
+            "commandWindows": "powershell.exe -NoProfile -NonInteractive -Command \"$root = git rev-parse --show-toplevel; python (Join-Path $root '.codex/hooks/notion_journal.py')\"",
+            "timeout": 15,
+            "statusMessage": "Validating coding journal write"
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "(?i).*notion.*(create|update).*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"$(git rev-parse --show-toplevel)/.codex/hooks/notion_journal.py\"",
+            "commandWindows": "powershell.exe -NoProfile -NonInteractive -Command \"$root = git rev-parse --show-toplevel; python (Join-Path $root '.codex/hooks/notion_journal.py')\"",
+            "timeout": 15,
+            "statusMessage": "Recording coding journal receipt"
+          }
+        ]
+      }
+    ]
+  }
+}

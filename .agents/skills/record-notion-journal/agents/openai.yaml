@@ -1,0 +1,15 @@
+interface:
+  display_name: "Record Notion Journal"
+  short_description: "Record one grounded, user-confirmed coding judgment"
+  default_prompt: "Use $record-notion-journal to ground, interview, and record one coding judgment."
+
+dependencies:
+  tools:
+    - type: "mcp"
+      value: "notion"
+      description: "Official Notion MCP server configured for the ClaimBranch journal"
+      transport: "streamable_http"
+      url: "https://mcp.notion.com/mcp"
+
+policy:
+  allow_implicit_invocation: true
