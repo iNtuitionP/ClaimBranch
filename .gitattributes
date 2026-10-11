@@ -1,0 +1,2 @@
+# Keep byte-hashed fixtures and generated resources identical across checkouts.
+* text=auto eol=lf

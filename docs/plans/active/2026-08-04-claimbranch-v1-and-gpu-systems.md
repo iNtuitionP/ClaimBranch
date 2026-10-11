@@ -138,13 +138,25 @@ success. Do not call the product v1.0 before the live-paper gate passes.
 
 ## Progress
 
-- [ ] 2026-10-11 KST - Prepare and publish the owner-authorized current-source
+- [x] 2026-10-11 KST - Prepare and publish the owner-authorized current-source
   alpha, without claiming L04 completion. Replace the root README's historical
   implementation inventory with product philosophy, actual synthetic terminal
   visuals, quick start, own-paper/save/backup guidance, honest feature status
   and feedback links. Check the exact source, exclude machine/private state,
   commit/push to the existing repository and publish a matching prerelease.
   The owner separately selected MIT; include its notice in source and the ZIP.
+  Source commit `060fd85` is fast-forward published to `main`, with matching
+  [v0.1.0-alpha.1 prerelease](https://github.com/iNtuitionP/ClaimBranch/releases/tag/v0.1.0-alpha.1).
+  Downloaded assets match the fresh-clone checked ZIP and include MIT. The
+  observed Windows fixture-CI repair below remains a separate verification.
+
+- [ ] 2026-10-11 KST - Verify the actual remote source-CI repair. The initial
+  Windows job converts hashed fixture text to CRLF and fails eight tests.
+  Reproduce with `core.autocrlf=true`; preserve LF through `.gitattributes`
+  without changing fixtures/hashes or validators. Local integrity passes and
+  the 42-case validation suite passes 40 with two Windows-only cases skipped.
+  Actual Windows and portable macOS/Ubuntu CI results remain to be observed.
+  This changes checkout consistency, not Windows app support or L04 completion.
 
 - [x] 2026-10-11 KST - L04 model/effort preflight is implemented and verified.
   Two separately authorized exact synthetic diagnostics fail:
@@ -4275,6 +4287,10 @@ The executable milestone names used throughout this plan are:
   the harness's broad `test_mac_` substring check: four portable Codex-policy
   methods legitimately contain it. Check native module names instead and keep
   the policy coverage. No runtime test is removed or skip converted into a pass.
+  Actual initial Windows CI then identifies six fixture SHA-256 mismatches and
+  eight dependent failures. A fresh `core.autocrlf=true` clone reproduces them.
+  Pin LF via Git attributes; a complete fresh checkout is required to exercise
+  conversion because `checkout-index --force` can reuse stat-cached files.
 
 - 2026-10-11 KST - The pinned client's custom-provider catalog omits gpt-6.1-sol
   and advertises gpt-6-sol with medium effort. This is client metadata, not a
@@ -6062,6 +6078,14 @@ The executable milestone names used throughout this plan are:
   AI and graph machinery remain visibly attributable but visually secondary.
 
 ## Outcomes & Retrospective
+
+- 2026-10-11 KST - The owner-authorized manual alpha is publicly available as
+  [v0.1.0-alpha.1](https://github.com/iNtuitionP/ClaimBranch/releases/tag/v0.1.0-alpha.1),
+  with MIT, original README assets and the complete own-project return/rescue
+  workflow. GitHub-downloaded ZIP bytes match the independently checked artifact.
+  Initial remote Windows fixture CI exposes checkout line conversion; its
+  scoped repair/verification remains open below. S=4/4 and L=3/4 are unchanged:
+  live AI, protected product and formal human-value validation are not complete.
 
 - 2026-10-11 KST - Model metadata preflight removes a reproduced startup-warning
   problem, but the one supported-model diagnostic still yields no checked live
@@ -7930,6 +7954,31 @@ repeat the integrated scope. The owner selects MIT, and the final ZIP now adds
 its notice and manifest hash under a 131-member limit. Commit, fresh-clone checks,
 push, matching prerelease and observed CI still follow. S=4/4 and L=3/4 remain
 unchanged; native/encrypted, actual-provider and human-value gates stay open.
+
+**Published artifact and observed CI repair.** Source commit
+`060fd8553bcef9fbdddb21be7b2b52414f6a89c4` is published to main and tagged
+`v0.1.0-alpha.1`. A fresh clone runs the public personal PTY/return/rescue journey,
+then builds and independently extracts/checks the licensed 131-file ZIP,
+SHA-256 `c50133538c9b4c318546b179e337abbd21a4218dec421b4cce8a75d3f0c8ddea`.
+The public prerelease includes that ZIP and its SHA-256 file; downloading both
+from GitHub verifies identical bytes, the exact MIT notice and its manifest hash.
+Description/topics are updated through the owner's configured account without
+changing the globally active account or retaining credentials.
+
+Initial [main CI](https://github.com/iNtuitionP/ClaimBranch/actions/runs/38103084298)
+passes documentation but its Windows fixture job fails from six CRLF-converted
+artifact hashes and eight dependent tests; portable jobs are still running at
+this checkpoint. This is not claimed as a clean CI pass. A fresh Git clone with
+`core.autocrlf=true` reproduces the hash errors. `.gitattributes` pins text LF,
+preserving binary detection and all validators/hashes. Re-checkout under that
+rule passes fixture integrity and 40 of 42 validation cases (two Windows-only
+cases remain skipped on this Mac). Tracked blobs contain no CRLF/mixed lines.
+The bounded 2,194-byte checkout-repair packet, SHA-256
+`b12e302ec518113ac9ff61fa975602dccc53ac91fa66936098c949fa4f1c2197`,
+returns actual Opus 5.5 PASS under the same no-tools/no-persistence restrictions.
+The actual Windows result still follows; no product support or private-source
+fidelity is inferred from the local formatting/integrity check. The release tag
+remains immutable, and its Unix runtime ZIP is unchanged by this source/CI repair.
 
 For row 3, use the [six connected personal-alpha feedback tasks](../../validation/cases/saturation.md#personal-alpha-feedback-tasks)
 with invented content. That case owns inputs, task order and observation points;

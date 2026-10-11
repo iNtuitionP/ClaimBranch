@@ -2679,13 +2679,17 @@ python3.13 -m scripts.check_source_artifact /tmp/claimbranch-source.zip
 ```
 
 Use an unused output path; the builder refuses to overwrite an existing file.
-The ZIP contains `claimbranch/`, `START-HERE.txt` and a file-hash manifest, with
+The ZIP contains `claimbranch/`, `START-HERE.txt`, the owner's selected MIT
+`LICENSE` notice and a file-hash manifest, with
 fixed archive metadata for byte-for-byte reproducibility. It excludes checkout
 tools, tests, Git and caches. Generated runtime resources come from the explicit
 verified inventory under `tests/fixtures/`; edit the canonical fixtures, then
 run `python3.13 -m scripts.export_runtime_resources` to refresh copies.
 CI checks both schemas and resources for staleness. The runtime imports its
 validator and examples from `claimbranch`, not checkout-relative scripts/tests.
+Repository `.gitattributes` keeps text checkouts at LF even with
+`core.autocrlf=true`, preserving fixture/resource byte hashes on Windows.
+Do not change manifest hashes or relax validation to accommodate line conversion.
 The documentation checker permits the one generated baseline Markdown resource
 at its exact runtime path only when its bytes match the canonical fixture;
 this does not permit additional project documents outside `docs/`.
