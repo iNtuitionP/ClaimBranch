@@ -732,7 +732,8 @@ bound to their node and reasoning branch across views, shared occurrences and
 follow/return. A personal note does not replace a recorded measurement, claim
 statement or reviewed Judgment. Enter in its editor adds a line; navigation
 input must not leak into terminal output or scroll the whole display. Resize
-and redraw preserve the active text buffer.
+and redraw preserve the active text buffer. Unrecognized modified keys must not
+cancel active writing; standalone Escape remains an explicit cancellation action.
 
 A failed writing checkpoint preserves live text and gives an appropriate next
 action for input refusal, unavailable storage/encryption or uncertain/external

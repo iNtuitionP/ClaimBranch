@@ -24,7 +24,7 @@ with ReviewServer(example=True) as server:
     thread = Thread(target=server.serve_forever, kwargs={"poll_interval": 0.01}, daemon=True)
     thread.start()
     def request(path, value=None, extra=None):
-        connection = http.client.HTTPConnection("127.0.0.1", server.server_port, timeout=5)
+        connection = http.client.HTTPConnection("127.0.0.1", server.server_port, timeout=10)
         headers = {"Origin": server.origin, "Content-Type": "application/json"}
         headers.update(extra or {})
         try:
@@ -106,7 +106,8 @@ def check_source_artifact(artifact, *, temp_root=None):
                 ("tui", ["-m", "claimbranch", "demo", "tui", "--layout", "three", "--snapshot"], 0),
                 ("loopback", ["-c", LOOPBACK_SMOKE], 0)):
             result = subprocess.run([sys.executable, "-E", "-s", "-B", *arguments], cwd=destination,
-                                    capture_output=True, text=True, encoding="utf-8", timeout=30, shell=False)
+                                    capture_output=True, text=True, encoding="utf-8",
+                                    timeout=90 if name == "loopback" else 30, shell=False)
             if result.returncode != expected:
                 raise ValueError(name + " artifact smoke failed: " + (result.stderr or result.stdout)[-2000:])
             if name == "doctor":

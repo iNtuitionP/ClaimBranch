@@ -2709,6 +2709,12 @@ artifact code; it is not a sandbox for downloaded/untrusted ZIP files and the
 hash manifest is not a signature. Source-artifact tests also cover stale
 resources, links, tampering, traversal, bounded member inventory and no-overwrite behavior.
 
+The synthetic loopback smoke has a 90-second subprocess bound and a 10-second
+client socket timeout; other command smokes retain their 30-second bound.
+The portable CI job has a 30-minute budget: observed full application checks
+approached 15 minutes before the remaining harness/security/artifact phases.
+Longer check budgets do not change product deadlines or claim a failed run passed.
+
 To use the built alpha, extract into a new directory, then run
 `python3.13 -m claimbranch doctor` and `python3.13 -m claimbranch project init --help`.
 Python 3.13, curses, a Unix terminal and working system Git at `/usr/bin/git`
@@ -3702,7 +3708,9 @@ the pane composition changes. Unknown CSI/SS3 key sequences are ignored as a
 unit instead of replayed as ordinary shortcuts. `Ctrl+L` redraws the current
 screen, including an editor, without changing its buffer. Normal Enter outside
 an editor navigates/reads inside the TUI and never writes a terminal newline.
-Unmapped Alt/Option combinations are ignored as single modified keys. Control
+Unmapped Alt/Option combinations are ignored as single modified keys, including
+keypad suffixes returned by curses as integers. Alt+Backspace cannot become
+standalone Esc and cancel writing. Control
 bytes inside bracketed paste remain data rather than exit commands. A bare
 Esc and another command must be sent separately from an Alt chord.
 

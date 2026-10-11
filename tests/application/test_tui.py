@@ -476,5 +476,30 @@ class TerminalCliTests(unittest.TestCase):
         self.assertIn("TTY", error)
 
 
+class EscapeSuffixTests(unittest.TestCase):
+    def test_encoded_modified_key_is_not_a_standalone_escape(self):
+        from collections import deque
+        from types import SimpleNamespace
+        from unittest.mock import Mock
+        from claimbranch.application.tui import Terminal
+
+        names = ('KEY_UP KEY_DOWN KEY_LEFT KEY_RIGHT KEY_HOME KEY_END '
+                 'KEY_BACKSPACE KEY_DC KEY_NPAGE KEY_PPAGE KEY_BTAB '
+                 'KEY_ENTER KEY_RESIZE').split()
+        keys = SimpleNamespace(error=TimeoutError,
+                               **{name: index + 1000 for index, name in enumerate(names)})
+        for suffix in (keys.KEY_BACKSPACE, keys.KEY_LEFT):
+            with self.subTest(suffix=suffix):
+                terminal = Terminal.__new__(Terminal)
+                terminal.curses, terminal.pending, terminal.discard_sequence = keys, deque(), False
+                terminal.screen = SimpleNamespace(timeout=Mock(),
+                    get_wch=Mock(side_effect=['\x1b', suffix, '\x13']))
+                self.assertIsNone(terminal.read())
+                self.assertEqual('keep', terminal.read())
+
+        terminal.screen.get_wch = Mock(side_effect=['\x1b', TimeoutError()])
+        self.assertEqual('escape', terminal.read())
+
+
 if __name__ == "__main__":
     unittest.main()

@@ -2,7 +2,7 @@
 kind: design
 status: in-review
 owners: maintainers
-last_reviewed: 2026-10-10
+last_reviewed: 2026-10-11
 ---
 
 # Design: a research judgment that remains understandable
@@ -1677,6 +1677,14 @@ screen readers and production research custody remain unverified. The private
 prototype checkpoint described below is narrower than production recovery.
 
 ### Terminal workflow refinement
+
+The 2026-10-11 publication repair preserves active writing under an unrecognized
+Alt/Option chord, including Alt+Backspace; standalone Esc still cancels. This
+changes no composition, argument meaning or authority. The observable task is
+to keep a note editable after those chords, then keep it explicitly with Ctrl+S.
+Its [input contract](../development/workflow.md#terminal-paper-prototype) and
+[terminal oracle](../validation/cases/saturation.md#103-terminal-prototype-oracle)
+own command details and acceptance; the existing ExecPlan owns test/CI evidence.
 
 The user requested implementation of the comparative review and documentation
 on 2026-09-24. The task remains reading E1, identifying both scientific uses,

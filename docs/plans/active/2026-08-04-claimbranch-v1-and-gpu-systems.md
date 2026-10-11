@@ -155,8 +155,18 @@ success. Do not call the product v1.0 before the live-paper gate passes.
   Reproduce with `core.autocrlf=true`; preserve LF through `.gitattributes`
   without changing fixtures/hashes or validators. Local integrity passes and
   the 42-case validation suite passes 40 with two Windows-only cases skipped.
-  Actual Windows and portable macOS/Ubuntu CI results remain to be observed.
+  Actual Windows runs all 42 tests without skips and passes in corrected
+  [CI](https://github.com/iNtuitionP/ClaimBranch/actions/runs/38103374869).
+  Initial portable CI exposes the additional input/check-budget repairs below.
   This changes checkout consistency, not Windows app support or L04 completion.
+
+- [ ] 2026-10-11 KST - Publish and verify the alpha patch for observed source CI.
+  Reproduce ESC plus a curses integer keypad suffix being returned as standalone
+  Escape (two failing unit subcases), then preserve it as an ignored modified
+  key. All 59 affected TUI/artifact/harness and actual-PTY checks pass, with actual
+  Opus 5.5 PASS. Preserve initial Mac loopback timeout and Ubuntu key-test failure;
+  adjust bounded checker/CI budgets and front-load their regression cases.
+  Full updated local/remote alpha and a fresh-clone patch artifact still follow.
 
 - [x] 2026-10-11 KST - L04 model/effort preflight is implemented and verified.
   Two separately authorized exact synthetic diagnostics fail:
@@ -4291,6 +4301,11 @@ The executable milestone names used throughout this plan are:
   eight dependent failures. A fresh `core.autocrlf=true` clone reproduces them.
   Pin LF via Git attributes; a complete fresh checkout is required to exercise
   conversion because `checkout-index --force` can reuse stat-cached files.
+  Initial Mac CI runs all 987 application cases but its isolated loopback smoke
+  exceeds 30 seconds (one error). Ubuntu runs 987 in 885.408 s, failing the
+  modified-key PTY case before job cancellation at 15 minutes. These are not
+  clean passes. Both targeted controls pass locally; the integer keypad suffix
+  reproduces the exact cancellation mechanism independently of host speed.
 
 - 2026-10-11 KST - The pinned client's custom-provider catalog omits gpt-6.1-sol
   and advertises gpt-6-sol with medium effort. This is client metadata, not a
@@ -7979,6 +7994,34 @@ returns actual Opus 5.5 PASS under the same no-tools/no-persistence restrictions
 The actual Windows result still follows; no product support or private-source
 fidelity is inferred from the local formatting/integrity check. The release tag
 remains immutable, and its Unix runtime ZIP is unchanged by this source/CI repair.
+
+**Additional input/check-budget repair.** Actual corrected Windows CI runs all
+42 cases without skips and passes. The initial portable failures remain
+observable: Mac's artifact loopback child times out at 30 seconds, while
+Ubuntu's Alt/control-byte test sees `Editing cancelled` instead of `Note kept`.
+The two affected controls pass locally (21.315 s), so that Mac timeout's exact
+cause remains unknown. A direct input-decoder regression independently
+reproduces ESC followed by integer KEY_BACKSPACE/KEY_LEFT becoming standalone
+Escape. Record receiving any suffix before its string check; drop the modified
+key, retaining bare Escape, paste-as-data and explicit Ctrl+S. The existing PTY
+assertions remain unchanged. This preserves active writing and scientific/AI
+authority; no composition or schema changes.
+
+The checker keeps bounded I/O: its synthetic loopback child gets 90 seconds and
+client sockets 10 seconds; other command children retain 30 seconds. This is a
+check budget, not a changed product-provider deadline or proof of the timeout
+cause. The job budget becomes 30 minutes from observed 885-second application
+checks plus remaining phases. Front-load the exact input/artifact regressions
+before the unchanged whole-alpha scope. All 59 affected TUI/artifact/harness and
+actual-PTY cases pass (23.732 s), without skips; updated full local/remote scope
+and fresh-clone patch publication are still pending at this checkpoint.
+Actual Opus 5.5 returns PASS on the fixed 15,041-byte repair packet, SHA-256
+`ec273701f8c3668533844afa828c23b51df4ada1e1150b3cc9b5c59e67e3d038`,
+under the same one-turn/no-tools/no-persistence restrictions. Runtime/usage
+both match `claude-opus-5-5`; it preserves the unknown timeout cause and notes
+that a concurrently queued resize is also consumed with that prefix. Live AI
+remains unavailable, S=4/4 and L=3/4 are unchanged, and no formal understanding,
+protected authority or Windows-product pass follows.
 
 For row 3, use the [six connected personal-alpha feedback tasks](../../validation/cases/saturation.md#personal-alpha-feedback-tasks)
 with invented content. That case owns inputs, task order and observation points;

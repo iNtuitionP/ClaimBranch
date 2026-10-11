@@ -50,7 +50,7 @@ jobs:
       matrix:
         os: [ubuntu-latest, macos-latest]
     runs-on: ${{ matrix.os }}
-    timeout-minutes: 15
+    timeout-minutes: 30
     steps:
       - name: Check out repository
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
@@ -60,6 +60,12 @@ jobs:
         uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405 # v6.2.0
         with:
           python-version: "3.13"
+      - name: Check the publication input and artifact regressions first
+        run: >-
+          python -m unittest
+          tests.application.test_tui.EscapeSuffixTests
+          tests.application.test_tui_terminal.TerminalProcessTests.test_modified_keys_and_pasted_control_bytes_never_become_commands
+          tests.application.test_source_artifact.SourceArtifactTests.test_reproducible_runtime_inventory_and_isolated_launch
       - name: Verify personal alpha including portable contracts, PTY and source extraction
         run: python scripts/verify.py --scope alpha --scope harness --temp-root "$RUNNER_TEMP"
       - name: Preserve portable ingress and context security regression

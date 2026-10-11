@@ -595,12 +595,14 @@ class Terminal:
         # Decode bracketed paste as a single text event: its contents must never
         # become navigation keys, a scenario selection or an exit command.
         suffix = ""
+        received_suffix = False
         # curses already waited ESCDELAY to distinguish a bare Escape. Drain
         # buffered suffixes immediately; only an actual prefix needs a wait.
         self.screen.timeout(0)
         try:
             for _ in range(64):
                 part = self.screen.get_wch()
+                received_suffix = True
                 if not isinstance(part, str):
                     break
                 suffix += part
@@ -645,7 +647,7 @@ class Terminal:
             return None  # Unknown terminal sequences are one key, never application shortcuts.
         # Alt/Option arrives as ESC + a character. Replaying that character as
         # a command could cancel editing, switch branch or quit unintentionally.
-        return None if suffix else "escape"
+        return None if received_suffix else "escape"
 
     def draw_modal(self, frame):
         if self.modal.startswith('proposal-'):
