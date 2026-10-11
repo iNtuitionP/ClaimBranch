@@ -5,6 +5,11 @@ refactor.
 
 ## Proposals
 
+- [Episode Review research workspace](2026-09-22-episode-review.md) — in review;
+  paper argument workspace and contextual R1 review design; distinguishes the
+  new interaction proposals from the earlier storyboard and running prototype.
+  Its [optional AI follow-up proposal](2026-09-22-episode-review.md#optional-ai-follow-up-proposal)
+  compares scoped selective suggestions with existing whole-judgment replacement.
 - [Finite F0 domain and versioning model](2026-08-03-domain-model.md) — draft
   closed records, relationships, operations, authority, states, cardinalities,
   and resource bounds for the first contract spike.

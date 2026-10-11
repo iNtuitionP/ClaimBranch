@@ -2,19 +2,20 @@
 kind: design
 status: draft
 owners: maintainers
-last_reviewed: 2026-08-14
+last_reviewed: 2026-10-06
 canonical_for: proposed finite F0 domain records relationships operations states and resource bounds
 ---
 
 # Finite F0 domain and versioning model
 
-Version: 0.2
+Version: 0.4
 
 This document is the canonical logical contract proposed for the first
 ClaimBranch spike. It defines a finite saturation-shaped graph, authority,
-provenance, state, replay, and resource boundary. It is not an implemented
-schema and does not settle a programming language, database, package layout,
-wire framework, or UI storage.
+provenance, state, replay, and resource boundary. The full protected schema is
+not implemented; the candidate-only subsets below have executable contracts.
+This document does not settle the production database, wire framework or UI
+storage.
 
 The [product specification](../product/product-spec.md) owns intended behavior,
 the [target architecture](../../ARCHITECTURE.md) owns component and trust
@@ -43,10 +44,88 @@ science or future ClaimBranch.
 
 ADRs 0001, 0003, 0005, 0006, and 0007 accept the evidence/reasoning,
 proposal-only AI, human-authority, three-plane, episode, and manuscript-saga
-constraints. There is no implemented schema, store, gateway, provider adapter,
-authorization broker, projection, or patch saga. The earlier broad domain draft
-has been narrowed to the one approved saturation wedge so the first spike can
-be exhaustive rather than nominally general.
+constraints. The portable [review core](../../claimbranch/core/review.py) now
+implements a bounded subset: immutable human/AI contribution history, reasoning
+selection with dependency closure and global evidence references, exact review
+binding, and acceptance/debt candidates. The [debt core](../../claimbranch/core/debt.py)
+checks separate closure reviews against the current debt and supplied compile
+observation. Its [versioned understanding-closure path](../development/workflow.md#versioned-understanding-closure-review)
+also reconstructs the exact sealed cause and binds current evidence watermark,
+topic rules/set and displayed context at preparation and candidate recheck.
+Legacy head/time-only helpers remain separate; no old history is upgraded into
+accepted authority. These are candidate values, not accepted operations or proof of
+human authorization. The full versioned F0 schemas, operation inventory,
+production store/gateway, provider adapter, protected authorization broker,
+durable projections, and protected manuscript saga remain unimplemented. Existing disposable
+probes are validation evidence, not those product components.
+
+The [portable research history](../../claimbranch/core/research_history.py) adds
+immutable candidate commands, project-global evidence events, current/historical
+views, one non-nested reasoning branch and one selected merge. Corrections carry
+an explicit replacement statement and reference the latest event; originals,
+invalidation/retraction reasons and every prior event remain visible. This
+command-level correction payload does not silently amend an Observation record.
+Retraction is terminal in this bounded increment. Claim-status basis references,
+typed edges and interpretation references determine selected dependencies and
+paths to the manuscript anchor. Human edits retain the source Contribution
+chain; complete change bodies and history are bound into merge review.
+
+Its [generated input schema](../../schemas/research-command-v1.json) closes four
+candidate commands: evidence event, branch creation, interpretation and selected
+merge. Command timestamps use the whole-second RFC 3339 UTC subset. Runtime
+checks additionally enforce UTF-8 byte bounds, scientific relationships, current
+heads/watermarks and provenance. The finite local schema validator is not a
+general JSON Schema implementation. Histories contain at most 32 commands,
+three observation identities and six evidence events; a 256 KiB manifest limit
+is checked before returning a new history. This deliberately lowers aggregate
+capacity for the portable increment, not a product capacity claim.
+
+Manual and recorded-AI fixture histories replay to separate byte-exact goldens
+without a provider. Replay remains labeled `unverified-candidate`: it checks
+structure and deterministic transitions, not signatures or trusted restoration.
+These fixtures exclude episode lifecycle, protected append, receipt consumption,
+compile/saga operations and committed debt closure; they do not close H0 or the
+full R3 inventory. Commands and limits are documented in the
+[contributor workflow](../development/workflow.md#portable-r3-review-and-debt-contracts).
+
+The [portable lifecycle rules](../../claimbranch/core/lifecycle.py) additionally
+bound episode starts/replacements, proposal cancellation/staleness/expiry, and
+manuscript phase transitions against supplied head/fence/hash observations.
+Restoration never counts as compilation or debt closure. These values are not
+durable episode records or proof that a compiler or writer ran. The
+[context compiler](../../claimbranch/core/context.py) permits only selected
+project/field/sensitivity-bounded prose, excluding raw artifacts and human
+export. Secret/path screening supplements trusted classification; it does not
+certify arbitrary prose as public. One-shot request review binds destination,
+content and lifetime; only an in-memory frozen response can dispatch. Split
+dispatch/arrival retains consumed attempts while the researcher edits or
+cancels. Bounded neutral response envelopes cannot supply tools or authority;
+old/late responses never replace a newer draft or proposal. These volatile
+[provider/draft APIs](../development/workflow.md#paper-context-and-offline-drafting)
+do not implement live transport or durable trace ingress. Trace
+payload erasure retains identity/digests and original contribution linkage.
+
+The [synthetic workspace](../../claimbranch/application/workspace.py) connects
+these rules to direct judgment entry, AI proposal adoption/editing, selected
+merge review and escaped TeX text candidates. It reads only verified repository
+fixtures, keeps drafts in process memory, and always reports zero accepted
+writes. Prepared reviews expire after 120 seconds. The thin application does
+not select a production store, protected gateway or manuscript adapter.
+Wording candidates derive only from an interpretation in the selected closure
+that has an impact path to the anchor. Omitting that interpretation, or its
+connection to the claim, retains the original manuscript bytes. A conservative
+anchor-review debt candidate is separate from the existence of a wording edit.
+
+The implemented [review encoding](../../claimbranch/core/canonical.py) uses
+compact sorted-key UTF-8 JSON with NFC text, safe 53-bit integers, no floats,
+unambiguous ASCII identifiers, a depth limit of 16, at most 128 collection
+members, and at most 256 KiB per encoded value. Research prose may be Unicode;
+artifact/manuscript bytes are not normalized. Its explicit integer review times
+and two supported operation types are internal to this increment; they do not
+freeze the complete record envelope or replace the proposed schemas below.
+The earlier broad domain draft has been narrowed to one approved saturation
+wedge so the first complete contract can be exhaustive rather than nominally
+general.
 
 ## Goals and non-goals
 
@@ -65,7 +144,7 @@ Non-goals:
 - universal scientific ontology or arbitrary extension fields;
 - general semantic VCS, nested branches, LCA merge, revert, or conflict solver;
 - graph database or event-sourcing framework commitment;
-- embeddings, GraphRAG, model memory, or graph canvas;
+- embeddings, GraphRAG, model memory or unrestricted graph editing;
 - multi-file manuscript editing;
 - collaboration or multi-user authority; and
 - model/provider management.
@@ -90,13 +169,498 @@ Non-goals:
   remain undefined.
 - Build a minimal agent flow first and let the schema emerge from UI behavior.
   Rejected because authority and provenance would become accidental interface
-  conventions.
+conventions.
 - Freeze every future scientific type before implementation. Rejected because
   it would substitute speculation for real episode evidence.
 - Close only the saturation-shaped F0 contract and count valid live cases
   outside it as product failures. Selected.
 
 ## Proposed design
+
+### Paper argument extension under review
+
+The [paper workspace requirements](../product/product-spec.md#7-interaction-and-visual-character)
+and [ADR 0011](../architecture/decisions/0011-paper-argument-graph-workspace.md)
+require more than F0's single Claim and Observation/Interpretation-to-Claim
+edges. The inventory below remains the original bounded contract and regression
+baseline. It does not already model a whole paper; adding a visual parent to
+C-01 cannot supply that missing semantic contract.
+
+The portable v2 candidate subset is now implemented by the same
+`ResearchHistory` owner. The [seed schema](../../schemas/paper-seed-v2.json)
+and [command schema](../../schemas/research-command-v2.json) are generated from
+the code; cross-record constraints below are enforced during every replay:
+
+- The seeded Claim is the single thesis. Additional Claim changes have a
+  `main` or `subclaim` role, statement, scope and structural `parent_ids`.
+  Main claims belong directly to the thesis; subclaims have one to three
+  existing non-thesis parents. Structural containment is not scientific support.
+- Explicit `supports`, `challenges` and `qualifies` edges run from an Observation,
+  Interpretation or Claim to a Claim, retaining a rationale. Structural and
+  claim-to-claim scientific relations must each be acyclic. Shared evidence
+  retains one global observation identity. Dependency closure includes required
+  claims and parents; an omitted sibling is not selected implicitly.
+- `record-experiment` introduces immutable question, method, conditions,
+  source reference and metric name/definition/unit/comparison. It records
+  supplied metadata; it does not execute an experiment. An observation requires
+  such an experiment and a measured-value string. Correction retains the run
+  identity and original event/value; invalidation/retraction retains history.
+- A paper may be drafted with no evidence. New claims start `proposed`;
+  only an explicit candidate claim-status change sets supported/contested.
+  Distinct status changes cannot target the same claim, and a contested merge
+  requires a selected challenge to that particular claim. None of these values
+  is an accepted research record or human-authorization proof.
+- An unrun plan contains its target claim, question, conditions and metric.
+  [PaperService](../../claimbranch/application/paper_service.py) derives
+  `claimbranch.paper-view/v1` nodes and typed relations without layout fields.
+  Its [scenario request](../../schemas/paper-scenario-v1.json) names the project,
+  episode, ref, exact view digest, plan, assumed observation, rationale and
+  supporting/challenging/inconclusive outcome. These are service capabilities,
+  not a frozen choice of UI controls.
+- Scenario reach follows only explicit scientific claim relations. It returns
+  potentially affected and unaffected claims, existing basis, unchanged evidence,
+  possible anchor impact and deterministic witness paths. It does not infer
+  truth or negate every ancestor. Inconclusive adds no scientific relation.
+  The digest binds the entire candidate history, including added experiment
+  metadata even when reasoning heads and evidence watermark stay unchanged.
+  Stale or cross-context assumptions are rejected; all outputs remain hypothetical.
+
+`ResearchHistory.preview_paper_changes` additionally derives an unaccepted
+before/after view from typed amendments and a complete working Judgment. Its
+[request schema](../../schemas/paper-changes-request-v1.json) is a projection
+contract, not a v3 history command. Dependency closure runs over the proposed
+argument, distinguishing changed dependencies from retained records; omitted
+amendments do not apply. The selected result is revalidated because a valid
+whole proposal may have an invalid partial selection. Active evidence and
+same-claim challenge requirements also apply to retained statuses whose basis
+changes. Source Judgment and working Judgment keep separate provenance chains;
+the current branch-level model conservatively carries any source AI influence
+into review. New per-record authorship cannot be inferred from it.
+
+`ResearchHistory.project_paper_draft` validates/projects all supplied candidate
+amendments without a Judgment. It reuses the same amendment schema, identity,
+endpoint, hierarchy, cycle, dependency, active-evidence and cardinality rules;
+an empty amendment list is a read-only source projection. It returns the
+unaccepted `claimbranch.paper-draft-projection/v1`, preserving source Judgment/AI
+lineage separately rather than fabricating a new judgment. `PaperService.project_draft`
+adds a digest-bound `claimbranch.paper-draft-graph/v1` with explicit draft flags.
+Neither appends a command nor relaxes final selected-review completeness.
+Incomplete forms remain in the application, outside a valid domain projection.
+
+The initial session authoring owner reuses the existing
+`PaperWorkspace` episode/ref/source-node draft. `PaperCandidates` holds copied
+candidate records, selection, stable IDs/aliases, a mutation revision and exact
+source binding separately from expiring review snapshots. Every kept candidate
+mutation/reselection invalidates its session's scientific/branch reviews and
+guarded child merge; it leaves independent AI proposals intact. Missing owners
+are rejected, the 16-session limit never evicts previous work, and source changes
+require explicit refresh/revalidation while retaining text. A changed amended
+source record requires an exact previous/current/draft comparison before
+rebinding; the retained draft is not silently rebased. Candidate deletion
+is not an accepted operation; dependent candidates are either explicitly removed
+or retained for repair. Unkeep removes a candidate from projection/selection
+while retaining its text separately; ordinary edits preserve omission. The
+terminal workflow owns these session-only controls.
+Manual creation also covers the existing experiment-plan body: claim, objective,
+conditions and complete metric, with planned status. It uses the same dependency
+closure and plan cardinalities; no new evidence, execution or scenario contract
+is introduced. Existing-record edits retain their narrower field policy.
+No new candidate is a node-bound Judgment or ADR 0013 checkpoint target.
+
+`PaperWorkspace` now owns explicit session references from one original
+episode/ref/source-node draft to at most 16 existing nodes in the same context.
+An explicit per-node choice resolves which judgment to show; the original owner,
+draft ID, contributions and candidates do not move or merge. Unlinking restores
+the node's own work when it was displaying that judgment. Membership changes
+invalidate the owner's scientific/branch/child review while retaining independent
+proposals. Link previews bind to source history and association revision;
+invalid endpoints or new linked-work capacity fail before changing references.
+Choosing an existing association or separate manual work allocates no review
+session. Adding a reference preserves choices at previously linked nodes.
+Source refresh validates
+all linked endpoints before updating owned sessions. These references are not
+ScientificEdges, selected amendments or accepted records. Old checkpoints still
+serialize manual text at its original owner; associations remain volatile.
+Provenance-preserving durable work recovery needs its separate versioned storage
+contract; this increment migrates no old drafts or checkpoint schema.
+
+The service returns potential impact along explicit scientific paths in both
+graphs, with a bounded deterministic witness per reached claim per phase.
+Unchanged evidence, unchanged claims and claims outside those paths are separate
+outputs. No status is inferred from reach, no plan becomes evidence, and anchor
+reach supplies neither source verification nor a manuscript patch. This can
+inspect a merged candidate, but does not append a second merge/episode or relax
+the cardinalities below. Record deletion, thesis-seed rewriting, observation/run
+mutation and protected acceptance are absent from this preview API.
+
+The v2 profile permits at most 64 commands, 32 evidence events, 16 observations,
+8 completed experiment records, 16 claims including the thesis, 32 scientific
+edges, 8 unrun plans and 64 branch changes. Each claim DAG has at most 8 nodes
+along a path. The existing one alternative, one selected merge, one
+Interpretation, one manuscript anchor, eight Contributions and 256 KiB history/
+manifest bounds remain. Cardinality limits do not guarantee that every maximum
+fits simultaneously within the byte budget. The source of executable limits is
+`PAPER_LIMITS` in [research_schema.py](../../claimbranch/core/research_schema.py).
+
+The separately classified synthetic [paper fixture](../../tests/fixtures/paper-argument/manual.json)
+uses Model A weight pruning/quantization with defined accuracy loss against an
+unchanged baseline. Its manual and recorded-AI variants have separate byte-exact
+goldens and preserve original AI text/human revisions. The original saturation
+fixtures, v1 schema and goldens are unchanged. There is no implicit v1-to-v2
+migration: a v1 history stays v1, unknown/mixed versions fail, and a paper
+candidate starts explicitly with v2. Protected-store migration/rollback,
+multi-episode persistence and multiple manuscript anchors remain unresolved.
+
+The [workspace design](2026-09-22-episode-review.md#paper-argument-workspace)
+owns presentation. This increment exposes a Python service and CLI; the current
+web app still uses its original single-claim example. The full production
+extension remains under review before protected persistence. Human-authority,
+provenance, scientific-plane and manuscript-saga invariants apply unchanged.
+
+#### Cumulative paper episodes
+
+The portable v3 candidate profile extends the same `ResearchHistory` owner with
+sequential paper episodes. Its generated [seed](../../schemas/paper-seed-v3.json)
+contains paper/project identity, thesis and the existing anchor, but no implicit
+episode. Its [commands](../../schemas/research-command-v3.json) add explicit
+`open-episode` and `close-episode` to the paper operations. The first is a new
+candidate history, not an automatic migration of v1/v2 or an accepted store.
+The older schemas, histories and frozen goldens remain byte-identical.
+
+The separate [empty-project review preparation](../development/workflow.md#paper-and-work-association)
+now retains that seed/root and the exact paper/workspace association together,
+with zero operations/evidence and no implicit episode. Candidate continuation
+requires the same transient owner and current association; imports cannot
+install its seal. This supplies no accepted genesis or receipt, and does not
+change the existing v3 seed/command or checkpoint formats.
+Its separate enrolled native attestation now binds the full initial review and
+derived empty effect without adopting any imported history. Closed native
+parsing and the initial root/anchor checks remain candidate integrity, not
+accepted genesis/source authority. Native roles now independently recheck the
+associated Git directories, exact marked-file bytes/identity and private external
+workspace before reporting signed success. This is read-only filesystem
+validation, not scientific fidelity or authoritative accepted-history loading.
+The enrolled protected target must also retain its original identity/binding
+and contain no scientific/store entry. Existing or pending state is preserved
+and refuses another initialization. This read-only precondition does not reserve
+the target or provide the later atomic create-only publication.
+Actual initial user-presence and protected
+log publication remain unfinished; the linked developer API owns its use.
+
+- Opening requires a new episode identity, title/question, current heads and
+  evidence watermark, with no other active episode. It retains the current
+  main reasoning, captures baseline heads/watermark and the operation clock,
+  and supplies one new alternative slot. Every subsequent operation names
+  that active episode. Operation, episode and research-record identities cannot
+  alias each other in v3.
+- Each episode permits one alternative, one Interpretation identity and one
+  selected candidate merge. The alternative starts from the inherited main
+  argument with a separate current Judgment chain. Selected IDs must identify
+  actual amendments; dependency closure can require inherited records. The
+  selected graph and retained status bases are validated again. Historical
+  retracted evidence cannot supply a new selected basis, but does not prevent
+  an unrelated new plan from being reviewed.
+- Past Interpretations are retained with their episode identities and cannot
+  be rewritten by another episode. Later episodes append their own
+  Interpretations and may explicitly amend claims, relationships, status and
+  plans. Prior episode Judgment chains remain separate and inspectable. A
+  fresh manual Judgment does not erase inherited AI influence; the bounded
+  model conservatively carries any retained source AI into explanation review.
+- Closing records final heads/watermark and `merged` or `unmerged`, then freezes
+  that episode's two reasoning views. Omitted alternative records stay
+  inspectable and do not enter the next main implicitly. Re-adopting an archived
+  omitted proposal is not an implemented transition. Closure does not claim
+  experiment completion, manuscript verification, debt closure or a V0 outcome.
+- Evidence remains one global append-only stream. Browsing an old episode
+  shows its frozen reasoning against current evidence with a changed-watermark
+  indicator. An explicit `at_operation` query reconstructs the historical
+  evidence and reasoning at that command instead. Completed experiment metadata
+  is never rewritten, and an unrun plan is not auto-completed by nearby evidence.
+
+The v3 profile allows at most eight sequential episodes and eight retained
+Interpretations; all other v2 limits, including 64 commands, 64 branch records
+and the 256 KiB input/manifest budgets, remain. Not every maximum fits together.
+`PAPER_SERIES_LIMITS` in the schema source owns these bounds. These are explicit
+candidate-profile limits, not a production daily-use promise or the separate
+three-valid-start/invalid-replacement V0 `EpisodeLedger` protocol.
+
+The two frozen [manual](../../tests/fixtures/paper-series/manual.json) and
+[recorded-AI](../../tests/fixtures/paper-series/recorded.json) histories recount
+the same synthetic pruning observation from 0.4 to 1.2 percentage points in
+episode two. Both original and corrected values survive, the original
+Interpretation remains, and only the selected challenge/status/Interpretation
+changes reach main. The source remains synthetic. Commands compute unverified
+candidates. The v3 selected-merge review now binds the exact command, seed and
+history revision, heads/watermark, before/after scientific projection, supplied
+manuscript fingerprint, session and five-minute maximum lifetime. Its
+`paper-review-v3` profile retains typed source Judgments from every contributing
+episode as well as the current Judgment; inherited AI requires an answer or
+explicit deferral. Required amendments are distinguished from references to
+unchanged inherited records. The after-view is hypothetical and leaves evidence
+and source heads intact.
+
+Reconstruct the sealed review from the owned history before calculating its
+candidate transition. Removing source provenance, changing selection, rationale,
+answers or any history command, or using an expired review must fail. A public
+digest or caller-built review is not authority. Conditional manuscript and
+understanding obligations remain uncommitted candidate values. The
+[volatile merge adapter](../development/workflow.md#exact-cumulative-merge-review)
+does not read/verify manuscript bytes, stage an unrecorded draft, issue a receipt,
+save a project or mutate its owned source. Protected persistence/recovery,
+existing-project migration and multiple anchors are still unimplemented.
+
+The separate [draft-to-branch adapter](../development/workflow.md#draft-to-branch-candidate)
+now constructs the existing v3 branch/interpretation commands from an exact
+active-episode draft review. It records selected amendments and required
+dependencies, preserving the current recorded Contribution prefix and all prior
+episode Judgments. Independent draft contributions retain their content, authors
+and trace identities with newly linked parents; the combined chain is disclosed
+before returning the candidate. Unselected amendments cannot silently enter the
+branch. The reducer rechecks the complete Interpretation, graph and evidence
+basis. Historical overlays remain hypothetical, and the adapter neither merges
+main nor approves, persists or migrates history. No command schema or finite
+limit changes for this connection.
+
+The [conditional work and manuscript adapter](../development/workflow.md#conditional-work-and-manuscript-review)
+reconstructs causal manuscript/understanding consequences from each recorded
+candidate merge. It uses the full before/after scientific graph, including
+unchanged inherited paths, rather than relying on the older finite path list.
+An episode close or a later merge does not resolve or implicitly supersede prior
+items. Stable work identities and source Judgments survive replay; changed
+current head/evidence is explicit. These derived `pending-if-accepted` items
+are not accepted Debt records and have no closure operation in v3. The owned
+history remains the sole scientific source.
+
+The understanding-return projection now resolves one existing conditional item
+within an explicit project. It returns the item's causal Judgment and source
+contributions, the argument immediately after that merge, and current main as
+separate views. The original view is rebuilt from the causal history prefix,
+so later corrections do not rewrite its observations or fingerprint. Current
+main follows the latest episode; a closed cause episode does not freeze today's
+paper reasoning. Head/evidence changes and any later history are distinguishable.
+The projection never constructs an accepted Debt or a sealed cause review from
+candidate commands. Its digest binds each bounded component's content hash and
+the response metadata; it does not impose one storage-record limit on the two
+full views combined. Closure and acceptance remain unavailable. Returned values are detached, and replay restores
+the same projection. The [developer API](../development/workflow.md#conditional-work-and-manuscript-review)
+owns its version and invocation.
+
+The [partial-explanation adapter](../development/workflow.md#partial-understanding-explanation)
+now adds a separate versioned draft to that conditional item. A deterministic
+catalog binds one-to-three topics to the causal graph, selected effects and
+rule version. It does not classify new accepted operations or judge answers.
+Partial text and explicit references to the original rationale remain distinct
+from completed answers or accepted deferral. Source changes retain the text and
+its old graph basis; explicit rebinding names the current return fingerprint
+without restoring any review authority. A closed bounded snapshot contains only
+draft text/references and source/topic bindings, reconstructed against the owned
+history on return. Blank text is admitted only by the explicit draft schema;
+required scientific text keeps its nonblank constraint. This provides in-memory
+reconstruction, not durable storage, a TUI control or accepted debt closure.
+
+The separate wording review binds one manuscript item to current paper context,
+a complete draft and the exact hashes of supplied UTF-8 source/postimage bytes.
+It retains current source AI, requires explicit explanation/deferral where
+applicable and returns only an expiring candidate. Supplying bytes does not
+verify their file identity or scientific fidelity. Native authorization,
+durable debt, real apply/compile/restore and human closure remain unimplemented;
+no command/manifest schema or old golden changes for these projections.
+
+#### Finite review policy and amendment lineage
+
+The separate `claimbranch.paper-review-policy/v1` candidate profile implements
+proportional review over an active cumulative paper episode. It does not
+reinterpret v1–v3 commands or their older sealed explanation rules.
+
+| Admitted action | Target | Impact | Candidate review requirement |
+|---|---|---|---|
+| `capture-draft` | none | low | No completed judgment or explanation required |
+| `record-interpretation` | alternative | medium | Reuse the human rationale; no teach-back or UnderstandingDebt |
+| `apply-selected-merge` | main | high | With AI influence, one to three contextual topics answered by text or an explicit reference to the existing rationale, or deferred; wholly manual history needs no AI explanation |
+
+These are fixed action rules, not caller-selected risk labels. Evidence
+acceptance, manuscript operations and debt closure are outside this profile.
+When an alternative exists, recording must review that source; a main-based
+draft cannot bypass its retained contributions. The assessment alone neither
+constructs a legal accepted command nor grants authority.
+
+`AmendmentLineage` records exact typed amendments with parent-linked revisions
+and complete source Judgment snapshots, including Proposal/trace identities.
+It admits the same claim, interpretation, scientific-edge, claim-status and
+unrun experiment-plan shapes as paper amendments. A source may lack a completed
+human rationale. The project/episode/record/kind stays fixed across revisions;
+source judgments from earlier episodes in the same project remain distinguishable.
+Bounds are eight revisions, eight sources per revision and 256 KiB canonical
+JSON per lineage; these maxima need not fit simultaneously. Invalid changes
+leave the prior value intact. Later manual edits retain earlier sources.
+Restoring a hash-consistent lineage validates candidate structure, not actual
+provider adoption, scientific truth or accepted provenance.
+
+The application adapter owns registered lineages and derives selected/required
+closure from `ResearchHistory`. Included amendments contribute origin; omitted
+new amendments do not. Existing source AI remains a conservative inherited
+floor, including when the current judgment is manual or AI is off. This does
+not retrospectively narrow legacy branch-level attribution. A known lineage
+must match the exact reviewed record; unrecorded edits cannot stand in for the
+recorded alternative at merge review. Assessments bind the full history/view,
+scientific preview, selected scope, judgment/source fingerprints, included
+lineage digests, policy and contextual topics. Final disposition recomputes
+those values, rejecting changed selection, relevant lineage or evidence even
+at unchanged reasoning heads.
+Capture has no acceptance selection: its authored scope is bound through the
+registered lineages and draft projection. Recording reuses the branch adapter's
+contribution join, so its judgment fingerprint includes the recorded prefix and
+new human/AI suffix without duplicating shared history.
+An earlier human reason may remain beside later adopted AI wording. Review
+retains both exactly and never invents a human edit or grades their semantic
+agreement. Preparing this candidate is not human adoption authority; eventual
+foreground authorization must cover the displayed text/reason and full lineage.
+
+Not now and every unfinished draft leave debt absent. High-impact AI deferral
+reports only `opens-if-accepted`; protected acceptance must later create the
+actual debt atomically. Answers are not graded and need not rephrase an existing
+reason. This is an in-memory API with generated
+[lineage](../../schemas/paper-amendment-lineage-v1.json),
+[assessment](../../schemas/paper-review-assessment-v1.json) and
+[decision](../../schemas/paper-review-decision-v1.json) schemas. The
+[exact operation review](#exact-versioned-paper-operation-review) now carries
+these values into a versioned request. TUI/typed proposal adoption and retained
+accepted origin remain separate integration work. The [developer workflow](../development/workflow.md#proportional-paper-review)
+owns invocation and limits.
+
+#### Exact versioned paper operation review
+
+The portable [operation](../../schemas/paper-operation-v1.json) and
+[review](../../schemas/paper-operation-review-v1.json) formats are separate from
+v1–v3 candidate history. Only recording an interpretation into the alternative
+and merging selected reasoning into main are admitted. Capture and Not now
+cannot produce an executable request. Old history readers refuse the new
+format; existing fixtures are neither migrated nor relabeled as accepted.
+
+An operation binds project/episode, a fresh operation ID, seal-derived UTC time,
+expected heads, evidence watermark and source-history fingerprint. Its effect
+retains exact selected/required typed changes and the actual joined Judgment.
+Recording identifies a required branch-creation operation when no alternative
+exists and passes the existing branch reducer's legality checks. Merge uses
+the owned alternative's explicit selection and Judgment. Policy, decision and
+provenance fingerprints bind those effects to the containing review.
+Both operation identities must avoid recorded and registered draft identities;
+branch creation also consumes its slot in the bounded candidate history.
+
+The review keeps the full assessment and explanation decision, included
+amendment lineage revisions, source judgments and original preparation scope.
+It also binds a supplied manuscript digest, session nonce and a seal lifetime
+of at most 300 seconds. The entire canonical NFC envelope is at most 256 KiB;
+individually valid sources may exceed the combined limit, which rejects rather
+than drops provenance. An optional parent-review digest is only a supplied
+revision reference, not accepted history or reusable consent.
+
+Restoration rederives every effect, source and policy value from the owner's
+current candidate history and independently registered origins. It cannot
+register origins embedded in imported review bytes or replace the current
+assessment. An earlier intact review can be inspected while newer work remains
+current. Returning an operation candidate additionally requires that exact
+preparation scope and seal to remain current. Not now, a changed explanation
+decision or a successful replacement seal revokes the earlier request. A failed
+preparation preserves the last valid seal. A new session must explicitly prepare
+the assessment and seal from its sources first; restoration reinstates neither.
+Invalid replacement selection does not install a new scope or destroy the
+previous valid one; a successful scope change revokes the prior seal.
+Changed evidence, origins, source
+history, manuscript/session bindings, expired seals and inconsistent values fail.
+Schema/hash consistency alone does not prove that a person saw the review.
+
+This is an in-memory input/recheck boundary, with authorization always required
+and unverified. It writes no records and creates/closes no debt. R2/R4 still
+need trusted source loading, native authorization and atomic storage of the
+exact review, matching receipt consumption, accepted operation and deferred debt.
+The new contextual decision must not pass through the legacy seal, which lacks
+these topic and lineage bindings. Manuscript bytes remain supplied, not verified
+against an original file. [Developer usage](../development/workflow.md#exact-paper-operation-review)
+describes the entrypoints.
+
+The separate [commit candidate](../../schemas/paper-commit-candidate-v1.json)
+now retains that exact review with forecast resulting heads and at most two
+conditional debt openings. A record advances alternative, including first
+branch creation when necessary, without changing main or evidence. A merge
+advances main and retains the existing single-anchor manuscript obligation;
+only explicit contextual deferral adds understanding work. Each debt identity
+binds kind, project, episode, causal operation and exact review digest. Its cause
+head and evidence watermark remain inspectable; manuscript context and original
+understanding topics have distinct bindings. These are transaction effects
+awaiting acceptance, not open Debt records. The canonical envelope has the same
+256 KiB bound and is rederived under the owning policy lock from the current
+seal. Restore grants no authority or source adoption. No legacy command is
+produced: flattening this review would lose amendment-only AI or explicit reason
+references. This checkpoint selects no physical store or native trust extension.
+
+The separate [record-transition envelope](../../schemas/paper-record-transition-v1.json)
+now binds that full review to an actual unaccepted alternative-record replay,
+including first branch creation when needed. Existing v3 record semantics can
+represent its scientific effect; the enclosing review and full origin registry
+are still retained separately rather than discarded. Before/after manifest
+digests bind the derived commands to independently held source history. Main and
+evidence are unchanged, omitted drafts remain unrecorded, and amendment-only AI
+remains available to the next merge review. Merge replay is deliberately not
+supported by this envelope: legacy explanation rules cannot express its complete
+policy. No source import, seal restoration, receipt or accepted log is created.
+The [developer API](../development/workflow.md#exact-paper-operation-review)
+owns use and its 256 KiB/replay limits.
+The transition budget and complete registry snapshot are calculated before the
+seal is installed. Subsequent omitted-draft changes cannot change retry bytes.
+Opt-in [v2 operation review](../../schemas/paper-operation-review-v2.json)
+binds that entire snapshot digest, including unselected AI origins, while v1
+review/operation formats remain unchanged and readable. The native signing
+adapter now handles this record-only review as synthetic unaccepted attestation,
+including its registry commitment in the full signed packet. That digest does
+not establish independent origin/source authenticity; actual v2 foreground
+approval and cancellation remain unobserved, and no accepted authority is granted.
+Bound continuation rederives the full original review and scientific result,
+rejecting missing/substituted origins; a bare legacy history is not this source.
+Continuation also requires an independently retained expected review digest;
+internally consistent imported hashes cannot establish that expectation.
+Historical verification restores neither a current seal nor accepted authority.
+
+#### Unaccepted work checkpoint
+
+The [project-work envelope](../../schemas/project-work-v1.json) adds bounded
+paper association snapshots around the existing unaccepted work formats.
+It preserves the embedded scientific records and source history, rather than
+introducing another scientific operation. The [adapter contract](../development/workflow.md#paper-and-work-association)
+owns path identity, preview/recheck, explicit relocation and recovery behavior.
+Association is neither source fidelity nor accepted authority.
+
+The separately versioned [paper-work format](../../schemas/paper-work-v1.json)
+now preserves the existing source history, independently retained amendment
+lineages, optional Judgment, exact review and partial-explanation drafts as one
+bounded encrypted checkpoint. It is not a new accepted command schema or an
+implicit migration of candidate history. The loader replays sources and checks
+all review/origin and explanation/cause bindings before returning work. Earlier
+reviews remain inspectable but never restore current consent or an owned seal.
+
+The portable format retains an explicit `unaccepted-work` classification and
+false authorization. Physical encryption, private-file replacement and
+restart behavior belong to the [developer adapter contract](../development/workflow.md#encrypted-unaccepted-work-checkpoint).
+The optional [device-key adapter](../development/workflow.md#device-work-key-reopening-and-recovery)
+adds a separate binary `CBWD` v1 outer profile, never a new scientific command.
+It stores `CBKY` v1 wrapped data-key material and `CBWK` v1 encrypted work
+atomically. The key header binds the external project fingerprint, device and
+ephemeral P-256 public keys, independent salts and bounded encrypted device
+representation. Device and recovery AES-GCM wraps use separate HKDF purposes;
+a separately derived HMAC covers both wraps and the header. Either unwrap must
+authenticate the complete envelope before exposing the data key. Work-content
+encryption uses a further purpose-separated HKDF key bound to the
+complete outer prefix/envelope digest, so key and content from different
+restored copies cannot be spliced. Whole-checkpoint rollback is not prevented.
+Ordinary
+reopen requires the original device; explicit recovery creates a new device
+wrap in a fresh destination while retaining unaccepted source authority.
+Old raw-key readers reject the new profile. Same-host native evidence does not
+establish actual device replacement or protected approval custody.
+
+The 256 KiB aggregate bound may reject combinations of otherwise valid inputs;
+no provenance is trimmed to fit. Protected accepted storage, trusted source
+loading, key custody and migrations remain separate unfinished integrations.
 
 ## 1. Logical planes
 
@@ -391,8 +955,13 @@ UnderstandingDebt states:
 
 It exists only when a high-impact AI-influenced accepted operation defers
 teach-back. Not now creates no accepted operation and no debt. Closure requires
-a separate receipt for the exact debt and current accepted head; AI cannot
-grade or close it.
+a separate receipt for the exact debt/cause review and current accepted context,
+including the head, evidence watermark, topic rules/set and displayed-context
+identity. The gateway reloads those values rather than trusting caller-supplied
+objects; evidence changes with the same head invalidate a prepared closure.
+Partial explanation survives stale review and needs no mandatory rephrasing.
+AI cannot grade or close it. The portable closure contract checks supplied
+bindings only; accepted loading and atomic receipt consumption remain unfinished.
 
 ManuscriptDebt states:
 
@@ -467,7 +1036,9 @@ be promoted.
 
 Detailed platform ordering is owned by
 [ADR 0007](../architecture/decisions/0007-research-episode-and-manuscript-saga.md)
-and must be proven on the supported Windows filesystem.
+and must be proven on each supported filesystem. The current macOS-first
+execution order is defined by
+[ADR 0010](../architecture/decisions/0010-macos-first-platform-adapters.md).
 
 ## 14. Resource limits
 

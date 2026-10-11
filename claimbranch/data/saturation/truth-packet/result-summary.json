@@ -1,0 +1,24 @@
+{
+  "schema_version": 1,
+  "run_id": "R-01",
+  "measurements": [
+    {
+      "observation_id": "O-01",
+      "operator": "pruning",
+      "expected": false,
+      "category": "challenge"
+    },
+    {
+      "observation_id": "O-02",
+      "operator": "quantization",
+      "expected": false,
+      "category": "challenge"
+    },
+    {
+      "observation_id": "O-03",
+      "operator": "compression",
+      "expected": true,
+      "category": "conditional-support"
+    }
+  ]
+}

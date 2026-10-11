@@ -2,21 +2,41 @@
 kind: release-scope
 status: proposed
 owners: maintainers
-last_reviewed: 2026-09-21
+last_reviewed: 2026-10-11
 canonical_for: smallest product-validation release scope
 ---
 
 # Validation prototype: finite graph contract to live-paper evidence
 
-This is the smallest release sequence permitted before the conditional
-[candidate MVP](candidate-mvp.md). It validates a human-owned research-agent
-workflow, not a generic graph platform, complete semantic VCS, model-serving
-stack, or public application.
+This describes the protected validation sequence before the conditional
+[candidate MVP](candidate-mvp.md). The user's 2026-10-07 request prioritizes
+the manual own-project source baseline in [section 5.5](#55-source-delivery-readiness).
+On 2026-10-10 the owner required working optional AI before GitHub publication;
+the [publication milestone](#ai-connected-github-publication-milestone) adds the
+existing personal-AI live gate to that completed baseline.
+On 2026-10-11 the owner explicitly authorized publishing the current source now,
+with live AI unavailable. This manual experimental source preview does not pass
+or remove the later AI-connected milestone.
+The personal terminal alpha is now selected under
+[ADR 0017](../../architecture/decisions/0017-personal-terminal-alpha.md);
+the protected validation sequence below remains later work.
+This sequence validates a human-owned research-agent
+workflow and the minimum usable source-delivered app. It does not establish a
+generic graph platform, complete semantic VCS, model-serving stack or a v1.0
+product claim.
 
 The [saturation case](../../validation/cases/saturation.md) owns the observable
 scientific scenario. The [domain model](../../designs/2026-08-03-domain-model.md)
 owns the closed F0 records, relationships, operations, states, cardinalities,
 and resource bounds. The active ExecPlan owns implementation order and commands.
+
+The user-required [paper argument workspace](../product-spec.md#7-interaction-and-visual-character)
+is admitted during current development by
+[ADR 0011](../../architecture/decisions/0011-paper-argument-graph-workspace.md).
+The original single-claim F0 remains a regression baseline. Paper-level model
+extensions need versioned contracts and acceptance evidence before real use;
+they are not silently added to a running V0 protocol. This is a pre-V0 product
+direction change, not an observed V0 failure or a completed release gate.
 
 ## 1. Goal
 
@@ -31,10 +51,19 @@ Passing a retrospective fixture means **foundation validated**, not product
 success. The release requires both deterministic contract evidence and a
 preregistered prospective live-paper evaluation.
 
+The first usable GitHub delivery is a narrower milestone within this sequence,
+defined in [section 5.5](#55-source-delivery-readiness) and
+[ADR 0017](../../architecture/decisions/0017-personal-terminal-alpha.md).
+It retains own-project save/resume, while later features pass their own gates.
+Its completion does not complete this full validation prototype or V0.
+
 ### 1.1 Development and real-use gates
 
-Private original-source verification remains an unchecked P0 requirement. It
-must pass before **any real research use**: writing real workspace records,
+Private original-source verification remains an unchecked P0 requirement for
+the protected H0/H1/V0 workflow. Under ADR 0017 it does not block unrelated
+personal-alpha feedback; that person supplies and checks their own sources.
+The selected alpha's exact requirements are in section 5.5. P0 must pass before
+protected real research use: writing protected workspace records,
 adopting research judgments, editing a real manuscript, or running a real-use
 pilot. It is no longer a prerequisite for starting explicitly synthetic
 development. Passing synthetic tests neither confirms the private case nor
@@ -167,12 +196,13 @@ cannot cause a blind overwrite.
 From a clean supported source checkout with declared prerequisites, a standard-
 user researcher-builder must:
 
-1. run one repository-owned PowerShell bootstrap;
+1. run one repository-owned bootstrap for the declared target (PowerShell on
+   Windows; the Mac path must be independently implemented and verified);
 2. run doctor and understand core versus optional manuscript/provider readiness;
    and
 3. run the disposable saturation demo with AI off and network denied.
 
-Three cold trials on the named supported Windows machine must reach the verified
+Three cold trials on the named supported target machine must reach the verified
 demo within 300 seconds wall time and 90 seconds active time. The demo itself
 finishes within 60 seconds after bootstrap, needs no provider or LaTeX
 installation, and cannot touch a real project.
@@ -218,16 +248,23 @@ Failure leaves the paper and accepted state unchanged.
 
 ### 5.2 Episode Review
 
-The command-launched local workspace is one quiet editorial decision sheet:
+The command-launched local workspace implements the product's PG-1 through
+PG-5 paper-graph requirements. Episode Review is contextual to the selected
+argument: scientific before/after, selected closure and omissions, manuscript
+consequence, AI provenance, human rationale and authorization remain available
+without requiring a separate linear decision sheet. A graph-only illustration
+with no durable research workflow does not satisfy H1.
 
-1. situation;
-2. optional AI suggestion labeled Not accepted;
-3. scientific before/after and evidence;
-4. exact selected dependency closure and omissions;
-5. marked manuscript consequence and source diff;
-6. human rationale and teach-back or explicit deferral;
-7. action-specific authorization; and
-8. collapsed audit details.
+The later terminal selection in
+[ADR 0012](../../architecture/decisions/0012-terminal-research-workspace.md)
+makes the experiment host's terminal the primary daily interaction. The
+synthetic TUI is an exploration increment, not evidence of protected Linux/SSH
+deployment, durable resumption, or completed H1.
+
+The [paper workspace oracles](../../validation/cases/saturation.md#102-paper-argument-workspace-oracles)
+own observable graph acceptance. Exact expand/collapse, emphasis and scenario
+controls remain under design review; their depiction is not scientific or
+authorization evidence.
 
 Not now makes no accepted change. Authorize now and review explanation later
 may create accepted state only while atomically opening visible
@@ -271,7 +308,9 @@ Before V0:
   relocation, export ownership, and the declared restore boundary are tested;
 - all browser/IPC/presence/receipt hostile cases pass, or the reviewed native/
   CLI helper satisfies the same authority contract;
-- one unfamiliar supported-Windows researcher completes bootstrap, doctor,
+- the paper workspace oracles pass against an explicitly versioned extended
+  model, alongside the unchanged original F0 regression fixtures;
+- one unfamiliar researcher on the supported target completes bootstrap, doctor,
   offline demo, project dry run, a manual episode, deferred review resume, and
   recovery inspection without coaching or internal edits;
 - one second clean user profile or supported machine rehearses checkout, first
@@ -280,6 +319,131 @@ Before V0:
   accepted-state change; and
 - application, lockfile, store/schema/rule, compiler, and fixture versions are
   frozen for V0.
+
+
+### 5.5 Source-delivery readiness
+
+The user explicitly selected the key-free personal terminal alpha on 2026-10-07
+and requested fast implementation, feedback and iteration.
+[ADR 0017](../../architecture/decisions/0017-personal-terminal-alpha.md)
+supersedes the first-release protected Mac requirement in ADR 0016. The
+[four-outcome ExecPlan](../../plans/active/2026-08-04-claimbranch-v1-and-gpu-systems.md#first-release-outcome-ledger)
+owns implementation. This is a usable own-project manual workspace, not another
+bundled demo, protected H0/H1 completion, scientific-value validation or v1.0.
+
+#### First feedback and alpha completion
+
+Show the local version for feedback as soon as the person can enter their own
+thesis, add claims/results/typed relations, record one judgment, quit and reopen
+that same work. Do not wait for live AI, formal V0 or another unfamiliar user
+before showing it. Collect concrete friction: where they cannot find an action,
+understand a connection, record their reason once or recover their writing.
+Fix observed defects before expanding capability.
+
+Before calling the alpha ready for source distribution, verify:
+
+- Public init/open starts from human-written content with AI off, no fabricated
+  observations and no internal JSON edits. Provisional result capture and explicit
+  personal confirmation are distinct; measurements/source references remain
+  honest about missing fields. Typed relations retain their rationale, shared
+  evidence has one identity, corrections append and alternatives remain readable.
+- Notes, graph/history, judgment/reason, kept/unfinished input, origin and open
+  manuscript follow-up survive a fresh process. One judgment is reused at review;
+  no mandatory second narrative or routine comprehension quiz is introduced.
+- Ordinary files live in an owner-private directory outside Git. Bounded schema
+  validation, exclusive locking, expected-state checks and atomic replacement
+  refuse corrupt/newer data, conflicting sessions and failed saves without blind
+  overwrites. Uncertain saving remains visible and live text is preserved.
+- Explicit local backup/export and fresh-destination restore reproduce the
+  verified saved contents and retain the original. No backup is claimed to
+  contain unsaved writing. Missing/changed manuscript source preserves the
+  original basis; manuscript files remain read-only.
+- Wide/narrow actual PTY input, Korean pasted text, resize and exit restore a
+  usable shell. Declare only tested hosts/runtime versions. Prepare Linux CI
+  checks for the portable path; missing actual SSH/tmux, physical IME or remote
+  CI observations remain explicit and do not delay local feedback.
+- Clean source extraction/checkout runs init/open and the manual loop without
+  untracked resources, maintainer paths or native Mac tools. Help/doctor explain
+  personal storage, supported versions and unavailable features. A license is
+  selected by the owner before claiming licensed open source. The owner's
+  2026-10-11 instruction authorizes current-source publication, and the owner
+  selected MIT for the repository and shipped runtime ZIP. Verification alone
+  authorizes no push/release.
+
+#### Selected personal storage and authority
+
+Ordinary private local files and backups have no application-level encryption.
+No device key, Secure Enclave, native enrollment or OS presence check is required.
+Explicit terminal review records personal intent; it provides no signed protected
+approval or defense against an unrestricted same-user process. Personal history
+uses a distinct format/destination and cannot confer protected accepted authority.
+Existing encrypted/native work is neither converted nor weakened automatically.
+Imports cannot erase origin, manufacture confirmation or grant protected authority.
+
+The person supplies and checks their own sources for this alpha; source references
+never imply actual access, verified fidelity or scientific truth. The historical
+private-source P0 mapping remains a gate for the later protected H0/H1/V0 program,
+not a prerequisite for feedback on an unrelated personal project under ADR 0017.
+Do not promise preservation of irreplaceable data before save/recovery is tested.
+
+#### Deferred capabilities
+
+The next optional personal-AI version is selected under
+[ADR 0018](../../architecture/decisions/0018-optional-personal-ai.md), using the
+[L01–L04 order](../../plans/active/2026-08-04-claimbranch-v1-and-gpu-systems.md#optional-ai-follow-up-implementation-plan).
+It retains ordinary private storage and no native keys; selective item origin,
+explanation choice/return and actual provider/egress checks precede live use.
+This does not add first-alpha completion prerequisites. Portable typed ingress
+and the [offline selective-staging/return backend](../../development/workflow.md#selective-proposal-staging-and-origin-return)
+now exercise that origin/explanation checkpoint. Its separate [offline terminal
+rehearsal](../../development/workflow.md#selective-ai-items-in-the-terminal) connects
+contextual selection, editing and return on invented content. The current public
+personal version remains AI-off; actual provider/egress still gates live enablement.
+
+Live AI, selective typed AI incorporation, protected accepted operations and debt
+closure, hardware-backed custody/recovery, automatic manuscript apply/compile,
+schema/native authority migration, Windows support, installers and formal V0
+are deferred. AI remains off by default; retained origin stays inspectable.
+Manuscript wording and unresolved follow-up support the person's existing editor;
+reviewing them cannot imply that a file was applied or an obligation closed.
+Enable later capabilities only with their owning authority/privacy/recovery evidence.
+
+#### AI-connected GitHub publication milestone
+
+Selected by the owner on 2026-10-10, then made a later milestone by the explicit
+2026-10-11 instruction to publish the current source now. The immediate manual
+experimental preview may ship with live AI unavailable; it must not claim this
+AI-connected milestone is complete. A release that advertises working optional
+personal AI still follows [ADR 0018](../../architecture/decisions/0018-optional-personal-ai.md).
+AI remains off by default and users explicitly connect their own provider/account.
+The current instruction authorizes source commit/publication, not an additional
+model request or an arbitrary license grant. The owner separately selected MIT
+on 2026-10-11; include its complete notice in the repository and runtime ZIP.
+
+Before declaring this milestone ready, pass the existing
+[personal-AI live checkpoint](../../validation/cases/saturation.md#131-optional-ai-follow-up-acceptance-proposal):
+qualify the selected actual provider/access/egress, obtain a checked live
+proposal, and exercise contextual comparison, selective human editing/recording,
+retained origin, fresh-process/backup return and manual continuation on failure.
+An authenticated thread, internal test response or unsent preview is insufficient.
+Observe a researcher-authored new task with explicit outbound choice, reporting
+its actual benefit or lack of benefit without claiming comprehension or V0.
+
+The existing [L04 execution order](../../plans/active/2026-08-04-claimbranch-v1-and-gpu-systems.md#ai-connected-github-publication-order)
+owns this work; do not reopen completed S01–S04 or add a second implementation
+ledger. Verify the final source/terminal journey and applicable alpha regression,
+then complete the owner-directed source/license/commit/publication process above.
+No hardware key, protected custody, Windows support, installer or manuscript
+automation is added to this milestone. Current public AI remains unavailable
+until its actual gate passes.
+
+### 5.6 Proposed personal terminal alpha
+
+The former proposal is selected under [ADR 0017](../../architecture/decisions/0017-personal-terminal-alpha.md).
+This heading remains for link stability. [Section 5.5](#55-source-delivery-readiness)
+now owns the current alpha scope; there is no second release backlog or pending
+storage approval. The protected product remains later work with its original
+scientific, provider, manuscript and authorization gates.
 
 ## 6. V0: prospective live-paper evaluation
 
@@ -399,18 +563,20 @@ changes a running evaluation's goalposts, or relabels a failed run successful.
   resolution;
 - generalized ingestion, adapter marketplace, broad ontology, or multiple
   manuscript files;
-- daemon, chat home, full Inbox product, command palette, graph canvas, or
-  dashboard suite;
+- daemon, chat home, full Inbox product, command palette, unrestricted graph
+  editor or dashboard suite; the bounded paper argument workspace is in scope;
 - OpenClaw/MCP adapter, channels, skills runtime, or agent platform;
 - model download, quantization, supervision, routing, fallback, or broad serving
   benchmarks;
 - embeddings, GraphRAG, graph-native storage, or generalized retrieval;
 - related-work and PDF workflows;
-- public installer, auto-update, cross-platform support, hosted telemetry,
+- public installer, auto-update, broader platform support, hosted telemetry,
   collaboration, SaaS, or mobile; and
 - v1.0 or market-success claims based on H0/H1 alone.
 
 The numeric admission triggers for ordinary expansion live in the active
-ExecPlan and require VALIDATED V0 evidence. The bounded hypothesis-revision
-rule above is the only pre-success scope-change route; no excluded capability
-is admitted merely because this route exists.
+ExecPlan and require VALIDATED V0 evidence. ADR 0011 explicitly admits the
+user-required paper argument workspace in the current baseline. Apart from
+that recorded direction change, the bounded hypothesis-revision rule above
+governs evidence-driven pre-success expansion; it does not admit unrelated
+excluded capabilities.

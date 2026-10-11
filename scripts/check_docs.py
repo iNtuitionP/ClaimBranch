@@ -25,6 +25,7 @@ TRUTH_PACKET_BASELINE = (
     / "truth-packet"
     / "decision-log-baseline.md"
 )
+RUNTIME_TRUTH_PACKET_BASELINE = ROOT / "claimbranch/data/saturation/truth-packet/decision-log-baseline.md"
 REQUIRED_FILES = {
     ROOT / "README.md",
     ROOT / "AGENTS.md",
@@ -205,6 +206,15 @@ def check_managed_location(path: Path, errors: list[str]) -> None:
     if is_repo_skill_instruction(path):
         return
     if path == TRUTH_PACKET_BASELINE:
+        return
+    if path == RUNTIME_TRUTH_PACKET_BASELINE:
+        # A generated application resource, not an alternate documentation home.
+        # Keep the exception exact and enforce the original fixture's bytes.
+        try:
+            if path.is_symlink() or path.read_bytes() != TRUTH_PACKET_BASELINE.read_bytes():
+                errors.append(f"{relative(path)}: generated runtime fixture differs from its canonical source")
+        except OSError:
+            errors.append(f"{relative(path)}: generated runtime fixture is unavailable")
         return
     if path.name not in LOCAL_SPECIAL_NAMES:
         errors.append(

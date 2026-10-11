@@ -2,14 +2,16 @@
 kind: reference
 status: active
 owners: maintainers
-last_reviewed: 2026-09-19
+last_reviewed: 2026-09-22
 canonical_for: external research on native-Windows isolation, loopback-browser security, and local durability
 ---
 
 # Native-Windows trust and recovery references
 
-Process-profile lifecycle sources rechecked 2026-09-19; other source summaries
-retain their 2026-08-14 review. These are inputs to bounded platform spikes, not claims
+WebAuthn capability sources checked 2026-09-21 and assertion/cancellation sources
+checked 2026-09-22; process-profile lifecycle sources
+rechecked 2026-09-19; other source summaries retain their 2026-08-14 review.
+These are inputs to bounded platform spikes, not claims
 that ClaimBranch already enforces the described guarantees.
 
 ## Process and IPC isolation
@@ -35,6 +37,58 @@ handles; a failed deletion leaves undetermined state. The
 [disposable isolation probe](../plans/active/2026-08-04-claimbranch-v1-and-gpu-systems.md#windows-isolation-probe)
 uses this lifecycle without adopting or deleting existing profiles. Its
 observed results belong to that plan, not to these general API descriptions.
+
+## Foreground authorization candidate
+
+Primary sources checked 2026-09-21:
+
+- [WebAuthn API version](https://learn.microsoft.com/en-us/windows/win32/api/webauthn/nf-webauthn-webauthngetapiversionnumber)
+- [Platform-authenticator availability](https://learn.microsoft.com/en-us/windows/win32/api/webauthn/nf-webauthn-webauthnisuserverifyingplatformauthenticatoravailable)
+- [Assertion operation](https://learn.microsoft.com/en-us/windows/win32/api/webauthn/nf-webauthn-webauthnauthenticatorgetassertion)
+- [Delete a platform credential](https://learn.microsoft.com/en-us/windows/win32/api/webauthn/nf-webauthn-webauthndeleteplatformcredential)
+- [Microsoft WebAuthn header and API-version inventory](https://github.com/microsoft/webauthn/blob/master/webauthn.h)
+
+The two discovery calls report API version and whether a user-verifying
+platform authenticator is available. Neither verifies a gesture or an exact
+review. The assertion operation takes client data and a parent UI window; the
+deletion operation targets an explicit credential ID. Microsoft's header lists
+credential deletion as an API-version-4 addition.
+
+The [A2 capability check](../development/workflow.md#a2-windows-authorization-capability-check)
+therefore investigates API version 4 plus platform-authenticator availability
+without invoking assertion or credential operations. This is a candidate
+screen, not evidence of private-key custody, foreground consent, broker IPC,
+single-use receipt consumption, cleanup, or product support. A later native
+experiment must prove those separately; no account/device enrollment or
+existing credential modification follows from an availability result.
+
+Assertion and cancellation sources checked for the A2 plan review:
+
+- [WebAuthn assertion verification](https://www.w3.org/TR/webauthn-3/#sctn-verifying-assertion)
+- [Windows assertion options](https://learn.microsoft.com/en-us/windows/win32/api/webauthn/ns-webauthn-webauthn_authenticator_get_assertion_options)
+- [Windows assertion result](https://learn.microsoft.com/en-us/windows/win32/api/webauthn/ns-webauthn-webauthn_assertion)
+- [Cancel an operation](https://learn.microsoft.com/en-us/windows/win32/api/webauthn/nf-webauthn-webauthncancelcurrentoperation)
+- [OpenSSL digest signing and verification](https://docs.openssl.org/3.6/man1/openssl-dgst/)
+
+WebAuthn assertion verification checks the expected challenge, credential,
+origin/RP context, presence and required verification flags, and signature.
+The Windows result contains authenticator data, credential identity, and a
+signature; a successful API return alone does not define an application-level
+review authorization. The Windows assertion timeout is guidance that the
+platform may override. Cancellation identifies a specific operation and has
+no effect if that operation is no longer in progress. The A2 plan therefore
+requires an application deadline and terminal cancellation state, plus a
+fresh review check before delivering an authorization result. Those application
+requirements are an inference for ClaimBranch's contract, not guarantees made
+by the discovery APIs or the synthetic attempt model.
+
+The portable assertion increment uses OpenSSL only as an independent native
+test oracle for a public synthetic ES256 fixture. WebAuthn authenticators sign
+the authenticator data followed by the hash of the original client data;
+reserializing equivalent JSON changes the signed message. The probe checks
+those exact bytes and pins credential/RP/origin context before invoking crypto.
+Its restricted ES256/no-extension/no-backup profile is an experimental choice,
+not full WebAuthn interoperability or evidence of non-exportable Windows keys.
 
 ## Browser-loopback boundary
 

@@ -2,15 +2,17 @@
 kind: target-architecture
 status: draft
 owners: maintainers
-last_reviewed: 2026-09-21
+last_reviewed: 2026-10-10
 canonical_for: target pre-implementation system boundaries and quality constraints
 ---
 
 # ClaimBranch target architecture
 
-ClaimBranch has no usable application or settled stack. Repository contract
-models and disposable probes provide bounded evidence, not the implemented
-target architecture. This document defines boundaries and quality constraints
+ClaimBranch has a synthetic interactive prototype and a separate experimental
+personal terminal alpha. Its protected research app and production stack remain
+unfinished. Repository contract models and disposable probes
+provide bounded evidence, not the implemented target architecture. This
+document defines boundaries and quality constraints
 that the first finite slice must test; it does not claim a production store,
 authorization broker, or provider isolation boundary exists.
 
@@ -22,6 +24,50 @@ in the [ADR index](docs/architecture/decisions/README.md), and observable
 outcomes in the [validation case](docs/validation/cases/saturation.md).
 
 ## Architecture priorities
+
+The immediate deliverable follows [ADR 0017](docs/architecture/decisions/0017-personal-terminal-alpha.md):
+ordinary private personal persistence and a complete terminal manual loop before
+protected custody. The architecture below describes the deferred protected
+target; alpha records cannot satisfy its accepted-authority guarantees.
+The next optional personal-AI scope is selected under
+[ADR 0018](docs/architecture/decisions/0018-optional-personal-ai.md), retaining
+ordinary private storage. Portable typed ingress now validates scoped response
+items. The [offline selective-staging backend](docs/development/workflow.md#selective-proposal-staging-and-origin-return)
+now retains item origins, minimal traces and personal explanation with the
+existing versioned workspace/project checkpoint through personal recording and
+return. The separate [offline terminal rehearsal](docs/development/workflow.md#selective-ai-items-in-the-terminal)
+now connects contextual comparison/editing and personal explanation/return. Actual
+provider/egress remains a prerequisite before live enablement. The
+[BYO connection preparation](docs/development/workflow.md#personal-llm-configuration-and-unsent-preview)
+now keeps endpoint/API/model/credential reference outside research checkpoints,
+compiles complete bounded wire previews and validates untrusted API text through
+the typed contract. Its separate configuration file stores no research history
+or credentials. It opens no socket and confers no dispatch capability. This
+supplies no protected authority or second research store.
+The separate [internal asynchronous transport](docs/development/workflow.md#internal-asynchronous-transport)
+now checks prepared requests and handles bounded cancellable I/O. Its short-lived
+same-user child is a cancellation mechanism, not provider isolation. No public
+live entry is enabled; public init/open can explicitly attach a private profile
+for contextual unsent previews. Actual provider qualification and foreground review still
+precede application dispatch. Its separate
+[checked API controller](docs/development/workflow.md#checked-api-proposal-retention)
+now reuses selective incorporation and versioned workspace v8/work v9/project v5
+retention with owned synthetic returns. Restored history grants no live capability.
+The existing contextual TUI now connects that controller's asynchronous polling,
+selection/editing and terminal shutdown. The public qualification check refuses
+before transport creation/key lookup; only owned tests replace it. No persisted
+trust flag or command-line bypass qualifies a deployment.
+The same private profile store now reads a separate closed Codex-login format,
+without widening API v1. Its contextual preview binds exact application input;
+CLI-generated HTTP content/destinations and runtime access are explicitly
+unverified. It creates no client, consent, dispatched attempt or retained trace.
+The Codex route refuses independently before API transport creation. A separate
+[internal app-server adapter](docs/development/workflow.md#internal-codex-app-server-adapter)
+now checks owned stdio returns through the existing typed ingress. It creates
+a separate internal Codex controller for selective origin return, with distinct
+workspace v9/work v10/project v6 retention alongside unchanged API/offline formats.
+It restores no launch/consent capability. Actual authenticated access/egress and
+useful live return remain L04 work; public launch is still unavailable.
 
 In order:
 
@@ -37,13 +83,13 @@ In order:
 
 ## System context
 
-    Researcher on supported native Windows
+    Researcher on the supported local workstation
         |
         | foreground review, rationale, teach-back, authorization
         v
     ClaimBranch local operator surfaces
         |-- public CLI
-        `-- command-launched Episode Review
+        `-- paper argument workspace with contextual Episode Review
                  |
                  v
           trusted command gateway
@@ -78,6 +124,20 @@ authority.
 The UI may combine the planes, but it must display which plane and authority a
 record belongs to. Projection loss or provider loss cannot make accepted state
 unreadable or change its manifest.
+
+Under [ADR 0011](docs/architecture/decisions/0011-paper-argument-graph-workspace.md),
+the primary UI projects the paper thesis, main/subclaims, shared evidence and
+experiments. The [model extension](docs/designs/2026-08-03-domain-model.md#paper-argument-extension-under-review)
+now has a versioned portable candidate implementation; protected persistence
+and complete operation/receipt integration remain open. Layout and
+hover are disposable projections; hypothetical result/impact state is separate
+from accepted observations. The UI cannot infer new scientific authority from
+visual containment, connectivity or a scenario. Source-bound summaries and
+human reasoning remain inspectable alongside the graph.
+[ADR 0012](docs/architecture/decisions/0012-terminal-research-workspace.md)
+places daily interaction in the experiment host's terminal. Keyboard focus,
+typed-neighbor navigation and impact marks are terminal projections of the
+same service; a separate graphical viewer is optional and unselected.
 
 ## Logical responsibility boundaries
 
@@ -167,8 +227,11 @@ downgrade the authority gate. The current disposable helper is not that proof.
 
 ## Browser authorization boundary
 
-The preferred H1 review surface is a short-lived loopback server launched by a
-public command. Its required protocol is:
+The existing browser prototype and any retained graphical adapter use a
+short-lived loopback server launched by a public command. The daily workspace
+is now terminal-based under ADR 0012; its protected server authority is not
+implemented. If a browser participates in protected review, its required
+protocol remains:
 
 - random loopback port and one-use high-entropy bootstrap;
 - immediate exchange for a secure, HttpOnly, same-site session and a clean URL;
@@ -181,7 +244,7 @@ public command. Its required protocol is:
 - explicit session expiry, reconnect, no-open, browser-launch failure, port
   collision, multiple-instance, and clean-stop behavior.
 
-If the Windows spike cannot prove meaningful user presence and private receipt
+If the target-platform spike cannot prove meaningful user presence and private receipt
 delivery, H1 uses a native or CLI foreground helper. It does not downgrade to a
 plain browser click.
 
@@ -204,7 +267,7 @@ shows global success merely because the graph operation committed.
 The [episode and saga decision](docs/architecture/decisions/0007-research-episode-and-manuscript-saga.md)
 requires one active writer per project/file/anchor, a monotonic fencing token,
 expected graph/file/debt state at every boundary, an authenticated encrypted
-preimage, known postimage digest, Windows-tested write/replace/flush ordering,
+preimage, known postimage digest, target-tested write/replace/flush ordering,
 and a compiler isolated to an owner-only copy/output tree with a pinned argument
 vector and shell escape disabled.
 
@@ -222,8 +285,9 @@ deterministic. Physical choices remain hypotheses until bounded spikes:
 - SQLite is the first atomic-store and traversal baseline;
 - typed neighborhood plus optional full-text search is the first retrieval
   baseline;
-- a short-lived loopback browser is the H1 surface hypothesis; and
-- one pinned native-Windows LaTeX workflow is selected only after marker and
+- the daily terminal workspace follows ADR 0012; a graphical adapter remains
+  optional rather than a required loopback surface; and
+- one pinned target-platform LaTeX workflow is selected only after marker and
   compiler tests.
 
 SQLite or another store is accepted only after replay, crash, concurrency,
@@ -239,10 +303,12 @@ destructive in-place migration, or bidirectional framework exists in F0.
 
 ## Operator and deployment boundary
 
-The initial support hypothesis is one standard-user native Windows 11 x64
-workstation, local NTFS paper repository, PowerShell source checkout, Git-
-tracked LaTeX paper, and one current supported browser. Exact builds,
-runtime/compiler versions, OS presence, AppContainer or fallback isolation,
+The first implementation target is the available Apple Silicon Mac under
+[ADR 0010](docs/architecture/decisions/0010-macos-first-platform-adapters.md);
+Windows 11 x64 follows with separate platform evidence. Each uses a standard
+user, a local paper repository and source checkout, Git-tracked LaTeX paper,
+and one supported review surface. Exact builds,
+runtime/compiler versions, OS presence, platform-specific process isolation,
 path and reparse behavior, controlled-folder access, antivirus sharing, and
 credential storage are frozen by the P1 platform spike.
 
@@ -250,6 +316,20 @@ The public H0 path is one repository-owned bootstrap, doctor, and disposable
 offline demo. It requires no administrator, provider, compiler, or real-paper
 write and targets five minutes from the declared clean-checkout state. Planned
 commands are not working instructions until implementation and validation land.
+
+The [source-delivery gate](docs/product/releases/validation-prototype.md#55-source-delivery-readiness)
+requires a reproducible GitHub checkout/artifact and independent research use,
+including durable restart and recovery on the supported Mac. It does not depend
+on completing the deferred Windows adapter or adding a public installer. The
+current volatile synthetic surface does not meet that gate.
+
+[ADR 0017](docs/architecture/decisions/0017-personal-terminal-alpha.md)
+now makes first delivery a personal manual terminal workspace with ordinary
+private files, explicit personal confirmation, restart and local backup/restore.
+It has no application encryption, device keys or signed protected authority.
+The protected boundaries above remain future targets; personal records cannot
+acquire their authority by importing or relabeling. Live inference, automatic
+manuscript writing, hardware custody and authority migration are deferred.
 
 No remote service, public installer, auto-update, daemon, OpenClaw gateway,
 MCP server, model manager, or hosted telemetry belongs to H0/H1.
@@ -271,17 +351,35 @@ The implementation must provide:
   journal, and temporary-space budgets; and
 - a preregistered live-paper checker that assigns exactly one frozen outcome.
 
-Current implementation coverage is zero. The only executable check today is
-the documentation checker. The [active ExecPlan](docs/plans/active/2026-08-04-claimbranch-v1-and-gpu-systems.md)
-owns sequencing, planned commands, failure matrices, and trigger thresholds.
+Executable evidence now includes the source-fixture checker, synthetic contract
+models, a portable review/provenance/debt-candidate core with global evidence,
+temporal reasoning views, selected merges and frozen-history replay, disposable
+platform/storage probes and a synthetic A1–A4 integration. The Mac presence
+experiment uses an ephemeral key; persistent custody, private delivery and
+complete isolation remain unproven.
+The source-checkout application now connects that candidate core to a volatile
+Episode Review and offline-only context broker. Its loopback HTTP session has
+one-use fragment bootstrap, exact Host/Origin, CSRF, expiry, bounded requests
+and revision conflict checks. It cannot issue approval or accepted writes.
+This synthetic surface does not satisfy the production HTTPS/Secure-cookie,
+private IPC or durable-state requirements above. Episode/provider/manuscript
+lifecycle values validate supplied transitions; they do not observe OS effects.
+The [contributor workflow](docs/development/workflow.md) owns their commands and
+limits. These do not establish production coverage of the target above. The
+[active ExecPlan](docs/plans/active/2026-08-04-claimbranch-v1-and-gpu-systems.md)
+owns observed results, sequencing, planned commands, failure matrices and
+trigger thresholds.
 
 ## Deferred architecture
 
 General semantic VCS, arbitrary branch merge/revert, a universal ontology,
-graph canvas, GraphRAG, graph-native storage, background daemon, OpenClaw/MCP
-adapter, public packaging, model-server operations, cross-platform support,
+unrestricted graph editing, GraphRAG, graph-native storage, background daemon,
+OpenClaw/MCP adapter, public installers/auto-update, model-server operations, broader platform support,
 collaboration, mobile, SaaS, and multi-tenant permissioning all require
 post-validation evidence and a new or updated ADR/ExecPlan.
+
+The bounded paper argument workspace and reproducible source-delivery path are
+current requirements; they are not deferred by this list.
 
 When code establishes real containers or deployment units, reconcile this
 draft with observed structure before changing its status or presenting it as

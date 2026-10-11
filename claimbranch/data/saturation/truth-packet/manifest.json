@@ -1,0 +1,38 @@
+{
+  "schema_version": 1,
+  "packet_id": "saturation-operator-damage-redacted-v1",
+  "classification": "redacted-substitution",
+  "private_mapping": "required-local-only",
+  "files": [
+    {
+      "path": "truth-packet.json",
+      "role": "truth-contract",
+      "sha256": "dbe87df8c89d80604317df7493a65150890d8453d384f812e7bb6c3740665ae9"
+    },
+    {
+      "path": "result-summary.json",
+      "role": "result-artifact",
+      "sha256": "ebefcfde84342ae66c1af01a5198327ed66b642aa6d43b8389f0084889d09dbb"
+    },
+    {
+      "path": "manuscript-before.tex",
+      "role": "manuscript-before",
+      "sha256": "604d9c91d85526b3b9c8dae5121208c3bc990fd6ea26614030ae1f8776f88988"
+    },
+    {
+      "path": "manuscript-after.tex",
+      "role": "manuscript-after",
+      "sha256": "ea5dd64536d78673206442235fe978f3d43240596cf6686c34a0ad98b772e5f2"
+    },
+    {
+      "path": "frozen-proposal.json",
+      "role": "frozen-proposal",
+      "sha256": "bbeec8fc454095b5b8f70e4eddf9c4e676dec77e2961a5eee0d9aadeedd11789"
+    },
+    {
+      "path": "decision-log-baseline.md",
+      "role": "v0-baseline",
+      "sha256": "458baf7bfa6497bb5bf545deb76d31fbcb04e555df35715ffbc5cf76ab02b22c"
+    }
+  ]
+}

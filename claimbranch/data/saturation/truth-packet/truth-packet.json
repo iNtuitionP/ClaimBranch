@@ -1,0 +1,114 @@
+{
+  "schema_version": 1,
+  "packet_id": "saturation-operator-damage-redacted-v1",
+  "source_case": "saturation-and-operator-damage",
+  "classification": "redacted-substitution",
+  "private_mapping": "required-local-only",
+  "claim": {
+    "id": "C-01",
+    "statement": "Saturation-based sensitivity determines the damage caused by pruning, quantization, and compression.",
+    "scope": [
+      "pruning",
+      "quantization",
+      "compression"
+    ],
+    "initial_status": "supported"
+  },
+  "run": {
+    "id": "R-01",
+    "artifact_id": "ART-RESULT-01",
+    "method_ref": "method-saturation-evaluation-redacted",
+    "status": "completed"
+  },
+  "observations": [
+    {
+      "id": "O-01",
+      "run_id": "R-01",
+      "operator": "pruning",
+      "expected": false,
+      "relationship_to_claim": "challenges",
+      "rationale": "The redacted pruning result does not follow the saturation-only damage ordering."
+    },
+    {
+      "id": "O-02",
+      "run_id": "R-01",
+      "operator": "quantization",
+      "expected": false,
+      "relationship_to_claim": "challenges",
+      "rationale": "The redacted quantization result does not follow the saturation-only damage ordering."
+    },
+    {
+      "id": "O-03",
+      "run_id": "R-01",
+      "operator": "compression",
+      "expected": true,
+      "relationship_to_claim": "qualifies",
+      "rationale": "The redacted compression result remains consistent under the compression condition only."
+    }
+  ],
+  "unaided_human_interpretation": {
+    "id": "I-01",
+    "contributor": "human",
+    "statement": "Sensitivity is real but insufficient by itself; operator damage also depends on the structure and effect of the induced distortion.",
+    "observation_ids": [
+      "O-01",
+      "O-02",
+      "O-03"
+    ]
+  },
+  "artifacts": {
+    "result": {
+      "id": "ART-RESULT-01",
+      "path": "result-summary.json"
+    },
+    "manuscript": {
+      "id": "ART-MANUSCRIPT-01",
+      "path": "manuscript-before.tex"
+    }
+  },
+  "manuscript": {
+    "anchor_id": "A-01",
+    "claim_id": "C-01",
+    "marker_id": "anchor-central-claim",
+    "before_path": "manuscript-before.tex",
+    "after_path": "manuscript-after.tex",
+    "compiler_argv": [
+      "latexmk",
+      "-pdf",
+      "-interaction=nonstopmode",
+      "manuscript-before.tex"
+    ],
+    "compiler_contract": "redacted-substitution"
+  },
+  "expected_impact": {
+    "claim_id": "C-01",
+    "claim_status_after": "contested",
+    "interpretation_id": "I-01",
+    "relationship_truth_set": [
+      {
+        "source_id": "O-01",
+        "target_id": "C-01",
+        "type": "challenges"
+      },
+      {
+        "source_id": "O-02",
+        "target_id": "C-01",
+        "type": "challenges"
+      },
+      {
+        "source_id": "O-03",
+        "target_id": "C-01",
+        "type": "qualifies"
+      }
+    ],
+    "manuscript_anchor_id": "A-01",
+    "manuscript_debt_count": 1
+  },
+  "frozen_proposal_path": "frozen-proposal.json",
+  "baseline_path": "decision-log-baseline.md",
+  "privacy": {
+    "contains_private_source": false,
+    "contains_absolute_paths": false,
+    "local_mapping_required": true
+  }
+}

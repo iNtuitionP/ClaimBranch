@@ -1,0 +1,496 @@
+{
+  "classification": "synthetic-example",
+  "commands": [
+    {
+      "created_at": "2026-09-23T00:00:00Z",
+      "episode_id": "episode",
+      "evidence_watermark": 0,
+      "expected_heads": {
+        "main": "root-adad9d0ca56820ba326402723fc6eb20b914f3bf76f59c45a52615d5dfca525c"
+      },
+      "id": "series-op-1",
+      "operation_type": "open-episode",
+      "payload": {
+        "question": "Do these settings meet the accuracy budget?",
+        "title": "Initial pruning and quantization comparison"
+      },
+      "project_id": "project",
+      "schema_version": 3
+    },
+    {
+      "created_at": "2026-09-23T00:00:00Z",
+      "episode_id": "episode",
+      "evidence_watermark": 0,
+      "expected_heads": {
+        "main": "root-adad9d0ca56820ba326402723fc6eb20b914f3bf76f59c45a52615d5dfca525c"
+      },
+      "id": "series-op-2",
+      "operation_type": "record-experiment",
+      "payload": {
+        "conditions": "Same Model A and evaluation split; prune 20 percent of weights with mask seed 42, or quantize weights to 8 bits.",
+        "id": "run-accuracy",
+        "method": "Count correct classifications for unchanged and modified Model A on the same synthetic 2000-example split.",
+        "metric": {
+          "comparison": "At most 1 percentage point loss relative to unchanged Model A on the same split.",
+          "definition": "100 times (unchanged correct count minus modified correct count) divided by 2000.",
+          "name": "classification accuracy loss",
+          "unit": "percentage points"
+        },
+        "question": "Do 20 percent weight pruning and 8-bit weight quantization keep Model A within 1 percentage point of its unchanged accuracy?",
+        "source_ref": "synthetic:paper-accuracy-example"
+      },
+      "project_id": "project",
+      "schema_version": 3
+    },
+    {
+      "created_at": "2026-09-23T00:00:00Z",
+      "episode_id": "episode",
+      "evidence_watermark": 0,
+      "expected_heads": {
+        "main": "root-adad9d0ca56820ba326402723fc6eb20b914f3bf76f59c45a52615d5dfca525c"
+      },
+      "id": "series-op-3",
+      "operation_type": "record-evidence-event",
+      "payload": {
+        "action": "confirm",
+        "event_id": "event-1",
+        "rationale": "Explicitly synthetic example, not an actual experiment.",
+        "run_id": "run-accuracy",
+        "statement": "Pruning 20 percent of Model A weights with mask seed 42 lost 0.4 percentage points of accuracy against unchanged Model A on the fixed synthetic 2000-example split.",
+        "supersedes_id": null,
+        "target_id": "obs-1",
+        "value": "0.4"
+      },
+      "project_id": "project",
+      "schema_version": 3
+    },
+    {
+      "created_at": "2026-09-23T00:00:00Z",
+      "episode_id": "episode",
+      "evidence_watermark": 1,
+      "expected_heads": {
+        "main": "root-adad9d0ca56820ba326402723fc6eb20b914f3bf76f59c45a52615d5dfca525c"
+      },
+      "id": "series-op-4",
+      "operation_type": "record-evidence-event",
+      "payload": {
+        "action": "confirm",
+        "event_id": "event-2",
+        "rationale": "Explicitly synthetic example, not an actual experiment.",
+        "run_id": "run-accuracy",
+        "statement": "Quantizing Model A weights to 8 bits lost 0.7 percentage points of accuracy against unchanged Model A on the fixed synthetic 2000-example split.",
+        "supersedes_id": null,
+        "target_id": "obs-2",
+        "value": "0.7"
+      },
+      "project_id": "project",
+      "schema_version": 3
+    },
+    {
+      "created_at": "2026-09-23T00:00:00Z",
+      "episode_id": "episode",
+      "evidence_watermark": 2,
+      "expected_heads": {
+        "main": "root-adad9d0ca56820ba326402723fc6eb20b914f3bf76f59c45a52615d5dfca525c"
+      },
+      "id": "series-op-5",
+      "operation_type": "create-reasoning-branch",
+      "payload": {},
+      "project_id": "project",
+      "schema_version": 3
+    },
+    {
+      "created_at": "2026-09-23T00:00:00Z",
+      "episode_id": "episode",
+      "evidence_watermark": 2,
+      "expected_heads": {
+        "alternative": "series-op-5",
+        "main": "root-adad9d0ca56820ba326402723fc6eb20b914f3bf76f59c45a52615d5dfca525c"
+      },
+      "id": "series-op-6",
+      "operation_type": "record-interpretation",
+      "payload": {
+        "changes": [
+          {
+            "body": {
+              "parent_ids": [
+                "thesis"
+              ],
+              "role": "main",
+              "scope": "Model A; 20 percent weight pruning; mask seed 42; fixed 2000-example split.",
+              "statement": "Pruning 20 percent of Model A weights with mask seed 42 stays within 1 percentage point of unchanged accuracy on the fixed synthetic split."
+            },
+            "id": "claim-pruning",
+            "kind": "claim"
+          },
+          {
+            "body": {
+              "parent_ids": [
+                "thesis"
+              ],
+              "role": "main",
+              "scope": "The two recorded settings against unchanged Model A on the same 2000 examples.",
+              "statement": "On the fixed synthetic split, Model A loses less accuracy with 20 percent weight pruning than with 8-bit weight quantization: 0.4 versus 0.7 percentage points."
+            },
+            "id": "claim-comparison",
+            "kind": "claim"
+          },
+          {
+            "body": {
+              "parent_ids": [
+                "claim-pruning"
+              ],
+              "role": "subclaim",
+              "scope": "Same unchanged Model A baseline and fixed synthetic split; this pruning mask only.",
+              "statement": "With pruning-mask seed 42, removing 20 percent of Model A weights causes 8 fewer correct classifications out of 2000, an accuracy loss of 0.4 percentage points."
+            },
+            "id": "claim-pruning-detail",
+            "kind": "claim"
+          },
+          {
+            "body": {
+              "observation_ids": [
+                "obs-1",
+                "obs-2"
+              ],
+              "statement": "The recorded 20 percent weight pruning and 8-bit weight quantization of Model A each lost less than 1 percentage point of accuracy on the fixed synthetic split; another pruning seed remains untested."
+            },
+            "id": "interpretation",
+            "kind": "interpretation"
+          },
+          {
+            "body": {
+              "claim_id": "claim-pruning-detail",
+              "conditions": "Same Model A, baseline and synthetic 2000-example split; change only pruning-mask seed 42 to 43.",
+              "metric": {
+                "comparison": "At most 1 percentage point loss relative to unchanged Model A on the same split.",
+                "definition": "100 times (unchanged correct count minus modified correct count) divided by 2000.",
+                "name": "classification accuracy loss",
+                "unit": "percentage points"
+              },
+              "objective": "Does pruning 20 percent of Model A weights with mask seed 43 still lose at most 1 percentage point of accuracy?",
+              "status": "planned"
+            },
+            "id": "replication",
+            "kind": "experiment-plan"
+          },
+          {
+            "body": {
+              "edge_type": "supports",
+              "rationale": "Only the explicitly stated settings support this relation.",
+              "source_id": "obs-1",
+              "target_id": "claim-pruning-detail"
+            },
+            "id": "edge-pruning",
+            "kind": "scientific-edge"
+          },
+          {
+            "body": {
+              "edge_type": "supports",
+              "rationale": "Only the explicitly stated settings support this relation.",
+              "source_id": "obs-1",
+              "target_id": "claim-comparison"
+            },
+            "id": "edge-shared",
+            "kind": "scientific-edge"
+          },
+          {
+            "body": {
+              "edge_type": "supports",
+              "rationale": "Only the explicitly stated settings support this relation.",
+              "source_id": "obs-2",
+              "target_id": "claim-comparison"
+            },
+            "id": "edge-quantization",
+            "kind": "scientific-edge"
+          },
+          {
+            "body": {
+              "edge_type": "supports",
+              "rationale": "Only the explicitly stated settings support this relation.",
+              "source_id": "claim-pruning-detail",
+              "target_id": "claim-pruning"
+            },
+            "id": "edge-detail",
+            "kind": "scientific-edge"
+          },
+          {
+            "body": {
+              "edge_type": "supports",
+              "rationale": "Only the explicitly stated settings support this relation.",
+              "source_id": "claim-pruning",
+              "target_id": "thesis"
+            },
+            "id": "edge-thesis",
+            "kind": "scientific-edge"
+          },
+          {
+            "body": {
+              "edge_type": "qualifies",
+              "rationale": "Only the explicitly stated settings support this relation.",
+              "source_id": "claim-comparison",
+              "target_id": "thesis"
+            },
+            "id": "edge-other",
+            "kind": "scientific-edge"
+          }
+        ],
+        "judgment": {
+          "episode_id": "episode",
+          "history": [
+            {
+              "contributor": "human",
+              "parent_digest": null,
+              "proposal_id": null,
+              "rationale": "The synthetic losses are 0.4 and 0.7 percentage points against unchanged Model A; neither exceeds the 1-point budget.",
+              "text": "The recorded 20 percent weight pruning and 8-bit weight quantization of Model A each lost less than 1 percentage point of accuracy on the fixed synthetic split; another pruning seed remains untested.",
+              "trace_digest": null
+            }
+          ],
+          "project_id": "project",
+          "rationale": "The synthetic losses are 0.4 and 0.7 percentage points against unchanged Model A; neither exceeds the 1-point budget.",
+          "text": "The recorded 20 percent weight pruning and 8-bit weight quantization of Model A each lost less than 1 percentage point of accuracy on the fixed synthetic split; another pruning seed remains untested."
+        }
+      },
+      "project_id": "project",
+      "schema_version": 3
+    },
+    {
+      "created_at": "2026-09-23T00:00:00Z",
+      "episode_id": "episode",
+      "evidence_watermark": 2,
+      "expected_heads": {
+        "alternative": "series-op-6",
+        "main": "root-adad9d0ca56820ba326402723fc6eb20b914f3bf76f59c45a52615d5dfca525c"
+      },
+      "id": "series-op-7",
+      "operation_type": "apply-selected-merge",
+      "payload": {
+        "answers": [],
+        "disposition": "not-required",
+        "judgment": {
+          "episode_id": "episode",
+          "history": [
+            {
+              "contributor": "human",
+              "parent_digest": null,
+              "proposal_id": null,
+              "rationale": "The synthetic losses are 0.4 and 0.7 percentage points against unchanged Model A; neither exceeds the 1-point budget.",
+              "text": "The recorded 20 percent weight pruning and 8-bit weight quantization of Model A each lost less than 1 percentage point of accuracy on the fixed synthetic split; another pruning seed remains untested.",
+              "trace_digest": null
+            }
+          ],
+          "project_id": "project",
+          "rationale": "The synthetic losses are 0.4 and 0.7 percentage points against unchanged Model A; neither exceeds the 1-point budget.",
+          "text": "The recorded 20 percent weight pruning and 8-bit weight quantization of Model A each lost less than 1 percentage point of accuracy on the fixed synthetic split; another pruning seed remains untested."
+        },
+        "selected_ids": [
+          "claim-comparison",
+          "claim-pruning",
+          "claim-pruning-detail",
+          "edge-detail",
+          "edge-other",
+          "edge-pruning",
+          "edge-quantization",
+          "edge-shared",
+          "edge-thesis",
+          "interpretation",
+          "replication"
+        ]
+      },
+      "project_id": "project",
+      "schema_version": 3
+    },
+    {
+      "created_at": "2026-09-23T00:00:00Z",
+      "episode_id": "episode",
+      "evidence_watermark": 2,
+      "expected_heads": {
+        "alternative": "series-op-6",
+        "main": "series-op-7"
+      },
+      "id": "series-op-8",
+      "operation_type": "close-episode",
+      "payload": {},
+      "project_id": "project",
+      "schema_version": 3
+    },
+    {
+      "created_at": "2026-09-23T00:00:00Z",
+      "episode_id": "episode-two",
+      "evidence_watermark": 2,
+      "expected_heads": {
+        "alternative": "series-op-6",
+        "main": "series-op-7"
+      },
+      "id": "series-op-9",
+      "operation_type": "open-episode",
+      "payload": {
+        "question": "Does the corrected seed-42 loss change the claim?",
+        "title": "Recount of the pruning result"
+      },
+      "project_id": "project",
+      "schema_version": 3
+    },
+    {
+      "created_at": "2026-09-23T00:00:00Z",
+      "episode_id": "episode-two",
+      "evidence_watermark": 2,
+      "expected_heads": {
+        "main": "series-op-7"
+      },
+      "id": "series-op-10",
+      "operation_type": "record-evidence-event",
+      "payload": {
+        "action": "correct",
+        "event_id": "recount",
+        "rationale": "Illustrative corrected count on the same split, not another experiment.",
+        "run_id": "run-accuracy",
+        "statement": "Synthetic recount: seed-42 pruning loses 1.2 percentage points of accuracy.",
+        "supersedes_id": "event-1",
+        "target_id": "obs-1",
+        "value": "1.2"
+      },
+      "project_id": "project",
+      "schema_version": 3
+    },
+    {
+      "created_at": "2026-09-23T00:00:00Z",
+      "episode_id": "episode-two",
+      "evidence_watermark": 3,
+      "expected_heads": {
+        "main": "series-op-7"
+      },
+      "id": "series-op-11",
+      "operation_type": "create-reasoning-branch",
+      "payload": {},
+      "project_id": "project",
+      "schema_version": 3
+    },
+    {
+      "created_at": "2026-09-23T00:00:00Z",
+      "episode_id": "episode-two",
+      "evidence_watermark": 3,
+      "expected_heads": {
+        "alternative": "series-op-11",
+        "main": "series-op-7"
+      },
+      "id": "series-op-12",
+      "operation_type": "record-interpretation",
+      "payload": {
+        "changes": [
+          {
+            "body": {
+              "observation_ids": [
+                "obs-1",
+                "obs-2"
+              ],
+              "statement": "The corrected seed-42 pruning loss exceeds the one-point budget; quantization remains within it."
+            },
+            "id": "interpretation-two",
+            "kind": "interpretation"
+          },
+          {
+            "body": {
+              "edge_type": "challenges",
+              "rationale": "The corrected 1.2-point loss exceeds the stated one-point budget.",
+              "source_id": "obs-1",
+              "target_id": "claim-pruning-detail"
+            },
+            "id": "edge-pruning",
+            "kind": "scientific-edge"
+          },
+          {
+            "body": {
+              "basis_ids": [
+                "edge-pruning",
+                "interpretation-two"
+              ],
+              "claim_id": "claim-pruning-detail",
+              "status": "contested"
+            },
+            "id": "status-pruning",
+            "kind": "claim-status"
+          }
+        ],
+        "judgment": {
+          "episode_id": "episode-two",
+          "history": [
+            {
+              "contributor": "human",
+              "parent_digest": null,
+              "proposal_id": null,
+              "rationale": "The same observation was corrected to 1.2 percentage points; the separate 0.7-point quantization result is unchanged.",
+              "text": "The corrected seed-42 pruning loss exceeds the one-point budget; quantization remains within it.",
+              "trace_digest": null
+            }
+          ],
+          "project_id": "project",
+          "rationale": "The same observation was corrected to 1.2 percentage points; the separate 0.7-point quantization result is unchanged.",
+          "text": "The corrected seed-42 pruning loss exceeds the one-point budget; quantization remains within it."
+        }
+      },
+      "project_id": "project",
+      "schema_version": 3
+    },
+    {
+      "created_at": "2026-09-23T00:00:00Z",
+      "episode_id": "episode-two",
+      "evidence_watermark": 3,
+      "expected_heads": {
+        "alternative": "series-op-12",
+        "main": "series-op-7"
+      },
+      "id": "series-op-13",
+      "operation_type": "apply-selected-merge",
+      "payload": {
+        "answers": [],
+        "disposition": "not-required",
+        "judgment": {
+          "episode_id": "episode-two",
+          "history": [
+            {
+              "contributor": "human",
+              "parent_digest": null,
+              "proposal_id": null,
+              "rationale": "The same observation was corrected to 1.2 percentage points; the separate 0.7-point quantization result is unchanged.",
+              "text": "The corrected seed-42 pruning loss exceeds the one-point budget; quantization remains within it.",
+              "trace_digest": null
+            }
+          ],
+          "project_id": "project",
+          "rationale": "The same observation was corrected to 1.2 percentage points; the separate 0.7-point quantization result is unchanged.",
+          "text": "The corrected seed-42 pruning loss exceeds the one-point budget; quantization remains within it."
+        },
+        "selected_ids": [
+          "status-pruning"
+        ]
+      },
+      "project_id": "project",
+      "schema_version": 3
+    },
+    {
+      "created_at": "2026-09-23T00:00:00Z",
+      "episode_id": "episode-two",
+      "evidence_watermark": 3,
+      "expected_heads": {
+        "alternative": "series-op-12",
+        "main": "series-op-13"
+      },
+      "id": "series-op-14",
+      "operation_type": "close-episode",
+      "payload": {},
+      "project_id": "project",
+      "schema_version": 3
+    }
+  ],
+  "profile": "portable-research/v3",
+  "seed": {
+    "anchor_id": "anchor",
+    "claim_id": "thesis",
+    "claim_statement": "On a fixed synthetic 2000-example split, pruning 20 percent of Model A weights or quantizing them to 8 bits loses at most 1 percentage point of accuracy against unchanged Model A.",
+    "paper_title": "Synthetic accuracy study of weight pruning and quantization",
+    "project_id": "project",
+    "schema_version": 3
+  }
+}

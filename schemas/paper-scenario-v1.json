@@ -1,0 +1,72 @@
+{
+  "$id": "urn:claimbranch:paper-scenario:v1",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "assumed_observation": {
+      "maxLength": 16384,
+      "minLength": 1,
+      "type": "string",
+      "x-utf8-maxBytes": 16384
+    },
+    "episode_id": {
+      "maxLength": 128,
+      "minLength": 1,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$",
+      "type": "string"
+    },
+    "outcome": {
+      "enum": [
+        "supports",
+        "challenges",
+        "inconclusive"
+      ]
+    },
+    "plan_id": {
+      "maxLength": 128,
+      "minLength": 1,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$",
+      "type": "string"
+    },
+    "project_id": {
+      "maxLength": 128,
+      "minLength": 1,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$",
+      "type": "string"
+    },
+    "rationale": {
+      "maxLength": 16384,
+      "minLength": 1,
+      "type": "string",
+      "x-utf8-maxBytes": 16384
+    },
+    "ref": {
+      "enum": [
+        "main",
+        "alternative"
+      ]
+    },
+    "schema_version": {
+      "const": 1,
+      "type": "integer"
+    },
+    "view_digest": {
+      "maxLength": 64,
+      "minLength": 64,
+      "pattern": "^[0-9a-f]{64}$",
+      "type": "string"
+    }
+  },
+  "required": [
+    "schema_version",
+    "project_id",
+    "episode_id",
+    "ref",
+    "view_digest",
+    "plan_id",
+    "outcome",
+    "assumed_observation",
+    "rationale"
+  ],
+  "type": "object"
+}

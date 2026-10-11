@@ -1,0 +1,15 @@
+{
+  "kind": "synthetic-webauthn-assertion",
+  "generated_with": "OpenSSL 3.6.4 25 Aug 2026 (Library: OpenSSL 3.6.4 25 Aug 2026)",
+  "notice": "Disposable software key, not an enrolled Windows credential or human-presence proof. Only public verification material is retained.",
+  "rp_id": "claimbranch.invalid",
+  "origin": "https://claimbranch.invalid",
+  "credential_id_b64": "c3ludGhldGljLWNyZWRlbnRpYWw=",
+  "user_handle_b64": "c3ludGhldGljLXVzZXI=",
+  "public_key_spki_b64": "MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEsK1OXpE9HuqQqSvsMBxZN8CIG7bnnZoM5nFjNSoj/U6EL6sxKNpWSuM893UhCeeN0B/kN60ec8XqKC7tvm54iA==",
+  "other_public_key_spki_b64": "MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEk9/TGJVMFG90BcZvS5tLkPnosN6sOiwdIK/9IcaszGWrPBTajSfN4jQPXHxpVJzv46C8VabiE8WqRINTtvgh8A==",
+  "challenge_hex": "3741f797d4aaa29568af04e9921b44c1d123bd4bbb4c6d440c6b3ac6a5c50f67",
+  "client_data_json_b64": "eyJ0eXBlIjoid2ViYXV0aG4uZ2V0IiwiY2hhbGxlbmdlIjoiTjBIM2w5U3FvcFZvcndUcGtodEV3ZEVqdlV1N1RHMUVER3M2eHFYRkQyYyIsIm9yaWdpbiI6Imh0dHBzOi8vY2xhaW1icmFuY2guaW52YWxpZCIsImNyb3NzT3JpZ2luIjpmYWxzZX0=",
+  "authenticator_data_b64": "OiImdJQCQXfS8178R5V2AXyEZam9IxLXzPoslD6P6NUFAAAAAA==",
+  "signature_b64": "MEQCIGUdGRnU2OgPoiqzEOmuo5P4WL+gn2hdygU9ZEkhivjoAiAG8AH6NG3Wkp+PrCIOwkQY0OTI0sQb8evbmcS9Jmj6rA=="
+}

@@ -2,13 +2,14 @@
 kind: reference
 status: active
 owners: maintainers
-last_reviewed: 2026-08-14
+last_reviewed: 2026-10-10
 canonical_for: external research on personal-agent runtimes, graph retrieval, and local inference serving
 ---
 
 # Research-agent runtime, graph, and local-serving references
 
-Reviewed 2026-08-14. These sources inform ClaimBranch's boundaries; they do not
+Runtime/graph sources reviewed 2026-08-14; the personal-provider configuration
+sources below were inspected 2026-10-10. These inform ClaimBranch's boundaries; they do not
 make an integration or technology implemented truth.
 
 ## OpenClaw
@@ -42,6 +43,38 @@ OpenClaw's local-model guidance also cautions that smaller or heavily quantized
 models can weaken context handling and security. ClaimBranch therefore treats
 an 8 GB local GPU as useful for bounded structured tasks and learning, not as
 evidence that one local model should control the complete research workflow.
+
+### Personal provider configuration
+
+The user requested that individual researchers connect their own LLM, using
+OpenClaw's connection approach as a reference. Directly inspected sources:
+
+- [Custom providers and local runtimes](https://docs.openclaw.ai/concepts/model-providers/custom-providers)
+- [SecretRef contract](https://docs.openclaw.ai/gateway/secrets/secretref-contract)
+- [OpenAI Chat Completions request](https://developers.openai.com/api/reference/resources/chat/subresources/completions/methods/create)
+- [Anthropic Messages request](https://platform.claude.com/docs/en/api/messages/create)
+- [vLLM OpenAI protocol source](https://docs.vllm.ai/en/stable/api/vllm/entrypoints/openai/chat_completion/protocol/)
+
+OpenClaw separates endpoint base URL, API dialect, model IDs and authentication
+references. Its SecretRef contract supports explicit secret sources rather than
+requiring inline values. ClaimBranch borrows that separation, initially using
+only an environment-variable name; it does not import OpenClaw credentials or
+its runtime, secret execution, model router, OAuth or plugins. The smaller
+ClaimBranch adapter records a complete POST endpoint instead of assembling a
+route from a base URL.
+
+OpenAI chat takes role-tagged messages and optional JSON-object mode; Anthropic
+Messages separates system text from user messages and requires `max_tokens`.
+JSON mode alone cannot validate ClaimBranch's scientific references or confer
+authority, so both formats require the existing closed typed decoder. These
+API documents establish wire shape, not compatibility or account access for an
+arbitrary user-selected model. Provider retention and actual access remain
+separate checks; configuration is not deployment qualification under ADR 0018.
+The decoder treats null/empty tool fields as absence while refusing actual
+tool-bearing output and malformed field shapes; it executes no tool. This is
+an adapter rule, not an observed vLLM deployment compatibility pass.
+The [implemented preparation workflow](../development/workflow.md#personal-llm-configuration-and-unsent-preview)
+owns current commands and limitations.
 
 ## Graph engineering and GraphRAG
 
@@ -89,6 +122,18 @@ repeatable while giving the researcher a real serving-learning path after the
 manual workflow works.
 
 ## Decision impact
+
+For L04's internal asynchronous transport, Python's official
+[subprocess documentation](https://docs.python.org/3.13/library/subprocess.html)
+distinguishes timeout from child termination and requires deliberate cleanup.
+The [HTTP client reference](https://docs.python.org/3.13/library/http.client.html)
+supplies the direct bounded-read adapter, while
+[SSL verification paths](https://docs.python.org/3.13/library/ssl.html#ssl.get_default_verify_paths)
+distinguish default roots from environment CA overrides. The implementation
+uses a short-lived same-user child for cancellation and explicitly omits CA
+environment imports. These APIs establish neither provider isolation nor actual
+deployment support; current behavior belongs in the
+[transport workflow](../development/workflow.md#internal-asynchronous-transport).
 
 These sources support:
 

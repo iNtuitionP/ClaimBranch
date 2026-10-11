@@ -1,0 +1,549 @@
+{
+  "$comment": "Generated from core/paper_context.py; full pre-selection reader projections.",
+  "$id": "urn:claimbranch:paper-context-fields:v2",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "oneOf": [
+    {
+      "additionalProperties": false,
+      "properties": {
+        "fields": {
+          "additionalProperties": false,
+          "properties": {
+            "parent_ids": {
+              "items": {
+                "maxLength": 128,
+                "minLength": 1,
+                "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$",
+                "type": "string"
+              },
+              "maxItems": 3,
+              "minItems": 0,
+              "type": "array",
+              "uniqueItems": true
+            },
+            "role": {
+              "enum": [
+                "thesis",
+                "main",
+                "subclaim"
+              ]
+            },
+            "scope": {
+              "oneOf": [
+                {
+                  "maxLength": 16384,
+                  "minLength": 1,
+                  "type": "string",
+                  "x-utf8-maxBytes": 16384
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "statement": {
+              "maxLength": 16384,
+              "minLength": 1,
+              "type": "string",
+              "x-utf8-maxBytes": 16384
+            },
+            "status": {
+              "enum": [
+                "proposed",
+                "supported",
+                "contested"
+              ]
+            }
+          },
+          "required": [
+            "statement",
+            "status",
+            "role",
+            "scope",
+            "parent_ids"
+          ],
+          "type": "object"
+        },
+        "kind": {
+          "const": "claim"
+        }
+      },
+      "required": [
+        "kind",
+        "fields"
+      ],
+      "type": "object"
+    },
+    {
+      "additionalProperties": false,
+      "properties": {
+        "fields": {
+          "additionalProperties": false,
+          "properties": {
+            "conditions": {
+              "maxLength": 16384,
+              "minLength": 1,
+              "type": "string",
+              "x-utf8-maxBytes": 16384
+            },
+            "metric": {
+              "additionalProperties": false,
+              "properties": {
+                "comparison": {
+                  "maxLength": 16384,
+                  "minLength": 1,
+                  "type": "string",
+                  "x-utf8-maxBytes": 16384
+                },
+                "definition": {
+                  "maxLength": 16384,
+                  "minLength": 1,
+                  "type": "string",
+                  "x-utf8-maxBytes": 16384
+                },
+                "name": {
+                  "maxLength": 16384,
+                  "minLength": 1,
+                  "type": "string",
+                  "x-utf8-maxBytes": 16384
+                },
+                "unit": {
+                  "maxLength": 16384,
+                  "minLength": 1,
+                  "type": "string",
+                  "x-utf8-maxBytes": 16384
+                }
+              },
+              "required": [
+                "name",
+                "definition",
+                "unit",
+                "comparison"
+              ],
+              "type": "object"
+            },
+            "run_id": {
+              "maxLength": 128,
+              "minLength": 1,
+              "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$",
+              "type": "string"
+            },
+            "source": {
+              "additionalProperties": false,
+              "properties": {
+                "availability": {
+                  "const": "unverified"
+                },
+                "reference": {
+                  "maxLength": 16384,
+                  "minLength": 1,
+                  "type": "string",
+                  "x-utf8-maxBytes": 16384
+                }
+              },
+              "required": [
+                "reference",
+                "availability"
+              ],
+              "type": "object"
+            },
+            "statement": {
+              "maxLength": 16384,
+              "minLength": 1,
+              "type": "string",
+              "x-utf8-maxBytes": 16384
+            },
+            "status": {
+              "enum": [
+                "confirmed",
+                "corrected",
+                "invalidated",
+                "retracted"
+              ]
+            },
+            "value": {
+              "maxLength": 16384,
+              "minLength": 1,
+              "type": "string",
+              "x-utf8-maxBytes": 16384
+            }
+          },
+          "required": [
+            "statement",
+            "status",
+            "value",
+            "run_id",
+            "metric",
+            "conditions",
+            "source"
+          ],
+          "type": "object"
+        },
+        "kind": {
+          "const": "observation"
+        }
+      },
+      "required": [
+        "kind",
+        "fields"
+      ],
+      "type": "object"
+    },
+    {
+      "additionalProperties": false,
+      "properties": {
+        "fields": {
+          "additionalProperties": false,
+          "properties": {
+            "conditions": {
+              "maxLength": 16384,
+              "minLength": 1,
+              "type": "string",
+              "x-utf8-maxBytes": 16384
+            },
+            "method": {
+              "maxLength": 16384,
+              "minLength": 1,
+              "type": "string",
+              "x-utf8-maxBytes": 16384
+            },
+            "metric": {
+              "additionalProperties": false,
+              "properties": {
+                "comparison": {
+                  "maxLength": 16384,
+                  "minLength": 1,
+                  "type": "string",
+                  "x-utf8-maxBytes": 16384
+                },
+                "definition": {
+                  "maxLength": 16384,
+                  "minLength": 1,
+                  "type": "string",
+                  "x-utf8-maxBytes": 16384
+                },
+                "name": {
+                  "maxLength": 16384,
+                  "minLength": 1,
+                  "type": "string",
+                  "x-utf8-maxBytes": 16384
+                },
+                "unit": {
+                  "maxLength": 16384,
+                  "minLength": 1,
+                  "type": "string",
+                  "x-utf8-maxBytes": 16384
+                }
+              },
+              "required": [
+                "name",
+                "definition",
+                "unit",
+                "comparison"
+              ],
+              "type": "object"
+            },
+            "question": {
+              "maxLength": 16384,
+              "minLength": 1,
+              "type": "string",
+              "x-utf8-maxBytes": 16384
+            },
+            "source": {
+              "additionalProperties": false,
+              "properties": {
+                "availability": {
+                  "const": "unverified"
+                },
+                "reference": {
+                  "maxLength": 16384,
+                  "minLength": 1,
+                  "type": "string",
+                  "x-utf8-maxBytes": 16384
+                }
+              },
+              "required": [
+                "reference",
+                "availability"
+              ],
+              "type": "object"
+            },
+            "status": {
+              "const": "recorded"
+            }
+          },
+          "required": [
+            "question",
+            "method",
+            "conditions",
+            "metric",
+            "source",
+            "status"
+          ],
+          "type": "object"
+        },
+        "kind": {
+          "const": "experiment-record"
+        }
+      },
+      "required": [
+        "kind",
+        "fields"
+      ],
+      "type": "object"
+    },
+    {
+      "additionalProperties": false,
+      "properties": {
+        "fields": {
+          "additionalProperties": false,
+          "properties": {
+            "claim_id": {
+              "maxLength": 128,
+              "minLength": 1,
+              "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$",
+              "type": "string"
+            },
+            "conditions": {
+              "maxLength": 16384,
+              "minLength": 1,
+              "type": "string",
+              "x-utf8-maxBytes": 16384
+            },
+            "metric": {
+              "additionalProperties": false,
+              "properties": {
+                "comparison": {
+                  "maxLength": 16384,
+                  "minLength": 1,
+                  "type": "string",
+                  "x-utf8-maxBytes": 16384
+                },
+                "definition": {
+                  "maxLength": 16384,
+                  "minLength": 1,
+                  "type": "string",
+                  "x-utf8-maxBytes": 16384
+                },
+                "name": {
+                  "maxLength": 16384,
+                  "minLength": 1,
+                  "type": "string",
+                  "x-utf8-maxBytes": 16384
+                },
+                "unit": {
+                  "maxLength": 16384,
+                  "minLength": 1,
+                  "type": "string",
+                  "x-utf8-maxBytes": 16384
+                }
+              },
+              "required": [
+                "name",
+                "definition",
+                "unit",
+                "comparison"
+              ],
+              "type": "object"
+            },
+            "objective": {
+              "maxLength": 16384,
+              "minLength": 1,
+              "type": "string",
+              "x-utf8-maxBytes": 16384
+            },
+            "status": {
+              "const": "planned"
+            }
+          },
+          "required": [
+            "claim_id",
+            "objective",
+            "status",
+            "conditions",
+            "metric"
+          ],
+          "type": "object"
+        },
+        "kind": {
+          "const": "experiment-plan"
+        }
+      },
+      "required": [
+        "kind",
+        "fields"
+      ],
+      "type": "object"
+    },
+    {
+      "additionalProperties": false,
+      "properties": {
+        "fields": {
+          "additionalProperties": false,
+          "properties": {
+            "episode_id": {
+              "maxLength": 128,
+              "minLength": 1,
+              "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$",
+              "type": "string"
+            },
+            "observation_ids": {
+              "items": {
+                "maxLength": 128,
+                "minLength": 1,
+                "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$",
+                "type": "string"
+              },
+              "maxItems": 16,
+              "minItems": 0,
+              "type": "array",
+              "uniqueItems": true
+            },
+            "statement": {
+              "maxLength": 16384,
+              "minLength": 1,
+              "type": "string",
+              "x-utf8-maxBytes": 16384
+            }
+          },
+          "required": [
+            "statement",
+            "observation_ids",
+            "episode_id"
+          ],
+          "type": "object"
+        },
+        "kind": {
+          "const": "interpretation"
+        }
+      },
+      "required": [
+        "kind",
+        "fields"
+      ],
+      "type": "object"
+    },
+    {
+      "additionalProperties": false,
+      "properties": {
+        "fields": {
+          "additionalProperties": false,
+          "properties": {
+            "origin": {
+              "additionalProperties": false,
+              "properties": {
+                "ai_influenced": {
+                  "enum": [
+                    true,
+                    false
+                  ]
+                },
+                "contributions_digest": {
+                  "maxLength": 64,
+                  "minLength": 64,
+                  "pattern": "^[0-9a-f]{64}$",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "ai_influenced",
+                "contributions_digest"
+              ],
+              "type": "object"
+            },
+            "rationale": {
+              "oneOf": [
+                {
+                  "maxLength": 16384,
+                  "minLength": 1,
+                  "type": "string",
+                  "x-utf8-maxBytes": 16384
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "statement": {
+              "oneOf": [
+                {
+                  "maxLength": 16384,
+                  "minLength": 1,
+                  "type": "string",
+                  "x-utf8-maxBytes": 16384
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          },
+          "required": [
+            "statement",
+            "rationale",
+            "origin"
+          ],
+          "type": "object"
+        },
+        "kind": {
+          "const": "draft"
+        }
+      },
+      "required": [
+        "kind",
+        "fields"
+      ],
+      "type": "object"
+    },
+    {
+      "additionalProperties": false,
+      "properties": {
+        "fields": {
+          "additionalProperties": false,
+          "properties": {
+            "edge_type": {
+              "enum": [
+                "supports",
+                "challenges",
+                "qualifies"
+              ]
+            },
+            "rationale": {
+              "maxLength": 16384,
+              "minLength": 1,
+              "type": "string",
+              "x-utf8-maxBytes": 16384
+            },
+            "source_id": {
+              "maxLength": 128,
+              "minLength": 1,
+              "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$",
+              "type": "string"
+            },
+            "target_id": {
+              "maxLength": 128,
+              "minLength": 1,
+              "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$",
+              "type": "string"
+            }
+          },
+          "required": [
+            "source_id",
+            "target_id",
+            "edge_type",
+            "rationale"
+          ],
+          "type": "object"
+        },
+        "kind": {
+          "const": "scientific-relation"
+        }
+      },
+      "required": [
+        "kind",
+        "fields"
+      ],
+      "type": "object"
+    }
+  ]
+}

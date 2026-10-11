@@ -103,4 +103,7 @@ The first slice must prove:
 
 ## Supersession
 
-None. This ADR elaborates ADRs 0001 and 0003.
+Partially superseded by [ADR 0011](0011-paper-argument-graph-workspace.md) on
+2026-09-22 for admission of the bounded paper argument workspace. The
+three-plane, authority, provider, retrieval and storage decisions above remain
+accepted. This ADR elaborates ADRs 0001 and 0003.

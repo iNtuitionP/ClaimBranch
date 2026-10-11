@@ -2,7 +2,7 @@
 kind: exec-plan
 status: active
 owners: maintainers
-last_reviewed: 2026-09-21
+last_reviewed: 2026-10-11
 ---
 
 # ExecPlan: ClaimBranch graph contract to live-paper validation
@@ -19,16 +19,52 @@ not block ClaimBranch.
 For execution, use the user-selected native implementation harness described
 in the contributor workflow; do not restart brainstorming or require repeated
 plan approval for already authorized work. The user has
-authorized explicitly synthetic development, including the bounded augmented
-contract cases below, not unrestricted
-application implementation, commits, or remote writes. Read the [product spec](../../product/product-spec.md) and
+authorized continued R implementation toward a usable Mac-first research app,
+including synthetic preparation while native/real-use gates remain open. This
+does not authorize commits, publication, provider calls or real research use
+merely because implementation is requested. Read the [product spec](../../product/product-spec.md) and
 [release scope](../../product/releases/validation-prototype.md) alongside this
-plan. P0 private-source verification remains unchecked and mandatory before
-any real research use, but is no longer a development-start prerequisite.
-Synthetic work does not waive P1 trust/toolchain or H0 safety gates.
+plan. The selected personal alpha follows ADR 0017 and release section 5.5;
+its own-project feedback does not wait for historical P0 mapping or native keys.
+P0 remains unchecked and mandatory for the deferred protected H0/H1/V0 program.
+Synthetic work does not waive that program's P1 trust/toolchain or H0 gates.
 
-The current source-fixture and journal tools use Python's standard library;
-the application stack is not selected. P0 below is executable now. P1-P4 are
+For the next product action, start at the
+[alpha feedback and publication sequence](#alpha-feedback-and-publication-sequence).
+The owner explicitly authorizes publishing the current manual source on
+2026-10-11, with live AI honestly unavailable. Follow the
+[current publication sequence](#alpha-feedback-and-publication-sequence).
+The prior AI-connected requirement remains the later L04 milestone under the
+[AI-connected publication order](#ai-connected-github-publication-order).
+The completed manual alpha is the current-source publication baseline; it does
+not complete the later AI-connected milestone.
+For the user's 2026-10-08 request to plan optional LLM reading and graph
+suggestions, use the [four-unit AI follow-up proposal](#optional-ai-follow-up-implementation-plan).
+It is a proposed continuation, not a reopened first-alpha backlog or live-use
+authorization. The existing manual alpha remains available for feedback.
+The completed [GitHub manual-release implementation order](#github-manual-release-implementation-order)
+remains the first-alpha implementation baseline.
+The [key-free personal-workspace direction](#key-free-personal-workspace-alternative)
+is selected under ADR 0017; no further storage approval is pending.
+The [paper graph and usable delivery amendment](#paper-graph-and-usable-delivery-amendment)
+and [R1–R9 sequence](#product-app-review-surface-and-ai-delivery-sequence) remain
+the full product direction and ownership map.
+The next non-UI increment and its dependency-scoped order are in the
+[reviewed implementation order](#reviewed-implementation-order).
+For a deduplicated TODO and remaining count, use the
+[first-release S ledger](#first-release-outcome-ledger); the
+[non-UI B ledger](#remaining-non-ui-implementation-ledger) preserves the broader
+product work. Their overlapping counts must not be added.
+For TUI design implementation, use the
+[human-led result-to-judgment sequence](#tui-result-to-judgment-implementation-sequence)
+within that amendment; its dependencies retain the R1–R9 ownership boundaries.
+The amendment incorporates the user's review of the running app and supersedes
+the earlier sheet-first UI and graph-deferral assumptions. Older probe and
+storyboard results remain evidence, not proof that the revised product exists.
+
+The current personal alpha uses the existing Python/curses terminal and bounded
+private files; the protected production stack is not selected. P0 below is
+executable now for that protected program. P1-P4 are
 gated deliverables: before implementing one, freeze its paths, interfaces, and
 failing tests in that phase after its prerequisite decisions. Do not invent
 application APIs or select a framework just to make this plan look finished.
@@ -53,7 +89,7 @@ must not become another explanation the researcher has to write. The
 owns the boundary. The Notion coding journal remains separate, user-invoked
 contributor tooling, not a product dependency or a second research record.
 
-The first wedge is deliberately concrete: one real saturation truth packet,
+The protected foundation wedge is deliberately concrete: one real saturation truth packet,
 three confirmed Observations, one central Claim, one reasoning branch, one
 selective merge, one marked LaTeX block, one compile cycle, and one human debt
 closure. Two named variants exercise it: `H0-manual` runs with AI disabled and
@@ -63,10 +99,12 @@ its own byte-identical full-audit golden manifest. Their manifests are not
 expected to match because their contribution, review, trace, and debt history
 is intentionally different.
 
-The graph-first choice means the semantics and authority contract for this
-wedge are complete before product UI implementation. It does not mean a full
-ontology, generalized semantic version control, a graph database, GraphRAG, or
-a graph canvas is built first.
+Graph-first now also means a primary paper argument workspace under ADR 0011.
+The original wedge remains a regression baseline; an explicitly reviewed model
+extension must support the paper structure before protected persistence uses
+it. Reversible synthetic UI/domain work can proceed while native gates remain
+open. A universal ontology, generalized semantic VCS, graph database or GraphRAG
+is not implied by the required graph experience.
 
 ### Definition of this plan being done
 
@@ -79,24 +117,3952 @@ This plan is complete when:
 3. a minimal headless kernel completes `H0-manual` and `H0-recorded`, then
    replays each operation log to its own byte-identical golden manifest without
    making a provider call;
-4. a supported native-Windows builder can bootstrap the repository, run
+4. a builder on the supported target platform can bootstrap the repository, run
    `doctor`, and reach the isolated offline saturation demo in at most five
    minutes without administrator access, a provider, or a LaTeX installation;
-5. the smallest local review surface supports first-pass judgment without an
-   external decision log, real human authorization, contextual teach-back,
-   deferral, and visible debt;
+5. the paper argument workspace meets PG-1 through PG-5 and supports first-pass
+   judgment without an external decision log, real human authorization,
+   contextual teach-back, deferral and visible debt;
 6. V0 runs the user-approved first-pass comparison to its preregistered stopping
    rule and assigns the frozen outcome; its allocation and sample budget must
    be resolved before the run, not inferred from the retired second-pass design;
-   and
 7. evidence from that live gate determines whether OpenClaw integration, local
-   serving work, broader UI, and generalized graph behavior proceed.
+   serving work, broader UI, and generalized graph behavior proceed; and
+8. the [source-delivery gate](../../product/releases/validation-prototype.md#55-source-delivery-readiness)
+   proves that an unfamiliar researcher can obtain the declared source artifact,
+   use their own supported project, quit/resume and recover safely. The current
+   volatile example and passing unit tests alone cannot complete this plan.
 
 Passing the retrospective fixture means `foundation validated`, not product
 success. Do not call the product v1.0 before the live-paper gate passes.
 
 ## Progress
 
+- [ ] 2026-10-11 KST - Prepare and publish the owner-authorized current-source
+  alpha, without claiming L04 completion. Replace the root README's historical
+  implementation inventory with product philosophy, actual synthetic terminal
+  visuals, quick start, own-paper/save/backup guidance, honest feature status
+  and feedback links. Check the exact source, exclude machine/private state,
+  commit/push to the existing repository and publish a matching prerelease.
+  The owner separately selected MIT; include its notice in source and the ZIP.
+
+- [x] 2026-10-11 KST - L04 model/effort preflight is implemented and verified.
+  Two separately authorized exact synthetic diagnostics fail:
+  gpt-6.1-sol stops on absent client metadata; the owner's one gpt-6-sol attempt
+  reaches turn acknowledgement/start, then client error with no typed response.
+  Final 71 adapter/controller cases and two actual Opus 5.5 reviews pass; source
+  extraction/terminal and docs checks pass. No additional inference approval remains.
+  The dependent live connection is still blocked; do not enable public dispatch
+  or infer an unretained error cause. See the
+  [result review](#2026-10-11-l04-codex-model-preflight-and-diagnostic-result-review).
+
+- [x] 2026-10-10 KST - L04's restricted Codex authentication failure is resolved
+  in the internal policy. Owned-process sandbox logs identify the blocked
+  SecurityServer service; the actual pinned CLI authenticates with only four
+  exact global preference/authentication service exceptions plus authorization-right denial.
+  Related adapter/probe cases and actual outside-file/exec denials pass.
+  Permitted service APIs, generated HTTP and checked live return still require
+  independent evidence; no public launch, provider verdict or model request is
+  added. See the [result review](#2026-10-10-l04-codex-mach-lookup-result-review).
+
+- [x] 2026-10-10 KST - Reconcile the owner's AI-connected publication requirement
+  in the existing release scope, product status, validation and publication
+  order. Reuse S=4/4 and L=3/4; do not add another implementation denominator.
+  The next publication must include working optional personal AI, with actual
+  provider/access/egress and contextual saved-origin return verified. Current
+  public AI remains unavailable; scope selection grants no new one-shot model
+  request, credential access, license choice, commit or push. This is a plan-only
+  change, not completion of the blocked live connection. Explicit docs scope
+  passes all 71 Markdown files and whitespace; all three documentation
+  integration cases pass. No runtime test or live-response pass is claimed.
+
+- [x] 2026-10-10 KST - L04 Codex startup/file-access repair is implemented.
+  Literal `/` loader access resolves the reproduced pre-main SIGABRT without
+  granting root descendants. Actual installed host-file APIs show permitted
+  scratch read/write and six outside-file/process permission refusals; synthetic
+  canary and cleanup remain intact. Existing-login no-inference controls reach
+  a checked ephemeral thread under narrowed file rules. Mach IPC, generated
+  HTTP and checked live return remain dependent open gates; public AI stays off.
+  Review/check evidence is in the
+  [result review](#2026-10-10-l04-codex-startup-and-file-access-result-review).
+  This closes a startup defect within the existing L04, not that whole outcome.
+
+- [ ] 2026-10-10 KST - L04 authenticated Codex diagnostics reach existing login
+  and a checked ephemeral thread; live completion remains blocked. Repair
+  observed account/settings notification handling, preserve the exact internal
+  custom-provider identity and suppress only the notice caused by the requested
+  unstable feature. The installed CLI rejects retry overrides on reserved
+  built-in `openai`; a separate owned alias accepts zero retry settings. The
+  approved model diagnostic has no checked reply. Keep public dispatch closed,
+  preserve the unacknowledged turn and stronger file-confinement failure, and
+  do not retransmit under exhausted one-request approval. See the
+  [result review](#2026-10-10-l04-authenticated-codex-diagnostic-result-review).
+  S remains 4/4; L remains 3/4 with the same outcome unfinished.
+
+- [x] 2026-10-10 KST - L04 internal Codex selective-origin return is implemented.
+  Reuse the checked app-server result and existing item comparison/editing,
+  personal consequence and ordinary save/backup. Freeze a distinct Codex trace
+  and workspace v9/work v10/project v6; preserve old API/offline formats.
+  Implement this independent owned-return integration before authenticated
+  qualification, amending the earlier dependent-controller order without
+  enabling public dispatch. Preview creates no attempt or replacement; begin
+  rechecks exact current input, capacity and the shared three-request budget.
+  The 21 new owned cases pass from independent source extraction, including
+  cancellation/staleness, malformed metadata, fresh-process return, backup,
+  saved-trace immutability and source-level future profile-rule compatibility.
+  Initial actual Opus 5.5 FAIL is reproduced and repaired; final actual Opus
+  5.5 PASS. Fresh final alpha passes 975 application and 209 portable contract
+  cases, docs/schema/resources and whitespace. Retain earlier failed/intermediate
+  runs rather than claim them clean. See result review below.
+  Actual login/resource/HTTP egress and one-shot consent still gate real use.
+  S=4/4, L=3/4, the same one remaining outcome.
+
+- [ ] 2026-10-10 KST - L04 internal Codex app-server adapter is implemented.
+  Installed 0.158.0 stdio RPC, ephemeral thread, exact selected model/input/
+  schema, no tool approvals, bounded cancellable return and scoped typed
+  validation now have 18 passing owned cases and independent extracted-source
+  checks. Anonymous actual CLI initialization/account refusal passes without
+  inference, login import or public qualification bypass. Initial actual Opus
+  5.5 FAIL is preserved; locally reproduce and repair owner-exit cleanup,
+  streaming limits and exception status, then final actual Opus PASS. The
+  alpha run's 954 application cases have one stale inventory-fixture failure;
+  its corrected complete five-case source suite passes. Preserve that failed
+  full run; no unchanged 954-case rerun is claimed. Final docs/harness/whitespace
+  pass. Details and remaining actual-provider gate are recorded below. The
+  installed schema has no restricted read-root field: its readOnly policy alone
+  cannot qualify actual research access. Keep live retention/public dispatch
+  dependent on authenticated access/egress evidence. Reuse existing typed ingress; preserve
+  preview/history formats and S=4/4, L=3/4, the same one remaining outcome.
+
+- [ ] 2026-10-10 KST - L04 actual-client boundary observation is implemented.
+  The installed Codex 0.158.0 runs with an empty client home and an owned
+  scripted peer, without login, credentials or inference. Its actual dispatcher
+  refuses shell and question-tool calls; the owned canary stays unchanged.
+  This custom-provider/fallback-model result does not qualify the selected
+  ChatGPT-login path. Stop dependent live enablement until authenticated
+  resource access and exact egress are demonstrated; do not call an advertised
+  but actually unavailable question tool a research-write capability. S=4/4,
+  L=3/4, same one outcome remaining. Twelve affected cases, actual CLI owned
+  round-trip, three OS-signal cleanup observations, final actual Opus 5.5
+  source review and docs/whitespace pass. See the result review below.
+
+- [ ] 2026-10-10 KST - Continue the same L04 with Codex-login input preparation.
+  The selected existing ChatGPT-login route now has a separate closed private
+  profile, public configure/inspect/saved-science preview and contextual TUI
+  application-input preview. No API key, login-cache import, client invocation,
+  attempt/trace or consent is created. API v1/history formats remain unchanged.
+  Actual CLI access/destination/wrapper and checked live return remain open;
+  read-only and a CLI login are not provider qualification. Initial affected
+  102 cases pass, including a new public actual-PTY manual/restart path. Actual
+  pinned Opus finds two labeling defects; both are reproduced and repaired.
+  Final 102 affected cases and 86 extracted-source cases pass without skips;
+  two additional final rendering/cancellation assertions pass against that same
+  artifact. Final actual pinned Opus review passes after a false inheritance
+  premise is locally disproved. Docs/harness/whitespace pass. Receipts below.
+  S=4/4, L=3/4, one outcome remaining; no new count or native prerequisite.
+
+- [ ] 2026-10-10 KST - Continue the same L04 outcome with contextual personal
+  provider attachment. Public init/open accepts an explicit separate private
+  profile for complete unsent previews; the existing TUI connects task selection,
+  owned async return, item comparison/editing, disable, cancellation and final
+  checkpoint cleanup. The public qualification check refuses before transport
+  creation/key lookup. The user's latest reply selects existing Codex on this
+  Mac; read-only CLI inspection reports ChatGPT login, not an API-key login.
+  This build has no Codex adapter; do not require a newly purchased API key or
+  reinterpret its cached login as one. Actual adapter/access/egress evidence and
+  usefulness still gate that connection. Four actual pinned Opus reviews end in
+  PASS after locally reproduced cleanup, silent replacement and post-trace
+  projection repairs. Initial alpha passes 209 contract/918 application checks;
+  the later alpha and affected runs expose stale PTY/replacement test oracles,
+  corrected explicitly rather than hidden. All final 76 affected cases and 60
+  final extracted-source cases pass without skips. Docs/harness/whitespace pass;
+  detailed scoped evidence is recorded below. S=4/4, L=3/4.
+
+- [ ] 2026-10-10 KST - Continue L04 with checked API proposal retention.
+  Checked internal wire controller, existing selective incorporation and
+  workspace v8/work v9/project v5 retention are implemented. Owned returns
+  preserve raw/normalized hashes, frozen request binding, API/model/timing,
+  edited item origin and original human reason through personal recording and
+  fresh-process/backup return. Wire/offline/whole-judgment requests share the
+  durable three-attempt limit. Initial actual pinned Opus review returns FAIL;
+  locally reproduce/fix metadata poisoning and prompt/header-dependent reading.
+  Its endpoint-secret premise is disproved by existing Destination checks.
+  The requested follow-up Opus reviews reproduce/fix source-level v1 policy,
+  model/settings/URL coupling and unversioned preview labelling. Final pinned
+  Opus repair review returns PASS. All 70 affected preparation/wire/retention
+  cases and all 70 against the final extracted 129-member source pass without
+  skips. Integrated alpha on the earlier snapshot passes 209 contracts and
+  899/900 application cases, failing only the obsolete
+  source-member boundary fixture; correct that fixture and all five source
+  artifact cases pass. A duplicate alpha loaded before that fixture repair is
+  explicitly interrupted, not reported as a clean pass. Docs/harness/whitespace
+  pass; no post-fixture full-alpha pass is claimed. The prior session-limit
+  attempt remains historical; actual pinned repair review is now complete.
+  Restore no consent/staging. Actual topology/public TUI remain gated;
+  S=4/4, L=3/4, no new outcome unit.
+
+- [ ] 2026-10-10 KST - Continue L04 with bounded asynchronous wire I/O.
+  Internal one-use post-review I/O, selected credential resolution, cancellable
+  off-thread execution, connect/read/total deadlines and closed typed returns
+  are now implemented. Owned HTTP/TLS peers exercise stale/changed/replayed
+  requests, secrets, framing, errors, deadline progress and spawn/arrival races.
+  Final 68 affected cases and 49 preparation/transport cases against the
+  final extracted 128-file source pass with no skips. Actual pinned
+  Opus identifies escaped-model-key and header-progress defects; reproduce and
+  repair both. Second and final reviews pass; locally reproduce/fix final
+  endpoint-secret, frozen-deadline and disconnect-label findings. Docs/harness/whitespace
+  pass; final documentation receipt is checked below.
+  This is transport preparation, not a qualified provider or public TUI switch:
+  ADR 0018 still requires actual deployment evidence before application dispatch,
+  and offline-only retained reviews need checked live schema integration.
+  Public init/open stays AI-off; S=4/4 and L=3/4. Add no outcome unit or store.
+  No actual user endpoint is contacted.
+
+- [ ] 2026-10-10 KST - Continue L04 with user-owned LLM configuration.
+  Implement private create-only endpoint/API/model/environment-secret-reference
+  profiles, public configure/inspect and own-project unsent wire preview, plus
+  pure OpenAI-chat/Anthropic text-to-typed decoders. No key lookup, network,
+  consent, saved attempt, live TUI attachment or protected operation is enabled.
+  The integrated alpha passes 209 contract, 850 application and 22 runner checks
+  with no skips; final repair checks pass 85 storage/personal and 47 decoder
+  cases, with all 17 new cases passing against the final extracted source.
+  Three actual pinned Opus reviews and locally checked repairs are recorded in
+  the L04 result entry below. Docs and whitespace pass. Actual
+  qualification, asynchronous dispatch/return and novel-task usefulness remain
+  open. S stays 4/4; L stays 3/4 with one outcome remaining.
+
+- [x] 2026-10-10 KST - Complete L03 contextual proposal selection and return.
+  Exact input/full dependency comparison, detached before/after graphs and the
+  existing candidate editors connect through a separately owned invented-cache
+  rehearsal. Personal consequence retains complete item/J origin, original
+  reason, explicit reviewed/later choice and unfinished original-cause writing.
+  Actual pinned Opus reviews identify expiry/list writing loss, history return,
+  setup failure and failed-refresh state; reproduce/repair confirmed defects.
+  The integrated alpha/harness run passes 209 contract, 834 application and 22
+  runner tests with no skips. Final UI checks pass 27 tests; all 19 new unit/PTY
+  cases also pass against the final independently extracted source. Docs and
+  whitespace pass. Public own-project init/open remains AI-off. No live provider,
+  native approval, manuscript write or publication. S stays 4/4; L is 3/4,
+  one remaining: L04 actual permitted provider, exact egress and novel-task use.
+
+
+- [x] 2026-10-10 KST - Complete L02 selective staging and durable origin. Owned
+  offline selective batches, item lineage v2, minimal historical traces,
+  workspace v7/work v8/project v4 and complete personal origin/explanation
+  retention are implemented. The 31 initial new cases pass, including ordinary
+  backup/fresh-process return and real 256 KiB boundaries. Actual pinned Opus
+  finds request-ID reuse, lost prior human edits, missing saved-payload tracking,
+  inconsistent quota/reader/cause handling and context replacement. Fix and
+  check locally; additional next-episode and explicit original-reason cases
+  expose unstable generated interpretation identity and legacy answer routing,
+  now repaired. The integrated alpha passes 209 contract and 813 application
+  checks with no skips; after the final review/reason fixes, 68 affected checks
+  pass. Final saved-payload/omitted-origin tightening passes 24 affected personal
+  return/research/retention checks. All 34 new cases pass across these runs;
+  22 harness checks, generated schemas, 71-file docs and whitespace also pass.
+  Public personal open stays AI-off, with no live provider, native authentication,
+  manuscript write or publication. S stays 4/4; L becomes 2/4, two remaining.
+  Next is L03 contextual comparison/selection in the existing TUI.
+
+- [x] 2026-10-09 KST - Complete L01 selected-input and typed-response ingress.
+  Reuse `PaperDraftSession.compile_proposal_context` for exact selected science
+  and optional unfinished writing without consent or AI enablement. Add closed
+  `provider-result/v2`, context/item reference domains, create/edit identity,
+  scientific kind/role/status/episode checks, finite limits and known graph/
+  dependency validation; retain text v1 and manuscript routing. Bind the typed
+  response format into one-shot outbound review and dispatch. A new invented
+  cache-study module shows three frozen suggestions while observing unchanged
+  live service/draft state. User explicitly chooses the optional personal-AI
+  scope; ADR 0018 and affected canonical docs retain ordinary files, no device
+  keys and separate provider/egress qualification. Actual pinned Opus review
+  finds routing, edit-alias and example-evidence issues; reproduce, fix and add
+  meaningful regressions and boundary checks. All 141 affected tests pass in
+  69.939 s with no skips, including extracted-source/manual personal return,
+  security, harness and documentation integration. The 23 new ingress checks,
+  actual module exercise, generated-schema check, 71-file docs and whitespace
+  pass. No full-alpha/core/native/live-usefulness pass is inferred. Documentation
+  impact: available portable API/schema and contributor exercise, selected
+  future personal scope, proposed remaining acceptance and execution evidence.
+  No live provider, personal AI toggle, scientific adoption, native enrollment,
+  manuscript mutation, commit or publication. S stays 4/4; L becomes 1/4,
+  three remaining. Next is L02 selective staging and complete durable origin.
+
+- [x] 2026-10-08 KST - Review the optional-AI plan against the original Dream
+  state, product philosophy, understanding-debt alignment, accepted ADRs and
+  current source contracts at the user's request. Complete two bounded fixed-
+  packet reviews with actual runtime-verified `claude-opus-5-5`; reconcile
+  actionable findings locally in the
+  [review disposition](#optional-ai-follow-up-implementation-plan) and linked
+  design/acceptance contract. Move personal scope preparation to L01 before
+  dependent recording/persistence; distinguish typed item identity and complete
+  amendment origin from text adoption; preserve selective sibling staging,
+  historical return and bounded storage. Separate human explanation choice from
+  AI origin, reusing causal context and the original reason. Preserve included-
+  draft freshness instead of adopting a blanket relaxation. The corrected plan
+  permits independent portable L01; actual personal-live scope and destination
+  remain decisions for their dependent implementation. Documentation impact:
+  proposed design, execution and acceptance only, with no runtime, accepted ADR,
+  provider enablement, commit or publication changes. S stays 4/4 and L stays
+  0/4; no fifth outcome or new alpha prerequisite is added. Final documentation
+  and integration check evidence is recorded in Outcomes below.
+
+- [x] 2026-10-08 KST - At the user's request, write the next optional-AI
+  follow-up plan after comparing canonical philosophy, accepted ADRs, current
+  personal entry and existing context/proposal/origin/recovery code. Define
+  four stable proposed outcomes, L01–L04, with dependencies, researcher-visible
+  checkpoints, acceptance and review requirements. Reuse existing scoped
+  context, offline attempts, candidate graphs, amendment lineage and personal
+  retention; do not rebuild the completed manual alpha. L01–L03 prepare and
+  rehearse portable proposal-only assistance without live calls or enabling
+  bundled replies on personal projects. L04 first resolves the proposed
+  personal-AI release boundary and actual endpoint/topology/egress choice;
+  current ADR 0017's AI-off scope and ADR 0009's provider gates remain intact.
+  Documentation impact: execution, proposed interaction/authority scope and
+  proposed acceptance only. No runtime/schema change, provider invocation,
+  commit or publication. S remains 4/4; the overlapping protected B/U ledger
+  is unchanged. The follow-up implementation count is 0/4, not four more
+  first-alpha requirements. `verify.py --scope docs` passes 70 Markdown files
+  and tracked whitespace; all 3 documentation-integration tests pass. No fresh
+  runtime/native/model-quality pass is inferred from this documentation check.
+
+- [x] 2026-10-08 KST - At the user's request, execute all six
+  [feedback cases](../../validation/cases/saturation.md#personal-alpha-feedback-tasks)
+  in an independent invented cache-study project through public init/open and
+  actual PTY keyboard input. At 160×44, author main/subclaims before any complete
+  judgment; inspect their separate draft graph; cancel/reopen result review;
+  personally confirm 6 ms versus 15 ms; verify the empty and recorded `1`/`2`
+  states; connect one observation to three claims with supports/qualifies.
+  Explicit interpretation reuse retains one original reason; selected reasoning
+  includes the unrun plan and before/after graph review. Exercise all three
+  hypothetical outcomes and clear them, append 6→8 ms without deleting the old
+  value, and start the next question. Keep Korean notes/judgment and separate
+  unfinished writing, quit, reopen at 80×24, inspect U, back up/export and restore
+  into a fresh folder. A fresh public open of the restored project succeeds;
+  the complete saved payload equals the original, the original remains intact,
+  and manuscript bytes are unchanged. All six cases complete. The first driver
+  selected the thesis instead of the observation in an endpoint picker; the
+  cyclic-link validator refused that wrong selection. A later driver expected
+  lowercase hypothetical copy instead of the rendered uppercase heading.
+  Correct only those temporary driver inputs/expectations; no product fix is
+  inferred. Saved-state renders use the personal recovery adapter: 160×44 shows
+  9/9 nodes; 80×24 shows 3/9 with offscreen navigation. Remaining feedback friction
+  is the available-looking empty Evidence tab, explicit draft-versus-recorded
+  graph switching and narrow-screen clipping. Clarify UC-1's keep/g/Esc steps.
+  This is agent-operated synthetic evidence, not independent human usability.
+  Documentation impact: existing task guidance and execution evidence only;
+  no runtime/schema/authority/scope changes or new feature group. S stays 4/4.
+  `verify.py --scope docs` passes 70 Markdown files and whitespace, and all three
+  documentation integration tests pass. The actual task run supplies the
+  behavior evidence; no unchanged whole-alpha or native suite is rerun.
+
+- [x] 2026-10-08 KST - Diagnose the user's `1`/`2` switching report in a freshly
+  initialized personal project. Reproduce zero-observation refusal, the same
+  refusal with a kept provisional result, and successful Evidence/Argument
+  switching after explicit personal result confirmation. The empty-state notice
+  is present in the 80×24 rendered frame. Real demo PTY graph switching passes
+  at 132×38 and 80×24 and restores shell modes on exit. The first raw-output probe
+  expected a full repeated heading from curses' incremental repaint and failed
+  that screen assertion; explicit redraw verifies the actual view switch. No
+  product navigation defect is reproduced. Update the
+  [key guide](../../development/workflow.md#terminal-paper-prototype) and
+  [feedback task order](../../validation/cases/saturation.md#personal-alpha-feedback-tasks)
+  to distinguish draft/result confirmation, candidate connections and recorded
+  evidence uses. No runtime, schema, authority or scope change; S remains 4/4.
+  `verify.py --scope docs` passes all 70 Markdown files and whitespace. Five
+  focused existing navigation/personal-history/actual-PTY tests pass in 8.209 s
+  with no skips. This is scoped behavior evidence, not a whole-alpha rerun or
+  a human-comprehension pass.
+
+- [x] 2026-10-07 KST - Prepare six connected
+  [personal-alpha feedback tasks](../../validation/cases/saturation.md#personal-alpha-feedback-tasks)
+  at the user's request. Use invented cache latency measurements, human thesis/
+  main/subclaims, one shared observation, original judgment/reason, an unrun plan,
+  append-only correction and quit/reopen/fresh restore. Prioritize graph meaning,
+  writing the reason once and return to unfinished thinking. Check action labels,
+  work ownership, explicit evidence confirmation and per-episode reasoning bounds
+  against the current UI/services. Documentation impact is feedback/validation
+  examples and navigation only; no runtime, schema, authority or scope changes.
+  S remains 4/4 and human task outcomes remain unobserved. `verify.py --scope docs`
+  passes documentation (70 Markdown files) and whitespace; the three relevant
+  documentation integration tests pass. No new feature group or parallel use-case
+  document is introduced.
+
+- [x] 2026-10-07 14:42 KST - Final pre-feedback philosophy/implementation audit:
+  reread the canonical human outcome, original Dream/decision audit, understanding
+  debt discussion, accepted ADRs, current alpha scope and terminal design/oracles.
+  Compare actual manual/storage/review code and novel cache-study graph/reader
+  renders, without treating deferred AI/protected/manuscript work as alpha gates.
+  Current alpha/harness passes without skips: 209 contract, 759 application and
+  22 harness tests; separate portable security passes 22. The existing ZIP passes
+  all ten extracted-runtime checks, including public personal PTY/rescue; its
+  118 runtime files still match current code. Bounded pinned Opus 5.5 audit and
+  local rechecks find no enabled-loop blocker, while preserving graph-reading
+  risks and later origin/authority limits. Correct three current-document scope
+  ambiguities; no runtime, schema, release boundary or accepted ADR changes.
+  The [audit below](#final-philosophy-and-feedback-readiness-audit) owns findings
+  and evidence. S remains 4/4; checked local feedback is the next action, with
+  source inclusion/license/publication still separate owner-directed work.
+
+- [x] 2026-10-07 KST - Reconcile the UI/UX session's saved-work rescue report
+  with the existing S03/S04 records, public commands, archive code and actual-PTY
+  tests. These are the same connected personal workspace, not another backup
+  implementation or an additional S completion. Read-only inventory finds 118
+  runtime files with none tracked by Git yet, no root license file, and no runtime
+  hash difference from the checked S04 artifact. Plan the next action as release
+  source review, owner-directed publication, manual-task feedback and bounded
+  corrections. Preserve S=4/4, existing B/U ownership and deferred protected gates;
+  a source ZIP is not an observed GitHub release or remote CI pass. Documentation
+  impact: execution sequence and navigation only; no code, schema, authority,
+  release-scope or accepted ADR change. Bounded pinned Claude Opus 5.5 review
+  verifies canonicalModel=claude-opus-5-5, with tools/skills/hooks/MCP/persistence
+  disabled, on a 38,314-byte packet, SHA-256
+  `be97969fcabbe0d126eb5fa5e2138d127106dda5b8aa0d2d955f551e7aa4bbf4`.
+  Repair three plan findings: verify a fresh local commit checkout before tag/push,
+  permit checked local-version feedback without publication, and disclose
+  unobserved unfamiliar-user setup rather than claim the wider delivery target.
+  Final amended documentation checks pass for 70 Markdown files, tracked
+  whitespace and three documentation integration tests. No application tests
+  are rerun for this planning-only update.
+
+- [x] 2026-10-07 KST - S04 source delivery: builder/checker now package the
+  personal alpha, with version-matched START-HERE help and feature-specific
+  doctor. Independent extraction runs novel public manual graph/result/judgment,
+  correction/later question, wide/narrow PTY restart and local backup/export/
+  restore without repository tests/scripts/native tools in the runtime.
+  Source artifact tests pass four cases in 20.559 seconds; doctor/harness pass
+  23 affected cases. Explicit alpha coverage retains contract/portable app/PTY,
+  named native exclusions stay in core/all and skipped selected coverage cannot
+  pass. CI preserves security checks; local security regression passes 22 cases.
+  Full explicit alpha/harness passes without skips: 209 contract tests in
+  10.288 seconds, 754 portable application tests in 423.205 seconds and 21
+  harness tests. Docs, fixture, schema/resources and whitespace pass; this is
+  not a core/all/native/Windows pass. Pinned Claude Opus 5.5 reviews a fixed
+  104,628-byte packet, SHA-256
+  `b48a7e4f17b8cb3ae67ff770471f41a058d21403f69350f7756183c421222d6f`.
+  No blocker is found; reproduce six failures/two errors for coverage, stale
+  exclusions, creation lifetime, pre-save restore labeling, member bound and
+  unshipped error guidance, then repair. Function-level skips stay visible;
+  all includes schema/resources; measured runtime informs a 15-minute CI budget.
+  Doctor checks the system Git actually used; it does not invoke/install it.
+  Post-repair affected regression passes 67 cases in 54.904 seconds, including
+  five source-artifact cases; 25 personal/research/UI/actual-PTY cases pass in
+  33.316 seconds. Focused pinned Opus follow-up verifies all repairs with no
+  material finding; packet 104,914 bytes, SHA-256
+  `9b90f41dfc025e3c16c8ad8cc31df598bf1af26ed5f853af5bb7648cdebdd033`.
+  Both runtime results verify canonicalModel=claude-opus-5-5 with tools/skills/
+  hooks/MCP/persistence disabled. The concrete 120-member ZIP passes all ten
+  artifact checks independently; SHA-256
+  `ae9b18143f8ed3a26f5e5cc396ca7d6056227531e11aafd7e71b63fb70ec0d23`.
+  S04 completes; the selected S ledger is 4/4. Stop alpha expansion and use
+  actual task feedback next. The wider protected plan remains active.
+  Documentation impact: public availability/help, packaging and verification;
+  owner license/publication and unobserved remote/SSH/IME/user gates remain.
+
+- [x] 2026-10-07 KST - S03 saved-work rescue: public status, separate create-only
+  unencrypted backup/readable export and verified fresh-destination restore use
+  the same typed personal store. Exact saved content, absent/changed paper,
+  corrupt originals, retained AI origin, corrupt/newer/wrong-project refusal,
+  exclusive sessions, link/privacy refusal, actual process loss before/after
+  replace and uncertain restore are exercised. Pinned Claude Opus 5.5 verifies
+  canonicalModel=claude-opus-5-5 on a fixed 46,322-byte packet, SHA-256
+  `b261055b6084da2f30f2d163cffd6ddd0b1af4788192f064909ab221c2377e9e`;
+  tools/skills/hooks/MCP/persistence disabled. Reproduce/fix archive-as-restore
+  destination and masked errors, use filesystem identity for aliases, refuse
+  archive files before creation, reset reentry errors and report interrupted
+  export/copy as possibly incomplete. Narrow dry-run to its non-reserving checks;
+  lock/inventory are checked during real restore. Final affected regression
+  passes 46 tests in 32.938 seconds. Earlier incorrect draft API assertion and
+  transient concurrent test NameError were failed runs, repaired without weakening
+  the contract. Originals remain intact; no native/protected/cross-device claim.
+  S03 completes; S04 remains. Documentation impact: public operation guidance
+  and validation; no authority/scientific-schema/ADR change.
+  Additional public-flow verification: 78 personal/research/UI/intake/source/work
+  command tests pass, followed by 28 affected project/archive-command regression
+  tests after the error-guidance change. Thirteen archive/actual-PTY checks pass
+  in 27.835 seconds, including fresh-process backup/restore and kept/unfinished
+  Korean input at 80×24. A public post-replace flush-failure test first reproduces
+  missing uncertainty/destination guidance, then passes after the CLI fix.
+  Pinned Claude Opus 5.5 fixed-source final review verifies
+  canonicalModel=claude-opus-5-5 and reports no blockers; final source hashes match.
+  Docs/whitespace pass. Implementation philosophy remains canonical in the product
+  spec, ADR 0017 and living design; operation commands stay in the existing workflow.
+  User explicitly selected ending this session after S03 on 2026-10-07; S04 remains
+  a future implementation task, not work authorized for continuation in this session.
+
+- [x] 2026-10-07 KST - S02 personal manual research integration: connect kept
+  capture to personally confirmed run/observation, append-only correction,
+  selected reasoning/retained alternative and a later question using existing
+  bounded v3 reducers and graph/editor. Complete prospective writing validates
+  before saving, and failed recording leaves live text/science untouched.
+  Novel content and actual public PTY confirm/record/correct/next/reopen pass.
+  Pinned Claude Opus 5.5 fixed-source review and two focused follow-ups
+  (canonicalModel=claude-opus-5-5; tools/skills/hooks/MCP/persistence disabled)
+  identify misleading correction fields, missing recorded-copy context and
+  next-question cancellation/ownership defects. Reproduce and fix: refuse
+  unsupported run changes, show exact saved limitations, consume a successful
+  correction draft, navigate to its recorded owner, preserve save warnings,
+  separate preview/editor return and retain session-only questions per episode.
+  Final review packet: 68,873 bytes, SHA-256
+  `9d1740a432fe8fae07d1e1f1fe868462ab74d66df74e0a16859c0c38ad340472`;
+  its last node-key finding reproduces before repair and passes afterwards.
+  Affected regression passes 110 tests; final repaired personal/UI/actual-PTY
+  run passes 23 tests in 29.295 seconds. Reproduced failures remain evidence,
+  not clean passes. No native, protected, comprehension, backup or distribution
+  claim. S02 completes; S03/S04 remain. Documentation impact: personal behavior,
+  validation, design context and public operation guidance; no accepted ADR change.
+  Additional integrated check: 114 affected tests including the public PTY pass;
+  46 focused research/UI/action/intake tests pass, followed by 23 latest
+  research/UI/PTY tests in 28.761 seconds. That PTY manually authors a claim and
+  two scientific uses of one observation, then records/corrects/starts/reopens
+  without internal JSON. Correction consumption also survives workspace reload;
+  uncertain post-replace and failed post-save live installation freeze further
+  saves while preserving live text. A supplemental recovery/project/source
+  selection has 53 passing tests but exits failed because test_paper_intake does
+  not exist; the actual test_tui_intake module passes in the corrected runs above.
+  Pinned Opus final source review and focused episode-text follow-up report no
+  blockers; final implementation/test hashes match their bounded source packet.
+  The preview also exposes computed impact and earlier source AI contributions.
+
+- [x] 2026-10-07 KST - S01 personal own-project integration: public project
+  init/open reuses typed source association, blank human thesis/question and the
+  existing graph/workspace snapshot. PersonalProjectStore uses distinct plaintext
+  personal.cbp, owner-private external placement, exclusive lock, bounded validation,
+  expected-byte checks and atomic replace. No cipher/key/provider or protected
+  authority is used. Full writing retention stays separate from session reviews;
+  UI labels local retention without rewriting authored text. Fresh-process Korean
+  notes, kept judgment/reason and separate unfinished input restore; actual PTY
+  public init/open, 132×38/80×24 resize, normal q and interrupted active writing
+  restore the shell. Native/personal destinations refuse one another before locks;
+  specific errors survive and uncertain save never claims unchanged bytes.
+  Pinned Claude Opus 5.5 runtime canonicalModel=claude-opus-5-5: fixed bounded
+  source review and focused follow-up, tools/skills/hooks/MCP/persistence disabled.
+  No blockers; reproduce/fix namespace conflict and misleading error guidance,
+  then refine guidance to actual save attempts without adding a state hierarchy.
+  Affected suites pass: 153 terminal/application regressions; 117 association,
+  source, context and writing regressions; 34 personal/store contract checks.
+  Final focused personal/PTY/documentation integration passes 17 tests; four
+  affected PTY paths pass, followed by the strengthened active-input return test.
+  Initial nonexistent-test-module selection and incomplete test fixture fail,
+  corrected named runs pass; no whole-core/native-custody pass is claimed.
+  Docs check passes 70 Markdown files and tracked whitespace. S01 complete;
+  S02–S04 remain open, full alpha/recovery/distribution and remote/IME/user
+  observations are not claimed. Continue S02's manual result/argument/judgment loop.
+
+- [x] 2026-10-07 KST - Fast feedback execution review: inspect current code and
+  preserve the concurrently selected personal alpha under ADR 0017. Keep four
+  S outcomes and organize execution as S01/S02 use-and-return, S03 rescue and
+  S04 declared source delivery. The current device-backed checkpoint cannot be
+  relabeled portable; separate a plain personal store while reusing validation,
+  locks, expected-state checks, atomic save and existing workspace bytes.
+  Show runnable user actions before optional polish, triage feedback into
+  first-release defects versus later features and avoid isolated prerequisite
+  completion as the progress unit. Reconcile legacy B/G dependency text so
+  protected same-key restore and historical P0 cannot return as hidden alpha
+  prerequisites. Verification: `python3.13 -B scripts/verify.py --scope docs`
+  passes 70 Markdown files and tracked whitespace; `python3.13 -B -m unittest
+  tests.validation.test_documentation_integration -v` passes 3 tests. No runtime
+  change or new Opus review is claimed for this cadence amendment.
+
+- [x] 2026-10-07 KST - Select the key-free personal alpha after explicit user
+  acceptance. Record ADR 0017, supersede ADR 0016's immediate protected-custody
+  requirement, and rewrite S01–S04 in place for ordinary private local persistence.
+  First feedback follows the manual create/author/judge/quit/reopen path; local
+  backup and source delivery finish the alpha before further feature expansion.
+  Update product, release, design, workflow and acceptance boundaries together.
+  No runtime implementation, data conversion, key change or publication occurs
+  in this planning task. Four S groups remain open. Verification:
+  `python3.13 scripts/verify.py --scope docs` passes 70 Markdown documents and
+  tracked whitespace; `python3.13 -B -m unittest
+  tests.validation.test_documentation_integration -v` passes 3 tests.
+  Runtime/native suites are outside this plan-only check, not claimed passing.
+
+- [x] 2026-10-07 KST - TUI delivery-plan review: reread canonical philosophy,
+  goals, full product/release scopes, accepted ADRs and human-led design after
+  compaction. Reuse the shared S01–S04 release ledger; add the key-free personal
+  workspace alternative, its changed protection promise, concrete TUI/backend
+  connections and proportional checks. Preserve the concurrently updated
+  protected-source plan and ADR 0016 rather than create an overlapping backlog.
+  No application code, stored data, native keys or machine settings changed.
+  The four release outcomes remain open. Verification: `python3.13
+  scripts/verify.py --scope docs` passes all 69 Markdown documents and tracked
+  whitespace; `python3.13 -B -m unittest
+  tests.validation.test_documentation_integration -v` passes 3 tests.
+  No native or whole-core run is needed for this documentation-only proposal;
+  those omitted scopes and earlier failures are not reported as passing.
+
+- [x] 2026-10-07 KST - GitHub delivery scope and execution reset: the user
+  explicitly retains own-project save/resume rather than publishing only the
+  synthetic preview. Reread product philosophy/journeys, understanding-debt
+  alignment, releases, accepted authority/recovery constraints and current work.
+  Record ADR 0016, update the canonical release checklist and map four first-
+  release outcomes to existing B/U owners. Native authority remains necessary
+  for enabled Mac accepted writes, while unrelated work is not blocked on a
+  locked host. Live AI, automatic manuscript writes, accepted debt closure,
+  replacement-device continuation and migration follow their own feature gates.
+  No runtime, storage mechanism, license or publication action is changed here.
+  Actual `claude-opus-5-5` reviews a fixed 77,061-byte documentation packet
+  (SHA-256 `4891849b9c659cf5883567eb4d925469c84cc787104590ad988299e13021fc9b`)
+  with tools/skills/hooks/plugins/MCP disabled and no session persistence or
+  permission denials. Reconcile its eight plan findings: explicitly scoped
+  same-device recovery/key protection/resource transition, compatible newer-build
+  read-only diagnosis/export, later format/code upgrade prerequisites, manual-only
+  B03 reuse, partial B05/B09/B12 dependencies, split human gates, P0 before real
+  use and shared sequencing outside the proposed alternative. Also state the
+  local native review boundary, preserved AI-origin refusal and open manuscript
+  follow-ups. These are local plan corrections, not a second Opus approval or
+  observed runtime behavior. Verification: `python3.13 -B scripts/verify.py
+  --scope docs` passes 69 Markdown documents and tracked whitespace;
+  `python3.13 -B -m unittest tests.validation.test_documentation_integration -v`
+  passes 3 tests. S01–S04 remain open integration outcomes. No new native or
+  whole-core result is claimed; earlier failed/skipped evidence remains recorded.
+
+- [ ] 2026-10-06 KST - U8 deliberate proposal replacement: compare the current
+  judgment/reason with the complete fixed-example replacement before the existing
+  adoption action. Cancel retains writing and proposal; explicit confirmation
+  checks exact owner/revision/paper/proposal and keeps reason, prior buffer and
+  origin. Scroll and tiny-screen pause make it readable in the terminal. No new
+  provider, selective typed adoption, schema or accepted authority. Establish
+  the missing comparison first, run real PTY and regression checks, obtain pinned
+  Opus review and complete required core verification. U8 remains open; this
+  authorized interaction increment does not require its unavailable live backend.
+  Initial missing-comparison tests fail before implementation. Targeted review,
+  action and unchanged draft-service checks pass 41 tests; the real proposal
+  comparison plus input/terminal-failure paths pass three tests in 1.601 s.
+  Actual first-party claude-opus-5-5 reviews 60,397 fixed bytes (SHA-256
+  `438c22d2a06c62f76a83547fce4e5e2100c1fbcd623f177dbd78a7506130cad9`),
+  with tools/skills/hooks/plugins/MCP disabled and no persistence or denials.
+  Reproduce immediate prior-buffer restoration overwriting newer kept writing;
+  make B compare both text/reasons before explicit restoration. The suggested
+  stale app.draft copy is disproven: it reads the live session; add a positive
+  displayed-draft assertion rather than duplicating writing in app.drafts.
+  Bind adoption to the displayed proposal id, test replacement/source changes
+  and original-owner preservation, and disclose separate unkept judgment input.
+  The same actual model reviews the corrected 61,739-byte packet (SHA-256
+  `73cfbeb39f884ce7fee130cabf64ceb0b1497e6f31fc48f0bb434148ba8af3e1`)
+  under the same restrictions and reports no remaining blocker. Add its suggested
+  changed-writing restore assertion; verify U's judgment key against the actual
+  editor implementation. Final focused review/action/draft checks pass 43 tests
+  in 9.806 s. Actual terminal comparison/cancel/reopen/replace and B cancellation
+  pass alongside restore and unkept-input tests: three tests, 1.503 s.
+  Required core runs on 412 independently copied files, manifest SHA-256
+  `fa2f570599a78d90c32db29cbeeef78d5df51e92abd71c85dee09365a03c6a0d`;
+  on 2026-10-07 it finishes with exit 1, not a core pass: 1,355 tests, 1,325
+  passing, four Windows-only skips, 23 errors and three assertion failures.
+  Application runs 950 tests in 1,322.363 s. All newly added comparison/restore
+  tests and the real proposal PTY path pass. Every failed case depends on native
+  work-key creation; the error paths are encryption/authentication refusal.
+  Read-only CGSession inspection confirms the Mac session is locked. WorkCipher
+  deliberately uses WhenUnlockedThisDeviceOnly; no key-protection or screen-lock
+  setting is changed. Ask the user for an unlocked host, prepare the exact 26
+  failing cases for diagnosis and leave required native regression unresolved
+  until rerun. The frozen 412 files remain byte-identical; all six current owned
+  implementation/test files match that source. Whitespace is NOT RUN by the
+  failed core runner; separate docs-scope checks cover it. Documentation impact: product
+  replacement/restoration contract, living design, workflow, terminal oracle and
+  this existing plan; no ADR, schema or release-gate change. Six groups remain.
+
+- [x] 2026-10-06 KST - TUI next-increment dependency audit after the mixed PTY
+  journey: reread the canonical philosophy, goals, boundaries and current sequence
+  after compaction, then check the current signing/initialization/conditional
+  transaction APIs. They explicitly keep acceptance unavailable; B03's native
+  filesystem loading is a prerequisite, not an accepted writer. No U4–U8
+  integration is enabled by that change. The user reports no available Linux
+  server or tmux environment. This Mac has no tmux executable, and its installed
+  Docker client cannot reach a running daemon; no daemon is started, dependency
+  installed or remote host contacted. Leave U9 host/input/accessibility/human
+  observations open instead of substituting another local automated check.
+  Documentation impact: this existing execution plan only; no runtime, schema,
+  product behavior or authority change. Six U4–U9 outcome groups remain.
+  Next implementation resumes against a ready owning backend API, or a
+  reproduced terminal defect; synthetic host checks resume when a host is
+  available. Mac physical IME and unfamiliar-user observation remain separate
+  human tasks, without a claim of automated completion. Verification:
+  `python3.13 scripts/verify.py --scope docs` passes 68 Markdown files and
+  tracked-diff whitespace checks; no new runtime test or Opus behavior review
+  is claimed for this plan-only update.
+
+- [ ] 2026-10-06 KST - B03 initial protected-target precondition: before adding
+  the accepted writer, independently require the enrolled protected resource to
+  retain its exact identity and native binding with no scientific/store residue.
+  Recheck before initial review, around key use and before signed success through
+  the existing source-check call sites. Reuse the original entered thesis and
+  source/work locations; no key enrollment, native window, genesis publication,
+  receipt or log append is introduced in this read-only increment. Preserve
+  diagnostic scratch and legacy signing, prove existing/foreign state refusal
+  with actual synthetic filesystem tests, run pinned Opus and core verification.
+  Actual first-party `claude-opus-5-5` reviews complete without errors or
+  permission denials, on bounded packets SHA-256
+  `3c5f890ff50a5a6101f5201ddeec813b83b1d997d3b6c0b34e4ab26bf69ee00c`
+  and `0e158033f7f97af06653681612558f73d3691bdb8721aaef7d51d96165fb8e40`.
+  CLI tools, hooks, skills/plugins, MCP and session persistence are disabled.
+  Neither review confirms a production false-pass defect. Their test gaps drive
+  real initial-request populated-target refusal, legacy-action preservation,
+  all reserved scratch suffixes and near misses. Final follow-up gaps drive
+  protected-directory timestamp preservation, hard-link/FIFO/directory scratch
+  rejection and a test name explicitly describing separate calls. Those final
+  nine compiled native target tests pass in 1.569 seconds. The earlier corrected
+  40-case affected run passes; the later 41-case run has one software-fixture
+  error from its already-loaded throwing-autoclosure version. The fixed source
+  now passes that complete initial request/signature test in the frozen core.
+  No actual initial GUI/presence or native-namespace creation observation is
+  claimed; this fixture deliberately supplies a synthetic enrollment holder.
+  Production changes remain unchanged while the full fixed-source core runs;
+  final test-only strengthening is checked separately. The fixed core captures
+  412 files, manifest SHA-256
+  `47733ce7f35e75462d99cacd0f260b3159904797e80d10c177d86c1bf0eb2902`,
+  and verifies no captured file changed. It runs 1,353 tests: 1,333 passes,
+  four deferred Windows skips, two failures and 14 errors (exit 1). All 41
+  affected initial-source/target/signing cases pass in that snapshot; the final
+  strengthened target test differs only in test assertions and passes separately.
+  Application runs 948 cases in 1,385.552 seconds; earlier suites run 209
+  contract, 132 probe, 42 validation and 22 security cases. The 14 errors reach
+  Secure Enclave work-key creation; the host reports its screen locked. The exact
+  failed claim-editor test independently reproduces that failure in 1.746 seconds.
+  `WorkCipher.swift` requires WhenUnlockedThisDeviceOnly and forbids interactive
+  fallback. The separate work-init command also fails; its unlocked-host rerun
+  is pending. The frozen conditional-explanation PTY test cannot find its quit
+  prompt, while the other session's current test passes in 2.983 seconds; no TUI
+  code is changed here. Current TUI changes are outside this fixed core evidence.
+  On 2026-10-07 KST, stop unlock-dependent verification and ask for an unlocked
+  host; do not substitute software keys, weaken custody or retry while locked.
+  Whole-core success remains pending, so this progress item stays unchecked.
+  B03 checkpoint 2 stays open; ledger remains 2/12, ten remaining.
+
+- [x] 2026-10-06 KST - U9 mixed actual-terminal writing return: exercise one
+  AI-off active synthetic history through manual judgment/note, claim/qualified
+  connection, omitted selection, provisional result and tentative judgment,
+  original explanation/rationale link and exact-source manuscript wording.
+  Keep intentionally empty unfinished claim/result/explanation/wording edits
+  separate. Interrupt from a narrowed scientific-basis view, verify all writing
+  independently, remove the supplied source and reopen the actual TUI to keep
+  resumed wording and quit. Preserve source AI and all unrelated writing; restore
+  no review or closure. New integration test only unless a real defect is found;
+  no new runtime behavior, schema, authority or release scope. Initial harness
+  trials expose unsupported history/launch pairing, incorrect heading assumptions
+  and insufficient Escape synchronization, not reproduced runtime defects.
+  Use the public merge-example prefix and explicit screen-transition barriers;
+  a pending-work return retains its selection, so choose the manuscript item
+  explicitly. The first complete PTY case passes 22.500 s; initial related
+  integration checks pass four tests, 43.979 s. Actual first-party
+  claude-opus-5-5 reviews the fixed 26,341-byte packet, SHA-256
+  `3789813caff2f8f21cb20a92dd1c27b67d0f214632750a4726427d87165e26e6`,
+  in one successful turn with no permission denials, tools/skills/hooks/plugins/
+  MCP disabled and no persistence. Confirm missing raw-payload/diagnostic,
+  cardinality and independent judgment-binding assertions; add them and complete
+  unfinished-field, preview, retained-source/work and outside-store file checks.
+  Empty-editor redraw precedes each Escape, with a distinct parent-screen barrier
+  and subsequent redraw; the fixed sleep-only Escape variant fails and is not
+  retained. Drop the review's proposed universal Ctrl+C non-save contract:
+  existing Terminal.loop deliberately checkpoints in finally. This case observes
+  successful interruption recovery, not periodic-save or power-loss durability.
+  Rationale reuse is a schema Boolean bound to the original work, not an arbitrary
+  link id; compare the exact fixture-derived judgment instead of inventing a field.
+  The corrected complete test passes 22.637 s. Actual first-party
+  claude-opus-5-5 follow-up reviews 15,105 fixed bytes, SHA-256
+  `01f05f57741586e7eea1415dd6d7e5cc5ba82ab0bf8a78bf43a0e5511464242b`,
+  under the same restrictions, one successful turn and no denials; no remaining
+  correctness/false-pass blocker. Constructor AI-off is only an in-process sanity
+  check; actual subprocess AI OFF and raw zero-dispatch/manual contribution checks
+  supply the corresponding evidence. Both counter formats are checked in their
+  actual editor; launch preserves the explicit 80×24 restart size. Final existing
+  actual-terminal plus new mixed/integrated suites pass 48 tests in 155.140 s,
+  no skips. Verification scope is those affected suites and
+  `python3.13 scripts/verify.py --scope docs`; no new full-core run is claimed for
+  this test/documentation-only increment. No reproduced runtime defect or runtime
+  edit. Documentation impact: the terminal acceptance oracle and this existing
+  plan; product/design/workflow contracts remain unchanged. Six U4–U9 groups
+  remain; next U9 closure still needs host/input/usability and the owning accepted
+  adapters, while U4–U8 retain their upstream dependencies.
+
+- [x] 2026-10-06 KST - B03 initial native filesystem loading: independently recheck
+  exact paper/Git directories, descriptor-relative manuscript identity/bytes/LF
+  marker and private external workspace before native initial review, around
+  signature generation and before reporting success. Reuse existing entered
+  fields; no new scientific narrative, accepted genesis, receipt or durable write.
+  Keep cancel distinct from post-sign success checks. Bound Git discovery and
+  refuse links, substitutions and changed stamps/digests. Package an explicit
+  bounded native helper resource rather than increasing the 64 KiB source-file
+  limit. Verify actual filesystem checks and source-artifact/runtime integration,
+  obtain pinned Opus review, then update evidence. B03 checkpoint 2 remains open;
+  ledger stays 2/12 complete. TUI and production-store selection are unchanged.
+  On 2026-10-06, the production filesystem helper passes 18 synthetic native
+  checks in 11.462 seconds. An actual first-party pinned `claude-opus-5-5`
+  review of 61,228 bytes (SHA-256
+  `8bc4610d2405f565a6c3755e86dfe92044ad6388e58da869288a7cda0e49bc95`)
+  identifies reverse containment, delivery/freshness ordering, auth-time budget
+  and proof gaps. Reproduce the containment and basename defects as two failed
+  native assertions in 2.260 seconds; repair those checks, check source before
+  broker delivery, refresh expiry after reads and cap auth against peer time.
+  Strengthen FIFO/Unicode/separate-Git tests rather than claim unexercised races.
+  A second actual same-model review of 55,156 bytes (SHA-256
+  `4b49661c9b6142abb3ae67546add1e26179c9e1323f651ccad2116b58e01816c`)
+  identifies a firmlink containment bypass. This Mac confirms distinct realpaths
+  with the same directory identity; removing the repair reproduces one failed
+  native assertion in 1.453 seconds. Add symmetric descriptor ancestry walks
+  before/after checking sources and reserve 11 seconds for initial post-sign
+  Git checks and transport. Both reviews have no tools/hooks/skills/plugins/MCP,
+  session persistence or permission denials. The third same-model review
+  (35,695 bytes, SHA-256
+  `631ca499d5a0e8f9b467ffb337787bdf432d2cea00b6b981fd347377c5fe7097`)
+  finds no new descriptor-walk defect but identifies a wall-expiry reserve gap.
+  Repair it with a pure initial-only allowance: reserve 11 seconds from the
+  monotonic peer deadline and 21 from wall expiry, retaining the legacy cap.
+  Four native budget vectors plus filesystem/resource checks pass 19 tests in
+  11.713 seconds. The final bounded delta review (2,190 bytes, SHA-256
+  `6715a414abf2752479b62bdd18d2054f1709354f5b913277b7969b4a4de550bc`)
+  runs the same actual first-party model and reports no blocker. Its conditional
+  non-finite concern cannot reach this constructor: closed `finiteJSON` excludes
+  float values and `fresh()` rejects unordered/expired times. All four reviews
+  use the same disabled capabilities above. Reverse descriptor ancestry remains
+  defence-in-depth without a separate test isolating that direction; mid-read
+  adversarial races and actual initial presence are not claimed.
+  The first corrected affected run passes 88 tests in 408.445 seconds before
+  review repairs. The next run finishes 92 tests in 385.499 seconds with one
+  expected current-source/build-pin refusal because this session edited Swift
+  while that run held an older runtime. No key or accepted-state invariant is
+  weakened. Final core runs on 411 independently copied files, manifest SHA-256
+  `3cc3d3f889a50a5f8aa01e5493ad175fc327b8519d4245e3f215f2371e59bd72`.
+  All snapshot files remain unchanged after execution. Core executes 1,341
+  tests: 1,336 pass, four Windows-only cases skip, one older TUI mixed-terminal
+  assertion fails; exit 1, not a clean core pass. Counts are 209 contract,
+  132 probes, 42 validation, 22 security and 936 application. Application takes
+  1,178.343 seconds. The failed old test skips the intermediate manuscript-list
+  screen while expecting `; actions`; the current other-session test explicitly
+  exits that screen and passes separately before/after this failure (one test
+  in 24.863 seconds, then one in 22.556 seconds). No TUI
+  source change is made here. The native/initialization/signature/runtime checks
+  all pass in the frozen run, including the final 19 new source/resource cases.
+  Current non-documentation differences are confined to that TUI test; all
+  seven owned implementation/test files match the snapshot. Four Windows cases
+  remain deferred; fresh initial OS presence, adversarial mid-read races and
+  accepted history/genesis/log are unverified. Schema generation check is current.
+
+- [x] 2026-10-05 KST - U9 cause-appropriate checkpoint failure guidance:
+  reproduce encryption/input misclassification and inaccessible long guidance;
+  distinguish pre-store writing validation, storage/encryption errors and typed
+  uncertain/external-change refusal. Preserve live writing and save bookkeeping,
+  block further saves in a reopen-required terminal recovery session, and offer
+  a named scrollable failure inspector with unchanged graph return. Apply the
+  same classification to selected synthetic project recovery. Initial two tests
+  fail as expected (three assertions); implemented two now pass. Initial affected
+  67 cases pass 91.259 s; three additional native/project/details cases pass
+  3.012 s. Actual native directory-flush injection and external ciphertext change
+  retain live text, refuse retry and permit fresh inspection. Subsequent 97 affected
+  tests pass 148.552 s before review fixes. Actual first-party claude-opus-5-5
+  reviews the fixed 84,374-byte packet, SHA-256
+  `2fe10ae332299e6211c8af7df2986a6fe039e5f99ab79104e78be9a26998b68f`,
+  in one successful turn with no permission denials under disabled tools/skills/
+  hooks/plugins/MCP and no persistence. Confirm same-open-store reload could
+  bypass external-change refusal and existing identity/shape errors were untyped;
+  latch store refusal until close/reopen and classify these existing guards.
+  Preserve typed errors through failed staging cleanup; verify an equal-payload
+  save and explain how to inspect an error arising while actions are open.
+  Keep normal q's existing failure refusal instead of a new discard modal;
+  name Ctrl+C and its newer-input loss explicitly. Cipher adapters already enforce
+  their respective plaintext/ciphertext bounds, so no added format/limit is needed.
+  Initial PTY assertions incorrectly assumed a full graph title and unwrapped
+  Korean phrase; adjust expectations to the actual narrow composition/line wrapping.
+  The initial 408-file fixed core, manifest SHA-256
+  `87fe5f9cfe2fa9610e7281d163b321ff001f2ae6a18440af212b26177c60bfe7`,
+  is interrupted after review-required production changes; it is not completion
+  evidence. A 101-case current regression reports 18 errors from a read-only
+  path probe using a partially constructed store and one PTY timing assertion.
+  Make the optional store latch lookup safe for that probe; preserve all existing
+  directory/placement checks. A queued resize paint could satisfy the Escape
+  assertion before Escape was consumed, so use the PTY helper's bare-Escape drain
+  and then force a fresh redraw before editing. Latest 19 project/actual-PTY
+  cases pass 31.196 s. This includes encrypted external-change refusal, complete
+  guidance/scroll, 80×24/48×18/paused44×16, live Korean writing, normal q refusal,
+  Ctrl+C shell-mode restoration and actual fresh opening. No physical IME/SSH
+  claim. One additional action-menu selection/status case passes 0.082 s.
+  The second 408-file frozen run, manifest SHA-256
+  `67b4774a98b1e3242176a561d37502eed69825157000cf81e7ee9ef5bfb8bbd8`,
+  is also interrupted for those locally reproduced corrections; no passing
+  full-run claim. Actual first-party claude-opus-5-5 follow-up reviews 97,267
+  bytes, SHA-256
+  `fca74a70560530ba28c7936676d1538e842a394aa5c5244230979769a391c1ca`,
+  in one successful turn under the same restrictions and finds no material
+  blocker in the fixed store/classification/inspector. Reproduce two smaller
+  UX defects in tests: repeated identical failure replaces newer action feedback,
+  and passive panels incorrectly label a stale kept-editor buffer as excluded
+  input. Both tests fail before repair. Preserve newer feedback on unchanged
+  failure and exempt those non-editor panels; name Ctrl+C for every failure kind
+  without claiming generic error implies unchanged disk bytes. Rename the
+  inspector to save status so successful retry is described honestly. Opening
+  error-detail redesign and automatic retry/backoff remain outside this increment.
+  Confirm Paper connection calls the existing recovery guard before writes,
+  without reentering a store or creating new recovery. The closing line already
+  discloses unconfirmed saving/newer-input loss. Detected external changes are
+  guarded, not an atomic compare-and-swap against arbitrary same-user writers.
+  Current 102 affected/native/PTY cases pass 148.347 s before these last minor
+  fixes; the two new regression cases and native PTY case then pass 6.387 s.
+  Third frozen core (408 files, manifest SHA-256
+  `3488594faca5c52e32c030f534795051028cff7fb920ce7e12205418cddf14f6`)
+  is interrupted for the reproduced minor fixes; it is not verification evidence.
+  Actual first-party claude-opus-5-5 final bounded follow-up reviews 20,168 bytes,
+  SHA-256 `58cf2e487865784547d2fd3c4982e5424bc6004430b4aceb546d52492ce626e7`,
+  in one successful turn under the same restrictions and finds no blocker in
+  these final fixes. It notes existing manual-checkpoint/quit-copy limitations;
+  encrypted quit is gated by a successful checkpoint and blocked failures remain
+  open. Legacy manual recovery is unchanged by this encrypted-guidance increment.
+  Final fixed core uses 408 files, manifest SHA-256
+  `558c6d25aeea9a36ee2edea47548fb664cd3c2419dd74260ed543f4c4a68c657`.
+  Final current 104 affected/native/PTY tests pass 133.796 s with no skips.
+  Documentation (68 Markdown files), generated-schema and tracked/changed
+  source/test whitespace checks pass. Fourth fixed core completes the 209/132/
+  42/22 prefix suites (four Windows skips) but application reports 916 cases,
+  four failures and 26 errors, 913.929 s, exit 1; whitespace is NOT RUN.
+  Twenty-six errors and three failures occur at native device key creation;
+  a current one-case repro also fails, and the OS CGSession lock status is 1.
+  Native code explicitly uses when-unlocked data-key access. Ask for unlock;
+  do not change screen-lock/key protection or treat these checks as passing.
+  One real UI regression hides the failure cause at the end of long wording-
+  editor footer guidance. Put pre-store input/generic storage cause beside its
+  save-status prefix; retain copy-before-exit first for typed reopen failures.
+  The formerly failing wording-footer case plus storage/repeated-error/aggregate
+  refusal checks pass four cases, 2.082 s after correction. Current writing-
+  recovery controls, action UI and that wording case pass 30 cases, 18.221 s,
+  with no skips. Actual first-party claude-opus-5-5 reviews the final 1,856-byte
+  cause-order packet, SHA-256
+  `e0057d853dcf94d9d3c6df51ca9cf929c68cacf0ab2a9f71ca23290d7546788f`,
+  in one successful turn under the same restrictions and finds no blocking
+  regression. Keep typed reopen guidance's copy-before-exit order; the footer
+  reason assertion targets input/generic failures. Cosmetic punctuation is not
+  a reason to change diagnostic content in this increment. Implementation and
+  bounded review are complete; final full/native verification remains open
+  pending an unlocked Mac. Rerun the affected encrypted cases and
+  `python3.13 scripts/verify.py --scope core` on a stable source after unlock.
+  Do not skip native cases or weaken key protection to obtain a pass.
+  Continuation verifies device access with the formerly blocked key-reuse case:
+  one test passes 4.952 s. Freeze the final corrected source in 408 files,
+  manifest SHA-256
+  `281176cbb2029b40a30d992f4459e172237906c25e98f7e25416503412267246`,
+  and run `python3.13 scripts/verify.py --scope core`. Contract 209 (10.885 s),
+  probes 132 (12.071 s), validation 42 (2.140 s), security 22 (0.013 s) and
+  application 916 (1167.719 s) finish without failures or errors. All 916
+  application cases pass, including native device-key reopening, the corrected
+  wording footer and actual-PTY external-change/live-writing/details/exit.
+  Of 1,321 tests, 1,317 pass and four Windows-only checks remain skipped:
+  WebAuthn capability, AppContainer isolation and two junction cases. Core exits
+  3 with incomplete coverage, not a clean cross-platform pass. Documentation,
+  source fixture and final whitespace phases pass; current generated schemas,
+  tracked whitespace and all 11 changed untracked source/test files also check
+  clean. At completion all frozen runtime/test files still match the checkout;
+  only the shared ExecPlan has concurrent backend progress updates. Preserve
+  those edits. This closes the scoped Mac/TUI runtime increment and its required
+  regression execution; Windows, physical IME, SSH and unfamiliar-user gates
+  remain open. No additional behavior change or new cross-review is introduced
+  by this verification-only continuation.
+  During it, another backend session changes the native initialization-signing
+  test and corrects its native-binding oracle wording; preserve that work and
+  do not attribute it to this TUI increment or claim this snapshot verifies it. Documentation impact: product
+  failure interaction, living design, operator guidance, terminal oracle and
+  this plan. No schema, accepted authority or release-scope change. Six U4–U9
+  groups remain; next exercise the mixed return flow through actual terminal actions.
+
+- [x] 2026-10-05 KST - B02/B03 native empty-initialization review: reuse the
+  owned entered title/thesis, exact association and empty root in the existing
+  private signing channel. Native verifies the closed empty seed/root and
+  displays initial fields separately from interpretation/judgment review.
+  Python rechecks the owned initialization and source/destination before and
+  after signing. Exercise malformed/forged initial state, imported seal, context
+  drift, cancellation and native software signatures without GUI or durable
+  accepted effects. Keep envelope results unaccepted; this connects the initial
+  review prerequisite, not authoritative genesis/log storage. Actual native
+  presence, protected publication and B03 checkpoint 2 remain open. Review with
+  pinned Opus and run required checks; ledger remains 2/12 complete.
+  A compiled peer test first fails on the unsupported initial review (49.050 s).
+  Native implementation then exposes two missing Swift try annotations in a
+  diagnostic-only compile; repair without relaxing validation. Initial native/
+  software-signature checks pass nine tests (86.174 s), before review repairs.
+  Final portable initial/context/packet checks pass 23 tests (9.965 s); enrollment
+  I/O checks extend the current initial application cases to eight, passing
+  (4.126 s). Actual first-party canonical claude-opus-5-5 review succeeds with
+  no error/permission denials; tools/skills/hooks/plugins/MCP disabled, no session
+  persistence. 64,565-byte fixed packet SHA-256
+  `a71f370687d284d1f1319084399a0bca96e30b23cae6b6e7ca677ea662a8fbc3`.
+  Enforce enrolled-only initial framing on both sides, show the registered target,
+  escape path newlines and remove the episode-count assertion. Replace plain-mode
+  parsing claims with explicit unenrolled/absent-binding denials; a synthetic
+  enrolled parser fixture supplies positive/negative controls, not actual native
+  registration. Recompute invalid effect hashes to isolate root validation.
+  Wrap both enrollment-query I/O errors. Confirm schema const type equality
+  rejects boolean zero; the existing history reducer rejects thesis/anchor alias,
+  and whitespace-only title/thesis is refused. No additional schema is needed.
+  Follow-up packet 57,332 bytes, SHA-256
+  `50f3f7e996cbbc29c7199ece72c4fdbd27f45410eafdbb3c831410efde40bb88`;
+  second actual first-party canonical claude-opus-5-5 review succeeds with the
+  same restrictions and no error/permission denials. Resolve its path-display
+  ambiguity with quoted JSON escaping (including literal backslashes), quote
+  the title and indent every thesis line. Convert source-check I/O failures to
+  bounded errors before/after signing; preserve native cancellation. Add an
+  unchanged-packet absent-binding control and scope that denial to absence only.
+  A concurrent store-session change exposes missing throwaway-probe state in
+  project placement. Reproduce with the existing association-preview test and
+  initialize only that probe field, leaving all path checks intact; preview,
+  initial signing and initialization pass 21 tests (9.674 s). A Swift fixture's
+  Python string escaping causes one failure in the 74-test expanded run
+  (338.687 s); repair its literal, then its isolated compiled signature case
+  passes (87.025 s). These are intermediate checks, not final-source coverage.
+  Third actual first-party canonical claude-opus-5-5 review succeeds under the
+  same restrictions with no error/permission denials. 36,964-byte fixed packet
+  SHA-256 `47298936f20b91cd0e1a2caeeb2b15c065a9924cef5ef075436e74503c72d40c`.
+  No blocking implementation defect is found. Close the two test-proof gaps:
+  compare the plain header's key set to a genuine legacy paper packet, and test
+  invalid-UTF-8 tagged path bytes separately from quoted UTF-8. Confirm strict
+  even, nonempty lowercase hex before decoding, including malformed-path
+  negatives. Generated schemas are current. Final affected checks and a fixed
+  408-file core snapshot (manifest SHA-256
+  `ba27aa44f97a23f88180414a6fabeb99a818282ae65d0ecc12c776b17875a75b`)
+  completes with no snapshot mutation but fails application: 916 cases in
+  902.973 s, four failures and 26 errors. Twenty-nine cases fail at native device
+  key creation; the remaining failure expects old TUI error copy. This is not
+  clean verification. Current synthetic device-key creation/reopening succeeds,
+  four affected persistence cases pass (5.087 s), and the separate TUI-session
+  recovery change makes its old-copy case pass (1.017 s). An unlocked-host
+  prerequisite is suspected, not retrospectively proven. Do not weaken key
+  accessibility or edit TUI to hide it. Current initial/review/runtime checks
+  pass 87 tests (323.989 s); own source is unchanged from the first snapshot.
+  Repeat full core on current fixed 408-file snapshot, manifest SHA-256
+  `f32fb16d1d7a2cba5458975dc87a093c3ae299ef6f702ff1be23ba231650952c`;
+  completes with no source mutation: 1,321 tests, 1,317 pass and four Windows
+  skips, 1,177.096 s combined test time; application passes all 916 cases
+  (1,150.701 s). Runner exits 3 for explicitly incomplete Windows coverage, not
+  a clean all-platform pass. The entire current source still matches that
+  snapshot; only this progress documentation differs. Current schema generation
+  and owned-file whitespace checks pass; final documentation scope passes all
+  68 Markdown documents and tracked whitespace after this evidence update. No actual initial OS authentication or protected genesis has
+  been observed. TUI remains with its owning session. Increment verified; ledger
+  stays 2/12 complete, ten remaining, with B03 checkpoint 2 open.
+
+- [x] 2026-10-05 KST - U9 integrated writing return: add one mixed active
+  synthetic workspace with manually authored claim/qualified link, kept and
+  unfinished candidate text, provisional result/judgment, personal note, original
+  AI-influenced explanation and supplied-source manuscript wording. Verify
+  complete fresh-process return with the source removed, independent restored
+  text, no resurrected review/closure, final-layer corruption before installation,
+  and injected seal failure/native oversized-save refusal preserving the complete prior
+  checkpoint and live writing. This is integration coverage of existing behavior,
+  not a new runtime feature or acceptance path. Focused tests, bounded Opus
+  review and task-scoped checks complete below; six U4–U9 groups remain.
+  Initial three focused cases pass 15.541 s; include UI checkpoint failure status
+  and exact ciphertext retention, then pass 16.435 s. Actual first-party
+  claude-opus-5-5 reviews the fixed 78,213-byte packet, SHA-256
+  `beec3ce7421dc6cfa6b6cf13d2bd162929fde976b3dbf92e799dffbc7078d0d1`,
+  in one successful turn with no permission denials and tools/skills/hooks/
+  plugins/MCP disabled, no session persistence. It flags test proof gaps. Pin
+  the reached injected-seal call and its reason, prove the oversized precondition
+  and byte-limit error, compare complete live writing, add literal text/reason/
+  empty-buffer/position checks, target identities, directory inventory and pinned
+  child import. Scope original AI to provenance reconstructed from saved history;
+  no newly adopted AI-writing claim. Scope failure to injection at the wrapper
+  in a real native store, not observed Security-framework failure or mid-write
+  crash. Three strengthened cases pass 21.813 s. Add a corrected short-note retry
+  that clears the error, writes new ciphertext and restores complete writing;
+  three cases pass 26.505 s. Actual first-party claude-opus-5-5 follow-up reviews
+  13,785 bytes, SHA-256
+  `14dbbdd004de3fe8e98b3b42f459d78559a206edd4dc8e87458846f84506fda4`,
+  in one successful turn under the same restrictions. It agrees these assertions
+  cover the narrowed claims and notes additional proof/wording concerns. Existing
+  PaperWork.history always replays payload bytes, so its suggested live-history
+  identity concern is not a production defect; assert separate history explicitly.
+  Further pin isolated child import, pre-encryption size refusal, initial error
+  state, complete reset and additional target object identities. Keep reason
+  checks semantic rather than freezing the entire UI error prefix. Describe the
+  oversize precondition as raw UTF-8 JSON bytes, not a new NFC serializer proof.
+  No production/schema/authority change. Final strengthened three cases pass
+  22.050 s on this Mac, verbose output proves the native store case ran with
+  no skips. This includes successful corrected retry and complete return.
+  Fixed core uses 406 files, manifest SHA-256
+  `0a5c3b43216c64464ba4a3d4ee9e76c79b28d30cde55afbc6704404561b7702f`.
+  It runs the initial test revision; strengthened current tests run separately.
+  Fixed core completes 209 contract, 132 probe, 42 validation, 22 security
+  and 884 application cases (1,289 total, 1,285 pass, zero failures, four
+  Windows-only skips: WebAuthn, AppContainer and two junction cases), exit 3.
+  Application takes 1,021.511 s. UI recovery production matches the fixed source.
+  Separate backend signing/native-role/operation changes and their signing test
+  arrived during the run; this fixed result does not verify that later work.
+  This new test differs through reviewed assertion tightening. Final
+  current test SHA-256
+  `28879163f69dace6084b85045664f43beb4b9f8c45e88dde5652d53dabe209fc`.
+  Current focused cases pass separately as recorded above; the full run used
+  the initial test revision. After the unrelated backend drift, current
+  strengthened cases pass again (three cases, 20.795 s, no skips). Documentation
+  checks pass for 68 Markdown files; schema and tracked/new-test whitespace
+  checks pass.
+  Observed follow-up: checkpoint errors
+  of type ContractError share input-correction advice even when the injected
+  cause is encryption failure; ciphertext/live writing remain intact. Next
+  improve cause-appropriate save-failure guidance alongside the mixed actual-
+  terminal return journey, preserving uncertain-save/reopen distinctions.
+  Documentation impact: execution plan
+  and existing recovery oracle; no new design, product contract or ADR.
+
+- [x] 2026-10-05 KST - B03 origin-bound native review prerequisite: extend
+  existing observation-only signing to the record-only v2 review. Python must
+  validate the complete closed review and its digest before reading key fields;
+  both native roles must reject wrong versions/fields and malformed registry
+  digests. Verify exact packet signatures bind the whole-registry commitment,
+  preserving v1 and enrolled framing, cancellation and false authority. No real
+  prompt, enrollment, accepted source or log write is part of this increment.
+  Run affected native checks, pinned Opus review and fixed-source core; keep
+  B03 checkpoint 2 and the 2/12 ledger open.
+  Initial packet test fails on the old v2 gate; after the versioned native gate,
+  19 packet/replay tests pass (8.530 s). Initial full signing checks pass 23
+  tests (104.122 s), before the added actual-v2 peer case. Expanded native,
+  enrollment and record/operation checks pass 82 tests (200.985 s). Actual
+  first-party canonical claude-opus-5-5 review succeeds without errors or
+  permission denials; tools/skills/hooks/plugins/MCP off, no persistence.
+  Fixed 70,412-byte packet SHA-256
+  `cb5d40658c5da191b973e1af617d6ae5859a27560a0d8b09c762a19b4823bd3b`.
+  It finds no blocking native defect, but requests operation digest refusal
+  before key access, v2 public-entry coverage and explicit origin-display limits.
+  Reproduce the Python mismatch as KeyError, then rederive operation digest
+  before key access. Choose the v2 record schema by explicit action rather than
+  dictionary order (no generated schema delta). Add selected-origin drift
+  refusal and immutable sealed-registry continuation beside later omitted work;
+  omitted live edits intentionally cannot replace the seal-time snapshot.
+  Audit REVIEW consumers: work/commit retain the whole review and false
+  authority, policy rederives v2 commitment; none is an accepted v1-only writer.
+  Confirm both manual/AI seal helpers emit v2; extend missing/extra/cross-version
+  and invalid operation-digest tests. A test-only lineage lookup error is fixed
+  to the existing revisions schema. Final related portable checks pass 51 tests
+  (25.779 s). Native foreground wording states omitted origins are committed by
+  identifier but their contents/source are not verified in that window.
+  Follow-up fixed packet is 54,063 bytes, SHA-256
+  `1d4be3a14d5235b08bfc0b8043166f825d1140ce9c7e5664edf5235373da7e21`;
+  actual first-party canonical claude-opus-5-5 succeeds with no error/permission
+  denials under the same restrictions and finds no blocking defect. Its conditional
+  snapshot concern lacks preparation code: prepare_operation always computes the
+  full v2 transition before installing review/transition together under its lock;
+  the public record_transition call never creates that snapshot. Verify this in
+  source and strengthen the omitted-draft test to sign without any prior replay
+  call. Successful resealing replaces both; failed preparation changes neither,
+  so its conditional stale-pair concern does not reproduce. The test-layout
+  concern is a packet-excerpt boundary, not the repository class structure:
+  native tests are in NativeSigningTests with imports and runtime fixtures.
+  The UI explicitly limits omitted-origin inspection; the full selected-review
+  details remain visible, without implying independent source authenticity.
+  Fixed-source core starts on 406 files, manifest SHA-256
+  `276c2694a913918739a08da252288d23805b959c080e66c4e5ed94d61feb52b9`.
+  Final signing/native checks pass 32 tests (135.833 s); the omitted-draft
+  no-prior-replay test-only strengthening then passes all eight v2 public-entry
+  cases (4.773 s). Production code is unchanged after the fixed-source capture;
+  Fixed core completes 1,297 tests in 1,069.616 s: 1,293 pass, four Windows-only
+  skips, no failures/errors. Counts are 209 contract (11.862 s), 132 probe
+  (13.472 s), 42 validation (2.852 s), 22 security (0.013 s) and 892 application
+  (1,041.417 s). Exit 3 retains the two Windows authority/isolation and two
+  junction observations, not an all-platform clean pass. Every captured file
+  remains unchanged. Current increment production files match the snapshot;
+  its only later test change is the no-prior-replay strengthening verified by
+  all eight current v2 entry tests. Other-session TUI changes are not a claim
+  of current-tree full validation. Current docs scope passes 68 Markdown files
+  and tracked whitespace; generated schemas and owned source/test whitespace
+  checks pass. Documentation impact: current candidate behavior, developer API,
+  domain design, validation and existing plan. No new ADR or accepted scientific
+  state. B03 checkpoint 2 stays open, ledger 2/12 complete, ten remaining.
+
+- [x] 2026-10-05 KST - U9 larger writing validation: 41 existing source owners
+  across two episodes/two refs carry 205 note/judgment/buffer/unfinished rows.
+  Instrumented validation takes 16.052 s; 206 owner queries account for 16.029 s.
+  Independent per-row checks establish the baseline; the new count regression
+  fails before implementation (expected four queries, actual 206). Share only
+  current-context node membership within one validate_workspace call, preserving
+  each owner, duplicate, editor-shape and selection check. Historical sessions
+  and other writing subsystems retain independent validation. Affected tests,
+  complete native saves and pinned Opus review now pass; fixed-source core
+  completes with the explicit platform coverage limits below. Two affected modules pass 42 cases in 60.268 s; authoring, explanation,
+  wording and actual review-answer interruption/reopen pass another 45 cases
+  in 75.762 s. Instrumented validation falls 16.052→0.337 s with four source
+  queries; this is not terminal latency. Controlled complete native saves
+  alternate five changed saves per condition in one process with equal-length
+  note changes; key creation and initial save are outside timing. Reconstruct the
+  former two functions from a fixed source into current dependency globals,
+  changing only this validation path. Before/after complete snapshot bytes match.
+  Manual-writing payload: 31,206 bytes, 41 owners, 205 rows; preparation median
+  3.676→0.092 s, store validation/encryption/I/O 3.730→0.112 s, total
+  7.405→0.203 s (ranges 7.308–7.485/0.200–0.207 s). Integrated recorded writing
+  adds twelve unfinished scientific fields, one explanation answer and a
+  judgment session: 42 owners, 209 manual-writing rows, 13 review inputs,
+  46,563 bytes. Preparation 5.371→0.632 s, store 5.411→0.656 s, total
+  10.781→1.287 s (ranges 10.738–10.821/1.281–1.346 s). Native reopened writing
+  preserves manual and scientific unfinished inputs. A separate reconstruction
+  also matches the whole workspace snapshot for both cases. These are synthetic saves
+  on this Mac, not general host/input or human usability evidence. Actual
+  first-party claude-opus-5-5 reviews the fixed 64,438-byte packet, SHA-256
+  `26963107e3c181e04e8b8b731f96f60d558279afdc084e45c61a28555c80fc25`,
+  in one successful turn with no permission denials, tools/skills/hooks/plugins/
+  MCP disabled and no persistence. No confirmed defect or blocker; retain the
+  literal four-context fixture oracle and independent per-owner proof despite
+  its small test cost. Full core uses 405 frozen files, manifest SHA-256
+  `f3ff0ed544820e321886803af23c5fff2e215430f7d02dca9a9cf31a01daab77`.
+  Initial core stops at the native socket length guard under the long temporary
+  root; validation/security/application/whitespace are not run. Rerun the same
+  source with an existing short non-Git temporary root; no guard or product code
+  changes. Short-root core completes 209 contract, 132 probe, 42 validation,
+  22 security and 877 application cases: 1,282 total, 1,278 pass, zero failures
+  and four Windows-only skips (WebAuthn, AppContainer and two junction cases),
+  exit 3. Application takes 878.090 s. Production and test hashes still match
+  the fixed snapshot at completion. Current-tree documentation checks pass for
+  68 Markdown files; schema and tracked/changed-untracked whitespace checks pass.
+  Direct schema-script invocation initially lacks the root module path; rerun
+  the repository module command successfully, without code/environment changes.
+  Six outcome groups remain U4–U9; next verify integrated
+  manual construction/capture, explanation and wording return together.
+  Documentation impact: existing
+  design, recovery oracle and execution plan; product/schema/ADR unchanged.
+
+- [x] 2026-10-05 KST - U9 original-prefix replay across branch groups: profile
+  twelve field inputs spanning current/earlier prefixes and main/alternative.
+  Instrumented complete snapshot: 2.517 s, restore_writing 1.993 s; three history
+  replays include two identical 13-command originals in separate branch groups.
+  A new test fails before implementation (two distinct older prefixes need two
+  replays, actual three, 1.307 s). Reuse only the immutable exact prefix inside
+  one restore_writing call. Preserve branch-specific queried projections and
+  independent per-row source/session/request validation; no persistent cache,
+  new format or limits. Compare independent restoration, interleaved order,
+  different prefixes, branch fingerprint refusal and outside-history refusal.
+  Initial 42 affected cases pass in 80.915 s, including actual field/answer PTY
+  restart and native fresh-process return. Extend the regression with a genuine
+  current explanation answer beside older fields; forward/reverse order and
+  independent validation pass (2.665 s). Controlled native changed saves use
+  twelve fields plus one answer, four original prefix/ref groups, 80-character
+  field-session judgment/reason and distinct earlier answer judgment. Original
+  and revised snapshots are byte-identical; each condition alternates five
+  saves in one process with equal-length changed input and keys/initial save
+  outside timing. Preparation medians 0.817→0.775 s, validation/encryption/I/O
+  0.816→0.794 s and total 1.642→1.562 s. Total ranges 1.541–1.672/1.543–1.601 s
+  overlap; this observes a small median difference, not an established general
+  responsiveness gain. Instrumented mixed-case timings 3.632/3.857 s also do
+  not demonstrate speedup; history replay counts fall three→two (including
+  the complete-work replay), and duplicate earlier-prefix replay two→one.
+  Initial actual first-party claude-opus-5-5 review: successful one turn, no
+  permission denials, tools/skills/hooks/plugins/MCP off and no persistence;
+  132,354-byte packet SHA-256
+  `d63755ba06a12feb100ceac6acd62d08d3cc39f6d7bb9147b5a393416b9aecaa`.
+  It finds production sharing sound, but mistakenly treats pre-change RED as
+  a current blocker. Diagnose fixture length14, before replay lengths[13,13,12]
+  and after[13,12]; keep the literal two-replay expectation. No code defect
+  confirmed. A bounded 24,315-byte follow-up packet, SHA-256
+  `d0fedca3cef7b59e63b7340bd5a0cd8edd29b1d61b8b0f5e8c4f6f3efcd682e4`,
+  carries this evidence and the mixed regression. Actual first-party
+  claude-opus-5-5 follow-up completes in one turn with no error or permission
+  denials under the same restrictions, withdraws the mistaken RED blocker and
+  finds no concrete blocker. Add cross-prefix digest borrowing refusal to the
+  mixed test. Its peak-retention note does not require another mechanism:
+  the pre-existing sources map already retained each original group history;
+  the added map references those same immutable objects, sharing duplicate
+  prefix copies rather than retaining a new class of data. Final affected
+  checks cover the test-only delta; production code is unchanged after review.
+  Fixed core completes 209 contract, 132 probe, 42 validation, 22 security
+  and 875 application cases: 1,280 total, 1,276 pass, zero failures and four
+  Windows-only skips (WebAuthn, AppContainer, two junction cases), exit 3.
+  Application takes 1019.056 s; source fixture, docs and whitespace pass. This
+  retains incomplete Windows coverage, not an all-platform pass. The fixed
+  source has 405 files, manifest SHA-256
+  `650fcc8756206a28ebc9b70bcab68252326e9ce7a583f2361fd28e8133029ada`;
+  it predates only the added mixed-test extension among this increment’s code.
+  Final current recovery/PTY checks pass 30 cases in 70.785 s, covering the
+  mixed-answer and borrowed-prefix test delta. Concurrent record-transition
+  policy/tests and their documentation are outside the fixed core snapshot;
+  preserve that work and do not certify its later changes through this run.
+  Current docs/whitespace/schema checks pass.
+  Internal performance design/oracle/plan
+  impact only; no product/schema/authority change. Six groups remain.
+
+- [x] 2026-10-05 KST - B03 scientific replay prerequisite: implement exact
+  interpretation recording from the current owned full review. First recording
+  derives branch creation plus record; subsequent recording derives one record.
+  The existing reducer validates actual candidate scientific state, preserving
+  main/evidence and the original history. Retain full review, before/after
+  manifests and all origins, including omitted drafts. Amendment-only AI remains
+  available to next merge review without inventing AI judgment contributions.
+  Refuse merge translation, imported seals and coordinated command/hash forgery.
+  Initial 63 affected tests pass (31.890 s); add fresh-process independent-source
+  replay without restored consent. Actual first-party canonical
+  `claude-opus-5-5` review (27,307 bytes, SHA-256
+  `875d5ee2c49276ca22fba183651915564009b2257fa8b5e407759e2dbc588614`)
+  completes with no error/permission denials. Reproduce its omitted-registry
+  budget failure and post-seal result drift. Precompute the complete bounded
+  transition before installing the seal and keep its immutable origin snapshot;
+  failed replacement keeps the prior valid seal. Raw legacy-source opening could
+  omit amendment-only AI, so add full-bundle continuation, rejecting missing or
+  substituted origins through registry equality and original-review/scientific
+  rederivation. The generic legacy factory remains unverified; do not use bare
+  derived commands as an AI-absence proof or accepted source. Final affected
+  checks pass 67 tests (30.960 s). Repair Opus review (25,972 bytes, SHA-256
+  `83057176fde4ebd3cfe44c9670055a89d7039d6f4c90bee85167f072803b7021`)
+  confirms budget/retry fixes but identifies unselected-origin substitution:
+  the original selected-science review did not commit the whole registry.
+  Add opt-in record-only operation review v2 with that snapshot digest; v1 stays
+  unchanged/readable, and current native signing refuses v2 before delivery.
+  Reproduce and reject omitted-origin removal with coordinated outer digests.
+  Bound continuation now rederives the v2 commitment against independently held
+  origins. Strengthen the budget oracle to its actual byte-limit error and prove
+  legacy merge preparation still succeeds with the same registry. Repaired
+  affected checks pass 71 tests (34.624 s). Final v2 Opus (24,561 bytes, SHA-256
+  `1a622c1d2855c8dfefe1776095db8c812bee01e8c1296a0e48efe6bca98562cc`)
+  identifies a fully rehashed registry/review still checking itself. Require an
+  independently retained expected review digest in bound continuation, reject
+  that coordinated forgery, and explicitly distinguish integrity from authority.
+  Prior v1 synthetic native signatures remain unaccepted observations; they are
+  not the v2 transition path. The full-registry 64-origin/256 KiB refusal policy
+  is documented and retains writing without pruning. Repaired final affected
+  coverage passes 72 tests (36.261 s). Final independent-anchor Opus review
+  (3,583 bytes, SHA-256
+  `cf0552db024bce8f203167753440ed7aade31dc73a94b36ebc3005c81a4e18b1`)
+  confirms the check closes coordinated review rehash when registry commitment
+  and source rederivation also hold. Both are verified locally: REVIEW v2
+  carries origin_registry_digest; restore_operation/_replay_record check it;
+  operation.source_history_digest is rederived from the before manifest.
+  ResearchHistory dataclass equality covers both seed and commands; lineage
+  access decodes a fresh dictionary. HASH is strict lowercase ASCII SHA-256,
+  not case-folded/stripped; decode/normalize raise ContractError. These checks
+  remain candidate integrity, not native approval or imported authenticity.
+  Every completed review confirms actual first-party canonical claude-opus-5-5
+  and no error/permission denials. Fixed-source full core is running on 405
+  files, manifest SHA-256
+  `3f3a2b0a97fc28bdb6e0a80e26ab52918665b027e7078316bf45346a953be998`.
+  Fixed core completes 1,280 tests in 1,044.280 s: 1,276 pass, four Windows-only
+  skips, no failures/errors. Counts are 209 contract (12.419 s), 132 probe
+  (13.180 s), 42 validation (2.620 s), 22 security (0.016 s) and 875 application
+  (1,016.045 s). Exit 3 explicitly retains two Windows authority/isolation and
+  two junction checks; it is not an all-platform clean pass. This increment's
+  six source/test/generator files remain byte-identical to the fixed snapshot;
+  concurrent TUI changes belong to their owner and are not a current-tree full
+  verification claim. Current docs scope passes 68 Markdown files and tracked
+  whitespace; generated schemas are current through the module entry point,
+  and increment-owned new source/test whitespace checks pass. Direct script
+  invocation of the schema generator failed package lookup; the documented
+  `python3.13 -m scripts.export_research_schema --check` succeeds, with no code
+  change. Documentation impact: candidate contract/design, current behavior,
+  developer API, validation and existing plan; no new accepted architecture.
+  B03 checkpoint 2 is still open; ledger remains 2/12 complete, ten remaining.
+
+- [x] 2026-10-05 KST - U9 original-session construction: profile the next
+  complete twelve-field checkpoint. Existing same-source grouping still makes
+  29 PaperService queries; temporary workspace draft construction accounts for
+  24 of those, querying twice per historical session. The instrumented snapshot
+  takes 3.500 s, restore_writing 2.964 s (not native save/input timing). Remove
+  only the temporary workspace lookup after the existing exact owner check;
+  construct each independent PaperDraftSession through the standard service
+  and retain its own source query and restore_session validation. No persistent
+  cache, shared mutable session, format or authority change. New computational
+  regression fails before the change (13 expected vs 25 queries, 1.791 s).
+  After implementation, 41 affected cases pass in 82.035 s, including actual
+  field/answer PTY restart, native fresh-process return, mixed modes, per-input
+  corrupt source/session/request and old-file/capacity cases. Original workspace
+  restoration matches independent session snapshots; sessions and brokers stay
+  distinct, with no revived review/consent. Opus recommends pinning distinct
+  services too; the added assertion passes in the focused rerun (1.409 s). Reprofile: 17
+  total service queries, 2.204 s instrumented snapshot, 1.611 s restore_writing.
+  Controlled same-process changed native saves alternate old/new allocation,
+  five each, 12 fields, 80-character judgment/reason, equal-length edited input;
+  original and revised snapshots are byte-identical. Keys/initial save precede
+  timing. Preparation medians 0.704→0.426 s; store validation plus encryption/I/O
+  0.719→0.445 s; complete save 1.421→0.871 s (about 39% shorter). Total ranges
+  1.414–1.468/0.869–0.883 s. This bounded observation is not SSH or general input
+  latency. Actual first-party claude-opus-5-5 finds no blockers in a fixed
+  84,288-byte packet, SHA-256
+  `b2ed7ca7a686a4a212503e6d027a4b95de8669c99f3d715f9d1bae2f87f5ee98`;
+  successful one turn, no permission denials, tools/skills/hooks/plugins/MCP off
+  and no persistence. Its suggested shared factory/episode rewrite is not needed
+  for this scope: preserve standard constructors and current canonical owner
+  inputs, with the old-path oracle as drift coverage. Fixed core completes with
+  209 contract, 132 probe, 42 validation, 22 security and 859 application cases:
+  1,264 total, 1,260 pass, zero failures, four Windows-only skips (WebAuthn,
+  AppContainer and two junction cases), exit 3; application 972.700 s. Source
+  fixture, docs and whitespace pass. The initial streamed contract summary was
+  clipped; the runner proceeds past that phase and the frozen collection contains
+  209 cases. Coverage remains incomplete for Windows. The
+  fixed 401-file snapshot has manifest SHA-256
+  `f4f7dd31c09fcf32e743beb80b286728c3f5b66456c778eedf46ebcd6e7b535c`.
+  It predates the added service-isolation assertion; its focused rerun passes.
+  Concurrent record-transition additions in paper_review_policy and schema export
+  are outside this fixed snapshot and stay with their owner. Current recovery/PTY
+  rerun passes 29 cases in 57.702 s, covering imports and the added assertion,
+  without claiming those backend additions are full-core-verified here. Docs/whitespace/schema
+  checks pass; internal performance design/oracle/plan impact only. Six outcome
+  groups remain open.
+
+- [x] 2026-10-05 KST - B02/B03 initialization prerequisite: add an owned exact
+  empty-project review over the existing association/candidate API. The entered
+  title/thesis, seed/root, exact source/workspace and zero operations/evidence
+  remain together; changed context, expiry, replacement and imported reviews
+  cannot continue. No accepted genesis, native receipt or store is implemented.
+  Eight initial tests pass (1.904 s); the broader first run exposed a test-only
+  manifest-key mistake, repaired before further verification. Initial actual
+  `claude-opus-5-5` review uses 32,572 bytes, SHA-256
+  `f87b7ece3eee03e35459e44e3c4f38c028536a570c34923f11a90b1befd4ba65`;
+  runtime confirms first-party canonical model, no error or permission denials.
+  Reproduce its failed re-prepare retaining a prior seal; clear the seal before
+  validation. Keep candidate/project, exact association and review together so
+  the reviewed destination is not dropped. The existing store independently
+  checks that preview against its destination. Legacy candidate creation stays
+  advisory and compatible; repeat preparation is deliberately not single-use
+  authorization. The suggested unbounded/non-byte parse issue does not reproduce:
+  `decode` already rejects both before parsing; add an early exact ownership check
+  and explicit negative tests. Final affected checks pass 57 tests (23.225 s).
+  The 25,156-byte follow-up packet (SHA-256
+  `d8c95e897bab908a4b0036c7fb001743188c7430359442d7f102993a92bdfa89`)
+  times out at 300 s without a completed result; this is not review evidence.
+  Focused repaired-source review (7,871 bytes, SHA-256
+  `f4d35d2f57bc01716cc8bdc81e7c4d42a518a82eb6bfd08854376c9f44f65f21`)
+  completes on first-party canonical `claude-opus-5-5`, no error/permission
+  denials and no confirmed defect. Its conditional alias concerns do not apply:
+  ResearchHistory/PaperWork hold immutable canonical bytes, and normalize uses a
+  serialization round trip rather than retaining mutable input dictionaries.
+  Neither the returned review nor a saved checkpoint proves a live seal or
+  consent. Live-checkout `verify.py --scope core` finishes with no failures:
+  209 contract (10.657 s), 132 probes (12.879 s; two Windows skips), 42 validation
+  (2.071 s; two Windows skips), 22 security (0.013 s), and 854 application
+  (941.054 s). Total 1,259 tests: 1,255 pass, four Windows cases unverified;
+  scope exit 3 is incomplete coverage, not a clean pass. This run began before
+  the Opus repairs and alongside independently owned TUI changes; it is not a
+  frozen final-source core claim. Final repaired-source affected coverage is
+  the separate 57-test run above. Documentation scope passes for 68 Markdown
+  files; generated schemas and owned new-file/tracked whitespace checks pass.
+  Ledger remains 2/12 complete,
+  ten remaining; B03 checkpoint 2 remains open.
+
+- [x] 2026-10-05 KST - U9 per-input original-source query reuse: profile a
+  complete synthetic snapshot with twelve unfinished scientific fields, then
+  share original graph/record lookups only inside one exact-history validation.
+  Profile instrumentation reports 4.663 s total, 4.169 s in restore_writing,
+  40 PaperService queries and 52 ResearchHistory views; these are instrumented
+  calculation times, not device-save or terminal latency. A new computational
+  regression fails before implementation (12 initial queries instead of one).
+  Group by exact prefix/episode/ref; retain per-row owner/digest, independent
+  session and selected-request checks and standalone validation. New three-group
+  prefix/ref and corrupt-later-owner coverage accompanies existing AI, old-file,
+  empty, detachment, oversized/save-refusal and fresh-process cases. Initial
+  39 affected cases pass in 65.007 s, including actual field/answer PTY restart.
+  Same-content reprofile has 29 PaperService queries and 30 history views,
+  2.985 s instrumented total and 2.510 s in restore_writing. This removes initial
+  source and editable-record duplication, not all per-session queries. Controlled
+  complete native saves alternate independent/shared restore over the same
+  process, 12 fields, 80-character judgment/reason and recorded 14-command source;
+  five changed saves each, keys created before timing, byte-identical control.
+  Independent/shared preparation medians are 1.044/0.682 s, store validation plus
+  encryption/I/O 1.061/0.708 s, complete save 2.105/1.389 s (about 34% shorter).
+  Total ranges are 2.103–2.120/1.382–1.404 s. This is bounded Mac timing, not SSH
+  or ordinary input responsiveness. Initial-source wrapper calls fall 12→1;
+  distinguish that from total service-query counts. First-party claude-opus-5-5
+  finds no blockers in a fixed 65,519-byte packet, SHA-256
+  `49e1207da978dd2f2be498fa7950dd2afcf3c8e29990c05b949091048ff76881`,
+  successful one turn, no permission denials, tools/skills/hooks/plugins/MCP off
+  and no persistence. Address its coverage recommendations with whole-result
+  equivalence for mixed fields/answers in both orders, corrupt non-first
+  session/record/request cases, the reprofile and read-only-map comment.
+  The new mixed-mode case passes in 5.298 s. Fixed core completes: 209 contract,
+  132 probe, 42 validation, 22 security and 845 application cases; 1,250 total,
+  1,246 pass, zero failures, four Windows-only skips (WebAuthn, AppContainer and
+  two junction cases), exit 3. Application takes 873.328 s; source fixture, docs
+  and whitespace pass. This remains incomplete Windows coverage, not a clean
+  all-platform result. The fixed snapshot has 398 files, manifest SHA-256
+  `9b121eeb716ef98d728802ab10f6943c3d27ea1ebf06b14cf1d59b56cdbcdaec`.
+  It predates only the read-only comment and added mixed-mode test among this
+  increment’s code/tests. The final recovery group covers that delta: 26 cases pass in 47.534 s,
+  including native fresh-process reopening.
+  Current schema export and docs/whitespace checks also pass. Concurrent changes
+  to project-initialization schema export and canonical documentation are outside
+  this fixed snapshot; preserve them and do not claim they were core-tested here.
+  Internal performance documentation only; no schema, authority or limit change.
+  Six remaining outcome groups stay open.
+
+- [x] 2026-10-05 KST - U9 original-review capacity increment: implement a
+  versioned exact-content session pool in paper-work/v7 and workspace/v6,
+  preserving per-input source/record/request checks and detached restore.
+  Selected-paper work uses project/v3 with explicit old-wrapper upgrade and
+  retained source transitions. Existing v5/v6 and project/v1/v2 readers remain
+  unchanged. Initial two capacity/format tests fail before implementation;
+  subsequent 29 recovery/association tests pass. The controlled 12-field size
+  drill at 80/8,000/9,000 ASCII characters per judgment/reason measures old
+  inline/new pooled work bytes 30,064/25,873, 251,824/73,393 and 279,824/79,393.
+  The last now fits the unchanged 256 KiB bound; distinct long originals still
+  refuse all-or-nothing save. First affected run (166 tests, 219.590 s) exposes
+  four failures and three errors: legacy fixture conversion, project-store
+  upgrade/create refusal and reader-compatibility wording. Preserve that failed
+  result. Pinned first-party claude-opus-5-5 confirms the store refusal in a
+  fixed 102,660-byte read-only packet, SHA-256
+  `5397483abae458e6fc2b8e10eafe3b86f405d4f861adaa235b05919242525e3e`,
+  one successful turn with no permission denials and all tools/skills/hooks/MCP
+  disabled. A new native store test reproduces the v1-to-v3 refusal before its
+  repair. Permit exact validated transition preservation for v3, retain v1-to-v2
+  refresh-only checks, and allow fresh v3's empty transition history. Restrict
+  v3 nested work to v7; require sorted pool identities and test a genuine
+  foreign-episode session with a recomputed digest. Review of the repaired
+  implementation finds no blockers: actual first-party claude-opus-5-5,
+  one successful turn, no permission denials, 139,021-byte fixed packet SHA-256
+  `fdab6e7447412abdc5ba6735c668ee34eb3c2ba4d7c71aaa13f954edd9d939b5`.
+  Existing ProjectSourceTests setUp creates v3 and its native case actually saves
+  relocation/refresh and reopens Korean notes; the review's packet omitted that
+  existing coverage. Strengthening the aggregate-negative assertion reveals a
+  further premature limit: normalizing all legacy rows encodes repeated original
+  sessions before pooling. A new 12-input/12,000-character shared-origin test
+  reproduces failure. Validate list/count then each closed item separately;
+  final PaperWork serialization still checks the complete 256 KiB bound.
+  Final 25 affected recovery/native store/source tests pass in 47.943 s, with
+  twelve distinct session identities and the exact aggregate-limit refusal
+  asserted. Focused final Opus review finds no blockers; actual first-party
+  claude-opus-5-5, one successful turn/no denials, 50,541-byte fixed packet SHA-256
+  `a7994b7e6268fe2d16a40c5d97a4f1d7614a10bb87214475f1dddbf9717055f0`.
+  All reviews use the same disabled tools/skills/hooks/plugins/MCP and persistence
+  settings. The intervening repaired 105-case run passes 104, retaining its one
+  pre-compatibility-copy failure; the corrected compatibility and foreign-origin
+  cases pass separately (2 tests, 6.206 s). Routine selected-project checkpoints
+  may upgrade a legacy wrapper even without changed text; document that instead
+  of implying loading alone writes or that a new permission prompt exists.
+  Fixed core source contains 398 files; manifest SHA-256
+  `f0522a23a6b94945e95a830619781255b2d82303541f61fdae5cf3aae317076e`.
+  `python3.13 scripts/verify.py --scope core` runs 1,245 tests: 1,240 pass,
+  four Windows-only skips and one failed application test; exit 1, whitespace
+  NOT RUN by that runner. Contract/probe/validation/security counts are
+  209/132/42/22; application runs 840 tests in 876.295 s. The sole failure is
+  the actual project-connection PTY waiting for the old `Older v1-only` label
+  while the screen correctly shows the v3 reader requirement. Do not relabel
+  the failed full run as clean. The current checkout's already corrected
+  single-line expectation reruns on current source and passes in 6.233 s,
+  including relocation/refresh and encrypted note restart. The core snapshot
+  predates the final per-item packing repair, stronger/new recovery assertions
+  and that test-label correction; final 25 affected tests plus this terminal
+  rerun verify those deltas. Concurrent `test_paper_commit.py` changes are left
+  untouched; the fixed core does not validate their newer version. Final source
+  `paper_review_writing_snapshot.py` SHA-256
+  `ee044a5ca1c4053c90456918621ad2b4d44fe2e3e1ea9e80ff03770ab05052b6`,
+  `test_tui_review_writing_recovery.py` SHA-256
+  `4c43e2f870429fa92e9e462630db0051d9217b3e6464de0d251be2cadaf8f971`.
+  Final current docs scope passes 68 Markdown checks and tracked whitespace;
+  generated research schema freshness also passes.
+  Documentation impact: product recovery invariant, living design, terminal
+  acceptance/operation contracts, generated versions and this execution state.
+  No authority, limits or release gate changes; six outcome groups remain open.
+
+- [x] 2026-10-05 KST - B03 checkpoint 1: implement conditional transaction
+  effects in `core/paper_commit.py` and the owned `PaperReviewPolicy` APIs.
+  Reuse the exact judgment/review, preserving amendment-only AI and topic/reason
+  references; forecast record/merge heads and bind manuscript/understanding
+  openings to the exact causal review. No legacy append, native receipt,
+  accepted write or debt transition is performed. Ten new tests and the existing
+  operation/policy suites pass 53 tests in 21.730 s after the expected missing
+  module failure. Generated schema and affected canonical docs are updated.
+  Opus input of 67,757 bytes, SHA-256
+  `a90848b184f3da341c38031cd100c748144b06ab1482dd31b0068d3d7c7c52e7`,
+  times out after 300 s with no result and is not a completed review. A focused
+  25,369-byte source/excerpt packet, SHA-256
+  `a67cc2faba35ec52a17d23202b2546459f1605aba5c4cc5f27951030cced6996`,
+  retries the same pinned model with tools/hooks/skills/plugins/MCP and session
+  persistence disabled. It returns successfully with actual modelUsage and
+  canonicalModel `claude-opus-5-5`, provider `firstParty`, no permission denials.
+  Its conditional Not now concern does not reproduce: `_operation_review`
+  already refuses it before sealing. Add that reproduction and a coordinated
+  schema-valid forgery that changes decision/operation/review hashes and removes
+  understanding work; both are refused. No production change is needed for
+  those findings. Existing v3 seed validation requires the anchor; IDs allow
+  128 characters, and the combined commit envelope deliberately has the same
+  256 KiB limit rather than truncating a near-limit review. Full rederivation
+  under the existing RLock checks heads/watermark; redundant assertions do not
+  fix a reproduced bypass. Final affected suites pass 55 tests in 23.231 s.
+  Broad core checks finish with 209 contract, 132 probe, 42 validation, 22
+  security and 839 application tests. Contract/security pass; probes/validation
+  retain four Windows skips. The fixed application snapshot reports seven
+  failures and three errors in concurrently changing TUI/project-v3 callers
+  and tests, exit 1; this is not a clean core pass and harness whitespace was
+  not run. Current project/TUI sources already contain the separate session's
+  repairs. Rechecking the ten failed cases on that tree passes nine in the
+  46.223 s run; the residual case still expects the old v1 warning instead of
+  the current v3-reader warning. Update only that PTY test expectation, leaving
+  UI/connection behavior untouched; its rerun passes in 6.216 s. These targeted
+  results resolve the observed failures without claiming a full current-tree
+  core pass. Four B03 implementation/generator/schema files match the fixed
+  snapshot; two additional Opus-reproduction tests were separately included in
+  the final 55-test affected run. Current documentation checks pass 68 Markdown
+  files, generated schemas are current and separate `git diff --check` passes.
+  Fixed-source core snapshot has 398 files, SHA-256
+  `6d77ab0a3d9abaab6dab724dff8f122e9342d2511cc525c934a72a9246cf4bac`.
+  B03 is not complete; ledger remains 2/12 complete with ten remaining.
+
+- [x] 2026-10-03 KST - U9 earlier-basis checkpoint calculation: measure changed
+  explanation saves retaining an earlier basis, then reuse that prefix's service
+  only within one exact-source batch. Keep per-work return/digest/cause/topic
+  checks, detached session state, singular/custom-history behavior and unchanged
+  checkpoint format/limits/stale-save checks. Two computational regressions fail
+  before the change: shared older-basis pending work is reconstructed twice.
+  Implementation now calculates it once; different earlier prefixes (8 and 13
+  commands) remain separate. Initial affected run passes 49 tests in 68.954 s,
+  including native recovery failure/unchanged-save and real Korean explanation
+  PTY interruption/reopen. Actual first-party `claude-opus-5-5` reviews an
+  83,408-byte fixed packet, SHA-256
+  `36519dc1f943298d4ae9686f11bd22eff7b86a020c2998f97bb862cd0859e084`,
+  in one turn, no permission denials, read-only tools/skills/hooks/plugins/MCP
+  disabled and no session persistence. It finds no blocking regression. Apply
+  its docstring clarification and add nested earlier-basis detachment coverage.
+  Its suggested future private-cache guard is unnecessary for this call-owned
+  mapping with one exact immutable history; cross-group sharing remains deferred
+  until measured. Controlled same-process native save measurement alternates
+  unshared/shared earlier-basis initialization, preserving all other validation
+  and device checks; five changed saves each, key creation/wrapping before timing.
+  Mac26.5.1 arm64/Python3.13.15, recorded 14-command series, two drafts whose
+  current source is 14 and earlier writing basis is 13 commands: unshared/shared
+  preparation medians 0.788/0.615 s, complete native medians 1.607/1.236 s (about
+  23% shorter), store validation+encryption/I/O medians 0.815/0.626 s. Native
+  ranges are 1.592–1.636/1.227–1.296 s. Mixed current/earlier writing has no
+  repeated earlier projection to remove: total medians 1.153/1.184 s, ranges
+  1.137–1.218/1.135–1.286 s; no performance improvement is claimed for it.
+  Earlier separate before/after runs had drift and one overlapped the size
+  drill, so they are not the selected comparison. This is bounded local timing,
+  not server latency or a general responsiveness guarantee. The 393-file fixed
+  source (manifest SHA-256
+  `8b367c36f20a167480d8aa476d209f141dcf4b900fde8ec0045b06d215db6803`)
+  core run discovers 1,224 tests: 1,210 pass, four Windows-only skips and ten
+  application errors, exit 1; whitespace is NOT RUN by the failed core runner.
+  Contract/probe/validation/security counts are 209/132/42/22; the 819 application
+  tests take 1205.084 s. All ten errors are encrypted TerminalProcessTests failing
+  in `MacWorkCipher`'s native key-create before terminal input, not draft/source
+  validation. The specific OS failure is not exposed by the helper's generic
+  rejection; do not infer lock status or bypass native custody. The explanation
+  PTY case passes again on the same fixed source alone in 10.738 s. All ten
+  original cases pass their matched-source rerun in 98.597 s, with the runner's
+  resolved temporary root and UTF-8 environment. No code or custody check is
+  changed for the rerun. This validates those cases separately; it does not
+  replace the failed full result with a green claim or explain the transient
+  native rejection. U9 host/native availability remains open. Final full source
+  includes the nested detachment assertion added after static review. Concurrent
+  enrollment Python/Swift/schema/tests change during the run; this snapshot does
+  not validate their newer versions, and U9 leaves those changes intact. Current
+  U9 implementation and test hashes still match the fixed source:
+  `paper_understanding.py` SHA-256
+  `f1da2a24ab5fdb701bccd3269685f23ac56d4c3596dd00953d637c1ea583ea33`,
+  `test_tui_explanation_recovery.py` SHA-256
+  `cf69283fa410f8fd337f2ba5eaa5840086a2a1965c878cd43aaee0181798ed80`.
+  Documentation impact is internal performance design, validation and execution
+  evidence; no product/schema/authority change. Final current documentation
+  checks pass 68 Markdown files and tracked-diff whitespace passes separately.
+  Six outcome groups remain open.
+
+- [x] 2026-09-29 KST - B01 trusted enrollment (completed 2026-10-03): implement a native-owned fixed
+  local registry, separate from imports/candidate work. Bind exact runtime,
+  worker and existing candidate key to a newly minted local resource identity;
+  both native peers reload this authority rather than taking caller pins.
+  Existing research text is reused unchanged. Unknown/imported entries and
+  changed code/resources fail closed. Measure worker denial on the actual
+  synthetic enrollment resources. Foreground enrollment is a distinct human
+  action after implementation; no existing enrollment or credentials are altered.
+  Plan review by actual first-party `claude-opus-5-5` (43,704-byte fixed packet,
+  SHA-256 `f9a66416a516770febd2e443360806a74f55d62ba867e83c8ab911aac6b2625e`)
+  supports a fixed native registry for the scoped worker/import adversary,
+  with independent native lookup, minted resource identity and actual-path denial.
+  Do not claim protection against unrestricted same-user programs or a supported
+  external provider. B03 still owns accepted-state transactions.
+  At the initial checkpoint, code is under review: native namespace resolution,
+  create-only enrollment with a native-owned encrypted key copy and minted
+  protected root, independent registered peer lookup, actual-path custody
+  diagnostics and explicit revocation. Pre-repair fixed-source affected coverage
+  passes 80 tests in 311.090 s, snapshot
+  `45d9e8814c997de235052833b7d1ae8ed57939f20068793d614583411bd3a69a`;
+  it is not final-source evidence. A 195,136-byte code review times out at 420 s
+  without a result and is not counted as completed review. Actual first-party
+  `claude-opus-5-5` then reviews the narrowed 89,236-byte packet, SHA-256
+  `ff2c2f017c3802e84e5d1ca982ba2695a2734c9231cf5a67bfb2563f0c8a3ff3`,
+  one turn, tools/hooks/skills/plugins/MCP off and no session persistence.
+  It identifies indeterminate publication/canary recovery and unavailable-code
+  revocation gaps. Replace the hardlink publication window with exclusive rename,
+  coordinate/sweep only strictly named diagnostic canaries, and separate
+  revoke-only validation from current executable availability. A possible
+  escaped-slash decoder problem does not reproduce: Python decode accepts that
+  JSON; use the same native serializer anyway. Repair review by actual
+  first-party `claude-opus-5-5` completes on a 94,532-byte fixed packet, SHA-256
+  `8767a2be0898e6e7e6472b01ee5bbf1c02bdc53115fbd9271466972365200e61`,
+  with tools/hooks/skills/plugins/MCP disabled and no persistence. It finds no
+  remaining scoped trust/custody blocker. Its scratch-unlink race is reproduced
+  by a failing native test, then repaired by tolerating only ENOENT for that
+  non-authoritative scratch. Foreign root names are retained/ignored; unsafe
+  identity-shaped entries remain rejected. The alleged missing subprocess-exit
+  check is already present. Final native enrollment coverage passes 14 tests in
+  58.147 s. Broader fixed-source core snapshot
+  `1bb1705ab03a2fa0cb3dbafdd1ee5e7347be3a12d1d8f512c2fcffab3964b6a3`
+  completes without failures/errors, including 815 application tests, exit 3
+  for four deferred Windows cases; that snapshot predates the small residual
+  repairs and is not a whole-current-tree claim. Affected verification and
+  foreground observations are pending at that checkpoint; the final result below
+  records completion.
+
+- [x] 2026-10-03 KST - Resume B01's actual enrollment observation after an
+  interrupted session. Previous temporary candidate/build files are absent;
+  retain the earlier observations as historical evidence and prepare a new
+  synthetic candidate under the user's existing participation authorization.
+  Observe preparation, enrollment, fresh-process registered signing, separate
+  native authentication cancellation and synthetic connection revocation.
+  No original research, manuscript or accepted record is involved. Keep the
+  ledger at 1/12 complete until the remaining B01 observations pass.
+  Fresh synthetic key preparation succeeds. Enrollment then refuses before GUI
+  and before creating a registry. A diagnostic build isolates worker manifest
+  parsing: Foundation's `sortedKeys` orders `_CodeSignature` before `Info.plist`,
+  unlike the portable byte-key order. A new actual source-built-worker native
+  validation test fails (exit 2, 85.369 s). Replace localized object-key sorting
+  with recursively ordered UTF-8 keys while retaining JSON primitive encoding
+  and depth limits. Keep canonical checks intact, rather than accepting arbitrary
+  encodings. Repaired native coverage passes 16 tests in 128.640 s, including
+  the real source-built worker and executable path. Actual first-party
+  `claude-opus-5-5` reviews the 8,727-byte packet, SHA-256
+  `4f22fb805d7943bf9f556ecbb4560254a7795211261b02e0815fbfdbd86df035`,
+  one turn with tools/hooks/skills/plugins/MCP disabled and no persistence.
+  It confirms byte-key ordering and retained canonical comparisons; Python
+  already uses compact UTF-8 serialization. Add an independent shared nested
+  Unicode/control/slash vector. Also reproduce its unsealed-extra-file concern
+  before repairing the native worker inventory. Previous candidates have only
+  unchanged-order signed field names; actual validation of the retained candidate
+  is required in the restarted enrollment exercise.
+  The extra-worker-file negative case passes without a production change:
+  native code-signature validation already rejects it. The shared nested
+  Unicode/control/slash vector also passes. Fixed snapshot
+  `bfef75e1b692d0902cbc8a6a16cdf034efd4e3d552b865a9c30ac5c04cc1a7a5`
+  passes 85 affected tests in 556.968 s, before the following path/deadline repairs.
+  Actual native enrollment publishes after foreground approval, but Python's
+  `PATH` pattern `^/` fails the repository's fullmatch rule for all three paths.
+  Reproduce that error, then use an anchored absolute path excluding NUL;
+  four portable contract tests pass and the schema is regenerated. Actual
+  first-party `claude-opus-5-5` confirms the scoped repair on 22,661 bytes,
+  SHA-256 `f9dc96e044c9de388e25d586f6422dcd5ef9aa53f88d524e8ae51db13e073ac4`.
+  Recover the unique native-created synthetic identity matching the original
+  runtime/registration/worker, without re-enrollment. Native status and all 15
+  actual-path denial operations pass in a fresh process; original candidate bytes
+  remain unchanged. The build pin covers native source, not the Python fix.
+  Registered signing then exposes a premature channel timeout. The user reports
+  the window closed too quickly. A 12-second native polling test fails at
+  10.580 seconds: a 10-second poll slice incorrectly throws whole-deadline expiry.
+  Continue after zero-ready slices, preserving the original continuous deadline;
+  negative non-EINTR returns remain errors. Pinned actual first-party
+  `claude-opus-5-5` finds no new deadline/cancellation/authority blocker in the
+  14,350-byte repair packet, SHA-256
+  `a5cf8fb8e03bb7670bfd52f001abee4dcf7d7f5152d60ee9cafde40c5b798824`.
+  All reviews use one turn, tools/hooks/skills/plugins/MCP off and no persistence.
+  Add both elapsed-time bounds; retain the independent UI gate and disclose
+  possible socket-cleanup lag after system sleep. Prepare a fresh synthetic key
+  for the revised native source rather than rebind the old approved code/key.
+  Final-source observations/checks are pending at that repair checkpoint;
+  the following final-source result closes B01.
+
+- [x] 2026-10-03 KST - B01 final-source result review: native coverage passes
+  19 tests in 123.955 s. Revised source-built runtime pin
+  `47ebc78307d649596c099e81c8fe80986b914f27eef3de2d5fe51fb71eedc981`
+  and worker pin
+  `f57f39561dfb531f79c3ca2948cd66b2621133ec6578a683620be779b1225a69`
+  complete fresh synthetic key preparation and native foreground enrollment.
+  A new process reloads the exact registration and observes all 15 worker denials
+  on its actual entry/key/protected binding. Registered signing returns verified
+  peers/signature with the existing judgment, history and original candidate
+  unchanged. A separate new attempt returns `cancelled`,
+  `stop_source=os-authentication`, with no signature and unchanged history/key.
+  Foreground revocation succeeds; both native roles then refuse lookup, and a
+  fresh reviewed signing API attempt refuses before GUI. Entry bytes, retained
+  key and protected binding are verified unchanged after revocation. No science
+  is accepted and no debt is opened. The earlier synthetic registration is
+  retained separately with its original code binding; it is not migrated.
+  Final fixed-source snapshot has 393 files, SHA-256
+  `c6060a1f817fd1c596d01740e45d9eb59501ee381d547b1abfbfd387b5b391bc`.
+  All 87 affected tests pass in 536.091 s; the 13 implementation/test/generator/
+  schema files checked against the snapshot remain unchanged, exit 0. This
+  follows the earlier broad core result without claiming that earlier snapshot
+  contains the later repairs. Docs checks pass 68 Markdown files and schemas
+  are current. B01 and B04 now complete this ledger's 2/12 units; ten remain.
+  Next B03 binds the enrolled native gateway to exact operation/receipt
+  consumption, authoritative current state and atomic durable research/debt
+  changes. Existing candidate imports and encrypted unaccepted work must never
+  become accepted merely by being reopened. TUI stays with its separate owner;
+  Windows, provider, P0 and release observations retain their independent gates.
+  The preceding current-production-source snapshot
+  `90a40eeb63e6aaf0aa0f2a7792e94562dae85695b41d275c4ac00b67da482e87`
+  passes 82 affected tests in 394.445 s; it predates this newly reproduced fix
+  and is not final-source evidence. The separate executable-parent path
+  hypothesis does not reproduce; its POSIX path regression passes.
+
+- [x] 2026-09-29 KST - U9 shared explanation-source validation: measure complete
+  synthetic Mac device saves, then share pending-work reconstruction across
+  explanations with the same exact history prefix during one restore/validation.
+  Keep independent draft/cause/topic/basis validation and detached session state;
+  no process-global cache, schema change or weakened disk/source checks. Baseline
+  recorded-series, two-current-basis explanation saves: five samples, preparation
+  median 0.437 s, native total 0.887 s, store portion 0.454 s. Store time includes
+  validation as well as encryption/I/O; it is not cipher-only timing. Verify
+  byte parity, mixed source prefixes, bad second drafts, detached mutations,
+  actual restart, pinned Opus and fixed-source core. The same-source call-count
+  regression failed before implementation (two pending projections instead of one).
+  The grouped adapter preserves session order and uses a call-local service per
+  history prefix; singular construction and older-basis replay remain unchanged.
+  Initial 46 affected tests pass in 57.910 s, including native recovery failure/
+  unchanged-save checks and actual Korean explanation PTY interruption/reopen.
+  Five changed saves on the same 14-command recorded-series fixture measured
+  preparation 0.431–0.442 s (median 0.437) before and 0.284–0.287 s (median 0.286)
+  after. Native total: 0.882–0.960 s (median 0.887) before, 0.586–0.630 s (median
+  0.594) after, about 33% shorter; store portion medians 0.454 and 0.308 s.
+  Device-key setup is outside these samples. This is local synthetic timing,
+  not server/SSH latency or a guarantee for larger/older-basis workloads.
+  The 388-file fixed source completed core: 1,202 discovered, 1,198 passed,
+  four Windows-only skips, zero failures/errors, exit 3; its 797 application
+  tests passed in 753.032 s. The skipped Windows coverage remains incomplete.
+  Current documentation (67 Markdown files) and whitespace checks also pass.
+  Fixed Opus packet: 81,036
+  bytes, SHA-256 `3f7200f991eb0d5a7b0e1fd7fd978c2c7d1b4c23a268b105727c698ae0b7901d`.
+  Actual first-party `claude-opus-5-5` reviewed the fixed packet in one turn,
+  with no permission denials, tools/skills/hooks/settings/MCP disabled and no
+  session persistence. No blocking regression was found. Added direct batch
+  parity against singular restoration, internal sibling identity/no-retained-
+  service assertions, current/older-bound pending projection counts, limits,
+  duplicate/subclass/invalid input and corrupt second-draft rejection. The batch
+  factory is now static and constructs base sessions explicitly, avoiding a
+  subclass override receiving its shared service; its exact-history restriction
+  is documented. Singular construction remains unchanged. Repeated per-draft
+  queries and older-bound reconstruction remain deliberate, unoptimized costs;
+  benchmark scope and min/max are recorded above. Final targeted rerun passes
+  47 tests in 61.488 s; all four source/test hashes are recorded. Fixed core
+  predates the static factory and added direct batch test; the final targeted
+  rerun validates those separately.
+  Documentation impact is internal performance design, validation and execution
+  evidence; no product/schema/authority change.
+  Six U groups remain open.
+
+- [x] 2026-09-29 KST - U9 checkpoint responsiveness: profile changed explanation
+  saves, then remove repeated reconstruction only when the retained writing basis
+  is exactly the current history. A two-explanation, no-native-I/O baseline over
+  five changed saves has median 0.824 s; profiling attributes 95% of time to
+  explanation restoration, reconstructing current/bound context twice per item.
+  Preserve canonical bytes, independently reconstruct older bases, reject forged
+  bindings and keep disk/stale-save verification. No persistent context cache,
+  schema change, asynchronous save or new authority. Verify source-change and
+  restart behavior, measure the same workload, then pinned Opus and core checks.
+  Current-basis reconstruction now occurs once per validation; older bases still
+  replay independently. Initial 28 focused cases pass in 23.742 s, and actual
+  PTY explanation interruption/reopen passes in 7.066 s. The new current-basis
+  call-count regression failed before the patch; an initial test command named
+  the wrong class and was corrected before collecting that failure evidence.
+  Static fixed-packet review used actual first-party `claude-opus-5-5`, one turn,
+  no permission denials, tools/skills/hooks/settings/MCP disabled and no session
+  persistence. Packet: 65,065 bytes; SHA-256
+  `54f7cef5b9f559106063b21e1a59b3f720a8bf87db570e61db7702671a1f149c`.
+  No shipped-path regression was found. The subclass projection concern was
+  reproduced: a custom history manifest bypassed the formerly independent basis
+  comparison. Restrict reuse to the exact ResearchHistory type; other objects
+  keep the original reconstruction path. Added restored-then-updated basis,
+  stale rebind and two-explanation checkpoint current/older-basis checks.
+  Timing is narrowly scoped to the recorded cumulative fixture's 14 commands,
+  two explanations both bound to the final command, Python 3.13.15 on arm64
+  macOS 26.5.1. Five changed saves excluding native I/O measured 0.822–0.835 s
+  before (median 0.824) and 0.422–0.424 s after (median 0.423), about 49% less.
+  This does not establish native save/SSH latency or improve older-basis work.
+  No product behavior/schema/authority contract changes; documentation impact
+  is design method, performance acceptance and execution evidence. The 388-file
+  fixed core completed. The final repaired targeted run passes 32 tests in
+  35.787 s, including real PTY restart. Its source/test hashes are recorded in
+  the temporary verification manifest. The core snapshot predates the subclass
+  guard and extra tests, covered separately by this final rerun.
+  During fixed-core execution, the parallel B01 worker stream's old cancellation
+  assertion failed: it expected no arrival trace, while the included implementation
+  preserves/consumes the first arrival as failed. The frozen case reproduces alone;
+  the current checkout already contains that owner's corrected test. No B01 files
+  were edited by U9. Current worker and hostile-provider suites pass 21 tests in
+  56.204 s, including native worker behavior. Preserve the original full-run failure
+  rather than relabeling it a clean pass. The full run also reports two B01
+  native-worker test errors from old result-field names (`file_read_write_denied`
+  and `private_channel_denied`); both cases are included in the passing current
+  21-case rerun. Full-core total: 1,194 discovered, 1,187 passed, four Windows-only
+  skips, one failure and two errors; exit 1. Its 789 application cases took
+  721.937 s. Core's trailing whitespace check was not run after application
+  failure; current docs (67 files) and git diff --check pass separately. The final
+  U9 implementation/test hashes remain unchanged. This is scoped completion with
+  passing current affected suites, not a claim of a clean current full-core run.
+  This is one U9 increment; six outcome groups remain open.
+
+- [x] 2026-09-29 KST - B01 restricted proposal-worker connection: replace the
+  disposable helper-only denial evidence with a source-built, pinned App Sandbox
+  component for bounded proposal-result handling. Freeze one stable application
+  identifier and exact entitlement inventory, sanitized pipes/environment and
+  no generic execution/network capability. Reuse the existing proposal-only
+  broker contract; never give the child a store/key handle or research authority.
+  Verify OS denial of synthetic research/key/manuscript files and a private socket,
+  source-only packaging, hostile replies and unchanged original bytes. Retain
+  its single OS-managed application container as application state rather than
+  accumulating disposable probe identifiers or expanding deletion permissions.
+  Actual Opus review finds arrival-loss/replacement and output-bound defects;
+  repairs pass focused re-review and the final fixed-source core: 1,200 tests,
+  1,196 pass, four Windows skips, no failures/errors. All seven owned source
+  files still match that snapshot. Trusted enrollment/resource custody still
+  follows this measured worker boundary; B01 has four of five checkpoints
+  complete, while the outcome ledger remains 1/12 complete and 11 remaining.
+
+- [x] 2026-09-29 KST - U4 source connection controls: expose Paper connection in
+  the selected-project TUI actions. Show retained location and freshly observed
+  status; separate same-content relocation from changed-source refresh. Reuse
+  typed association/refresh previews and the existing encrypted store, keeping
+  the exact nested writing and earlier scientific basis. Preview/cancel must not
+  change association; explicit apply rechecks source/work and reports failure
+  without claiming success. Preserve graph position, deny pasted/hidden controls,
+  exercise narrow layouts and actual PTY restart, then pinned Opus/core checks.
+  Public lifecycle/readiness remains B08; six outcome groups remain open.
+  Initial integration passes 37 tests in 37.721 s, including actual Mac PTY
+  relocation/cancel/refresh/restart with a Korean note; uncertain post-replace
+  directory-sync failure is independently exercised. The first PTY assertion
+  incorrectly expected the graph overview after note editing; it now verifies
+  the existing reader return, preserving navigation. A path assertion now uses
+  the resolved Mac temporary root while still comparing exact Unicode bytes.
+  Static Opus review used actual `claude-opus-5-5`, first-party, one turn and no
+  permission denials, with tools/skills/hooks/MCP/settings disabled and no session
+  persistence. Fixed packet: 93,716 bytes; SHA-256
+  `f9d31665c349dc8a5039e2c0a715748978ac56eaadad033a3512ff0f4f8b0334`.
+  Reproduced Home's mismatched path wrapping and rejected valid Unicode joiners;
+  corrected shared width and exact path character handling. A frozen-source PTY
+  reproduces queued `fa` applying before deliberate preview inspection. First
+  preview paint now drains queued input, with a regression in the real PTY.
+  Source previews name remaining capacity and show the v1-reader warning only
+  for the initial v1-to-v2 refresh. The uncertain-save wording had independently
+  been corrected before review returned; a real post-replace failure proves
+  unconfirmed status, stale-preview disposal and the backend's reopen boundary.
+  Do not blanket-disable recovery after every preflight error. Keep literal path
+  input rather than stripping legitimate spaces/backslashes; show an exact-path,
+  no-shell-escaping hint. Global interrupt/suspend handling precedes all modal
+  dispatch; no swallowed-control defect was found. Minimum-width help is unclipped.
+  Final repaired integration passes 43 tests in 40.222 s with a current source
+  hash manifest, including the actual PTY queue/cancel/relocate/refresh/restart
+  journey. The 378-file fixed core completed: 1,175 discovered, 1,171 passed,
+  four Windows-only skips, no failures/errors, exit 3. Its 770 application cases
+  passed in 678.941 s. This snapshot precedes the Opus repairs, which the final
+  43-case targeted run covers separately; the current implementation/test hashes
+  remain identical to that final run. Current docs and whitespace checks pass.
+  U4 remains partial; U9 checkpoint
+  responsiveness is the next independent TUI increment while public lifecycle
+  waits on B08.
+
+- [x] 2026-09-29 KST - U4 existing empty-project entry: show retained title/thesis
+  and source status, let the researcher enter/revise a first unresolved question,
+  then explicitly start one unaccepted episode in the same encrypted project.
+  Cancellation/interruption must preserve checkpoint bytes; no replacement key,
+  fabricated evidence, automatic association refresh or repeated episode on reopen.
+  Verify invalid input, identity collisions, save failure, native reopen and real
+  PTY Korean entry/cancel/restart; pinned Opus and fixed-source core follow.
+  The implementation now passes the initial 16 targeted cases, including a real
+  Mac PTY cancel/start/reopen. An initial PTY test incorrectly expected a curses
+  close marker before entering curses; the corrected cancellation check verifies
+  exit and unchanged canonical terminal modes. Fixed-packet Opus review completed
+  using actual `claude-opus-5-5`, first-party, one turn, no permission denials,
+  tools/MCP/skills/settings/hooks disabled and no session persistence. Packet
+  SHA-256: `7ca31eca042d54168b42217d87eaef2c8b47247ab2b5a03a9165b9475bdb27e7`.
+  Confirmed preview typos discarded the question; now unknown choices retain it.
+  EOF/interrupt messages now name the unsaved question and unchanged checkpoint.
+  Source-status fallback is conservative, and the manual-action key is quoted.
+  The suggested empty workspace cannot pass the typed backend validator; still
+  split structural preflight from retryable question validation, so structural
+  refusal cannot become a retry loop. Added actual checkpoint-change refusal and
+  PTY EOF/SIGINT checks. Independently reproduced and fixed the setup preview's
+  stale episode ID when a marker occupies its default name. Final targeted
+  checks pass: 19 tests in 48.340 s, including two actual Mac PTY journeys and
+  real stale-checkpoint refusal. Current docs (67 files) and whitespace pass.
+  The 375-file fixed-source core ran 1,146 tests: 1,141 passed, four Windows
+  skips and one native registration-fixture error (exit 1; final whitespace
+  step not reached). The application suite ran all 741 tests in 724.565 s.
+  Reproducing the native error in isolation took 92.164 s. Its test extracted
+  unrelated newly added review-signing declarations into a standalone Swift
+  registration fixture. Narrowed that test's extraction boundary only; no native
+  product code or signature assertions changed. The repaired current native case
+  passes in 90.861 s, with its source hashes unchanged through verification.
+  This is an initial failed full run plus verified targeted repairs, not a clean
+  rerun of the full suite. The frozen core precedes the Opus repairs; the final
+  19-case TUI run and source manifest cover those current changes separately.
+  Docs/fixture checks passed in core; current documentation and whitespace were
+  run separately after the failure. Windows and real host/human coverage remain
+  open. U4 remains open for explicit source relocation/refresh and B08 public
+  lifecycle/readiness; the remaining TUI count stays six.
+
+- [x] 2026-09-29 KST - Complete B01's exact-review signing connection,
+  not the full B01 unit: reuse the owned
+  operation review, judgment/rationale and explanation disposition in a native
+  foreground surface. Bind the prepared device key, project/build, complete
+  review, fresh exchange nonce and expiry; transfer a domain-separated signature
+  only over the mutually code-checked private channel. Gateway verifies it and
+  returns a bounded observation, never a portable receipt. Recheck current
+  application context after signed completion; cancellation/expiry/stale work grants
+  nothing. Preserve candidate status until trusted enrollment/worker custody
+  and B03 atomic accepted storage exist. Actual `claude-opus-5-5` reviews the
+  fixed packet; reproduced findings are repaired. All 81 affected cases pass
+  within the final core run, including 20 new signing cases. The 382-file
+  fixed-source core runs 1,164 tests in 690.611 s: 1,160 pass, four Windows
+  skips, no failures/errors, exit 3. Owned code/schema/test files stay identical
+  to that snapshot. Actual new-key preparation, separate exact-review signing
+  and fresh-process macOS authentication cancellation succeed; both signing
+  attempts preserve key/history bytes, expose no signature and retain false
+  authority. Current docs/schema/whitespace pass. B ledger remains 1/12 complete
+  and 11 remaining; TUI stays separate. Next close trusted enrollment/custody
+  and actual worker denial before accepted authority/B03 integration.
+
+- [x] 2026-09-29 KST - Complete B01's key-candidate continuity increment,
+  not the full B01 unit: prepare a new device-bound signing
+  key through the pinned source-built broker's explicit foreground review, bind
+  its public identity and opaque representation to one project/build/request,
+  and recheck that binding after process restart. Use only a fresh private
+  destination; never enroll an existing key, replace files, or infer trust from
+  imported metadata. This remains an unaccepted registration candidate until
+  custody/worker denial and trusted-store enrollment are integrated. Implement
+  and review the concrete path before requesting human participation. Preserve
+  the stable B ledger (1/12 complete; 11 remaining).
+  Implementation now includes the closed generated registration schema, typed
+  no-write preview, pinned broker create-only foreground preparation, explicit
+  LA authentication, domain-separated self-signature and fresh-process device
+  reconstruction/noninteractive-denial checks. All results remain unaccepted.
+  Opus review and its reproduced repairs are recorded below. Actual foreground
+  preparation, fresh-process reopening/noninteractive denial and OS-authentication
+  cancellation now pass. Final fixed-source core completes 1,138 tests:
+  1,134 pass, four deferred Windows skips, no failures/errors (exit 3), including
+  all 61 affected key/runtime/delivery cases. Do not close B01 from these APIs.
+
+- [x] 2026-09-29 KST - U4 first terminal connection: preview a selected synthetic
+  Git paper/private workspace and human-written title, working thesis and first
+  question, then explicitly create/open its encrypted unaccepted project.
+  Reuse ProjectWorkStore and the versioned terminal snapshot; retain associations
+  on every save and permit saved writing when source is missing/changed. Empty
+  initialization currently has no episode and cannot enter PaperService.query;
+  preview one explicit candidate episode rather than inventing evidence or a
+  judgment. Keep AI off and the source read-only. Test no-write preview/cancel,
+  stale preview, incomplete argument authoring, restart, association preservation,
+  wrong/missing store and actual PTY; obtain pinned Opus review and core/docs.
+  This is a synthetic U4 increment, not B08/public or protected real-use delivery.
+  Six TUI groups remain until the complete U4 outcome is established.
+  Eleven targeted project cases plus the real PTY journey pass (12 tests,
+  15.001 s), including native CLI creation, wrong-identity refusal, Korean
+  writing/restart, source change, last-moment save refusal and retry without
+  manual directory deletion. Initial PTY ESC immediately followed by Ctrl+C
+  was correctly treated as a modified escape sequence; separate physical-key
+  sends exercise the intended exit. Fixed `claude-opus-5-5` medium review uses
+  74,249 bytes, SHA-256
+  `97012b7147474e35931375c23945983b55e4127ac559d76c527cb8a7aa9eeede`,
+  with tools/MCP/settings/persistence disabled; successful one-turn result,
+  canonical pinned model and no permission denials. Reproduce and repair lost
+  restored-writing guidance and unnecessary key entry after a stale setup
+  confirmation. Release the recovery-key reference before entering the TUI;
+  the native CLI test inspects that boundary. Refreshed association status names
+  retained earlier writing rather than falsely warning that the file is missing.
+  A separate final status test passes in 0.323 s after the core snapshot.
+  The review's orphan-encrypted-store claim does not reproduce: failed final
+  source recheck leaves only the reusable empty session lock, and a new reviewed
+  init succeeds in the same directory. Do not add manual deletion advice.
+  The static review omitted PTY source; its alleged coverage absence is answered
+  by the executed native test, not treated as a new product defect.
+  First fixed-source core attempt stopped at docs because three linked skill
+  files were omitted from the copy; no later checks ran. Add those exact files
+  to the 373-file snapshot and rerun core: 1,125 tests, 1,121 passes, four
+  Windows-only skips and no failures/errors (exit 3). Contract 209, probes 132,
+  validation 42, security 22 and application 720; application takes 528.486 s.
+  Docs, original fixture and whitespace pass. After freezing, source-status
+  copy was clarified into readable changed/unavailable-file language; current
+  project/native PTY checks pass 13 tests in 14.674 s, including refreshed-source
+  display. This does not claim that concurrent native-backend changes share the
+  fixed source result. U4 remains open for existing no-episode project entry,
+  source-location/refresh controls and complete public lifecycle/readiness;
+  the remaining TUI count stays six. No scientific authority or real-use gate
+  is closed by this synthetic connection.
+
+- [x] 2026-09-29 KST - Complete B01's private-channel increment, not the full
+  B01 unit: source-built fixed roles mutually check running peer identity and
+  transfer the complete candidate review with a fresh exchange nonce. The
+  application rederives owned scope/current context before and after delivery.
+  Actual Opus review and reproduced fixes are complete. Fixed-source core has
+  1,103 passes, four deferred Windows skips and no failures/errors, including
+  43 runtime/delivery cases. Source-artifact and fresh-process delivery pass.
+  No key enrollment, human approval, accepted storage or TUI integration occurs.
+  The B ledger remains 1/12 complete, 11 remaining; B01 next needs custody/key
+  enrollment and restarted foreground approve/cancel connected to this channel.
+
+- [x] 2026-09-29 KST - U3: retain manuscript wording/reason and unfinished
+  wording/source-path editors with exact supplied bytes and original recorded
+  or detached scientific history. Restore no live parent or child review. Add a
+  named retained-draft picker, preserve original context when files change or
+  disappear, and require fresh review for recorded work; detached restored work
+  remains editable under its earlier basis. Manuscript review answers and live
+  branch reviews remain explicitly session-only. Establish recovery failures,
+  then verify schema/legacy readers, native PTY, Opus and core/docs. This bounded
+  synthetic Mac outcome is complete; six groups remain (U4–U9).
+  Initial six recovery cases expose five missing outcomes (five errors). The
+  first wording/linked-wording run passes 26 tests in 62.018 seconds; 49 adjacent
+  recovery/action tests pass in 65.484 seconds. Native PTY initialization is
+  unavailable inside the managed sandbox; the authorized outside-sandbox run
+  passes Korean active-basis interruption/reopen in 9.983 seconds. Expanding
+  tests exposed invalid CRLF fixture markers, corrected to required LF markers
+  while preserving mixed endings and NFD outside the block; ten cases then pass.
+  Pinned first-party `claude-opus-5-5`, medium effort, reviews 121,408 fixed bytes,
+  SHA-256 `bd484bfa945d41bc4beb0fe2124a9d30d61ae9fed753ee1ac737461676cc92cf`,
+  with tools/MCP/settings/persistence disabled, successful one-turn result and
+  no permission denials. Reproduce shared 64 KiB source duplication overflowing
+  the checkpoint and a missing-file error hiding the historical-parent notice.
+  Deduplicate exact bytes by digest and check the restored parent first. Refuse
+  the suggested partial-save fallback: existing all-or-nothing retention remains
+  required. A confirmed d/Enter discard frees only explicitly chosen wording.
+  Restore's existing volatile-work guard already includes manuscript writing;
+  test intentional empty source edits as well. The terminal excludes active
+  answer editors from the snapshot and discloses them; no hidden schema failure
+  occurs. Recorded source/history pinning is deliberate old-basis preservation,
+  not consent to follow later edits; do not adopt the proposed automatic unpin.
+  Clarify source-only browsing, normalize both sides of path-default comparison,
+  preserve the injected clock, enforce per-kind capacity and reject unreferenced
+  source entries. Authored detached parents, original AI/before-proposal values,
+  rendering, active-answer exclusion, old v5, failure and discard cases are
+  exercised. Follow-up 33 tests pass in 82.566 seconds; final 16-case recovery
+  suite passes in 39.723 seconds. Fixed-source core runs 1,100 tests: 1,094
+  pass, four Windows-only cases skip and two PTY assertions fail (exit 1;
+  whitespace not run). Both failures are stale test expectations: the new
+  manuscript action shifts the link-action index, and keep now names wording
+  explicitly. Updating those assertions preserves the full interaction and
+  source-unchanged oracles; both pass in 4.541 seconds. The final keep-notice
+  clarification passes seven manuscript tests in 11.571 seconds on the current
+  tree. Recheck all terminal paths plus manuscript UI against the fixed source
+  with only these two U3 files updated; concurrent native-backend changes are
+  outside that snapshot. Retain the original failed-core result rather than
+  relabeling it a clean pass. All 47 terminal/manuscript tests pass in 81.091
+  seconds, including both repaired assertions and native wording recovery.
+  Generated schema check and documentation/whitespace checks also pass. Four
+  Windows cases remain unverified; concurrent backend edits are not covered by
+  this fixed-source result. Next is U4 own-project terminal entry.
+
+- [x] 2026-09-29 KST - B04 is complete in the synthetic Mac backend scope.
+  Explicit source refresh preserves prior associations and exact unaccepted
+  writing through v2 typed transitions. Native verification resumed without
+  weakening key policy: fixed-source core has 1,066 passes, four deferred
+  Windows-only skips and no failures/errors (exit 3, incomplete platform
+  coverage). Current-tree association/refresh checks also pass all 33 tests
+  after the concurrent U3 format addition. No scientific reconciliation,
+  restored approval or public own-project release is claimed. Count: 1/12
+  backend units complete, 11 remaining; B01 is next. Failed/interrupted runs
+  and final evidence remain in the [B ledger](#remaining-non-ui-implementation-ledger).
+
+- [x] 2026-09-29 KST - U2: restore unfinished scientific-change fields and review
+  answers with original source, owner, kept baseline and original review inputs.
+  Preserve active/source-view buffers and empty edits without staging or reviving
+  review authority. Reuse U and the encrypted store; keep manual checkpoints
+  narrow. Establish failures, run actual PTY/device checks, pinned Opus, affected
+  and fixed-source core/docs verification. Completion evidence follows below.
+  Initial six tests expose five absent outcomes (two failures/three errors).
+  PaperWork v5 / review-writing-workspace v4 now carries original record or
+  judgment/request inputs, source-prefix binding, field position and distinct
+  unfinished text. U and Ctrl+O retain readable original/current science; restores
+  create no live seal. First affected run passes 52 tests in 84.547 seconds.
+  Actual Mac PTY field and answer interruptions pass after correcting test-entry
+  focus and normalizing basis container shapes (two tests, 18.915 seconds).
+  Pinned first-party `claude-opus-5-5`, medium effort, successfully reviews the
+  113,058-byte fixed packet SHA-256
+  `8e838e483dd11c6d1b7ba3db587eb669893b0b17904371e5e7e265b7d6d54f88`
+  with tools/MCP/settings/persistence disabled and no permission denials.
+  Reproduce and fix premature answer-basis replacement on editor open, refusal
+  to recover a shortened valid 13,000-character source field, and rejection of
+  existing candidate structural changes. Field keeping also preserves those
+  independent candidate fields. Changed answer meaning now requires explicit
+  displayed-basis choice; unchanged live reviews keep their existing owned seal,
+  whereas process restore still cannot revive one. Follow-up 42 tests pass in
+  26.586 seconds. Later expanded verification passes 57 of 58; its aggregate-size
+  fixture incorrectly exceeded the public keep limit before reaching saving and
+  is corrected to valid 12,000-character inputs. No invariant is weakened.
+  Full original-input snapshots intentionally count toward the 256 KiB aggregate
+  limit. Do not drop original judgment/AI context or silently save a subset.
+  Capacity failure retains live input and now explicitly says to keep the session
+  open and correct/shorten input. Snapshot deduplication remains a U9 resource
+  optimization; it cannot rebind earlier writing to the mutable current judgment.
+  The claimed missing-key crash is unsupported by closed required-field schemas
+  and ContractError's ValueError base; add malformed-basis rejection. Encrypted
+  restore is series-only and U explicitly activates the original work owner;
+  exercise changed linked-owner choice rather than assuming a key mismatch.
+  The expanded 17-case suite also corrects a linked-owner fixture that omitted
+  its mandatory owner reference. All 17 pass in the final fixed-source core.
+  That core checks 367 frozen files and executes 1,070 tests: 1,057 pass,
+  four Windows-only skips and nine native failures (eight errors/one assertion),
+  exit 1. All nine fail during device-key creation, including existing judgment,
+  claim/result/explanation recovery and standalone work-command tests; application
+  coverage is 665 tests in 515.128 seconds. An unchanged baseline judgment PTY
+  case reproduces the failure. A disposable native diagnostic reports
+  NSOSStatusErrorDomain -25308 while generating the WhenUnlocked device key.
+  Earlier U2 native PTY success above remains evidence, not a replacement for
+  this failed final run. Request host unlock, then rerun the nine failed cases
+  against the same fixed implementation before closing U2. Do not weaken key
+  access or substitute software keys. Current implementation/test/schema hashes
+  match the tested snapshot. Documentation/schema checks and separately run
+  original-checkout whitespace pass; the core runner's whitespace stage was
+  not reached. At that stopping point native validation remained open and the
+  remaining count stayed at eight.
+  On resumption, the unchanged baseline judgment PTY passes in 8.748 seconds.
+  The other eight failed native cases plus all 17 U2 cases pass from the same
+  fixed source (25 tests, 97.080 seconds, exit 0), including interruption,
+  encrypted reopen, failed replacement and separate-process backup/restore.
+  No implementation/test/schema bytes changed and no key protection was weakened.
+  This resolves all nine native failures; it does not relabel the earlier core
+  exit 1 as a clean run or close its four Windows-only skips. U2 is complete
+  within the Mac synthetic checkpoint boundary. Seven outcome groups remain
+  (U3–U9); next is original-review/source-bound manuscript wording recovery.
+
+- [x] 2026-09-29 KST - Complete remaining TUI unit U1: persist conditional
+  explanation drafts, rationale reuse, original/current/writing-basis context,
+  topic selection and separate unfinished/active text through encrypted work.
+  Preserve old formats and no closure/review authority. Establish failures,
+  run pinned Opus plus affected/native/PTY/core/docs checks. Track remaining
+  units in the ledger below on every later increment, as the user requested.
+  Typed PaperWork v4 / explanation-workspace v3 now retains the owned explanation
+  snapshot, verified original source prefix, rationale links, topic position and
+  kept/unfinished/active-source-view writing. Old v3 TUI files remain readable;
+  ProjectWork's nested union also retains v4 unchanged. Initial six tests expose
+  absent restoration and source rebinding; the corrected earlier-basis case is
+  red before implementation. First affected run passes 43 tests, including actual
+  Mac device/PTY interruption and Korean source-view writing. Pinned first-party
+  `claude-opus-5-5`, medium effort, reviews the fixed 78,326-byte source packet,
+  SHA-256 `10d19600d652bf8eb6635646f1734e81322b6369e5dfbcb89783cbc6fbff9663`,
+  with tools, MCP, settings and persistence disabled; no permission denials.
+  Its NFC/NFD equivalent-buffer defect is reproduced and fixed in snapshot and
+  editor-return comparisons. Existing `review.volatile_work()` already includes
+  explanation writing, so the suggested restore-guard and manual-exit omissions
+  do not apply; add a direct explanation-only no-overwrite regression. All 64
+  affected tests pass in 96.666 seconds after the Unicode fix. Additional tests
+  cover failed/oversized saves and ProjectWork v4 roundtrip; all ten explanation
+  recovery tests pass in 32.490 seconds. Final core runs from 361 fixed source
+  files: 1,037 tests execute, 1,033 pass, four Windows-only skips, no failures,
+  exit 3 (incomplete platform coverage). All 632 application tests pass in
+  542.735 seconds; contract/probe/validation/security counts are 209/132/42/22.
+  Current implementation/test/schema hashes match the tested snapshot. Current
+  documentation, generated schema and original-checkout whitespace checks pass.
+  U1 is complete within the Mac synthetic encrypted-checkpoint boundary; eight
+  outcome groups remain. Next U2 restores unfinished scientific-change fields
+  and review answers under their original context without restoring authority.
+  Preserve visible all-or-nothing failure,
+  no fabricated completion/closure and the narrower manual-checkpoint boundary.
+  A local timing spot check during core verification (three samples, recorded
+  two-episode example with two partial explanations) measures unchanged-input
+  projection median 0.1 ms and changed typed-snapshot validation median 1,303.7 ms;
+  without explanation sessions the latter is 64.8 ms. This excludes native file
+  save and is not a release latency benchmark. Full explanation/source/basis
+  reconstruction adds a visible synchronous save cost; retain it as an explicit
+  U9 performance issue, not a claim of responsive encrypted editing. No source
+  validation is bypassed to improve the measurement.
+
+- [x] 2026-09-29 KST - Implement the R2 source-delivered native runtime
+  prerequisite: explicit `runtime build/check`, separate hardened ad-hoc native
+  roles, exact independently retained build pin, changed-source/file/identity
+  refusal and source-artifact-only build/reopen. Actual Opus 5.5 review findings
+  are reproduced and addressed; preserve the distinction from human authority,
+  peer delivery and production trust. Final affected runtime/CLI/artifact suite:
+  37 tests pass in 97.664 seconds. Fixed-source core: 1,037 tests, 1,033 pass,
+  four Windows-only skips, zero failures, exit 3, 587.701 seconds. All 632
+  application tests pass; all seven owned code/schema/test files still match
+  the snapshot. Docs, schemas and whitespace pass. No account, installation,
+  credential, human-authentication prompt, research write or TUI implementation
+  change. Next bind the enrolled approval identity and exact runtime to owned
+  source/gateway transactions; source-build preflight alone enables no accepted
+  operation. See [runtime preparation](#source-delivered-native-runtime-preparation).
+
+- [x] 2026-09-29 KST - Extend T5b encrypted terminal recovery to manual
+  argument candidates and provisional result capture. Version the closed work
+  envelope; retain kept/unfinished fields, identities, aliases, omissions and
+  original source-history prefixes. Restore no current review or approval.
+  Reuse the existing device store and preserve old v1/v2 reading. Exercise
+  fresh-process/native/PTY return, stale source, empty input, malformed state
+  and failed saves; run pinned Opus, affected/core/docs checks. Wording and
+  explanation retention remain a separate next increment.
+  Initial six tests expose five missing outcomes (three failures/two errors).
+  Typed v3/prefix restoration passes; an additional nullable-scope failure is
+  reproduced and repaired without inventing scope. Pinned `claude-opus-5-5`
+  reviews the fixed 125,492-byte snapshot SHA-256
+  `ab80ee095340bb74b1d5aac905e3664858957d225d200f77252531f4f5593e92`
+  at medium effort, first-party success, no permission denials, with tools,
+  MCP, skills/hooks/settings and persistence disabled. Reproduce/fix its false
+  discarded-editor warning after returning to a covered form and redundant
+  unfinished-equals-kept candidate state. Retain visible all-or-nothing oversize
+  failure rather than dropping human writing or creating partial checkpoints.
+  The suggested schema mutation is disproven by amendment_schema's existing
+  deep copy; invalidation clears reviews without changing session/work revision.
+  Source refresh already refuses losing an existing draft owner. Add AI-on,
+  counters, post-restore new-owner and NFC checks; canonical normalization is
+  existing behavior. Actual Mac PTY interrupts retain both Korean candidate and
+  result input as unfinished writing. Final affected suites: 91 tests pass in
+  98.338 seconds. To avoid mixing the other implementation stream's source
+  changes into parent/child execution, freeze 354 source files for final core:
+  1,003 tests execute, 999 pass, four Windows-only skips, zero failures, exit 3.
+  All 598 application tests pass (400.726 seconds); contract/probe/validation/
+  security counts are 209/132/42/22. Owned implementation hashes still match
+  that snapshot after the run. Current docs check passes 67 Markdown files;
+  original checkout whitespace and generated schemas also pass. This completes
+  the bounded candidate/result increment, not all T5b or server/private-project
+  readiness. Next: typed wording and explanation/review-input retention with
+  exact original-parent/source restoration; keep own-project TUI entry with its
+  R4 owner and protected actions behind the existing gates.
+
+- [x] 2026-09-29 KST - Complete the R4 project/work association backend:
+  read-only preview, legitimate empty candidate paper, encrypted association
+  plus unchanged PaperWork v1/v2/v3, exact-source relocation and readable work
+  after source loss or recovery. Actual Opus 5.5 review finds seven bounded
+  defects; reproduce and fix them, then pass all 19 association tests in
+  12.757 seconds. Fixed-source core runs 1,000 tests: 996 pass, four Windows-only
+  skips, zero failures, exit 3, 438.432 seconds; all 595 application tests pass.
+  The six owned code/schema/test files remain byte-identical after the run.
+  Docs, generated schemas and tracked whitespace pass. The harness now requires
+  philosophy checks at R milestones and workflow/authority trade-offs as well
+  as full post-compaction rereading. No protected writer, source-fidelity claim
+  or TUI takeover. Next remaining row-four integration is selected-host
+  custody/launch and independently owned accepted-source/gateway/store binding;
+  public own-project entry still needs that boundary and its separate UI owner.
+  See [association contract and review](#project-and-manuscript-association).
+
+- [x] 2026-09-29 KST - Connect R4 encrypted checkpoint lifecycle to R6
+  `demo work init/status/show/backup/restore` without TUI integration. Initial
+  command test fails at the missing entry point. Initial native execution and
+  the unchanged baseline both fail while the host is locked (-25308); actual
+  key access later resumes and the extracted-source roundtrip passes. Initial
+  core: 958 tests, 954 pass, four Windows skips, exit 3; owned hashes stable.
+  Pinned Opus identifies read-side archive mutation and completed-save/output
+  ambiguity. Reproduce/fix both plus malformed input and broken-pipe shutdown;
+  preserve crypto, source bytes and false authorization. Final affected command,
+  CLI and artifact suites pass 29 tests in 26.882 seconds, including actual
+  same-host native restore and PTY confirmation. The next shared-checkout core
+  runs 968 tests: 961 pass, three TUI restart failures, four Windows skips,
+  exit 1. During that run the other stream versions its work format; parent
+  and fresh child processes load different schemas. All three failures pass
+  on a fresh latest-source run (10.988 seconds), without TUI edits here.
+  A fixed 350-file snapshot removes this concurrent-edit ambiguity: final core
+  executes 970 tests, 966 pass, four Windows-only skips, zero failures, exit 3,
+  363.411 seconds. All 565 application tests pass. Owned working-tree source
+  bytes still match the tested snapshot. This increment does not finish
+  own-project authority, full TUI retention or R2/R4 overall.
+
+- [x] 2026-09-28 KST - Connect T2a's remaining manual interpretation authoring:
+  choose recorded observations explicitly, keep partial writing, project the
+  interpretation and its claim connections, and explicitly reuse its kept text
+  as the owning judgment without replacing the reason or erasing AI history.
+  Respect the existing one-interpretation-per-episode/ref contract; an occupied
+  context directs the researcher to edit existing science. Verify AI-off entry,
+  dependency selection, stale/unfinished work, retention boundaries and real
+  PTY; run pinned Opus, affected/core/docs checks. R4's new encrypted checkpoint
+  is not yet a complete T5b adapter: it lacks TUI owner/link/form/result/wording
+  state and product key custody. Do not place those values in the narrower
+  manual checkpoint or advertise partial retention as a full save.
+  Initial six new tests fail at the missing named action. After implementation,
+  actual pinned `claude-opus-5-5` (medium, first-party success, no permission
+  denials) reviews the fixed 93,033-byte packet SHA-256
+  `12a65237991028523b5711f15f6b03a13540ea9313df4cba955c5e823aacec91`.
+  Tools, MCP, hooks, settings, skills and persistence are disabled. Reproduce
+  and repair the unclear omitted-interpretation mismatch route, an oversized
+  existing reason's misleading reuse outcome, hidden omission/removal controls
+  and interpretation-specific labels. Preserve independent owning drafts rather
+  than adopting a speculative cross-work lock. Canonical limits reject the
+  review's oversized kept-statement example before reuse. Add explicit empty
+  selection and exact PTY preview assertions. Agent frame inspection separately
+  finds clipped status; add short status-first rows and complete read-only
+  observation context. A later return check reproduces loss of an intentionally
+  emptied kept interpretation when its basis is empty; retain that empty edit
+  separately, without turning pristine browsing into unfinished work. The new
+  regression fails before repair. Final affected suites pass 45 tests, including
+  15 interpretation cases and two actual-PTY journeys. The first core run uses
+  the earlier loaded sources; rerun after this final empty-edit repair before
+  treating it as final-source evidence. Update product/design/workflow/validation
+  and this plan in place; no schema or ADR changes. Initial core completes
+  937 tests with 933 passes, four Windows skips and zero failures; its sources
+  predate the final empty-edit repair. Final core executes 942 tests: 938 pass,
+  four Windows-only skips, zero failures, exit 3 (incomplete platform coverage).
+  All 537 application tests pass. Counts include the independently evolving
+  device work-key stream, whose implementation is not this TUI increment.
+  Owned source/test hashes remain unchanged throughout the final run. Final
+  documentation checks pass for 67 Markdown files; tracked diff and owned
+  untracked-source whitespace pass. Local PTY and agent frames at 144×42,
+  80×24 and 48×18 do not close Linux/SSH/tmux, physical IME or unfamiliar-user
+  validation. Next: the T5b state mapping below, with the storage/key owners;
+  blank-project entry and result confirmation remain separate unfinished work.
+
+- [x] 2026-09-28 KST - Connect the encrypted work checkpoint to device-bound
+  data-key reopening and separate recovery-key restoration. Freeze the
+  [device work-key boundary](#device-work-key-integration) before code; keep
+  protected acceptance/signing custody and the other stream's TUI separate.
+  Actual Secure Enclave key agreement now wraps the work data key for restart;
+  separate recovery restores the authenticated copy to a fresh destination and
+  device-key identity. No raw data/recovery key is persisted. Reproduce and fix
+  unused-wrap damage and key/content splicing, then add exact recovery-key
+  verification and the reviewer-requested boundary checks. Fourteen device/
+  portable checks plus the raw-key and artifact suites pass 38 tests. Final
+  core runs 941 tests: 937 pass, four Windows skips, zero failures, exit 3,
+  255.426 seconds; owned source/test hashes remain unchanged during the run.
+  Both pinned Opus reviews complete with verified first-party model metadata;
+  the focused binding review finds no reproducible framing/derivation defect.
+  A source artifact independently builds its native helper and completes
+  create, recovery-key verification, key-free fresh-process reopen and restore.
+  Final docs/schema/whitespace results are recorded with the contract below.
+
+- [x] 2026-09-28 KST - Implement the independent R4 encrypted work checkpoint
+  described below. Preserve unaccepted history, amendment provenance, judgment,
+  exact review and partial explanation across process restart. Actual R2 custody
+  and protected accepted writing remain blocked; do not substitute simulated
+  approval. Leave the other session's TUI/result-intake work untouched. Twenty
+  new checkpoint checks cover portable source contracts and actual Mac file/
+  crypto/crash behavior. Full core before review fixes: 910 tests, 906 pass,
+  four Windows skips, zero failures, exit 3. Actual pinned Opus review leads to
+  reproduced/fixed reopen and orphan-cleanup defects and native full-sync
+  strengthening. Final affected work/review/explanation/source-artifact suites
+  pass 83 tests in 47.747 seconds. Isolated source-preview save and fresh-process
+  reopening pass separately. Final 67-file docs, generated-schema consistency,
+  tracked diff and owned untracked-source whitespace checks pass. See the [checkpoint contract](#encrypted-unaccepted-work-checkpoint)
+  for limits, packet identity and findings; product custody and TUI connection
+  remain distinct next work.
+
+- [x] 2026-09-28 KST - Implement T2b's first claim/source-first intake slice:
+  capture an unconfirmed result reference, measurement/conditions and an optional
+  tentative judgment together. Use a bounded session-only application draft,
+  retaining kept versus unfinished fields and its original recorded context.
+  Compare this explicit intake with silently manufacturing an accepted run or
+  observation: choose the draft, with confirmation and graph staging unavailable.
+  This closes a missing capture action, not empty-project initialization, source
+  verification, evidence confirmation or durable return. Check AI-off/manual
+  entry, incomplete writing, independent result identities, return/source drift,
+  checkpoint exclusion and real PTY; then run core, pinned Opus and docs.
+  Ten focused checks and the new actual-PTY journey pass. The initial PTY
+  assertions assumed curses would emit an unchanged leading character and sent
+  bare Escape beside Ctrl+L (an Alt/control sequence); force redraw for the first
+  assertion and send Escape separately. No input-decoder weakening is needed.
+  UI source history uses researcher-readable source fields and contribution
+  prose, not raw JSON. Agent-inspected frames cover 144×42, 80×24 and 48×18.
+  Move intake/resume alongside manual creation, before review, and show captured
+  conditions/measurement beside wide writing. The first core process had already
+  imported the earlier PTY menu counts, so it finishes with two stale-position
+  failures against the changed menu; the final source's two journeys pass.
+  Actual pinned `claude-opus-5-5`, medium effort, first-party success and no
+  permission denials, reviews fixed packet SHA-256
+  `67716f9021378b8855682810a1368475963e94b94d6cca7283e6890113cfea81`
+  with tools/MCP/hooks/skills/settings/session persistence disabled. Reproduce
+  and fix a context peek displaying earlier unfinished text instead of the live
+  editor, list selection moving after cancelled discard, and NFC expansion past
+  the character limit. All three regressions fail before repair; the 25 affected
+  checks pass after repair, including both affected real-PTY journeys. Add a
+  further passing checkpoint assertion after exiting capture and opening a note.
+  Retain stable display numbers with gaps instead of renumbering drafts. Other
+  review hypotheses do not reproduce under the owned contracts: Frame.put clips
+  newlines, the view digest includes the evidence watermark, validated source
+  judgments require their accessed fields, Buffer removes surrogate controls,
+  and volatile_work is used only at quit/exit. No new authority or persistence
+  path follows from those hypotheses. A final core run uses the frozen repaired
+  code. Its schema check catches the other session's then-missing/stale
+  `paper-work-v1.json`; leave that owner's implementation/generator untouched.
+  The owner's generated schema subsequently passes the read-only module check;
+  rerun core after that synchronization. One initial direct-script check had
+  the wrong module import path; use `python3.13 -m scripts.export_research_schema
+  --check`. Final core executes 910 tests: 906 pass, four Windows-only skips,
+  zero failures, exit 3 (incomplete platform coverage). All 505 application
+  tests pass, including 13 intake regressions and its actual-PTY journey; the
+  concurrently implemented R4 cases retain their other owner's scope. All
+  owned source/test hashes stay unchanged through this final run. Docs pass
+  for 67 Markdown files; tracked and owned-new-source whitespace pass.
+  Documentation impact: product behavior, living design, developer controls,
+  terminal oracle, README and this plan; no schema, accepted ADR or checkpoint
+  expansion. Actual SSH/tmux, physical IME and unfamiliar-user comprehension
+  remain unverified. This completes the provisional entry slice only, leaving
+  T2b's new-project/confirmed-result path and T5b durable return open.
+
+- [x] 2026-09-28 KST - Connect the completed proportional assessment to an
+  exact versioned paper operation/review. Preserve selected scientific effects,
+  full source/lineage values and contextual decisions in one bounded seal;
+  rederive them from owned state before returning an authorization-required
+  request. Freeze the [operation contract](#exact-paper-operation-review-contract)
+  before implementation. Production R2 custody/launch and R4 storage remain the
+  actual protected-write blocker; this increment supplies their missing portable
+  input and recheck, not another native probe or permission to write real data.
+  Implement separate operation/review formats, exact selected/required effects,
+  joined Judgment and full included lineage, at-most-300-second seals and owned
+  restoration. Final candidates require the current owned assessment and seal;
+  Not now, changed explanation or successful replacement revoke the old request.
+  Complete actual pinned Opus review and the documented reproductions/fixes.
+  Final core run executes 878 tests: 874 pass, four Windows-only skips, zero
+  failures, exit 3 (incomplete platform coverage), in 235.479 seconds. The
+  application suite has 473 tests, including 24 new operation tests and the
+  concurrent TUI work; relevant operation source/schema/test hashes remain
+  unchanged through the run. Schema generation, 67-file docs and tracked/new
+  source whitespace checks pass. Update domain, developer, product and
+  acceptance contracts in place; no accepted ADR or TUI implementation changes.
+
+- [x] 2026-09-28 KST - Connect T4 selected scientific review to manuscript
+  wording through its exact detached candidate. Keep the parent judgment and
+  rationale readable/reusable, preserve earlier wording by review/work identity,
+  and reject stale parent/source completion without losing text. Reuse existing
+  branch/merge/manuscript services; no installation, accepted work, file writing
+  or checkpoint expansion. Compare the alternatives in the living design, then
+  run targeted/actual-PTY/core checks, pinned Opus review and canonical docs.
+  The eight new behavior checks pass, alongside the new real-PTY journey and
+  existing branch/manuscript checks. Correct a mistyped test invocation and a
+  misplaced existing PTY assertion; the actual source-to-wording journey passes
+  with Korean paste, real Ctrl+R/Ctrl+O, resize and terminal restoration.
+  Inspect 144×42, 80×24 and 48×18 editor frames. Initial core stops on the
+  concurrently introduced `paper-operation-v1.json` missing/stale schema; do not
+  change the other owner's generator or implementation. After its schema check
+  passes, rerun core; observed results and review disposition follow.
+  Second core reaches 461 application tests and stops on the concurrently
+  changing operation-scope check (`test_final_candidate_requires_the_current_owned_review_scope`);
+  UI tests pass in that run. The other owner's later implementation passes that
+  focused check; a final full core run follows the TUI review repairs.
+  Actual pinned `claude-opus-5-5`, medium effort, first-party success with no
+  permission denials, reviews fixed packet SHA-256
+  `bd391f4a88fa2343d5f4a49333435298d45f2c41e56535c263ff60cf8b4e4165`
+  with tools/MCP/skills/settings/session persistence disabled. Reproduce and
+  repair blank candidate exhaustion of W capacity, wrong immediate undo focus,
+  untouched editors becoming unfinished work and duplicated current-draft rows.
+  Candidate and recorded-work pools are separately bounded at 16; only pristine
+  candidate metadata may be dropped, never authored text/contributions/buffers.
+  Also normalize reason comparison and align basis/read scrolling keys. All 20
+  affected tests pass after the first repairs; further assertions cover active
+  editor/peek checkpoints, W's basis view and capacity retention. The reviewer
+  assumed a no-item/multiple-anchor result from list-shaped fields: v3 actually
+  has one seed anchor and always projects one manuscript item per merge, even
+  when potential impact is empty. Do not expand the schema or hide an impact
+  check under that false premise. Parent binding is a TUI adapter guard, not a
+  protected service authorization claim; direct use of the underlying volatile
+  service cannot close that authority gate. Drawing may discover expiry and
+  revoke a preview under existing service semantics. The real tiny-screen path
+  renders compose's resize instruction; invisible input remains paused.
+  The completed core run executes 870 tests: 866 pass, four Windows-only skips,
+  no failures, exit 3 (incomplete platform coverage), including all 465
+  application checks. Final local inspection reproduces parent expiry between
+  candidate construction and a later preview read; retain the already inspected
+  snapshot and recheck the parent before allocating instead of dereferencing an
+  expired preview. All 37 affected checks pass after this final repair, including
+  13 wording-link cases, existing branch/manuscript cases and both actual PTY
+  journeys. This last repair is covered by those targeted checks, not a claim
+  that the earlier core run included its new expiry regression. Docs scope and
+  all 67 Markdown documents pass. Documentation impact: product invariants,
+  living design, developer controls, terminal oracle, README and this plan;
+  no accepted ADR, schema or checkpoint change. SSH/tmux, physical IME, human
+  comprehension, protected writes and durable return remain separate gates.
+
+- [x] 2026-09-28 KST - Connect T4 conditional explanation return to the TUI:
+  original/current scientific context, causal topics, partial writing and
+  explicit rationale reuse through the existing understanding session. Keep
+  original graph position, work/topic ownership, stale basis and unfinished
+  buffers explicit. No accepted cause is available, so closure stays unavailable.
+  Run behavioral/PTY/core checks and actual pinned Opus review; update the
+  product, design, workflow and terminal oracle. This does not take over the
+  concurrent finite impact/amendment-lineage service work.
+  Implementation and focused checks now pass: 12 UI behavior tests plus the
+  actual Mac Unix-PTY journey, including manual recovery enabled on quit.
+  The Ctrl+O failure seen by both sessions is fixed: terminal input emits
+  `source`, while the first adapter listened for `inspect`. The PTY now proves
+  the real byte-to-action path, Korean paste, resize, keep/reopen and terminal
+  restoration. Agent-inspected frames cover 144×42, 80×24 and 48×18.
+  Actual pinned `claude-opus-5-5`, medium effort, first-party success and no
+  permission denials, reviews fixed packet SHA-256
+  `35b562e881e66c01535b38f3b8c5c2b3a6b8870a733b96bf1a60936d03427103`
+  with tools/MCP/skills/settings/session persistence disabled. Address retained-
+  context editing on source failure while refusing rebind, redundant cancelled
+  text, visible NFC UTF-8 limits, separately identified judgment contributions,
+  absent connections, no-op basis refresh, render-only stale warning, cheaper
+  writing-presence checks and pending-detail draft indication. The invalid
+  history reproduction requires fault injection because PaperWorkspace already
+  rejects replacing its history; the fallback is defensive adapter behavior.
+  Retain explicit Ctrl+S empty replacement, consistent with existing editors;
+  test cancelled empty input separately. Do not evict sessions for a proposed
+  17th item: v3 allows at most eight episodes and one merge per episode. Metric
+  fields are schema-validated strings, and deferred understanding items require
+  AI influence; those speculative review inputs are outside the owned source
+  contract. Final `python3.13 scripts/verify.py --scope core` runs 840 tests:
+  836 pass, four Windows-only skips, no failures, exit 3 (incomplete platform
+  coverage). Its 435-test application suite includes the repaired real PTY and
+  the concurrent R3 policy tests; this result does not change the other work's
+  ownership. Docs scope passes all 67 Markdown files and tracked whitespace.
+  Documentation impact: intended return behavior, living design, contributor
+  controls, terminal acceptance and this plan; no schema/ADR change. Physical
+  IME, SSH/tmux, unfamiliar-user comprehension and durable return remain open.
+
+- [x] 2026-09-28 KST - Complete the next R3 boundary: finite operation-impact
+  assessment and per-amendment contribution lineage. Freeze the
+  [candidate policy contract](#finite-review-policy-and-amendment-lineage-contract)
+  before coding; verify quiet capture, rationale reuse, contextual merge review,
+  inherited AI, exact selection/freshness and unchanged old histories. TUI/T6
+  adoption and protected acceptance remain with their existing owners.
+  Initial 24 focused tests pass. Actual pinned Opus result has no blocking
+  finding; locally reproduce and fix its joined-judgment discrepancy by sharing
+  `paper_branch.continue_judgment`. Its unchanged-selected-record concern is
+  rejected by the existing v3 reducer; a regression distinguishes unchanged
+  references from selected amendments and rejects a second merge. First core
+  run reaches 429 application tests but fails the concurrent T4 PTY case
+  `test_conditional_explanation_return_in_real_terminal` at Ctrl+O/`CURRENT`
+  (`test_tui_terminal.py:168`); whitespace is not run. This is retained as a
+  shared integration observation, not a clean core pass or ownership of the
+  other session's TUI implementation. The T4 owner fixes its `source` versus
+  `inspect` input-action mismatch. Post-review lineage/policy/branch/understanding
+  checks pass all 52 tests, including 26 new lineage/policy cases. Final core
+  completes 840 tests: 836 pass, four Windows-only skips, zero failures, exit 3
+  (incomplete platform coverage), 230.595 seconds. All 435 application tests
+  and tracked whitespace pass. Schema consistency and docs scope also pass.
+  Documentation impact: domain/API, developer use, product availability,
+  acceptance cases and this plan. TUI integration, typed proposal adoption and
+  protected operation/receipt/storage bindings remain separate work.
+
+- [x] 2026-09-28 KST - Complete T3b explicit reuse of one owned judgment across
+  multiple source nodes. The bounded identity comparison selects service-owned
+  references to the original owner, without copying or merging drafts. Named
+  controls, owner/source labeling, independent notes/unfinished writing,
+  candidate ownership and honest checkpoint/quit behavior are connected.
+  Actual pinned `claude-opus-5-5`, medium effort, first-party success and no
+  permission denials, reviews fixed packet SHA-256
+  `a6032f90d73eae0085a137668cfc2611932087c2dd7adef3a6ec92da0335053d`
+  with tools/MCP/skills/settings/session persistence disabled. Reproduce and
+  fix capacity-blocked separate-judgment selection; preserve existing choices
+  when adding references; distinguish inactive associations from active use;
+  explain 16-link capacity before confirmation; notify explicit owner return.
+  The original preview disclosed replacements, so the choice-preservation
+  repair improves the default interaction rather than fixing an undisclosed
+  scientific mutation. Retain session capacity for new multi-node work instead
+  of removing allocation for every new association as suggested. Reject the
+  speculative partial-source-update concern under same-seed append-only
+  histories; add a passing branch/child-merge invalidation regression for the
+  reviewer's unverified guard concern. All 17 link tests and 15 branch tests pass.
+  The actual local Mac PTY exercises AI-off linking, shared Korean writing,
+  independent notes, resize and terminal restoration. Frame inspection covers
+  144×42, 80×24 and 48×18; physical IME, SSH and human comprehension remain open.
+  Initial core runs 796 tests with four Windows-only skips and no failures.
+  After repairs, final `python3.13 scripts/verify.py --scope core` runs 801 tests:
+  797 pass, four Windows-only skips, no failures, exit 3 (incomplete platform
+  coverage). This includes the 403-test application suite and actual PTY journey.
+  Docs scope passes 67
+  Markdown files and tracked whitespace. Documentation impact: product/design
+  behavior, service boundary, developer controls, acceptance and this plan.
+  T2b still requires legitimate initialization/evidence-draft services; no seed
+  observation or accepted state may be invented to bridge that dependency.
+
+- [x] 2026-09-28 KST - Complete the next reviewed R3 boundary: versioned
+  understanding-closure candidates bound to their exact debt/cause review and
+  current evidence/topic/display context. The
+  [closure contract](#understanding-closure-context-contract) was frozen before
+  coding; the new API/schema now preserve old histories and the separate partial
+  draft. Missing-import failure was observed first. The initial 59 combined
+  closure/review/draft/work checks pass; after adding the cumulative source-change
+  and invalid-context cases, all 17 debt tests pass. Core runs 793 tests: 789
+  pass, four Windows-only skips, no failures, exit 3 (incomplete platform
+  coverage). Actual pinned Opus review finds no blocking defect. Clarify
+  accepted-operation ordering and protected route selection; strengthen lifetime
+  and non-NFC restore assertions, then pass all 17 debt tests again. Runtime
+  remains identical to the reviewed snapshot. Docs scope passes 67 Markdown
+  files and tracked whitespace; generated-schema check passes. Detailed scope
+  and review disposition are in the contract section. Documentation impact: domain contract, developer API,
+  saturation oracle, product availability and plan; no TUI, accepted writer or
+  platform-policy change.
+
+- [x] 2026-09-28 KST - Complete the next T2a manual follow-up-plan increment
+  over existing synthetic sources. Choose a source/draft claim and author
+  objective, conditions and all metric fields, using the existing owned
+  candidate store/domain projection. Incomplete input, omission, stable aliases,
+  source binding and dependent review invalidation survive editing. Plans and
+  tests relations remain draft/unrun, creating no observation or executed run.
+  Final review includes required draft claims, names target content and renders
+  each measurement field separately. Existing plans retain objective-only edits.
+  An actual Mac Terminal 144×42 form and local PTY creation/Korean paste/80×24
+  resize/144×42 graph/clean exit are observed; 48×18 rendering retains field
+  count and controls. SSH, physical IME and human understanding remain unverified.
+  Actual pinned `claude-opus-5-5`, medium effort, first-party success, no permission
+  denials, reviews fixed packet SHA-256
+  `7798098b73479974afdabace1fdc9521987b8fdad6e3c557c02942049bd90d8c`
+  with tools/MCP/skills/settings/session persistence disabled. Reproduce and fix
+  raw plan fields at review, comparison's unavailable scenario hint, the smaller
+  combined-size cap, picker reset, unlabeled plan targets and malformed metric
+  structure. Retain domain preflight: invalid source metrics cannot enter a
+  validated history. The graph comparison has no scenario key handler; the
+  reviewer identified misleading help, not an executed scenario bypass. Alias
+  gaps are stable identities, not a defect; historical-source refresh behavior
+  outside this increment was not established by its speculative alias finding.
+  Source-record error aliases and stale-return help are clarified.
+  The initial core attempt stops on a concurrently changing generated
+  understanding-draft schema; after its owner finishes generation, the schema
+  check passes. Corrected `python3.13 scripts/verify.py --scope core` runs 765
+  tests: 761 pass, four Windows-only skips, no failures, exit 3 (incomplete
+  platform coverage). After the final draft-list target-prefix adjustment,
+  all 18 authoring tests pass again. Docs scope passes all 67 Markdown files
+  and tracked whitespace. Documentation impact: implemented
+  product/design behavior, developer controls, validation and this plan;
+  no accepted ADR, history schema, protected authority or storage change.
+  Project/result entry, interpretation creation, linked work, draft-plan
+  scenarios and durable recovery remain separate increments.
+
+- [x] 2026-09-28 KST - Complete the independent R3 contextual-topic and
+  partial-explanation increment after freezing its
+  [contract](#partial-explanation-draft-contract). `PaperUnderstandingSession`
+  retains unfinished text and an explicit reference to the original rationale,
+  reconstructs owned snapshots and preserves the writing-time basis after source
+  changes. Explicit rebinding neither completes answers nor grants authority.
+  Establish the missing-module failure, then the empty-draft validation failure;
+  permit blank text only where the schema explicitly opts in. The 44 focused
+  explanation/work/review/debt checks pass. Core runs 762 tests: 758 pass, four
+  Windows-only skips, no failures, exit 3 (incomplete platform coverage).
+  Actual pinned Opus review finds no blocker; audit all nine pre-existing
+  schemas and add scoped-topic, historical-binding, Unicode and escaped-size
+  checks. All 16 explanation tests pass after those follow-ups; generated schema
+  checking and the documented reconstruction example also pass. Final docs scope
+  checks all 67 Markdown files and tracked whitespace. Detailed review
+  scope and limitations are below. Documentation impact: domain projection,
+  developer API, product availability, saturation oracle and this plan; no
+  accepted history/authority schema or ADR change. TUI, protected persistence
+  and accepted closure remain separate owners/dependencies.
+
+- [x] 2026-09-28 KST - Implement and review the independent R3 understanding
+  return service in `application/paper_service.py` and `test_paper_work.py`.
+  An existing conditional item reopens in its explicit project with stable
+  original post-merge context, current paper context and retained judgments /
+  contributions. Head, evidence and history changes remain distinct; no accepted
+  Debt, cause review or closure is invented. Keep TUI and authoring with their
+  active owner. Establish the missing-method failure, then pass the initial 30
+  focused tests. Actual pinned Opus review identifies a combined-size risk;
+  reproduce it with an otherwise valid 118,589-byte history and 254,375-byte
+  current view. Add a failing regression, bind bounded component hashes without
+  truncating content, and strengthen later-cause, bundled-example and isolated
+  evidence-correction coverage. The 32 focused tests pass. Final core checks
+  run 739 tests: 735 pass, four Windows-only cases skip, no failures, exit 3;
+  this is incomplete platform coverage, not a clean full-platform pass. A
+  second actual Opus review finds no material runtime defect in the fix; apply
+  its component-verification wording/test correction and rerun that test.
+  Scope, snapshot hashes and remaining limits are recorded in the
+  [return-service result](#understanding-return-service-result).
+  Documentation impact: implemented domain projection, developer API, relevant
+  product/validation availability and this plan; no accepted schema/ADR change.
+
+- [x] 2026-09-28 KST - Cross-review the understanding-debt amendment with
+  actual Claude Opus and replan the remaining work. The first fixed packet
+  verifies `claude-opus-5-5` / first-party success with no permission denials.
+  Check its five findings against schemas and code; retain the accepted
+  transitive AI-origin rule instead of the reviewer's proposed narrowing.
+  The [reviewed order](#reviewed-implementation-order) keeps authoring with its
+  active owner and makes conditional explanation return the next independent
+  non-UI increment, followed by protected durability and complete-loop gates.
+  The second fixed-packet review verifies the same model/provider and success;
+  no material blocker remains for those bounded synthetic services. Incorporate
+  its selection, provenance and identity clarifications after local inspection.
+  During review, the other stream added `project_paper_draft` and its tests;
+  the 17 draft-projection/final-review tests pass locally. This is observed
+  concurrent work, not an implementation or full result review by this task.
+  Docs scope passes 67 Markdown files and tracked whitespace. Documentation
+  impact: execution plan and its index only; this task changes no runtime,
+  schema, TUI, accepted ADR or release policy.
+
+- [x] 2026-09-28 KST - Complete initial T3a/T5a ownership and the first T2a
+  authoring slice: existing-node work owns session-only manual claim/subclaim
+  and scientific-link drafts. Shared domain validation supplies a graph before
+  judgment completion; final review still requires complete judgment/reason.
+  Creation/edit/removal, explicit source refresh, owner return, stable draft
+  aliases and candidate revisions preserve evidence/history and invalidate
+  scientific/branch/child-merge review. Unkeep retains incomplete text separately;
+  omission survives editing and unkeep/re-keep. Candidate fields never become
+  checkpoint targets. New plan measurement forms, project/result intake, linked
+  judgment identity and durable candidate recovery remain unfinished.
+  Actual Mac Terminal 144×42/80×24 views show draft node/edge markers and shared
+  evidence. A real PTY exercises manual creation, Korean paste, resize and
+  clean shell restoration. This is not SSH/physical-IME/human-comprehension proof.
+  Final `python3.13 scripts/verify.py --scope core` runs 739 tests with 735
+  passing, no failures and four Windows-only skips (exit 3: incomplete platform
+  coverage). After the final review corrections, 103 focused candidate/action/
+  scientific/branch/unfinished-writing/actual-PTY tests pass. Docs scope checks
+  all 67 Markdown files and tracked whitespace. Documentation impact: product
+  behavior, domain/workspace design, terminal commands, validation and this plan;
+  no accepted ADR, history schema, protected writer or release gate changed.
+  Two fixed read-only packets were reviewed by actual `claude-opus-5-5`, medium
+  effort, first-party success, one turn each, no tools/MCP/skills/settings/session
+  persistence or permission denials. First packet SHA-256
+  `6b4dd25148d20e916526182eb5a92466d2b656d72eed6eb86601cf304583e4c2`;
+  corrected packet `ba6aac9e4f1d1dc3969707edff2b128f2f7822ca7c333cfb07dfb479e6b8cb77`.
+  Reproduced and fixed omission loss, existing-form field-policy inconsistency,
+  hidden unkept scope, source-refresh disclosure, unfinished dependencies and
+  nullable browsing. Added unkeep, readable aliases, cached node lookup and UTF-8
+  byte feedback. The follow-up's unkeep/re-keep omission finding reproduced and
+  is fixed/tested. Its claim that nullable scope or thesis amendments are valid
+  was false: direct domain projection and final review both reject null scope,
+  and the thesis seed is not an editable amendment. Added explicit regression
+  checks rather than weakening those contracts. Source updates already clear
+  session review; an extra completion binding check retains consistency. No
+  acceptance/recovery bypass was identified in the follow-up review.
+
+- [x] 2026-09-28 KST - Review the understanding-debt discourse against the
+  current R/TUI plan and implementation. Compare ADR 0005, product journeys,
+  domain/workspace designs, saturation oracles and the earlier product/plan
+  rationale. The [alignment review](#understanding-debt-alignment-review)
+  records the missing return-and-closure journey and proportional review
+  contract, with bounded work assigned to existing R3/R4/R7 and T4/T5/T7.
+  The 24 focused review, closure and conditional-work tests pass; they prove
+  candidate rules, not accepted persistence or human comprehension.
+  Documentation impact: execution review and acceptance sequencing only.
+  No runtime, TUI, accepted ADR or release threshold changes.
+  `python3.13 scripts/verify.py --scope docs` passes all 67 Markdown files
+  and tracked whitespace.
+
+- [x] 2026-09-28 KST - Implement T1b named contextual actions and actual
+  `demo tui --ai-off` capability. Manual writing and review reuse existing
+  handlers; unavailable creation explains its boundary before any editor.
+  AI-off propagates through the workspace and both comparison adapters, and
+  blocks request entry without erasing source AI. Default assistance stays an
+  explicit fixed example, available before a complete judgment. Add the user's mandatory canonical
+  rereading rule after every context compaction to the shared agent guide and
+  native harness. No accepted writer, candidate ownership or storage changes.
+  Two bounded static cross-reviews report actual `claude-opus-5-5`, medium
+  effort, with safe mode, tools/skills/hooks/plugins/MCP/settings disabled and
+  no session persistence. Initial snapshot: 161,836 bytes, SHA-256
+  `34802a2c3d33f92ed262a358f50ed7490a27d621af7eada45378ef866dcb0584`;
+  follow-up: 43,119 bytes, SHA-256
+  `ac9d9e3854aea58319a43c61d4aef071989899a441c8598bbe2b342729141261`.
+  Reproduce/fix Work-scoped shortcut disclosure, disabled-row cues, missing
+  source ellipsis, empty unfinished entry and clipped help/quit. The follow-up
+  confirms those changes and finds a narrow-proposal footer disclosure loss;
+  fix it, retain menu notices locally and verify current-global-evidence text
+  alongside the AI badge. Omitted CLI/PTY tests in the first review packet were
+  not missing repository coverage; PTY expectations inspect new output, and
+  normal keep already replaced the older menu message. Remove that stale
+  message anyway. No third independent approval is claimed.
+  The initial TUI run exposed an exercise using Work's A key outside Work;
+  correct the journey to w/A without broadening shortcut behavior. Targeted
+  tests and actual PTY pass; named branch/merge routes also pass an agent-run
+  active-example check with unchanged source history. Inspect actual macOS
+  Terminal menus at 80×24 and 144×42; automated checks include 48×18 and paused
+  smaller sizes. Final core run: 703 tests, 699 passing and four Windows-only
+  skips, no failures, exit 3 (incomplete platform coverage). Its 198 TUI checks
+  include 26 actual-PTY tests, all passing. Documentation checks pass for 67
+  Markdown files and tracked whitespace. Windows WebAuthn/AppContainer and
+  two junction cases, live SSH/Linux, physical IME and unfamiliar-researcher
+  understanding remain separate evidence. Temporary packet/logs/screens are
+  under `/tmp/claimbranch-t1b-20260928-fa00lo0c`; canonical behavior belongs in
+  product, workflow, design and validation docs. Next: T3a/T5a contract
+  comparison before T2a candidate authoring.
+
+- [x] 2026-09-28 KST - Recheck product intent after the user challenged the
+  Apple-account/distribution premise. Read the complete product specification,
+  release scopes, ADRs 0001–0014, domain/workspace designs and saturation
+  oracles, then compare the original Dream state and current R/TUI execution
+  sections. Withdraw the unaccepted signed-binary recommendation and team
+  availability question in the [package decision packet](#mac-package-and-custody-decision-packet).
+  This restores the existing source-delivery scope; no accepted ADR, runtime,
+  account or TUI implementation changes. The read-only public doctor still
+  returns `prototype-only` / exit 3, with protected acceptance, private research,
+  manuscript writes and live AI unavailable. This is intent/execution review,
+  not another completed R implementation or an end-to-end product result.
+  Documentation impact is limited to execution state and external-reference
+  applicability. `python3.13 scripts/verify.py --scope docs` passes all 67
+  Markdown files and tracked whitespace. No runtime code changed, so no new
+  implementation-suite or native-authentication result is claimed.
+
+- [x] 2026-09-28 KST - Implement T1a contextual judgment writing. Work shows
+  recorded subject/conditions before judgment and reason, with important
+  review/length/unfinished/AI state visible before long text. The editor uses
+  a source column at wide sizes and a compact strip at narrow sizes; Ctrl+O
+  reads full recorded context without opening artifacts, changing ownership,
+  keeping text or replacing edit buffers. Return preserves cursor, field and
+  undo. Tiny-screen input pauses with one-Esc retention/exit. Episode/current
+  global evidence, hypothetical context, AI origin and save failures remain
+  visible. Compare graph-plus-editor against focused writing using the same
+  manual and novel synthetic histories; inspect Mac Terminal at 144×42 and
+  80×24. The current preview is synthetic, and earlier Terminal windows are
+  preserved. No source fixture, accepted state, provider or persistence format
+  changed. Documentation impact: product interaction, living design, terminal
+  workflow, validation oracle and this plan.
+  Initial tests reproduced missing source/peek and hidden tiny-screen input.
+  Two fixed-source reviews ran actual `claude-opus-5-5`, medium, first-party
+  provider, safe mode, no tools/skills/hooks/plugins/MCP/settings or session
+  persistence; runtime JSON verified that model, success and no denials.
+  Reproduce and fix the three first-pass context/recovery/tiny-Esc findings.
+  The second pass confirmed those fixes and identified additional leading
+  status, source-hint and minimum-width disclosure issues, now locally fixed
+  with regressions. Its conditional background concern was checked against
+  the actual palette (top styles use canvas background); its resize concern
+  does not apply because Terminal handles resize/interrupt before modal input.
+  Longer alias speculation was bounded by existing generated node labels;
+  actual minimum-width state visibility is tested. No third approval is claimed.
+  Intermediate core runs exposed a real prepared-review visibility regression,
+  a raw incremental-PTY matching assumption, and an over-eager title shortening
+  at 62 columns; all are repaired without dropping existing assertions.
+  Final `python3.13 scripts/verify.py --scope core`: 691 tests, 687 passes,
+  four Windows-only skips, no failures; exit 3 is incomplete platform coverage.
+  All 187 TUI checks pass, including 25 actual-PTY checks. Final documentation
+  checks pass for 67 Markdown files plus whitespace. Physical IME, live SSH/
+  Linux, unfamiliar-user observation and protected own-project work remain
+  separate gates. T1a is complete; T1b named actions/AI-off launch is next,
+  so the combined first milestone below remains unchecked.
+
+- [x] 2026-09-28 KST - Verify the user's cleanup and resume one native isolation
+  measurement. Both old `a7f594ee3ae24a35b25caad3a2c7e0fb` paths were absent,
+  and the preflight found no remaining probe resources. The actual run then
+  observed baseline file read/write/network access, all three Sandbox denials
+  (`EPERM`), and unchanged protected synthetic bytes. Access evidence is now
+  retained separately from cleanup. The new exact container
+  `org.claimbranch.sandboxprobe.ac14d69bb02b449ca6e96c2f185a9807` remained after
+  automatic cleanup returned `EPERM`; its Application Scripts path was removed.
+  Final status is `cleanup_failed` / exit 1, with `observation_status:
+  denial_observed`. The user subsequently moved that one container to Trash;
+  existence-only checks verify both known identifiers are absent from both
+  locations and no probe-named paths remain. Cleanup is now manually resolved;
+  do not rewrite the earlier automatic-cleanup failure as a passing run. Do not
+  rerun the same access experiment after cleanup merely to obtain another pass.
+  The five isolation contract tests pass. No runtime behavior changed.
+
+- [x] 2026-09-28 KST - Prepare and subsequently withdraw the unaccepted
+  [Mac package decision packet](#mac-package-and-custody-decision-packet).
+  Its recommended signed-binary delivery and initial Apple-team question
+  exceeded the existing source-delivery scope. Preserve the measured native
+  evidence and bounded Opus review as observations, not product-scope authority.
+  The user's correction supersedes that pending question. R2 product custody
+  and R4 persistence remain incomplete; withdrawing this proposal does not
+  complete or waive their accepted authority/recovery requirements.
+
+- [x] 2026-09-28 KST - Complete the revised reopened-key positive human run.
+  All five authentication/dependency files and all three delivery files still
+  match their final Opus-reviewed snapshots. The unchanged `--review` returned
+  `review_observed` (exit 0): explicit authentication, signing dispatch, same
+  public identity across restart, independent signature verification, denial
+  before/after without interaction, and temporary cleanup all succeeded.
+  Product authorization/custody remain false. Do not repeat this positive case
+  or require the earlier non-authoritative cancellation-label discrepancy to
+  block unrelated implementation. Both existing owned Sandbox paths were still
+  present at this checkpoint; later verified cleanup and the one resumed
+  isolation run are recorded above.
+  This increment changes execution evidence only, not runtime behavior.
+
+- [x] 2026-09-27 KST - Expand the human-led TUI plan into bounded delivery
+  increments, named file/service ownership, dependency order, first-patch steps
+  and manual/assisted/failure acceptance scenarios. Run the user-requested
+  Claude Opus plan cross-review twice on fixed source packets. Both runtime
+  results verify `claude-opus-5-5`, success and no permission denials; the second
+  finds T1a ready and identifies later-slice contracts to make explicit. Resolve
+  those plan gaps after checking current code; preserve the distinction between
+  expiring review snapshots and retained candidate amendments. Details and
+  dispositions are in [plan cross-review evidence](#claude-plan-cross-review).
+  This completes planning/review, not any T1–T7 runtime milestone. Documentation
+  and whitespace checks pass for 67 Markdown files; no runtime checks or human
+  usability results are claimed for this documentation-only change.
+
+- [x] 2026-09-27 KST - Add explicit authentication after the fourth reopened-key
+  review. The signature and post-review noninteractive denial verified,
+  but the user reports no second native authentication window appeared. This
+  is neither a cancellation pass nor evidence that a cancellation was ignored.
+  Reuse duration was already zero. Add explicit device-owner evaluation before
+  signing with the same protected-key context, block signing after failed,
+  cancelled or expired evaluation, and deny further implicit interaction.
+  Initial focused native/parser tests passed (22), and actual Opus 5.5 found no
+  confirmed P1/P2. The next human run reported cancellation with no signing and
+  successful cleanup; the user confirms cancelling in the macOS window. Its
+  older coarse `cancel_source` said `review`, so the exact native error/stop
+  trigger was not established. Add bounded callback/trigger diagnostics and
+  cover their race without rewriting that observation. Positive signing after
+  the new explicit-evaluation phase was subsequently observed on 2026-09-28.
+  The earlier mismatch's exact cause remains unknown; it is diagnostic metadata,
+  not an accepted-write capability. API success cannot certify a displayed UI.
+
+- [x] 2026-09-27 KST - Implement and measure the bounded R2 peer/delivery
+  experiment before adding further recovery demonstrations. A native local-socket
+  exchange whose peers are checked from kernel audit tokens against exact
+  role-specific signed code, including runtime hardening. Reject a wrong peer
+  before releasing the bounded synthetic binding; reject changed/replayed,
+  cancelled and expired responses without consumption. Use only temporary
+  ad-hoc signed helpers, no account/profile/Keychain/Sandbox change. Actual OS
+  checks and final fixed-snapshot Opus review pass within this scope. This
+  supplies peer/delivery evidence, not a human receipt or protected store.
+  R2 closure still requires product custody/identity and
+  worker denial; data backup/enrollment integration belongs to R4. The user
+  requested a complete researcher workflow, not repeated completion claims
+  for mechanism experiments. Manual creation of typed scientific nodes and
+  edges is part of that workflow; the TUI's existing-record editor does not
+  yet supply its complete authoring surface. Preserve the other session's
+  UI ownership and record that product gap explicitly.
+
+- [x] 2026-09-27 KST - Turn the requested intent audit into a staged
+  [TUI result-to-judgment implementation sequence](#tui-result-to-judgment-implementation-sequence).
+  Define observable researcher outcomes, working composition, typed authoring,
+  multi-node judgment reuse, capability dependencies and terminal validation.
+  Recheck ADR 0005 and the optional-assistance journey against current adoption
+  and review code after the user's human-authorship clarification. The
+  [design assessment](../../designs/2026-09-22-episode-review.md#human-led-construction-and-understanding-review)
+  records partial alignment and makes incremental manual construction the
+  proposed default, with explicit contextual AI and no comprehension claims.
+  Verification: `python3.13 scripts/verify.py --scope docs` passed all 67
+  Markdown files and whitespace checks. Runtime tests were not rerun for this
+  documentation-only change; no new terminal or human-task evidence is claimed.
+  This is planning/documentation only; the numbered implementation milestones
+  below remain unchecked. Reuse the existing plan and design instead of creating
+  a parallel roadmap, selecting a framework or changing accepted schemas.
+
+- [x] 2026-09-27 KST - Reassess TUI alignment against the original researcher
+  outcome after the user's compaction/drift concern. Reread product/release
+  goals, the Dream state, ADR 0011/0012, the YC source assessment and current
+  adapters; revisit official Heptabase, Kialo, Obsidian, VISAR, Posting and
+  Lazygit sources. The [intent audit](../../designs/2026-09-22-episode-review.md#product-intent-audit-and-next-complete-loop)
+  owns the findings and proposed next slice. Terminal graph orientation,
+  shared evidence and human/proposal boundaries fit the intent. A populated
+  synthetic review flow still lacks entry from an unresolved own-project result
+  and durable return. Direct adapter inspection showed E1's judgment is distinct
+  from its linked claim's draft, the changes picker opens another mutable record,
+  and narrow Work omits the selected source content from its initial pane.
+  These are design friction observations, not data-loss claims or proof of human
+  confusion. Authored fixture captions and bounded volatile draft capacity are
+  not general project support. Recommend one result → judgment → claim/paper
+  consequence → restart loop, with bounded research authoring and optional AI,
+  ahead of further standalone visual controls or unrestricted node editing.
+  Native custody/persistence, manuscript writes and live provider gates remain
+  with their owners; no boundary is waived. Public doctor still reports
+  prototype-only; 144×42/80×24 graph/Work snapshots were inspected without
+  touching existing Terminal sessions. This analysis changes no runtime code,
+  schema or accepted product requirement. Existing design/orientation documents
+  were updated; docs scope passed for 67 Markdown files and tracked whitespace.
+  No fresh full-video playback, unfamiliar-user
+  study or Linux/SSH validation is claimed.
+
+- [ ] 2026-09-27 KST - R2/R4 signed candidate checkpoint implementation and
+  focused result review are complete; stable integrated verification remains
+  pending during the other session's TUI changes. The checkpoint binds exact
+  archive/project/replay/count/identity bytes, requires external signer and
+  checkpoint expectations, and verifies P-256 before publishing reencrypted
+  original signed bytes. The 31 affected tests pass; actual same-host exercise
+  recovered 14 synthetic operations, and installed OpenSSL independently
+  verified the fixture signature. Actual `claude-opus-5-5` reviewed 13 fixed
+  files with no confirmed P1/P2; reviewed hashes remain unchanged. Final core
+  attempt: 668 tests, 663 passes, four Windows skips, one TUI error (exit 1).
+  That case passes against the updated source, but the entire moving checkout
+  has no clean integrated result. Do not equate this with a recovery-code
+  defect or stop its independent verification; do not edit the other session's
+  TUI. Documentation impact: contributor commands, primary API inputs and
+  result evidence. Actual enrollment/custody and accepted-history recovery
+  remain outside this completed bounded mechanism.
+
+- [x] 2026-09-25 KST - Continue the TUI beyond visual polish: connect node-bound
+  judgment drafting, explicit offline proposal review/adoption and selected
+  scientific change review through the existing paper services. Preserve
+  human/AI contributions, before/after effects, Not now and manual continuation.
+  Keep proposal-influenced work visibly volatile: ADR 0013's text-only checkpoint
+  cannot restore its provenance, so it must not flatten that text into a recovered
+  manual judgment. Test both paths, stale/cancelled replies, checkpoint boundaries
+  and real PTY keys; obtain bounded Opus review. Documentation impact: interaction,
+  developer commands, acceptance and execution evidence. Cumulative episodes,
+  conditional manuscript work and production project custody remain distinct
+  unfinished integrations; the previous completed item covered compact layout.
+  Implementation and documentation landed on 2026-09-26; the required independent
+  review was completed in the September 27 unfinished-review increment below.
+  The Work reader now calls
+  `PaperDraftSession` for node-bound drafts, explicit context/request/adoption,
+  selected changes and exact completion. Keyboard pickers author existing
+  scientific fields; comparison graphs use the service's before/after values.
+  Notes and original history stay separate. Text-only recovery excludes adopted
+  AI edits and retains the prior manual checkpoint with a visible loss notice.
+  Initial adapter checks failed at the missing integration. Reproduced and
+  corrected graph-comparison return drift, oversized Korean text crashing the
+  narrower service boundary, and a changed-record picker returning to the wrong
+  row. Twelve initial TUI outcome/UI checks plus two long-text regressions and
+  two real-PTY journeys cover these boundaries. Final TUI discovery passes 102
+  tests. Core scope ran 582 tests: 578 passed, four Windows-only tests skipped,
+  no failures (exit 3); docs/fixture/whitespace checks passed. This is incomplete
+  platform coverage, not a clean all-platform pass. A new disposable Mac Terminal
+  window at 144 × 42 was visually inspected; no input was automated into existing
+  user-controlled previews. It shows selected field differences beside the graph.
+  The bounded `claude-opus-5-5` snapshot request returned `is_error: true` with
+  ENOTFOUND; the resumed retry timed out after 240 seconds without a review.
+  Neither is an independent assessment and no substitute model was used.
+  The September 27 Opus assessment closed that earlier review gap, reproduced
+  findings and reran affected checks. Actual Linux/SSH,
+  physical Korean IME, assistive technology and human understanding remain open.
+  The [terminal workflow](../../development/workflow.md#terminal-paper-prototype)
+  owns the keys and limits; the
+  [living design](../../designs/2026-09-22-episode-review.md#connect-judgment-to-scientific-review)
+  owns the interaction choices. No authority, production storage or schema
+  decision changed.
+
+- [x] 2026-09-25 KST - Implement the bounded ADR 0014 recovery dependency without
+  reopening authentication windows: a bounded candidate-history archive and
+  real authenticated encryption/decryption through CryptoKit in separate
+  processes. Preserve exact seed/command bytes and verify replay, project and
+  an independently supplied manifest expectation before exposing recovered
+  state. Use disposable random recovery/local keys, encrypted files in an owned
+  temporary directory outside Git, and no-clobber publication. Reject wrong
+  keys, tampering, version skew, cross-project input and interrupted restore;
+  keep both accepted authority and cross-device/custody claims false. The 17
+  focused tests pass; an omitted expected manifest was reproduced and fixed
+  before review. The actual exercise restored the 14-operation synthetic
+  history and observed all rejection/preservation oracles with cleanup. Actual
+  pinned Opus review found no confirmed P1/P2. Core scope ran 566 tests with
+  562 passes, four Windows-only skips and no failures (exit 3). The
+  [R2 recovery evidence](#r2-preparation-tied-to-durable-research-use) records
+  remaining product and crash limits. Documentation impact: recovery experiment protocol, native
+  contributor commands and primary crypto references. TUI and production
+  enrollment/store integration remain excluded.
+
+- [x] 2026-09-25 KST - Implement the accepted smaller-node overview review:
+  default full map, source-grounded compact cards, selected-node context,
+  on-demand/pinnable reading, fit/reset and explicit local neighborhoods with
+  honest visible/hidden counts. Retain typed directions, shared identity,
+  personal notes, exact return state and the terminal lifecycle. Verify the
+  10-node journey across sizes and a connected 50-node projection, inspect an
+  actual terminal preview, obtain bounded actual Opus review, and update the
+  living docs. Documentation impact: product interaction, design, terminal
+  commands and validation; no authority, schema or platform-stack change.
+  Other active R2/backend work is outside this increment.
+  The [living design](../../designs/2026-09-22-episode-review.md#graph-overview-density-review)
+  owns composition and content decisions; the
+  [terminal workflow](../../development/workflow.md#terminal-paper-prototype)
+  owns keys and limitations. Initial outcome checks failed for map coverage,
+  local scope, fit and optional reading. Final focused verification passes all
+  86 TUI tests. Real-PTY coverage includes local/global scope, pin, fit, return,
+  resize, editing, paste and shell restoration; it caught the newly added keys
+  missing from the run-loop allowlist, which direct handler tests had missed.
+  Connected 50-node/83-edge checks preserve shared identities, scope counts,
+  endpoint directions and routes outside card interiors. Layout geometry is
+  reused across selection changes. A warm compose-only measurement at 144 × 42
+  has a 2.83 ms median over 40 alternating selections; this excludes terminal
+  output/network time and is not an SSH benchmark.
+  Actual `claude-opus-5-5` reviewed two fixed code/frame snapshots with medium
+  effort, tools/MCP/settings/skills disabled and no session persistence. Both
+  results report success, the requested canonical model and no permission
+  denials. Reproduced and fixed pin preference rollback, misleading shared
+  horizontal legs, reciprocal vertical-arrow overlap and ambiguous label/count
+  placement. Regression checks cover those concrete failures; j/k scope escape
+  and unsupported tiny direct renderer calls were not reproduced through the
+  supported application path. Exact labels defer visibly to the relation reader
+  when they cannot sit beside their own route. Adjacent vertical connections
+  use a side route for reciprocal pairs; incoming/outgoing ports stay distinct.
+  Mac Terminal inspection at 144 × 42 shows all ten nodes and the example E1
+  note marker; the new compact-graph window is left open for the user. No keys
+  were automated into user-controlled preview windows.
+  `python3.13 scripts/verify.py --scope core` completed 549 tests: 545 passed,
+  four Windows-only tests skipped, exit 3; this is incomplete platform coverage,
+  not a clean full-suite pass. Documentation and whitespace checks passed.
+  Actual Linux/SSH/tmux, physical IME, assistive technology and human paper-scale
+  understanding remain unverified; authored compact captions cover the frozen
+  synthetic example, with source-excerpt fallback for other statements.
+
+- [x] 2026-09-25 KST - Record the user's selected device-replacement recovery
+  policy in ADR 0014 and implement R2's explicit human-operated test-key
+  preparation before the separate reconstruction review. All 22 focused tests
+  pass; actual pinned Opus review found no confirmed P1/P2. Three real runs
+  reopened the same key across processes, verified the resulting signature,
+  denied noninteractive signing before/after review and cleaned their temporary
+  data. The user confirmed approving native authentication in both runs that
+  had been intended for cancellation. All three results are signing
+  observations; actual cancellation remains unobserved. No fourth native run
+  was launched. Product authority
+  and custody flags remain false. Final core regression ran 542 tests with
+  538 passes, four Windows-only skips and no failures (exit 3); the initial
+  failures during the other session's TUI changes no longer reproduce. See
+  [the scoped evidence and remaining gates](#r2-preparation-tied-to-durable-research-use).
+  Documentation impact: accepted recovery policy, product/release gates,
+  native contributor commands and execution evidence; TUI remains excluded.
+
+- [x] 2026-09-25 KST - Review the user's smaller-node TUI direction before
+  implementation. Compare current/compact/full-graph compositions with an
+  isolated geometry experiment on the same synthetic paper, at 144 × 42,
+  120 × 30 and 80 × 24, selecting T and E1. Preserve application behavior and
+  the other session's backend R work. The
+  [density review](../../designs/2026-09-22-episode-review.md#graph-overview-density-review)
+  owns measurements, trade-offs and the proposed next slice; raw temporary
+  frames are not project truth. Documentation impact is design/evidence only,
+  with no implemented product contract or architecture change. Baseline
+  `python3.13 -m unittest discover -s tests/application -p 'test_tui*.py'`
+  passes all 68 tests. Actual `claude-opus-5-5` reviewed a fixed prompt with
+  three fresh plain frames and measured/code-derived constraints, medium
+  effort, tools/MCP/settings/skills disabled and no session persistence;
+  runtime reports success, the requested canonical model and no permission
+  denials. It did not operate the terminal or assess actual color contrast.
+  Confirmed concerns: small cards lose distinguishing source content to notes,
+  typed labels wrap, plan state clips, and fit counts do not prove usability.
+  Its suspicion about E1's quantization conditions was checked against the
+  fixture: these are the shared run conditions, not invented observation
+  content. Future reading should label that scope clearly. Do not adopt its
+  untested edge-direction layout suggestion as a replacement for the thesis
+  hierarchy. Next design work is a map-first, content-aware overview with
+  truthful edge labels and on-demand reading, followed by a connected large
+  paper task; this review did not implement that proposal or validate SSH.
+
+- [x] 2026-09-25 KST - Implement preparation for the next R2 outcome: explicit foreground
+  approval/cancellation after reconstructing the same disposable Secure Enclave
+  key in another process. Today's noninteractive rerun reached the earlier
+  incomplete tamper result; it did not reproduce yesterday's creation error.
+  Bind the fixed displayed review, key identity and a fresh challenge; verify
+  the resulting signature independently and check that fresh noninteractive
+  signing remains denied. Reject cancellation, expiry, changed identity and
+  late completion without publishing a signature. Use owned temporary files,
+  no container or existing credential, and leave product authority/custody
+  false. Test without human gestures first, obtain actual Opus review, then
+  request the person's native interaction for the prepared bounded exercise.
+  TUI integration and its now-existing draft checkpoint remain separately owned.
+  Documentation impact: native probe commands/evidence and the Mac reference;
+  recovery policy remains pending the user's answer. All 20 focused tests pass;
+  core scope ran 529 tests with 525 passes, four Windows-only skips and no
+  failures (exit 3). Actual Opus 5.5 found no confirmed P1/P2. The subsequent
+  explicit `--review` attempt stopped at key creation with OSStatus `-25308`
+  before any window or authentication request; no automatic retry followed.
+  Code preparation is complete, but the human approval/cancellation observation
+  and R2 protected-write gate remain incomplete. See
+  [the result evidence](#r2-preparation-tied-to-durable-research-use).
+
+- [x] 2026-09-24 KST - Implement the user's accepted TUI review remedies:
+  stable wide graph/reader composition and explicit narrow reading, precise
+  return state, named cards/connections, unambiguous overlaps, compact reader
+  ordering, faster input/rendering, reversible editing and shell continuity.
+  Add opt-in private draft recovery outside Git, separate from accepted state;
+  preserve the default disposable demo. Exercise the shared-E1 journey, small
+  screens and a larger synthetic projection, then obtain an actual pinned
+  Opus review and show a fresh terminal preview. Documentation impact: product
+  interaction, recovery boundary, design, terminal workflow and validation.
+  Production framework selection remains a measured comparison, not a Rust
+  or Textual migration implicit in this UX change. Existing backend R work
+  belongs to the other active session and is excluded from this increment.
+  Implemented behavior and keys live in the
+  [terminal workflow](../../development/workflow.md#terminal-paper-prototype);
+  the recovery boundary is [ADR 0013](../../architecture/decisions/0013-terminal-draft-recovery.md).
+  The design records the [composition decision](../../designs/2026-09-22-episode-review.md#terminal-workflow-refinement).
+  Initial outcome tests reproduced five missing behaviors before changes.
+  Focused final verification passes 68 TUI tests, including a real controlling
+  PTY with an interactive shell and waiting launcher: suspend returns to a
+  working shell command, `fg` resumes after resize, and clean exit restores
+  the appropriate host state. Default direct-PTY tests still compare every
+  original terminal mode; a controlling shell's own line editor and final
+  PTY hangup require command/resume checks rather than a post-hangup read.
+  A first new shell test incorrectly waited without draining output and then
+  tried to read a hung-up controlling PTY; the test adapter was corrected.
+  Actual Mac Terminal inspection covers 120 × 30 before auto-compaction and
+  the final 144 × 42 graph/reader. The latter preview stays open for the user;
+  no automated keystrokes were sent to their live window.
+
+  Actual Claude Code Opus 5.5 reviewed a fixed source/capture copy (16 turns),
+  followed by a bounded excerpt-only review (one turn). Both runtime results
+  identify canonical `claude-opus-5-5`, success and no permission denials.
+  Opus ran no tests. Reproduced findings led to atomic Alt-key handling,
+  unchanged-cancel preservation, search/view return, visible checkpoint
+  errors, shared-port counts, labels avoiding strokes, per-gap routing and
+  discoverable unfinished writing. The follow-up identified stopping only
+  Python under a waiting launcher; the final implementation guards foreground
+  job control and stops the complete job, verified by the shell/launcher test.
+  Prefixes indistinguishable from incomplete escape sequences remain subject
+  to conservative sequence consumption. Shared routing remains explicit;
+  neither a dense graph's legibility nor actual SSH was certified.
+
+  Same-host private-PTY measurements over the synthetic 10-node/15-edge paper,
+  with Python 3.13.15 and recovery disabled: at 156 × 48 median node selection
+  is 4.42 ms (24 events), short Korean note input 4.09 ms (13), and 10,000-character
+  note input 5.92 ms (6); the single bare-Esc sample is 44.25 ms. The earlier
+  baselines were approximately 14.3, 14.84, 22.02 and 1,173 ms respectively.
+  Forty queued navigation keys complete in 263 ms versus the earlier 580 ms.
+  At 271 × 66 the corresponding current values are 8.02, 7.81, 10.43 and
+  52.93 ms, with the burst at 288 ms. Layout/composition also changed; this is
+  interaction evidence, not an isolated language/framework comparison or a
+  production latency guarantee. The 50-node projection proves identity/bounds
+  only. Physical IME, remote Linux/SSH/tmux, assistive technology, unfamiliar
+  researcher comprehension and production custody remain unverified.
+  Final `python3.13 scripts/verify.py --scope core` completes 520 tests:
+  516 pass and four Windows-only checks skip, so the runner correctly exits 3
+  with incomplete platform coverage, not a clean full pass. Final docs scope
+  passes `check_docs.py` for 66 Markdown files and whitespace checks. Product,
+  design, workflow and validation were updated in their existing canonical
+  homes; the nearest ADR index links the new recovery decision. Unrelated
+  source/backend changes were preserved; no commit, deployment or journal
+  operation was performed.
+
+- [x] 2026-09-24 KST - Implement and review the independent R2 encrypted-key
+  reconstruction measurement, retaining the user's TUI-integration exclusion.
+  Observe valid cross-process public identity and noninteractive signing denial;
+  retain the failed tamper expectation as incomplete evidence. Actual Opus 5.5
+  found one P2 error-classification defect; reproduce four cases, fix and obtain
+  focused re-review with no remaining confirmed P1/P2. All 11 focused tests
+  pass. Core scope ran 510 tests: 506 passed and four Windows-only skips
+  (exit 3); the final correction is covered by the focused rerun. The final
+  explicit native attempt stops at key creation with OSStatus `-25308`, without
+  prompting or retrying. R2/R4 are not complete. Details and the next gate are
+  [below](#r2-preparation-tied-to-durable-research-use). Documentation impact:
+  contributor commands, Mac reference applicability and execution evidence.
+
+- [x] 2026-09-23 KST - Compare five TUI references and independently assess
+  ClaimBranch's graph/reading workflow with actual Claude Opus 5.5. Inspect
+  fixed upstream source, public examples, two prior terminal captures and six
+  fresh renderer views. Reproduce viewport movement, hidden claim uses,
+  Enter/Esc return semantics and unrelated edges sharing junction glyphs.
+  Cross-check Opus's recommendations against those observations and the user
+  contract; both review results identify `claude-opus-5-5`, success and no
+  permission denials. Keep proposed remedies, reference links, corrections
+  and untested conditions in the
+  [living design](../../designs/2026-09-22-episode-review.md#comparative-tui-review).
+  Documentation impact: design assessment and this plan only; runtime and
+  product contracts are unchanged, and no framework is selected. Docs scope
+  passes for 65 Markdown files and whitespace. Next proposed UI slice: E1's
+  two claim uses and note editing with stable orientation across terminal sizes.
+
+- [x] 2026-09-23 KST - Diagnose the user's TUI responsiveness report and check
+  implementation language. Confirm Python/curses with no Rust project; measure
+  frame composition and input-to-refresh in private PTYs, then isolate escape
+  waiting and blank-fill costs in disposable processes. Record measurements,
+  limitations and the proposed next increment in the
+  [living design](../../designs/2026-09-22-episode-review.md#tui-responsiveness-investigation).
+  Documentation impact: design findings and this plan only; no runtime,
+  product contract or framework-selection change. Docs scope passes for
+  65 Markdown files and whitespace. Actual SSH latency remains unmeasured.
+
+- [x] 2026-09-23 KST - Add user-requested node notes and repair terminal
+  input/display paths. Notes appear inside cards and in the node reader, with
+  a contextual `n` editor, session-only keep/cancel, branch/node continuity
+  and note search. Preserve Judgment drafts and recorded content. Reproduce
+  stale-size overflow and unknown CSI bytes triggering quit before fixing
+  them; finish queued-input frames, clear pane transitions, park the hidden
+  cursor away from the last row and provide Ctrl+L recovery. Ordinary isolated
+  Enter did not reproduce the user's overlap in the inspected Mac Terminal;
+  record that limit rather than claiming its exact trigger was established.
+  All 46 focused TUI checks pass, including Korean note typing/newlines,
+  cancel, resize, quit restoration and the two reproduced input/display cases.
+  Documentation impact: product notes, terminal behavior/keys, validation,
+  living design and this plan; no schema or accepted-state change. Final Mac
+  Terminal inspection at 156 × 48 shows the Korean note preview inside E1;
+  the reader/pane transition and live resize were also inspected. A longer
+  unknown CSI regression exposed trailing shortcuts after the parser's bound;
+  continued discard fixes that case and the 46 TUI checks pass again.
+  `--scope docs` passes for 65 Markdown files and whitespace. The first
+  `--scope core` attempt stopped at 17 security errors (including subtests)
+  because concurrent R8 tests preceded `OfflineBroker.begin`. After that
+  implementation appeared, a fresh core run completes: contract 173, probes
+  81/2 skipped, validation 42/2 skipped, security 21 and application 167;
+  484 tests total, 480 passed, four Windows-only skips, zero failures. Docs,
+  fixture and whitespace also pass. Exit 3 records incomplete platform
+  coverage, not a clean all-platform pass. No unrelated R8 code was changed.
+  Next: verify the user's terminal symptom after these rendering
+  repairs and refine note reading density; durable notes/AI remain future work.
+
+- [x] 2026-09-23 KST - Complete non-TUI R8 request handling, before R6's
+  source-delivered offline provider exercise. Separate exact consent/dispatch
+  from response arrival so editing, cancellation and manual continuation stay
+  available. Bound and normalize responses, retain attempt/trace identity and
+  reject stale or late adoption. Each increment requires actual Claude Opus
+  review and local reproduction/checks before advancing. Documentation impact:
+  native harness, provider/draft behavior, developer commands and validation.
+  See [scope and acceptance](#r8-split-request-and-response-handling).
+- [x] 2026-09-23 KST - R6 offline provider exercise: deliver five independent
+  synthetic request journeys through the CLI and extracted source ZIP. Verify
+  explicit successful adoption, cancellation, edited-context arrival, expiry
+  and refusal/manual continuation with source and provenance retention. Run a
+  separate Opus review and fix its reproduced question-in-request P2. Opus
+  re-review confirmed the fix. Final integrated regression: 664 tests in
+  103.706 seconds, 659 passed, five Windows-only skips, zero failures (exit 3).
+  Schemas/runtime resources are current; docs and tracked/untracked touched
+  whitespace pass. See [implementation and review](#r8-split-request-and-response-handling).
+
+- [x] 2026-09-23 KST - Continue non-TUI R work: reconstruct outstanding
+  conditional manuscript/understanding work from cumulative candidate history,
+  then connect a complete wording draft and supplied marked source bytes to an
+  exact, expiring manuscript review. Keep real R2/R4 custody/store execution
+  blocked at its existing prerequisites. Documentation impact: candidate work
+  projection, manuscript review API and validation. No TUI control integration.
+  Full regression ran 644 tests: 639 passed, five Windows-only skips, zero
+  failures (exit 3). Both CLI/source-ZIP routes include the follow-up. See
+  [implementation and evidence](#r3-and-r5-outstanding-work-and-manuscript-review).
+
+- [x] 2026-09-23 KST - Implement the selected visual graph's direct-neighbor
+  emphasis and research the node reading panel. Focus brightens only the
+  selected node, direct endpoints and incident edges; an exact-edge focus
+  respects relation identity and the current lens. The new regression checks
+  failed before implementation; all 41 focused TUI checks now pass, including
+  actual PTY navigation, Unicode drafts, resize and exit. Mac Terminal at
+  156 × 48 shows E1's four neighbors bright with unrelated cards still readable.
+  The living design records the inspected Heptabase/Obsidian/Kialo/VISAR patterns
+  and proposes Content with personal writing, Connections and optional scoped
+  AI suggestions. The panel redesign remains proposed. Documentation impact:
+  product focus behavior, terminal oracle/guide, living design and this plan;
+  no domain, schema or authority change. Final source/presentation review and
+  `--scope docs` pass (65 Markdown files and whitespace). This presentation-only
+  slice uses the focused TUI suite; broader core and Linux/SSH/human reading
+  gates were not rerun. Next design slice: compose the existing
+  source/draft/rationale into the proposed node page before adding AI adapter
+  integration.
+
+- [x] 2026-09-23 KST - Repair CR-01/CR-02, then implement R3 draft-to-branch
+  candidate staging and its connection to the exact cumulative merge review.
+  Both triggering regressions failed before the fixes; 24 focused checks now
+  pass. Preserve the concurrent TUI's node/ref/episode contract and controls.
+  Documentation impact: draft recovery, cumulative candidate semantics,
+  contributor APIs and validation. Full verification ran 626 tests: 621 passed,
+  five Windows-only skips, zero failures (exit 3, incomplete platform coverage).
+  Chrome recovery/keyboard/reflow passed at 1440 and 390 pixels; schema/runtime
+  resource checks passed. See [the increment](#r3-draft-to-branch-candidate).
+
+- [x] 2026-09-23 KST - Replace the default terminal outline with a visual
+  graph canvas after the user requested spatial nodes and edges. Draw each
+  record once, route actual typed/directed relations and show shared evidence
+  with several connections. Keep Argument/Evidence views, approved spacing,
+  full reading/edge inspection and an outline comparison toggle. Verify graph
+  identity/edge coverage, navigation, small-view panning, Korean drafts and real
+  terminal rendering. Documentation impact: product interaction, terminal
+  oracle, launch controls and living design; no new scientific state. Thirty-eight
+  focused TUI checks pass, including unique shared boxes, complete edge keys,
+  recorded endpoints, routes outside node boxes, small-view selection and
+  actual-PTY graph/read/edge/lens/outline navigation with Korean drafts. That
+  journey also runs without color in the core suite. Minimum-height inspection
+  found a cropped selected header and rapid Esc/Enter exposed an undecoded
+  queued control key; both are corrected without relaxing the checks. Actual
+  Mac Terminal inspection at 144 × 46 shows one evidence box with a claim
+  fan-out and the subsequent argument paths. Fresh `--scope core` runs 438
+  tests with zero failures and four Windows-only skips (exit 3, incomplete
+  coverage): contract 173, probes 81/2 skipped, validation 42/2 skipped,
+  security 15, application 127. Documentation checks cover 65 Markdown files.
+  Next: researcher feedback on graph versus outline and larger paper layouts;
+  this iteration does not establish Linux/SSH or human-comprehension gates.
+- [x] 2026-09-23 KST - User-requested R1-R9 cross-review with Claude Opus 5.5.
+  Confirm the exact `claude-opus-5-5` runtime model, review a fixed copy of the
+  current workspace through read-only tools, and reproduce substantive findings
+  against the original. Treat known native/store/release gaps separately from
+  defects in implemented candidate behavior. No fixes or UI edits are part of
+  this review. Fresh full regression ran 608 tests: 603 passed, five Windows-only
+  skips, zero failures (exit 3). Two pinned-model static passes completed; the
+  parent reproduced two P2 defects and distinguished archived hypothetical
+  review from accepted mutation. No new P1 was established. Findings remain
+  documented with subsequent repair status in [coverage and evidence](#r-implementation-cross-review-with-claude-opus-55).
+- [x] 2026-09-23 KST - Implement the user-selected shared-evidence UX: stable
+  evidence labels with distinct claim counts, named typed uses with keyboard
+  follow/return, and Argument/Evidence uses views over the same source. Retain
+  the approved panel spacing, occurrence context, branch-bound drafts and
+  hypothetical state. Verify direct-versus-indirect relationships, view/return
+  navigation, branch changes, terminal resize and unchanged source history.
+  Update product interaction, terminal oracle, launch keys and living design;
+  no schema, scientific record or accepted-state mutation is needed. All 33
+  focused TUI checks pass, including exact shared-use rationale, distinct-target
+  counting, direct-use precedence over longer paths, view/occurrence return,
+  Korean draft retention and real-PTY resize. Mac Terminal inspection at
+  144 × 46 shows both named claim uses beside the evidence-rooted outline.
+  Fresh `--scope core` runs 431 tests with zero failures and four Windows-only
+  skips (exit 3, incomplete coverage): contract 173, probes 81/2 skipped,
+  validation 42/2 skipped, security 15, application 120. Documentation checks
+  cover 65 Markdown files. Next: researcher feedback on these two views and
+  the separate offline-AI/review adapter integration; Linux/SSH and human
+  comprehension remain unverified.
+- [x] 2026-09-23 KST - R3 exact cumulative merge review. Bind the
+  current episode's selected merge to retained source Judgments, exact history,
+  manuscript fingerprint and bounded review lifetime. Supply a volatile adapter
+  with before/after graph data for the concurrent TUI; leave its layout and
+  navigation with the UI owner. First reproduce the missing v3 seal, then test
+  inherited AI, changed selection/source, expiry and candidate-only output.
+  Documentation impact: domain review contract, contributor API and validation.
+  Full regression ran 607 tests: 602 passed, five Windows-only skips, zero
+  failures (exit 3, incomplete platform coverage). See the
+  [result review](#r3-exact-cumulative-merge-review). Native approval, accepted
+  persistence and private research remain R2/R4 gates.
+- [x] 2026-09-23 KST - Increase the gray TUI panels' inner padding and outer
+  black gutters, reclaiming the added space in small viewports. Preserve the
+  existing graph and keyboard behavior. All 24 focused TUI model/CLI/PTY checks
+  pass, including resize, Korean paste, relation navigation and clean exit;
+  inspect the running macOS Terminal at 144 × 46 to confirm the inset headers,
+  selection and footers. Documentation impact: presentation and proposed UX
+  in the [living design](../../designs/2026-09-22-episode-review.md#uiux-baseline-and-next-exploration)
+  and this plan; no domain or product-contract change. Record the next design
+  hypothesis: shared evidence needs named, typed claim destinations and a
+  task-based evidence-use view alongside the default argument outline. That
+  view and its new shared-destination treatment are not implemented yet.
+- [x] 2026-09-23 KST - Implement the next R3 increment: a versioned cumulative
+  paper candidate history with explicit episode open/close, one active episode,
+  retained prior reasoning/provenance, global evidence and replay. Review the
+  concurrent TUI's PaperService contract; provide episode browsing and isolated
+  draft sessions without editing its layout/key handlers. Preserve v1/v2 bytes
+  and expose a separately classified repeated-episode CLI example. Verify
+  stale/cross-episode reviews, partial merges, AI inheritance and historical
+  views. Documentation impact: domain/schema, service workflow, product and
+  validation; protected persistence/authority and V0 eligibility remain separate.
+  Final full regression ran 582 tests: 577 passed, five Windows-only skips,
+  zero failures (exit 3, incomplete coverage). See the
+  [result review](#r3-cumulative-paper-episodes) and the adapter contract there.
+- [x] 2026-09-23 KST - Keep the user-supported TUI color/spacing treatment and
+  replace its flat record list with a thesis-rooted projection of existing
+  typed relations. Show edge kinds/direction inline, keep repeated evidence as
+  references to one node, and preserve occurrence/return context during folding,
+  search, relation inspection and drafting. Verify complete edge coverage,
+  source immutability and actual-terminal interaction. Documentation impact:
+  product interaction, terminal oracle, living design, keys and this plan;
+  no new scientific records or relations. Twenty-four focused checks pass,
+  including a real-PTY edge/search/fold/shared-reference journey and the
+  existing Korean paste, resize, color and exit coverage. Every example relation
+  key is covered on unfold; outgoing attachments and cycles retain their
+  direction/identity and unlinked nodes receive no invented edge. Actual macOS
+  Terminal inspection at 144 × 46 shows the thesis/claim/evidence/run path and
+  labelled parallel edges. Fresh `--scope core` completes 397 tests with zero
+  failures and four Windows-only skips (exit 3, incomplete coverage): contract
+  160, probes 81/2 skipped, validation 42/2 skipped, security 15, application 99.
+  Documentation checks pass for 65 Markdown files and tracked whitespace.
+- [x] 2026-09-23 KST - Revise TUI readability after the user's first visual
+  review: reduce repeated prose, distinguish node/relation types with color and
+  text, add panel/card/section spacing and a bounded reading measure. Compare
+  comfortable/compact density in the actual terminal while preserving the
+  existing scientific state and keyboard paths. Documentation impact: current
+  presentation, terminal validation, launch guide and living design; no new
+  domain or authority decision. Sixteen focused model/CLI/PTY checks pass,
+  including incoming-edge direction, complete rationale, density continuity,
+  eight/256-color output and monochrome input/exit. Actual macOS Terminal
+  inspection at 144 × 42 confirms the color/spacing treatment renders. Final
+  `--scope core` has 375 tests, zero failures and four Windows-only skips
+  (exit 3, incomplete coverage): contract 152, probes 81/2 skipped, validation
+  42/2 skipped, security 15, application 85. Documentation checks passed for
+  65 Markdown files and tracked whitespace. This fresh run resolves the
+  transient TUI failures observed by the concurrent service work below.
+- [x] 2026-09-23 KST - Connect a complete paper draft to selected scientific
+  change review. Reuse ResearchHistory's v2 validation and dependency closure
+  for a disposable before/after projection; distinguish changed dependencies,
+  retained records and omitted amendments. Bind review to exact paper/draft,
+  preserve source and draft provenance, and reject stale/expired scope. Keep
+  protected acceptance and canonical multi-episode mutation unavailable.
+  Documentation impact: service contract, domain limits, validation, contributor
+  commands and this ExecPlan; UI/TUI presentation remains with its other owner.
+  The 28 focused checks pass; full regression has two concurrent TUI failures
+  and five Windows skips. See the [result review](#r3-paper-draft-to-selected-scientific-review);
+  this completes the service increment, not the full integration gate.
+- [x] 2026-09-23 KST - Implement the requested server-terminal prototype:
+  consume the existing synthetic paper service in a dependency-free Python
+  TUI, compare two/three panes, navigate shared evidence and hypothetical impact,
+  and edit volatile judgment drafts. Verify real PTY input/resize/exit plus
+  noninteractive errors, candidate-state immutability and core regression.
+  The user's reason is continuity with experiments in the server/SSH shell;
+  no browser, graphical login or port forwarding should be needed for this
+  prototype. This does not select production server authorization or storage.
+  Thirteen focused model/CLI/PTY checks pass. The full `--scope core` run has
+  348 tests, zero failures and four explicit Windows-only skips (exit 3,
+  incomplete coverage): contract 140, probes 81/2 skipped, validation 42/2
+  skipped, security 15, application 70. Documentation passed for 65 Markdown
+  files; the source-artifact checker also verifies the terminal snapshot.
+  The same three PTY journeys also pass against that ZIP extracted outside the
+  repository, without checkout scripts/tests in the child runtime.
+- [x] 2026-09-23 KST - Incorporate the user's clarification that most work
+  should happen inside an actual terminal. Specify two TUI composition
+  hypotheses and terminal-specific checks in the living design/harness. No TUI
+  framework or optional graphical viewer is selected, and no runtime is changed.
+- [x] 2026-09-23 KST - Implement the next independent R3/R8 connection: exact
+  paper-view selection into bounded scientific context, then a volatile offline
+  draft/proposal service usable by the separate UI adapter. Preserve v1 context
+  bytes; expose metric, conditions, source availability and explicit scientific
+  relationships without inferring evidence from structural parents. Verify
+  stale/cancelled requests, manual continuation and retained AI provenance.
+  Connect both scripted variants to the CLI and independent source artifact.
+  Focused checks pass; final regression evidence is recorded in the
+  [result review](#r3r8-paper-context-and-draft-connection).
+  This does not open R2, protected storage, live transport or manuscript writes.
+- [x] 2026-09-23 KST - Assess CLI/TUI feasibility against the paper service and
+  accepted graph interaction contract. Record positive reference feedback and
+  the open terminal-experience preference in the living design; consult official
+  Lazygit, Posting and Textual sources. This is design research, not a medium
+  decision or runtime implementation. `python3.13 scripts/verify.py --scope docs`
+  passed for 64 Markdown files and tracked whitespace; no runtime result is claimed.
+- [x] 2026-09-23 KST - Reassess the current R work against the original Dream
+  state and current product definition. Record the missing paper-view,
+  scientific-context, durable-resume and useful-AI connections; revise delivery
+  around one complete researcher loop rather than sequential package completion.
+  The separate UI session retains layout/design ownership.
+- [x] 2026-09-23 KST - Continue R2 decision preparation through source/SDK review:
+  identify the entitlement-error class, concrete app/signing prerequisites,
+  peer-identity constraints and distinct data/authority recovery questions.
+  Record the bounded next native verification contract below. This did not
+  select a production stack, create credentials or resolve the cleanup gate.
+- [x] 2026-09-23 - Research comparable argument, canvas and graph/text interfaces
+  using official product pages and research sources. Present candidates for the
+  user's own reference selection; retain that ownership in the design harness
+  and living design. No candidate has been adopted and no UI was changed.
+  `python3.13 scripts/verify.py --scope docs` passed for 64 Markdown files and
+  tracked whitespace; no runtime test result is claimed for this docs-only work.
+- [x] 2026-09-22 - Review and implement the independent non-UI R3 paper candidate
+  extension through the existing research-history owner, a versioned read/
+  scenario service, explicit synthetic fixtures and generated contracts. Preserve
+  original F0 goldens and human/AI provenance. Focused result checks pass;
+  full regression evidence is recorded in the delivery amendment below.
+- [x] 2026-09-22 - Implement R6's independent reproducible source-preview builder,
+  verified runtime resources and isolated artifact launch checks; configure
+  Linux/Mac domain/application/security and packaging CI. The unpacked runtime
+  works without checkout scripts/tests. This is not GitHub publication or a
+  usable own-project release; the remote CI run remains unobserved.
+- [ ] Continue protected R2/R4/R5 integration after the documented native
+  cleanup/key-custody/private-delivery gate is resolved. Keep UI/UX in the
+  user's other session. Windows absence is not the blocker; do not retry the
+  owned failed sandbox experiment or infer authorization from pure candidates.
+- [x] 2026-09-22 21:57 KST - Read the YC article's complete video transcript,
+  inspect representative video frames and the current app, and establish the
+  [UI/UX harness](../../development/uiux-harness.md) with a linked source
+  assessment and a first comparison brief in the existing design. This is
+  research/workflow preparation, not a new paper workspace or visual approval.
+- [x] UI/UX prototype increment - Build and inspect the two actual-terminal TUI
+  candidates specified with the user's confirmed medium preference in the
+  [living design](../../designs/2026-09-22-episode-review.md#uiux-baseline-and-next-exploration).
+  Reuse the R3 synthetic paper example and the same research tasks. ADR 0012,
+  product/validation and the target architecture now express terminal
+  equivalents. This does not establish human understanding or protected writes.
+- [x] 2026-09-26 KST - Terminal episode/ref selection and conditional pending-work
+  navigation are implemented through PaperWorkspace. `--series`, `t`, `W` and
+  related-node navigation retain episode/ref/node drafts, cancelled buffers,
+  pending replies and viewport context. Private manual checkpoints use an
+  episode-qualified v2 format for series; legacy v1 remains unchanged. Review
+  capacity exhaustion preserves manual editing and existing sessions. All 114
+  focused TUI tests pass, including a real colored PTY episode/work/resize/
+  Korean-note journey. A fresh macOS Terminal 144x42 colored graph was inspected;
+  the earlier user window was preserved. `verify.py --scope core` completed
+  594 tests: 590 passed, four Windows-only checks skipped, zero failures;
+  exit 3 correctly reports incomplete platform coverage. Documentation checks
+  pass for 67 Markdown files and tracked whitespace passes.
+  The initial independent review attempt used pinned `claude-opus-5-5`, medium, safe mode,
+  no tools/skills/hooks/MCP/settings or session persistence, over a fixed source
+  snapshot timed out after 180 seconds with no result or verified actual model.
+  That timeout was not an Opus review. Independent assessment and confirmed
+  fixes were completed in the September 27 unfinished-review increment below.
+  No accepted write or live AI is added.
+- [ ] 2026-09-26 KST - Contact type badges replace route words and crossing X
+  clutter, retaining recorded edge identity/direction and exact-edge tracing.
+  S/C/Q and structural codes have a contextual full-name key; mixed ports stay
+  explicit. Wide/narrow/color/no-color PTY checks and the existing large-graph
+  cases pass. Mac Terminal 144x42 evidence-focus inspection shows the new
+  badges and palette. Final core regression: 608 tests, 604 passes, four
+  Windows-only skips, zero failures (exit 3, incomplete platform coverage).
+  Documentation checks pass for 67 files. Pinned `claude-opus-5-5` medium review
+  succeeded with that actual canonical model verified in modelUsage; safe mode,
+  tools/skills/hooks/MCP/settings disabled, fixed source and no persistence.
+  It found shared-port turns/forks could disappear, unlinked/cropped contexts
+  could get misleading labels, and a clipped zero-length route could leave a
+  floating badge. Reproductions failed before the fixes; 12 focused contact
+  tests now pass. Preserve actual common-port first-leg forks, reject badges
+  over turns, and separate in-view painted eligibility from crowding. The narrow
+  key also retains whole entries and a full-key hint. A separate final-snapshot
+  Opus follow-up timed out after 180 seconds with no result/model verification;
+  do not infer independent approval of the fixes from the successful first
+  review. Final core contains 128 passing TUI tests; final Mac Terminal 144x42
+  contact rendering was inspected after the fixes. The review gate stays open.
+  No scientific state changes.
+- [x] 2026-09-26 KST - User rejected contact codes as unintelligible without a
+  key. Full directional relationship phrases now occupy reserved neighbor-card
+  rows. Independent source previews, parallel edge types, exact tracing and
+  stable selection geometry are preserved. Product, workflow, design and
+  saturation acceptance sources are updated; no domain/authority change or
+  new ADR is needed. Initial regressions exposed narrow-view overflow; adaptive
+  width and reclaimed legend space restore the ten-node 120x30 and five-node
+  local 80x24 overview. The eleven-node series was visually inspected in a
+  fresh colored macOS Terminal 144x42 window after final code changes.
+  Final `verify.py --scope core`: 607 cases, 603 passes, four Windows-only
+  skips, zero failures; exit 3 correctly reports incomplete platform coverage.
+  All 127 TUI cases pass, including color/no-color PTY relationship reading,
+  resize and existing Korean input/paste/exit journeys. Strengthened final
+  selection-cache and changed-alias tests also pass in the 127-case TUI rerun.
+  Documentation checks pass for 67 Markdown files; docs scope and tracked
+  whitespace pass. Physical IME, remote Linux/SSH and human comprehension remain
+  unverified.
+  Fixed-snapshot Claude review and bounded follow-up both succeeded with actual
+  `claude-opus-5-5` verified in modelUsage, medium, safe mode, no tools, skills,
+  hooks, MCP, settings or persistence. The first review's confirmed viewport
+  cache and repeated-wrap defects failed local reproductions before their fixes.
+  The follow-up confirmed those fixes and found no further definite defect.
+  Conditional concerns were checked: graph rows preserve edge identity across
+  selection/compose, widths affect geometry through card width, graph IDs are
+  a subset of row IDs, and changed aliases invalidate the cached layout.
+  Cache-miss alignment complexity is pre-existing; identical same-type phrases
+  retain separate rows and exact-reader record/rationale identity. This review
+  closes this visual increment only, not prior functional or human gates.
+- [x] 2026-09-26 KST - User requested title-adjacent relationship labels instead
+  of body annotations. Full phrases now share the header when they fit, with
+  regular weight and retained semantic colors; overflow/parallel types continue
+  below the title above source previews. Preallocated continuation height keeps
+  selection stable and allows inline-only cards to return to four rows. Source
+  and note positions remain distinct. The existing product, workflow, design
+  and saturation oracles are updated; no domain/authority or ADR change.
+  All 129 TUI checks pass, including actual color/no-color PTY journeys,
+  144x42/120x30 ten-node coverage and 80x24 five-node local coverage. Final
+  `verify.py --scope core`: 609 cases, 605 passes, four Windows-only skips,
+  zero failures, exit 3 for incomplete platform coverage. Documentation checks
+  pass for 67 files; docs scope and tracked whitespace pass. A fresh colored
+  macOS Terminal 144x42 header-label preview was visually inspected; previous
+  user windows and drafts were preserved.
+  Fixed-source review succeeded using actual `claude-opus-5-5`, verified in
+  modelUsage, medium, safe mode with tools/skills/hooks/MCP/settings disabled
+  and no persistence. No definite regression was found. Its unverified points
+  are covered locally: narrow overview tests, cell-aware long-word wrapping,
+  and color/no-color style setup. The one-column continuation alignment nit is
+  cosmetic. Human comprehension, physical Korean IME and actual Linux/SSH
+  remain separate unverified gates.
+- [x] 2026-09-26 KST - Connect conditional manuscript review from W → Writing
+  impact → m through PaperManuscriptSession. Explicit regular-file input is
+  read-only and bounded to 64 KiB UTF-8. Human wording/reason, diff/before/after/
+  basis, inherited AI explanation/deferral, expiry and file re-read on completion
+  are wired. Work-ID editors, Not now, graph return and session-only quit
+  disclosure preserve pending work and source bytes; no apply/closure is added.
+  Terminal source views now preserve indentation/repeated spaces; a regression
+  failed before replacing paragraph wrapping with cell-preserving source rows.
+  Product, workflow, design, validation and root availability docs are updated;
+  no domain/schema/authority change or new ADR is needed.
+  Final `verify.py --scope core`: 617 cases, 613 passes, four Windows-only skips,
+  zero failures; exit 3 reports incomplete platform coverage. This includes all
+  137 TUI cases and a real colored PTY source/wording/Korean-paste/diff/resize/
+  explanation/return/quit journey. Focused tests preserve decomposed Unicode
+  and mixed line endings in source bytes, revoke changed/deleted/invalid-file
+  reviews, retain cancelled per-item buffers and exclude wording from graph
+  checkpoints. Documentation checks pass for 67 files; docs scope and tracked
+  whitespace pass. A fresh macOS Terminal 144x42 manuscript screen was inspected
+  with a temporary synthetic source and blank wording; older user windows remain.
+  The first pinned Opus fixed-source request timed out after 180 seconds with
+  no result/model verification. A narrower final-source retry succeeded with
+  actual `claude-opus-5-5` verified in modelUsage, medium, safe mode, no tools,
+  skills/hooks/MCP/settings or session persistence. It found no definite defect;
+  its conditional invalid-source concern is covered by ContractError inheriting
+  ValueError and the invalid UTF-8 revocation test. This closes the bounded
+  manuscript UI increment, not earlier functional or human gates. Branch
+  candidate/merge is next; actual own-project storage, live AI, Linux/SSH and
+  physical Korean IME remain separate work.
+- [x] 2026-09-26 KST - Connect branch candidate and selected merge TUI through
+  the existing pure services. The explicit golden-verified `--merge-example`
+  opens an active prefix without changing the closed series. Work → c → J → C
+  stages the current interpretation and previews a detached branch; M opens
+  recorded alternative selection, s supplies a read-only source, R previews
+  exact effects/closure, Tab shows basis, G compares graphs and Enter/v complete
+  unaccepted review/candidate calculation. Workspace history, files and actual
+  pending work remain unchanged. Re-preparation preserves unfinished inputs.
+  Reproduced and fixed an expired-explanation TypeError and same-context editor
+  loss. The first two pinned Opus requests timed out at 180 seconds without a
+  result/model verification. The bounded final adapter retry succeeded within
+  its 360-second limit, actual `claude-opus-5-5` verified in modelUsage, medium,
+  safe mode, no tools/skills/hooks/MCP/settings or session persistence. It found
+  source-history-refresh editor loss and two inaccurate Escape targets; adapter
+  refresh and authored-return regressions reproduced them before fixes. The
+  current TUI cannot install a new history, so that first finding covers the
+  adapter refresh boundary rather than a newly available recording action.
+  All 152 affected TUI tests pass after fixes, including real PTY merge selection,
+  source entry, before/after graph, 80-column resize, deferral/candidate and clean
+  shell return. The final post-review core scope ran 633 cases: 629 passed,
+  four Windows-only tests skipped, no failures, exit 3 incomplete coverage.
+  Contract/security/application groups, docs/fixture and whitespace passed;
+  skips remain explicit coverage gaps. Linux/SSH, physical Korean IME and
+  unfamiliar-user comprehension are not certified by these local checks.
+  A separate macOS Terminal 144×42 preview was visually inspected with color,
+  padding, exact effects and keyboard hints; older user windows remain untouched.
+  Product, workflow, design and validation sources are updated in place;
+  documentation scope passed for 67 Markdown files. No new ADR/report is needed.
+- [x] 2026-09-26 KST - Widen vertically connected graph gaps and add the user's
+  selected view-settings panel for spacing, card density and reader pinning.
+  Reproduce collapsed upward challenge shafts, preserve a visible route even
+  at short sizes, and check live preview/keep/cancel without losing graph or
+  writing context. The upward example previously placed both ports in the same
+  cell; new geometry preserves three route cells (five in Spacious) and actual
+  arrow/shaft glyphs are checked. Selection does not move boxes. The user's
+  spacing preference supersedes 120×30/80×24 fit targets: the ten-node overview
+  fits 144×42/120×32, the five-node local scope fits 80×26, shorter views count
+  clipping and prioritize hidden counts and r-follow access. `,` now previews
+  spacing/detail/pinning, Enter keeps and Esc restores settings/navigation;
+  comparison graphs inherit spacing/detail. Actual macOS Terminal 144×42 graph
+  and settings views were inspected, retaining earlier user windows.
+  Bounded fixed-source Opus review succeeded on actual `claude-opus-5-5`, medium,
+  safe mode, no tools/skills/hooks/MCP/settings or session persistence. It found
+  invisible controls below minimum size and fullscreen drift after a pin
+  roundtrip; both reproduced before fixes. Controls now pause below 48×18 with
+  an Escape hint, and the original fullscreen state returns on a pin roundtrip.
+  Its conditional follow-restoration concern was rejected: `_navigation`
+  already includes graph_follow; a manual-pan cancel regression passes.
+  Initial checks caught the expected old fit-count assumptions and an obsolete
+  contiguous-footer PTY expectation; the new bounds/counts replace them. A
+  small-window PTY case needed to drain queued resize/redraw frames before
+  changing size again, so deliberately ignored input was consumed while small.
+  That focused real-PTY regression now passes. Final core ran 640 cases:
+  636 passed, four Windows-only skips, no failures; exit 3 remains incomplete
+  coverage. All 159 TUI cases, including 23 actual PTY cases, passed in that
+  run. Docs/fixture, contract/security/application and whitespace checks passed.
+  Documentation checks passed for 67 Markdown files. Linux/SSH, physical Korean
+  IME and unfamiliar-user comprehension remain unverified. Product/workflow/
+  design/harness/validation changes are in place; no ADR or checkpoint format
+  changes are needed. This closes the user's spacing and view-settings increment;
+  protected own-project operations and live AI remain with their separate gates.
+- [x] 2026-09-27 KST - Connect unfinished scientific-change/explanation writing
+  to U and preserve it across node/ref/episode navigation. Make cancellation,
+  session-only retention, pending text versus reviewed content, and stale-review
+  recovery explicit; private checkpoints must not serialize this review text.
+  Check original navigation/drafting adapters with pinned Opus, reproduce/fix
+  actionable findings, exercise real PTY and run core/docs before closure.
+  Implementation now separates retained review inputs from manual checkpoints,
+  restores their original context through U, and discloses unkept text separately
+  from staged/reviewed content. Expired comparison graphs are hidden; retained
+  explanations require explicit scope refresh before completion. Small review
+  windows pause invisible controls while Escape remains available. Initial
+  regressions reproduced lost explanation text and missing quit/U detection.
+  A later check exposed the top-level modal size guard hiding the new warning;
+  routing now reaches the review adapter before that guard. The old combined
+  context/type assertion was updated to check both separately in the new layout.
+  All 169 TUI tests, including 24 real Unix-PTY cases, passed; the added PTY
+  journey covers Korean change/explanation cancellation, episode/ref switching,
+  U resumption, resize and shell restoration. macOS Terminal views at 144×42 and
+  80×24 were inspected; a fresh example window remains available without
+  closing or sending keys to earlier user windows. The first core run stopped
+  at the two above failures; final results after independent review follow below.
+  Product/workflow/design/validation were updated in place; docs checks passed
+  for 67 Markdown files. No checkpoint schema or accepted-state behavior changed.
+  Fixed-source independent review completed on actual `claude-opus-5-5` in
+  safe mode with tools/settings/hooks/skills/MCP and session persistence disabled;
+  scope included earlier drafting/proposal and cumulative navigation adapters.
+  Reproduced and fixed context-chooser Escape cancelling the current proposal,
+  scientific stage/toggle cancelling independent AI work, and the lack of a way
+  to discard retained review text. U now requires x then x for that selected
+  input only; Escape cancels and navigation resets confirmation. Context/U
+  controls also pause below minimum size. Explicit restaging remains inclusion,
+  as documented, with a notice. A replacement outbound request now warns that
+  it supersedes the prior request/proposal before Enter.
+  A second fixed-source Opus review used the same verified model and restrictions.
+  Its conditional confirmation-following-selection concern was disproved by
+  the existing reset plus a two-entry regression; its quit-wording ambiguity was
+  fixed by explicitly naming lost unfinished change/explanation text. Other
+  conditional findings were checked against omitted code: DraftRecovery filters
+  influenced active/unfinished buffers (existing regression); mutable field edits
+  cannot remove comparison nodes; manuscript open rejects non-writing items;
+  episode IDs come from the same immutable history; the TUI exposes no trace
+  erasure. Branch preparation intentionally supersedes change review. None
+  establishes a current crash or authority leak. The screen-size mock in the
+  legacy U test was supplied after the new pause check exposed its omission.
+  Final `verify.py --scope core` ran 669 tests: 665 passed, four Windows-only
+  skips, no failures; exit 3 remains incomplete platform coverage. All 174 TUI
+  tests, including 24 real PTY cases, passed in that run. The PTY resume journey
+  additionally exercised cancelling/confirming discard and clean shell return.
+  Docs, fixture and whitespace checks passed; the final documentation check
+  covered 67 Markdown files. Product/workflow/design/validation reflect the
+  implemented behavior. This closes unfinished-review resumption and the earlier
+  adapter cross-review; own-project acceptance/durable recovery, live AI,
+  Linux/SSH, physical Korean IME and unfamiliar-user comprehension remain open.
+- [ ] UI/UX next integration - The node-bound offline drafting/selected-review
+  connection and independent review are implemented above.
+  Cumulative episode/ref selection and reconstructed pending work are now wired
+  through the existing paper workspace and independently reviewed;
+  branch/merge and exact supplied-source manuscript reviews are connected and
+  cross-reviewed above. Use the [intent audit's proposed complete loop](../../designs/2026-09-22-episode-review.md#product-intent-audit-and-next-complete-loop)
+  to connect unresolved-result entry and bounded research authoring to existing
+  judgment/review, then durable resumption and manuscript consequence. Connect
+  protected acceptance and live AI as their separate owners/gates become ready.
+  Verify a real Linux/SSH host and
+  physical Korean IME; visual polish and local PTY checks do not close them.
+- [x] 2026-09-22 - Record the user's usable-GitHub-delivery criterion and
+  graph-workspace feedback in the canonical product/release docs, existing
+  design and validation case. Accept ADR 0011 for the direction and partial
+  supersession of ADR 0006's graph-UI admission clause. Keep detailed interaction
+  proposals and the model extension in review; no app behavior changed here.
+- [ ] Rework R1/R3/R7 for the paper argument workspace, then complete the
+  protected own-project and source-delivery path. Resume from the amendment
+  below; the earlier checked synthetic increments do not close this work.
+- [x] 2026-09-22 - Show the user's requested example argument/evidence/experiment
+  graph in the actual Episode Review UI. Add a bounded read-only projection
+  from the existing saturation branch and selected closure, a clearly labeled
+  example launch mode, keyboard-operable nodes with relationship details, and
+  desktop/narrow browser captures. Keep ordinary entry undecided and distinguish
+  completed fixture observations, pending interpretation and unrun experiment.
+- [x] 2026-09-22 - Recheck the connected prototype against actual selection
+  changes and malformed requests. Reproduce and fix omitted interpretation
+  leaking into manuscript candidates, and unbounded decimal Content-Length
+  conversion raising an unhandled request exception. Add focused regression
+  cases and the plan-only path to both real-browser viewports; verify below.
+- [x] 2026-09-22 - Continue the authorized remaining implementation as one
+  connected portable increment: episode/manuscript lifecycle rules (R3/R5),
+  bounded context and offline proposal dispatch (R4/R8), and a source-checkout
+  CLI plus interactive synthetic Episode Review (R6/R7 preparation). Use the
+  existing core and R1 reading layout; do not introduce a second research log.
+  Verify the complete manual/frozen-proposal journeys and hostile inputs.
+  The surface accepts only the committed redacted fixture and volatile drafts;
+  protected acceptance, real-project initialization, durable private storage,
+  live transport and R9 remain unavailable until their existing gates pass.
+  The connected increment and browser verification are recorded below;
+  complete R2–R9/H0/H1 gates are not implied by this checked subset.
+- [x] 2026-09-22 - Correct the overly broad stop after Mac sandbox cleanup
+  failed. Continue independent R3 evidence-history, temporal-view and selected
+  reasoning-merge contracts; only the affected native experiment and protected
+  integration remain gated. Implement and review the portable history increment
+  below without touching the residual OS folders or changing machine access.
+  Its focused and full-regression results are recorded with R3 below; only the
+  five known Windows-only checks remain skipped in the automated run.
+- [ ] 2026-09-22 - Resume R implementation on macOS under ADR 0010, as
+  explicitly requested by the user. Plan review separates portable R3 work
+  from per-platform R2 evidence; Windows will resume on the user's home host.
+  The bounded increments below are implemented; R2 and full R3 remain open.
+  Keep R4 protected writes and real-use gates dependent on actual authority and
+  recovery evidence. Stop further native isolation experiments while the owned
+  container cleanup is blocked; the user cannot perform manual cleanup now.
+- [x] 2026-09-22 - Run the fixed synthetic Mac review with real foreground
+  authentication: two approvals signed and verified with non-exportable
+  ephemeral keys; a third native interaction returned cancellation without a
+  signature. Fix cancellation classification using the native error domain.
+  Persistent custody, private IPC and full authorization remain unproven.
+- [x] 2026-09-22 - Implement the first reusable R3 review/provenance/selection
+  and debt-candidate modules under `claimbranch/core/`, with 19 focused tests.
+  Result review found and fixed identifier normalization ambiguity and modified
+  sealed payloads being treated as current. No accepted writer was introduced.
+- [ ] 2026-09-22 - Mac App Sandbox experiment cleanup is blocked. Preserve the
+  exact owned resource and observed failure below; do not claim worker-denial
+  or provider-isolation success from this run. The probe now prevents another
+  experiment while an owned container or application-script directory remains.
+- [x] 2026-09-22 - Complete automated result review for this bounded R2/R3
+  increment: the full verification run has no failures, retains five explicit
+  Windows-only skips, and passes fixture/docs/whitespace checks. Exact counts,
+  command and limitations are recorded with the Mac increment below.
+- [x] 2026-09-22 - Compile a read-only native capability query with the existing
+  Swift 6.3.3/macOS SDK on macOS 26.5.1 arm64. LocalAuthentication reports both
+  owner authentication and biometrics available; CryptoKit reports Secure
+  Enclave availability. No prompt, enrollment, key creation or research write
+  was performed. These observations are prerequisites, not approval proof.
+
+- [x] 2026-09-22 - Reevaluate R1–R9 against the intended researcher outcome,
+  then implement R1's reviewable artifacts: the focused Episode Review design,
+  14 synthetic view examples, an offline HTML storyboard with editorial and
+  compact reading alternatives, and six semantic/rendering tests. Result
+  review added state-specific return/recovery wording and the outbound
+  request identifier plus edit/cancel/manual choices. No product stack,
+  authority adapter, persistence or live provider was introduced. The measured
+  verification and browser observations are recorded in R1 below.
+- [ ] R1 user context/visual review remains open. The earlier global stop was
+  superseded by the user's Mac-first direction and ADR 0010. Continue independent
+  domain/native work; final experience acceptance and actual protected-writing
+  guarantees remain distinct. Windows-specific R2 observations stay pending.
+
+- [x] 2026-09-22 - Read the product specification, validation/MVP scopes,
+  target architecture, finite domain design, accepted ADRs, saturation oracles,
+  and earlier Dream state; write the product app/review/AI delivery sequence
+  below. The user clarified “에메랄드 캐슬” as the intended future researcher
+  experience, to be inferred from the project goals and used to plan backward.
+  Clarify that outcome in the product definition and map it to observable
+  interaction cases and R1–R9 deliverables. This is implementation planning
+  only. No product code, stack adoption, platform
+  expansion, or provider connection is performed by this planning change.
+  Self-review mapped the original goal and operator/provider oracles to R1–R9,
+  moved offline context/egress enforcement before H0, and kept browser claims
+  separate from the native-helper milestone. `python3.13 scripts/verify.py
+  --scope docs` passed for 57 Markdown files and tracked-diff whitespace.
+  Runtime tests were not repeated for this documentation-only change.
+
+- [x] 2026-09-22 - Implement the user-selected Mac synthetic A1–A4 integration:
+  `scripts/authority_demo.py` now runs manual and frozen-proposal histories
+  through exact review, forgeable synthetic approval, one-time operation append,
+  reopen/retry, manuscript apply and restore. Proposal provenance remains
+  unaccepted; the original fixture is unchanged and owned temporary data is
+  removed. Focused tests cover session invalidation, substitution, cancellation,
+  expiry, concurrency, process-crash recovery and preserved external edits.
+  Full regression evidence is recorded with the integration scope below.
+
+- [x] 2026-09-22 - Continue A2.2 on Mac with the portable assertion verifier.
+      Thirteen new tests failed before the module existed, then passed with
+      the shared validator and real OpenSSL 3.6.4 signature verification.
+      The public synthetic fixture retains no private key. A2.1 integration
+      rejects valid signed responses after cancellation, expiry, or review
+      changes and still reports no OS authorization. Review/full-regression
+      evidence belongs to the A2.2 portable-increment checklist below.
+      Actual Windows enrollment/presence, protected key custody, cleanup,
+      private delivery, and production stack selection remain open.
+- [x] 2026-09-22 - Refine A2 into the Mac attempt-lifecycle reference model,
+      the real Windows presence adapter, and private-delivery/denial evidence.
+      Specify assertion verification, late cancellation/deadline handling,
+      resource ownership and failed-cleanup behavior, and the A3 durable-consume
+      boundary. Implement A2.1 by reusing A1: 15 new tests failed with the
+      missing module, then passed; all 65 contract tests pass. Independent
+      review and full-regression outcomes are recorded in the A2.1 checklist.
+      No native adapter, receipt, accepted write, or production stack is added.
+- [x] 2026-09-21 - Implement the bounded A2 preparation contract below:
+      a read-only Windows WebAuthn capability CLI and explicit unsupported-
+      Python rejection in the verification runner. Independent review found
+      and prompted fixes for a discarded observed API version on HRESULT
+      failure and annotation evaluation before the runtime guard. On the
+      replacement macOS host, the capability suite ran seven tests: six passed
+      and the real Windows call skipped. The harness suite ran 19 tests: 18
+      passed, including the three new runtime cases; the existing full-discovery
+      test failed because it expects execution on this unsupported Python 3.9.6.
+      This is partial local evidence, not a supported-runtime regression pass.
+      Documentation (57 files), original source-fixture, and tracked-diff
+      whitespace checks passed. `--scope all` stopped before checks with the
+      expected runtime error (exit 2); the real macOS capability CLI reported
+      unsupported with authorization false (exit 3).
+- [x] 2026-09-21 - The user confirmed that only macOS is currently available
+      and explicitly approved `brew install python@3.13`. Homebrew installed
+      Python 3.13.15; use `/opt/homebrew/bin/python3.13` for this host's checks.
+      This resolves the interpreter prerequisite, not the production stack.
+- [x] 2026-09-21 - Run full regression with the installed interpreter:
+      `/opt/homebrew/bin/python3.13 scripts/verify.py --scope all`.
+      After repairing the runtime-dependent nesting test described in
+      Surprises & Discoveries, full regression ran 303 tests in 35.311 seconds:
+      298 passed, zero failed, five Windows-only cases skipped (PowerShell 5.1,
+      WebAuthn, AppContainer, and two junction cases). All 19 harness tests now
+      pass. Documentation (57 files), original source-fixture, and tracked-diff
+      whitespace checks passed. The runner returned exit 3 for incomplete
+      platform coverage, not a clean cross-platform pass.
+- [ ] A2 remains open: obtain real Windows capability and foreground
+      success/cancellation evidence before advancing the authority boundary.
+      Windows execution is deferred until a Windows host is available. Mac
+      work may verify platform-independent contracts and prepare the spike;
+      it cannot close A2 or advance A3's dependent production implementation.
+      No enrollment, credential, receipt, or accepted write occurred.
 - [x] 2026-09-21 - Implement the user-authorized read-only graph CLI before
       A2: A1 was already a closed pure contract and needed no continuity bridge.
       `show`, `diff`, and `preview` expose the fixed synthetic research
@@ -297,6 +4263,868 @@ The executable milestone names used throughout this plan are:
 
 ## Surprises & Discoveries
 
+- 2026-10-11 KST - Publication inventory includes 373 changed/new repository
+  files from the previously local multi-session implementation. Runtime schemas,
+  fixtures and tests belong in source distribution; machine files and private
+  project/provider/key state do not. The initial README check correctly refuses
+  a decorative page without an H1; restore the semantic heading and pass again.
+  Newly staged files expose two trailing blank lines, repaired without behavior
+  changes. Browser rendering confirms the original banner and actual synthetic
+  terminal snapshot; an initial screenshot timeout is not a product test failure.
+  The first full alpha/harness run passes all 987 application cases but fails
+  the harness's broad `test_mac_` substring check: four portable Codex-policy
+  methods legitimately contain it. Check native module names instead and keep
+  the policy coverage. No runtime test is removed or skip converted into a pass.
+
+- 2026-10-11 KST - The pinned client's custom-provider catalog omits gpt-6.1-sol
+  and advertises gpt-6-sol with medium effort. This is client metadata, not a
+  server entitlement verdict. Correct `model/list` matters: an initial control
+  used invalid `models/list` and misread its error as an empty list; discard that
+  observation. The corrected control is bounded and performs no inference.
+  The supported-model live request then emits an error after turn start. Its
+  detail was discarded, so its exact cause cannot be recovered or guessed.
+
+- 2026-10-10 KST - Restricted authentication depended on exact global preference,
+  SecurityServer and trustd.agent lookup. Local-name exceptions were unnecessary:
+  removing them still reaches a checked thread. Service permission is not API or
+  credential isolation; preserve additional keychain/preference and generated-HTTP
+  gaps. See the [Mach result review](#2026-10-10-l04-codex-mach-lookup-result-review).
+
+- 2026-10-10 KST - The manual alpha's completed source readiness is distinct
+  from the owner's selected next publication. They explicitly require working
+  AI in that publication; offering the manual alpha as sufficient would answer
+  a different delivery goal. Existing actual-login/file controls still leave
+  authenticated IPC/generated HTTP and checked live return unresolved.
+
+- 2026-10-10 KST - The actual disabled-tool Codex request still advertises
+  `request_user_input`, but scripted calls are refused as unavailable in Default
+  mode; shell calls are unsupported and the canary is unchanged. Names/config
+  flags are not execution evidence. The custom-provider run falls back to model
+  metadata, so it cannot establish the chosen ChatGPT model's tool set.
+
+- 2026-10-10 KST - Codex application input is not its generated HTTP wrapper.
+  A service origin and static candidate version cannot be labeled exact wire
+  content or observed runtime identity. Reusing API preview inheritance also
+  displayed false retained-trace/attempt promises; reproduce and repair the
+  labels without changing dispatch. A follow-up review incorrectly assumes
+  the Codex controller is not an API-controller subclass; actual type/renderer
+  assertions disprove that premise. See the Codex preparation result below.
+
+- 2026-10-10 KST - Contextual attachment exposes cancellation/checkpoint and
+  response-view failures that component transport tests cannot observe. A
+  new unsent preview also revoked an existing pending/completed response.
+  Reproduce and repair them in the actual owner-bound terminal/controller path;
+  keep recorded traces distinct from failed view projection. See the
+  [contextual result review](#2026-10-10-l04-contextual-provider-attachment-result-review).
+
+- 2026-10-10 KST - A live writer's structural schema check was weaker than its
+  historical outcome check, so an inconsistent transport result could poison
+  all later checkpoints. Reproduce before repair; use the same semantic check
+  before publishing and during restore. Historical wire-body verification by
+  regenerating today's prompt/schema/headers likewise stranded old writing.
+  Retain a closed version-one hash/header/settings/policy binding instead;
+  wire/profile bytes remain explicitly opaque. See the L04 retention review.
+
+- 2026-10-10 KST - L04's parent timeout must observe header and every body-read
+  progress, while retaining an independent whole-job deadline. A peer with
+  0.8 s to headers plus 0.5 s to body falsely timed out under a 1 s idle budget;
+  the new regression reproduces and repairs it. JSON-escaped credential text
+  also escaped the raw-byte check via returned model metadata; decoded wrapper
+  and typed-content scanning now refuse it without returning key material.
+  `SSLCertVerificationError` inherits both OSError and ValueError in this
+  Python, so its dedicated catch must precede the generic malformed-input catch.
+  Owned TLS verifies a fixture CA explicitly in a separate client and then
+  proves default-root child refusal without inheriting `SSL_CERT_FILE`.
+
+- 2026-10-10 KST - L04 Opus source review reproduces five boundary/error
+  defects: omitted encrypted backup placement, inconsistent volatile/durable
+  retention, overflowing fractional metadata, misleading reused path labels
+  and reverse-order research/configuration mixing. Repair both creation orders
+  before locks/writes. A final compatibility finding exposes ordinary null/empty
+  tool fields being rejected; accept only genuine absence while retaining all
+  actual-call/malformed refusals. Speculative trailing-newline and export-name
+  concerns are not reproduced: the validator uses fullmatch and the existing
+  export filename is already included. Explicit negative checks confirm both.
+
+- 2026-10-10 KST - The user's provider reply identifies a product setup
+  requirement, not a fixed account choice: each researcher brings their own
+  endpoint/model. OpenClaw separates API/URL/model/secret reference. Existing
+  review previews only the scientific envelope; an actual API adds system
+  instructions, schema and model/output settings. Bind and show those exact
+  bytes too. Wire message strings can exceed a scientific field's 16 KiB bound;
+  preserve the scientific codec and separately cap the complete wire at 64 KiB.
+
+- 2026-10-10 KST - L03 review exposes partial explanation writing coupled to
+  a five-minute scientific review capability, stale cached list entries and
+  duplicate partial/recorded rows for the same cause. Four new failure tests
+  reproduce text refusal/loss, uninitialized history return and creation EOF.
+  Keep partial writing on its sealed original cause without reviving record
+  authority, reload the newest writing and expose immutable recorded choice
+  separately. `ContractError` already subclasses `ValueError`: the existing
+  checkpoint catches it; the suggested uncaught exception is not reproduced.
+  Creation failure retains disposable children with a fresh-folder retry,
+  avoiding automatic deletion of unknown or newer files.
+
+- 2026-10-10 KST - The first L02 result review finds that item IDs were scoped
+  to the controller rather than each response, risking replacement of kept
+  human candidates on a new request. Scope app mappings to the response and
+  publish allocation only after valid comparison. AI edits must show and retain
+  earlier manual candidate content. Both existing save adapters must mark
+  successful raw retention; quota handling must check the entire project and
+  yield only never-saved optional payloads to required origins/writing.
+  Saved trace flags, mapped provider bodies and recorded causal reason/selection/
+  explanation need semantic replay checks, beyond schema/digest shape. A new
+  explanation cause cannot silently replace earlier partial text. Unchanged
+  personal review needs stable generated interpretation/topic identity; item-
+  only AI answers belong to personal metadata, not a legacy manual `not-required`
+  command. Meaningful local failure checks confirm these distinctions.
+
+- 2026-10-09 KST - A typed response reader must be fixed by the exact request
+  review, not chosen only at completion. The first implementation consumed
+  a text/manuscript dispatch and incorrectly blamed local misrouting on malformed
+  provider output. Reproduced repair tests now preserve that dispatch for its
+  correct reader. A context reference to a target edited in the same response
+  also hid an item dependency/duplicate alias; require its explicit item reference.
+  Immutable original-history equality alone cannot prove live-owner preservation;
+  the exercise now compares current service/query and complete draft state.
+  Selected unrun-plan status is already enforced by `ContextRecord`; empty
+  interpretation basis is intentionally an unlinked proposal. Direct invocation
+  of the schema exporter missed the package import; the working module command
+  is retained in the plan/workflow, with no environment installation/change.
+
+- 2026-10-08 KST - Local source inspection confirms that personal reasoning
+  currently derives inherited AI only from Judgment histories, and encodes
+  deferral from that Boolean. This cannot carry future AI-proposed relationship
+  origin or an explicit personal explanation choice. The alpha remains AI-off,
+  so these are future integration gaps. Workspace checkpoints also forbid a
+  separate singular origin registry beside workspace-owned state; typed origin
+  and response counts must use the same versioned retention path. The
+  [reviewed contract](../../designs/2026-09-22-episode-review.md#typed-proposal-and-return-contract)
+  names the needed corrections without adding another store.
+
+- 2026-10-08 KST - Structured personal history is already machine-readable,
+  but `provider-result/v1` accepts text only. `AmendmentLineage` preserves
+  source Judgment revisions, while its owning policy explicitly does not prove
+  typed provider adoption. Public project open and personal history-refresh
+  paths also construct AI-off workspaces independently. The missing connection
+  is owned typed suggestion/adoption plus deliberate provider integration across
+  those paths, not a second JSON store or a single `ai_off` toggle.
+
+- 2026-10-07 KST - Shared documents changed during this review to the selected
+  personal alpha in ADR 0017. Preserve that newer decision instead of overwriting
+  it with the previous protected-source order. Actual `ProjectWorkStore` still
+  inherits `DevicePaperWorkStore`, and the public CLI still offers synthetic
+  demo entry. Reusing those modules requires a distinct portable personal store
+  and real public init/open connection, not renamed Mac checkpoints or demo
+  output. The existing graph/workspace format and save guards can be reused.
+
+- 2026-10-07 KST - Explicit approval of ordinary personal storage resolves the
+  only custody choice left by the prior planning turn. A protected Mac source
+  release and a personal terminal alpha are different protection promises;
+  keep the existing native work intact while removing it from alpha dependencies.
+
+- 2026-10-07 KST - Opus's fixed-document review finds that ADR 0015's immutable
+  resource binding and initial duplicate-key refusal cannot alone resume accepted
+  writes after a fresh-destination restore. A scoped same-device resource
+  transition is required, retaining the original key/enrollment and independently
+  verified backup/checkpoint; key/enrollment loss does not recover write authority.
+  Code replacement also needs a compatible read-only diagnosis/export route.
+  The reviewed four-outcome dependency chain is acyclic, but unscoped B03/B05
+  reuse and bundled G3/G4 gates would still pull deferred work into first delivery.
+  Correct these requirements in the release scope and S ledger rather than count
+  additional standalone prerequisites as product progress.
+
+- 2026-10-07 KST - The GitHub manual-release reset already removes live AI,
+  automatic manuscript changes and cross-device continuation from first-use
+  prerequisites, but retains protected Mac acceptance. That reduces product
+  scope without removing device keys. Removing the latter requires a further
+  personal-workspace authority/custody choice, not another packaging adjustment.
+
+- 2026-10-07 KST - The host locks during the long fixed-source core run.
+  Initial source/target/signature checks have already passed, but later actual
+  encrypted-writing fixtures fail at device work-key creation. An independent
+  failed-case rerun and read-only screen-lock check reproduce the unavailable
+  host condition. The existing WhenUnlockedThisDeviceOnly policy is unchanged;
+  do not replace it with a software key to finish a suite. Report this separately
+  from the older frozen PTY quit-prompt failure, whose current-source rerun passes.
+
+- 2026-10-06 KST - An empty candidate seed/source association does not prove
+  that the independently enrolled protected resource is still uninitialized.
+  The initial native route now rejects any non-diagnostic residue, retaining
+  existing bytes. Python's macOS stat result has no `st_birthtime_ns`; the
+  synthetic enrollment holder obtains its exact birth-time identity through the
+  actual native reader instead of reconstructing it from floating-point time.
+  The first fixture run exposed this test error, not a production target bypass.
+
+- 2026-10-06 KST - Native initial-source checks need filesystem identity as well
+  as path bytes: this Mac's Data-volume firmlink keeps distinct `realpath`
+  spellings for one directory. A string-only reverse-containment check accepts
+  a workspace ancestor under that alias; the new native regression reproduces
+  the bypass and passes after symmetric descriptor ancestry checks. An APFS
+  fixture cannot create an invalid-UTF-8 filename (errno 92); use actual Unicode
+  names and an explicitly unavailable raw path rather than claim that file was
+  tested. Neither observation establishes scientific source fidelity.
+
+- 2026-10-05 KST - Initial review fields need a separate native presentation:
+  interpretation/judgment assumptions cannot describe an empty working thesis.
+  Raw path newlines and literal escape-looking text can impersonate summary
+  labels; quoted JSON path/title rendering and indented thesis continuation
+  preserve distinguishable content, with exact review JSON still inspectable.
+  Initial review signing must require native enrollment even when the same
+  transport retains legacy plain-framing compatibility for paper reviews.
+  The read-only association probe requires the store's new session-error field
+  initialized without opening or altering a saved workspace.
+
+- 2026-10-05 KST - U9 save errors used one ContractError type for input,
+  encryption and post-replace uncertainty, causing contradictory remedies.
+  Stage-based writing validation and a typed reopen-required store refusal now
+  separate those meanings. The read-only project-placement probe bypasses the
+  normal store constructor; the optional latch lookup must remain compatible
+  without bypassing any placement or file checks. Actual PTY Escape assertions
+  need to consume bare Escape before following input; a queued resize paint is
+  not proof the modal has closed.
+
+- 2026-10-05, B03 native v2 review: native already rejected an inconsistent
+  operation digest, but Python could read key fields first. Reproduce and move
+  that integrity refusal before key access. Full-registry provenance is committed
+  by the packet, not independently loaded/displayed in native review; describe
+  omitted-origin inspection honestly before future accepted integration.
+
+- 2026-10-05 KST - A reviewed interpretation's scientific effect fits existing
+  v3 record commands, while a new-format merge's explanation/debt policy does
+  not. Reuse the record reducer within a full-review/origin envelope, never treat
+  those bare commands as a complete provenance or accepted-operation log.
+
+- 2026-10-05 KST - The native gateway cannot reload authoritative scientific
+  history from the current encrypted candidate stores. Empty candidate creation
+  already exists, but it has no exact initialization review or protected genesis.
+  Add its preparation boundary before native initialization; never adopt the
+  bundled example, imported commands or an unaccepted checkpoint as accepted
+  baseline. New-format scientific transition/replay is also still required.
+
+- 2026-10-05 KST - B03 cannot flatten the full versioned review into legacy
+  v3 merge commands: AI can influence only an amendment while the Judgment
+  remains manual, and contextual answers can explicitly reference the original
+  reason. The new commit candidate retains the entire owned review and exact
+  causal debt bindings instead. It computes no accepted history and selects no
+  production physical store. Native authoritative loading/receipt consumption
+  and atomic encrypted log remain separate B03 integration checkpoints.
+
+- 2026-10-03 U9 original-review size drill: actual unfinished field edits in the
+  recorded 14-command series retain the same original writing session separately
+  per row. With 80 ASCII characters in each judgment/reason field, 12 edited
+  records save 30,064 bytes; duplicate sessions account for 5,225 bytes. At
+  8,000 characters per field, those 12 rows save 251,824 bytes, of which
+  179,465 bytes repeat the same session. At 9,000 per field, 11 rows save
+  260,534 bytes; the twelfth refuses the complete save at the unchanged 262,144-
+  byte canonical limit. All strings individually fit the existing bound. This
+  is a bounded synthetic UI-entry drill, not a representative real-paper size
+  estimate. It justifies a next versioned original-session deduplication design,
+  not larger limits, dropped rows or an unversioned change. Review answer request
+  duplication and native/PTY compatibility need their own cases in that increment.
+
+- 2026-09-29: Native enrollment initially rejects ordinary private temporary
+  paths because Foundation rewrites `/private/var` to `/var` while Python uses
+  POSIX `realpath`. Four file/publication tests fail; using POSIX resolution
+  preserves no-link enforcement and all nine then-current native/portable
+  enrollment checks pass in 41.304 s. The first fixed-source broader run has
+  68 passes and one fixture failure: a changed-source test copied only the old
+  single native file. Include the new companion source so it still exercises
+  changed source, not missing packaging. An earlier live-tree build crosses
+  a source edit and correctly fails stale-source validation; fixed snapshots
+  avoid counting that interruption as product evidence. The simulated socket
+  fixture also exposed a bind/chmod race absent from native umask-before-bind;
+  publish its intended mode atomically without changing production validation.
+
+- 2026-09-29: Restricted-worker Opus review identifies a real arrival-loss bug:
+  cancellation/failure left the dispatched request pending with no response
+  trace, so different bytes could replace the first response. Reproduction
+  shows zero traces after failure and a substituted response becoming a Proposal.
+  Claim the arrival under the broker lock before local checking; release the
+  lock during the bounded worker call, then append its original response trace.
+  Worker failure/cancellation consumes the request as failed and reraises;
+  malformed input consumes it without executing the worker. Concurrent and
+  later replacements are refused. This retains AI influence/history without
+  asking the researcher to record another explanation. A valid 65,467-byte
+  escaped response also reproduced output overflow; reserve envelope space
+  and bound normalized input in the shared contract. The proposed Unicode-16
+  mismatch did not reproduce for the Kirat Rai sequence on this host. Python
+  remains the normalization owner; remove the duplicate OS NFC requirement,
+  preserving byte parity instead. Scope denial fields to the tested user-temp
+  files/AF_UNIX/IPv4 TCP rather than all storage, IPC or networking.
+
+- 2026-09-29: Exact-review signing's actual Opus review found no blocking
+  authority leak, but exposed failed-peer waiting, cancellation after expiry,
+  redundant post-ACK freshness checks, and misleading Unicode/Boolean display.
+  Fix these without granting authority: cancel the other child on peer failure,
+  retain a cancellation's terminal reason, build observations from the already
+  verified channel outcome, display AI influence explicitly and escape hidden
+  characters. Swift string equality uses canonical equivalence, so enforce NFC
+  through UTF-8 byte equality. The suspected JSON escape mismatch did not
+  reproduce on this SDK: a real Swift/Python parity check agrees, and the native
+  full-packet signature/replay fixture now covers those prose escapes, NFC and
+  hidden-character display (one test passes in 66.912 s). The earlier 74-case
+  affected run had one registration-fixture compilation error: its extracted
+  source included the new signing declarations. The other session narrowed that
+  fixture to the registration helpers; preserve that verified repair. A final
+  fixed-source core run includes it rather than treating the failed run as green.
+
+- 2026-09-29: B01 key preparation's Opus review identified a concrete partial
+  persistence ambiguity: a mocked cancelled/expired result with a nonempty
+  registration was accepted by Python. The regression initially fails; it now
+  requires no file or an empty private reservation, otherwise preserves the
+  artifact and reports failure. Native expiry after final write/flush likewise
+  exits as failure instead of ordinary expiry; it rereads exact written bytes
+  before reporting prepared. A lost result/file-derived digest remains no
+  completion or enrollment evidence. AppKit/IME stderr can also disrupt a
+  strict GUI protocol; the prepare-only native branch now suppresses framework
+  stderr while retaining exit-status and closed-stdout validation. This was a
+  preventive platform correction, not a reproduced native authentication result.
+  Delegate lifetime, common-mode deadline delivery, pre-prompt device capability
+  and strict Swift/Python project-ID parity were also corrected. Existing probe
+  evidence prompted bounded cancellation callback classification so an explicit
+  macOS user-cancel is not mistaken for simultaneous app termination.
+
+- 2026-09-29: The first key/runtime run under the earlier sandbox executes
+  38 tests with two failures (xcrun environment warning and local socket denial).
+  An unrestricted current-tree retry runs 57 with two source-change errors:
+  edits during testing correctly invalidate already-built runtime identity.
+  The subsequent fixed-source run passes 58 in 148.728 seconds at snapshot
+  `3aaad56786012a91400b881aac1ab2bdac595d93e786c98fa85e9b837f122401`;
+  that predates the final Opus repairs and is not final acceptance evidence.
+  Use a new fixed snapshot for the required final core run.
+
+- 2026-09-29: B01 transport review exposes three reproducible availability/error
+  defects: shared temporary-root dependence, a sender arriving before listen,
+  and a child closing large stdin being mislabeled unavailable. Three regression
+  cases fail before repair. A fourth injected group-cleanup denial exposes open
+  pipe handles; repair closes handles and reaps the owned child while reporting
+  cleanup failure. These are transport/runtime defects, not evidence of an
+  identity bypass or a completed custody boundary.
+
+- 2026-09-29: U3's first snapshot repeated the same 64 KiB source in each
+  detached draft, exhausting the aggregate limit after three written reviews.
+  A checked digest-indexed source table retains exact bytes once and passes the
+  three-draft case. Distinct excessive content still fails the complete save;
+  an explicit confirmed draft discard provides a recovery path without silently
+  dropping writing. LF marker requirements remain distinct from preserving
+  arbitrary CRLF/NFD bytes around those markers.
+
+- 2026-09-29: U2 cross-review reproduced silent replacement of an unfinished
+  answer's original basis when merely opening a new review. Preserve that basis
+  until explicit comparison and selection. Existing valid source text can also
+  exceed the editor's new-insertion limit; retain shortened existing input
+  within the canonical UTF-8 bound. Original judgment snapshots consume the
+  aggregate checkpoint budget: refuse visibly rather than dropping context or
+  saving only some writing. Progress records reproduction and check evidence.
+
+- 2026-09-29 - Directly constructed association payloads could bypass the
+  convenience method's no-op relocation refusal. B04 reproduces this at v1
+  save and v2 parsing, then rejects new no-op events without dropping legacy
+  records. Source refresh also needs a visibly different matching-source
+  status: unchanged bytes after a refresh do not reconcile historical writing.
+  See the [B04 review evidence](#remaining-non-ui-implementation-ledger).
+
+- 2026-09-29: explanation checkpoint validation exposed canonically equal but
+  differently composed Unicode as a redundant unfinished buffer. Comparing NFC
+  forms repairs the whole-save failure without changing kept writing. U1's
+  source reconstruction also has a measured save cost; exact spot timings and
+  the remaining U9 performance work are recorded in Progress and the ledger.
+
+- 2026-09-29: Native key creation that passed in the preceding device-store
+  increment fails while the host screen is locked. The unchanged baseline
+  reproduces the failure, with OS status -25308. Keep this host prerequisite
+  distinct from a new command-layer regression; never substitute software
+  keys or weaken WhenUnlocked access to make automation pass.
+
+- The new R4 work checkpoint preserves typed service sources, lineage, review
+  and explanation, but does not serialize TUI owner links, candidate forms,
+  result intake or wording sessions. Connecting it directly would misstate
+  what quit/restart retains. Keep T5b's adapter contract open while the separate
+  device work-key stream proceeds; complete independent interpretation authoring.
+- Interpretation cross-review reproduced an unclear domain equality error even
+  when the interpretation was omitted from review. Preserve the current domain's
+  all-kept-amendment validation; explain reuse/edit/unkeep before review rather
+  than weakening that contract in UI work. The claim that this was previously
+  impossible is incorrect: existing interpretation fields were already editable.
+- Opus's suggested 6,000-Korean-character kept interpretation is rejected by
+  canonical string limits before reuse. A different valid reproduction uses an
+  oversized existing judgment reason: reuse could falsely report success while
+  the session retained a length-error buffer. Check both fields before reuse.
+  Independent owning works may each explore a candidate interpretation; do not
+  impose a cross-work lock that merges or blocks their separate judgments.
+- Agent-inspected 48-column picker frames initially clipped observation status
+  after a long statement. Put status beside the short alias, retain an excerpt,
+  and expose full read-only statement/measurement/source context with unchanged
+  choices on return. This is observed rendering evidence, not human usability.
+
+- 2026-09-28 (T2b provisional intake): source inspection initially read only
+  kept/prior unfinished fields and omitted the current edit buffer. Preserve
+  service state and display that active buffer separately; inspection must not
+  commit it. Cancelling discard also needs stable result selection rather than
+  resetting a shared form/list cursor. Both cases are now covered independently
+  of the real-terminal journey.
+
+- 2026-09-28 exact operation: scientific draft preview alone does not establish
+  a legal record. A changed Judgment without its matching Interpretation can
+  preview but must fail branch construction at seal time. Also, source-consistent
+  restoration alone admitted an older selection as an executable candidate after
+  a newer assessment. Reproduce that failure, then require exact current owned
+  preparation at final candidacy while leaving older-review inspection read-only.
+  Follow-up repro also returned the old request after Not now, a changed
+  explanation or a replacement seal. Retain one owned current seal, revoke it
+  on successful decision/scope replacement, and preserve it on invalid input;
+  the added regressions first fail, then pass with the full focused policy suite.
+
+- 2026-09-28 T4 wording: the manuscript service intentionally requires a
+  recorded conditional cause. A current editor's judgment is not that cause.
+  The existing selected-merge service can supply an exact detached candidate
+  and its corresponding cause without installing either into the workspace.
+  The TUI must keep the parent review alive/fresh and label this candidate
+  separately from W's recorded work. Replacing the parent must not move earlier
+  wording into a new scientific/provenance basis silently.
+
+- 2026-09-28 T4 return: abstract key tests initially accepted an invented
+  `inspect` event, masking the actual decoder's `source` token for Ctrl+O.
+  The real PTY failed and exposed the integration error. Keeping the real
+  terminal journey prevents rendered editor tests from standing in for input
+  behavior. UTF-8 limits also differ from the editor's character count: 6,000
+  Korean characters exceed the service's 16 KiB bound; the UI now shows both
+  counts and retains failed input.
+
+- 2026-09-28 review policy: a valid new claim drafted from main could bypass
+  an existing alternative's provenance at record assessment. Reproduce that
+  case, then require the same source-ref rule as branch construction. Opus also
+  identifies different judgment fingerprints between raw-draft assessment and
+  the branch adapter's retained-prefix join. A failing end-to-end comparison
+  confirms it; sharing `continue_judgment` fixes the binding without changing
+  the existing branch algorithm. The reviewer's conditional unchanged-selected
+  merge case cannot occur in v3: unchanged dependencies are references, selected
+  IDs must be changed, and a second same-episode merge is forbidden.
+
+- 2026-09-28 T3b: routing unfinished-writing return through judgment activation
+  initially allocated a review session. A reproduced 16-session-capacity case
+  then crashed while reopening separate manual writing. Activation now validates
+  the existing source owner without allocating a session; the normal editor
+  retains its manual fallback. The regression also links that node to another
+  work first, proving that explicit return selects its own unfinished judgment.
+  Series isolation and linked AI checkpoint exclusion are independently tested.
+
+- 2026-09-28 understanding closure: `Debt.id` deliberately excludes its cause
+  review digest, so checking debt identity alone cannot distinguish a revised
+  cause review. The new contract compares the entire reconstructed debt and the
+  cause digest. A v3 synthetic merge followed only by an evidence correction
+  keeps both reasoning heads unchanged; the new watermark/context checks refuse
+  the old closure while retaining partial explanation, even after draft rebind.
+
+- 2026-09-28 partial explanation: the shared string validator rejected blank
+  drafts even with `minLength: 0`. Honor that explicit schema opt-in while
+  preserving nonblank scientific fields; an audit test finds no opt-in among
+  the nine pre-existing exported schemas. JSON escaping can exceed the 64 KiB
+  aggregate snapshot cap even when each field fits 16 KiB. A newline-heavy
+  regression confirms atomic refusal and preservation of the prior draft.
+
+- 2026-09-28 - New plans expose presentation assumptions that short claim/link
+  forms did not: six scientific text fields can exceed the older 70,000-byte
+  editor cap while each fits its bound, nested metrics read as raw dictionaries
+  at final review, and a reopened endpoint picker previously reset to its first
+  choice. Reproduce these cases, use shared canonical limits for plans, render
+  exact measurement fields separately and retain the current picker choice.
+  A malformed application-supplied metric also bypassed the store's top-level
+  shape check; reject malformed nested structure while allowing blank strings.
+  Validated source histories cannot contain the reviewer's proposed blank or
+  missing plan metric, so preserve existing objective-only edits and domain
+  preflight rules rather than adding a source-data bypass.
+
+- 2026-09-28 understanding return: a historical `query(at_operation=...)` on
+  today's full history still fingerprints today's manifest. Rebuild the causal
+  prefix to keep the original return view stable. Current main must use the
+  latest episode rather than the closed cause's reasoning snapshot. Opus also
+  identified a new combined-response size failure; a synthetic replay reproduces
+  it while each view and pending list remain individually valid. Component
+  hash composition fixes this without raising canonical record limits. Its
+  verification must recheck each view's content before trusting embedded hashes.
+
+- 2026-09-28 manual authoring: the old Work impact reader resolved affected
+  IDs only in the source graph, so a newly authored target caused a KeyError.
+  Reproduced with a new claim/qualifying link and complete judgment; the reader
+  now resolves the exact after-projection, with a regression through completed
+  unaccepted review. Real-terminal typing also exposed avoidable source-query
+  work on every form redraw; stable source/candidate projections now cache that
+  lookup. An 80-column visual check found a clipped DRAFT suffix; the marker
+  now precedes the claim role so its authority remains legible.
+
+- 2026-09-28 Opus plan review: v3 conditional work and `Debt` use different
+  identifiers, and the candidate command lacks a sealed cause-review digest.
+  Binding closure only to main head also misses independent evidence changes.
+  These are future integration gaps, not an existing accepted-writer exploit.
+  The [review disposition](#understanding-plan-cross-review-evidence) records
+  local checks and rejects the proposed loss of inherited AI provenance.
+
+- 2026-09-28 understanding review: `core/debt.py` supplies a detached closure
+  candidate, but no application path invokes it. `PaperService.pending_work`
+  explicitly reports conditional work with closure unavailable. The existing
+  plan names later human closure, but needs the concrete return/review/restart
+  path in the [alignment review](#understanding-debt-alignment-review).
+
+- 2026-09-28 T1b: menu entry can route through Work while its displayed
+  shortcut is only valid inside Work. Show the `w c`/`w R` sequence explicitly.
+  An unconditional narrow-footer replacement hid proposal adoption's session-only
+  disclosure; preserve it ahead of secondary controls. Adding an AI label to
+  the 80-column series status also clipped current-global-evidence context;
+  moving that capability to the top badge preserves both disclosures.
+
+- 2026-09-28 intent review: the product spec already permits source-based
+  GitHub delivery and explicitly defers public installers. ADR 0010 selects a
+  Mac development/validation target, not a distributed signing identity or
+  installer. The recent package proposal incorrectly promoted one candidate
+  mechanism into a prerequisite question. Its bounded technical cross-review
+  did not establish alignment with the complete product/release contract.
+
+- 2026-09-28 T1a: moving source and judgment ahead of review detail can hide
+  actionable state at 80×24. A real PTY regression exposed the prepared-review
+  case; review completion, length limits, unfinished text and offline-AI state
+  now have concise leading indicators without truncating the authored text.
+  Curses may transmit only the changed prefix of a header when source peek
+  retains its common suffix, so raw-stream assertions must request a repaint
+  before matching a whole visible phrase. That was a test observation issue,
+  not a lost screen or edit buffer.
+
+- 2026-09-27 plan cross-review: the existing core upsert test needs a complete
+  Judgment, so it does not supply judgment-free graph construction. T2a needs
+  a domain-owned draft projection and stable application candidate ownership.
+  `PaperDraftSession._clear_changes` clears review snapshots, not the separate
+  `TerminalReview.amendments` store; retain this distinction when interpreting
+  review feedback. Also, the synthetic TUI always injects a frozen response;
+  a service test with AI disabled is not proof of an AI-off terminal launch.
+
+- 2026-09-27 native-authentication observation: a fourth key-reopen run returned
+  a valid signature without the second authentication window reported by the
+  user. The implicit CryptoKit path supplied no explicit policy-evaluation
+  result. Apple's reuse-duration property concerns biometric device unlock,
+  not a guarantee of a fresh dialog for every key operation. The exact cause
+  of the omitted dialog remains unproved; preserve this distinction while
+  adding an explicit, cancellable evaluation phase.
+
+- 2026-09-27 authorship audit: AI-off availability does not by itself establish
+  a human-led creation experience. Current explicit adoption replaces the
+  judgment text while retaining its prior buffer; current typed authoring
+  remains incomplete. The design records the distinction between these code
+  findings and unmeasured cognitive effects. ADR 0005 already supplies the
+  understanding/provenance contract; no new restriction on early AI help is
+  needed to prioritize incremental human construction.
+
+- 2026-09-27 planning: authoring cannot be scoped as TUI CRUD alone. The existing
+  amendment service can validate bounded reasoning upserts, but current TUI
+  editing only exposes existing fields. New run/observation capture and a
+  multi-node working judgment also cross evidence and draft-identity contracts.
+  Keep their domain adapters explicit; do not mutate projection dictionaries or
+  extend the manual-note checkpoint to manufacture project support.
+
+- 2026-09-27 - A successfully authenticated recovery ciphertext still needs
+  an independent signer expectation and signature check. The new signed
+  recovery tests encrypt substituted keys/signatures and a different internally
+  consistent history under the correct recovery key; every case is rejected
+  without publishing a destination. Parsing alone intentionally reports
+  `signature_verified: false`. Actual native verification agrees with both the
+  system `openssl` verifier and installed OpenSSL 3.6.4.
+
+- 2026-09-26 - Adding adaptive card margins introduced a cache dependency on
+  viewport height; reusing a scene after a resize could clip a formerly visible
+  card. Opus independently identified this and repeated pre-cache relationship
+  wrapping. Both failed explicit reproductions, then passed after keying on
+  height/labels and moving the linear edge reservation pass behind cache lookup.
+  Current relation vocabulary is closed in the core schema/projection; no
+  hypothetical unknown-type fallback was added. Same-type records retain
+  individual rows and exact-reader identities/rationales; their card wording
+  can repeat, which remains a presentation limitation.
+
+- 2026-09-26 - Removing every shared turn creates a different ambiguity: routes
+  that truly share a node contact can lose their visible fork. Opus identified
+  that distinction. The renderer now joins only the common first leg of an
+  actual shared port, keeps independent crossings separate and gives an exact
+  inspected edge priority. Contact letters must not obscure those turns.
+
+
+- 2026-09-26 - The monochrome Work preview inherited nonempty `NO_COLOR` even
+  with `TERM=xterm-256color`. Its newer temporary launcher omitted the older
+  launcher's per-process removal. Palette setup correctly respected that
+  preference; no palette was deleted. A fresh `env -u NO_COLOR` series launch
+  visibly restores node/edge colors without changing user shell preferences.
+- 2026-09-26 - Connecting the existing PaperWorkspace introduces its finite
+  16-review-session limit. Manual text must remain writable outside a new
+  review session, and both the Work reader and footer must tolerate that limit.
+  A targeted regression exercises exhaustion, retained sessions and rendering.
+
+
+- 2026-09-25 recovery: the pure archive decoder intentionally permits untrusted
+  candidate replay without a known snapshot. The first restore-and-publish
+  implementation accidentally inherited that optional expectation. A targeted
+  `missing-snapshot` case reproduced publication without the required external
+  manifest; the restore API now rejects a missing/malformed expected digest
+  before reading or decrypting the archive. No accepted authority was granted.
+  Real CryptoKit and descriptor-relative filesystem tests passed on this Mac;
+  these observations do not prove product custody or power-loss recovery.
+
+- 2026-09-25 R2 preparation: an explicit human-operated creation step allowed
+  the new key to be reconstructed and its signature independently verified in
+  later processes. All three real runs denied signing without interaction and
+  cleaned their temporary data. The user confirmed approving native
+  authentication in both the second and third runs, explaining their successful
+  signatures. No actual cancellation failure was reproduced; cancellation has
+  not yet been exercised in this new flow. The earlier `-25308` cause remains
+  unmeasured. Core regression also encountered
+  new TUI overview assertions and existing terminal/workflow failures while
+  that separately owned implementation was changing; no probe fix or weakened
+  TUI assertion was applied to conceal them. After that session's code changed,
+  all 35 focused tests in the affected modules passed, followed by final core
+  regression with no failures and four Windows-only skips.
+
+- 2026-09-25 R2, before the explicit preparation increment: the first
+  noninteractive exercise again reconstructed a valid
+  key, denied signing and reported incomplete tamper evidence. After code and
+  independent review, the foreground exercise stopped earlier: `create`
+  returned `NSOSStatusErrorDomain/-25308`. The window was never opened. The
+  difference is observable, but its cause is not; no screen-lock or transient
+  entitlement diagnosis is established. Tests also reproduced a preflight gap:
+  inconsistent identity/denial output could reach the human window before
+  aggregate validation. The driver now rejects that inconsistency before launch.
+
+- 2026-09-24 R2: CryptoKit reconstruction re-opened the same public identity
+  in a fresh process despite the earlier permanent `SecItem` path's `-34018`.
+  Noninteractive signing returned `com.apple.LocalAuthentication/-1004`.
+  However, flipping a middle byte in the opaque representation still allowed
+  reconstruction with the same public identity. The original constructor-level
+  tamper expectation failed in two measurements; do not change the mutation
+  until a desired success appears or treat public-key reading as integrity
+  proof. Report that observation as incomplete and retain a valid restored
+  control. Opus then found that a constructor authentication error could be
+  mislabeled as tamper detection. Four synthetic error cases reproduced that
+  false success; constructor results now remain observations with no integrity
+  claim. A final native attempt failed earlier at creation with OSStatus
+  `-25308`; the reason for that environmental change is unmeasured. No prompt,
+  successful signature or product authority was issued.
+
+- 2026-09-23 R6 provider exercise: Opus found that the displayed research
+  question was not in the outbound request. A new assertion reproduced zero
+  selected draft records where one was required. The exercise now explicitly
+  writes/selects the unfinished question and selects the current Interpretation;
+  the original question is also retained before proposal adoption. Unit and
+  extracted-artifact checks inspect the actual request body. This fixes a real
+  request/documentation mismatch without adding an unscreened prompt field.
+
+- 2026-09-23: the split request/response tests failed on the absent broker and
+  draft methods before implementation (12 cases, 29 missing-method errors).
+  Opus then identified a small pre-existing trace-erasure labeling issue:
+  deleting an already-unavailable malformed payload changed its marker to
+  `erased`. A new regression reproduced the mismatch. Erasure now changes only
+  `retained` payloads, keeping the original unavailable marker and digest.
+
+- 2026-09-23 work/manuscript connection: a v3 candidate records merge intent and
+  provenance, not the native receipts needed to reconstruct accepted Debt.
+  Expose replayable conditional work with its causal operation rather than
+  inventing a receipt from a hash. A closed episode leaves these consequences
+  outstanding. Full scientific projection is needed for inherited impact paths.
+- 2026-09-23 manuscript review: canonical JSON normalizes text, while manuscript
+  bytes must retain original Unicode and line endings. Keep exact artifact bytes
+  outside that encoding and bind their hashes into review metadata. Result review
+  also found that an independently refreshed wording draft could name another
+  history in the same episode; a failing regression led to comparing the entire
+  current paper-view binding before preparation.
+
+- 2026-09-23 draft staging: an independently started draft has a different
+  Contribution chain from the current alternative. Substituting it would violate
+  the reducer's retained-prefix rule. Join only the unrecorded suffix with its
+  author/text/rationale/proposal/trace intact, disclose the resulting chain and
+  reject overflow instead of truncating research authorship. Both independent
+  drafts survive a workspace refresh; no new history schema is needed.
+
+- 2026-09-23 Opus cross-review: the older browser's proposal adoption does not
+  share the newer paper draft's incomplete-buffer preservation. A text-only
+  human draft disappears from its state and Contribution history after adoption.
+  Also, the scientific-history graph admits Interpretation-to-Claim relations
+  but the context compiler excludes Interpretation endpoints. Both defects
+  reproduce while the full existing suite passes; see the
+  [cross-review evidence](#r-implementation-cross-review-with-claude-opus-55).
+- 2026-09-23 exact cumulative review: the current Judgment alone is insufficient
+  provenance for a later episode. Its retained earlier source can contain AI
+  while the new Judgment is entirely manual. Bind the typed source chains into
+  the v3 seal and reconstruct them from history; a freely computed digest alone
+  cannot establish their completeness. For visualization, unchanged inherited
+  scientific paths can carry an amendment's impact beyond its selected closure.
+  Reuse the full before/after graph projection for that reach, keeping actual
+  changed statuses separate from potential effects.
+- 2026-09-23 cumulative episodes: an episode's reasoning can be frozen while
+  global evidence is corrected later. Expose both current-evidence episode
+  browsing and an explicit operation-time snapshot; do not treat them as the
+  same view. A fresh manual Judgment also cannot replace the provenance of an
+  inherited AI-influenced argument. Result review found and fixed operation-ID
+  aliasing, duplicate same-episode Interpretation previews and non-string
+  episode selectors being treated as the current episode. An Interpretation
+  selected for AI context must also explicitly carry its source episode;
+  otherwise the older reading could be mistaken for the current one.
+- 2026-09-23 argument outline: the prior renderer traversed only claim parent
+  IDs and appended other kinds at depth zero, despite the service already
+  exposing the connecting relations. A node ID alone also cannot distinguish
+  two selected locations of shared evidence. The projection now tracks path
+  occurrences for focus/history while drafts remain keyed to branch/node.
+  Search keeps matching ancestors open without changing fold state; initial
+  testing caught and repaired a misleading collapsed indicator during search.
+- 2026-09-23 TUI readability: the execution environment inherited
+  `NO_COLOR=1`, so an initial real-terminal inspection was monochrome despite
+  the palette implementation. An invocation-local unset exposed the color
+  treatment without changing terminal preferences. Added explicit monochrome,
+  eight-color and 256-color PTY coverage. The extra section spacing also moved
+  a narrow viewport's hypothetical paths below its first page; the PTY journey
+  now exercises PgDn to read those paths instead of assuming fixed row positions.
+- 2026-09-23 selected paper review: a valid whole amendment set can produce an
+  invalid partial selection (a scientific cycle or a retained status whose
+  basis moved). Validate both graphs through the existing history rules. The
+  current v2 source has branch-level Judgment provenance; a fresh manual draft
+  cannot be used to erase inherited AI influence during review.
+- 2026-09-23 TUI verification: exact termios comparison initially failed on
+  macOS PENDIN. A minimal `tty.setraw`/`tcsetattr` reproduction without the app
+  showed the kernel sets this transient state when canonical input resumes;
+  the next read clears it. The PTY oracle now exercises real canonical line
+  editing before comparing every mode, rather than ignoring a flag. Normal
+  quit and Ctrl+C restore shell input and disable bracketed paste. The app
+  explicitly restores caller-selected modes even on a rendering error.
+  A Docker runtime probe failed because its daemon/socket was unavailable;
+  no daemon was started or dependency installed. Linux/SSH remains unverified.
+- 2026-09-23 paper integration: the candidate core's one-merge lifetime cannot
+  be treated as a reusable daily paper episode. Keep a new unaccepted edit
+  buffer distinct from the source judgment, with no invented blank canonical
+  interpretation. The initial paper-context connection also lacked the current
+  unfinished draft; explicit inclusion now carries nullable rationale and AI
+  origin without sending the whole contribution/trace history.
+- 2026-09-23 UI medium assessment: `PaperService` returns layout-independent
+  nodes, typed relations and scenario impact. This supports a terminal adapter
+  in principle; it does not establish terminal usability. Shared evidence and
+  cross-claim impact must remain inspectable beyond a simple hierarchy.
+- 2026-09-23 goal review: the older dependency diagram placed working review
+  and useful AI after most infrastructure work, while newer amendments allowed
+  earlier synthetic integration. That ordering could hide product gaps behind
+  passing component tests. `PaperService` has no current web adapter;
+  `DemoWorkspace` still owns the v1 fixture, and `ContextRecord` then only admitted
+  limited prose/status fields rather than the new paper's explicit metric,
+  experiment and relationship context. Product section 12 also still described
+  now-implemented candidate model choices as unresolved; reconciled that drift.
+- 2026-09-23 R2 preparation: the installed SDK identifies `-34018` as missing
+  entitlement, and Apple TN3137 requires an app-like signed/profiled context
+  for the data-protection keychain path. This narrows the next investigation;
+  it does not prove which missing entitlement caused the earlier experiment or
+  that any current credential, IPC channel or cleanup problem is resolved.
+- 2026-09-22 non-UI result review: the first standalone artifact smoke expected
+  shortened claim IDs instead of the fixture's complete stable IDs; corrected
+  the smoke oracle without changing graph reach. Packaging the baseline Markdown
+  as a generated runtime resource also triggered the docs location rule. Added
+  one exact-path, byte-equality-checked exception and a regression proving
+  unrelated runtime notes and changed copies remain rejected. Neither issue
+  required a dependency install, trust relaxation or user decision.
+- 2026-09-22 UI/UX baseline: the first Chrome smoke stopped during reload with
+  CDP error `-32000`, `Inspected target navigated or closed`, before reporting
+  completed coverage. One unmodified rerun passed both manual/recorded-AI and
+  eight-node graph checks at 1440/390 pixels and produced inspected screenshots.
+  The failure arose at the automation/navigation boundary; its intermittent
+  cause remains unresolved. Do not treat the first attempt as a pass or claim
+  that this research task fixed the driver.
+- 2026-09-22: usability review exposed missing scientific context, not just
+  styling: R-01's caption names neither the operations nor the damage metric,
+  and the redacted fixture has no metric definition to recover. The current
+  model has one claim and the UI orders the run first. A paper thesis hierarchy
+  therefore requires a reviewed model/example extension, not a relabeled node.
+- 2026-09-22: delivery review found the app and many tests untracked. A temporary
+  archive of local HEAD `64bfa2b` failed `python3.13 -m claimbranch --help` with
+  `No module named claimbranch`; this is local committed-source evidence, not a
+  remote GitHub audit. No package configuration or LICENSE exists; current CI
+  omits the new domain/application/security suites. See the delivery amendment
+  for how these findings map to remaining work.
+- 2026-09-22: the initial browser smoke exercised the default claim selection
+  but not an experiment-only selection. The latter incorrectly displayed the
+  unselected interpretation as replacement wording. Candidate wording now
+  requires the interpretation in selected closure and a path to the anchor;
+  otherwise source bytes remain unchanged and the view names impact review.
+  A separate 5,000-digit Content-Length case exposed Python's integer parser
+  limit; validate the header's finite digit length before conversion and return
+  HTTP 413 without touching the draft or crashing the handler.
+- 2026-09-22: connected-flow review found that an already returned proposal
+  needed freshness checks again at adoption, and reconstructed lifecycle values
+  needed the same start budget and exact compile-result binding as transitions.
+  Reproduced and fixed those cases. The pure manuscript preview now checks the
+  full original digest and unique ordered LF markers, escapes TeX control text,
+  and preserves every byte outside the selected block. No compiler ran.
+- 2026-09-22: real Chrome smoke initially failed to deliver Enter as a native
+  key event and raced the old document after reload. Explicit focus/key text
+  and waiting for the new navigation resolved the test-driver issues. The UI
+  also defers focus until temporarily disabled inputs are enabled and restores
+  reviewed selection/explanation controls from the server on same-session
+  reload. Both 1440- and 390-pixel flows subsequently passed.
+- 2026-09-22: the earlier result report treated R2's owned-container cleanup
+  blocker as a reason to stop all later implementation. This contradicted the
+  independent R3 lane already selected in ADR 0010. Correct the execution rule
+  to stop only work that depends on the missing guarantee; resume authorized
+  portable work without another permission loop.
+- 2026-09-22: portable-history result review found that individually bounded
+  commands could create an oversized exported history, and a declared claim
+  basis was missing from manuscript-impact paths. Failing tests now cover both;
+  transitions validate the complete manifest before returning and traverse the
+  explicit scientific basis. Malformed selection/fixture containers also now
+  return contract errors instead of Python type errors. These fixes do not
+  grant authority or broaden the admitted scientific types.
+
+- 2026-09-22: a persistent Secure Enclave key in the initially compiled helper
+  failed with native error `-34018` before signing. Switching this bounded
+  experiment to a nonpersistent key allowed actual foreground signing, but did
+  not solve production key identity, custody or recovery. Two successful runs
+  were both human-approved; they were not cancellation failures. The subsequent
+  native cancellation returned `-2` without a signature. The original mapping
+  recognized only Security's `-128`; it now checks LocalAuthentication and
+  Security error domains separately, with a compiled noninteractive regression.
+- 2026-09-22: App Sandbox created an OS-managed test container whose metadata
+  could not be removed by the standard user. Ordinary removal and the native
+  trash API both failed (the latter with `NSCocoaErrorDomain` code `513`). The
+  first cleanup exception hid the access observations, so this run does not
+  establish denied read/write/network access. The probe now retains observation
+  results when cleanup fails and stops before creating another resource if
+  cleanup is pending. No broader OS permission was requested or enabled.
+- 2026-09-22: R3 result review reproduced two contract defects: distinct raw
+  Unicode IDs could share normalized encoding, and a replaced sealed payload
+  could retain a current context. Regression tests now require ASCII identity
+  tokens (Unicode prose remains supported) and revalidate the sealed payload
+  before freshness or acceptance-candidate use.
+
+- 2026-09-22: comparing the rendered R1 outbound state with product section 6.4
+  exposed missing request identification and edit/manual alternatives; result
+  review corrected them before delivery. The example's content digest is not
+  a provider consent implementation. A generic opening question also obscured
+  post-decision work, so resume, verification and recovery now name their
+  current task at the top.
+
+- 2026-09-22: the product gap is larger than connecting a UI to
+  `authority_demo.py`: that experiment has no full F0 operation history,
+  Contribution chain, debt lifecycle, replay golden, protected store/key,
+  compiler result or product session. The delivery sequence reuses its test
+  evidence without importing the synthetic authorization callback into an app.
+  The target architecture also retained an obsolete assertion that only the
+  docs checker existed; its current-status paragraph is corrected without
+  changing the target boundaries or claiming product coverage.
+
+- 2026-09-22: the existing storage probe's `rebind()` was safe for its original
+  placement-only experiment but could redirect a matched approval or persisted
+  patch in the new integration. Independent review reproduced this on two
+  synthetic paper copies. A failing regression now covers both stages; the
+  integration overrides that method to reject rebinding. The original storage
+  probe's relocation tests and behavior remain unchanged.
+
+- 2026-09-21 - The first macOS Python 3.13.15 full run reached all 302 tests
+  but failed `test_excessive_json_nesting_fails_closed_without_traceback`:
+  the real decoder parsed the test's 1,100 array levels and the validator
+  correctly rejected the unknown `deep` field. Python 3.9.6 instead raised
+  `RecursionError` for the same text, despite both reporting a recursion limit
+  of 1,000. The test now requires rejection without output or traceback via
+  either exact diagnostic, and a separate injected decoder exception pins
+  the nesting-error handler. The validator and fixture contract are unchanged.
+  The targeted suite ran 39 tests: 37 passed, two Windows junction cases skipped.
 - 2026-09-21 - The earlier manage-or-trust-server question conflated operating
   inference with controlling authority. ADR 0006 and product section 6.4
   already exclude server lifecycle management. Isolating the connector also
@@ -372,6 +5200,751 @@ The executable milestone names used throughout this plan are:
 
 ## Decision Log
 
+- 2026-10-11 KST - The owner separately selects MIT after the license question.
+  Add the canonical MIT notice to source and runtime ZIP, include its hash in
+  the artifact manifest, and expand the bounded member budget by exactly one
+  to 131. The earlier no-license fallback no longer applies to this publication.
+
+- 2026-10-11 KST - The owner's explicit "publish it now" instruction replaces
+  working live AI as a prerequisite for this current-source publication.
+  Publish the existing manual alpha and label AI unavailable; preserve L04's
+  failure, proposal-only authority and future qualification checks. The instruction
+  authorizes commit/push/release, not another inference request or license grant.
+
+- 2026-10-11 KST - Require a bounded complete `model/list` match for the explicit
+  model/effort/text modality before thread/turn creation, retaining fail-closed
+  warnings and no automatic model fallback. The owner approved only one
+  gpt-6-sol verification of the same synthetic input; that failed attempt spends
+  the approval. Prepare bounded error-category capture offline before any future
+  separately approved request. Retain the same L04 and public qualification gate.
+
+- 2026-10-10 KST - Ship the internal authentication repair with four fixed global
+  service exceptions and authorization-right denial, retaining all existing file,
+  exec and network rules. Keep public qualification closed; an observed login is
+  not authority to access other credentials or send another model request. Reuse
+  the same L04 and require a fresh exact choice for the prepared synthetic diagnostic.
+
+- 2026-10-10 KST - The owner selected an AI-connected GitHub alpha as the next
+  publication. Complete the existing personal L04 under ADR 0018 before that
+  publication, reuse finished manual/origin/terminal services, and retain local
+  feedback independently. This changes release priority, not the proposal-only,
+  actual-provider qualification or exact outbound-review boundaries. No new ADR,
+  native prerequisite or model request is authorized by the scope clarification.
+
+- 2026-10-10 KST - Keep the bounded actual-client investigation inside L04.
+  Preserve manual use and the existing login choice. The owned probe may verify
+  dispatcher refusals without credentials or model generation, but cannot
+  authorize authenticated dispatch. Stop that dependent branch for the missing
+  actual resource/egress boundary rather than enable unrestricted Codex, purchase
+  an API key or add native custody. No release scope or accepted ADR changes.
+
+- 2026-10-10 KST - Prepare the chosen existing Codex ChatGPT-login connection
+  using a separate closed profile/input format in the existing private store
+  and TUI. Preserve frozen API v1 and all research history; require no new API
+  key and import no login cache. Label only exact application input, candidate
+  CLI version and unverified wrapper/destinations. Keep Codex dispatch separate
+  and closed before any client/API transport until actual restricted execution
+  and checked return exist. This is the same L04, not a new outcome or ADR
+  boundary change, trust flag or native-key requirement.
+
+- 2026-10-10 KST - Preserve current response items until explicit decline or
+  disable before a replacement request; return from waiting to manual writing
+  without cancellation. The user now chooses existing Codex on this Mac.
+  Inspect its login/help without opening credential contents. Continue the
+  same L04 with a Codex adapter/access investigation; API-key purchase is not
+  an assumed prerequisite. This adds no outcome, native key or provider bypass.
+
+- 2026-10-10 KST - Keep historical API requests as versioned commitments and
+  replayable selected science, not re-created outbound requests. No raw wrapper,
+  secret reference or full profile enters research/backup; stored safe headers,
+  settings and policy are bound by the exact wire-request hash. Imported personal
+  hashes prove no protected authority or actual missing wire bytes. Add one
+  I/O-free schema module to break profile/storage import cycles, measuring the
+  source inventory at 129 members and explicitly adjusting its bound from 128;
+  runtime byte budgets remain unchanged. No extra store or outcome is introduced.
+
+- 2026-10-10 KST - Continue L04's independent wire component without qualifying
+  arbitrary BYO settings or enabling public personal requests. Reuse exact
+  preparation/typed ingress and use a short-lived same-user Python child only
+  for cancellable DNS/socket work. It receives frozen wire data and the selected
+  credential over stdin, no inherited environment/research handle. This adds
+  no sandbox claim, research store, native key or outcome unit. Initial TLS
+  uses default Python roots; implicit environment CA imports, private-CA support
+  and verification bypass are not promised. Actual provider/account/retention,
+  durable live origin and foreground intent remain the ADR 0018 gates.
+
+- 2026-10-10 KST - L04 prepares BYO OpenAI-compatible Chat Completions and
+  Anthropic Messages with user-selected complete endpoints/models, explicit
+  JSON compatibility and secret environment-variable names. No provider/account
+  is selected for everyone, key value is stored/read, or external app credential
+  is imported. Configuration is separate from the existing scientific store;
+  response history still belongs to that store. Preserve ADR 0018's actual
+  qualification/egress gate; compatible settings never confer dispatch.
+  Prepare 5/15/60-second connect/read/total and existing three-attempt budgets,
+  without claiming a live transport has enforced them. No new outcome ID or
+  native prerequisite is added.
+
+- 2026-10-10 KST - L03 reuses the existing contextual graph, candidate editors,
+  personal consequence and ordinary checkpoint. Constructor-owned cache-study
+  rehearsal is separate from public personal init/open, which stays AI-off.
+  An expired/changing scientific comparison does not erase original partial
+  explanation; it never grants a new reviewed choice or record capability.
+  One explanation cause has one editable latest-writing row, with recorded
+  choice retained independently. Generic Work review must route typed AI item
+  origins through the complete personal consequence, or refuse with that route.
+  No second store, native approval, live provider or presentation redesign.
+
+- 2026-10-10 KST - Implement L02 inside the existing workspace rather than
+  mixing its separate singular origin registry or creating a provider store.
+  Add explicit workspace v7/work v8/project v4 mapping, retaining older readers
+  and unchanged manual versions. Keep ordered proposal-local mappings and human
+  revisions, selected/required/inherited item origins, current/source judgments,
+  minimal attempts and personal explanation together. Replay the exact recorded
+  scientific commands to verify companion meaning; personal metadata grants no
+  protected authority or debt closure. Preserve earlier partial causal contexts,
+  explicit human explanation choice and the existing original reason. Retain
+  fixed L units and ADR 0018's ordinary files/no-key/live-provider boundary.
+
+- 2026-10-09 KST - The user explicitly selects optional AI in the ordinary
+  personal app; ADR 0018 amends the live-AI sequencing without weakening protected
+  authority or selecting a provider/transmission. Keep L01 portable and leave
+  staged adoption/persistence/TUI/transport with L02–L04. Freeze the closed typed
+  grammar and explicit edit dependencies; include its output format in review
+  while preserving legacy text bytes. Treat immutable typed metadata as data,
+  never adoption authority. Locally address the Opus findings and recheck the
+  actual changed paths rather than add a second store or native milestone.
+
+- 2026-10-08 KST - Incorporate the two Opus plan reviews as bounded proposal
+  clarifications, not live-provider approval or a new accepted release scope.
+  Preserve four L outcomes and the completed manual alpha. Prepare the personal
+  scope choice early; keep dependent behavior separate from independent portable
+  work. Reject contribution-history merging, automatic AI-to-human deferral,
+  warning-only understanding support and blanket included-draft freshness
+  relaxation. Reuse one reason, contextual review and existing workspace custody;
+  prioritize required origin/writing over optional new raw payloads. Personal
+  explanation state cannot manufacture protected debt or comprehension.
+
+- 2026-10-08 KST - Organize the user's requested AI follow-up proposal into
+  four observable L outcomes over existing B10/U8/B11 responsibilities. Keep
+  completed S outcomes and protected B dependencies distinct. Recommend an
+  optional personal-AI continuation for fast feedback, but leave that release
+  boundary and actual endpoint/egress choice proposed until explicitly resolved.
+  Portable preparation needs no native authentication; no current provider gate
+  is weakened and no new authority, service or credential is selected here.
+
+- 2026-10-07 KST - Use three execution batches over the four selected S outcomes;
+  begin feedback at S01's new-content save/reopen checkpoint and S02's complete
+  manual result-to-judgment loop. Preserve data/lineage and the promised journey,
+  while deferring optional polish and feature growth. Backend interfaces reach
+  the existing TUI as they stabilize; rescue/artifact preparation can proceed
+  independently if its presentation connection is temporarily unavailable.
+  Scope/authority remain those of ADR 0017; this is cadence, not another decision
+  about keys or encrypted recovery. No repeated storage approval is needed.
+
+- 2026-10-07 KST - The user selects no device keys/application encryption and
+  asks for rapid implementation, feedback and iteration. ADR 0017 governs this
+  first release. Use four whole S outcomes, collect feedback when the manual
+  loop first runs, and fix observed friction before adding optional capabilities.
+  Historical P0/native/H0/H1/V0 gates remain scoped to the protected program;
+  the personal alpha preserves explicit own-source confirmation and data safety.
+
+- 2026-10-07 KST - Honor the user's explicit own-project save/resume choice with
+  the manual protected Mac source milestone in ADR 0016. Keep S01–S04 as four
+  integrated user journeys over the existing B/U owners; do not add their counts.
+  Complete actual protected genesis/save/restart next, rather than another
+  isolated guard. Reuse only manual acceptance, same-device recovery and source
+  packaging subsets for this release; full AI, manuscript, upgrade, device-loss
+  and prospective-value obligations remain open. Group native observations at
+  feature milestones, retaining all enabled-feature checks and earlier failures.
+  The separate key-free proposal remains unselected and changes no custody.
+
+- 2026-10-07 KST - Keep one first-release S ledger shared with the backend;
+  attach the TUI's key-free alternative to its four outcomes. Recommend ordinary
+  private personal persistence if the user wants no native keys, while preserving
+  human construction, append-only evidence and contribution history. The exact
+  protection reduction remains proposed; do not silently reverse ADR 0016 or
+  convert existing encrypted work. Narrow routine UI verification to affected
+  portable behavior and PTY checks; complete regression remains milestone work.
+
+- 2026-10-06 KST - Require a binding-only enrolled target as a read-only initial
+  signing precondition, independently of the advisory candidate-work location.
+  Reuse existing initial-source call sites before review and signed success;
+  preserve legacy actions and cancellation semantics. Safe reserved diagnostic
+  canaries remain untouched. Repeated filesystem snapshots are not descriptor-
+  pinned race exclusion, a reservation or atomic CAS. Store selection, protected
+  genesis, receipt consumption and atomic log publication remain B03 work; no
+  new ADR or thirteenth outcome is introduced.
+
+- 2026-10-06 KST - Keep independent initial filesystem loading as a bounded B03
+  prerequisite, preserving the existing judgment and empty seed. Bundle the
+  helper explicitly under the unchanged per-resource 64 KiB build-pin limit.
+  The source check reads only synthetic local files, grants no accepted source
+  authority and is not atomic CAS. Scientific-log reload, receipt consumption
+  and protected genesis remain their owning B03 checkpoints; no production
+  store or publisher account is selected by this increment.
+
+- 2026-10-05 KST - Reuse the existing enrolled private signing transport for
+  empty-project attestation. Derive its effect from the reviewed closed seed and
+  association, preserve entered thesis and current-source rechecks, and refuse
+  unenrolled initial signing. This is not protected genesis, single-use receipt
+  issuance or atomic acceptance; retain those B03 checkpoints and the original
+  twelve-outcome count. No new production storage or trust decision is made.
+
+- 2026-10-05 KST - U9 failure guidance preserves the existing normal-quit
+  refusal while saving fails. Explicit Ctrl+C names newer-input loss instead
+  of adding another discard flow. Store/recovery latches last only for the
+  opened session; a fresh open inspects actual saved bytes without transferring
+  review authority. Inspection stays in the existing named action list.
+
+- 2026-10-05, B03 native v2 review: extend the existing unaccepted attestation
+  protocol only to the exact record-only v2 shape. Preserve v1 and signing-purpose
+  compatibility because review version and registry commitment are inside signed
+  bytes. Keep independent source loading, receipt consumption, genesis and log
+  atomicity in their existing B03 checkpoints; no new storage/trust choice or
+  human narrative is introduced.
+
+- 2026-10-05 KST - Implement record scientific replay before native accepted
+  genesis/store integration. Keep merges out of the legacy translation and
+  retain independent origins for continued review. This is authorized portable
+  B03 prerequisite work, no production-store or trust-boundary adoption, and no
+  additional ledger unit. The original researcher's judgment is reused once.
+
+- 2026-10-05 KST - Resolve the B02/B03 dependency by preparing an exact empty
+  initialization review first, reusing the existing field-driven candidate and
+  association APIs. This is a precursor within the same ledger, not a new unit
+  or a production-stack selection. Native genesis/receipt and encrypted atomic
+  operation replay remain B02/B03; do not mark checkpoint 2 complete from this
+  transient Python owner.
+
+- 2026-10-03: Record the scoped native-created local enrollment choice in
+  [ADR 0015](../../architecture/decisions/0015-native-local-enrollment.md).
+  Fixed namespace, exact code/key/resource binding and confined-worker denial
+  establish this component's trust path; imported signatures and caller pins
+  remain insufficient. This does not adopt unrestricted same-user provider
+  support, accepted storage, automatic source upgrades or replacement-device
+  authority. Preserve existing judgments and authorize each actual action anew.
+
+- 2026-10-03: share an earlier-basis PaperService only inside one exact-history
+  explanation batch. Prefix count identifies that history's immutable bytes;
+  each draft still obtains and validates its own detached return context. No
+  service survives on a session or into the next checkpoint. Preserve singular
+  subclass reconstruction. Original-review deduplication is a separate versioned
+  compatibility change; measured capacity does not authorize silent truncation
+  or restored review authority.
+
+- 2026-09-29: Keep the finite proposal worker's single App Sandbox container
+  as untrusted application state, with no research/key/trust data. Stable
+  identifier-only designated requirements support container reuse; exact source,
+  bundle and CDHash pins remain separately checked. Neither the container nor
+  a self-report is an authority root. Do not repeat disposable probe-container
+  creation/deletion or use deprecated sandbox-exec as the product boundary.
+  The worker compares parent-canonicalized responses; raw JSON parsing remains
+  in the parent. Bind the first arrival before checking, record failed/cancelled
+  arrivals, and require a new reviewed dispatch for another attempt. This is an
+  implemented bounded component, not acceptance of a complete production
+  custody/provider topology. Trusted enrollment remains the next B01 integration.
+
+- 2026-09-29: Keep exact-review signing an unaccepted, domain-separated
+  observation while enrollment/custody and B03 remain unfinished. Reuse the
+  owned scientific review and existing rationale; introduce no second narrative
+  or TUI connection. The signature binds the complete request and fresh nonce,
+  stays within mutually checked native peers, and cannot escape as a portable
+  receipt. Current-context revalidation applies to signed success; cancellation
+  and expiry preserve their own terminal outcome with authority false.
+
+- 2026-09-29: B01 key continuity remains a project/build-bound **unaccepted
+  registration candidate**, with a fresh create-only destination and explicit
+  foreground new-key authentication. It neither selects weaker production
+  custody nor trusts an imported self-signature/caller-held hash as enrollment.
+  Preserve opaque key material and incomplete reservations outside Git, never
+  publish their contents, auto-overwrite them or silently update bindings.
+  Device replacement still follows ADR 0014's new signing-key transition.
+  Same-user worker/key denial and trusted accepted-store enrollment remain the
+  measured B01 boundary before research authority is enabled.
+
+- 2026-09-29: Actual read-only Opus cross-review used canonical
+  `claude-opus-5-5` / firstParty, medium effort, one turn, no permission denials,
+  tools/hooks/plugins/MCP disabled and no session persistence. The fixed seven-file
+  packet contains 120,597 bytes, SHA-256
+  `654dee65baf90397d2532e38a664d4091087a0db87ade0ea378d4600a9d9b42a`.
+  It found no blocking security defect within the unaccepted boundary, two
+  medium reliability/partial-state issues and smaller lifecycle/parity gaps.
+  Reproduce/fix locally rather than treating that review as native observation.
+  Added meaningful signature/canonical-byte parity and software-key rejection
+  checks; native positive preparation/reopening/cancellation still require the
+  researcher. Review output is not stored as a repository transcript.
+
+- 2026-09-29: B01's source-built review transport reuses the current owned
+  operation review and exact native-role pins without making them enrolled
+  authority. Keep all outputs unaccepted, avoid key/prompt/store changes, and
+  recheck application context after delivery. Use Darwin's per-user temporary
+  root and keep costly preflight outside the bounded live exchange. This is an
+  implementation connection under existing constraints, not a new trust ADR or
+  an additional completion unit.
+
+- 2026-09-29: U3 restores historical scientific context and byte-exact supplied
+  source rather than recreating a live merge/review. A detached draft remains
+  editable with a historical parent; changed recorded context blocks review
+  under its old basis. Keep named return/discard controls separate from recorded
+  obligations, share identical source bytes, and preserve whole-save failure.
+  Manuscript review-answer retention remains with U7's review/apply integration;
+  no current approval or accepted state enters the v6 writing checkpoint.
+
+- 2026-09-29: U2 uses an additive v5 work envelope with typed original source,
+  authored baseline or judgment/selection inputs. Retain no live review seal.
+  Reuse U and Ctrl+O for return/comparison; selecting the current basis is a
+  separate explicit action before keeping text or completing a current review.
+  Preserve independent structural candidate edits when keeping editable fields.
+  Original-input deduplication remains U9; do not trade provenance for capacity.
+
+- 2026-09-29 - Track remaining backend work in twelve stable B outcome units,
+  separate from the other session's U interaction ledger and actual human/
+  environment gates. Complete the independent source-association continuation
+  B04 while B01 remains the protected-path priority. Refresh uses explicit v2
+  typed transitions and preserves exact nested writing/old reviews; it never
+  imports new science or silently infers identity after a combined move/edit.
+  This implements the existing R4 boundary, not a new authority/storage policy.
+
+- 2026-09-29: U1 restores the explanation service's owned snapshot and verified
+  source prefix, rather than copying answers onto current science. Use an
+  additive v4 work envelope, preserving old readers in the new build; wording
+  and scientific-review inputs retain separate U2/U3 mappings. This extends
+  unaccepted recovery under existing ADRs and introduces no new authority.
+
+- 2026-09-29: Expose the existing encrypted candidate lifecycle through an
+  explicitly synthetic command family. Reuse the native format and private
+  directory checks; export a create-only ciphertext copy and require recovery
+  key verification before declaring backup complete. Do not take over TUI
+  retention or promote candidate replay into accepted records. No schema,
+  cipher, production stack or accepted ADR decision changes.
+
+- 2026-09-28: Connect manual interpretation creation through existing bounded
+  candidates and source observations. Retain the domain's one-current-episode-
+  interpretation bound in each projected argument, independently owned drafts,
+  and selected dependency closure. J reuse applies only to kept new manual
+  interpretations after comparison, retains reason/contribution history, and
+  cannot copy recorded source interpretation prose as manual origin. No domain
+  schema, accepted operation, alternate store or authority decision changes.
+
+- 2026-09-28: Continue T2b with incremental result capture beside an existing
+  subject, before legitimate initialization/evidence confirmation is available.
+  Keep tentative judgment and source text in one bounded volatile application
+  draft, with no automatic transfer into the old node judgment, graph, provider
+  or review. This enables provisional entry while preserving the missing
+  confirmation boundary; it does not create another accepted log or extend
+  ADR 0013 checkpoints. Existing source and AI history remain inspectable.
+
+- 2026-09-28 exact operation: carry the full policy/decision and included
+  amendment/source values in a separate versioned review, with exact typed
+  record/merge effects. Keep legacy candidate readers unchanged. Recompute from
+  owned sources instead of trusting imported fingerprints or registering their
+  embedded origins. New scopes must be explicitly prepared; restoring bytes
+  cannot replace live work. The separate native custody/atomic-writer gate
+  remains required before the same request can become accepted research.
+
+- 2026-09-28 T4 wording: open the exact detached merge candidate through the
+  existing manuscript service, guarded by the parent review, source fingerprint
+  and original work identity. Choose this over inserting synthetic work into W.
+  Keep old review-bound drafts accessible from the same owner; an explicitly
+  chosen new parent starts separate wording. Cross-basis text/provenance
+  transfer requires a future service contract rather than copying text and
+  losing influence. Source judgment reason reuse is an explicit, undoable editor
+  action; replacement of another reason is reviewed before applying to the
+  buffer. This adds no accepted state, write authority or new storage format.
+
+- 2026-09-28 T4 return: reuse the existing conditional understanding session
+  and its causal topic catalog. W owns return to these work/topic-bound drafts;
+  U continues to own node/change-review unfinished text. Explicit rationale
+  references avoid a second account. Context refresh binds all topics only
+  after displaying original basis/current science and checking the exact digest.
+  There is no accepted cause-review mapping for the v3 item, so add no closure
+  button or fabricated Debt. Manual checkpoints remain unchanged; protected
+  explanation custody and accepted closure stay with R2/R4 and T5b.
+
+- 2026-09-28 review policy: instantiate ADR 0005 as a finite candidate action
+  table, separate from old sealed reviews and commands. Bind per-amendment
+  revision/source snapshots while preserving the existing inherited-AI floor;
+  no caller risk label or manual edit erases known origin. Record assessment
+  and branch construction share the contribution join. Explicit rationale
+  references count as contextual answers without an AI grade or repeated
+  narrative. This is a versioned in-memory preparation contract; protected
+  command/receipt and durable origin integration remain required before use.
+
+- 2026-09-28 T3b: explicitly reuse the existing episode/ref/source-node judgment
+  identity rather than migrate to a new work ID. Service-owned bounded links
+  and per-node choices preserve original contribution/candidate ownership and
+  independent drafts. Membership is a working association, never a scientific
+  edge or implicit review selection. Source/link revision binds the preview;
+  changed membership revokes scientific/branch review. Manual checkpoint text
+  remains at its original owner and no association is serialized. Durable
+  linked-work recovery remains T5b. The living design records the comparison.
+
+- 2026-09-28 understanding closure: keep the legacy head/time candidate API
+  separate from the new versioned understanding review. Revalidate supplied
+  cause/debt/current context both when preparing and calculating the final
+  candidate; the future gateway still owns accepted loading, live authority and
+  atomic receipt consumption. A rationale can reuse prior writing, with no
+  semantic answer grade or new narrative requirement. Conditional v3 work gains
+  no accepted Debt mapping or closure action through this pure contract.
+
+- 2026-09-28 partial explanation: store unfinished text separately from
+  completed answers, using a versioned conditional-work snapshot. Reusing the
+  original rationale is an explicit reference, not another authored copy.
+  Reconstruct topic and context bindings from owned history; source extension
+  retains the old writing basis until deliberate rebinding. These actions do
+  not attest authorship, understanding or consent. Keep real custody and accepted
+  cause/review/closure bindings with their existing R3/R4 owners.
+
+- 2026-09-28 - Extend manual authoring with the existing experiment-plan
+  schema and owned candidate lifecycle. Scientific fields start blank; planned
+  status is fixed. Render target aliases and exact measurement fields at review,
+  and mark draft plans as unrun. Preserve old-record edit policy and the
+  session-only/checkpoint boundary. This is T2a behavior, with no new domain
+  schema, accepted authority, execution or storage decision.
+
+- 2026-09-28 understanding return: expose the read-only, explicit-project
+  conditional return before explanation editing or accepted closure. Bind full
+  original/current views through independently checked component hashes and
+  metadata, retaining the existing per-record limit. This is a read envelope,
+  not a new accepted schema or durable store. Current inspection never replaces
+  the cause, erases AI lineage or fabricates a sealed review. The next independent
+  work freezes contextual topics and partial-explanation ownership/retention
+  within the existing reviewed order; authoring and TUI remain with their owner.
+
+- 2026-09-28 T3a/T5a initial authoring boundary: explicitly reuse the original
+  existing-node work as owner. Keep candidate records, mutation revision and
+  exact source binding outside expiring scientific/branch reviews; never turn
+  a new draft node into a Judgment or checkpoint target. Compare this against
+  the future explicitly linked work identity in the living design. Preserve
+  old checkpoint schema, 16-context/no-eviction capacity and session-only
+  candidate retention. Source refresh shows changed amended records before
+  deliberate rebinding; it does not automatically rebase research meaning.
+  This completes the prerequisite for the bounded claim/link slice, not T3b's
+  linking or T5b's durable recovery.
+
+- 2026-09-28 Opus replan: use the
+  [reviewed implementation order](#reviewed-implementation-order) for the next
+  non-UI work. Preserve the other stream's active draft projection and authoring
+  integration; conditional return inspection can start independently before
+  accepted closure or expanded impact rules. Preserve transitive provenance, separate unfinished
+  explanation from completed review, and leave understanding supersession
+  unexposed. No accepted ADR changes or new product-policy approval are needed
+  for this bounded first increment.
+
+- 2026-09-28 understanding review: retain ADR 0005's separate provenance,
+  authority and explanation obligations. Refine existing R/T milestones with
+  the [alignment review](#understanding-debt-alignment-review), without adding
+  another product stage or making review a prerequisite for ordinary drafting
+  or optional AI assistance. This is implementation sequencing, not a new ADR.
+
+- 2026-09-28 T1b: use the existing contextual picker pattern for named manual
+  actions, with unavailable creation entries and optional fixed-example AI last.
+  AI availability comes from the workspace's actual response capability;
+  comparisons inherit it. Keep manual defaults, source provenance and authority
+  contracts unchanged. At the user's request, every compaction now triggers the
+  native harness's canonical philosophy/goal rereading path before further work.
+
+- 2026-09-28 intent review: restore the existing source-delivery boundary and
+  withdraw the unaccepted package recommendation/account question. The
+  [corrected packet](#mac-package-and-custody-decision-packet) owns this
+  disposition and the distinction between accepted human-authority requirements
+  and unselected native mechanisms. No new ADR is needed: no accepted decision
+  is reversed. Keep the next work tied to the existing complete-loop and
+  human-led authoring sequence, with the TUI owner's files preserved.
+
+- 2026-09-28 T1a: use a focused judgment editor with a source column at wide
+  sizes and a compact source strip at narrow sizes. The comparison retaining
+  graph plus embedded editor left less room for writing and full context.
+  Keep source inspection read-only over the same editor buffers and modal;
+  this preserves existing checkpoint/suspend semantics. Keep node ownership,
+  accepted state and storage formats unchanged. Surface status before long
+  Work text and preserve current-global-evidence, hypothetical, AI-origin and
+  save-failure context. Agent inspection selects this bounded composition;
+  human understanding and remote-host usability remain unverified.
+
+- 2026-09-27 plan cross-review: keep T1a limited to contextual reading/editing
+  over current node-bound work. Decide T3a ownership before T2a authoring, add
+  the R3 judgment-free validation dependency, and bind candidate mutation to
+  review invalidation. Assign a real AI-off launch path to T1b. Defer typed
+  AI adoption until its amendment contribution contract exists; do not mistake
+  retained proposal text or manual retyping for complete provenance handling.
+  These are implementation-plan refinements; accepted ADRs are unchanged.
+
+- 2026-09-27 TUI planning: organize the next work around one unresolved result
+  becoming a reviewable judgment and resumable paper consequence. Retain the
+  approved graph and terminal medium. Prefer an explicitly scoped working draft
+  linked to several nodes, subject to the bounded identity comparison below;
+  this is a proposal, not a silently accepted persistence/schema change. Native
+  custody, live-provider and manuscript dependencies have separate owners and
+  must not block independent synthetic presentation work.
+  Following the user's authorship clarification, make manual construction the
+  default entry surface and verify it independently before assessing requested
+  assistance. Compare bounded incorporation with whole-text adoption; do not
+  mistake manual typing or a completed explanation field for comprehension.
+
+- 2026-09-27 - Keep signed candidate recovery as an explicit experiment profile,
+  requiring external signer/checkpoint pins and native verification before
+  publication. Preserve supplied signed bytes while reencrypting; never re-sign
+  during restoration or downgrade to unsigned input. A disposable software
+  fixture tests cryptographic plumbing without opening another OS approval
+  window. ADR 0014's product policy is unchanged; accepted receipts, protected
+  custody and new-device authority transitions remain separate work.
+
+- 2026-09-26 - Honor the user's request for readable vertical arrows even when
+  a short viewport must clip one more card. Keep a three-cell minimum for
+  directly stacked connected cards and expose reversible Balanced/Spacious
+  spacing, Brief/Source detail and reader pinning. Settings remain presentation
+  preferences in this session; scientific projections and draft checkpoints
+  are unchanged. Preserve explicit clipped counts and keyboard reachability.
+
+- 2026-09-26 - Add an explicit active-prefix `--merge-example`, preserving the
+  closed cumulative fixture and its full golden check. Keep branch continuation
+  detached from the graph workspace so a synthetic candidate cannot appear as
+  accepted state or create actual pending work. Require explicit J staging when
+  the current interpretation must match the authored judgment. Preserve source
+  paths/unfinished explanations across re-preparation, never the obsolete
+  review. Existing pure services remain the authority for scope and provenance.
+
+- 2026-09-26 - Connect manuscript review before branch recording in this TUI
+  increment: existing conditional work is exercisable in the shipped closed
+  cumulative example, whereas branch recording requires an active episode.
+  Use explicit read-only file selection so exact UTF-8 bytes do not pass through
+  the terminal editor's normalization. Preserve draft buffers by work ID and
+  keep this work outside graph-note recovery until a provenance-aware durable
+  store exists. No accepted operation or file writer is introduced.
+
+- 2026-09-26 - Refine full-word relationships into secondary header labels at
+  the user's request. Prefer beside-title placement; continue long/parallel
+  text beneath the title rather than abbreviating or drawing into edge lanes.
+  Preserve source rows and fixed selection geometry. Font size remains a
+  terminal setting; regular weight expresses the secondary role.
+
+- 2026-09-26 - User feedback supersedes the earlier contact-code choice below:
+  a relationship must be understandable without learning letters or a key.
+  Put full directional phrases inside reserved neighbor-card rows. Retain
+  narrow route lanes, compact source previews and fixed geometry on selection;
+  accept modestly taller cards rather than cryptic relationship codes.
+
+- 2026-09-26 - Earlier, superseded presentation choice: prefer one-cell type codes at graph contacts plus a contextual
+  text key over full words at every endpoint. Existing 8–12-cell lanes cannot
+  fit full names and both arrows without enlarging the user's compact overview.
+  A mixed marker is not a relation type or strength. This is a display decision;
+  the exact relation reader remains the authority for endpoints and rationale.
+
+
+- 2026-09-26 - Retain the legacy single-episode demo/default and introduce an
+  explicit `--series` entry point. Adapt immutable episode/ref queries and
+  reconstructed conditional work through the existing service; do not add
+  synthetic obligations, acceptance or closure controls. Context identity is
+  explicit in series text recovery; reject incompatible files instead of
+  migrating or dropping episode/AI provenance. This extends the existing
+  prototype contract, not the protected storage architecture.
+
+
+- 2026-09-25 recovery mechanism: continue the independently implementable data
+  component under ADR 0014 while native cancellation/custody/private delivery
+  and Sandbox-dependent product gates remain open. Freeze only an explicitly
+  experimental candidate archive, not the production backup/store or runtime
+  choice. Preserve exact existing history bytes and reject stale known snapshots
+  before publication. A restored candidate is never accepted authority. Rewrap
+  ciphertext under a distinct disposable local key and require a new destination;
+  do not export device signing keys, change TUI, or open another authentication
+  window. Primary crypto inputs belong in the existing Mac reference.
+
+- 2026-09-25 recovery selection: the user explicitly selected restoration on a
+  replacement device using an encrypted backup and a separately retained recovery
+  key, followed by new-device approval-key registration. ADR 0014 is canonical
+  for that policy; stop asking this choice again. Algorithms and validation
+  remain implementation work, and the native custody/isolation gate is unchanged.
+  Prepare new experimental keys only after a visible human action in the explicit
+  review path; do not turn a noninteractive creation failure into an automatic
+  prompt or a software-key fallback.
+
+- 2026-09-25 R2 observation follow-up: the user confirmed approving both native
+  prompts that had been intended for cancellation. Record those results as
+  successful signing and keep actual native cancellation unverified. Do not
+  keep reopening the same flow automatically after each clarification or
+  classify a verified signature as a cancellation success. A later deliberate
+  cancellation exercise must yield its own native result. This follow-up changes
+  execution evidence only; the previously Opus-reviewed implementation is unchanged.
+
+- 2026-09-25 R2: keep foreground reconstruction/signing as an explicit probe
+  path, bind the fixed review and challenge, verify public signatures separately
+  and recheck noninteractive denial afterward. Use a sleep-aware deadline and
+  terminal cancellation. No silent interactive fallback follows a creation
+  error. A real human observation and production custody remain separate from
+  software-key crypto tests or a static Opus review. Stop the actual native run
+  at its creation error and report it; do not weaken key access control or
+  connect protected R4 writes. The newly accepted TUI draft checkpoint under
+  ADR 0013 does not select production backup/recovery policy.
+
+- 2026-09-24 R2: scope the outstanding Sandbox cleanup block to its dependent
+  isolation/protected-write work. Independently measure encrypted Secure Enclave
+  representation reconstruction with no container, prompt or existing key.
+  Keep both authority flags false and report constructor-level tamper evidence
+  as incomplete when the changed bytes still reopen. The recovery alternatives
+  remain proposals: the user asked for an explanation, not selected approval.
+  Documentation impact is developer commands, primary-source applicability and
+  execution evidence; no product/storage contract or accepted ADR is changed.
+
+- 2026-09-23: follow the user's new requirement for an actual Claude Opus
+  static review after every R implementation increment. Bound the review to
+  a fixed source copy and verify the reported canonical model. A model review
+  supplies an independent check; local reproduction and executed tests remain
+  necessary. Updated the native harness in place; no Superpowers workflow.
+
+- 2026-09-23 non-TUI continuation: keep protected store/native execution at its
+  existing R2/recovery prerequisites. Complete derived conditional work and exact
+  supplied-byte manuscript review independently. Neither adds a second scientific
+  log, accepted debt, new history schema, automatic wording or a file writer.
+  Reuse the draft/offline broker and literal marked-text helper; retain new and
+  inherited AI in explanation review. R5 apply/compile/restore/closure still
+  requires the existing native and storage boundary.
+
+- 2026-09-23 draft staging: record the explicitly selected amendments and required
+  dependencies, leaving omitted proposals outside the alternative. Keep staging
+  separate from selected merge and its explanation/authority requirements. A
+  main draft may create the empty alternative slot; existing alternatives require
+  their own bound draft. Preserve old-episode overlays as hypothetical. This
+  implements existing candidate invariants, with no new architecture decision,
+  store, native gate, TUI layout or migration policy.
+
+- 2026-09-23 Opus cross-review: use the explicitly requested `claude-opus-5-5`
+  through Claude Code with read-only restricted tools and a fixed source copy.
+  Reproduce findings in the original tree before treating them as defects.
+  Record confirmed issues in this plan without automatically changing code or
+  converting hypothetical archived-episode previews into an accepted-write bug.
+- 2026-09-23 exact cumulative review: extend the pure review profile to v3 and
+  add a volatile session over an already recorded alternative. Keep legacy seal
+  payloads and frozen history bytes unchanged. Bind source chains instead of a
+  caller's `inherited_ai` flag; calculate candidates without changing the owned
+  source. Do not silently stage unrecorded draft amendments or introduce a
+  synthetic receipt/persistent writer. This implements the existing authority
+  contract and selects no new production stack or native boundary.
+- 2026-09-23 repeated paper work: add an explicit v3 candidate profile under
+  ResearchHistory, retaining v1/v2 commands and goldens. Use one active episode,
+  an alternative/merge per episode and separately retained Judgment chains.
+  Close records candidate `merged`/`unmerged`, not a V0 completion result.
+  This implements the cumulative identity direction of ADR 0007 without
+  changing its authority, saga or eligibility requirements. Do not automatically
+  migrate existing projects or select a protected store. Match the concurrent
+  TUI's node/ref model with a volatile episode/ref/node draft adapter, preserving
+  the UI owner's presentation work.
+- 2026-09-23 argument outline: use the user-supported color/spacing treatment
+  as the visual baseline and expose the existing graph through a thesis-rooted
+  outline. Label relation types and actual direction, preserve parallel
+  structural/scientific links, and make repeated nodes finite shared references.
+  This changes presentation/navigation only; it does not reorganize the stored
+  graph, duplicate accepted evidence or impose a new source relationship.
+- 2026-09-23 TUI readability: keep the same synthetic scientific source while
+  distinguishing item type, selection and scientific relation through both
+  color and text. Favor a spaced default with a compact toggle, bounded text
+  measure and a focused full relation reader. The living design owns palette
+  and spacing choices; these are refinable presentation values, not a new ADR
+  or evidence of human comprehension.
+- 2026-09-23 R3 selected-change connection: expose a disposable amendment
+  projection through ResearchHistory and PaperService, then bind it to the
+  complete draft in PaperDraftSession. Reuse v2 types and dependency rules;
+  preserve v1/v2 commands/goldens and the existing one-merge boundary. The
+  projection can inspect a previously merged source, but cannot masquerade as
+  another canonical episode or a sealed acceptance receipt. No production
+  store, recovery choice or UI design is selected by this increment.
+- 2026-09-23 terminal implementation: the user's stated reason is continuity
+  with experiments in the server shell. Record that durable presentation choice
+  in ADR 0012, adapting ADR 0011 without changing scientific or platform
+  authority. Use existing Python curses for this bounded synthetic prototype;
+  no new package, listener or production framework is introduced. Keep drafts
+  volatile and clearly distinguish missing manuscript source from a text diff.
+- 2026-09-23 R3/R8 integration: extend the existing compiler/broker with a
+  versioned bounded scientific profile, preserving v1 payload bytes. The paper
+  reader supplies conservative private classification and unresolved source
+  availability. The separate volatile draft service composes Judgment and
+  ProposalAttempt; it is not a new history owner, authority service or live
+  provider. No native/privacy gate or unresolved recovery choice changes.
+- 2026-09-23 UI medium clarification: the user selected most work inside an
+  actual terminal. Next compositions therefore target a TUI. Keep graph
+  comprehension and scientific/authority semantics, and explicitly reconcile
+  graphical presentation assumptions during integration. This chooses the
+  exploration medium, not a framework, exact layout or mandatory second viewer.
+- 2026-09-23 execution alignment: retain the accepted author-owned/proposal-only
+  and platform boundaries, but schedule integration by the researcher action
+  demonstrated. Non-authoritative exploration and context preparation can
+  progress alongside R2; protected own-project state still requires R2/R4 and
+  private-source verification. Do not turn the original F0 cardinalities, test
+  counts, crypto probes or source ZIP into a replacement definition of product
+  success. Recovery alternatives below are proposals, not a new accepted ADR.
+- 2026-09-23: the user reserves UI/UX reference inspection and selection.
+  Assistant research supplies choices and relevance, not implicit visual
+  acceptance. The reference-dependent composition work follows that selection;
+  independent implementation and existing scientific/authority gates are unchanged.
+- 2026-09-22 non-UI execution: implement paper candidates as explicit v2 inputs
+  to the existing ResearchHistory owner, retaining v1 byte compatibility and
+  separate scientific/structural semantics under ADR 0011. Scenario outputs are
+  derived and exact-history-bound. Use a reproducible stdlib source preview for
+  the independent R6 packaging increment; do not choose a production key/store/
+  recovery stack, license or installer to make a synthetic package appear ready.
+- 2026-09-22 UI/UX method: the user requested a harness informed by YC's design
+  demonstration, starting with source and project understanding. Adapt it as
+  a contributor procedure over existing canonical docs, the living R1 design
+  and actual browser checks. Keep reference selection and comparable prototypes
+  proportional; do not copy transcripts into a competing project context file,
+  impose sixteen variations or select new tools from the demonstration alone.
+- 2026-09-22: the user requires other researchers to use their own projects from
+  a GitHub-delivered artifact and makes the paper argument graph the primary
+  experience. ADR 0011 owns the durable UI direction; the product spec owns
+  PG-1 through PG-5 and the release scope owns source readiness. Progressive
+  expansion, pinned emphasis and three-way scenario controls are proposals,
+  not silently accepted details. No technology, license, publication or native
+  gate is selected/closed by this documentation task.
+- 2026-09-22: the user selected real macOS replacement implementation now and
+  deferred Windows execution to their home machine. ADR 0010 owns the durable
+  platform decision. Revise the dependency order so Windows absence and R1
+  visual feedback do not block portable scientific rules. Retain explicit
+  native-authority, storage/recovery, private-source and live-provider gates.
+
+- 2026-09-22: the user explicitly disabled Superpowers for token cost. Use a
+  proportionate task-specific plan, implementation and result review, with
+  checks selected for the changed behavior. Updated the root agent guide and
+  implementation harness to retain that preference. R1 needs no installation,
+  framework choice, live endpoint, separate journal or repeated approval of
+  the already-authorized design work. Human context/visual acceptance and the
+  Windows R2 gate remain unresolved after the artifact becomes reviewable.
+
+- 2026-09-22: plan the actual app from the documented personal research-agent
+  Dream state and current primary-workspace contract. Keep P1–P4 as the release
+  sequence; add execution packages, not another release taxonomy or a competing
+  plan. Prepare the research experience and synthetic interaction examples on
+  Mac while Windows enforcement remains unavailable. Production kernel/surface
+  work retains its existing entry gates. The first real product remains the
+  native-Windows hypothesis; a Mac development host is not Mac product support.
+  Plan one complete manual research loop before live AI, with an early review
+  of the intended screen so infrastructure work stays tied to researcher value.
+  The user's clarified direction is to solve today's problems in service of
+  the intended researcher outcome. Treat a missing capability, test or platform
+  as a delivery constraint, not as a replacement product goal; observe the
+  outcome through the existing workflow rather than another assessment form.
+
+- 2026-09-22: user selected synthetic A1–A4 integration on Mac. Complete the
+  offline integration before Windows becomes available, but retain A2 native
+  presence/private IPC, P1 stack, production A3/H0 and live A4 topology gates.
+  Use only the existing disposable SQLite experiment and verified fixture
+  copies; do not promote them to the product store. The integrated probe fixes
+  its paper association so an approval or patch cannot be retargeted through
+  the inherited relocation API. Real paper relocation remains separate P1 work.
+
+- 2026-09-22 - **Implement shared assertion validation before Windows invocation.**
+  The next Mac increment pins a restricted ES256 WebAuthn profile and verifies
+  a public synthetic signed fixture through an established native test oracle.
+  OpenSSL is test-only and already installed; it is not selected as the product
+  or Windows backend. Do not turn signature validity or an authenticator flag
+  in this software-generated fixture into a foreground-human claim. Windows
+  registration, native API mapping, and key-custody decisions remain A2.2 work.
+- 2026-09-22 - **Continue A2 on Mac without substituting platform evidence.**
+  Implement only the serialized attempt orchestration with injected synthetic
+  dependencies. `matched` remains explicitly non-authoritative. Real Windows
+  presence/key/IPC tests stay separate from A3's durable receipt transaction;
+  browser defenses must pass before enabling browser-mediated authorization.
+  This refines implementation order without changing ADRs 0005 or 0009.
 - 2026-09-21 - **Expose the research structure before extending authority.**
   The user delegated the continuity check. A1 needs no unfinished bridge into
   A2; its public digest must not become a pretend approval. Add only a
@@ -490,6 +6063,919 @@ The executable milestone names used throughout this plan are:
 
 ## Outcomes & Retrospective
 
+- 2026-10-11 KST - Model metadata preflight removes a reproduced startup-warning
+  problem, but the one supported-model diagnostic still yields no checked live
+  proposal. Preserve that failure and the diagnostic instrumentation gap.
+  Manual work and saved origin remain usable; the AI-connected publication
+  outcome remains unfinished at S=4/4, L=3/4. The
+  [current result review](#2026-10-11-l04-codex-model-preflight-and-diagnostic-result-review)
+  owns affected checks and the next bounded investigation.
+
+- 2026-10-10 KST - The observed restricted-login failure is repaired and narrowed
+  after two actual Opus 5.5 PASS reviews. Actual authentication and file/exec
+  controls pass without inference. Generated HTTP, permitted-service API access
+  and checked live assistance remain open, so the selected AI-connected GitHub
+  milestone is unfinished at the same S=4/4, L=3/4. See the
+  [Mach result](#2026-10-10-l04-codex-mach-lookup-result-review).
+
+- 2026-10-10 KST - The next GitHub milestone now explicitly includes working
+  optional personal AI. The release/validation/plan documents distinguish that
+  target from completed manual implementation and unavailable current public
+  dispatch. No runtime behavior, saved schema or provider verdict changes in
+  this scope reconciliation. The same L04 remains open before publication.
+
+- 2026-10-10 KST - Actual Codex execution is now observed against an owned
+  scripted peer, including tool-call refusals. No real proposal or ChatGPT-login
+  connection is delivered by this probe. The remaining L04 is still actual
+  authenticated access/egress, checked return and novel-task use; S stays 4/4,
+  L stays 3/4. Do not repeat preparation/probe passes as completion evidence.
+
+- 2026-10-10 KST - The selected Codex-login route now has private configuration
+  and contextual input preparation using one existing judgment/reason. Public
+  saved-project preview and actual terminal manual/restart preserve science,
+  writing and source without an attempt/trace or restored profile. Final affected
+  and extracted-source checks and pinned Opus source review pass. Actual client
+  protection, invocation/return, exact outbound choice and novel-task assistance
+  remain L04; S=4/4 and L=3/4. See the preparation result below.
+
+- 2026-10-10 KST - Public personal init/open now connects selected private
+  profiles to contextual unsent previews and the downstream owned-response
+  terminal/return path. Explicit decline, manual writing during a request and
+  post-trace error handling preserve the original judgment and AI origin.
+  Actual Codex connection/qualification and novel-task usefulness remain L04;
+  the manual alpha count is unchanged. See the contextual result below.
+
+- 2026-10-10 KST - Owned API returns now reuse selective incorporation and
+  personal source/origin return. This improves inspection of AI influence after
+  human edits and saves, without another narrative or an understanding grade.
+  Repair re-review is missing because of Claude's session limit; local checks
+  and truthful handover continue. Public provider/TUI use and novel-task utility
+  still own L04 completion. See its retention result below.
+
+- 2026-10-10 KST - L04 internal asynchronous I/O is implemented and checked
+  against owned peers and the extracted source. It returns unaccepted typed
+  data, redacted dispositions and digests, never scientific writes. The public
+  manual alpha is unchanged at S=4/4; optional AI remains L=3/4, one remaining.
+  Actual provider qualification, connected TUI/live retention and novel human
+  task evidence still own L04 completion. See the current L04 result below.
+
+- 2026-10-10 KST - L02 supplies atomic item/dependency staging with retained
+  earlier human writing, independent siblings and complete personal item/
+  judgment origin. Manual judgment plus AI relationship, editing, omitted plan,
+  later derivation, correction, fresh process and ordinary backup/restore retain
+  that origin and the original reason. Explicit explanation choice, partial
+  original context and reason reuse remain separate from comprehension/debt.
+  Opus's reviewed initial snapshot is corrected locally, with no unperformed
+  final Opus approval claim. The integrated alpha and final affected/retention/
+  harness/schema/docs checks pass as detailed below. Public personal AI remains
+  unavailable pending L03/L04; L is 2/4 with two units remaining. This establishes
+  preservation and application wiring, not useful live critique, human
+  understanding or a protected accepted store. Detailed presentation stays with
+  the existing TUI; no native key or second editor/store is added.
+
+- 2026-10-09 KST - L01 now exposes a checked selected-science/optional-draft input
+  and frozen typed suggestion response on new content. Scientific history and
+  unfinished manual thinking remain unchanged; text-v1/manual consumers stay
+  compatible. Actual Opus 5.5 review findings are locally reproduced and fixed;
+  the reviewed snapshot preceded those fixes, so no unperformed final Opus
+  approval is claimed. All 141 affected regressions, the module exercise, schema
+  freshness, 71 Markdown files and whitespace pass. Personal-AI scope is resolved
+  under ADR 0018, but current public personal open remains AI-off. L is 1/4 with
+  three remaining; next connect atomic selected batches to complete item/judgment
+  origin and the existing personal save/return path in L02. This checkpoint
+  establishes ingress and preservation, not useful AI or human understanding.
+
+- 2026-10-08 KST - The optional-AI plan is reviewed against canonical philosophy
+  and current implementation, with two actual Opus 5.5 reviews and local
+  reconciliation of their findings. The corrected plan starts with portable
+  L01 and keeps the complete four-outcome count: 0/4 implemented, four remaining.
+  Personal-live scope must be resolved before dependent recording/persistence;
+  actual provider/topology/egress remains a later dispatch gate. The original
+  manual alpha stays complete and available for feedback. No runtime change,
+  provider activation, new accepted ADR or human-usefulness claim results from
+  this plan review. Documentation checks pass 70 Markdown files and tracked
+  whitespace; all 3 documentation-integration tests pass. The final local
+  clarifications after the second review are not claimed as a third Claude pass.
+
+- 2026-10-08 KST - The next optional-AI plan now covers scoped machine context,
+  selective typed suggestions, durable origin, contextual TUI comparison and
+  one gated live endpoint. The living design and proposed acceptance cases are
+  linked from their existing indexes. Plan review identifies the personal-live
+  scope decision before L04 while leaving L01–L03 independently implementable
+  on synthetic data. No runtime or accepted decision changes. Docs checks pass
+  70 Markdown files and tracked whitespace; all 3 documentation-integration
+  tests pass. S stays complete; L is 0/4. Next implementation starts at L01.
+
+- 2026-10-07 KST - The current personal-alpha plan now names the first feedback
+  checkpoints, three execution batches and a fixed-scope repair priority.
+  Existing modules are reused, with a separate portable personal store as
+  S01's missing link. No runtime behavior, native key, stored data, license or
+  publication changes in this review. Documentation checks pass 70 files and
+  the 3 documentation-integration tests pass. First-release count remains 0/4; next
+  implement S01's new-project save/reopen through the existing terminal surface.
+
+- 2026-10-07 KST - One current selected alpha plan replaces the prior pending
+  alternative and protected first-release plan. It specifies existing code to
+  reuse, complete user outcomes, targeted checks and the point to show the app.
+  No duplicate backlog or remaining approval loop is created. This is a plan,
+  not evidence that any S outcome is implemented; native failed checks remain.
+
+- 2026-10-07 KST - The GitHub-first execution plan now retains useful own-project
+  research instead of declaring the synthetic preview finished. Its four open
+  outcomes cover actual project save/restart, manual argument/result/judgment,
+  supported recovery/public actions and independent source delivery. Product,
+  release, ADR, validation and harness documents agree on that staged boundary;
+  the broader B ledger stays 2/12 complete. Opus findings are reconciled in the
+  plan, not claimed as runtime proof. Documentation checks pass 69 files and
+  the 3 documentation-integration tests pass. No application code, native key, stored
+  research, license choice or publication changes. Next implement S01's actual
+  protected publication and private single-use receipt consumption, using the
+  existing initial review and separate TUI rather than adding a second workflow.
+
+- 2026-10-07 KST - TUI planning now distinguishes the shared four-outcome source
+  release from a concrete further key-free reduction. The graph/writing UI is
+  reused; the next work connects project entry, manual result/judgment, durable
+  return and source delivery. No alternative is represented as implemented,
+  no historical protected outcome is marked done, and no publication occurs.
+
+- 2026-10-07 KST - Initial native signing now refuses a nonempty or substituted
+  enrolled protected resource while preserving existing state and the original
+  entered thesis. Exact private binding, target identity, safe diagnostic scratch
+  and legacy signing have actual synthetic native checks and two pinned Opus
+  reviews with no confirmed production false-pass defect. All 41 affected cases
+  pass within the fixed core; the final nine strengthened native target checks
+  pass separately. The whole core fails on later encrypted-writing tests after
+  host lock and an older PTY expectation; it is not a clean pass. The exact
+  encrypted failure reproduces while locked, and the current PTY case passes.
+  Keep the verification item open until an unlocked-host retry resolves the
+  observed failures. No genesis, receipt, scientific acceptance or log write is
+  introduced. B03 checkpoint 2 remains open, with 2/12 complete and ten remaining;
+  the next implementation is protected genesis/private receipt/atomic log work.
+
+- 2026-10-06 KST - Initial native filesystem loading now rejects observed Git,
+  manuscript and private-workspace substitutions independently of the Python
+  owner. Existing entered thesis/context is reused; no second scientific form,
+  receipt, accepted record or manuscript write is introduced. Four pinned Opus
+  reviews drive locally reproduced repairs; the final native focused 19 checks
+  and frozen core native integration pass. The older mixed-terminal test makes
+  that whole core run fail, and the current corrected other-session test passes
+  separately; do not call it a clean all-platform run. B03 checkpoint 2 remains
+  open. Next implement protected empty genesis and private single-use receipt/
+  atomic log integration, retaining the stable 2/12 count and ten remaining.
+
+- 2026-10-05 KST - U9 checkpoint failure guidance now preserves human writing,
+  separates pre-store validation from storage failure and refuses same-session
+  continuation after detected external/uncertain saves. Complete guidance is
+  keyboard-readable without changing the graph or review authority. Cross-review
+  and final fixed-source regression support this scoped Mac/TUI increment:
+  1,317 tests pass with no failures/errors and four Windows-only skips; core
+  exits 3 for incomplete platform coverage. The earlier locked-host failures
+  remain recorded, with final device/native/PTY checks now passing. Keep six
+  U4–U9 outcome groups; next exercise mixed writing through actual terminal
+  actions and restart. Stabilize review fixes and fast
+  affected tests before future full frozen runs; interrupted runs are not passes.
+
+- B02/B03 native empty review, 2026-10-05: the entered project thesis and exact
+  paper/work association now reuse the enrolled review-signing API, with a
+  dedicated native summary and private software-signature/parser checks. Owned
+  context and destination are rechecked around success; imported/nonempty state
+  cannot become an initial seal. The existing association-preview regression is
+  repaired. Final focused/fixed-core and three pinned Opus review results are
+  recorded in Progress, including the failed first core and scoped diagnostics.
+  Actual initial OS
+  approval/cancellation, independent authoritative source loading, protected
+  genesis, receipt consumption and atomic storage remain unfinished. No episode,
+  evidence, debt, manuscript change or additional researcher narrative is made.
+
+- B03 native v2 review, 2026-10-05: the owned origin-bound record review now
+  reaches the existing signing adapter with its full commitment. Native software
+  signatures bind that digest and both compiled peers refuse missing keys without
+  a prompt. The same written judgment/reason is reused and signing remains
+  unaccepted, without debt or manuscript changes. Actual v2 foreground approval/
+  cancellation and accepted source/log integration remain unverified; Progress
+  owns the concrete final check and Opus evidence. Ledger stays 2/12 complete.
+
+- B03 record scientific replay, 2026-10-05: an exact origin-bound v2 review
+  now produces/replays actual unaccepted alternative state while retaining the
+  original judgment, complete origin snapshot and before/after binding. Repeated
+  calculation is stable despite later omitted-draft editing; full-bundle
+  continuation requires an independently retained review digest and restores no
+  seal. v1 remains compatible; v2 native delivery was unavailable at that
+  prerequisite and is addressed by the subsequent native v2 checkpoint above.
+  Merge replay remains unavailable. Opus findings/repairs and affected checks
+  are in Progress. This
+  does not close B03 checkpoint 2 or enable real research/accepted storage.
+
+- B02/B03 preparation, 2026-10-05: an empty project can now display and retain
+  the entered initial thesis, exact source/workspace and initial head as one
+  transient review. Candidate continuation rejects changed context or lost
+  review ownership, retaining the reviewed destination alongside its work.
+  Re-preparation failure revokes the prior seal; no imported science, accepted
+  genesis or receipt is created. Related final tests and Opus repairs/review are
+  recorded in Progress. Next implement protected empty initialization and
+  versioned scientific transition/replay before the gateway can independently
+  reload an authoritative scientific log. B03 checkpoint 2 is still open.
+
+- B03 checkpoint 1, 2026-10-05: the existing researcher judgment now supplies
+  one conditional transaction-effect envelope retaining exact review,
+  contributions, resulting heads and causal obligations. It adds no second
+  narrative or explanation score. Owned-source/receipt verification and durable
+  accepted writing remain unfinished; this is not B03 closure or source-release
+  readiness. Continue with the enrolled gateway's authoritative source-loading
+  and private consent-consumption boundary, then encrypted atomic persistence
+  and combined native acceptance. Evidence and the stable remaining count live
+  in Progress and the B ledger; TUI remains separately owned.
+
+- 2026-10-03: B01 closes after native enrollment, restarted registered review
+  signing, distinct OS cancellation and revocation with preserved synthetic
+  history/key/resource bytes. Three integration failures were reproduced and
+  repaired: localized JSON key ordering, absolute-path fullmatch and premature
+  polling-slice expiry. Each repair receives pinned actual Opus review and
+  relevant checks; final-source affected coverage passes all 87 tests. B03 is
+  next, with 2/12 ledger outcomes complete and ten remaining. This enables
+  reuse of one existing judgment through a trusted approval component, not
+  acceptance of evidence, durable scientific writes or a usable source release.
+
+- 2026-10-03: U9's same-batch earlier-basis optimization is implemented. Several
+  explanation drafts retaining one earlier prefix now share its reconstruction
+  while individually checking and retaining their original writing context.
+  Controlled local save timing, static Opus review, 49 affected tests and final
+  fixed-source results are in Progress. The core run retains ten native key-
+  creation errors and four Windows skips; all ten cases pass a separate matched-
+  source rerun without code changes. It is not a clean full pass or production
+  host-readiness evidence. Original-review duplication is now measured and the
+  next U9 TODO is versioned exact-session deduplication with compatibility and
+  unchanged limits. U4–U9 remain six open outcome groups.
+
+- 2026-09-29: U9 same-prefix explanation batching now reuses common pending-work
+  computation within one save validation while retaining independent source,
+  draft, topic and old-basis checks. A two-explanation, five-save synthetic Mac
+  sample reduced complete device-save median from 0.887 s to 0.594 s; setup and
+  remote latency are excluded. Final 47 affected tests and pinned Opus review
+  cover singular/batch parity, independent sessions, bounded/invalid input,
+  failed saves and actual terminal restart. The earlier fixed core has 1,198
+  passes, four Windows-only skips and no failures/errors; final factory/test
+  refinements are covered by the 47-case rerun, as recorded in Progress.
+  Six outcome groups remain open; mixed/older-basis cost and repeated
+  original-review snapshot size are the next bounded measurements, while full
+  host/human and accepted-work integration remain separate gates.
+
+- 2026-09-29: A source-built confined component now checks canonical proposal
+  responses through the existing offline broker. Failed/cancelled first arrivals
+  retain their raw trace and consume their request; a replacement cannot erase
+  that influence. Actual OS tests deny the component access to three synthetic
+  files, a Unix socket and IPv4 loopback TCP, with positive controls and unchanged
+  bytes. Opus findings are repaired and the final 1,200-case core has no failures
+  or errors, with four Windows skips. This protects the measured component only;
+  parent raw parsing, external providers and real resource custody are distinct.
+  B01's next checkpoint is trusted project enrollment, without another research
+  narrative or a repeat of already observed human approval/cancellation.
+
+- 2026-09-29: U9's first checkpoint optimization removes duplicate reconstruction
+  of an explanation's identical current and retained source within one validation.
+  The two-explanation synthetic calculation is about 49% shorter in the measured
+  five-save sample; total encrypted/remote interaction is not established by that
+  number. Opus's custom-history concern was reproduced and repaired without
+  relaxing independent older-basis checks. Final 32 targeted tests retain writing,
+  stale-basis behavior and actual PTY interruption/reopen. Progress preserves
+  the fixed core's three unrelated B01 test mismatches, four Windows skips and
+  the passing 21-case current worker/provider rerun. Six outcome groups remain; U9 still
+  needs further measured latency work and human/host/integrated journey evidence.
+
+- 2026-09-29: Actual source-built exact-review signing succeeds on this Mac
+  after the researcher prepares the synthetic key and approves the separate
+  review. Both native roles verify the peer/signature; Python receives only
+  `signed-unaccepted-review` with false authority. A fresh process and newly
+  sealed review then finish `cancelled`, `stop_source=os-authentication`,
+  `signature_verified=false`. Both attempts preserve research history and
+  key-registration bytes. Build pin:
+  `8263b6339088bef4d9cd4687f025cdfe23d497cffd3174e325a5c4d4769bc1ee`;
+  public-key digest:
+  `702a3d435a168ddc6d3af0c45525e67ff005972622e145f0cbcb186be15185a3`;
+  registration digest:
+  `56887213d3fe3a404c1031f6b1ef23c2ccef7d393f31e722e61dce646f82f763`.
+  These observations close only this synthetic approve/private-delivery/native-
+  cancel exercise, not enrolled authority, worker custody, accepted records or
+  every human timing/termination case. No GitHub publisher account, existing
+  credential, real manuscript, provider or TUI connection is involved.
+
+- 2026-09-29: After the researcher agreed to participate, the packaged B01
+  broker's actual foreground preparation returned `prepared`; a separate Python
+  and native process returned `reopened` with the same public key and
+  `noninteractive_signing_denied=true`. A second fresh-directory attempt returned
+  `cancelled` / `stop_source=os-authentication`; its sole reservation is zero
+  bytes and mode 0600. The prepared registration remains byte-identical. Build
+  pin `bf74d6b2ce664b0b3b4651382493aed0ded9a7fdd6951d1cd7fb80ac336828ab`,
+  registration digest `bc46dd1359779f8ca255e8fef7453d118b7ac72660251ae9cf8d942dc6192229`,
+  public identity digest `c78031be9774780497d8849cd1d68b5680c0bdee070952cae9d911b0599f62c2`.
+  No key bytes, absolute workspace paths or authentication details are recorded
+  here. These are same-host synthetic observations; product-custody and
+  authorization flags remain false. No real research, accepted operation,
+  manuscript, TUI state, publisher account or existing credential was changed.
+  GitHub publication itself needs none of these authentication observations;
+  they validate the selected application's human-authority feature, not a
+  platform distribution requirement. Actual enrolled approval/delivery and
+  worker/key denial remain B01 work, with the ledger still 1/12 complete.
+  Observed host: macOS 26.5.1 (25F80), arm64, Python 3.13.15.
+
+- 2026-09-29: Final key-candidate regression uses a 379-file fixed snapshot,
+  SHA-256 `38baedd123da75c6394f09d5a45da3bda16ebb60aa4979a75a85791124657cde`.
+  `python3.13 -B scripts/verify.py --scope core` completes in 598.034 seconds:
+  contract 209, probes 132, validation 42, security 22, application 733
+  (570.926 seconds). Total 1,138, with 1,134 passes and four deferred Windows
+  skips, zero errors/failures, exit 3. All six owned implementation/schema/test
+  sources remain identical to the snapshot. The 61 affected cases include
+  actual signature/canonical-byte parity, software-key rejection, native
+  lifecycle and source-artifact/private-transport regression. Other sessions'
+  included code is regression context, not implementation claimed by this work.
+  Current documentation and generated-schema checks also pass. These checks
+  supplement the actual human observations above; neither closes production
+  enrollment/custody, accepted science or device-replacement gates.
+
+- 2026-09-29: U4's first connection now starts a separately selected synthetic
+  paper from the person's own working thesis and question, and reopens its
+  encrypted terminal writing with the source association preserved. No example
+  evidence, complete judgment or AI text is supplied. Opus fixes and native
+  create/restart/stale-source/retry checks pass; the fixed core has 1,121 passes
+  and four deferred Windows skips, with no failures. Current copy/status checks
+  pass separately. U4 is partially implemented; six outcome groups remain.
+  The next increment now also opens pre-existing empty projects through a human
+  question preview/start without duplicate episodes, replacement keys or source
+  reassociation. Final 19-case TUI and native fixture repair checks pass; Progress
+  retains the full run's original error and four deferred Windows cases.
+  Paper connection now also previews and applies same-content relocation or
+  changed-source refresh without rebasing the saved writing. Queued input cannot
+  apply an unseen preview; cancellation and uncertain-save status preserve the
+  return/reopen boundary. Opus repairs pass 43 final integration cases; the
+  earlier fixed core completed with 1,171 passes, four Windows-only skips and
+  no failures/errors. Six outcome groups remain open. Next measure and reduce
+  U9 checkpoint delay; full public lifecycle and protected real use retain their
+  B08/platform/source gates.
+
+- 2026-09-29: B01's application review now reaches the source-built native roles
+  with exact-byte and mutually checked peer bindings, retaining the researcher's
+  existing judgment and AI history. Opus findings led to reproduced transport
+  and cleanup repairs; 1,103 fixed-source checks pass with four deferred Windows
+  cases. This is verified unaccepted transport, not enrolled trust or a receipt.
+  B01 remains open for custody, foreground approval and worker/key denial;
+  accepted storage remains B03. The stable B ledger stays 1/12 complete with
+  eleven remaining units, without adding new scope or counting this part twice.
+
+- 2026-09-29: U3 now reopens manuscript wording and unfinished source/wording
+  input with their original science, contribution history and exact source
+  bytes. The named draft picker reads, edits and explicitly discards retained
+  work without reviving approval or adding detached work to recorded obligations.
+  Opus findings were reproduced and repaired; 16 recovery cases and the final
+  47 terminal/manuscript cases pass. Progress retains the failed initial core
+  result and its repaired-test evidence, plus four deferred Windows checks.
+  The TUI ledger moves from seven to six outcome groups; U4 own-project entry
+  is next. Manuscript review answers remain with U7, and production/server
+  custody and integrated performance/usability remain open.
+
+- 2026-09-29 - B04 now explicitly refreshes a changed source association while
+  preserving old source identities, all writing and historical review inputs.
+  The [remaining-work ledger](#remaining-non-ui-implementation-ledger) records
+  twelve scoped backend outcomes instead of counting overlapping historical
+  checklists. Native availability is now verified: the completed fixed-source
+  run has 1,066 passes and four deferred Windows skips, with no failures/errors;
+  current-tree affected checks pass 33 tests. B04 closes the synthetic Mac
+  backend outcome, leaving 11 units and the separate human/environment gates.
+  It does not complete usable research delivery; B01 remains next.
+
+- 2026-09-29: U2 now retains unfinished scientific fields and review answers
+  with their original source and writing basis, and returns through U/Ctrl+O
+  without restored authority. Seventeen recovery cases pass, including changed
+  context, empty edits, original-owner return and aggregate failure. All nine
+  native failures subsequently pass on unchanged code after the device-key
+  environment becomes available. U2 is complete; seven units remain, with
+  U3 manuscript wording recovery next. This is bounded synthetic Mac work,
+  not protected server custody or a complete research release.
+
+- 2026-09-29: U1 now lets the researcher return to partial explanations, rationale
+  links and separate unfinished writing through the encrypted synthetic TUI.
+  Items remain open and source AI remains visible. The stable remaining-work
+  ledger moves from nine to eight groups; this is functional retention evidence,
+  not production-server support or a performance/usability completion claim.
+
+- 2026-09-29: R4/R6 now expose explicit synthetic save, key-free device reopen,
+  argument/pending-work inspection, verified-key ciphertext export and new-
+  destination restore through source-preview commands. Actual native/PTY,
+  extracted-artifact and fixed-source regression evidence is recorded in the
+  [command integration](#encrypted-work-command-integration). Protected accepted
+  writing, complete TUI retention and real research/replacement-device gates
+  remain separate; the prior shared-tree mixed-version failures are retained.
+
+- 2026-09-28: Manual interpretation authoring now reaches the existing graph and
+  selected review without a precompleted judgment. Recorded-observation choices,
+  current status and full source reading remain explicit; no evidence is added.
+  Kept wording can become the owning judgment through comparison while preserving
+  its reason and AI chain. This closes the remaining interpretation-creation
+  part of T2a; new-plan scenarios, blank-project entry, confirmation-to-argument
+  and full T5b durable return remain open. See Progress for actual checks.
+
+T2b provisional entry, 2026-09-28: the previously unavailable result action now
+opens partial source/measurement capture and optional tentative judgment. A
+researcher can inspect context and return to that writing in the same process
+without deciding the interpretation first. Kept/unfinished text, independent
+results, source changes and quit loss are explicit. This remains a synthetic
+entry slice: empty-project initialization, source confirmation, transfer into
+scientific reasoning and complete durable return are still open. The Progress
+entry owns final verification and Opus disposition.
+
+- 2026-09-28 exact operation: the completed proportional review now produces
+  one exact, bounded record/merge request with its scientific effects, complete
+  source/lineage values and contextual disposition. Loading review bytes cannot
+  replace current work or grant authority; candidate submission checks current
+  scope, seal and sources again. This closes the portable R3/R4 input boundary,
+  not protected acceptance, accepted cause loading or durable own-project return.
+  Connect the existing request to the source-deliverable R2 custody/gateway and
+  R4 atomic operation/receipt/debt transaction next, with actual synthetic
+  save/reopen evidence. The [contract and cross-review](#exact-paper-operation-review-contract)
+  retain the observed findings and limits; the current Progress entry owns the
+  final check evidence.
+
+- 2026-09-28 T4 wording: an authored or recorded selected-science review now
+  reaches an exact supplied-source wording diff without installing a candidate
+  or retyping its judgment reason. Editing retains judgment/basis context and
+  provenance; parent changes revoke review while old wording stays accessible.
+  Explicitly opening a new reviewed scope starts separate wording. Both manual
+  and inherited-AI paths work with assistance disabled. This closes the bounded
+  same-review connection, not cross-basis text/provenance transfer or durable
+  research custody. The next T4 continuation should define that transfer with
+  the owning service before adding a copy action; T2b initialization, T5b durable
+  return and T6 typed proposals keep their existing service/authority gates.
+
+- 2026-09-28 T4 return: the researcher can reopen conditional explanation work,
+  read its causal science and AI contributions, reuse the original reason and
+  keep a partial explanation. Source changes do not erase or silently rebind
+  that writing. This is the bounded return portion of T4, not completion of
+  coherent manuscript consequence, accepted closure or durable restart. The
+  next T4 step is a service-grounded connection from the active judgment to
+  deliberate wording review without another judgment narrative. T2b entry,
+  T5b custody and T6 typed AI adoption retain their owning service dependencies;
+  live-host/physical-IME and unfamiliar-researcher evidence remain open.
+
+- 2026-09-28 review policy: the new adapter distinguishes quiet capture,
+  rationale-based alternative recording and contextual AI-influenced merge
+  review. It retains exact amendment origins and binds disposition to current
+  selection, sources and topics. This supplies the next backend consumer
+  contract; it is not an accepted-state writer, live typed proposal adoption or
+  another TUI implementation. A later authority-bound version must retain these
+  references across accepted operations and restart rather than flattening
+  them into old v3 judgments. Current check/review evidence is recorded in the
+  [finite policy contract](#finite-review-policy-and-amendment-lineage-contract).
+
+- 2026-09-28 T3b: a researcher can write once at evidence, reuse that same
+  judgment at two claims, edit it from either context and deliberately return
+  to independent work. Notes, AI origin, authored candidates and unfinished
+  text retain the appropriate owner. Working links are separate from scientific
+  relationships and are session-only. This closes the bounded multi-node reuse
+  interaction, not own-project intake or durable research return. T2b still
+  needs a legitimate initialization/evidence-draft service; T5b needs versioned
+  custody. T4 can next integrate the available conditional explanation/closure
+  preparation services into contextual return, without claiming accepted debt
+  closure or restoring authority through a draft checkpoint.
+
+- 2026-09-28 understanding closure: the candidate contract now rejects stale
+  evidence despite unchanged reasoning heads and changed cause reviews despite
+  unchanged debt IDs. The cumulative rehearsal retains unfinished explanation
+  through rejection and explicit draft rebinding; neither action upgrades old
+  closure consent. This prepares the protected return path without exposing an
+  accepted writer or taking over TUI work. Next freeze finite operation-impact
+  and amendment-origin rules before expanding accepted scientific operations;
+  actual accepted cause loading, persistence and closure remain R2/R4 work.
+
+- 2026-09-28 partial explanation: a service consumer can leave an explanation
+  unfinished, reconstruct its exact draft and original reason, compare its
+  earlier basis with later evidence and deliberately continue against the
+  current context. This enables the return editor's data contract without
+  taking over the TUI or claiming disk retention. The 16 focused tests and
+  Opus follow-ups cover continuity and rejection boundaries, not comprehension.
+  Next strengthen the versioned closure-candidate context contract; actual
+  accepted opening/closure still depends on exact cause authority and R2/R4.
+
+- 2026-09-28 - The next T2a increment allows a human-authored follow-up question,
+  target claim and full measurement to enter the draft graph before judgment
+  completion. Selected review retains required draft claims and source history.
+  This extends incremental manual construction; it does not yet supply new
+  result/project entry, interpretation creation, linked judgments or durable
+  return. Continue the existing T2b/T3b/T5b service boundaries; do not substitute
+  another graph styling iteration for those missing research actions.
+
+- 2026-09-28 understanding return: a service consumer can now reopen a known
+  conditional item and compare the judgment's original scientific context with
+  current evidence and reasoning, including after later episodes. Eight return
+  tests cover its own cause, preserved provenance, isolated corrections,
+  detachment/replay, invalid identity and large combined responses. This makes
+  the return context available to the UI owner, without claiming an implemented
+  editor, persistence, accepted debt repayment or actual comprehension.
+  The Opus size finding was reproduced and repaired rather than treating a
+  static review verdict as test evidence. Remaining explanation/topic and
+  protected lifecycle work stays in the same R3/R4/R7 sequence.
+
+- 2026-09-28 manual authoring slice: researchers can now create claims and
+  typed connections over existing synthetic sources before completing a
+  judgment, inspect a separate draft graph, return to the original work and
+  carry kept candidates into exact review. Optional AI is never invoked by
+  this path. New-plan scientific fields, project/result entry, linked work
+  and durable candidate return remain the next authoring integrations; the
+  independent backend explanation-return stream retains its own ownership.
+  Local automated/visual evidence does not establish SSH deployment, physical
+  IME, unfamiliar-user understanding or a usable own-project release.
+
+- 2026-09-28 Opus replan: graph authoring remains with its active owner; the
+  next independent deliverable restores context for deferred explanation, with
+  explicit later boundaries for custody and actual human closure.
+  Conditional histories cannot be promoted
+  to accepted Debt for convenience. The review led to a more executable
+  sequence while preserving the original human-understanding goal and existing
+  R/T owners. Final review/check evidence is recorded in Progress.
+
+- 2026-09-28 understanding review: the next complete loop must demonstrate
+  returning to deferred reasoning as well as preserving its authorization and
+  lineage. The [alignment review](#understanding-debt-alignment-review) owns
+  findings and the remaining acceptance cases. Existing candidate tests remain
+  useful evidence; they do not establish a usable repayment journey or actual
+  researcher understanding. No additional R implementation was completed here.
+
+- 2026-09-28 T1b: named manual writing and scientific/branch/merge review are
+  reachable from the selected subject. AI-off is an actual terminal launch
+  capability with no new requests/proposals/traces; default assistance remains
+  an explicit fixed example. No new graph objects or draft owner were introduced.
+  T3a/T5a ownership and recovery-contract comparison precedes T2a authoring;
+  protected persistence, own-project entry and human/server validation remain
+  separate dependencies. Final check evidence is recorded in Progress.
+
+- 2026-09-28 intent review: the philosophy was already present in canonical
+  documents; the execution proposal failed to apply it. Native measurements
+  remain useful inputs, while manual own-project creation, protected durable
+  restart and the manuscript/live-AI connections remain unfinished. Assess the
+  next implementation by a researcher completing that loop, not by another
+  isolated probe count. This review changes execution documentation only;
+  no new native run, account action, implementation or publication occurred.
+
+- 2026-09-28 T1a: the researcher can inspect recorded context while writing
+  and expand it without losing the active draft. The graph remains the main
+  navigation; editing keeps each node's existing draft identity. Source and
+  review status must be visible together: prioritizing text alone hid actionable
+  review/length state, so the final reader includes concise leading indicators.
+  Actual Opus reviews, source-independent content tests, full core checks and
+  local Terminal inspection cover this increment. Four Windows tests and real
+  human/remote-host evidence remain incomplete. Continue at T1b; typed node
+  authoring still requires its explicit domain/ownership dependencies.
+
+- 2026-09-27 requested plan review: the plan now identifies a ready first UI
+  slice and the contracts needed before later authoring, recovery and assisted
+  work. Actual Claude Opus reviewed two fixed snapshots. Its second pass found
+  T1a ready; later dependency clarifications were verified and incorporated
+  locally afterward, not represented as a third independent approval. Native
+  custody, source/SSH and human-observation gates remain open. Runtime behavior
+  is unchanged; resume implementation at T1a when implementation is requested.
+
+- 2026-09-27 TUI implementation planning: the following sequence names the first
+  runnable increment and the full-loop completion boundary. Runtime behavior is
+  unchanged. A prepared plan does not close own-project, server, durability or
+  human-understanding gates; milestone results must replace pending boxes as
+  work is actually implemented and checked.
+  The authorship check found explicit original support in ADR 0005 and partial
+  UI alignment, not a missing product philosophy. The revised design/sequence
+  addresses the creation and adoption gaps; accepted ADRs and runtime code are
+  unchanged. Documentation and whitespace verification passed.
+
+The 2026-09-27 signed recovery increment preserves a finite candidate research
+history and its original supplied public key/signature through encrypted
+restoration, after external pin and native signature verification. Correct
+decryption alone cannot publish a forged, substituted or unsigned candidate.
+This advances continuity of research across storage recovery, but provides
+neither scientific acceptance nor a replacement device's future write authority.
+Executable and independent review evidence is recorded in the R2 recovery section.
+
+The spacing/settings increment replaces collapsed vertical connector cells with
+visible arrow shafts and gives the researcher reversible presentation controls.
+The selected-node graph stays fixed under focus changes. Short screens trade
+some whole-card coverage for readable connections and keep counts/follow access;
+settings never alter research or recoverable writing. The actual Terminal graph
+and settings panel have been inspected; final automated and review evidence is
+in Progress above.
+
+The terminal branch/merge increment connects authored drafts to detached
+alternative candidates and explicit selected merge review. The researcher can
+inspect dependency closure, exact field changes, original/current judgments
+and before/after graphs, then compute an uninstalled candidate. Parent and
+source freshness prevent reusing stale review; graph position and unfinished
+explanations survive return/re-preparation. This does not implement protected
+acceptance, durable project opening or live AI. Final check evidence belongs
+in Progress above.
+
+The 2026-09-26 terminal manuscript increment connects pending Writing impact to
+read-only supplied source, blank human wording/reason and exact unaccepted
+review. Source freshness and inherited AI explanations are enforced by the
+existing service; review cannot write, compile or close work. Source code
+spacing, item-specific cancelled buffers and graph return were exercised.
+Final automated and model-review evidence is recorded in Progress. Branch/merge
+continuation is covered by the subsequent increment above.
+
+The 2026-09-26 graph wording revision supersedes the contact-code presentation
+with full directional phrases in node headers, beside titles when they fit and
+in reserved header continuation rows otherwise. The prior contact review
+still informs retained route priority and shared-port forks. Current verification
+and independent review evidence are recorded in Progress above. Human
+comprehension, physical Korean IME and actual Linux/SSH remain unverified.
+
+
+The 2026-09-26 terminal increment connects cumulative research navigation:
+choose episode/ref, retain context-specific writing, inspect conditional pending
+work and return to its affected argument. The
+[terminal workflow](../../development/workflow.md#terminal-paper-prototype)
+owns commands, color diagnosis and checkpoint boundaries. Focused terminal
+checks pass (114), as do documentation checks (67 files). Core checks completed
+with 590 passes and four Windows-only skips, not a full-platform pass.
+Independent Opus review remains unverified after a timeout. The
+increment does not close branch/merge UI, actual manuscript review, protected
+project resumption, live AI, Linux/SSH, physical IME or human usability gates.
+
+
+- 2026-09-26 TUI connection result: the terminal now carries a node-bound
+  judgment through optional offline proposal inspection/adoption and selected
+  scientific change review, including exact field and graph comparisons. The
+  [workflow](../../development/workflow.md#terminal-paper-prototype) distinguishes
+  kept manual text from volatile AI-origin work and unaccepted reviews. The
+  Progress entry records passing local checks, actual terminal inspection and
+  the unavailable required Opus assessment; this increment is not review-closed.
+  The next independent UI integration is cumulative episode/pending-work
+  navigation and manuscript review. Production custody, protected acceptance,
+  live providers and supported remote-host use remain separate unfinished work.
+
+- 2026-09-25 recovery result: the candidate-history codec and real CryptoKit
+  encryption/recovery experiment now preserve the same argument history across
+  separate helper processes and encrypted files. Wrong key, altered bytes,
+  wrong project/snapshot, interruption and existing destination cases pass their
+  bounded oracles. The 17 focused tests, actual exercise and static Opus review
+  support this increment; core has 562 passes and four Windows-only skips out
+  of 566 tests, with no failures. This establishes data-mechanism evidence only.
+  Full accepted-history/signature backup, durable key custody, protected project
+  storage, authority transition and actual replacement-device restoration remain
+  unfinished. The user's recovery-policy choice and prior approvals are resolved;
+  native cancellation remains a separate unobserved case, not an ignored-cancel
+  defect. No TUI code or personal research was used.
+
+- 2026-09-25 TUI overview result: the accepted compact-map increment and its
+  documentation are complete. The
+  [living design](../../designs/2026-09-22-episode-review.md#graph-overview-density-review),
+  [terminal workflow](../../development/workflow.md#terminal-paper-prototype)
+  and [acceptance cases](../../validation/cases/saturation.md#103-terminal-prototype-oracle)
+  own the resulting behavior, commands and observable checks; the corresponding
+  Progress entry records actual terminal inspection, bounded Opus review and
+  test evidence with its platform skips. The next UI validation is human task
+  completion and actual Linux/SSH/tmux use, including Korean input and larger
+  connected papers. These remain open and are not implied by rendering tests.
+  This closes the UI increment only; the overall product plan stays active.
+
+- 2026-09-25 R2 preparation result: the selected recovery policy is now an
+  accepted decision, and the bounded native probe has actual cross-process
+  signature evidence with noninteractive denial on either side. Preparation
+  cancellation/expiry and late-result rejection are covered by tests; actual
+  native cancellation is still unverified because the user confirmed approving
+  both intended cancellation runs. There is no pending ambiguity about those
+  actions and no reproduced ignored-cancellation defect. The 22 focused checks and actual
+  Opus review support this increment. Final core regression has 538 passes,
+  four Windows-only skips and no failures out of 542 tests; earlier transient
+  TUI failures no longer reproduce. This does not implement encrypted project
+  storage, replacement-device restore, production key custody or private IPC.
+  R2/R4 and the Sandbox-dependent gates remain open; the recovery-policy
+  question itself is resolved by ADR 0014.
+
+- 2026-09-25 R2 result before explicit preparation:
+  `macos_key_reopen --review` implements the bounded
+  cross-process foreground review, independent public verification and later
+  denial check. All 20 affected checks pass; core scope has 525 passes and four
+  Windows-only skips out of 529 tests. Actual pinned Opus review found no
+  confirmed P1/P2. The real invocation stopped before UI at key creation with
+  OSStatus `-25308`, so no new human approval, cancellation, expiry or reopened
+  protected signing is claimed. The run was not retried and product custody
+  flags remain false. Native creation readiness, existing Sandbox/private-IPC
+  gates and the user's unresolved recovery choice still block protected R4
+  integration. The implementation, evidence and contributor commands are in the
+  existing sources; no new summary/handoff document or policy ADR was created.
+
+- 2026-09-24 R2 result: a reproducible, independently reviewed probe now
+  distinguishes valid key reconstruction and noninteractive denial from
+  unproved integrity/custody. Initial actual runs reopened the same identity;
+  altered bytes also reopened, so the exercise remained incomplete. The final
+  run stopped at key creation with interaction disallowed. Keep both results;
+  neither cancels the other or establishes product readiness. Protected R4
+  integration remains stopped at native custody/private delivery/isolation and
+  the unresolved recovery choice. The user's clarification request is not
+  approval of either recovery alternative. TUI integration remains separately
+  owned. Independent review/check evidence and exact next work are in the
+  [R2 section](#r2-preparation-tied-to-durable-research-use).
+
+- 2026-09-23 R8/R6 final result: the split offline request flow is available
+  through application APIs and `demo paper --provider`, including in a
+  reproducible extracted source ZIP. Each increment received actual Opus 5.5
+  review, local reproductions of its findings, corrections and focused
+  re-review. Final verification ran 664 tests in 103.706 seconds: 659 passed,
+  five Windows-only skips, zero failures (exit 3). Generated schemas/resources
+  and documentation are current. These completed increments preserve optional
+  AI/manual continuation and exact request provenance. R2-backed durable R4
+  use, R5 actual manuscript execution, R8 live deployment and R6/R9 release
+  evidence remain open; the separate session still owns TUI integration.
+
+- 2026-09-23 R8: exact offline dispatch and response arrival are separate.
+  Manual drafting/review continues between them; cancelled/late/stale responses
+  retain traces without becoming current proposals. The first full run passed
+  656 of 661 tests with five Windows-only skips and zero failures (exit 3).
+  After the small erasure correction, all 54 affected checks and docs pass.
+  Actual Opus 5.5 reviewed the implementation and the correction; no remaining
+  confirmed finding. Live transport/durable traces and TUI integration remain
+  outside this increment. The following R6 exercise will validate delivery.
+
+- 2026-09-23 non-TUI continuation: cumulative candidate merges now retain
+  replayable conditional explanation/manuscript work. A separate wording session
+  connects that work to exact supplied-source before/after bytes, human reason,
+  inherited or newly adopted offline AI and expiring review. CLI and source-ZIP
+  journeys demonstrate it with no file write or debt closure. The full run
+  passed 639 of 644 tests with five Windows-only skips and no failures. See
+  [the result review](#r3-and-r5-outstanding-work-and-manuscript-review).
+  R2 custody/isolation/recovery remains the dependency for protected R4 storage
+  and R5 file application; TUI integration was explicitly excluded by the user.
+
+- 2026-09-23 repair/staging: CR-01 and CR-02 are fixed with regressions. The
+  [R3 connection](#r3-draft-to-branch-candidate) now carries a complete draft
+  through selected branch commands and exact merge review while retaining
+  source provenance and global evidence. Both CLI/source-ZIP routes exercise
+  it; the full run passed 621 of 626 tests, with five Windows-only skips and
+  no failures. Drafts, reviews and candidates remain volatile/unverified;
+  TUI controls and R2-backed R4 durable continuity are the next connections.
+
+- 2026-09-23: the user-requested [Opus 5.5 cross-review](#r-implementation-cross-review-with-claude-opus-55)
+  completed in two static passes. Parent reproductions confirm the old browser's
+  incomplete-draft loss and the context compiler's Interpretation-edge rejection.
+  The review itself changed no implementation. The subsequent
+  [repair and draft-staging increment](#r3-draft-to-branch-candidate) fixes both;
+  no production gate changed.
+- 2026-09-23: the [exact cumulative merge review](#r3-exact-cumulative-merge-review)
+  now connects a recorded alternative's graph effects and retained Judgment
+  chains to an exact unverified operation. Full verification ran 607 tests with
+  602 passing, five Windows-only skips and no failures. R2/R4 and the UI owner's
+  control integration remain separate.
+- 2026-09-23 repeated episode increment: a paper candidate can now retain one
+  episode, open the next, correct global evidence and select another reasoning
+  change while preserving prior Interpretations and AI/human contributions.
+  Episode browsing and scoped draft caches are ready for the TUI adapter; its
+  current graph reader is exercised against v3. See the
+  [result review](#r3-cumulative-paper-episodes) for the explicit implementation
+  boundaries and observed verification. This does not complete R3 or R2/R4.
+- 2026-09-23 argument outline: thesis, claims, evidence, experiments and
+  follow-up plans now read as connected paths rather than separate top-level
+  lists. Inline edge types/direction, exact edge reading and shared-reference
+  jumps are implemented in the actual TUI and reflected in product, validation,
+  design and contributor docs. The tested source history is unchanged. The
+  user supported the prior visual treatment; understanding of this graph
+  iteration and Linux/SSH/physical-IME coverage remain separate observations.
+- 2026-09-23 TUI readability: the user can now compare comfortable/compact
+  spacing with `z`, navigate colored/labelled node previews, and inspect complete
+  relationship endpoints and rationale without repeating every connection in
+  the initial reader. The palette renders in macOS Terminal; keyboard, Unicode,
+  resize and shell restoration remain verified. The fresh core result is zero
+  failures with four explicitly skipped Windows checks. Product reading
+  qualities, terminal acceptance, contributor keys and the living design are
+  updated. Human readability feedback, physical IME and Linux/SSH remain open.
+- 2026-09-23 selected paper review: the non-UI service connects one complete
+  judgment to selected/required/omitted amendments, graph comparison, potential
+  impact and preserved source/draft provenance. Its scripted manual/recorded
+  routes use the same paper and leave it unchanged. See the
+  [result review](#r3-paper-draft-to-selected-scientific-review) for checks and
+  remaining UI, canonical repeated-episode and protected-acceptance work.
+- 2026-09-23 TUI prototype: `demo tui` now supports argument/evidence navigation,
+  typed shared links, hypothetical reach, branch-bound manual drafts, preserved
+  recorded provenance and two/three-pane comparison in an actual terminal.
+  The source preview includes these modules and its isolated checks include a
+  terminal snapshot. The tested ZIP has SHA-256
+  `07297cc0d0cc3a21158bffd059adf0e219cd760ad45eb234f1f1df5ce1db035c`.
+  Documentation impact covers the user-selected presentation decision,
+  canonical product/validation, launch workflow and observed design limits.
+  Current evidence is macOS PTY and portable tests; no live Linux/SSH, physical
+  IME, human-comprehension, protected acceptance or durable-resume pass is claimed.
+- 2026-09-23 R3/R8 connection: adapters can now use the same candidate paper for
+  selected scientific context, optional unfinished-draft inclusion and exact
+  offline proposal review/adoption, then reuse a human-edited Judgment. The
+  scripted manual/recorded CLI journey preserves source history. See the
+  [result review](#r3r8-paper-context-and-draft-connection) for verification and
+  remaining semantic-review, UI, native and durable-use boundaries.
+- 2026-09-23 terminal preference follow-up: the medium ambiguity is resolved.
+  The next comparison is a two-pane and a three-pane TUI over identical paper
+  content. Documentation impact is design/workflow and execution sequencing;
+  runtime behavior is unchanged. Spatial/hover equivalence and actual terminal
+  usability remain to be demonstrated before any product acceptance claim.
+- 2026-09-23 UI medium assessment: terminal and graphical approaches have
+  concrete comparison tasks and terminal references. Documentation impact is
+  design preference and exploration sequencing; product contracts and runtime
+  behavior are unchanged. No terminal interaction or usability test has run.
+- 2026-09-23 whole-flow review: the product direction still serves a researcher
+  who can explain and own an AI-assisted argument, resume unfinished work and
+  keep the paper aligned. The running app does not yet deliver that loop.
+  The current implementation sequence now names each missing connection and
+  its observable result, with R2 scoped to actual authority/privacy dependencies.
+  R2 preparation is concrete enough to review without pretending a signing or
+  recovery choice has been made. Verification for this documentation/preparation
+  increment is recorded in the goal-alignment review below.
+- 2026-09-23 reference research: provided direct product/research viewing links
+  and discovery sources. Human selection is still open; the next UI comparison
+  can reuse the newly available paper fixtures/service rather than create a
+  duplicate example. Documentation impact is workflow ownership and design
+  preparation; no application behavior or release claim changes.
+- 2026-09-22 non-UI implementation: the paper candidate data/service/CLI and
+  independent source-preview packaging increments passed plan review,
+  implementation and result checks. The separate UI session can consume the
+  versioned paper view and hypothetical impact without reimplementing history.
+  Standalone packaging removes maintainer-checkout dependencies; it does not
+  enable private projects. Full verification and the exact dependent-work
+  stop are recorded in the paper-graph amendment. No native experiment was
+  retried and no files in the UI/design implementation were changed here.
+- 2026-09-22 UI/UX research: the source assessment, contributor procedure and
+  current-design comparison brief are connected from the agent guide and docs
+  map. Current UI behavior was inspected, including desktop/narrow screenshots;
+  app source and scientific contracts were not changed. The reference board,
+  paper-level example, comparison gallery, tuning controls and final visual
+  direction remain subsequent design work. Verification evidence belongs in
+  the paper-graph amendment below; no H0/H1 or human-understanding gate closes.
+- 2026-09-22 requirements revision: canonical docs now distinguish the required
+  paper-graph/usable-delivery target, proposed interactions/model and existing
+  synthetic implementation. R1's former primary-layout hypothesis needs
+  revision; previously passing scene/graph tests retain only their original
+  scope. No runtime code, generated fixture, private data or publication was
+  changed. Documentation verification is recorded in the amendment below.
+- 2026-09-22 connected portable increment: an undecided researcher can now use
+  the source-checkout Episode Review to inspect mixed evidence, write one
+  judgment/reason, review a bounded offline request, adopt/edit a fixed AI reply,
+  select changes and inspect dependencies, impact, manuscript candidates and
+  conditional remaining work. CLI readiness and replay use the same portable
+  contracts. Local-session denials and actual Chromium desktop/narrow journeys
+  are exercised; no live endpoint, native approval or real research was used.
+  Protected storage/authorization, durable restart, isolated compilation,
+  live-provider deployment and P0/R9 remain dependent work, not completed
+  product support. The old owned sandbox folders were not touched or retried.
+
+- 2026-09-22 R3 continuation: completed global evidence history, temporal views,
+  branch/selected-merge candidates, exact-content review binding, a generated
+  closed command schema, and two frozen replay goldens. The mixed pruning,
+  quantization and compression result remains intact in both manual and AI
+  paths, with AI text and human edits preserved. R2 cleanup still blocks its
+  native experiment; it does not block further independent portable work. Full
+  canonical F0 integration and a protected writer remain incomplete.
+
+- 2026-09-22 R2/R3 increment: real Mac user-presence signing and no-signature
+  cancellation have bounded evidence; R3 now retains AI/human edits, computes
+  selected reasoning dependencies, binds reviews to exact context, and proposes
+  separate understanding/manuscript debt operations. These values still require
+  a protected gateway and real authorization. R2 lacks persistent custody,
+  private IPC and complete isolation; R3 lacks the complete F0 schemas,
+  operations and replay. R4–R9 have not begun. Stop further native experiments
+  at the cleanup blocker rather than treating these partial results as a usable
+  research app. Automated result verification is recorded with the Mac increment
+  below; passing portable tests does not close the native blockers.
+
+- 2026-09-22 R1: the intended experience can now be inspected in concrete
+  synthetic scenes, including undecided entry, retained AI influence, pending
+  explanation/manuscript work and recovery. This completes artifact preparation
+  and agent result review; it does not complete the human R1 context checkpoint
+  or H1. The initial stop was subsequently superseded by ADR 0010 and the
+  Mac-first execution amendment below; Windows evidence remains pending.
+
+- 2026-09-22 planning: the next deliverables now name the research experience,
+  deployment decision, finite domain, durable history, manuscript recovery,
+  public onboarding, Episode Review, provider connection and live-use gates.
+  Their unchecked work packages below supersede treating more synthetic A demos
+  as progress toward a usable app. The plan does not claim these capabilities
+  exist or that the long-term Dream state has been fully delivered.
+
+- 2026-09-22: the Mac synthetic A1–A4 slice now has a runnable end-to-end command
+  and separate manual/frozen histories. This closes the selected integration
+  scope, not Windows A2 enforcement or the production A milestone. Remaining
+  platform/stack/compiler/provider gates are explicit in the integration
+  section and contributor command documentation.
+
+The A2 preparation CLI now distinguishes capability prerequisites, unsupported
+hosts, and native API errors without claiming foreground authorization. Its
+mocked adapter checks and non-Windows execution do not demonstrate a Windows
+security boundary. Supported-runtime macOS regression now has no failures;
+Windows-specific coverage and the original A2 exit criteria remain open.
+See Progress for the measured results and deferred platform checks.
+
+A2.1 adds a runnable in-memory attempt lifecycle that reuses A1 and exercises
+late responses, cancellation, expiry, review reload, and repeat completion.
+Its synthetic verifier cannot prove human presence or issue an authorization.
+Native integration must implement the A2.2 and A2.3 contracts before the A3
+production path can proceed; the user can continue reviewing those contracts
+from this Mac without enrolling credentials or selecting another OS boundary.
+
+The A2.2 portable verifier now replaces the echo-only test boundary with
+context validation and real signature checks against public synthetic data.
+It rejects modified signed bytes and mismatched pinned keys. This tests
+cryptographic response validation and its integration with attempt freshness,
+not the origin of a real gesture or an OS-enforced key/IPC boundary.
+
 The bounded read-only CLI now makes fixture research structure inspectable
 without AI, an accepted store, or a new record. Its verified behavior and
 remaining limits are in the continuity-increment checklist. Human assessment
@@ -551,8 +7037,9 @@ does not supersede those sources.
 ### Primary operator and support hypothesis
 
 The primary H0/H1 operator is one empirical researcher-builder maintaining one
-Git-tracked LaTeX paper on a native-Windows workstation. They can clone a
-repository, run a documented PowerShell command, read a relative path, and
+Git-tracked LaTeX paper on the supported workstation. Mac is the first target
+under ADR 0010; Windows follows with independent evidence. They can clone a
+repository, run a documented shell command, read a relative path, and
 make scientific judgments. They are not expected to manage Python virtual
 environments, inspect SQLite, edit `.claimbranch/`, configure ACLs, debug
 provider JSON, or understand the internal graph schema. The secondary H1
@@ -562,20 +7049,22 @@ distinct persona and may use the validation harness hidden from normal help.
 
 | Concern | H0/H1 support hypothesis to freeze in the P1 toolchain ADR |
 |---|---|
-| host | native Windows 11 x64, standard user, local NTFS volume; exact supported build is recorded by `doctor` |
-| shell and source | PowerShell from a clean Git checkout; no WSL, Docker, administrator shell, or global editable environment required |
+| host | Apple Silicon macOS first, standard user and local volume; Windows 11 x64/NTFS is deferred; exact supported builds remain to be frozen and reported by `doctor` |
+| shell and source | target-platform shell from a clean Git checkout; no WSL, Docker, administrator shell, or global editable environment required |
 | paper | one local Git-tracked LaTeX project, one marked source block, one pinned noninteractive compiler workflow for H1/V0 |
-| browser and presence | one supported current Windows browser plus an OS-backed foreground-presence mechanism proven by the P1 spike |
+| browser and presence | one supported browser per target plus an OS-backed foreground-presence mechanism proven on that target by the P1 spike |
 | inference | optional; AI-off always works, and any H1 local provider is already running behind an OpenAI-compatible loopback endpoint |
 | privacy | no remote telemetry or implicit outbound request; exact content review precedes any remote-capable egress |
-| initially unsupported | macOS/Linux, WSL/UNC/network/synced roots, ARM64, collaboration, non-LaTeX manuscripts, unattended authorization, and managed model installation |
+| initially unsupported | Linux, Intel Mac, Windows ARM64, WSL/UNC/network/synced roots, collaboration, non-LaTeX manuscripts, unattended authorization, and managed model installation |
 
-The spike must explicitly decide rather than assume behavior for Windows
-editions/builds, PowerShell versions and execution policy, runtime ownership,
-Git, Edge/browser lifecycle, Windows Hello or fallback presence, NTFS/reparse
-points, controlled-folder access, antivirus sharing violations, long paths,
-spaces, Korean/non-ASCII names, case collisions, compiler discovery, and
-MiKTeX/TeX Live package prompts. Unsupported or unproven combinations fail
+The spike must explicitly decide rather than assume behavior for each target's
+OS builds, shell/runtime ownership, Git, browser lifecycle, native presence,
+credential identity and private IPC, process isolation, filesystem durability,
+links/reparse points, access controls, sharing violations, long paths, spaces,
+Korean/non-ASCII names, case collisions and compiler discovery/package prompts.
+Windows-specific Hello, NTFS and PowerShell checks remain pending separately;
+Mac LocalAuthentication, Keychain and App Sandbox observations are not their
+substitute. Unsupported or unproven combinations fail
 before a real project is initialized; `doctor` labels every probe `required`,
 `optional`, `unsupported`, or `unknown` in both human and JSON output.
 
@@ -589,7 +7078,7 @@ The filesystem topology remains legible and separated:
              `-- disposable cache separate from accepted history
 [original artifact source]        remote/local results; referenced, not auto-copied
 
-[Windows user profile]            credentials, signing key, bounded logs
+[target OS user profile]          credentials, signing key, bounded logs
 [owner-only temp/saga area]        encrypted snapshots and isolated compile
 [disposable demo root]             never aliases or follows links into a paper
 ```
@@ -1033,9 +7522,12 @@ connect to that IPC endpoint or read the key/store. An external inference
 server must separately meet ADR 0009's topology gate; restricting the worker
 does not restrict a same-user server with independent resource access.
 
-The target-Windows spike must demonstrate strict Host/Origin/CSRF handling,
-frame denial, direct-IPC denial, broker-key non-exportability, hostile local
-page denial, receipt replay denial, and a user-presence cancellation. If the
+The target-Windows native route must demonstrate direct-IPC denial, broker-key
+non-exportability, scoped replay denial, and a user-presence cancellation.
+Before enabling a browser-mediated route, additionally demonstrate strict
+Host/Origin/CSRF handling, frame denial, and hostile local page denial. Native
+evidence cannot close those browser gates; the A2.3 checklist owns scheduling.
+Durable receipt consumption and restart replay protection remain A3 work. If the
 target OS cannot demonstrate the process and presence boundary, H1 falls back
 to the separate foreground CLI/native helper and cannot claim browser-mediated
 technical authorization.
@@ -1097,6 +7589,10 @@ not build separate sentinel software.
 
 ## Plan of work
 
+The selected personal alpha follows the completed S ledger and the
+[current feedback/publication sequence](#alpha-feedback-and-publication-sequence).
+The following dependency graph retains the deferred protected H0/H1/V0 program.
+
 ```text
 Canonical scope lock + explicitly synthetic fixtures
   -> P1 complete F0 contract and fixtures
@@ -1106,17 +7602,6136 @@ Canonical scope lock + explicitly synthetic fixtures
                   -> P5 conditional expansion gates
 
 P0 private-source verification (still open)
-  -> required before ANY real research use in the sequence above
+  -> required before protected real research use in the sequence above
 ```
 
 ## Concrete steps
 
-Execute the phase-local contract, safety, and release gates in order. Explicitly
-synthetic development may continue while private sources are unavailable;
-P0 private-source verification must pass before any real research use, including
-real workspace writes, adoption, manuscript edits, or a real-use pilot. The
+For the protected program, execute the phase-local contract, safety, and release
+gates in order. Explicitly synthetic development may continue while private
+sources are unavailable; P0 private-source verification must pass before
+protected real workspace writes, acceptance, manuscript edits or a real-use pilot.
+ADR 0017's personal alpha instead uses the person's explicitly supplied/confirmed
+sources and does not wait for that historical private-case mapping. The
 exact planned commands, artifacts, and pass oracles are in `Validation and
 acceptance`. Code or passing synthetic tests alone never complete P0, P1, or H0.
+
+### Paper graph and usable delivery amendment
+
+#### Goal alignment and next complete loop
+
+Review date: 2026-09-23. The user asked to continue the next work while checking
+it against their “에메랄드 캐슬”. The
+[product definition](../../product/product-spec.md#1-product-definition) owns
+that outcome; the [original Dream state](#0c---dream-state) supplies the longer
+personal-agent horizon. The current R work is directionally aligned, but
+individual modules and synthetic checks do not yet form the promised daily
+workflow. This is an execution correction within the accepted scope, not a
+new product or a waiver of native/privacy gates.
+
+The researcher-facing loop to demonstrate is:
+
+```text
+Orient in the paper's thesis, questions and current argument
+  -> inspect an unresolved result with its source, conditions and metric
+  -> compare interpretations and possible experiments in that argument
+       <-> request optional scoped AI critique and inspect/edit/reject it
+  -> form one human judgment and select its consequences
+  -> authorize the exact scientific change; retain provenance and pending work
+  -> review/apply one manuscript consequence; verify or recover
+  -> close/reopen and recover the same reasoning and remaining work
+  -> return with the next result (execution remains in the existing tools)
+```
+
+Claims, source observations and unrun/hypothetical experiments remain distinct
+throughout. The graph must help the researcher understand the paper. Review
+must reuse their reasoning; it is not a second form or an AI-graded test.
+Human discussion/comprehension, usable software and technically enforced
+authority have separate evidence. None can be inferred solely from another.
+
+| Researcher outcome | Implemented evidence | Missing connection / next owner |
+|---|---|---|
+| Understand the argument and where a result matters | v2 thesis/main/subclaims, shared evidence, explicit metrics and hypothetical reach in PaperService | R1/R7 paper-workspace adapter and visual oracles; the current browser still uses v1 |
+| Get AI help while forming, rather than after completing, a judgment | Paper-aware selected context and exact offline request; the TUI Work reader now exposes selection, optional unfinished draft, explicit adoption and preserved AI/human edits | R8 useful live-proposal testing after deployment gates; actual source availability/fidelity and durable draft-origin recovery remain unverified |
+| Author one decision without repeating its explanation | The TUI connects node judgments to selected/required/omitted scientific review, before/after graphs, detached branch candidates and exact cumulative merge review | R7 cumulative branch/episode integration and R2/R4 exact accepted operation, with human-only authority and no repeated narrative |
+| Leave and resume without reconstructing a chat | Historical candidate replay, same-session draft reload and reconstructed conditional work across episodes | R4/R7 own-project association, durable private drafts/history/accepted work and restart/recovery |
+| Keep the paper consistent with the judgment | Complete wording draft to exact supplied-source review, with retained source/new offline AI; portable saga/closure rules | R2/R5 verified file identity, real fenced writer, isolated compiler, exact restoration and human closure |
+| Let another researcher use the same workflow | Independent synthetic source artifact and configured portable CI | R6/R9 declared release, licensing, observed CI, own-project journey, independent-user/profile and prospective value evidence |
+
+The next increments are complete demonstrations assembled from existing R
+owners, not a requirement to finish every package before touching the next:
+
+1. Connect one versioned paper state to the graph's read/scenario/edit-review
+   boundary and the scoped context compiler. The other session owns UI/UX;
+   this session owns the non-UI contracts and native preparation. Use the same
+   synthetic paper across manual and recorded-AI routes. Show a changed result,
+   an alternative explanation, explicit uncertainty, selected/omitted effects
+   and Not now without creating accepted state. A canned proposal tests flow;
+   it does not demonstrate live AI usefulness.
+2. In parallel, close R2's narrow Mac authority/custody/isolation questions
+   below. Then integrate R4 so a protected synthetic own-project rehearsal
+   survives a real process restart with the same judgment, provenance and
+   pending work. This is the next durable-use milestone. Real sources require
+   P0 before their first use, not merely before V0.
+3. Complete that same episode through R5's actual marked-block application,
+   compilation or exact recovery. Finish both H0 histories and their operator
+   gates; success in a disposable copy alone is insufficient.
+4. Exercise the evidenced, user-selected live provider through R8 in this same
+   context, including rejection/cancellation and manual continuation. Validate
+   whether its critique helps inspect evidence or limit a claim; valid JSON is
+   not the usefulness test. H0/deployment/egress prerequisites are retained.
+5. Finish R6/R9 delivery and the approved prospective comparison. The original
+   one-claim F0 case remains regression evidence; the paper model's real-use
+   limits and revised first-pass protocol must be frozen before evaluation.
+   Repeated episode use must not silently discard prior paper reasoning or
+   inherit the candidate core's one-merge lifetime as a product limitation.
+
+Admission for an engineering increment: name the researcher action improved,
+the before/after demonstration, the minimum required mechanism, and the exact
+dependent gate. Browsing, drafting, hypothetical scenarios and unaccepted
+proposal inspection do not need a scientific authorization receipt. Real
+sensitive draft persistence still needs the chosen privacy/custody boundary.
+Evidence confirmation, accepted reasoning, manuscript actions and debt closure
+retain their action-specific review/authority rules under ADR 0005.
+
+#### Understanding-debt alignment review
+
+Review date: 2026-09-28. This is a plan review against the
+[human outcome](../../product/product-spec.md#1-product-definition),
+[ADR 0005](../../architecture/decisions/0005-human-authority-provenance-and-understanding-debt.md),
+[review and return journey](../../product/product-spec.md#65-review-authorize-defer-and-resume),
+[human-led construction criteria](../../designs/2026-09-22-episode-review.md#human-led-construction-and-understanding-review)
+and [saturation explanation cases](../../validation/cases/saturation.md#6-human-decision-and-understanding).
+Earlier product revisions and this plan's original Dream state distinguish
+lightweight rationale from stronger central-change review. Historical sheet
+layouts are not the current terminal design.
+
+The intended benefit is that the researcher can explain and own the argument
+while using AI. Provenance, authorization and explanation review address
+different parts of that outcome. Recorded answers, manual construction and a
+valid receipt cannot certify comprehension. The formal UnderstandingDebt
+lifecycle tracks explicitly postponed explanation review; it is not a measure
+of everything the researcher does not understand. Keep its accepted trigger
+and the distinction from manuscript debt in their canonical sources above.
+
+**Review result.** Direction remains aligned, but the implementation sequence
+is more concrete about preserving and authorizing a decision than about
+returning to its deferred explanation. Complete the following within the
+existing owners; these are missing connections, not new product scope.
+
+| Finding and current evidence | Required bounded correction | Owner and dependency |
+|---|---|---|
+| `core/debt.py::closure_candidate` has no application caller. `PaperService.pending_work` reconstructs `pending-if-accepted` records with `closure_available=False`; its reader can inspect context but cannot complete understanding review. The v3 merge payload does not retain the original sealed review digest required by `Debt`. | Add the return projection without converting conditional work into an open Debt or inventing a review digest. Only an exact accepted cause/review binding can enable the later closure route. Preserve the choice to leave explanation unfinished. | R3 return projection can proceed independently of new impact rules; R4 supplies the accepted lifecycle; R7/T4/T5 supply return interaction. Actual opening/closure requires R2/R4, not a live provider. |
+| `ClosureReview` binds the current main head and time, while `pending_work` separately reports changed evidence. Evidence may change without moving that head. | Version the closure binding to include the exact cause/review and the displayed current context, including evidence watermark. Recheck at preparation and consumption; retain text when the review becomes stale. | R3 closure contract before its application exposure; R4 reloads the authoritative debt and current state rather than trusting a supplied object. |
+| `core/review.py::validate_explanation` uses AI influence plus answers/deferral, without an operation-impact classification or recorded contextual question. This is a bounded prototype rule, not evidence that every capture currently triggers review. | Before extending acceptance to newly authored operations, freeze the finite impact/lineage mapping and contextual review topics, including how the topics bind to operation, sources and rules. Reuse the existing rationale and request only missing relevant explanation. Do not generalize the current AI Boolean into a quiz on all AI use. | R3 ReviewBundle and amendment-origin contracts; R7 presentation. Low/medium/high policy remains ADR 0005's, not an AI-assigned comprehension grade. |
+| Candidate tests establish legal transitions and preserved origin, but cannot show that a researcher regains the reasoning or avoids duplicate writing. | Observe the existing terminal journey with an unfamiliar researcher: recover the evidence/interpretation distinction, claim limits, their reason, AI influence and wording consequence. Record repeated input and navigation burden. | R6 H0-recorded and R7/T7; R9 retains the approved prospective comparison and its separate protocol decision. |
+
+**Required same-episode exercise.** Use one synthetic paper for the early
+service/surface rehearsal and retain the distinction from the later protected
+H0/H1 result:
+
+1. Begin with an unresolved result and an unfinished human draft. Permit manual
+   graph construction and optional AI critique while forming the judgment;
+   testing an AI-off path first never requires users to finish reasoning before
+   asking for assistance. T2a's judgment-independent draft projection and
+   T3a/T5a ownership decision retain their existing priority.
+2. Review one high-impact AI-influenced consequence in its argument context.
+   Reuse the written reason; select at most three contextual issues such as
+   which part of the claim the result challenges and what remains interpretation.
+   Freeze a bounded prompt/context representation before implementation, with
+   provider-independent topic selection and source bindings. Storing strings
+   alone is not evidence that the questions were contextual. No answer
+   grading, forced rephrasing or second retrospective narrative is introduced.
+3. Exercise both Not now and explicit accepted deferral. Only the latter may
+   atomically create an accepted UnderstandingDebt under ADR 0005. In the
+   current candidate rehearsal, display the conditional consequence without
+   claiming that either acceptance or debt creation occurred.
+4. Quit and reopen. Restore the exact original cause, rationale, contributions
+   and outstanding explanation alongside current changed evidence/heads. Reuse
+   text while preparing a fresh review; never restore expired authority. Actual
+   sensitive persistence belongs to R4, not the manual-note checkpoint format.
+   Keep partially written explanation in versioned, non-authoritative draft
+   state bound to the work/debt and topic context. Deferring must not erase it
+   or mislabel it as a completed answer. The current deferred command's empty
+   `answers` field is not a storage format for this unfinished text.
+5. Return from that item to the related argument, inspect or revise the
+   explanation, then leave the item open or separately authorize closure of
+   that exact debt against current state. AI may help explain or critique, but
+   cannot certify understanding or close it. The resulting record attests a
+   human review decision, not scientific correctness or measured comprehension.
+
+Negative cases belong to this same exercise: an unused proposal, unfinished
+draft or unaccepted deferral opens no accepted debt; episode closure, a later
+merge and successful compilation cannot discharge understanding debt; answering
+alone cannot authorize closure; understanding closure cannot discharge manuscript
+debt. Changed context requires fresh review without deleting earlier reasoning.
+Do not expose an understanding-debt `superseded` operation in this first
+integration. The draft enum does not authorize silently hiding unfinished
+explanation; any later use requires exact transition semantics first.
+
+Amendment-level AI origin and partial incorporation remain T6/R3 prerequisites
+for typed proposal adoption. A manual judgment or human edit cannot erase an
+adopted AI relationship's contribution history. The existing manual-authoring
+work can proceed while that optional adoption path remains unavailable.
+
+Verification from the preceding alignment review:
+`python3.13 -B -m unittest tests.contract.test_research_review
+tests.contract.test_debt_closure tests.application.test_paper_work -v` passes
+24 tests. It covers candidate scope/freshness, Not now, explicit deferral,
+retained contributions, separate closure candidates and retained conditional
+work across episodes. No durable accepted closure, human comprehension,
+unfamiliar-user outcome or live-provider usefulness is established by this run.
+Implementation should extend those behavioral checks and the existing H0/H1
+journeys, not create a separate understanding-score subsystem or evaluation
+threshold. Native/source/privacy gates and the source-delivery scope remain
+unchanged; an independent synthetic service increment is not blocked on them.
+
+##### Reviewed implementation order
+
+
+###### GitHub manual-release implementation order
+
+Selected 2026-10-07: the user approved ordinary private local storage without
+device keys and requested fast implementation → feedback → correction.
+[ADR 0017](../../architecture/decisions/0017-personal-terminal-alpha.md)
+records this choice; [release section 5.5](../../product/releases/validation-prototype.md#55-source-delivery-readiness)
+owns the scope. The previous protected S plan is superseded for this first
+deliverable; native B work is preserved and deferred, not marked complete.
+
+Reuse the existing Python/curses graph, colors/spacing, full relation names,
+direct-neighbor emphasis, contextual reader/writing, manual forms and comparisons.
+The researcher builds the argument and records one judgment; AI is off by default.
+No Rust rewrite, framework change, universal store, graph database or new editor.
+Ordinary private file persistence is selected; physical encoding follows existing
+bounded canonical workspace bytes rather than a new scientific ontology.
+
+###### Fast feedback and release execution
+
+The user's 2026-10-07 instruction prioritizes finish → feedback → correction.
+Use the selected ADR 0017 scope and the same four S outcomes below; do not add
+another backlog. The [implementation harness](../../development/implementation-harness.md#feedback-first-cadence)
+owns the working cadence. The release scope still owns alpha completion.
+
+| Execution batch | Concrete deliverable | Feedback and completion |
+|---|---|---|
+| 1 — working use loop (S01 + S02) | Separate the portable personal store from device custody; connect minimal public init/open and the existing TUI. Continue from blank human thesis to claims, explicit result confirmation, typed relations, one judgment/reason and a later episode. | Show the new-content write/quit/reopen checkpoint at S01, then the complete manual graph/result/judgment loop at S02. Run affected failure/concurrency and actual-terminal checks as the path is connected. Do not wait for S03/S04, optional appearance polish or deferred native work to collect feedback. |
+| 2 — reliable return (S03) | Complete public backup/export/fresh-destination restore and preserved context/writing over the same personal store. Reuse association/status and bounded workspace validation. | Fix concrete loss, misleading save status and failures of the promised return flow first. Test corrupt/newer data, interrupted save/restore, conflicting sessions and changed/missing source with originals retained. |
+| 3 — source delivery (S04) | Extend the existing builder/artifact check, help/doctor and portable CI for the own-project path. Run the declared extracted source and relevant regression/PTY/manual journey. | Present a reviewable runnable artifact with concise setup and problem-reporting guidance. Declare only observed support; license/publication stays owner-controlled. Stop first-alpha expansion when all four S outcomes pass, then iterate on observed feedback. |
+
+**Scope lock and repair priority.** Fix data loss, false confirmation/origin,
+unreadable argument meaning and blockers of the selected manual journey before
+cosmetic polish. Preserve claim/evidence distinctions, append-only corrections
+and one retained reason; these are core behavior. New live AI, manuscript
+automation, platforms and optional refinements go to the existing later B/U
+owner, not a fifth S unit. Reopen the scope only if actual evidence shows the
+selected journey cannot work, and report that concrete trade-off.
+
+**Implementation discipline.** Each pass connects a coherent researcher action
+and its meaningful checks. New helpers must resolve a named failing case in that
+flow. Use one shared store/project interface, the existing graph/editor and
+bounded formats; no second TUI store or general persistence framework. Deliver
+ready backend contracts promptly and continue independent rescue/packaging work
+while its TUI connection is pending, without reporting S02/S04 complete.
+Use affected tests and the required bounded pinned Opus review per integrated
+behavior increment; repeat review/checks only for changes, failures or unresolved
+risks. Earlier protected-scope Opus results cannot certify this new storage path.
+
+**Feedback task.** In a small new-content project, enter a thesis/claim, record a
+source-bound result, inspect its explicit scientific relation, keep the judgment
+and reason, quit/reopen and begin the next result. Ask where meaning was unclear,
+writing had to be repeated or an action blocked work. Record concrete issues in
+the owning S entry; no transcript, new journal, comprehension score or V0 claim.
+Feedback can use disposable synthetic content before the distributable alpha.
+Reports state what now runs, S groups complete/remaining and the next missing
+connection; helpers do not change the four-outcome count or imply a duration.
+
+###### Alpha feedback and publication sequence
+
+Reconciled 2026-10-07 after the UI/UX session's completion record; priority changed
+2026-10-10 to require AI, then the owner explicitly authorized publishing the
+current source on 2026-10-11. Publish the manual experimental alpha with live AI
+unavailable. The [AI-connected order](#ai-connected-github-publication-order)
+remains the later L04 work, not a blocker of this newly authorized source preview.
+The [S03/S04 Progress entries](#progress),
+[personal workflow](../../development/workflow.md#personal-project-writing-in-the-terminal),
+[current design boundary](../../designs/2026-09-22-episode-review.md#personal-terminal-alpha-boundary)
+and public project/archive/terminal code describe the same implemented loop.
+Backup, readable export, fresh-destination restore, preserved damaged originals,
+kept/unfinished writing and actual-terminal return are completed baseline.
+S04 already checks that loop in the extracted artifact. Do not schedule a second
+adapter, store, restore feature or whole unchanged regression merely because the
+work was reported by another session. Sharing a workspace does not itself prove
+that every later edit is included in the checked artifact; compare actual sources.
+
+**Goal and position.** The [human outcome](../../product/product-spec.md#1-product-definition)
+and [understanding-debt alignment](#understanding-debt-alignment-review) still
+govern the plan: a researcher distinguishes observation from interpretation,
+owns why a claim changed, sees AI influence and returns to the same unfinished
+reasoning without another narrative. The personal manual foundation is complete;
+the next evidence is whether a person can perform that loop, not another native
+key experiment. Recorded behavior cannot certify comprehension or scientific truth.
+
+**Remaining count.** S stays **4/4 completed, zero first-alpha feature groups
+remaining**. Source-publication work and feedback are the next actions below;
+they do not reopen S03/S04 or introduce new implementation IDs. The wider B/U
+ledgers remain future work, with overlapping dependencies rather than a count
+to add to the alpha. The complete product and V0 are still unfinished.
+
+| Order | Next action and owner | Observable completion |
+|---|---|---|
+| 1 | Reconcile the release source once. This session owns source inventory/setup/CI readiness; the UI/UX session owns graph interaction and presentation. Both reuse the current public project/store interfaces. | Identify the exact code/docs/resources to publish, including currently untracked runtime files. Compare them with the checked S04 artifact and the UI/UX session's final changes. Include declared runtime, schema/fixtures/tests, setup/docs and CI; exclude private work, machine files and unrelated journal state. No blind `git add .`. Existing checks count when their inputs match; changed behavior receives affected checks and Opus review. No merge or new adapter is needed solely because two sessions contributed. |
+| 2 | Publish the current experimental manual alpha under the owner's 2026-10-11 commit/push/release instruction and separately selected MIT license. | Verify the included runtime, docs, schemas, fixtures/tests and CI, then commit the reviewed set. Run the own-project return/rescue journey from a fresh clone before fast-forward push and matching prerelease ZIP. Observe remote CI and repair actual failures. The README/release declares live AI unavailable; include the MIT notice in source and ZIP. L04 remains 3/4 and its later live milestone retains separate outbound approval. No device enrollment or full protected/V0 completion is required. |
+| 3 (available now) | Collect feedback on one new-content research task, using the same checked local or published version and existing UI; identify its commit/artifact. | A person starts from a thesis/question, adds a claim/result and typed rationale-bearing connection, records one judgment/reason, compares a chosen consequence, quits/reopens, appends a correction or starts the next question, and restores a saved copy into a fresh folder. Observe action discovery, claim/evidence meaning, shared identity, uncertainty, repeated writing and unfinished return. Use disposable content first; the person supplies/confirms their own sources. The first independent setup attempt is feedback evidence. No second judgment log, mandatory teach-back quiz, scores or automatic Notion entry. This is alpha task feedback, not preregistered V0. |
+| 4 | Repair the observed problem and release the next alpha increment. Route presentation/navigation to UI/UX; route scientific meaning, retained origin, persistence and public delivery to their existing owner. | Reproduce the issue, make the smallest change, run affected checks plus a bounded pinned Opus review for behavior changes, and recheck the affected extracted-source journey when runtime changes. Run full applicable alpha regression at an integrated release milestone or for a demonstrated wider risk. Update the owning S Progress/design/workflow instead of creating a new backlog. Stop when the reported task works and seek the next feedback. |
+
+Rows 2 and 3 are independent: checked local-version feedback starts without a
+license decision, public push or remote CI. The table is the coordination order,
+not a requirement to finish publication before a person can try the app.
+
+**2026-10-11 source publication preparation.** The reviewed source inventory
+contains 373 changed/new files. The new README presents the researcher's retained
+judgment, an original emerald banner, the exact current AI-off terminal snapshot,
+quick start, own-paper creation, private save/backup/restore and feedback tasks.
+Dynamic badges show actual repository checks/stars, with no invented counts;
+the MIT badge links the owner's selected notice. Application runtime behavior,
+schemas and public live qualification are unchanged.
+The builder's starting guide now calls the artifact experimental rather than
+unreleased. Documentation impact is current publication scope, setup/presentation
+and durable execution evidence; canonical product/release/index documents are
+updated in place, with no new ADR or session document.
+
+Actual Opus 5.5 reviews the fixed 15,437-byte publication packet, SHA-256
+`415e71cf04cced0547988fa90dbc5c63505a07601b221427a92376eb5a0ce028`,
+and returns PASS. Runtime and usage both identify `claude-opus-5-5`, one turn,
+with no tools, skills, MCP, errors or permission denials; configured hooks/memory/
+plugins and persistence are disabled. Two built-in plugin descriptors expose no
+tools. Its minor repeated-word and system-Git wording findings are corrected;
+remote CI remains an observation to make after push, not a claimed pass.
+The separate 20,120-byte MIT/artifact/harness repair packet, SHA-256
+`a62bf1d66328e5dcb63a20de4c91e25c961ceb1c4b7c6892321bac9b7f904723`,
+also returns actual Opus 5.5 PASS under the same restrictions. Its excerpts do
+not independently establish the full loader or checker-side inventory test;
+local checks cover the actual selected suite and complete artifact. No broader
+provider, native or usability verdict follows. Adding LICENSE brings the final
+reviewed source set to 374 changed/new files.
+
+Docs checks pass all 71 Markdown files; three documentation integration tests
+and 22 security regression tests pass. The 130-file runtime ZIP, SHA-256
+`f8f68428b6cf069630832a19437666324a12221e082ef8d4844ebe03aa550cc8`,
+passes doctor, replay, graph/draft/episode/offline-provider, terminal snapshot,
+loopback and actual personal-terminal/failed-source rescue checks from independent
+extraction. This pre-license ZIP is not the final release artifact. The full
+alpha/harness run passes documentation, fixture, schemas, resources, contracts
+and all 987 application tests before failing the obsolete harness assertion
+described above. The corrected 22 harness and five licensed-artifact tests all
+pass (27 total, 23.929 s), without skips. The unchanged application suite is not
+rerun locally merely for the packaging/test correction. Actual remote CI will
+repeat the integrated scope. The owner selects MIT, and the final ZIP now adds
+its notice and manifest hash under a 131-member limit. Commit, fresh-clone checks,
+push, matching prerelease and observed CI still follow. S=4/4 and L=3/4 remain
+unchanged; native/encrypted, actual-provider and human-value gates stay open.
+
+For row 3, use the [six connected personal-alpha feedback tasks](../../validation/cases/saturation.md#personal-alpha-feedback-tasks)
+with invented content. That case owns inputs, task order and observation points;
+do not turn its proposed expectations into completed human-usability evidence.
+
+The first action is a finite source/readiness review, not a demand for more
+unchanged terminal/authentication tests. The 2026-10-07 inventory shows that
+runtime source is present locally but not yet tracked by Git; the built ZIP has
+matching runtime hashes. Before actual publication, preserve unrelated/user edits
+and review the intended source set. License selection and external writes remain
+owner-controlled under ADR 0017; neither missing decision blocks local task feedback.
+Remote CI, SSH/tmux, physical IME and independent-user observations remain unclaimed
+until observed. Do not add Windows, installer or protected custody prerequisites.
+
+**Whole-product continuation after feedback.** Preserve the original agent
+horizon while keeping this immediate sequence small. The next capability is chosen
+from actual task failures and explicit user priorities; alpha completion alone
+does not authorize reopening the protected program. Current live AI, protected
+acceptance and manuscript automation remain unavailable. When the user chooses
+that continuation, reuse the existing R/B/U contracts in the following dependency
+order rather than rebuilding completed personal features:
+
+| Research outcome | Existing owners and dependency order | Required boundary |
+|---|---|---|
+| Turn a personally chosen consequence into protected durable acceptance | B03 (R2/R4 gateway/log), then B02 (R3/R4 legitimate project/result/episode) using completed B01; U4/U5 consume the same services. | Exact foreground authority, receipt consumption and expected-state/debt effects are atomic. Plain alpha imports cannot become accepted authority; native observations apply only when this feature is enabled. |
+| Keep protected work recoverable and return to its original explanation | B05 protected recovery/migration and B08 public lifecycle; B06 understanding return/closure after B02/B03, with U6 interaction. Completed B04 remains reused. | Preserve original history/keys/origin and partial explanation; readable recovery is distinct from authority. Only a separate human operation closes the exact accepted understanding debt. |
+| Align the paper with the judgment through the existing editor/tools | B07 (R5), U7, then B09 (R6 integrated H0) once B02–B08 dependencies pass. | Explicit manuscript review, fenced application, compile or exact restoration, and separate closure. Manuscript success never implies explanation completion. |
+| Add useful optional AI while the person forms the judgment | B10 (R3/R8 typed proposal/origin), U8; B11 (R8 live provider/traces) after B09 and the actual provider/egress gate. B10's portable contracts may proceed independently if requested. | Compare/edit/reject proposals, retain origin through adoption and restart, and preserve AI-off work. Useful critique, API compatibility and deployment protection have separate evidence. A new live-AI personal release would need an explicitly reviewed scope decision; it cannot bypass current ADR 0017/0009 gates. |
+| Establish the complete product's usability and value | B12 (R6/R9) and the existing H1/V0 protocol, with relevant U9 host/input evidence. | User-approved first-pass comparison and prospective observations; no retrospective fixture or alpha task feedback is relabeled VALIDATED. |
+
+These rows organize the existing later work and retain its constraints; they are
+not new feature commitments, a new denominator or prerequisites for publishing
+the selected manual alpha. Windows/native key checks return only for their actual
+enabled capabilities. The [B ledger](#remaining-non-ui-implementation-ledger) and
+[TUI sequence](#tui-result-to-judgment-implementation-sequence) own detailed TODOs.
+
+**Blocking rule.** Stop the affected operation for possible unrecoverable data
+loss, scientific/origin misrepresentation, a conflicting user-owned scope or new
+authority/egress/publication boundary, or a required dependency with no safe
+supported path. Report the specific effect and preserved work. Routine reproducible
+bugs, minor layout/wording problems and unavailable optional observations are
+repair work, not reasons to stop the whole plan. Independent authorized work and
+local feedback continue. Do not ask the user to repeat recorded storage choices.
+
+###### AI-connected GitHub publication order
+
+Selected 2026-10-10; made later work by the owner's 2026-10-11 current-source
+publication instruction. The [release milestone](../../product/releases/validation-prototype.md#ai-connected-github-publication-milestone)
+still requires working optional AI before a release advertises that capability. The
+researcher must obtain useful critique while forming one judgment, compare and
+edit selected proposals, explicitly record the chosen consequence, then reopen
+the same reason and AI influence. Current public dispatch is still unavailable.
+
+Reuse the existing L04; S stays 4/4 and L stays 3/4. The following are connections
+within that outcome and source publication, not new implementation units:
+
+| Order | Existing work and next connection | Observable completion |
+|---|---|---|
+| 1 — L04 actual provider | Keep the user's selected Codex/ChatGPT-login route and repaired startup/file controls. Resolve the authenticated IPC failure without broadening research/tool authority, and qualify generated HTTP destinations/content, retention and bounded request behavior. Inspect the pinned installed client and official protocol where useful; prepare exact selected synthetic input before requesting a fresh one-shot choice. Prior approvals are exhausted. | The actual provider can authenticate and complete a checked typed response under its verified access/egress boundary. Login/thread creation alone, an opaque CONNECT tunnel or a test replacement cannot close this gate. No new API-key purchase, credential extraction, native enrollment or unrestricted execution is assumed. |
+| 2 — L04 connected researcher action | Bind that qualified transport to the existing contextual TUI and Codex proposal/origin controller, preserving request ownership, cancellation, stale-input refusal and selective human comparison/recording. Reuse existing save/restart/backup APIs. | A user connects their own account/profile, previews the selected input, explicitly requests help, compares/edits a proposal and records their own consequence. Fresh open/restore retains the original reason and complete AI origin. Cancellation/failure leaves manual writing usable. Exercise one new researcher-authored task and report the concrete benefit or lack of benefit. |
+| 3 — Source publication | Reconcile exact runtime/docs/schema/resources/tests/CI, including currently untracked implementation. Run affected checks, bounded actual Opus review for behavior changes, the integrated alpha scope and clean-source terminal/return journey. Complete license/commit/tag/push only within the owner's separate publication instruction. | The checked release source includes the connected AI behavior and version-matched setup without any user's credentials, profile or private research. Remote CI results are observed after push; release claims match supported hosts and enabled features. |
+
+Do not restart completed input, typed ingress, origin retention or manual storage
+work. The actual boundary and checked live response remain material blockers of
+dependent public enablement; local fixes, exact request preparation and source
+review may continue independently. Do not declare the AI-connected milestone
+ready by disabling AI. No protected manuscript/debt, Windows, model-server manager,
+installer or hardware-key work is added. This planning change requires docs
+checks; it performs no model request or runtime behavior change.
+
+###### Optional AI follow-up implementation plan
+
+Proposed 2026-10-08 in response to the user's question about LLM-readable and
+LLM-editable research. This is the next capability plan, not a claim that the
+personal app can already call a model. Its human outcome comes from the
+[product definition](../../product/product-spec.md#1-product-definition): get
+useful critique while forming a judgment, retain what AI contributed, choose
+the scientific consequence and resume the same reasoning. The
+[living design proposal](../../designs/2026-09-22-episode-review.md#optional-ai-follow-up-proposal)
+owns the unresolved approach; the
+[follow-up acceptance proposal](../../validation/cases/saturation.md#131-optional-ai-follow-up-acceptance-proposal)
+owns observable pass/fail cases. The completed manual alpha remains under
+ADR 0017; ADR 0018 selects its next optional personal-AI scope.
+
+**Position and count.** The manual alpha is complete at S=4/4. This follow-up
+has **four outcome units, L01–L04; 3/4 completed, one remaining** as of
+2026-10-10. L01 is selected input/typed response and L02 is selective staging/
+durable personal origin and explanation. L03 connects offline contextual TUI
+selection/editing and return. L04 now supplies BYO configuration, unsent wire
+preparation, internal asynchronous I/O and checked API origin retention;
+public contextual unsent attachment and owned response wiring are now present;
+the selected Codex-login route now prepares explicit application input in that
+same UI, with an internal app-server checked-return component now implemented;
+its internal Codex controller now retains selected origin through owned return,
+personal recording and fresh-process/backup reopening in distinct workspace v9/
+work v10/project v6; its actual authenticated application connection remains unavailable;
+actual connected provider and
+novel-task use remain open within that outcome.
+They map onto B10/U8 and part of B11 without being added to those overlapping
+counts. A completed parser/helper/test does not complete its outcome. Keep these
+IDs and denominator fixed; record a real scope change before adding units.
+The original planning request performed no implementation; the 2026-10-09
+increment implements L01 without live dispatch or public personal enablement.
+
+**Target flow.** In the existing argument workspace, select an existing claim
+or recorded result and ask for critique, an alternative interpretation or a
+discriminating experiment before finishing the judgment. Inspect the exact
+selected context and optional current draft. Read a separate unrecorded
+proposal; choose individual suggested claims, interpretations, scientific
+connections or unrun plans, edit them and compare their graph effects. Staging
+does not record science. Explicitly record the chosen consequence through the
+app's appropriate personal or protected route, reusing the original reason.
+Quit/reopen or restore a backup and find the same writing and AI contribution
+history. Rejecting or losing the provider leaves manual work usable.
+
+**Reuse audit — source inspection, not a new verification run:** paths below
+are relative to `claimbranch/`.
+
+| Existing implementation | Reuse and precise gap |
+|---|---|
+| `core/paper_context.py`, `application/paper_service.py::compile_context` | Explicit scientific field selection, status/metric/source disclosure and current-view binding exist. Initially reuse selected recorded science plus optional unfinished judgment text. Human backup/export is separate; candidate graph context and provisional results are excluded from this follow-up input. |
+| `core/context.py::OfflineBroker`, `application/paper_draft.py::PaperDraftSession` | Exact offline request review, separate dispatch/arrival, limits, cancellation, expiry, late traces and whole-judgment adoption exist. Current `provider-result/v1` returns bounded text only; add a closed typed proposal contract rather than interpreting arbitrary text as operations. There is no live transport here. |
+| `application/paper_candidates.py`, `paper_review_policy.py`, `core/paper_changes.py::AmendmentLineage` | Manual candidate creation, selected/required/omitted effects and amendment-origin revisions exist. The registry's source Judgment snapshots are unaccepted origin, not evidence of owned typed proposal adoption. Connect real proposal item identity to staging/editing without inventing a human Judgment or trusting a model's origin flag. |
+| `application/tui_review.py`, `tui_context_ui.py`, `tui_model.py` | Reuse contextual actions, full replacement comparison, before/after graphs, focus/return and writing. Add individual suggestion comparison/selection; retain whole replacement as a distinct action. The other session owns presentation changes. |
+| `application/paper_workspace_snapshot.py`, `paper_authoring_snapshot.py`, `paper_work_store.py`, `personal_project.py`, `personal_archive.py` | Reuse owned history, kept/unfinished separation, original context, private save and backup/restore. Extend versioned retention only for missing proposal-item origins/traces; no second store. Current snapshots deliberately restore no request/consent/adoption authority. |
+| `application/tui_project.py::project_workspace`, `tui_personal.py`, `personal_research.py` | Own-project creation and history refresh construct AI-off workspaces. Preserve that public behavior through L01–L03; L04 must deliberately connect the selected provider across open, record, correction and next-episode paths rather than flip one flag. |
+
+**Execution TODO:**
+
+| Unit | Researcher-visible outcome and implementation | Completion checkpoint and dependencies |
+|---|---|---|
+| [x] L01 — scoped context and typed suggestions | Exact selected science and optional unfinished draft now compile through the existing reader. Closed v2 typed output, purpose/kind/context-item references, create/edit identity and review-bound response routing are implemented; text v1 stays compatible. Generated schema and new-content cache exercise are available. Personal scope is selected under ADR 0018. | 23 ingress checks, actual module exercise, schema check and 141 affected regressions pass. Opus findings are reproduced/fixed locally. Three frozen suggestions remain unadopted, source/writing are observed unchanged, and malformed/tool-bearing/unselected/ambiguous references refuse. No live provider, native key, allocated graph record or personal AI toggle. |
+| [x] L02 — selective staging and durable origin | Owned offline batches preserve independent siblings and earlier human edits. Item lineage v2 and workspace-owned minimal traces/payload availability share workspace v7/work v8/project v4. Complete selected/required/inherited origins and explicit personal explanation survive record, history refresh, correction and existing backup/restore. Historical suggestions restore read-only. | The 34 new cases cover a manual judgment with AI relationship, edits/record/restart, omitted plans, later derivation, atomic capacity/chain/save refusal, trace/cause/mapping consistency and original partial explanation/reason reuse. Integrated alpha and final affected checks pass. Initial Opus findings are locally fixed. No request, consent or staging capability restores; public personal AI stays off. L01/ADR 0018 dependencies are resolved; contextual interaction/live provider remain L03/L04. |
+| [x] L03 — contextual proposal review in the existing TUI | Explicit help, exact input preview, complete chosen/required/omitted comparison and before/after graphs now connect to existing candidate editors and personal consequence. Original reason, item/J origin, partial explanation and immutable review choice survive return. The owned invented-cache rehearsal stays separate from ordinary personal projects. | 19 new unit/actual-PTY cases pass against the final extracted source, including wide/narrow/tiny resize, Korean edits, cancellation, dependency selection, history and backup/reopen. Integrated alpha and final affected checks pass; confirmed Opus findings are locally fixed. Runnable offline checkpoint is available; public personal init/open stays AI-off. Actual provider/usefulness remains L04; no native signing prerequisite. |
+| [ ] L04 — user-owned provider and connected live return | BYO configuration, unsent wire preparation, typed decoding, internal cancellable I/O and checked API controller/retention are implemented with owned synthetic returns. Workspace v8/work v9/project v5 preserve complete selected origins, reason and trace through personal record/restart/backup; older offline formats remain readable. Requested repair cross-review now passes after locally reproduced compatibility/preview fixes. Public contextual TUI/init/open attachment and owned history-refresh/return paths now connect; the selected Codex-login profile/application-input preview connects without client invocation. The internal Codex controller now reuses selected origin/personal recording and saved return with distinct workspace v9/work v10/project v6. Qualify the actual selected client/provider and public connected return before exact one-shot application dispatch. Keep AI off by default. | Actual topology/egress evidence precedes real dispatch. Configuration and owned internal I/O/controller never qualify a server or restore consent. Repeat L03 with a live response and manual fallback, then observe one researcher-authored novel project/task beyond the frozen fixture. Run affected source delivery and applicable alpha regression. Depends on L01–L03 and the user's actual configured deployment; compatible JSON or a warning cannot close the provider gate. |
+
+L01 and L02 are portable B10 preparation. L03 supplies its U8 interaction
+checkpoint. None alone completes the full protected B10/B11 outcome. The
+protected B11 route still requires B09 and G2 in the
+[B ledger](#remaining-non-ui-implementation-ledger). This proposal does not
+start B01–B09 or make them prerequisites of the completed manual alpha.
+
+At L01 review, freeze the new body against the existing maxima: 16 selected
+nodes, 32 scientific relations and 65,536-byte input; 65,536-byte normalized
+response and at most 64 suggested amendments, further constrained by existing
+claim/plan/edge/dependency limits. Use proposal-local item references and
+app-allocated IDs for new candidates, preserving selected existing edit targets;
+duplicate, unresolved or cross-context references
+must refuse incorporation. Keep original text-envelope callers readable. At
+L02, also check the total existing 256 KiB checkpoint and atomic dependency
+batch capacity. The detailed
+[typed proposal and return contract](../../designs/2026-09-22-episode-review.md#typed-proposal-and-return-contract)
+owns identity, sibling invalidation, origin revisions, historical response and
+personal explanation semantics. Freeze payload-availability representation in
+L02; at L04 review, freeze endpoint-specific total/connect/read deadlines,
+credential storage outside research/backup/context, retention duration and a
+visible live request budget before transport implementation. Recheck rather
+than silently inherit or waive the frozen example's three-attempt bound;
+there is no unbounded streaming, automatic retry or hidden model fallback.
+
+**Early personal-live scope decision — selected 2026-10-09.** The user
+explicitly chose optional AI in the existing personal app, with ordinary
+private files and no device-key requirement. [ADR 0018](../../architecture/decisions/0018-optional-personal-ai.md)
+records that choice and its amendment to ADR 0017's live-AI sequencing;
+affected product/release docs distinguish selected future scope from the
+current AI-off public app. Preserve explicit human recording, original reason,
+complete item/judgment origin and independent explanation choice. Make no
+protected-authority or same-user raw-write-denial claim. This resolves scope
+before L02's dependent recording/persistence implementation; no repeated scope
+approval is needed. Actual provider and exact outbound choice remain separate,
+and choosing ordinary files never grants model transmission permission.
+
+The alternative is the original protected B11 route after B09/G2. This is not
+the recommended fast-feedback continuation, but remains the accepted protected
+dependency order. The proposed personal route must still preserve ADR 0009:
+validate the actual inference environment's file/credential/IPC/API access and
+approved egress. A selected hosted or separate-host API without a local research
+write route is a candidate topology, not proof by name. An unrestricted
+same-user server remains unsupported unless its actual boundary is established;
+connector confinement, localhost and a user trust label are insufficient.
+No endpoint, account, provider credential, model or paid service is selected
+by this plan. No model server is installed or managed by ClaimBranch.
+L01's scope/options checkpoint is resolved by that explicit choice. Reuse the
+portable L01–L03 work for the selected personal route. The protected alternative
+still follows B09/G2 and its existing B11 order; it is not substituted into L04.
+The reviewed personal scope must state its precise provider tests: no exposed
+research-write/key/human-operation capability, actual mounts/credentials/IPC/API
+access evidence and exact egress consent. This does not claim that ordinary
+files stop arbitrary same-user programs. It leaves unrestricted same-user
+servers unsupported and the original protected B11 gates unchanged.
+Outbound review uses the product's destination, normalized content, redactions,
+retention expectation and digest; no H1 serving benchmark/tutorial is added.
+
+**Review → implementation → result check per unit.** At the unit's start,
+verify that it improves the named researcher action and establish a meaningful
+failing case. Implement against the reused service boundaries. Run affected
+portable tests and one bounded pinned `claude-opus-5-5` source review for each
+behavior-changing increment, checking the returned actual model and locally
+reproducing findings. Fix confirmed defects and recheck before moving on. A
+plan-only documentation edit does not need a new native authentication or Opus
+run. Follow the [native harness](../../development/implementation-harness.md)
+and reread its canonical philosophy path after compaction.
+
+From the repository root with Python 3.13, reuse/extend these existing test
+groups as their dependencies change; select methods for narrow increments:
+
+```sh
+python3.13 -B -m unittest tests.application.test_paper_context tests.application.test_paper_provider tests.application.test_paper_candidates tests.contract.test_amendment_lineage
+python3.13 -B -m unittest tests.application.test_tui_review tests.application.test_personal_project tests.application.test_personal_archive
+python3.13 -m scripts.export_research_schema --check
+python3.13 scripts/verify.py --scope docs
+```
+
+Add behavior checks for the newly owned typed ingress, amendment adoption and
+fresh-process origin/trace return; existing text-only tests cannot prove them.
+At L03/L04, include the relevant actual-PTY and extracted-source journeys;
+at an integrated deliverable run `python3.13 scripts/verify.py --scope alpha
+--temp-root /private/tmp` on the available Mac. Affected new tests must be in
+the appropriate runner selection before calling that milestone covered.
+Portable/frozen checks never stand in for actual endpoint, provider usefulness,
+human understanding or protected H0/H1/V0 evidence. Reuse unchanged passed
+checks; broaden only for new changes, failures or uncovered risks.
+
+**Feedback and finish.** Reuse regression evidence from the existing
+[six personal feedback tasks](../../validation/cases/saturation.md#personal-alpha-feedback-tasks)
+and show only the newly connected AI proposal cases at L03 over the invented
+study. Do not require another unchanged six-task human rehearsal. Show L04
+under its reviewed boundary, including one new project/task authored by the
+researcher beyond the frozen fixture; disposable novel content is sufficient,
+and private sources are not accessed without explicit choice. Record actual
+usefulness or lack of it. Record where assistance clarified
+claim limits, obscured source/AI origin, repeated writing or broke return. Do
+not add a second narrative, AI comprehension score, forced routine quiz or
+formal debt closure. Stop this capability pass when the selected four outcomes
+work and obtain task feedback; manuscript automation, native custody, MCP,
+general agent tools, Windows and a model manager stay with their deferred owners.
+Source/license/publication work remains a separate owner-controlled action.
+
+**Blocking and recap.** At each result report L units complete/remaining,
+what the person can now do and the exact next missing connection. Stop the
+affected path for loss/corruption, erased origin, fabricated confirmation,
+stale selection entering recorded state, or an unresolved scope/egress boundary.
+Routine bugs and minor navigation friction are repaired within the unit;
+unavailable live credentials/topology block L04 dispatch, not L01–L03. There
+is no reason to request Mac device authentication for this portable proposal
+work. Do not report the live-enabled goal complete while its gate is unresolved.
+
+**2026-10-08 plan cross-review and disposition.** Actual first-party
+`claude-opus-5-5` reviews a fixed 92,478-byte packet, SHA-256
+`abe960fa04da8517e6171bdafa8eeeda3af3d7172e935b584623f8d4948ca630`.
+Runtime reports the same model, one turn, no error/permission denial, no tools,
+skills or MCP servers. Hooks/automatic memory/session persistence and configured
+plugins are disabled. Runtime still lists two built-in plugin descriptors;
+they expose no tools/skills in this review, and are not reported as absent.
+This authorized development review is not an application provider-topology or
+live-usefulness pass. Only distilled findings are retained here.
+
+Local source inspection confirms judgment-only inherited-AI detection, closed
+text v1 output and v1 lineage without typed item identity. Clarify them as
+missing connections, not enabled-alpha defects: the public alpha is AI-off.
+Adopt the smallest corrections in L01/L02 and the linked design/acceptance:
+selected-context-only references and explicit kind/create/edit mapping; atomic
+dependency staging with independent siblings; owned item origin and complete
+personal-record propagation; bounded append-only edits; historical unstaged
+reading; payload availability in L02; and early scope preparation plus novel
+researcher content at L04. No fifth unit, store, native milestone or full manual
+rehearsal is added.
+
+Do not adopt the reviewer's optional history-merging shortcut: rewriting or
+dropping contribution revisions would defeat origin preservation. Refuse at
+the bound while retaining buffers/last valid origin. Do not treat a warning
+label alone as sufficient understanding support: reuse the existing causal
+context, original reason, partial explanation and explicit human disposition
+without adding protected debt closure or a routine quiz. Actual source confirms
+the 65,536-byte result ceiling and the 256 KiB total envelope; no separate
+budget-discovery feature is necessary. Implementation still must verify item
+versus response counts and workspace origin propagation.
+
+A bounded corrected-plan follow-up uses 72,985 bytes, SHA-256
+`87d743759f790ab863e5d931fd29f7c48e14713a1012ba3ad82d2492893b0132`;
+runtime again verifies `claude-opus-5-5`, one successful turn and no tools,
+skills, MCP or permission denials, with the same built-in descriptors. Its
+verdict permits portable L01 and finds no whole-plan blocker. Locally resolve
+remaining clarifications in the linked contract/acceptance: distinct personal
+explanation state and explicit choice instead of automatic deferral; optional
+unstaged-payload quota that cannot displace required origin/writing; and explicit
+workspace-version mapping, editable kinds and scope-choice presentation.
+
+Do not adopt its blanket relaxation of judgment freshness. Canonical product
+rules still invalidate changed included draft context. Distinguish omitted
+draft text, whose continued editing does not change scientific request input,
+from included text; typed staging still needs a new exact local comparison.
+Preserve whole-judgment replacement's stricter binding. These final wording
+corrections are locally checked against canonical sources; no third Claude
+review, runtime test, live endpoint qualification or human-usefulness result is
+claimed. L remains 0/4; personal scope and actual live destination remain open.
+
+**2026-10-09 L01 result review.** The initial implemented snapshot is sent in
+one fixed 99,465-byte packet, SHA-256
+`293a0c93c57de4fb980da140593ef7c9819d0a9228be16d6ca7baeb76a7dbc20`.
+Runtime verifies `claude-opus-5-5`, one successful turn, no tools/skills/MCP or
+permission denials, with hooks/memory/session persistence/configured plugins
+disabled. The same two built-in descriptors remain metadata, not absent plugins.
+The verdict identifies actionable L01 issues; it is not reported as approval
+of the later fixed source. Local reproduction and failing tests confirm wrong-
+route consumption, context/edit alias ambiguity and insufficient example
+preservation evidence. Bind typed format in exact review/dispatch, preserve
+misrouted outstanding requests, require explicit item references to proposed
+edits and observe current source/draft state. Add exact kind/schema/normalized-
+byte boundaries, current interpretation/plan checks, mixed scientific cycle,
+text-adoption refusal and targeted display-control protection with joined-script
+text retained. Source plan status is already restricted to `planned`; do not add
+another lifecycle. Empty observation basis remains an explicitly unlinked
+interpretation. Full current graph capacity, owned adoption, late freshness and
+durable payload-availability mapping remain L02 responsibilities.
+
+After fixes, 23 new ingress cases and the complete 141-test affected set pass
+with no skips; actual module, generated schema, docs and whitespace pass.
+This set includes source extraction, existing manual personal return/archive,
+context/response security and harness/documentation integration. It is not a
+full-alpha/core/native/live-provider or human-usefulness claim. The scope choice
+is selected under ADR 0018; actual endpoint and egress still gate L04. L is now
+1/4, with L02–L04 remaining. Philosophy check: this increment lets unfinished
+thinking receive scoped suggestions without replacing its author or inventing
+evidence. L02 must carry that same ownership/original reason through selected
+incorporation and return; retained metadata alone cannot prove understanding.
+
+**2026-10-10 L02 result review.** One bounded fixed 223,989-byte source packet,
+SHA-256 `de9ad78a58572573654c13b1d5b2f2626b0825f87d732a470ee1d780b737060e`,
+is reviewed by actual runtime-verified `claude-opus-5-5`: one successful turn,
+no tools, skills, MCP servers or permission denials. Hooks, automatic memory,
+session persistence and configured plugins are disabled. Two built-in plugin
+descriptors remain metadata without exposed tools/skills; do not report them
+absent. This authorized developer review is not application-provider approval.
+
+The initial verdict is FAIL with six P2 and three P3 findings. Reproduce or
+confirm them against local code and fix within L02: scope new-item mappings to
+each response; retain prior kept human candidates beneath AI edits; mark raw
+payloads saved in both checkpoint adapters; apply optional-payload precedence
+to atomic staging/edits/partial explanation and the full project envelope;
+validate spent attempt/trace/disposition consistency; replay recorded original
+reason, chosen bodies, inherited judgments and explicit explanation choice;
+preserve earlier partial causes; refuse the eight-consequence bound before
+commit with guidance; and publish ID allocations only after valid comparison.
+Additional negative tests reject substituted provider-origin bodies, silently
+dropped kept origins, quota eviction of saved raw payloads and an omitted plan
+inserted into the recorded registry. Explicit raw erasure keeps adopted material.
+The original-reason exercise also catches unstable generated interpretation/
+topic IDs and item-only answers entering legacy `not-required` science; stable
+input-bound identity and separate personal explanation fix those defects.
+The reviewed packet predates these fixes; no second/final Opus approval is claimed.
+
+Observed evidence: `verify.py --scope alpha --temp-root /private/tmp` passes
+209 contract and 813 application/PTY/source tests, resources, schema, docs and
+whitespace without skips. Later fixes pass the final 68-test affected set in
+75.086 s. Last reader/history tightening passes 24 affected personal checks in
+67.493 s. All 34 new L02 cases pass across these executed runs. The changed
+runner's 22 harness cases pass; schema freshness, 71-file docs and whitespace
+pass. These scopes omit native/encrypted-host/full-core/live-provider and human
+usefulness evidence. No private source, native authentication, network dispatch,
+manuscript write, commit or publication occurs. L is 2/4; next is L03.
+
+Philosophy check: selective help must leave the person able to inspect what AI
+contributed under their own judgment, retain their reason once, and return to
+unfinished explanation without an imposed verdict. The backend now preserves
+those materials and choices; L03 must make them understandable in the existing
+argument workspace, and L04 must assess actual permitted assistance on novel
+researcher-authored content.
+
+**2026-10-10 L03 result review.** The existing graph/reader, candidate editor,
+personal consequence and versioned ordinary checkpoint now connect selective
+typed help and return. The explicit `demo proposals` creates an invented cache
+study in a fresh external private folder; its constructor-owned response is
+available only against that recorded context. Ordinary `project init/open`
+does not attach it. The full consequence exposes item origin under a manual
+judgment and requires the person's explicit reviewed/leave-for-later choice,
+without inferring comprehension or accepted debt. Work R routes item-origin
+review to that complete consequence; legacy incomplete review refuses with
+guidance. Manual forms and earlier AI origin remain available with AI off.
+
+Review evidence: the first 233,929-byte packet, SHA-256
+`aa0d939e03822647b9df19d3ac1c16abd732597a3662425e21975a1901ec4719`,
+times out at 330 s with no final findings; it is not a pass. A reduced
+151,906-byte packet, SHA-256
+`49bfcfa8aad6465c2874ebb2424f750b0ef77ae3cb3ac06afc022382ece31295`,
+returns FAIL from actual runtime-verified `claude-opus-5-5`. Locally reproduce
+first-partial expiry refusal, stale-list text replacement, partial/recorded
+same-cause overwrite, uninitialized late-response history and creation EOF.
+Fix them with original-cause partial retention, latest-writing refresh and one
+editable row per cause, immutable recorded choice, fresh read-only history
+and cancellation/error guidance. Failed creation retains disposable children
+and directs a fresh private folder; it performs no automatic cleanup.
+
+A focused 55,029-byte repair review, SHA-256
+`6c68d6d17710af7bf20a61b3898be848075fa9b6aa2da39c05838786f8bfbc49`,
+also returns FAIL from the same actual model. It confirms the earlier repairs
+and identifies failed explanation-refresh state: locally verify that stale
+preview remains after changed-scope `v`, clear it and keep original topics,
+then guard the empty preview during subsequent checkpoint. New regression
+checks retain writing and exit without science/consent. The suggested duplicate
+recorded-cause scenario is not reproduced: the personal reducer permits one
+selected reasoning per episode, causes bind the exact earlier command prefix,
+and restored records require unique actual merge operations. The checkpoint
+exception concern likewise does not reproduce; `ContractError` is a `ValueError`.
+Both completed reviews expose no tools, skills, MCP or permission denials;
+hooks, automatic memory, persistence and configured plugins are disabled. Two
+built-in plugin descriptors remain metadata. Neither verdict is reported as
+approval of the later fixed source or qualification of an app provider.
+
+Observed checks: `python3.13 scripts/verify.py --scope alpha --scope harness
+--temp-root /private/tmp` exits zero with 209 contract, 834 application/PTY/
+source and 22 harness tests, fixture/schema/resources, docs and whitespace,
+without skips. The run begins before the last refresh/empty-preview repairs;
+the final UI's 27 affected tests pass in 32.662 s. The final source artifact
+contains 125 files, SHA-256
+`e611b57da5cce48f3bfecc9e9cc794a998f5c8cca99f71ee3b9178c24e59d501`.
+All 19 new cases (17 unit, two actual-PTY) run against its extracted runtime
+and pass in 46.221 s, including the repaired failure paths, request/decline,
+dependency graphs, Korean editing, record/restart and backup/fresh restore.
+Earlier 48/47-test affected sets also pass. The additional 42 documentation/
+truth-packet tests pass with two Windows-junction skips; that supplemental
+scope is incomplete on Mac and is not described as a whole-validation pass.
+Final `check_docs.py` and tracked whitespace pass. Native/encrypted-host,
+full-core, live-provider usefulness and human-understanding evidence remain
+outside this portable increment. No private source, actual provider, key,
+manuscript mutation, commit or publication is introduced. L is 3/4; L04 remains.
+
+Philosophy check: the person can inspect what AI contributed in the argument,
+edit/select only the consequence they choose, reuse their reason once and
+resume unfinished explanation without a verdict imposed by AI. Frozen response
+and terminal preservation prove this wiring, not useful live critique or human
+understanding. L04 must qualify a chosen actual endpoint, obtain exact outbound
+choice and observe a novel researcher-authored task through this same route.
+
+**2026-10-10 L04 connection-preparation result review.** The user clarified
+bring-your-own LLM setup, rather than selecting a fixed provider for every
+researcher. `application/provider_profile.py` now owns closed private profiles,
+complete bounded OpenAI-chat/Anthropic wire preparation and pure typed decoding.
+`application/provider_commands.py` exposes configure/inspect and exact unsent
+preview of explicitly selected personal-project science and optional kept
+judgment. No API key is read or persisted, external configuration imported,
+socket opened, consent granted, attempt saved, suggestion staged or science/
+manuscript modified. Public init/open remains AI-off. Usage is canonical in the
+[preparation workflow](../../development/workflow.md#personal-llm-configuration-and-unsent-preview).
+
+Configuration is create-only, private and separate from both research and
+backups in either creation order. API model names permit `owner/model:variant`;
+they are not scientific record IDs. Wire preview includes the actual system
+instruction, result schema, selected science/model/limits and header/authentication
+description, with profile/context/body/request digests. Changes or expiry revoke
+reuse; an inspectable preparation object is never a dispatch capability.
+Typed workspace-history retention is explicit and consistent, while legacy
+text and existing default offline review bytes retain volatile semantics.
+No research schema migration or new history store is introduced.
+
+Three bounded actual `claude-opus-5-5` source reviews return the same pinned
+model, one turn each, exit 0, no error/permission denial and no tools, skills or
+MCP. Hooks, automatic memory, configured plugins and session persistence are
+disabled; two built-in plugin descriptors remain metadata. Packet receipts:
+
+- Initial 71,698 bytes, SHA-256
+  `9118498c77ad3bc8b7e66b3936ab35cabac502d8dc96cdb24226bc8527081d05`:
+  FAIL; locally reproduce/fix encrypted-backup separation, retention mismatch,
+  numeric overflow and public error labels.
+- Repair 75,792 bytes, SHA-256
+  `106e688231f9c9349e7c320743d60cbdef7533c58860688fa12692561771e060`:
+  FAIL; reproduce/fix reverse-order co-location and remaining private-path labels.
+- Final 79,251 bytes, SHA-256
+  `2fafe5b54f9042e932a05722b5811e49146ce594e58254af5a2c646204f1561e`:
+  PASS with one non-blocking empty-tool-field compatibility finding. Repair it
+  locally after that review, preserving actual-call and wrong-shape refusal;
+  this last delta has test evidence, not another claimed Opus approval.
+
+Seventeen new preparation cases pass against the final independently extracted
+127-file source, SHA-256
+`e39fdc9d6e67f4e03ceb885814cb35540d22ad6b50ae72e1c5e9c661d036d1b2`.
+They cover public configure/inspect/own-project preview, no network/key exposure,
+unchanged science/manuscript, backup exclusion, both placement orders,
+private/symlink/hardlink/corrupt inputs, exact request binding/expiry/whole-body
+quota, both wire decoders and malformed/tool/truncated/unselected/overflow
+responses. Final targeted runs pass 85 storage/personal/provider checks and
+47 decoder/context-provider checks with no skips. Earlier affected 90 checks
+and 22 verification-runner checks also pass. The integrated
+`python3.13 scripts/verify.py --scope alpha --scope harness --temp-root /private/tmp`
+exits 0: 209 contract checks (10.119 s), 850 application checks (525.855 s),
+22 runner checks (0.566 s), fixture/schema/resources/docs/whitespace all pass,
+with no skips. It began before the final reverse-placement and empty-tool-field
+repairs; the final 85/47 affected runs and 17 extracted-source cases above cover
+those deltas, rather than claiming another unchanged full run. Its application
+snapshot contains the original 15 preparation tests. Final docs pass for 71
+Markdown files and whitespace passes.
+
+The runtime inventory is 127 of the existing 128-member source limit; future
+runtime additions must account for that measured budget instead of producing an
+unshippable artifact. The next L04 work is asynchronous qualified transport,
+one-shot exact egress choice, connected TUI/history refresh and read-only live
+response return. Current proposal retention reconstructs offline-only review
+bindings; wire metadata/API model identities require explicit checked live
+retention integration before that path can reopen safely. Actual configured
+deployment and one researcher-authored novel-task usefulness observation remain
+required. No account/service or transmission is selected by this preparation.
+There is no preparation blocker or native-authentication prerequisite; actual
+provider use remains unavailable. S stays 4/4; L stays 3/4, one outcome remaining.
+
+Philosophy check: per-user model configuration supports optional help inside
+the person's evolving argument. Selected source, explicit draft inclusion and
+closed unaccepted output preserve the separation of observation, interpretation
+and AI contribution. Request preparation does not make the researcher write
+another decision log or imply understanding; useful live assistance and durable
+return are still the missing outcome, not claimed from a configuration helper.
+
+**2026-10-10 L04 internal transport result review.** The next independent
+component now checks the prepared exact request and runs cancellable bounded
+HTTP/HTTPS I/O through `application/provider_transport.py`. Safe non-authentication
+headers and TLS/header-wait policy are included in the preparation digest.
+Only frozen wire data and the selected environment credential enter a
+short-lived Python `-I` child over stdin, with empty environment and inherited
+descriptors closed. The same-user child is a cancellation mechanism, never
+provider confinement. No public app/CLI/TUI invokes it, no request/consent is
+restored or scientific item staged, and no new history schema/store is added.
+Canonical behavior and component checks are in the
+[internal transport workflow](../../development/workflow.md#internal-asynchronous-transport).
+
+Initial actual `claude-opus-5-5` review of 73,588 bytes, SHA-256
+`f588656761fff0dfdc3d87ce29eaff667865defe3489bbc55968671ec2bf10e2`,
+returns FAIL. Reproduce escaped credential in returned model and header-progress
+false timeout, then repair them locally. An additional decoded/full-request scan
+refuses known credentials inside science/model content before transmission.
+TLS environment CA inheritance is deliberately unsupported: document default
+roots and add an owned private-CA test, with separate explicitly trusted TLS
+success followed by default-root `tls_verification_failed`. Add spawn/validation
+cancellation, cleanup and framing/deadline fault coverage.
+
+Repair review of 85,370 bytes, SHA-256
+`99ceadc4f34fc7a739e53dd7d3ce012610146cc902faff4c68184d5671189a97`,
+returns PASS with nonblocking first-byte timing, implicit caller clock, tiny
+late-progress race and test-gap findings. Reproduce delayed non-streaming headers
+and mistaken key-as-model; fix the latter before network. Preserve connect/DNS
+5 s, body-idle 15 s and total 60 s, allowing header generation only within that
+same total budget. Header/body progress and expiry now share one critical
+section. Explain that review epoch is the trusted caller's current clock, not
+a remote/serialized authority claim. Add late-frame, body-stall, spawn-failure,
+garbage/crashed/duplicate/oversized-worker cases and stable slow-read content.
+Final review of 67,617 bytes, SHA-256
+`6e70fe139eb6f5b0edccebc631b1e99323e4e20c46843e17e5a977f7e3d819b1`,
+returns PASS with three nonblocking findings: credential in endpoint path,
+mutable global deadlines and disconnect incorrectly classified as malformed.
+Reproduce all three, then refuse literal/percent-decoded endpoint echoes,
+freeze job deadlines/session attempt ceiling, and classify pre-header
+disconnect as connection failure. These final repairs have local test/source
+evidence, not another claimed Opus approval of a later snapshot. Every review
+reports the actual pinned model, one turn, no error/permission denial and no tools, skills
+or MCP; hooks/memory/configured plugins/persistence are disabled. Two built-in
+plugin descriptors remain metadata, not falsely reported absent.
+
+Final affected checks pass 68 cases in 57.429 s with no skips, including all
+32 new transport and 17 preparation cases plus context/provider and source
+artifact regressions. Earlier 58/60/65-case and extracted 41/46-case runs remain
+narrower snapshots, not falsely called final. The new runtime reaches the
+existing 128-member artifact limit; reserve future integrations for existing
+modules or explicitly reconcile the measured budget. All 49 preparation/transport
+cases pass against the final independently extracted source in 35.864 s,
+SHA-256 `cc2339b28cf0f2d13856b9150450f227a973e4bae9903d28102da62acd11b59a`.
+Final explicit docs/harness/whitespace scope passes: 71 Markdown files and
+22 runner tests, with no skips. No full
+alpha/core/native pass is claimed for this unconnected component. Existing
+manual source/terminal paths are covered by the affected source regression;
+actual qualified provider/TUI/history integration still needs its own applicable
+alpha milestone. No actual user endpoint, private source or manuscript is used.
+
+Philosophy check: asynchronous optional help must leave the person able to
+continue forming their judgment, inspect unaccepted output and later select
+its contribution through the existing graph. The wire component owns none of
+those scientific actions and cannot erase origin, fabricate evidence, grade
+understanding or discharge debt. Configuration and successful test I/O cannot
+stand in for useful research assistance. S remains 4/4 and L remains 3/4, one
+remaining. Next implement checked live retention/controller/TUI connections
+against owned synthetic returns; actual provider/account/access and exact human
+outbound choice precede public live enablement and the novel-task observation.
+
+**2026-10-10 L04 checked API retention result review.**
+`application/paper_proposal_work.py::ProviderProposalWork` now connects owned
+post-review wire jobs to the existing compare/stage/edit and personal consequence
+path. It has no public entry and supplies no deployment qualification or human
+intent by itself; the future trusted caller owns both before `begin`. The
+[workflow](../../development/workflow.md#checked-api-proposal-retention) owns
+the durable interfaces/limits. Workspace v8/work v9/project v5 retain one
+`provider-wire-binding/v1` manifest and terminal trace beside existing item
+origins. Old offline formats remain unchanged/readable. Missing wire/profile
+bytes are opaque commitments, not independently proven content or protected
+imported authority. Safe headers/API/settings/policy are explicitly versioned;
+historical reading replays selected science without regenerating today's prompt,
+wire schema or headers. No full profile, secret reference/value, raw API wrapper,
+second store, restored job/consent or incorporation capability is introduced.
+
+Wire/offline/whole-judgment requests share the judgment's durable three-dispatch
+limit, rechecked at begin and retained through restart. Preflight and complete
+pending-checkpoint refusal precede I/O; dispatched failures consume their attempt.
+The current owner alone can compare/stage checked available items. Input edits,
+expiry, cancellation and replacement leave late returns historical, while
+previous staged origin remains editable with AI off. Personal consequence uses
+the same reason and explicit explanation choice without a quiz, grade or protected
+debt closure. Optional payload quota/erasure cannot truncate required origin or
+rewrite saved metadata. One I/O-free `provider_contract.py` resolves actual
+profile/storage import cycles. The measured source inventory grows from 128 to
+129 members with an explicit bound adjustment; the 4 MiB source/256 KiB research
+byte limits remain unchanged.
+
+Initial actual pinned `claude-opus-5-5` reviews 135,569 bytes, SHA-256
+`9d939f3d239151109636156cbbbff9dfea63e9acf65311b1fff76e18428a099d`,
+and returns FAIL. Reproduce two findings: inconsistent transport metadata is
+admitted before a later reader refuses every save; and historical wire checking
+regenerates current prompt/schema/headers, stranding earlier work. Fix the first
+with one shared semantic check before publication and during restore, preserving
+writing/pending history on refusal. Fix the second with the closed versioned
+stored manifest commitment and independent source-review check. Locally verify
+reading remains possible after patched generation/header defaults. The third
+endpoint-inline-secret premise is disproved: existing `core/context.py::Destination`
+already refuses URL userinfo/query/fragment; direct new negative tests pass with
+no weakening or sanitizing of the originally reviewed endpoint.
+Runtime verifies the actual pinned model, one turn, no errors/permission denials,
+tools, skills or MCP. Hooks/memory/configured plugins/persistence are disabled;
+two built-in plugin descriptors remain metadata.
+
+Focused repair re-review of 51,492 bytes, SHA-256
+`fa262414262992c40ba66d04e8e619ed5df08efccdb88890f719e090a67411e1`,
+does not run to a review: Claude exits 1 with its session-limit message, no
+model usage and no findings. Do not call this an Opus PASS, switch models or
+advance another increment as though the repair snapshot were independently
+approved. This prior failed availability attempt is resolved by the requested
+follow-up below; it is not retroactively a completed review.
+
+Before those repairs, 164 affected storage/personal/proposal cases pass in
+164.390 s, and the earlier extracted source passes its 65 cases. These are
+earlier snapshots. After locally reproducing/fixing the findings, all 67
+preparation/transport/retention cases pass in 53.226 s, including all 18 new
+retention cases. The final independently extracted 129-member source passes the
+same 67 cases in 53.690 s with no skips, SHA-256
+`7b642300d4659e9d8e671a5154aca81bfe0ccc827b2a331ed472118fb4586118`.
+Its owned HTTP peer sends the exact reviewed body; personal recording, failed
+save, fresh-process/backup return, immutable metadata, quota/erasure and AI-off
+editing preserve original reason and complete selected item origin. Schema
+generation/check and 71-file docs/whitespace checks pass. Integrated alpha passes
+209 contract cases (10.275 s), then runs all 900 selected application cases
+(604.222 s): 899 pass, one source-artifact boundary fixture fails. That fixture
+still supplied 127 fake modules, which with its two metadata members is exactly
+the newly declared 129-member limit. Change it to 128 modules so it again tests
+one-over-limit refusal without relaxing the runtime check. All five source
+artifact cases then pass in 22.393 s. A duplicate integrated run loaded before
+that fixture change is interrupted during application checks (exit 130), not
+counted as a pass. Do not claim a post-fixture full-alpha clean run; unaffected
+passed cases are reused and the only failing case's source group is rechecked.
+The separate final explicit docs/harness/whitespace scope passes, including all
+22 runner cases (0.605 s) without skips. No actual provider, private research or
+manuscript mutation is used.
+
+Requested follow-up cross-review on 2026-10-10 is now complete. Actual pinned
+`claude-opus-5-5` first reviews 59,265 bytes, SHA-256
+`10621b150aa1c1325cb40cffd951423a66faff6a912aa1a2fa872215e8a8275f`,
+and confirms the previous repairs but returns FAIL for source-level historical
+policy/settings/model coupling. A fresh interpreter changes running defaults
+before dependent schemas initialize: all three variants fail on saved bytes.
+Freeze v1 policy/settings/model literals and remove current-profile creation
+from historical checking. The next 63,733-byte review, SHA-256
+`43d80386b35004aec9121dc3c88562253e890f7cca7db30f7eb9b40f1cf83a4f`,
+confirms those fixes but returns FAIL for URL schema coupling to current claim
+text and unversioned policy/header preparation labelled v1. Reproduce both;
+freeze the URL contract at the existing accepted 1024-byte endpoint bound,
+validate the manifest at preparation, and derive preview/retained metadata from
+frozen v1 policy/headers with an exact digest check. The fourth fresh-reader
+variant changes only the claim-statement schema, leaving saved science valid.
+Both regression cases now pass (1.736 s). No old request gains dispatch consent.
+
+Final 68,960-byte review, SHA-256
+`d374b43aa4beeb8e7c145cb7fe62061fc72a97e0bf275285208b510b6c3d6598`,
+returns PASS for the current repair scope. All three runtime receipts report
+exit 0, one turn, actual/model-usage `claude-opus-5-5`, no error, tools, skills,
+MCP or permission denials. Configured hooks/memory/plugins and persistence are
+disabled; the same two built-in plugin descriptors remain metadata. No other
+model is substituted. The non-blocking pre-existing offline-v7 URL/claim-field
+coupling is retained as a future scientific-schema compatibility risk, not a
+new outcome or current first-release blocker. Current older formats remain
+readable; arbitrary future source-semantic changes need a versioned reader.
+The review also asks which packet the accelerated deadline tests modify:
+inspect `ProviderTransport.start` and `_wire_worker` to confirm it is the outer
+worker-control JSON, with deadline keys beside an unchanged base64 HTTP body;
+it is not scientific content or the reviewed wire body.
+
+Final affected preparation/transport/retention checks pass all 70 cases in
+54.790 s without skips, including 20 retention and 18 preparation cases. The
+freshly built/extracted 129-member source passes the same 70 cases in 54.686 s,
+SHA-256 `cdac1b29473436ae90c4619e54f7fa74c604a9e41366bbd1ef9677d30d1fa6d8`.
+The generated work-v9/project-v5 URL bound now matches the endpoint bound
+already enforced by Destination; schema check passes. Source and research
+byte budgets are unchanged. The earlier full-alpha failure/interruption above
+remains historical; no later full-alpha clean run is claimed. This is a bounded
+repair review, with public live/provider/usefulness gates still open.
+
+Final explicit docs/harness/whitespace verification passes: all 71 Markdown
+files and all 22 runner cases (0.668 s), without skips. Documentation impact
+is the existing workflow's historical-binding contract and this plan's observed
+repair receipts; no release scope, ADR or new outcome/document is added.
+
+Philosophy check: this increment improves inspecting retained AI influence and
+resuming a human judgment after edits, not an agent's permission to decide.
+Recorded explanation choice stays separate from origin/understanding; there is
+no second narrative, comprehension score, fabricated evidence or debt closure.
+S remains 4/4 and L remains 3/4, one outcome remaining. Repair cross-review is
+complete; next connect public contextual TUI/lifecycle paths. Actual
+deployment/account/access evidence and exact human outbound choice still precede
+public live enablement and the novel-task usefulness observation.
+
+###### 2026-10-10 L04 contextual provider attachment result review
+
+**Plan review and implemented result.** Improve forming a judgment with optional
+help and returning to its origin, reusing the existing graph, context picker,
+candidate editors, personal consequence and checkpoint. Public init/open accepts
+an optional private `--provider-directory` for exact contextual **unsent** requests;
+invalid configuration refuses before project creation. Task choice, optional
+unfinished judgment, full wire/read-end review, asynchronous polling, selection,
+editing and origin return now connect. Default/reopen remains AI-off. Session
+attachment survives personal history refresh but neither profile nor credential
+reference enters research or backups. The public qualification gate always
+refuses before key lookup/transport creation; owned tests alone replace it.
+
+`m` leaves waiting for manual writing without cancellation or arrival stealing
+the active editor. A new unsent preview refuses while the same judgment has a
+pending request or current proposed items; explicit decline (`x`) or disable
+permits replacement and retains staged origins. Disable revokes before cleanup.
+Cancellation revokes in `finally` even if child termination fails. Shutdown
+attempts bounded reaping and reports uncertainty; the terminal's final checkpoint
+and shell cleanup still run. Failed polling preserves the spent attempt without
+inventing a response/outcome. A failure projecting a committed trace preserves
+that response for reopening and cannot report the trace missing or cancel its
+proposal. A missing projected entry cannot crash polling.
+
+**Independent review and local reproduction.** Four fixed source packets are
+reviewed by actual `claude-opus-5-5`; all runtime receipts verify that exact model
+and model usage, exit 0, one turn, no error, tools, skills, MCP or permission
+denials. Hooks/memory/session persistence/configured plugins are disabled; the
+same two built-in plugin descriptors remain metadata. First packet: 102,908 bytes,
+SHA-256 `b406b43ed8e8b0d10bc27dd47c0d56a6440edfcff0361fb4896452756f99d837`,
+FAIL for cleanup skipping checkpoint/disable. Second: 112,565 bytes,
+`ac8ed3bff0048a0d4f1922dcffba95f7cea7439a161863e496c7d6c1f65d3285`,
+FAIL for silent pending replacement and repeated removal after routing failure.
+Third: 116,859 bytes,
+`19f8c05c47018e66955a18886579fb0871cadd9d8636e810706ca62844903d47`,
+FAIL for completed-item replacement and misleading post-trace failure handling.
+Locally reproduce each confirmed finding before repair. The initial review's
+inferred pipe-read premise does not match `ProviderJob.poll`; inspect its actual
+deadline/termination path rather than accepting that explanation. Final focused
+packet: 75,740 bytes,
+`45efa34839ecab8855d5020a26e6350e95dab3695bea1d05f1dbe40b37ea5bc4`,
+PASS for these repairs and their owner/cancel/checkpoint interactions. This is
+source review, not executed provider qualification or human-usefulness evidence.
+
+**Verification scope and failures.** Initial alpha passes docs/resources/schema,
+209 contracts (10.193 s) and 918 application cases (614.110 s), with no skips.
+That is an earlier implementation snapshot. A later alpha passes 209 contracts
+(10.329 s), then 922/923 application cases (635.172 s); the new owned API PTY
+fixture sends successive Esc keys without waiting for intermediate panels.
+Whitespace is not run after that failure. Preserve the failed run. Synchronize
+the fixture with the actual panels and correct its return expectation to
+**Your judgment**, because continuing manual writing selected Work mode. Two
+affected snapshots likewise retain their PTY oracle failures. A subsequent
+76-case run exposes the old offline replacement fixture trying a second request
+without explicitly declining current items; add the real `x` action. Its isolated
+case passes (0.767 s). The three new final repair cases pass (3.351 s), including
+history-view failure after actual owned response completion. Final affected
+checks pass all 76 cases (109.632 s) without skips. The independently built and
+extracted 129-member source passes 60 UI, public-entry, actual-PTY and retained-
+provider cases (85.630 s), SHA-256
+`706906d3ff6ab6e3ee8f3ec883e3b61fa325fa53d1e43b21f7e9f72cf1701793`.
+These include all final contextual-provider cases and the explicit replacement
+repair, using the extracted application and terminal entry rather than the
+checkout. The source guide names the unsent flag and missing Codex adapter.
+Final explicit docs/harness/whitespace passes: 71 Markdown files and 22 runner
+cases (0.586 s), no skips. The final receipt recheck also passes docs and
+whitespace. Do not report the later alpha as a clean final-snapshot pass; reuse its
+unaffected regression coverage and the final affected/source results separately.
+
+**Actual connection and next dependency.** The user now wants the Codex already
+used on this Mac. Read-only checks report CLI 0.158.0, **Logged in using ChatGPT**
+and configured `gpt-6.1-sol`; no credential file is opened and no request is sent.
+Official [authentication](https://learn.chatgpt.com/docs/auth) distinguishes
+subscription sign-in from usage-based API keys, and
+[non-interactive mode](https://learn.chatgpt.com/docs/non-interactive-mode)
+provides scripted invocation/structured return. The existing API-only profile
+cannot use that login. Continue within L04 by preparing the explicit Codex client
+adapter, verifying tools/file/mount/credential/IPC/API boundaries and bounded
+input/return, then showing exact outbound content before actual dispatch.
+Running the client here does not mean inference is local or that read-only mode
+alone meets ADR 0018. Do not copy login tokens into profiles, add a new paid-key
+requirement or qualify this unrestricted development session as the app provider.
+No new unit, second editor, tool runtime, server manager or native authentication
+is added. S stays 4/4 and L stays 3/4, one outcome remaining.
+
+The human outcome remains one authored judgment/reason, optional selected AI
+influence that stays legible after edits and a durable return path. Tests prove
+wiring/preservation; they do not certify scientific truth, understanding or
+usefulness. No manuscript write, evidence confirmation by AI, comprehension
+score, automatic incorporation or debt closure is enabled. Actual Codex support
+and one researcher-authored novel-task observation still own L04 completion.
+
+###### 2026-10-10 L04 Codex input preparation result review
+
+**Plan review and implemented result.** The user selected the existing Codex
+ChatGPT login on this Mac. Help/official-source inspection supports scripted
+CLI input and structured output, but read-only execution is not a demonstrated
+provider boundary. Build the independent selected-input path first: public
+`provider configure-codex`, inspect and saved-project preview now use a separate
+closed `codex-profile/v1` in the existing private create-only `provider.json`.
+Explicit model/effort and candidate client 0.158.0 are credential-free; setup
+checks neither login nor installed/runtime version. API v1 settings/wire and
+all historical workspace/work/project formats remain unchanged. No new module,
+store, schema migration, source member, native authentication or outcome is added.
+
+The existing contextual TUI now selects that profile and shows complete selected
+application input, instructions/typed schema, explicit optional kept draft and
+binding hashes. Service origin, unverified CLI wrapper/destinations and candidate
+versus observed version are honest labels; this is not an exact HTTP body or
+one-shot send consent. Complete input is bounded to 65,536 bytes, preview to
+120 seconds, and changed profile/context/included writing or cancellation
+revokes reuse. The controller installs no dispatched/offline attempt, trace or
+response. Codex Enter refuses before any client/API transport independently of
+the API test qualification hook. Esc and ordinary save/restart retain the same
+human writing without a profile or live capability in research/backup.
+
+**Independent review and local checks.** Three fixed packets use actual
+`claude-opus-5-5`: each runtime/usage receipt verifies the exact model, exit 0,
+one turn, no error/tools/skills/MCP/permission denials. Hooks/memory/configured
+plugins/session persistence are disabled; two built-in plugin descriptors remain
+metadata. Initial packet: 88,836 bytes, SHA-256
+`555cc6623fc9b989557517d7d5a24ef361c7c428906a4f0f42a150532213ea5b`,
+FAIL for false Codex trace/attempt labels and unqualified static client-version
+display. Locally reproduce both before fixing the panel and adding explicit
+candidate-version status in readiness/preview. Repair packet: 19,828 bytes,
+`d771adc59f850a89f194e3676c0a2a7115b0b8b111608654b9c068ee6c576e20`,
+FAIL from the incorrect premise that Codex takes the offline payload renderer.
+`CodexProposalPreview` inherits `ProviderProposalWork`; its exact type,
+inheritance and actual version/wrapper/destination rendering assertions pass
+without production changes. Reject the redundant proposed behavior patch.
+Final focused packet: 18,807 bytes,
+`1f3a08dbe086ba7eab3f9c02ff1ebb39c5a286808b8fad8411c115096e11ce3f`,
+PASS and withdraws that finding. Focused excerpts rely on tested inheritance/
+cancel assertions; the initial packet contains the unchanged full class.
+These are source reviews, not actual Codex-runtime qualification.
+
+The four initial feature checks fail for the absent Codex profile/preparation
+before implementation. A new saved-project test initially over-blocks system
+Git while trying to forbid all subprocesses; preserve the real read-only Git
+association check and forbid provider clients instead. No product invariant is
+weakened. Initial affected checks pass 102 cases (116.077 s), including eight new
+preparation/UI/actual-PTY cases. Label repairs' seven focused cases pass (1.431 s).
+Final affected preparation/API-retention/contextual-TUI/PTY/personal-entry checks
+pass all 102 (115.254 s), no skips. The final 129-member independent extraction
+passes all 86 scoped cases (92.012 s), SHA-256
+`8c5c38a6dadccb1de3661ccb4adba4028f165ac8ecf6726f9c3ad95e22e06d29`.
+Two final inheritance/render/cancel cases pass against that same unchanged
+extracted source (1.080 s). Tests come from the checkout; application and public
+PTY entry come from extraction. Explicit docs/harness/whitespace passes 71
+Markdown files and 22 harness cases (0.599 s), no skips. Closing explicit docs/
+whitespace checks pass again after the receipt updates; no new full-alpha pass
+is claimed.
+
+**Actual boundary and next action.** Read-only feature inspection of this
+installed CLI observes enabled apps/browser/shell and unbounded connection
+retries. Local static app-server protocol generation exposes restricted read
+access and structured-output fields; it proves no actual denial or model turn.
+No inference, login-cache read/import, user research transmission or machine
+configuration change occurs. Public Codex dispatch remains unavailable.
+Next perform one bounded actual-client access/return implementation and probe
+on owned synthetic data: isolate its working directory, exclude inherited
+settings/rules/project instructions/hooks/plugins/MCP/apps/tools, verify actual
+research/key/IPC/API denial and bounded cancellation/return, and inspect its
+generated destinations/wrapper. Use an observed supported path before building
+live retention; a default feature flag or connector-only denial is insufficient.
+If the actual client cannot provide that boundary, stop the dependent live
+operation and report the concrete limitation; do not build an agent/server
+manager or assume a paid API key. Show exact one-shot outbound content before
+any actual dispatch, then observe a researcher-authored novel task. No request,
+topology label or preview restores authority.
+
+Philosophy check: the same unfinished human judgment can request contextual
+help without another narrative, and manual return remains usable. This increment
+prepares that selected input; it does not yet provide useful Codex critique.
+AI origin/explanation remain independent, and no evidence confirmation,
+manuscript write, comprehension grade or debt closure is enabled. S stays 4/4;
+L stays 3/4 with the same one L04 outcome remaining.
+
+###### 2026-10-10 L04 authenticated Codex diagnostic result review
+
+**Plan and scope.** The user requests finishing the connected personal-AI
+outcome, not another isolated helper or a new denominator. Recheck the original
+Dream state, complete product philosophy and ADR 0018. Existing login rather
+than a paid API key remains selected. Preserve manual work, one judgment/reason,
+complete origin and ordinary files; do not resume device-key work. This diagnostic
+does not authorize private-project transmission or waive provider qualification.
+
+**Observed controls.** Installed Codex 0.158.0 recognizes the cached ChatGPT
+login and creates a checked ephemeral thread, exact model `gpt-6.1-sol`, own cwd,
+readOnly/no-tool-network, no approvals and empty ambient instruction/runtime
+roots. The CLI consumes an alias to its existing credential file inside a
+temporary empty client home; the agent never opens/extracts token values. Original
+credential/home writes are denied. Scratch client writes are necessary; denying
+them fails startup. Do not claim absence of transient CLI-created token copies.
+Allowing real client-home directory metadata resolves workspace routing discovery
+without reading original config or other home contents. A CONNECT proxy permits
+only `chatgpt.com:443` and `auth.openai.com:443` and forwards opaque TLS. It does
+not verify HTTP paths/body, retention or per-request counts on a reused connection.
+Successful login controls close cleanly and perform no inference. Global read
+denial with a small OS-file allowlist aborts the actual client at startup; this
+stronger confinement has not passed. The home-content denial alone cannot
+qualify other research roots or IPC. No unsupported provider claim follows.
+
+**Approved diagnostic and preserved failure.** The user explicitly approves
+one fixed novel synthetic ambiguity task: two authored claims about three
+unspecified operations/damage, 6,940 application-input bytes, SHA-256
+`a850c47f8ccf20e268cf2b9e2c9e0447d1e98c9d7bcb35d4172c4c2d6d062e39`,
+selected model/effort and ChatGPT origin. The preview discloses unknown generated
+HTTP wrapper/retention and a diagnostic, not qualified private dispatch. The
+first tool output is truncated and no checked response is recoverable; retain
+its uncertainty. After an explicit second one-request approval, initial launches
+refuse before initialization/network: overriding reserved built-in `openai`
+provider settings is invalid. Reproduce that error without a model turn.
+An owned `claimbranch-chatgpt` alias pins the same backend service and existing
+CLI-managed auth, request/stream retries zero and no WebSocket transport.
+The next approved diagnostic reaches a thread but terminates `protocol_error`
+on its unstable-feature warning, 758 ms, no acknowledged turn or checked result,
+cleanup complete. Do not infer absence of model egress from a missing turn ID:
+the outgoing request may already have been written before that notification.
+No further model dispatch occurs under that approval.
+
+**Local repairs.** Check observed account notifications only during account/read,
+require ChatGPT mode and still require its account reply; discard identity/plan.
+Keep the internal provider alias distinct and validate both provider echoes.
+Suppress the explicit unstable-feature notice in requested thread config; do
+not ignore arbitrary warnings. An owned proxy closes every tunnel and refuses
+new connections before a synthetic turn: actual installed thread-setting
+notifications can then be observed without model egress. Validate their exact
+thread/model/provider/effort/cwd, never approval, readOnly/no-tool-network,
+no active permission profile, default collaboration/explicit-only delegation
+and the observed null developer-instruction override. That null override does
+not prove absence of CLI-generated default instructions. Unknown fields or
+changed capabilities refuse. The non-egress actual control confirms the
+requested notice is absent and validates both notifications through the repaired
+adapter, then cancels with complete cleanup.
+All repairs are within the internal adapter; no launcher, saved trust flag,
+API-key extraction, scientific write or new history schema is added.
+
+**Review and verification.** Initial missing-notification/alias/notice/settings
+cases fail before repair. The repaired adapter passes 24 owned cases, including
+foreign/changed settings and account mode; dependent return checks remain
+required. The earlier 64-case adapter/retention run passes with an expected
+ResourceWarning from the injected uncertain-reap fixture; it is not live
+cleanup evidence. Initial actual `claude-opus-5-5` review of a fixed 79,745-byte
+packet, SHA-256 `3dab5c55b100e794f954a2552d0c00a2a3c593e3e57873ce90e7bb3da6d89d8c`,
+is PASS with no material findings. Runtime and model usage match, one turn,
+no tools/skills/MCP/errors/permission denials; configured hooks/memory/plugins
+and session persistence are disabled. Two built-in plugin descriptors remain
+without tools. Reproduce its non-material empty-string hardening case and pin
+the actual null override, add separate built-in/nested/settings provider-echo
+and warning refusals, and confirm notice suppression without model egress.
+Do not require a plan key beyond the installed optional schema or treat plan
+as authentication. The final narrow 25,768-byte repair packet, SHA-256
+`30c447ddd3dae2ae4fdad55e6b3f298fdab787fe953e11ce65f1f0d50640b57c`,
+also returns actual Opus 5.5 PASS with matching runtime/usage and the same
+restricted one-turn/no-tools conditions. Its scope is the null pin and provider
+echo negatives; it does not inspect the new warning fixtures. Local tests do.
+The review explicitly preserves uncertainty about CLI default instructions.
+The dependent provider-origin/profile/TUI/source-artifact run passes all 107
+cases (121.166 s), including independent manual terminal/recovery checks.
+The final 130-member artifact, SHA-256
+`f7d91a19451b195ad2b8102f5ca3c2f8039cb32f448191767eaa8d40e9b9eba9`,
+passes all 24 adapter cases from independent extraction (3.442 s), no skips.
+The earlier pre-hardening artifact also passes 24 (2.847 s); do not conflate its
+hash with the final one. Final local adapter/retention checks pass all 65
+cases (43.000 s); the injected uncertain-reap fixture again emits ResourceWarning,
+which is preserved rather than used as actual cleanup evidence. Closing
+explicit docs scope and direct docs/whitespace checks pass all 71 Markdown
+files. No new full-alpha,
+native/encrypted, actual-provider or live-usefulness pass is claimed.
+
+**Dependent stop and next action.** Actual file/key/IPC/API confinement,
+generated HTTP/retention/request-budget qualification and a checked live reply
+remain unresolved. Stop public enablement and automatic model retries. A fresh
+exact one-request choice is needed before another model turn, independently of
+safe local fixes; do not ask for login, device keys or paid API credentials as
+though those were the missing choice. Then the existing TUI/controller must be
+connected and exercised through selective incorporation and saved return on
+the novel task. No usefulness or comprehension is attested. S=4/4, L=3/4; the
+same L04 is unfinished, not an added backlog unit. The manual alpha and earlier
+origin/unfinished writing remain available.
+
+###### 2026-10-11 L04 Codex model preflight and diagnostic result review
+
+**Plan review and researcher action.** Continue L04's selected Codex/ChatGPT
+connection toward useful critique while forming one judgment, with selective
+human recording and preserved AI origin. Recheck the full product philosophy,
+release scopes, accepted ADRs, original Dream, current progress/order and
+understanding-debt alignment after compaction. This increment corrects actual
+connection preparation; it does not add native keys or reopen the manual alpha.
+
+**Actual diagnostics and authority.** The owner's instruction to proceed is
+used for the previously prepared exact gpt-6.1-sol diagnostic once. It stops
+with `protocol_error` after 1,062 ms, at an unexpected warning before checked
+turn acknowledgement. A subsequent network-closed control identifies the
+warning: missing selected-model metadata and fallback metadata. This is a
+client-metadata problem, not proof the inference service denies that model.
+
+The corrected `model/list` control returns nine client-advertised rows, including
+gpt-6-sol and excluding gpt-6.1-sol. An earlier invalid `models/list` control
+incorrectly projected its error as an empty catalog; it is not provider evidence.
+Check the generated installed 0.158.0 schema and the official
+[model-list and error protocol](https://learn.chatgpt.com/docs/app-server).
+The official [Codex ChatGPT-plan guidance](https://developers.openai.com/siwc/token-sharing-open-source/codex-app-server)
+also distinguishes a bundled client catalog from inference entitlement.
+All these controls close existing proxy tunnels before model input and send
+no inference request. No credentials are opened or copied by ClaimBranch.
+
+Prepare gpt-6-sol with the same exact 6,940-byte application input, SHA-256
+`a850c47f8ccf20e268cf2b9e2c9e0447d1e98c9d7bcb35d4172c4c2d6d062e39`.
+The owner chooses **one attempt**, not the proposed maximum of three. Narrow
+the private preview accordingly before launch. That one actual request finishes
+`client_failed` in 1,440 ms after checked turn acknowledgement/start, with no
+metadata warning, typed response, response digest or reported served model.
+Cleanup completes. The opaque proxy observes four permitted chatgpt.com CONNECT
+tunnels; this neither counts HTTP/model requests nor proves their content.
+Each actual attempt uses a 60-second bound and zero client retry settings.
+Neither is automatically repeated; all current inference approvals are spent.
+
+**Implemented preflight and affected checks.** The internal protocol now queries
+`model/list` after ChatGPT account state and before creating a thread. Require a
+bounded complete catalog, exactly one matching ID/slug, selected effort and text
+modality. Refuse aliases, duplicate/missing rows, unread pagination and malformed
+frames. Use the official older-catalog text/image default when modalities are
+absent; never substitute another model/effort. The catalog proves only client
+advertisement. Unknown warnings, thread/settings policy and existing typed-return
+checks remain unchanged. Eight negative catalog cases fail against the old
+implementation before repair. All 70 adapter/controller cases pass (42.755 s).
+The intentional uncertain-reap fixture's ResourceWarning is preserved, not
+claimed as observed cleanup. No saved schema or public launch changes.
+
+No-inference controls under the repaired protocol refuse the unavailable model
+before a thread/turn (680 ms) and reach matching gpt-6-sol metadata, checked
+settings and turn acknowledgement/start without the earlier warning (1,116 ms).
+The latter closes forwarding before input; its resulting connection failure is
+expected and is not a successful live-response observation.
+
+**Instrumentation correction and remaining blocker.** The failed live driver
+counted `error` notifications but discarded error details. No known preserved
+file contains their cause; do not label it HTTP 400/401, schema rejection, quota
+or another authentication defect without evidence. A private non-shipped future
+driver now projects only installed-schema error enums, integer HTTP status
+100–599 and an exact Boolean retry observation, bounded to four events. Raw
+messages/details, paths, credentials and supplied instructions are excluded.
+Eight owned offline projection cases pass without network or credential access.
+This prepares a more informative next diagnostic; it sends no further request
+and cannot recover the previous error. The projection is an untrusted client
+observation, not provider qualification or verified HTTP traffic.
+
+**Closing review and delivery checks.** Initial actual Opus 5.5 PASS reviews a
+21,598-byte fixed packet (`40caaafcb8edad495da69ad65d15fbdd301d274e0bfd60f22a36fbe11471f594`).
+Its hardening note identifies omitted `nextCursor` being treated as null. Add
+that negative case and reproduce an erroneous completed return before repair;
+require exact `data`/`nextCursor` keys. Add the older-catalog positive return
+case; a duplicate slug under a different ID does not change exact-ID selection.
+Final 71 adapter/controller cases pass (43.598 s); preserve the deliberate
+uncertain-reap ResourceWarning. Final actual Opus 5.5 PASS reviews 22,564 bytes
+(`5bd6979af42e93a77d438a43751e3f90445fef1b843d28bb642fc76f722a10ee`).
+Both runtime initialization and final usage identify `claude-opus-5-5`; tools,
+skills, MCP servers, errors and permission denials are absent. Two built-in
+plugin names remain in runtime metadata without tool execution; do not describe
+that metadata as a completely plugin-free process.
+
+Build the final 130-file source artifact, SHA-256
+`24ef5fb99fc8089309c040f2e69195aa8dba7f85222621bf72d1fba45ccffd33`.
+All ten declared checks pass, including the actual personal PTY and rescue
+journey. The final adapter's 30 cases pass from independent extraction, with
+only the two copied test modules and no checkout runtime/package supplying it.
+Initial pre-hardening source/29-case extraction checks also passed; they are
+superseded by these final observations, not proof of the later code. Explicit
+docs scope checks all 71 Markdown files and tracked whitespace; all three
+documentation-integration cases pass. These are affected checks, not a new
+full-alpha, live usefulness, protected/native, remote-CI or publication pass.
+
+**Next safe action.** Preserve the current failure. Diagnose the pinned client's
+reported category/status with that bounded projection only after a fresh exact
+one-shot outbound choice; do not silently reuse this approval or fall back to a
+different model/provider. Permitted service APIs/access, generated HTTP/content/
+destination/retention/request-count evidence still precede public enablement.
+A checked typed live proposal, contextual human comparison/recording and saved
+origin return/new researcher-authored task remain dependent outcomes. Manual use
+remains available. Documentation impact: internal developer behavior, acceptance
+distinctions and this existing plan; product authority, public availability,
+accepted ADRs and saved formats remain unchanged. S=4/4, L=3/4, same L04 open.
+
+###### 2026-10-10 L04 Codex Mach lookup result review
+
+**Plan review and researcher action.** Continue the selected AI-connected GitHub
+milestone within L04, using the existing Codex login and proposal/origin flow.
+Reread the canonical product philosophy, releases, architecture/accepted ADRs,
+Dream, current order and understanding-debt alignment after compaction. This
+increment resolves an actual connection failure; it neither widens scientific
+authority nor substitutes another key program for useful critique.
+
+**Reproduction and implementation.** Query macOS sandbox records only for the
+owned Codex PIDs, returning service names/counts instead of raw log records.
+The restricted preference/network-service control fails account routing in
+113 ms and reports SecurityServer denial. Adding only logging/directory/notification
+services does not repair it (163 ms). Adding SecurityServer does reach the
+checked account/thread (1,192 ms); other denied diagnostic services remain denied.
+A smaller preference/SecurityServer policy without trustd.agent fails account
+routing (189 ms); four exact preference/SecurityServer/trustd.agent exceptions,
+with authorization-right acquisition denied, succeed (767 ms).
+
+Update only the internal pure `mac_codex_policy` compiler: deny Mach lookup,
+allow those four exact global service names and
+deny authorization-right acquisition. No prefix/wildcard, public allowlist,
+saved trust flag or new launcher is added. Existing exact executable/scratch/
+credential/proxy restrictions remain. The compiler still requires a trusted
+caller to check paths, identity and ownership. Its default operation allowance
+and metadata visibility remain explicit. Successful authentication cannot
+prove absence of key/human-operation APIs on an allowed service; SecurityServer
+may expose additional keychain items beyond the named credential file.
+
+**Validation.** The new closed-service/authorization invariant fails before the
+compiler repair. All 45 adapter/probe cases then pass (3.409 s); retain the
+injected uncertain-reap ResourceWarning rather than calling it observed cleanup.
+The actual installed CLI under the repaired compiler passes permitted read/write/
+CLI-spawn controls, six outside direct/symlink/directory/shell refusals, unchanged
+owned canary/directory and complete cleanup. The exact compiler-based login
+control reaches checked account/thread/settings (830 ms), with all proxy tunnels
+closed before synthetic turn input; it is cancelled and cleanup completes. No
+model inference, credential extraction, account change, research/manuscript write,
+native key or public dispatch occurs.
+
+Preserve the earlier failed combined Mach-registration/POSIX-IPC denial
+experiment: startup exits 1, owned cleanup is unconfirmed and no network request
+starts. That broader combination is not shipped or counted as a passing
+protection boundary. A later local diagnostic-script syntax error is fixed before
+execution; it sends no request. No full-alpha, protected/native or remote-CI pass
+is claimed from these scoped checks.
+
+**Review and final repair.** Initial actual Opus 5.5 review passes on a fixed
+15,910-byte packet (`a4f6f59164d52bd0540fe9248869f9506468e7faab0d172f55b0c43b6d98b009`).
+Its actionable suggestions identify unobserved local-name exceptions, inaccurate
+TLS causation wording and missing rule-order/broad-allow assertions. The revised
+invariant fails against the earlier compiler; remove local-name allowances,
+retain exactly four global-name exceptions and state possible additional keychain
+access rather than claim TLS internals. All 45 adapter/probe cases then pass
+(3.539 s); the injected uncertain-reap ResourceWarning remains a negative fixture.
+The narrower actual compiler still reaches checked account/thread/settings
+(755 ms), with two allowed chatgpt.com CONNECT tunnels closed before the turn,
+no inference and completed cleanup. Actual file/process controls remain passing.
+Final actual Opus 5.5 PASS reviews the 16,603-byte packet
+(`aeafaac6e701545601e608a3bb56a53ca759103775ac53a53d1aa268c0bfad96`);
+initial and usage metadata both name `claude-opus-5-5`, with no tools, skills,
+MCP, error or permission denial. Minor wording suggestions are incorporated;
+other default operations remain allowed and service APIs remain unqualified.
+
+**Source and closing checks.** Build a fresh 130-file runtime artifact with
+SHA-256 `e9757661564ece943c160bb107de428e82ebfaf4aead0856be6a8d5eeb05e967`.
+All ten declared artifact checks pass, including the actual personal PTY and
+fresh-destination rescue journey. Run the final adapter against independently
+extracted runtime plus only its two copied test modules: all 28 cases pass
+(3.325 s), preserving the injected uncertain-reap warning. No checkout runtime
+or installed package supplies the tested adapter. Explicit docs scope passes
+71 Markdown files and whitespace; all three documentation-integration cases
+pass. These are affected checks, not a new full-alpha, live-use or publication
+pass. Product scope wording now points to the owner's AI-connected milestone
+instead of stating that live AI follows the next GitHub publication.
+
+**Next action.** Stop dependent public enablement until permitted service API/access and generated
+HTTP/destination/retention/request-count evidence pass, followed by a checked live
+proposal and connected novel researcher task. A fresh exact outbound choice is
+required for another model request; previous one-shot approvals remain exhausted.
+The same 6,940-byte synthetic application input is rechecked against
+`a850c47f8ccf20e268cf2b9e2c9e0447d1e98c9d7bcb35d4172c4c2d6d062e39`.
+A private, non-shipped one-attempt diagnostic is prepared with a 60-second bound
+and zero retry settings; its preparation opens no network or credentials. The
+owner's new one-shot answer was pending at that checkpoint; its subsequent
+failed attempts and the spent approval are recorded in the
+[model preflight result](#2026-10-11-l04-codex-model-preflight-and-diagnostic-result-review).
+CLI-generated HTTP/request counts and
+account retention remain unverified; a diagnostic result alone will not qualify
+public dispatch. Manual work and retained origin stay usable. Documentation impact: contributor
+policy/workflow, acceptance distinctions and this existing plan; public behavior,
+saved schemas, source inventory and accepted ADRs remain unchanged. S=4/4, L=3/4;
+the same L04 authentication defect is repaired, not the complete AI milestone.
+
+###### 2026-10-10 L04 Codex startup and file-access result review
+
+**Plan review and philosophy.** Continue the user's selected personal Codex
+connection using existing ChatGPT login, ordinary files and proposal-only
+return. Recheck the complete canonical philosophy, original Dream, accepted
+ADRs and understanding-debt alignment after compaction. The useful outcome is
+critique while forming one judgment, retaining its original reason and AI
+origin; no device key, second narrative or new outcome unit is added. First
+resolve the reproduced startup defect and test actual file APIs, preserving
+the prior failed diagnostic and consumed one-shot approvals.
+
+**Cause and implementation.** The stronger policy aborts even `--version`,
+before application initialization. Existing OS crash reports identify the dyld
+cache-loader stack. Small additional OS-root allowances do not resolve it;
+allowing file-read-data on literal `/` does. Removing that exact rule reproduces
+SIGABRT; adding it starts installed 0.158.0. This is an observed required root
+lookup, not proof of a specific cache file or permission to read descendants.
+The internal pure `mac_codex_policy` compiler retains global content/write/
+network denial, bounded OS-library and owned scratch access, exact executable
+and optional original-credential/owned-loopback exceptions. It rejects broad,
+relative, control-bearing, dot-segment or overlapping executable/scratch/
+credential paths and invalid ports. The caller still must verify canonical
+identity/private scratch; this compiler grants no provider qualification.
+
+Extend the existing contributor probe with `--file-access`, using an empty
+client home, no credentials, no thread/turn and no network exception. Actual
+host APIs read and update one permitted owned file outside cwd and successfully
+spawn the permitted CLI through version exit, then refuse outside-file
+direct and symlink reads/writes, outside directory listing and standalone
+shell spawning. The outside canary remains unchanged; owned group/leader and
+scratch cleanup complete. Outside directory entries also stay intact. Strict
+result checks require all three positive controls,
+all six exact Boolean denials and the original paired failure. Missing controls,
+failed cleanup or integer substitutions refuse. Existing original tool probe
+behavior remains separate and unchanged.
+
+**Controls and remaining boundary.** Safe disposable existing-login controls
+also reach the checked account/thread/settings under global file denial and
+`/System/Library`, instead of broad `/System`, with literal `/` access. Opaque
+proxy tunnels are closed before the synthetic turn, preventing model egress;
+cancellation and cleanup complete. Global Mach lookup denial fails managed
+preferences; allowing tested preference services permits startup but account
+routing still fails. Limited certificate/network-service experiments do not
+resolve it. Preserve these failures; they neither authorize a wider IPC scope
+nor prove absence of credential/human-operation routes. Generated HTTP/retention/
+request-count qualification and a checked live reply remain unresolved. No
+additional model request, token extraction, account/device change, public
+launcher or qualification bypass is introduced.
+
+**Validation and review.** Initial policy import and strict evidence cases fail
+before repair. The first 41-case adapter/probe run passes; subsequent integrated
+adapter/origin/probe runs pass 82 (42.417 s) and 83 (43.429 s) as controls and
+reply-shape cases are added. Preserve the injected uncertain-reap ResourceWarning
+as a negative fixture, not actual cleanup evidence. Closing probe-only checks
+pass 17 cases (0.112 s) after cleanup hardening; unchanged application coverage
+is reused, not reported as a fresh whole-alpha run. Final actual file probe exits
+0 with baseline -6, three positive controls, six denials, unchanged outside
+canary/directory and complete cleanup. Actual failure injection also preserves
+the original protocol exception and uncertain-cleanup flag after real client
+termination, with no login or model turn. Unknown ordinary cleanup exceptions
+cannot skip reaping/other-pipe closure or pass the result gate. Early version
+calls have separate five-second bounds and check cancellation between calls;
+do not claim complete descendant handling under a hypothetical version timeout.
+Global metadata access remains explicit rather than claiming path invisibility.
+
+Independent extraction of the 130-member source artifact, SHA-256
+`c79228e72ff9d9004bc84fd7da120b8ef0dd360d9df648d46d9606ea1e46b11f`,
+passes all 27 adapter cases (3.446 s), with no skips. Application policy source
+is unchanged by later contributor-probe-only repairs. Initial direct script-help
+invocation fails module lookup; use the documented `python3.13 -m scripts.…`
+entry instead. It is not evidence of source-artifact failure.
+
+Actual `claude-opus-5-5` first reviews 34,621 fixed source bytes, SHA-256
+`5d91a3bab9059355fe915c5029939e22d994b4794ce666b796cf333ea60d384f`,
+and returns FAIL. Locally reproduce the missing positive spawn gate and malformed
+nested reply; add outside-cwd file controls, successful permitted CLI exit and
+closed reply validation. Corrected 39,142-byte packet, SHA-256
+`fbe0ab448b00b0c11e8552bc61b12598a17b7ace5c3f533f8e755737386f5d27`,
+returns PASS. Reproduce and repair its cleanup hardening observation. The narrow
+6,299-byte follow-up, SHA-256
+`f89e02efe3987607bb3ef9cd944d4acf68faec2a069670edd7070cb4b75a04da`,
+returns FAIL on an ordinary non-OS exception skipping later cleanup. Broaden
+independent cleanup steps and reproduce kill/wait/close failures before repair;
+the final cleanup-only 6,833-byte packet, SHA-256
+`b6513119574e5ff2def3790b9352e20f361090d2f2e9d37cf4c81d96bf0ef1cd`,
+returns PASS. Its scope is only cleanup; the earlier full PASS owns policy and
+API controls. Its remaining optional benign-no-group test does not add behavior
+or alter the result. All completed review runtimes
+and model usage match Opus 5.5, one turn, no tools/skills/MCP, errors or permission
+denials, configured hooks/memory/plugins and persistence disabled. Two built-in
+plugin descriptors remain without tools. Preserve both FAIL findings; no review
+qualifies authenticated provider use. Docs/whitespace checks pass all 71 Markdown
+files; closing explicit docs scope and direct checker/whitespace checks also
+pass after this record. No new full-alpha/native/production-provider or useful
+live-response pass is claimed.
+
+**Documentation impact and next action.** Update the contributor workflow,
+acceptance distinctions and existing plan in place. Public behavior, schemas,
+source inventory and accepted ADRs are unchanged. Stop dependent public live
+dispatch until actual authenticated IPC/HTTP is qualified and a fresh exact
+one-shot choice is obtained; safe local fixes do not renew exhausted consent.
+The manual app and preserved origin/writing remain available. S=4/4, L=3/4;
+this remains the same L04 with the startup defect resolved.
+
+###### 2026-10-10 L04 checked Codex origin-return result review
+
+**Plan review and researcher action.** Reuse checked owned app-server responses
+in the existing graph item comparison/staging, human editing, personal record,
+independent explanation choice and ordinary save/backup return. This amends the
+earlier order only for independent internal return work; real authenticated
+access/egress still gates public dispatch. Public Codex uses the original unsent
+preview, with no new launcher, trust flag or inferred consent. Keep S=4/4 and
+L=3/4, the same one L04 outcome open. The useful target is forming one judgment,
+seeing which items AI contributed and returning to that reason, not accumulating
+additional native mechanisms or another narrative.
+
+**Implementation.** `CodexProposalWork` reuses existing selective origin and
+personal consequence APIs. A preview creates no attempt or replacement. Begin
+rechecks current selected context/profile/optional draft, expiry, full capacity
+and the shared offline/API/Codex three-request budget. Started requests retain
+count and ownership through exceptions in replacement cancellation. Separate
+Codex metadata includes input commitments and bounded client/turn/timing/cleanup
+outcomes without fictional HTTP status, account/login data or raw diagnostics.
+Workspace v9/work v10/project v6 keep these alongside unchanged old formats.
+Regeneration confirms every pre-existing JSON Schema remains byte-identical.
+Saved request/outcome/trace rewrites refuse; erasure retains adopted item origin.
+Restore never creates a client, current request, consent or staging capability.
+
+**Cross-review and local repair.** The initial fixed 146,600-byte packet,
+SHA-256 `2f18d7489866d257b0f76e5868e852fb8436f7087bfd784bc33b944ae169069a`,
+returns actual pinned `claude-opus-5-5` FAIL. Reproduce both findings before repair:
+owned inconsistent immutable results remain pending/traceless, and an exception
+cancelling earlier work after start loses the new attempt's count/tracking.
+An owned inconsistent return now saves a sanitized terminal protocol failure
+without staging; foreign request identity/digest still refuses ownership.
+Count/append happen immediately after successful start and job tracking is
+guaranteed across install exceptions, without cancelling the new job during
+ordinary replacement. Also reproduce/fix historical-model regex coupling to
+future live profile defaults with a fresh source-level mutation/reader case;
+the historical model contract is now a separate frozen literal. An early typed
+refusal fixture wrongly supplied critique; correct it to the existing contract's
+null critique/empty items without widening the decoder.
+
+The final 152,952-byte repair packet, SHA-256
+`d62579adc6d66266fe5e0990460beaf5468263c36b641a1fe1800ab584c7ed85`,
+returns actual Opus 5.5 **PASS**. Both runtime and usage report the exact model,
+one turn, no tools/skills/MCP/errors/permission denials; configured hooks/memory/
+plugins and persistence are disabled. Two built-in plugin descriptors remain
+without tools. No raw review transcript is copied into research or docs.
+Non-material notes are scoped honestly: an asynchronous interruption before
+the install try/finally is not atomic controller tracking, although the transport
+still owns cleanup; current pure decoding checks nonbytes via ContractError;
+actual jobs' cancellation is nonthrowing and transport shutdown remains the
+resource owner. Public begin performs preview recheck under the workspace lock.
+Future core context-review rule changes need versioned readers; the frozen
+model/prompt tests do not promise compatibility with arbitrary rule changes.
+These observations do not qualify a deployment or add a roadmap unit.
+
+**Verification.** The final extracted 130-member source artifact, SHA-256
+`1a2d326d05c53aa84e2ee06a31b5d0c96617cc7dede107548ab0adc3541eaba8`,
+passes all 21 new Codex cases (20.805 s), including an owned actual stdio
+subprocess and personal fresh-process/backup return. The first focused run's
+unknown test-module selection and invalid refusal fixture are failures, not
+passes. Relevant local repair checks and generated schemas pass. The unchanged
+explicit harness scope passes docs and all 22 harness cases (0.615 s), plus
+whitespace. The first alpha run passes docs, fixture, schemas/resources and
+209 portable contract cases, then runs 972 application cases (670.854 s): 971
+pass and the old loaded refusal fixture fails; whitespace is NOT RUN. Preserve
+that failure. The corrected complete focused module passes 40 (40.132 s), and
+the subsequently added source-level compatibility case passes independently.
+The fresh final-source `verify.py --scope alpha --temp-root /private/tmp`
+passes all 209 portable contract cases (10.812 s) and 975 application cases
+(674.336 s), with docs, fixture, generated schemas/resources and whitespace,
+exit zero and no skips/expected failures. This covers the complete current
+41-case provider-retention module, old API/offline return, actual terminal
+journeys and source artifact/manual restore. It establishes a clean alpha scope,
+not omitted native/encrypted core/all, authenticated inference, Linux/SSH/IME
+or human-usefulness evidence. Closing docs/whitespace checks are rerun after
+this result update.
+
+**Remaining dependent action.** Actual authenticated file/key/IPC/API access,
+generated HTTP destinations/wrapper and one-shot outbound consent remain required
+before a public real request. Then connect the qualified route to existing TUI
+selection and observe a novel researcher-authored task/return. This increment
+uses owned invented data, reads/copies no login token and runs no inference.
+It cannot confirm evidence, write a manuscript, grade understanding or close
+debt. Manual authoring and saved return remain available.
+
+###### 2026-10-10 L04 internal Codex app-server result review
+
+**Plan review and implementation.** Continue the same L04 with a bounded internal
+stdio adapter in `claimbranch/application/codex_app_server.py`, sharing the
+existing scoped typed ingress rather than inventing HTTP status or a new
+science store. The public Codex qualification gate still refuses before client
+construction. An internal trusted caller supplies command/cwd/environment;
+neither a private profile nor a saved trust/test flag can enable it. There is no
+new retained Codex schema or selective-staging controller. Authenticated access/
+egress gates that connection; owned protocol handling proceeds independently.
+S stays 4/4 and L stays 3/4 with the same one outcome remaining.
+
+Initialization, account state without refresh, ephemeral thread and exact model/
+instructions/input/schema are implemented. Returned version/model/cwd/policy,
+instruction sources and runtime roots are checked before turn/start. Requests,
+turns, complete items and final typed references remain bound to original input.
+Tool/approval requests, executable items and active remote control refuse.
+Nonblocking bounded framing, cancellation, deadlines, group termination and
+leader reaping supply checked return, not provider confinement. The durable
+per-judgment budget and origin retention remain their future owning controller's
+responsibility; this transport has three ephemeral starts and replay refusal.
+The workflow owns exact limits and lifecycle semantics.
+
+**Actual protocol observation and corrected assumption.** The installed CLI
+under empty client home and real-home/network/extra-process-execution denial
+reaches initialize/account/read and returns `auth_required`, without a thread,
+turn, proposal, credential or inference. Initial control-only run refuses the
+CLI's legitimate `emittedAtMs` envelope and `remoteControl/status/changed`;
+check installed schema, accept disabled status only and then observe account
+refusal. Account/workspace-routing metadata is discarded. Post-repair control
+again returns auth_required (88 ms). This is anonymous control compatibility,
+not authenticated turn/resource/egress proof. Earlier preparation incorrectly
+attributed restricted read roots from newer protocol documentation to this
+installed version. Its generated readOnly policy contains networkAccess but no
+read-root access field. Do not claim that policy protects unselected research.
+
+**Pinned cross-review and repair.** Both fixed source reviews run actual
+`claude-opus-5-5` in one turn with matching runtime/usage model, no errors,
+tools/skills/MCP or permission denials, configured hooks/memory/plugins disabled
+and no session persistence. Two built-in plugin descriptors remain present
+without exposed tools; do not claim they are absent. The initial 59,068-byte
+packet, SHA-256 `fb12174471c9554c86bc05a2500f9861df7a8b47745d18d1be1ec1ff8b14977b`,
+is FAIL. Reproduce three actionable defects with failing tests: daemon owner exit
+leaks its client, 700 ordinary deltas exceed the original event cap, and an
+unexpected decoder exception falsely reports start_failed. Exit now cancels and
+awaits cleanup even after nonblocking close; only verified closure unregisters
+the exit hook. Opt out per-token deltas while retaining tool/completed-item
+events, and bound envelopes separately from the unchanged 65,536-byte final
+proposal. Sanitize all ordinary post-launch exceptions and retain uncertain
+cleanup explicitly. Replace the racy stderr fixture with a continuous owned
+producer. The trusted review-clock epoch follows the existing API/offline caller
+contract; no serialized time or library digest mints foreground consent.
+Installed nullable assistant phase is also reproduced and repaired: incomplete
+started items are allowed, while a completed turn requires one explicit final
+or unambiguous unphased message. A commentary-only turn still refuses.
+
+Final 68,450-byte repair packet, SHA-256
+`8f4faa81976ce9e627814370b2aa6756f339ddae953be871df0a6bbed1e1987a`, is **PASS**.
+Its non-material notes need no feature expansion: model echo is not served-model
+verification, the request deadline has separate bounded cleanup, and unknown
+authenticated notifications remain fail-closed pending actual observation.
+Correct the workflow's cleanup/deadline wording; no additional code change or
+scope reversal follows. These reviews do not establish authenticated support.
+
+**Verification and delivery.** Initial focused integration passes 147 cases
+(113.656 s), including the original 12 adapter cases, API preparation/transport/
+retention, contextual TUI and harness. Final adapter checks pass 18 (2.152 s).
+The unchanged final application source extracted independently from the
+130-member artifact also passes all 18 (2.048 s), no skips. Artifact SHA-256
+`93bd5bb90111e6ab2e1e6532e1b8b9c12dc4e3c31a3e71f31c1d6b63e0f6b5e5`.
+The inventory budget grows by this one Python module; its over-capacity fixture
+now checks 131 members against the declared 130. That focused fixture passes.
+The explicit alpha run passes docs, original fixture, schema/resources and
+portable contracts. Application checks run 954 (641.811 s): 953 pass, one old
+inventory-fixture assertion fails; whitespace is NOT RUN in that failed scope.
+The in-flight suite had already loaded its old 128-module fixture, which now
+fits the declared 130-member artifact and cannot legitimately be rejected.
+The corrected 129-module fixture crosses the new limit without weakening the
+builder. Its fresh complete source-artifact suite passes all five (21.110 s),
+including reproducible inventory/independent application and personal terminal/
+recovery journeys. No unchanged 954-case rerun or clean full-alpha pass is
+claimed. Explicit docs/harness/whitespace subsequently passes all 71 Markdown
+files and 22 harness cases (0.602 s), without skips. Closing explicit docs/
+whitespace checks pass again after the receipt update.
+
+**Remaining action and philosophy.** Stop dependent public/live enablement
+until the selected authenticated runtime's actual file/key/IPC/API and generated
+HTTP destinations/wrapper pass. No login/cache copying, paid API key, device key,
+server manager or additional first-alpha prerequisite is introduced. Then connect
+checked Codex origin retention to existing selective edits/personal recording,
+obtain exact one-shot outbound consent, and observe one novel human-authored
+task/return. The component helps receive scoped critique while a person forms
+their existing judgment; it demonstrates neither useful live assistance nor
+human understanding. It cannot confirm evidence, alter a manuscript, grade the
+person or close debt. Manual graph construction and saved return stay available.
+
+###### 2026-10-10 L04 actual Codex boundary result review
+
+**Plan review and implementation.** Continue the same L04 with an actual CLI
+observation before building authenticated retention. Add the disposable Mac
+probe `scripts/probes/codex_boundary.py`; it is contributor tooling, not a runtime
+source-artifact member, profile trust flag or app live switch. It uses an empty
+private client home, explicit file-based credential storage, a stripped child
+environment, no daemon, user config/rules ignored, disabled execution/connectors/
+hooks/plugins, and a Seatbelt real-home/network/process-execution deny with only
+this executable and owned loopback exceptions. It is not a whole-filesystem or
+production authenticated policy. A 25-second process-group deadline and bounded
+request parsing keep the observation finite; stdin cannot acquire terminal input.
+No user login cache, private research or inference service is read/transmitted.
+
+The owned peer captures metadata only, emits two scripted tool calls and ends
+with HTTP 400. Final observations: installed version 0.158.0, two credential-free
+requests (6,699 and 7,553 bytes), only `request_user_input` advertised, actual
+shell refusal `unsupported call: shell`, actual question refusal `unavailable
+in Default mode`, unchanged canary, no timeout/inspection errors; expected
+client exit 1, successful probe exit 0. These are actual dispatcher observations,
+not flags alone. An advertised unavailable tool is not grounds to claim a
+research-write capability. A diagnostic run also shows custom-provider fallback
+metadata for the selected model name, so this is not the actual ChatGPT-login
+model/tool contract. No valid proposal return or application attempt is created.
+
+Initial tighter whole-filesystem policy aborts CLI startup; replacing it with
+the narrower documented owned-observation policy does not qualify production.
+Initial SSE fixture omits required `total_tokens`, so it cannot observe the
+second request; fix the owned protocol fixture, then observe both refusals.
+Metadata tests first reproduce duplicate JSON hiding a tool list and terminal
+control characters in tool names; both now refuse without emitting input or
+credential values. Twelve affected probe cases pass without skips:
+`python3.13 -B -m unittest tests.probes.test_frozen_provider -v`. This includes
+the original three frozen-response cases and nine boundary-observation cases.
+Final actual CLI round-trip reproduces the metadata/refusals above. Cancellation
+handlers now record a flag rather than raising during spawn or cleanup; the
+bounded wait polls it and finally kills the owned group/reaps its leader.
+Actual OS SIGTERM during real Codex exec, immediately after an owned child
+spawns before its constructor returns, and during scratch removal all return
+143, preserve handler restoration, and leave no owned child/scratch. These are
+maintainer probe observations, not authenticated request cancellation evidence.
+`python3.13 scripts/verify.py --scope docs` checks all 71 Markdown files and
+whitespace successfully; no new full-alpha, native or production-provider pass
+is claimed for this contributor-only change.
+
+**Pinned source cross-review and disposition.** Seven fixed source reviews use
+actual `claude-opus-5-5`, with one turn each, no runtime error, tool/skill/MCP
+capability or permission denial, configured hooks/memory/plugins disabled and
+no session persistence. Runtime retains two built-in plugin descriptors with
+no exposed review tools/skills; do not report those descriptors absent. Scope is
+the owned probe, affected tests, ADR 0018 and relevant workflow excerpt.
+The six earlier reviews fail; locally reproduce their findings before repair:
+exit/tool-set/phase gates, deeply nested or null input, group cleanup after
+leader exit, header idle timeout, exit-code wording, missing/binary canary,
+preserving observations on cleanup failure, SIGTERM/HUP cleanup, spawn-time
+asynchronous-handler races and retaining cleanup flags in startup diagnostics.
+Repeated masking repairs still permit a Python handler to interrupt cleanup;
+replace that mechanism with the cooperative cancellation described above.
+Keep these failed review results; they are not passes and prove no provider
+qualification. Fixed packet receipts, in execution order (bytes / SHA-256):
+
+- 28,554 / `dfababe0a04be683d775c0f696ffcd6289f11c8be86d727b52769371223554d2`;
+- 31,382 / `38359dacd15f7eafdc12c7047db1db67291f4c813d8b5871256afc6d1403cfd9`;
+- 32,949 / `77ee5b2ba1ab2dd387db7796c6d71ccc8d40d4c77c3fe809875cdd23374f97a9`;
+- 37,579 / `6af2fc8e50a62401a2e1f543bae8e2e504eeee22710e874b7d97ddbe1929a25a`;
+- 40,661 / `5af49b67c671ea2e0c3359b856742d30e201647d4e2d50f5757776a7524b821a`;
+- 42,153 / `4679d9d3ec0aac49fd2269ee4b37e23d70946891257955a2394fecf21fc949d5`;
+- final 39,276 / `1b941167f68b6cd179da4e55f982d40c9c7a608459ca95dde9e8555232e6cc96`.
+
+Final review is **PASS**, actual runtime and usage both `claude-opus-5-5`, exit
+0, no reproducible material defect within this bounded contributor scope.
+Its non-material observations require no extra feature: installed handlers do
+not raise KeyboardInterrupt, and signal dispositions differ from signal masks.
+Production authenticated isolation/egress remains expressly outside this review.
+
+**Dependency-scoped stop and remaining TODO.** Selected authenticated Codex
+access/egress remains unproven; stop dependent live enablement, not manual work.
+Next establish an actual supported invocation that uses the selected existing
+login without copying keys, excludes inherited context/tools, and demonstrates
+research/key/human-operation denial across files, IPC and APIs. Observe actual
+selected-model metadata and exact normalized destinations/wrapper before
+requesting one-shot outbound consent. Only then connect bounded checked Codex
+return/origin retention, cancellation and novel researcher-authored task use.
+No API-key purchase, machine enrollment, service manager or new outcome is
+assumed. Repeat this owned probe only after a relevant runtime/config change;
+its success cannot substitute for the missing authenticated boundary.
+
+Documentation impact: contributor probe/workflow, acceptance distinctions and
+this existing plan; public behavior, schemas, source-artifact inventory and
+accepted ADRs are unchanged. The unfinished human judgment/manual app stays
+usable. S=4/4; L=3/4 with exactly the same one L04 outcome remaining.
+
+###### Final philosophy and feedback-readiness audit
+
+Checked 2026-10-07 before user feedback. The original
+[Dream state](#0c---dream-state), [office-hours decisions](#decision-audit-trail),
+[human outcome](../../product/product-spec.md#1-product-definition) and
+[understanding-debt alignment](#understanding-debt-alignment-review) are the
+durable record of the initial intent and later clarifications. This review uses
+those documents and the available conversation, not a newly recovered private
+chat transcript. The [selected alpha](../../product/releases/validation-prototype.md#55-source-delivery-readiness)
+is the current implementation boundary; the full ideal remains larger.
+
+**Verdict:** ready for local personal-alpha task feedback on the observed Mac.
+No reproduced blocker of the enabled manual/save/return/rescue loop is found.
+This does not establish independent usability, comprehension, scientific value,
+the protected result-to-manuscript loop or GitHub publication. S stays 4/4 and
+no new implementation group is added. Stop expanding the alpha and observe the
+researcher task in the [current feedback sequence](#alpha-feedback-and-publication-sequence).
+
+| Intent and canonical home | Current implementation/evidence | Assessment |
+|---|---|---|
+| [Human construction and one reason](../../product/product-spec.md#1-product-definition) | Public setup starts with only the entered thesis/question; claim/subclaim/typed-link/unrun-plan forms work before a complete judgment. Personal selected reasoning reuses that same judgment/rationale; the new-content audit retains it after restore. | Manual foundation aligned. No second research log or ordinary comprehension quiz is introduced. |
+| [Observation versus interpretation](../../architecture/decisions/0001-evidence-and-reasoning.md) | Provisional intake stays outside evidence until explicit personal confirmation. Corrections retain original event/value; current global evidence remains visible across reasoning views and later episodes. Shared evidence is one node with named scientific uses. | Enabled history behavior passes. Personal confirmation cannot verify the source or acquire protected authority. |
+| [Paper argument and visual reach](../../product/product-spec.md#7-interaction-and-visual-character) | Thesis/main/subclaim paths, exact scientific types/rationales, direct-neighbor focus, shared identity and before/after/scenario graphs are connected. A novel cache-study render/reader exposes actual statements, conditions and measurement definitions. Hypothetical reach follows explicit scientific edges, not structural parentage. | Mechanisms aligned; default compact wording and placement remain concrete readability risks, not demonstrated human comprehension. |
+| [Origin and explanation are separate](../../architecture/decisions/0005-human-authority-provenance-and-understanding-debt.md) | Retained adopted AI/human history survives recording, restart and backup restore. Conditional explanation retains cause/original reason and stays unfinished; no accepted Debt or closure is created. Live AI is off. | Preservation passes; useful live assistance, typed incorporation and protected understanding review/closure remain deferred. Alpha tests cannot validate the larger AI-assisted ideal. |
+| [Return to unfinished work](../../architecture/decisions/0017-personal-terminal-alpha.md) | Full kept/unfinished writing, associations, origin and manuscript follow-up reopen; changed/missing source retains the original basis. Corrupt/newer input, competing sessions and uncertain saves refuse safely. Backup restore reproduces saved contents into a fresh folder and retains originals. | Enabled persistence/rescue passes; unsaved input and external artifacts/manuscript files are outside the backup boundary. |
+| [Manuscript consequence](../../product/product-spec.md#46-manuscript-progress-is-not-one-transaction) | Conditional follow-up and read-only wording/source comparison remain attached to the judgment; no manuscript bytes change. | Deliberately partial under ADR 0017. Actual apply/compile/recovery and human closure are later gates. |
+| [Experiment-terminal/source delivery](../../architecture/decisions/0012-terminal-research-workspace.md) | Actual Mac PTY wide/narrow Korean paste, resize, restart and shell return pass, including independent source extraction. Doctor reports personal availability separately from unavailable protected/live/manuscript features. | Local feedback ready. GitHub checkout/publication, remote CI, Linux/SSH/tmux, physical IME and an unfamiliar user's understanding/setup are not observed passes. |
+
+**Observed scientific exercise.** Disposable invented cache research starts
+blank, confirms a source-referenced 6 ms mean against 15 ms without opening that
+reference, and authors main/subclaims plus an unrun first-lookup experiment.
+One observation has three distinct claim uses. Its hypothetical challenge reaches
+the subclaim and its scientifically linked main claim; the structural thesis and
+an unrelated claim stay outside that calculated path. This is not a truth verdict.
+Recording uses the original human reason, preserves the alternative and leaves
+manuscript follow-up open. Fresh-folder restore retains complete saved work,
+the Korean note and unfinished judgment; the manuscript remains byte-identical.
+Inspect actual current 160×44 and 80×24 graph renders and the full evidence reader,
+alongside the automated public PTY cases. This is agent inspection with synthetic
+content, not an unfamiliar-researcher result or a new F0 scientific fact.
+
+**Review findings and disposition.** Pinned Claude Opus 5.5 reviews a fixed
+147,270-byte source/intent/render packet, SHA-256
+`cf3c0dd01e1a83dd42972eea21782ff08d5e8f4ac46b093be211551c551977c2`.
+The runtime verifies `canonicalModel=claude-opus-5-5`, no error, with tools,
+skills, hooks, MCP and session persistence disabled. It reads supplied evidence;
+it executes no tests. Its conditional feedback-ready verdict is followed by the
+completed local regression and the following source/reproduction checks:
+
+- Fix current wording in the root README, product specification and saturation
+  section 11 that could describe completed personal entry/return as absent or
+  reapply the historical protected first-release prerequisites. Scope the older
+  model/demo and protected table; retain the requirements without marking them
+  passed. Documentation impact is current-status/validation-scope clarity only.
+- Keep compact-card clipping, shared-evidence placement and scenario viewport
+  clipping as feedback observations for the existing UI/UX owner. In the novel
+  graph an observation directly qualifying the thesis sits beside main claims,
+  before a subclaim; clauses disappear from the small overview but remain in the
+  reader. A scenario pushes one main card offscreen and names it in the footer.
+  The reviewer incorrectly calls that particular main claim outside the scenario
+  path: the reproduced service result includes it. Records/direction are retained;
+  visible route fragments do not by themselves prove an erased edge or wrong
+  scientific relation. Inspect these with a person; do not call PG comprehension
+  proven or redesign the workspace during this verification task.
+- Recheck the suggested silent-interpretation/origin defect locally. Preparation
+  and cancel leave history unchanged; the full personal preview displays the
+  judgment-to-interpretation reuse and empty evidence basis before explicit
+  recording. Recorded/reopened source Judgment retains its AI chain. The
+  automatic legacy `deferred` value creates only `pending-if-accepted` items,
+  with zero accepted debts and no closure/authorization. These checks do not
+  establish independent amendment-level origin; selective typed AI adoption
+  remains the existing B10 dependency, never a new alpha promise.
+- The next-question preview already discloses that closing the episode leaves
+  earlier result drafts readable but unconfirmable; one chosen reasoning per
+  episode is a declared finite-alpha limit. Treat resulting friction as feedback,
+  preserving the drafts and the user's choice rather than silently lifting bounds.
+- Source inspection also finds older `example reference`/`paper example` reader
+  copy reused in the personal path. The actual reference/measurement and the
+  no-access boundary remain intact, but this copy can confuse own-project use.
+  Carry the small wording defect to the existing UI/UX feedback owner; this audit
+  changes no runtime behavior or scientific data.
+
+**Final executed checks.** Python 3.13.15 on the available macOS host:
+`python3.13 -B scripts/verify.py --scope alpha --scope harness --temp-root /private/tmp`
+passes docs, original fixture, generated schema/resources, 209 contract tests
+(10.004 s), 759 alpha-application tests (421.501 s), 22 harness tests (0.548 s)
+and tracked whitespace, with no selected skips. Separate portable security
+discovery passes 22 tests. The documented module invocation of
+`scripts.check_source_artifact` passes all ten checks in the existing 120-member
+ZIP, including standalone public personal PTY/rescue; the initial direct-file
+invocation had an import error and is not counted as a pass. All 118 shipped
+runtime hashes still match, with no missing eligible runtime file; artifact
+SHA-256 remains
+`ae9b18143f8ed3a26f5e5cc396ca7d6056227531e11aafd7e71b63fb70ec0d23`.
+After documentation corrections, `check_docs.py` passes 70 Markdown files,
+three documentation integration tests and tracked whitespace pass. No core/all,
+native/protected/Windows or remote-CI pass is claimed; earlier omitted failures
+are retained. Runtime remains untracked and no root license file exists, so
+publication requires the already planned source inclusion and owner choice.
+Those publication actions do not delay feedback on this checked local version.
+
+###### First-release outcome ledger
+
+**4/4 complete; zero implementation outcome groups open for this alpha.** These replace the former protected
+S boundaries in place. They are not four turns, a duration guarantee or additional
+B/U units. Each implementation pass finishes a coherent user action, its affected
+tests and review; a helper or extra precondition does not become a new release group.
+
+| TODO | Implement using existing work | Done when |
+|---|---|---|
+| [x] S01: own-project entry and save | Connect planned public `project init/open` to blank `ResearchHistory.start_paper_series`, typed association, `PaperWork` and `TerminalWorkspace`. Separate a portable private-file store from current `ProjectWorkStore` device-store inheritance; reuse ownership/Git exclusion, lock, fingerprint and atomic save. | Preview human thesis/question, source and separate private destination; cancel writes nothing. Create novel content, write note/partial judgment, quit and reopen in a fresh process without Swift, keys, browser or seeded evidence. Public commands now work; the [personal entry](../../development/workflow.md#personal-project-writing-in-the-terminal) owns setup and limits. |
+| [x] S02: manual result and judgment | Connect provisional result entry to bounded run/measurement/evidence-event rules and explicit personal confirmation. Reuse claim/interpretation/typed-link/plan forms and selected-change review. Bind one original judgment/reason to the chosen consequence; retain alternatives and origin. | Author a new result and argument entirely in the TUI; inspect support/challenge/qualification rationale and shared identity. Record the chosen update, append a correction, start a later episode and reopen earlier writing without a second narrative, invented observations or protected-approval claims. |
+| [x] S03: complete return and rescue | Retain history, notes, kept/unfinished writing, context, provenance and manuscript follow-up through existing versioned workspace validation. Add public local backup/export and fresh-destination restore around the same store. | Process-loss return and failed/interrupted replacement preserve honest save status; corrupt/newer data and competing sessions refuse safely. Missing/changed source preserves original writing. Verified backup restore reproduces saved content while retaining original files. Manuscript remains read-only. |
+| [x] S04: source delivery | Reuse source builder, resource/artifact checks, CLI help/doctor and portable CI. Declare Python/curses requirements and supported hosts. Add/test an explicit portable verification selection before documenting it as runnable. | Clean extracted sources run the S01–S03 manual journey with no untracked files/maintainer paths/native tools; relevant regression and wide/narrow PTY paths pass. Prepare Linux CI and report observations actually available. Setup/help states the personal storage boundary. Owner license/publication remains separate. |
+
+**First feedback checkpoint:** show the running version as soon as S01–S02's
+manual write/graph/judgment/quit/reopen path works. Basic failed-save/concurrent-open
+protection belongs to S01, not to a later polishing pass. Finish S03–S04 for the
+distributable alpha, incorporating concrete feedback; do not hold the first
+demonstration for exhaustive platform observations or formal V0.
+
+**Next action:** follow the [alpha feedback and publication sequence](#alpha-feedback-and-publication-sequence):
+review the exact release source, publish on the owner's instruction, gather manual
+task feedback and repair its concrete friction. Local feedback may begin now.
+No fifth S unit or automatic protected/native continuation follows from completion.
+
+**Verification:** per meaningful behavior increment, run affected portable
+domain/application tests, relevant actual-PTY interaction and bounded pinned Opus
+review; repair confirmed defects and run `python3.13 scripts/verify.py --scope docs`.
+Full applicable portable regression and artifact/manual journey checks run at
+integration/release milestones, repeated only for changes/failures/uncovered risks.
+No whole Mac-key suite for ordinary alpha UI/store work. Changes to preserved native
+adapters still require their own checks; omitted/failed coverage is never a pass.
+An explicit `--scope alpha` now selects portable dependencies and preserves
+named native exclusions; full alpha verification and repaired checks are recorded
+in S04 Progress. Do not introduce benchmark or review machinery merely
+to make the plan longer. Subsequent documentation-only updates require docs checks,
+not native device authentication or a runtime suite.
+
+**Finish and iterate:** after the four selected outcomes pass, present the version
+and its actual limitations, collect task-specific feedback and fix observed
+friction before adding features. Do not automatically resume protected B/U tasks
+because old checkboxes remain open. Reports lead with S groups completed/remaining,
+what now runs, the next complete action and any concrete blocker; no repeated
+percentages or inferred elapsed-time promises.
+
+###### Key-free personal workspace alternative
+
+The former alternative is now selected under ADR 0017. This heading remains for
+old links; [the S ledger](#first-release-outcome-ledger) is the single current
+execution plan. There is no pending storage choice or second four-group backlog.
+The original protected backend ledger remains 2/12 complete, ten open; the
+protected TUI ledger remains six open groups. Those are deferred full-product
+outcomes, not first-alpha requirements or completions earned by deferral.
+
+###### Remaining non-UI implementation ledger
+
+The [selected personal terminal alpha](../../product/releases/validation-prototype.md#55-source-delivery-readiness)
+is the immediate S release; this B ledger tracks the deferred protected product.
+The [selected reset](#github-first-terminal-delivery-reset) keeps the existing
+native accepted-state path deferred and unchanged; the personal alpha is current.
+
+Established 2026-09-29 at the user's request. This preserves the deduplicated
+full-product TODO, replacing counts inferred from overlapping
+historical P/A/R checkboxes. **12 outcome units remain at baseline**. These are
+unequal implementation/verification units, not twelve turns, a completion
+percentage or a calendar estimate. Keep IDs stable; record any split or added
+scope and its reason before changing the denominator. A partial mechanism does
+not complete its unit. The separate [U ledger](#remaining-tui-implementation-ledger)
+owns interaction; shared dependencies below do not add duplicate work to a
+combined total. R1/R7 visual work remains with that session.
+
+After the 2026-10-07 release reset, use the [S ledger](#first-release-outcome-ledger)
+for the next GitHub milestone. Reuse bounded association/workspace validation,
+public-action patterns and source packaging from the existing modules; personal
+backup/restore requires no B05 key/resource authority transition. B completion
+and its native, encrypted recovery, H0/H1 or V0 dependencies do not gate the
+selected alpha. These protected outcomes remain open, not completed by deferral.
+
+| TODO | Existing owner / outcome | Done when; dependencies |
+|---|---|---|
+| [x] B01 | R2: enrolled source-built approval runtime | Completed synthetic Mac component integration: native-created exact code/key/worker/resource enrollment, fresh-process lookup, registered review signature/private verification, separate OS authentication cancellation and explicit revocation are observed. Actual registry/key/resource worker denial passes; 87 final-source affected tests pass after pinned Opus reviews and reproduced repairs. Scoped to confined worker/imports, with no supported external-provider or accepted-storage claim. Protected acceptance requires B03. |
+| [ ] B02 | R3/R4: legitimate project/episode/evidence acceptance | Empty project, captured result confirmation, append-only correction and reasoning sources are loaded through the trusted boundary; candidate imports cannot confer authority. Requires B01/B03 for accepted effects; U5 consumes the API. |
+| [ ] B03 | R2/R4: accepted gateway and atomic durable log | Exact reviewed operations, receipt consumption, expected-state checks and debt opening commit together; restart/replay/crash/concurrency/projection-loss cases pass. Requires B01 and versioned scientific contracts. |
+| [x] B04 | R4: continue saved work after manuscript edits | Verified synthetic Mac backend: explicit association refresh preserves exact writing and old source snapshots; 33 current-tree affected tests pass after Opus repairs and a fixed-source core run has no failures/errors. Four Windows cases remain deferred. No scientific reconciliation or resumed authority; independent of B01. |
+| [ ] B05 | R4: protected backup/export/migration | Verified authority/history restore, explicit new-key transition, readable export separation, version skew and copy-on-write interruption preserve originals. Existing unaccepted encryption/recovery is baseline; accepted path requires B01/B03. Replacement-device observation is G3 below. |
+| [ ] B06 | R3/R4: accepted understanding return and closure | Reopen exact accepted cause, original/current context and partial text; separately authorize closure, rejecting changed evidence and leaving manuscript debt independent. Requires B02/B03; U6 owns interaction. |
+| [ ] B07 | R5: real manuscript consequence | Fenced source write, encrypted preimage, isolated pinned compile, exact restore/recovery stop and separate human manuscript closure pass the fault matrix. Requires B01/B03; U7 owns interaction. |
+| [ ] B08 | R4/R6: public own-project lifecycle and rescue | Reviewed init/open/relocate/status/diagnosis/export/recovery commands use the same backend, preserve incomplete work, and need no internal editing. Requires B02–B05; U4 consumes the project APIs. |
+| [ ] B09 | R6: integrated offline release foundation | Both complete H0 histories replay with authority and actual manuscript outcomes; source artifact, setup/doctor, CI, path/resource/migration and cold-start checks pass. Requires B01–B08; existing source demo/CI are reused. |
+| [ ] B10 | R3/R8: selective typed proposal incorporation | Scoped claim/relationship/plan proposals retain amendment-level origin through edits, selection and recovery; manual work remains independent. Existing prose adoption/lineage APIs are reused; U8 owns interaction. |
+| [ ] B11 | R8: permitted live provider and durable traces | Exact consent dispatch, bounded transport, cancellation/late results, retention and actual permitted topology/quality exercises pass without accepted writes. Requires B09, G2 and B10 for typed adoption; frozen replies are baseline. |
+| [ ] B12 | R6/R9: delivery and prospective evaluation tooling | Version-matched user guidance/release checks plus the user-approved first-pass protocol and deterministic outcome checker are executable. Requires B09/B11 and G4; actual observations remain gates, not code-completion claims. |
+
+Human/environment gates below belong to the deferred protected program:
+**G1** P0 private-case source confirmation before protected real use;
+**G2** actual permitted provider
+deployment and exact outbound choice for the later live feature; **G3a** the
+protected-release unfamiliar-researcher/second-profile supported-host journey;
+**G3b** later replacement-device continuation and remaining U9 host/input/
+accessibility claims; **G4a** first-release license choice; **G4b** the user's
+separate publication action; **G4c** later prospective comparison approval and
+observed V0. The parent G3/G4 IDs remain stable. Only license/publication ownership
+is shared directly with alpha delivery; alpha source/terminal/save/recovery checks
+remain mandatory under release section 5.5. Historical P0 mapping, native presence
+and unavailable independent/SSH/IME observations do not delay personal-alpha
+feedback. The person still explicitly confirms their own sources, and unsupported
+host claims cannot be invented. Windows remains deferred. These protected gates
+did not block the independent synthetic B04 outcome.
+
+Current count: **2/12 complete (B01, B04); 10 remaining** in this protected-work
+ledger. This counts the baseline's remaining outcomes, not all prior project
+work or an overall completion percentage. B03 is the next protected-path
+priority, before B02's accepted effects. Native preparation, candidate scientific/review
+services, encrypted work/recovery and source-artifact delivery already exist.
+
+B02/B03's empty-initialization review preparation is verified on 2026-10-05:
+entered thesis, exact association/destination and empty seed/root remain together,
+without accepting imported history or creating an episode/evidence. This does
+not complete B02 or B03 checkpoint 2. The next portable record-replay prerequisite
+now retains the complete origin-bound review and immutable registry alongside
+the actual alternative transition. Continuation requires an independently kept
+review digest and grants no approval. The native v2 record-signing prerequisite
+now verifies that commitment inside the complete packet, without accepted
+authority. The enrolled empty-initialization attestation now binds the same
+entered thesis, source/workspace and derived root without accepting anything;
+actual initial OS observations remain open. Native initial filesystem checks
+now independently bind exact Git locations, manuscript bytes/identity and the
+external private workspace, including firmlink containment. This does not load
+accepted scientific history or establish source fidelity. Protect the empty
+genesis and implement new-format merge replay, then connect authoritative
+scientific source loading and the atomic log; candidate stores remain unaccepted. This prerequisite does
+not add a thirteenth outcome or complete B03.
+
+B03's concrete integration checkpoints (established 2026-10-05) preserve the
+same twelve-outcome denominator:
+
+- [x] Exact current reviewed transaction effects retain full policy/provenance,
+  resulting reasoning heads and causal conditional debt openings together.
+  Candidate API passes 55 affected tests and actual pinned Opus review after
+  reproducing the conditional concern and rejecting coordinated forged hashes.
+  No accepted store or receipt is supplied by this checkpoint.
+- [ ] Enrolled native gateway independently reloads authoritative sources and
+  consumes a fresh private single-use receipt against current expected state.
+  Unaccepted candidate imports cannot initialize accepted scientific history.
+  Reloaded provenance must retain accepted amendment-only AI across later
+  episodes; a manual legacy Judgment alone cannot establish absence of AI.
+- [ ] Encrypted canonical log commits reviewed operation, receipt consumption,
+  expected-state transition and debt opening atomically; restart/replay, durable
+  cut points, concurrency and projection loss have executable evidence. Physical
+  store remains a reviewed spike hypothesis until these checks select it.
+- [ ] Combined synthetic manual/frozen-proposal native acceptance observes exact
+  approval, distinct cancellation, stale/reforged/replayed receipt denial and
+  durable reopen without duplicate judgment entry. TUI connection stays separate.
+
+
+###### GitHub-first terminal delivery reset
+
+The user explicitly selected the key-free personal workspace under
+[ADR 0017](../../architecture/decisions/0017-personal-terminal-alpha.md).
+Execute [S01–S04](#first-release-outcome-ledger) for the immediate alpha; ADR 0016's
+protected first-release requirement is superseded. Native custody, signed accepted
+operations and encrypted authority recovery remain deferred, with their tests and
+historical failures intact. They do not gate personal-workspace feedback.
+
+B01's concrete integration checkpoints make partial progress visible without
+changing that stable twelve-outcome denominator:
+
+- [x] Source-built fixed approval roles and exact current-source/code checks.
+- [x] Project/build-bound candidate key preparation and fresh-process reopening,
+  with observed native approval/cancellation and noninteractive signing denial.
+- [x] Exact owned research review, native foreground signature and authenticated
+  private signature verification, with observed separate authentication cancel.
+- [x] Restricted source-built proposal component and measured synthetic resource
+  denial: 15 worker tests, repaired Opus findings and final fixed-source core
+  verification pass, with four deferred Windows cases in the broader core.
+- [x] Trusted project enrollment binding those identities and resource custody;
+  both native peers load that binding independently of caller-supplied pins
+  or imported candidate state. B03 separately owns atomic receipt consumption.
+
+This checklist records the five completed B01 integration checkpoints. The
+last integration reuses the same judgment and reason; B03 now owns the remaining
+accepted-operation transaction, without another judgment form.
+
+**B01 private-channel integration, 2026-09-29.** Before this increment, the
+packaged fixed roles could only inspect their own identity; private delivery
+existed solely in disposable probes. Connect the exact application-owned review
+to those source-built roles through `application/mac_review_delivery.py`.
+The owning policy rederives science, contributions, selected effects and review
+disposition before and after transport. A callback reloads current manuscript,
+session and time bindings; it is not independent source-fidelity evidence.
+Preserve the review payload and add a fresh exchange nonce, with no new user
+narrative, key enrollment, native prompt, accepted write or TUI integration.
+
+Fixed compile-time sender/receiver roles mutually verify kernel audit-token
+identity, same UID, opposite identifier/CDHash and dynamic hardening. The broker
+sends bytes only after the gateway's matching digest; the gateway compares the
+full input. Both already receive the expected input from the same application:
+this proves matching delivery, not trusted source origin or freshness against
+that caller. One connection exits without a receipt; results expose only exact
+digests/counts and false authority. Candidate imports still cannot create trust.
+
+Actual first-party `claude-opus-5-5`, medium effort, successfully reviews the
+fixed seven-file 89,846-byte source packet, SHA-256
+`a7ff81c756a3a96f93697685beaf1e030c38a76186576c1ae5aba006738fea6f`.
+One turn, no tools/hooks/plugins/skills/MCP/session persistence, no permission
+denials. It finds no peer-identity bypass within the explicit boundary. Reproduce
+shared-temp dependence, pre-listen sender failure and early-input-close error
+misclassification (one failed assertion/two errors in 45.425 seconds), then
+repair all three. Darwin's installed `unistd.h` defines
+`_CS_DARWIN_USER_TEMP_DIR=65537`; Python's symbolic confstr name is absent, but
+the numeric call agrees with system `getconf DARWIN_USER_TEMP_DIR`. Use that
+private root instead of shared `/private/tmp`, without touching its contents or
+changing permissions. Retry only ENOENT/ECONNREFUSED within the native deadline.
+Remove expensive preflight from the live exchange; exact native peer checks and
+the final source/disk check remain. Treat an early pipe close as incomplete
+input or the observed child failure, not a missing executable.
+
+Also repair the reproduced cleanup-denial handle leak (one failing regression,
+then all three command tests pass in 0.151 seconds), preserve/restore stdin flags
+and refuse a terminal as native input, and close context-shape/I/O diagnostics.
+An unsafe peer can still deny service by taking the sole connection, and hostile
+same-user filesystem races remain outside measured custody. Do not unlink an
+unidentified socket after failed inspection; the owned temporary directory's
+cleanup handles a failed exchange. These limits do not weaken future enrollment,
+worker isolation or accepted-writer gates.
+
+Verification: the missing adapter first fails import. Initial restricted native
+execution fails at socket delivery; the same checks outside the execution
+sandbox pass. The first affected suite passes 36 tests in 121.925 seconds; the
+expanded real-scientific-review and source-only-artifact suite passes 37 in
+124.948 seconds. Existing operation-review checks pass 24 in 15.387 seconds.
+These precede the final Opus repairs. The repaired affected suite passes 40
+tests in 113.106 seconds before the final context/terminal/cleanup regressions.
+The final 374-file core snapshot, SHA-256
+`da6fe6db645b31cc45bb85a1798236f9164615490356218817b32b0720d48b0e`,
+runs 1,107 tests in 503.698 seconds: 1,103 pass, four Windows-only skips, no
+failures/errors. Counts are 209 contract, 132 probe, 42 validation, 22 security
+and 702 application; application takes 474.971 seconds and includes all 43
+runtime/delivery cases. Exit 3 explicitly retains missing Windows WebAuthn,
+AppContainer and two junction checks, not an all-platform clean pass.
+
+All three implementation files and the delivery test remain identical to the
+snapshot. The runtime test subsequently gains only a macOS-only decorator on
+the new POSIX cleanup case; current-tree command tests pass all three in 0.140
+seconds. This avoids presenting that native check as portable Windows coverage
+and does not change its tested Mac behavior. Current docs pass 67 Markdown
+files/whitespace and generated schemas are current. No full U3 completion is
+claimed for the other session's included snapshot. B01 remains open and the
+stable total stays 1/12 complete, eleven remaining. Documentation impact covers
+current behavior, developer API, validation and execution status; no accepted
+ADR changes.
+
+**B01 exact-review signing integration, 2026-09-29.** The researcher should
+authorize the judgment already formed, without re-entering its reason. Connect
+the owned `PaperOperationReview` through `application/mac_review_signing.py` to
+the source-built foreground broker and gateway. The key candidate is read-only;
+the request binds its registration and public identity, project/build/roles,
+complete review, operation digest and fresh exchange nonce. The broker shows
+the same judgment, reason, explanation disposition and full immutable review.
+After explicit native authentication it signs the domain-separated full-packet
+digest, and the gateway verifies it over the mutually authenticated channel.
+Only matching digest/status observations reach Python. Freshness, current
+scientific/manuscript/session scope and key/runtime identity still constrain a
+successful result. No receipt, signature file, accepted record, debt creation or
+TUI integration follows. Caller-held pins remain unaccepted trust candidates.
+
+Actual first-party `claude-opus-5-5`, medium effort, reviews the fixed seven-file
+132,294-byte packet, SHA-256
+`9abed2e34734136b163dd123bb1bb7070f2d772e4ea84d00e9d9e8ba7790d7fc`.
+One turn, no permission denials, tools/hooks/plugins/skills/MCP disabled and no
+session persistence. No blocking authority leak is found. Reproduce and repair
+the cancellation-after-expiry error; add prompt peer cancellation, cached
+in-channel verification results, explicit Boolean/hidden-character display and
+byte-based NFC checks. The suggested JSON escape mismatch does not reproduce;
+the regression checks actual Swift parsing and full-packet signatures with those
+characters. Add hostile review-body, both-direction Python-peer denial and
+orchestration/cleanup failure cases. These checks never synthesize human approval.
+
+The new module initially fails import, then its first 12 tests pass in
+84.647 s. Six binding checks pass in 3.669 s and four orchestration checks in
+0.986 s after the fixes. The final native Unicode/signature/replay case passes
+in 66.912 s. An earlier fixed-source affected run has 73 passes and one
+registration-fixture compiler error across 74 tests in 339.559 s. Its extraction
+boundary repair is recorded above; that failed run is not final verification.
+Actual fresh-process approval/private signature verification and separate native
+authentication cancellation now pass, preserving key and history bytes; see
+Outcomes above. Final fixed-source core snapshot: 382 files, SHA-256
+`dfadef9b2701e6ed9f212a377d7584ed0bedcdc227d3e2d6f285dc32a5433618`.
+`python3.13 -B scripts/verify.py --scope core` runs 209 contract, 132 probe,
+42 validation, 22 security and 759 application tests: 1,164 total, 1,160 pass,
+four Windows-only skips, zero failures/errors, exit 3 in 690.611 s. Application
+tests take 662.970 s and include all 81 affected native/key/delivery/signing
+cases. All ten owned code/schema/test files remain byte-identical through the
+run; current docs (67 Markdown files), schemas and tracked whitespace pass.
+The earlier fixture failure is now covered by this successful repaired run.
+The four skipped cases remain real Windows WebAuthn/AppContainer and two
+junction checks; no Windows support or omitted journal/harness verification is
+claimed. This completes the bounded signing increment. Enrollment/custody/worker
+denial and B03 accepted
+storage remain separate; the B ledger stays 1/12 complete, eleven remaining.
+
+**B01 restricted proposal-worker integration, 2026-09-29.** Implement
+`application/mac_worker.py` and `native/ProposalWorker.swift` as a source-built
+App Sandbox component. Existing offline dispatch remains proposal-only; no TUI,
+live endpoint, model-server launcher or accepted writer is added. The parent
+validates raw response input; the worker processes and checks parity of that
+canonical form. Exact bundle/source/CDHash and entitlement checks deny altered
+builds and added network permissions. One stable untrusted container is retained;
+no keys, trust metadata or research are placed there. Its synthetic boundary
+exercise measures only three user-temp file reads/writes, one AF_UNIX socket and
+IPv4 TCP loopback, with successful positive controls and unchanged bytes.
+
+Actual first-party `claude-opus-5-5`, medium effort, reviews seven fixed files
+(79,677 bytes), SHA-256
+`a19c3d99944fd2788894369727ca188404d440da567330d4c88cc51829c4ec57`.
+Its blocking arrival-loss and output-limit findings reproduce and are repaired
+as recorded in Discoveries. A four-file focused follow-up (53,181 bytes), SHA-256
+`946658d0d5d8cd308eada4ac711c194a2d9569d44f6c253b91428211f992a37b`,
+uses the same actual model and confirms no blocker remains. Both runs are one
+turn, tools/hooks/plugins/skills/MCP off, no permission denials or persisted
+sessions. Suggested parse and text-unit concerns are checked against existing
+code: decode wraps parse/recursion errors and both implementations bound UTF-8
+bytes. A 5,000-level nesting exercise records malformed/unavailable, and 16,383
+Korean-text bytes pass the portable bound while 16,386 are refused. No inferred
+Unicode mismatch is reported as an observed bug. Unrelated legacy dispatch and
+process-interruption windows do not establish durable trace recovery; that stays
+with B11 and the broader protected-store work.
+
+The initial 17-case run passes in 28.614 s but includes six imported fixture
+tests; remove that accidental duplicate discovery. The expanded 12 focused
+cases pass in 52.840 s before review repairs. After repairs, 23 broker/draft/
+worker contract cases pass in 1.317 s and 10 native cases pass in 56.744 s,
+including independent source-artifact execution, limited resource denial,
+broader-entitlement rejection and escaped near-limit output. Final fixed-source
+core verification completes on 388 files, SHA-256
+`7194e9589bf578c9db85b27701c4bd8431f8e224cf5ffb9444c283932e6ecbc7`:
+209 contract, 132 probe, 42 validation, 22 security and 795 application cases;
+1,200 total, 1,196 pass, four Windows skips, no failures/errors. Total time is
+753.981 s; application time is 727.729 s. Exit 3 preserves the unexecuted
+Windows WebAuthn/AppContainer and two junction cases; it is not an all-platform
+clean pass. All seven owned implementation/test/schema files still match the
+snapshot at completion. Other-session TUI work is included only as frozen
+regression coverage, not an ownership or full-current-tree validation claim.
+The pre-repair fixed-source core also completes (1,192 tests, 1,188 pass and
+four Windows skips, no errors/failures, 754.151 s); its changed implementation
+files make it earlier coverage only. It cannot substitute for the repaired run
+or negate the real semantic defect found by review.
+Trusted project enrollment/resource custody is the remaining B01 connection;
+the stable B total is unchanged until that whole outcome passes.
+
+**B04 plan review.** A stored v1 association refuses changed source bytes and
+only permits exact-byte relocation. Add a v2 envelope with typed append-only
+relocation/source-refresh transitions. An explicit refresh review binds the
+entire previous project payload and exact new association preview; save checks
+the same previous checkpoint and source again. Permit source refresh only for
+the same paper/Git identities, relative file and anchor. Moving and editing
+together requires resolving location separately; do not infer identity from
+similar text. Preserve nested PaperWork bytes, old source digests and reviews
+as historical work; do not rebind their manuscript inputs. No manuscript write,
+evidence confirmation, accepted debt or consent follows. Validate no-op/stale,
+foreign, malformed/oversized, failed-save, encrypted reopen/restore and old
+reader refusal. Existing v1 readers/goldens retain their meaning.
+
+**B04 result review, 2026-09-29.** Initial five new tests fail on missing refresh
+APIs; implementation passes the first 25 association/refresh tests. Expanded
+tests expose two test setup errors, corrected without weakening the product:
+the persistence class had no `changed` helper, and rewriting identical
+ciphertext is not a changed-content checkpoint. The corrected concurrent-write
+case changes an actual ciphertext byte. Actual first-party canonical
+`claude-opus-5-5` reviews the fixed 86,419-byte packet, SHA-256
+`4bb520c7f647cf1074d6c5aab4dcf1faa35ff0c0c0896bfcdee3962783516bf4`;
+success, one turn, no permission denials, tools/hooks/skills/plugins/MCP/session
+persistence disabled. It finds a reproducible no-op relocation hole: crafted
+v2 transitions and appended v1 snapshots both pass without a real move. Two
+new regressions fail before repair. Validate v2 relocation semantics and check
+the newly appended v1 pair at save, preserving legacy readability. Existing
+legacy no-op chains cannot upgrade to v2 without a future explicit repair;
+do not silently prune their history.
+
+Address its status/budget/format findings with distinct unchanged-since-refresh
+statuses even after later moves, an early explicit 16-snapshot-capacity error,
+and displayed v2/old-reader consequences. The shared 256 KiB/16-snapshot limit
+and absence of rollover remain disclosed prototype limits, not a daily-use
+claim. Moved-and-edited sources remain unsupported with an explicit error;
+the review does not authorize inferring identity or widening that boundary.
+Scope concurrent-source guarantees to the last check before encryption: an
+external editor is not locked, and later edits are detected on status. Nothing
+in the refresh confers scientific consistency. Older released code cannot be
+retroactively changed to emit a nicer version diagnostic; v1 schema rejection
+and preserved original backups remain the compatibility evidence. Final checks
+and remaining-unit count follow after verification.
+
+After repairs, all 33 affected tests pass in 35.473 seconds. The first fixed
+369-file core snapshot, SHA-256
+`aba216c313ed7993f913708b18dac2f1fd2a466348cc5b1e67e36bb4c8e98a26`,
+runs 1,063 tests: 1,058 pass, four Windows-only skips and one failure, exit 1,
+639.389 seconds. The failure is
+`test_unfinished_review_resumes_after_context_change_and_resize`: Ctrl+S after
+reopening explanation text reports stale review instead of REVIEW COMPLETE.
+The concurrently active U2 owner records a fix preserving unchanged live seals
+while refusing restored authority. Current-tree isolated rerun passes in
+3.482 seconds, and the current 33 B04/association tests pass in 29.364 seconds.
+No TUI code is changed by B04. The tested B04 Python/test/generator files remain
+unchanged; nested generated schemas changed with U2 and pass the current
+generator check. Repeat core on a new fixed snapshot after that upstream fix;
+do not label the first failed run a pass or an unexplained timing flake.
+
+Second fixed snapshot: 369 files, SHA-256
+`012ef1ed4d434aa726201b5c545a365adade3c604eca6d7195d48f210615a390`.
+Core runs 1,070 tests (209 contract, 132 probe, 42 validation, 22 security,
+665 application) in 534.586 seconds: 1,051 pass, four Windows-only skips,
+14 errors and one failure, exit 1. Application takes 496.998 seconds.
+The earlier TUI test passes. All new errors are native encryption/authentication
+failures in device key creation; the command test fails on the same unavailable
+work operation. A read-only console-session inspection immediately afterward
+reports `screen_locked=true`, consistent with the existing
+`kSecAttrAccessibleWhenUnlockedThisDeviceOnly` data-key policy. The 33 affected
+tests had passed on the same code before this lock. All five owned source/test/
+generator/schema files remain identical to the second snapshot. No test is
+skipped or softened to conceal this host prerequisite, and no lock/key policy
+or machine setting is changed. The full scope is not passed.
+
+**Resolved native blocker and final verification, 2026-09-29.** After native key
+access becomes available, the 33 affected tests pass in 28.328 seconds. The
+following fixed-source run is interrupted by the user/environment change; its
+partial log is not completion evidence. Confirm no prior runner remains before
+starting the final 369-file snapshot, SHA-256
+`fa104bfb34b6842d849598466eb17a73e7ca30375d6a6a3faba6eb6c2bc6bb2d`.
+`python3.13 -B scripts/verify.py --scope core` completes in 585.294 seconds:
+1,070 tests, 1,066 passes, four Windows-only skips, zero failures/errors.
+Application has 665 passes in 548.422 seconds; contract 209, probe 132,
+validation 42 and security 22 tests complete. The four skips are Windows
+WebAuthn, AppContainer and two junction cases. Exit 3 correctly reports
+incomplete platform coverage; this is not an all-platform clean pass.
+
+The concurrent U3 owner adds PaperWork v6 while this fixed snapshot runs.
+Comparison shows only its new nested format import/union in `project_work.py`
+and schema-generator registration, plus regenerated schemas; B04 refresh logic
+and its test file are unchanged. Preserve that work. A current-tree rerun of
+`tests.application.test_project_source_refresh` and
+`tests.application.test_project_work` passes all 33 tests in 26.873 seconds,
+including native encryption, new-process reopen and restore. The snapshot
+result does not claim full U3 validation; that owner retains its responsibility.
+This resumption changes execution evidence/status only, with no new behavior
+requiring another Opus review. Existing B04 review/repair evidence above applies.
+
+**Earlier next action, 2026-09-29.** B04 is closed; eleven backend units remain. Continue B01's
+enrolled source-built approval runtime, retaining the exact reviewed-operation,
+foreground presence and private-delivery boundaries. Current-tree
+`verify.py --scope docs` passes all 67 Markdown files and tracked whitespace;
+`python3.13 -B -m scripts.export_research_schema --check` passes. Windows and
+the separate human/environment gates remain open.
+
+Replanned 2026-09-28 after actual Claude Opus cross-review. This orders the
+remaining backend work around the researcher-built argument and the deferred
+explanation journey; it does not introduce new R packages. T1a/T1b are already
+implemented. Preserve the other session's TUI ownership and the detailed
+[T milestones](#delivery-order-and-first-implementation-slice). While review
+was running, that stream began the first two rows and added
+`ResearchHistory.project_paper_draft`; do not rebuild or take over that work.
+The third row's conditional return projection, contextual topics, partial
+explanation draft and versioned closure-candidate bindings are implemented and
+reviewed. Its separate finite operation-impact assessment and amendment-origin
+candidate contract are now implemented, with review evidence below. The next
+boundary is retaining those bindings through versioned operations and the
+protected writer, before additional acceptance is exposed. Rows
+describe bounded outcomes, not a requirement to finish an entire R package
+before starting another row.
+
+| Order / existing owner | Implementation and principal paths | Completion evidence and actual dependency |
+|---|---|---|
+| In progress: R3, T2a domain prerequisite | Complete and review the other stream's `project_paper_draft` in `core/research_history.py`, sharing `core/paper_changes.py` and domain validation. Keep the complete-judgment requirement on final scientific review. | A blank judgment can coexist with a new claim and typed relationship in an explicitly unaccepted projection; invalid/dangling/cyclic candidates fail without changing source history. The 17 observed draft/final-review checks pass, but the owner's full verification and UI increment remain distinct. No native, storage or impact-policy dependency. |
+| R3 with T3a/T5a, then T2a/T2b/T3b integration | The other stream has selected explicit existing-node ownership for the first volatile slice. Preserve that choice and its owner/revision, stable candidate IDs and old draft compatibility. Later linked-work identity and recovery contracts belong to `application/paper_workspace.py` / `paper_draft.py`. Supply a legitimate empty-project/result draft representation before new-project entry. | First prove create/edit/remove, navigation and review expiry preserve owned candidates. T3b subsequently lets one judgment explicitly serve several consequences while unrelated drafts stay separate. No fabricated observations, implicit migration or new-node checkpoint support. Real save remains row four. |
+| R3 with R7/T4, explanation return and bounded review | `paper_service.py` restores original/current context; `paper_understanding.py` supplies causal topics, unfinished text and rationale reuse. `core/debt.py` binds exact cause/current context for closure candidates; `paper_review_policy.py` assesses finite actions with retained amendment origin. Next bind these to a versioned operation and exact authorization, before admitting new acceptance or typed AI adoption. | In-memory return, proportional requirements, selected lineage and stale-review refusal are tested, including unchanged-head evidence corrections. These are not custody or closure. Missing accepted cause-review authority still disables closure without disabling inspection/writing. Actual acceptance/closure requires row four. |
+| R2/R4 with T5b: own-project durable return | Finish the remaining selected-host custody/gateway/store bindings, initialization/association and protected save/reopen. Serialize contributions, work/review topic bindings and unfinished text separately from valid authorization. Derive accepted debt state from exact versioned operations and consumed receipts. | Accepted high-impact deferral and debt creation are atomic; restart restores open work; a separate human closure persists and replays. Crash before/after append, duplicate consumption, changed evidence, projection loss and interrupted save preserve the last good history. Real research additionally requires P0; synthetic service work above does not wait for it. |
+| R5/R6/R7, T4/T7: finish the same offline result-to-paper loop | Connect the existing manuscript saga, supported terminal adapters and both H0 histories. Keep scientific acceptance, explanation review, file application, compilation/recovery and the two debt closures distinct. | AI-off and frozen-proposal routes complete through actual supported authorities; a failed compile restores exact bytes or reports recovery required. An unfamiliar researcher can return to the argument and explain their reason without writing a second narrative. UI/host observation and technical tests remain separate evidence. |
+| R8/R6/R9: useful live assistance and usable source delivery | Reuse the same context/consent/proposal boundary for a permitted live provider; complete clean-source setup/CI, independent-user/profile and approved recovery exercises, then the prospective value evaluation. | Assisted and manual own-project flows are exercised separately. GitHub source delivery meets the existing release gate; frozen replies, same-host recovery or passing unit tests do not replace live, replacement-device or human evidence. Public installers/Apple accounts and deferred Windows support are not prerequisites of this source release. |
+
+**Authoring contract checks (active owner).** Verify the pure projection and
+extend its tests with a novel claim, shared existing
+observation and typed relation while the judgment remains blank. Exercise
+duplicate/dangling IDs, hierarchy/scientific cycles, resource bounds, invalid
+candidate input and unchanged original manifest. Partial editor input stays
+owned by the application; domain projection reports errors rather than making
+up scientific fields. Refactor common validation only as needed, without
+weakening `preview_paper_changes` or fabricating a placeholder Judgment.
+These checks concern the pure API; ownership, UI handlers and persistence have
+their own acceptance evidence.
+Project the entire current candidate set, including an empty set, without
+requiring a review selection. Draft interpretations keep their own authored
+statement; matching it to a completed Judgment and computing a selected
+acceptance closure remain final-review requirements. Test those boundaries
+explicitly. Preserve source contribution references and known inherited AI;
+do not infer AI absence from a blank judgment. Draft output must not claim an
+acceptance impact class, explanation disposition or debt outcome. Candidate
+origin support remains limited until the amendment-lineage contract exists.
+
+Local planning probe: the current `preview_paper_changes` rejects a blank
+`Judgment.start(...)` on the existing synthetic paper and leaves its manifest
+unchanged. This is the expected current review boundary, not a regression to
+remove. The separately added draft entrypoint serves a non-authoritative action.
+After observing that concurrent addition, this task ran
+`python3.13 -B -m unittest tests.contract.test_paper_draft_projection
+tests.contract.test_paper_changes -v`: 17 tests passed. Its new code/UI remains
+the other stream's implementation and result-review responsibility.
+
+**Completed independent patch.** The application service and
+`tests/application/test_paper_work.py` now reopen conditional understanding work
+by its existing pending-item ID and explicit project. Original cause/judgment,
+contributions and argument remain separate from current heads/watermark and
+history. Wrong/unknown/project-mismatched identities fail without mutation;
+manuscript items remain on their existing route. The service retains conditional
+authority, zero accepted debts and unavailable closure. Its developer contract
+is in [the workflow](../../development/workflow.md#conditional-work-and-manuscript-review);
+result evidence is below. No TUI, storage, native authority or acceptance policy
+changed.
+
+**Completed partial-explanation patch.** The
+[draft contract and result](#partial-explanation-draft-contract) now supply
+causal topics, rationale reuse, unfinished text, owned reconstruction and
+explicit current-context rebinding. This is an in-memory API; TUI remains with
+its owner and R4 owns actual custody.
+
+**Completed closure-contract patch.** The
+[versioned contract and result](#understanding-closure-context-contract) bind the
+exact cause and current evidence/topic/display context at preparation and final
+candidate recheck. It leaves legacy readers and histories intact and introduces
+no accepted v3 work-to-debt conversion. Protected understanding must use that
+versioned review route, not trust a generic candidate result from either helper.
+
+**Completed finite-policy implementation.** The
+[new contract and review](#finite-review-policy-and-amendment-lineage-contract)
+derive the fixed capture/record/merge requirements, included amendment sources
+and contextual answer/reference/deferral from owned candidate state. Existing
+readers and goldens keep their old semantics; no accepted operation is enabled.
+
+**Next independent patch boundary.** Review the R3/R4 versioned operation and
+owned-source integration required to carry exact assessments, contribution
+lineages and cause reviews into the protected writer. The
+[exact operation/review input](#exact-paper-operation-review-contract) now
+supplies the versioned request and recheck. Next connect independently owned
+accepted sources and the actual gateway/store transaction to that same request;
+do not add another candidate wrapper or reinterpret old v3 imports as accepted
+history. Establish the source-deliverable selected-host custody/launch and
+private receipt integration before enabling a protected write, then exercise
+one synthetic own-project save/reopen with separate open debt and unfinished
+explanation. Scope native
+blockers to protected effects. Legitimate project/evidence drafting for T2b
+can proceed independently, but must not fabricate confirmed observations to
+initialize a graph. Coordinate typed proposal adoption with T6 and UI work with
+its active owner; keep manual drafting and reading independent of acceptance.
+
+**Review and return contracts to freeze in their owning increments.**
+
+- Conditional `work-...` identity and accepted `debt-...` identity remain
+  distinct. Map them through recorded cause/project/episode data when an actual
+  accepted operation and sealed review exist. V3 candidate history has no such
+  authority record: do not synthesize its digest, backfill acceptance or report
+  a projected `closed-by-human` value as current state. Reading and explanation
+  drafting remain possible with closure unavailable. Typed candidate-only
+  fixtures can exercise future closure preparation, with authority unverified.
+  T3a's authoring-draft identity is a different concept. Conditional explanation
+  drafts bind to the existing pending-item ID and its context, so this return
+  service does not wait for T3a's later linked-work identity. Accepted explanation
+  drafts bind to the actual debt/cause; never silently migrate between them.
+- Bind closure to exact debt/cause review, project/episode, current accepted
+  head, evidence watermark, rule/topic and displayed-context identity. Include
+  another ref only when it is part of that reviewed context. The gateway
+  reloads those values; a caller-supplied Debt cannot authorize itself. Changing
+  evidence with the same main head must invalidate a prepared closure.
+- Use a small deterministic topic catalog grounded in the saturation cases,
+  with source/target references and one to three topics for the admitted
+  high-impact AI review. AI suggestions are optional; provider loss cannot stop
+  return or explanation review. Existing rationale is reusable. Store partial
+  explanation separately from the completed answer/deferral disposition and
+  preserve it on leave-open, cancellation, source change and restart.
+- Preserve the existing transitive AI-contribution rule. AI-off prevents new
+  assistance; it does not erase inherited AI influence or old debt. A fresh
+  wholly manual history has no AI UnderstandingDebt. Do not narrow lineage to
+  only the text modified this time or silently change old v3 replay. More exact
+  attribution needs amendment/source lineage before typed or partial proposal
+  adoption. The finite operation-impact table implements ADR 0005's quiet
+  capture, medium rationale and high contextual review; it is not a general
+  risk engine or prerequisite for drafting/reading. Define entries before
+  exposing additional accepted operations, not before the first pure draft API.
+- Version new serialized review/draft/accepted-operation contracts at their
+  implementation boundary. Preserve v1–v3 candidate readers and goldens as
+  candidate evidence; never reinterpret them as accepted history. Test new
+  open/restart/close replay, old-reader refusal, unknown versions and projection
+  reconstruction. Define compatibility before R4 persistence; do not introduce
+  a speculative version dispatcher or rewrite existing histories now.
+
+**Checks and scoped stops.** For independent return increments, run the extended
+paper-work service suite, relevant review/debt regressions and the core scope;
+perform actual Opus result review, reproduce findings, and run docs checks.
+Subsequent rows add service ownership/return tests, then R4 replay/crash checks
+and R7 terminal/human cases. Reuse the
+[native harness](../../development/implementation-harness.md#execution-loop)
+and existing suites; a new test filename is not a completion criterion.
+Unavailable native custody blocks protected storage/closure, not draft services;
+missing provider protection blocks live dispatch, not recorded-AI rehearsal;
+unavailable human/SSH/device evidence leaves only its dependent gate open.
+An unresolved new trust or product boundary is reported at that boundary.
+There is no new product-policy question required before the first patch.
+
+##### Project and manuscript association
+
+Boundary reviewed 2026-09-29 against ADRs 0008/0014 and the original Dream
+state. Complete the initialization/association part of reviewed row four:
+return to the same paper and retained writing without fabricating evidence or
+requiring a completed judgment. This is a backend synthetic-development API,
+not the protected own-project CLI, an accepted writer or a new review wrapper.
+The other session retains TUI ownership.
+
+Use `application/project_work.py` and generated `project-work-v1.json` to
+contain an unchanged versioned PaperWork plus up to 16 append-only association
+snapshots within the existing 256 KiB aggregate bound. Bind project/seed/anchor,
+resolved Git root, exact filesystem-byte paths, directory/file identities and
+marked UTF-8 manuscript digest. Reuse DevicePaperWorkStore encryption, exclusive
+session, atomic replacement and recovery; add only typed-payload hooks to the
+existing store. Do not reinterpret legacy files or implicitly migrate them.
+
+Preview performs bounded read-only checks, displays paper and external private
+workspace separately and creates no key, lock, metadata or manuscript change.
+A new association save requires that exact preview to still match its source
+and destination. Later ordinary work saves remain possible when the source is
+unavailable. Relocation is explicit and preserves the original association and
+exact manuscript bytes; edited-source reconciliation is outside this increment.
+Recovery can restore the complete encrypted envelope into a fresh destination
+without the old paper/device, without verifying that source or restoring consent.
+File identity is not original scientific source fidelity or future write fencing.
+No repository-wide dirty-state/compiler/authorization readiness claim is added.
+
+Verification: establish missing-entrypoint failure; exercise actual native
+create/reopen, fresh-process return, AI lineage retention, backup/restore with
+old-device opener unavailable, missing source, explicit relocation, changed
+source/workspace, link/special-file/path refusal, old-reader/version rejection,
+append-only associations, external checkpoint changes and interrupted save.
+Run bounded actual Opus 5.5 review and core/docs from a fixed snapshot to avoid
+mixed parent/child schema loads while the UI session is changing shared code.
+
+Review result, 2026-09-29: fixed 60,442-byte source packet, SHA-256
+`f5633367cd96348abcb3452361e33198e840dce60b6c12c330ad21d0572aa946`.
+Actual first-party canonical `claude-opus-5-5`, one successful turn, no permission
+denials; tools, hooks, skills, plugins, MCP and session persistence disabled.
+Six boundary tests reproduce seven failing assertions: impossible reassociation
+wording for changed content, metadata-only move churn, external Git-directory
+placement, nested/case-variant Git source paths, stale display verification and
+ambiguous missing-source wording. A separate native test reproduces unchecked
+prior associations on first save. Fix all: distinguish changed content from
+metadata-only edits, reject unchanged logical relocations, require one checked
+initial association, fence both per-worktree and common Git directories, reject
+nested Git sources, recheck displays and use an honest combined unavailable/
+unsupported state. Preserve exact-source relocation rather than widening it.
+During local result review, additionally retain the original candidate-history
+prefix and cached loaded checkpoint before save, avoiding an implicit reload
+that could conceal external replacement. The other stream added PaperWork v3;
+embed that supported format unchanged and verify retained Korean unfinished
+writing through its existing reader. No TUI implementation was edited here.
+
+Earlier local verification: initial new API import fails as expected; 10 initial
+association tests pass in 9.208 seconds. Expanded association plus existing device
+and work-store suites pass 46 tests in 42.006 seconds before the Opus fixes.
+The first new workspace compatibility assertion used a nonexistent field name;
+corrected it to exercise the existing restore API and inspect actual writing.
+Final affected/core evidence follows after the fixes; no earlier pass is used
+to claim the changed version verified.
+
+Final verification, 2026-09-29: all 19 association tests pass in 12.757
+seconds after the fixes. A fixed 356-file checkout snapshot, inventory/content
+SHA-256 `d5d018bc6cbb227a0fb56470dd445d86cb41f66b75c2f91c1c2641ed3b6cb68f`,
+runs `python3.13 -B scripts/verify.py --scope core` using the existing OpenSSL
+installation. Contract 209, probes 132, validation 42, security 22 and
+application 595 total 1,000 tests: 996 pass, four Windows-only skips, zero
+failures, exit 3 in 438.432 seconds. The skipped WebAuthn, AppContainer and two
+junction cases remain unverified. All owned code/schema/test bytes still match
+the snapshot after completion. Documentation checks pass for 67 Markdown files;
+generated research schemas and working-tree whitespace also pass. The disposable
+snapshot is removed afterward. No real private paper, live inference endpoint,
+new credential permission, commit or publication was involved.
+
+Outcome: an empty or existing unaccepted work can now retain its exact paper
+association through restart and encrypted recovery without a second narrative.
+Missing sources preserve reading; metadata-only file edits do not waste move
+history; changed manuscript contents require future explicit reconciliation.
+This closes the bounded initialization/association API, not all R4 or source
+release readiness. Next follow the same row-four accepted-source/custody/gateway
+integration; do not replace it with another synthetic example, restore old
+consent, repeat resolved native probes or reopen the Apple-account question.
+
+##### Encrypted work command integration
+
+Boundary frozen 2026-09-29. Connect the existing R4 checkpoint to an R6
+`demo work` command family: initialize a bundled manual/recorded paper, inspect
+saved status/argument/pending work after process restart, explicitly export an
+encrypted backup, and restore it into a fresh private destination. This is a
+synthetic source-preview workflow, not own-project acceptance or the other
+session's TUI retention adapter. Reuse the device codec and private directory
+checks; do not introduce a new cipher, schema, approval credential or source
+import. Backup is create-only, bounded and ciphertext-only. Interrupted output
+is never reported complete; validation rejects incomplete copies and retries
+use a new destination. Source work is preserved. Recovery secrets use the
+controlling terminal, or an explicit bounded stdin option for synthetic test
+pipes; never arguments, environment, ordinary stdout or diagnostics. Init
+shows a generated key only on the controlling terminal and requires exact
+hidden re-entry before saving. Test separate processes and source artifacts,
+wrong keys, corrupt/linked/existing outputs, interrupted writes, noninteractive
+refusal and secret-free output; run actual Opus and core/docs verification.
+
+Code review, 2026-09-29: actual first-party canonical
+`claude-opus-5-5`, medium effort, completes one static review turn with success
+and no permission denials. Tools/MCP/hooks/plugins/settings/skills and session
+persistence are disabled. Seven fixed source/test files plus the explicit
+contract form a 63,955-byte packet, SHA-256
+`6cf237b0282b8393595ec59f11426eb725be614d6baed1702ec573cbda086ab4`.
+The review finds no confirmed secret/overwrite/false-authority blocker, but
+identifies archive read-side mutation and incorrect classification of output
+failure after completed saving. Local reproductions confirm both, plus closed
+stdin escaping as AttributeError. The fixes and regression evidence follow. The existing baseline and new artifact roundtrip later pass in the full run;
+this review itself is not native test evidence.
+
+Review dispositions: archive reads now open only the directory and ciphertext,
+creating no lock and deleting no staging files. Exclusive output-file creation
+still prevents competing writers; write-denied read tests preserve every source
+entry. Completion is recorded before output; a failed output reports completed
+operation state separately. An actual closed OS pipe reproduces Python's second
+flush failure and exit 120; closing the failed stream retains the documented
+exit and sanitized result. Closed/malformed key input and invalid terminal
+encoding now refuse without tracebacks. Reject identical/aliased work/archive
+directories before key entry. Document stdin EOF; no automatic key-file storage
+or password-derived recovery is introduced. Native command tests now exercise
+wrong key/project, damaged backup, existing output and restore into the original,
+checking original bytes and empty failed destinations. Improve the oversized
+frame test, guard PTY child exec failure and add hidden-confirmation negative
+checks. The optional preflight-before-key-generation suggestion is deferred:
+init may show an unbound key before a later platform/path failure, but it never
+reports successful storage in that case; key confirmation still precedes writes.
+No extra review round is needed for these reproductions/fixes to this same
+command increment.
+
+Final verification uses a fixed temporary copy of the 350 repository-listed
+source files, excluding OS metadata and bytecode, with unchanged bytes checked
+before copying. Snapshot inventory/content SHA-256:
+`9c8c0806c0dd53116fbc6b4128ae404849e12403b7d6536739b64ddfa5a88c3b`.
+No shared checkout, user changes, commits or publication are modified. This is
+needed because the shared-tree full run encountered three mixed-version TUI
+restart failures while the separate stream changed its work schema; all three
+pass when rerun from current code. Retain that failed run as evidence rather
+than calling it a clean pass.
+
+Final fixed-source core completes in 363.411 seconds: 970 tests, 966 passes,
+four explicitly deferred Windows skips, zero failures, exit 3. All 565
+application cases pass, including native backup/recovery and the TUI restart
+cases. The five owned command/test/CLI/artifact sources in the shared working
+tree match the tested snapshot at completion. This is incomplete platform
+coverage, not an all-platform clean pass. The temporary source copy is removed
+after testing. Final shared-tree documentation checks pass for 67 Markdown
+files; tracked and owned-source whitespace plus generated-schema consistency
+also pass. No schema generator changes belong to this command increment.
+
+Next safe action: continue the R2/R4 selected-host source-deliverable approval
+custody/launch and accepted-store integration in the reviewed order. These
+commands deliberately cannot consume receipts, accept evidence, close debt or
+save a running TUI session. Preserve the other stream's new bounded encrypted
+judgment adapter and its ownership; complete the remaining T5b state mapping
+before exposing a general workspace save. Private-source
+verification still gates real research; this command exercise did not read or
+modify any such source. No pending unlock interaction is required after the
+successful native roundtrip. Source publication, license selection and actual
+replacement-device validation remain separate human/release gates.
+
+##### Device work-key integration
+
+Boundary frozen 2026-09-28. The next observable action is saving candidate work,
+exiting and reopening on this Mac without the caller retaining its plaintext
+data-encryption key. The existing product signing/launch boundary remains open;
+this increment implements data-key mechanics, never approval authority.
+
+- Use CryptoKit Secure Enclave P-256 **key agreement**, separate from the
+  user-presence signing key. Its encrypted representation and an ephemeral
+  public key protect a random 32-byte work data key through ECDH/HKDF/AES-GCM.
+  A second independently derived AES-GCM wrapping uses the separately held
+  32-byte recovery key selected by ADR 0014. No signing API or receipt exists
+  in this path. Device unlock is noninteractive and fails when unavailable.
+- Bind both wraps to an externally supplied project fingerprint and the entire
+  versioned key envelope. Keep device/recovery derivation purposes separate.
+  Keys travel through bounded native pipes only and remain in trusted caller/
+  helper memory during the open session. No plaintext key, provider access,
+  Keychain search/enrollment, human-presence claim or same-user isolation claim.
+- Publish the key envelope and encrypted work as **one atomic file**, reusing
+  the existing lock, path checks, staging, full-sync and uncertainty handling.
+  A new outer format is refused by the old raw-key reader. Explicit creation
+  requires no existing checkpoint; ordinary reopen never creates replacement
+  keys or silently falls back to recovery.
+- Explicit encrypted backup restoration verifies the source and project with
+  the recovery key, then wraps the same data key for a fresh device key in a
+  new destination. Preserve source bytes and accepted-authority-false history.
+  No in-place migration, old-device revocation, approval-key enrollment,
+  automatic backup/export or full project/replacement-device support claim.
+- Exercise actual disposable Secure Enclave create/reopen, fresh Python
+  process return, no persisted plaintext data/recovery key, malformed/project/
+  key/version rejection, unavailable-device refusal, original-preserving
+  recovery, restart after replacement and inherited storage failures. Keep a
+  portable framing/contract suite and run core, docs, source-artifact checks
+  plus the required pinned Opus review. Native failure blocks this adapter;
+  it cannot be replaced with a software device key and reported as passing.
+
+Implementation/result review, 2026-09-28: the missing-module check failed first.
+Actual native create/reopen and separate-process return then passed seven
+checks. A local adversarial test demonstrated that independent AES-GCM wraps
+alone did not detect damage to the unused wrapping path; add purpose-separated
+HMAC-SHA256 over the whole envelope and require it after either unwrap. Both
+reproduced failures now pass. This creates no approval key or Keychain lookup.
+
+Actual Claude Code 2.1.283 / first-party canonical `claude-opus-5-5`, medium
+effort, reviews the fixed ten-file/contract packet (103,182 bytes, SHA-256
+`d85bc9e71b2706363d9c58ad1803efd138eee4d4dc3f6d57edd83f23d5de1376`).
+The single turn succeeds with no permission denials; tools, MCP, skills, hooks,
+plugins, user settings and persistence are disabled. It reports no overall
+required-behavior blocker, while identifying the following actionable defects
+and limits. No review is represented as executed testing.
+
+- Reproduce ciphertext/envelope splicing between source and restored work,
+  because recovery deliberately retained the data key. Derive a separate
+  content key through HKDF with an independent purpose and SHA-256 of the
+  complete outer prefix/envelope. The splice regression now fails closed.
+  Whole-checkpoint rollback remains explicitly outside the current contract.
+- Add optional `backup(verify_recovery_key=...)` so a supplied recovery key can
+  be proven to unwrap the current data key. Default backup validates encrypted
+  work but does not attest possession of the separately held recovery secret.
+- Replace shallow malformed-frame cases with complete frames exercising
+  version, size, outer/inner magic and representation length on any host.
+  The portable parser now checks inner representation length as well.
+- Extend secret scans to source/restored files and locks; cover missing-file
+  refusal after session opening and the legacy reader's size bound.
+- Release the adapter's recovery-secret reference immediately after successful
+  wrapping; cached-envelope retries require no retained recovery secret.
+- Give an unsaved create session an exact no-saved-work backup error.
+
+After these changes, 38 focused device/raw-key/source-artifact checks pass in
+30.789 seconds. An earlier core run executes 932 tests with zero failures and
+four Windows skips (exit 3), but owned files changed during result-review
+follow-ups; it is not final frozen-source evidence. Repeat core on the final
+source and request a focused review of the cryptographic binding change.
+The follow-up four-file packet is 38,862 bytes, SHA-256
+`a07770e7d0393477fa5d74ee7f139484f9dad64071762fe3674292f897fc9e77`.
+Final results belong in Progress. Product signing/launch integration and TUI
+connection are still separate; no actual other-device or locked-host proof is
+inferred from disposable same-host key identities.
+
+Follow-up disposition: the same pinned first-party Opus model completes one
+successful turn with no denials and finds no reproducible format, derivation
+or envelope-authentication defect. Its only proposed secret-lifetime defect
+depends on an unseen base class: actual `PaperWorkStore.__enter__` catches the
+failure and dynamically dispatches `self.close()`, which clears the subclass's
+pending recovery reference. A local rejected-private-directory reproduction
+confirms the reference and descriptors are cleared; no unnecessary runtime
+change is made. An unentered create object intentionally retains its supplied
+secret until wrapping or explicit close, with no zeroization claim. Keep the
+backup key comparison as defense in depth; wrong secrets normally fail native
+authentication first. Clarify that the raw-reader size test uses oversized
+input, and add a complete portable frame whose encrypted section exceeds its
+own bound while the outer frame remains within its limit. These evidence
+refinements do not change runtime behavior. Final 67-file docs, generated-schema
+consistency, tracked and owned-untracked whitespace checks pass.
+
+##### Encrypted unaccepted work checkpoint
+
+Boundary frozen 2026-09-28 before implementation. The researcher action is
+returning to the same writing and its AI/scientific basis after process exit.
+Use the existing exact operation review and explanation formats; this is actual
+private file persistence, not another operation wrapper or accepted store.
+
+- Save a bounded versioned checkpoint of cumulative candidate history, an
+  independently retained amendment-origin registry, an optional unfinished
+  Judgment, an optional exact operation review and conditional explanation
+  drafts. Restore sources before rechecking a review; never enroll origins
+  merely from the review. Preserve old v3 candidate authority as unverified.
+- An archived review is inspectable at its original source/time, including
+  after expiry, but a fresh policy owns no current assessment or seal. A new
+  explicit review is required for any operation request. Mismatched source,
+  malformed lineage, changed cause or unsupported versions fail without
+  installing partial work. Saving a mismatched review fails visibly; callers
+  must retain its earlier complete checkpoint or explicitly prepare new work.
+- Use one authenticated encrypted checkpoint with an exclusive session lock
+  and atomic replacement. SQLite is unnecessary for this single unaccepted
+  snapshot; the future accepted transaction log remains a separate R4 task.
+  Keep the directory outside Git, owned/private, and use descriptor-relative
+  no-follow file operations. Failed preparation/replacement preserves the last
+  checkpoint; uncertainty after replacement requires reopen/inspection.
+- A packaged macOS CryptoKit helper uses AES-256-GCM and HKDF-SHA256 with a
+  separate format/purpose from recovery experiments. A caller-supplied random
+  32-byte in-memory key crosses stdin only. No OS credential access, persisted
+  key, human receipt, production key-custody claim or recovery-key policy change.
+  This developer API remains synthetic-only until P0 and product custody pass;
+  default TUI retention and the ADR 0013 checkpoint are unchanged.
+- Prove real encrypted disk round trip and fresh-process reopening, retained AI
+  edits and partial explanation, absent resumed authority, wrong key/project,
+  corruption/version/path/competing-session rejection and interrupted-save
+  preservation. Run focused/core/docs/source checks and pinned Opus review.
+  Update developer usage, product availability and acceptance in place.
+
+Implementation/result review, 2026-09-28: the missing-module test failed first.
+The adapter now persists actual encrypted bytes, reconstructs full source and
+origin values before review validation, and restores no current assessment or
+seal. Eighteen initial work tests and the related review/explanation suites
+pass 77 checks, including a fresh interpreter and kills immediately before/
+after replacement. The reproducible source preview builds its packaged native
+helper, saves a novel empty synthetic paper and reopens it in a second process
+without repository scripts or tests. No product credential or native approval
+prompt is used. Full core before review fixes runs 910 tests: 906 pass, four
+Windows skips, zero failures, exit 3, 230.559 seconds. Owned implementation
+hashes remain unchanged during that run; the concurrent TUI stream accounts
+for additional application checks.
+
+Actual Claude Code 2.1.283 uses pinned `claude-opus-5-5`, medium effort,
+first-party model metadata, one successful turn and no permission denials.
+The 12-source-file plus frozen-contract packet is 113,118 bytes, SHA-256
+`4317504edef563b7780397b937b36ae63d3064d3882961c4d012ecdc5a02e6a6`.
+Tools, MCP, hooks, plugins, user settings and persistence are disabled. Opus
+reads the packet; it does not execute tests. It finds no format, provenance or
+resumed-authority blocker. Disposition:
+
+- Reproduce a same-object uncertain-save latch that survived close/reopen;
+  clear it only after reacquiring the exclusive lock.
+- Reproduce orphan staging accumulation after process death; reclaim only
+  reserved private owned regular files under that lock, with bounded inventory.
+  Preserve unrelated names, hard/symbolic links and non-private files.
+- Verify the Mac synchronization concern against
+  [Apple's fcntl contract](https://developer.apple.com/library/archive/documentation/System/Conceptual/ManPages_iPhoneOS/man2/fcntl.2.html)
+  and an owned disposable native call: file and directory `F_FULLFSYNC` both
+  succeed on this host. Add it after `fsync`, without the suggested silent
+  fallback on unsupported filesystems. Injected failure must preserve the
+  previous checkpoint or report uncertainty after replacement. Real power-cut
+  validation remains unperformed; no device-loss guarantee follows from this.
+
+Final affected checks and docs results are recorded in Progress. R2 product
+custody/launch remains the blocker for protected accepted writes; this work
+neither revises that authority contract nor connects the separately owned TUI.
+
+##### Exact paper operation review contract
+
+Boundary frozen 2026-09-28 before implementation. This is the next R3/R4 input
+integration after proportional policy, with no TUI ownership change. A researcher
+can inspect one exact record/merge request with the same judgment, source AI,
+amendment origins and explanation decision; changed context or an expired seal
+cannot be submitted as that request. Product custody and writer integration
+remain blocked by the explicitly recorded R2 boundary, not Windows availability
+or an Apple publishing account.
+
+- `core/paper_operation.py` owns generated `paper-operation-v1` and
+  `paper-operation-review-v1` schemas and immutable review/candidate values.
+  Admit only record-interpretation into alternative and apply-selected-merge
+  into main. Quiet capture and Not now cannot become operation requests.
+- An operation names project/episode, unique operation ID, supplied seal-derived
+  UTC creation time, expected heads/evidence/history, exact scientific effect,
+  and policy/decision/provenance fingerprints. A record includes only selected
+  and required amendments and the actual joined judgment; branch construction
+  validates its legal candidate transition. Merge reloads its actual source
+  selection and judgment. No v3 command is reinterpreted as this new version.
+- A review retains that operation, the full assessment/decision, complete
+  included amendment lineages, source judgments, the original owned preparation
+  descriptor, supplied manuscript digest, session nonce and at-most-300-second
+  seal lifetime. Canonical NFC JSON has the existing 256 KiB limit; bounds fail
+  rather than truncating lineage. An optional parent review digest is a supplied
+  revision reference, not proof of accepted history or reusable consent.
+- Add `PaperReviewPolicy.prepare_operation`, `restore_operation` and
+  `operation_candidate`. Preparation rechecks the owned current assessment and
+  explanation; restoration/final candidate rederive operation, policy, lineage
+  and scientific effect from the current owned history and registered origins.
+  Loading review bytes never registers their embedded origins or overwrites a
+  current draft/assessment. Wrong/missing origins, changed source/evidence or
+  manuscript/session/time, unknown schemas and altered values fail closed.
+- Returned candidates require authorization and always leave it unverified.
+  They cannot append operations, open/close debt, sign, save a project or prove
+  source-file fidelity. Do not pass a new contextual decision through the old
+  seal, whose schema would lose topic/lineage bindings. R4 must atomically store
+  this exact review with a matching receipt and command; a new accepted reducer
+  and trusted source loader remain required, with no implicit old-history import.
+
+Implementation clarification: merge effects also retain their exact typed
+selected/required records, not only selection IDs. Restoring an older intact
+review is read-only; final candidacy additionally requires its exact preparation
+and seal to remain current. Not now, a changed explanation and successful seal
+replacement revoke the earlier request; invalid preparation retains the last
+valid seal. A fresh owner must explicitly prepare both assessment and seal
+from independent sources. This follows the existing changed-draft/
+selection invalidation rule without making restore replace current work.
+
+Observe failing tests first for missing API, tampered operation/policy/origin,
+wrong or stale context and malformed canonical bytes. Verify exact record
+selection/join, manual and lineage-only AI merge, answer reuse/deferral, unchanged
+owned state, round trip, expiry and legacy refusal. Run focused/core/docs/schema
+checks and actual pinned Opus review. Documentation impact: domain/API contract,
+developer usage, product availability, acceptance and the existing plan.
+
+Implementation/result review, 2026-09-28: the missing-module test first failed;
+the new core formats, owned service entrypoints, identity check and generated
+schemas then passed 66 focused operation/policy/branch/lineage/episode tests.
+Follow-up local reproductions exposed stale current-scope and stale decision/
+seal reuse. Final candidacy now requires the current exact owned seal and
+preparation; restore never installs either. Failed replacement input preserves
+the last valid state. The updated focused operation/policy suite passes 43 tests,
+including 24 new operation tests. Final core evidence is recorded in Progress.
+
+Actual Claude Code 2.1.283 runs pinned `claude-opus-5-5`, medium effort, first-party
+success, one turn and no permission denials. Tools, MCP, skills, hooks, settings
+and persistence are disabled. The 21-section, 192,748-byte fixed source/synthetic
+packet has SHA-256
+`c687a82c862c0c7976492665b1d05555e0e59000cb30c276c9451fc801c33e97`.
+It reviews source, not executed tests, and identifies no within-scope blocker.
+Disposition of its findings:
+
+- Confirm alternate valid decisions could replace a merely current assessment;
+  the current-owned-seal check also fixes this, Not now and replacement reuse.
+  A separate valid answered review can be inspected but cannot replace the
+  owner's deferred request. Add that exact cross-owner regression.
+- Confirm an operation could reserve an unselected registered draft's ID.
+  Reject that collision and check the implicit branch ID and two-command budget
+  before construction. The existing branch reducer already rejected collisions,
+  excessive ID length and capacity in included records; it remains the final
+  legality check rather than relying on only the new precheck.
+- The suggested zero-topic bypass is not reachable through the owned service:
+  `contextual_topics` itself rejects anything outside one to three topics. It
+  was absent from the bounded packet; do not duplicate or weaken that guard.
+- Retain explicit reuse of an older human rationale beside later AI wording,
+  without fabricating a final human edit or grading semantic agreement. Test the
+  exact preserved chain and still-required/unverified foreground authorization.
+  Actual adoption must authorize the full displayed pair and lineage.
+- Retain last-valid state after rejected replacement selection, now documented
+  and tested. Invalid input does not install a new scope; successful changes or
+  explicit Not now revoke the earlier request.
+- Nested lineage-schema resource metadata is valid JSON Schema and has no
+  demonstrated interoperability failure here; no speculative format change.
+  Add non-NFC source review refusal alongside existing canonical/size/version,
+  source-growth and expiry checks. Trusted accepted-source loading, single-use
+  receipt consumption and atomic debt/branch append remain R2/R4 obligations.
+
+The first full core run includes concurrent TUI wording additions: 869 tests,
+two failures and one error in `test_tui_wording_link`, plus four Windows skips.
+All three TUI cases pass on immediate recheck of the updated shared files; this
+task does not edit their implementation. Rerun full core after the operation
+fixes rather than reporting the earlier run as successful.
+
+##### Finite review policy and amendment lineage contract
+
+Boundary frozen 2026-09-28 before implementation. This supplies a separate
+candidate assessment, not a new accepted command or a change to v1–v3 review
+semantics. It implements ADR 0005's proportional review for these actions only:
+
+| Action | Target | Impact and requirement |
+|---|---|---|
+| `capture-draft` | none | Low; no completed judgment, explanation or debt prerequisite |
+| `record-interpretation` | alternative | Medium; reuse the completed human rationale, including for AI-influenced work; no teach-back or understanding debt |
+| `apply-selected-merge` | main | High; AI influence requires one to three contextual topics, explicit rationale reuse/answers or deferral; wholly manual history has no AI explanation requirement |
+
+Evidence acceptance, manuscript application and closure are outside this finite
+profile. A caller cannot supply an impact label or retarget capture to main.
+
+- Extend `core/paper_changes.py` with immutable `AmendmentLineage` candidate
+  values: exact typed record revisions, parent digests, and complete source
+  Judgment contribution snapshots. Sources may be unfinished; assistance need
+  not wait for a human rationale. Bound to one project/episode/record/kind,
+  at most eight revisions and eight source judgments per revision, canonical
+  JSON at most 256 KiB. The generated `paper-amendment-lineage-v1` schema is
+  separate from old commands. Revising retains earlier AI even when a later
+  revision is manual. Restore validates shape/chains, never source authority.
+- Add `application/paper_review_policy.py::PaperReviewPolicy` over owned
+  `ResearchHistory`, with `revise_amendment`, `capture`, `record`, `merge`,
+  `finish` and append-only `update_source`. It owns registered lineages; callers
+  cannot replace them through an assessment. Capture/record use registered
+  records; merge reloads the recorded alternative. Unknown, mismatched or stale
+  record bindings fail. Selected and required amendments contribute origin;
+  omitted new amendments do not. Existing branch/source AI remains a
+  conservative inherited floor, even with a blank/manual current judgment or
+  AI disabled. New per-record references do not reinterpret legacy provenance.
+- `core/review_policy.py` owns the closed action table and versioned assessment
+  and explanation-decision schemas. Assessments bind history/view/scientific
+  preview, selection, contributions, amendment lineage and topic rules. The
+  adapter derives high-impact topics from the existing deterministic catalog,
+  never from a provider. `finish` recomputes the current assessment and accepts
+  only exact topic identities; an answer may explicitly reference the already
+  written rationale, avoiding a second narrative. Not now creates no debt;
+  deferral reports only `opens-if-accepted`. No answer is graded.
+- Old `validate_explanation`, sealed reviews, readers and goldens remain
+  unchanged. This adapter has no accepted writer, receipt, persistence or TUI
+  wiring. A future accepted version must bind this policy to its exact command
+  and authoritative contribution sources; the current draft/text Proposal
+  format is not typed AI adoption. R2/R4 still gate protected acceptance.
+
+First establish a missing-contract failure, then exercise the finite table,
+lineage round trip/tamper/bounds, omitted versus required origin, incomplete AI
+drafts, manual and inherited-AI merge paths, topic/rationale reuse, same-head
+evidence staleness and no mutation. Run core, schema/docs and actual pinned Opus
+review. Documentation impact: domain/API contracts, developer use, product
+availability, acceptance cases and this existing plan; no new ADR is required
+because this narrows implementation within ADR 0005 rather than changing it.
+
+**Implementation and independent review.** The generated schemas and adapter
+now implement this contract. Initial 24 focused tests pass after correcting an
+oversized test fixture that hit Judgment's existing budget before the lineage
+boundary. The source-ref bypass above was reproduced with an otherwise valid
+new claim and repaired before cross-review. Actual Claude CLI review uses
+`claude-opus-5-5`, medium effort, first-party provider, one successful turn and
+no permission denials. Its fixed packet has 21 sections, 132,658 bytes and
+SHA-256 `5d0456b539acf67b74b811003473e22edd34b4218c3dd111e32d847e739ccace`.
+Tools, skills, hooks, plugins, MCP, inherited settings and session persistence
+were disabled. It did not execute tests and found no blocking defect.
+
+- Reproduce its lower-severity raw-versus-joined judgment discrepancy, share
+  the branch join, and assert that the assessment matches the constructed
+  branch's actual contribution fingerprint. Repeated assessment must not
+  duplicate the chain. Existing branch behavior is unchanged.
+- Reject its conditional unchanged-selected-record concern on observed reducer
+  semantics; add a regression for unchanged references, illegal selection and
+  the one-merge limit rather than weakening record matching.
+- Clarify that capture has no acceptance selection; authored scope is bound by
+  lineages and the draft projection. Document explicit refusal at eight lineage
+  revisions and preservation of the last good value, without an origin reset.
+
+After those follow-ups, the 52 lineage/policy/branch/understanding tests pass
+(including 26 new lineage/policy tests). The first core attempt has the shared
+T4 PTY failure recorded in Progress; its owner corrects the `source`/`inspect`
+action mismatch and that exact test subsequently passes alone in 2.973 seconds.
+The final `python3.13 scripts/verify.py --scope core` run completes 209 contract,
+132 probe, 42 validation, 22 security and 435 application tests: 840 total,
+836 pass, four Windows-only skips, zero failures, exit 3, 230.595 seconds.
+The Windows WebAuthn/AppContainer and two junction checks remain unverified;
+this is not a full cross-platform pass. Schema generation consistency and docs
+scope (67 Markdown files plus tracked whitespace) pass. No runtime change
+follows that final core run. No accepted authority, custody or human
+understanding is inferred from these candidate checks.
+
+##### Understanding closure context contract
+
+Boundary frozen 2026-09-28 before implementation and now implemented. The
+existing `ClosureReview` remains a legacy candidate helper with head/time
+freshness and unchanged API/manuscript tests. The distinct understanding-only
+contract in `core/debt.py` uses `review.py`'s existing sealed-cause reconstruction.
+No old command or
+conditional `work-...` record gains accepted authority.
+
+- `UnderstandingClosureContext` carries project/episode, debt ID, cause
+  operation/review digest, current main head, evidence watermark, topic rule/set
+  digest and displayed-context digest. These values are supplied by the caller's
+  independently loaded sources; a matching caller object proves consistency,
+  never accepted origin. Include no invented secondary ref or source artifact.
+- `prepare_understanding_closure` takes the exact open understanding Debt,
+  its intact sealed cause review, displayed and current context, a distinct
+  closure-operation ID, rationale, session nonce, seal/expiry and current time.
+  The cause must reconstruct an explicit deferred understanding-debt candidate
+  matching every Debt field. Historical cause expiry does not expire its
+  recorded meaning; the new review must be live for at most five minutes.
+  Current evidence cannot precede the cause's watermark. Mismatched contexts
+  fail at preparation, including equal-head/different-evidence cases.
+- The immutable `UnderstandingClosureReview` serializes as
+  `claimbranch.understanding-closure-review/v1`, with a closed generated schema,
+  explicit rule version and `authorization_verified=False`. Its rationale can
+  reuse existing writing; this contract checks no semantic answer quality and
+  imposes no new quiz or mandatory rephrasing. Canonical bytes bind all context,
+  rationale and action fields. Reconstruction rejects unknown fields/versions,
+  noncanonical bytes and stale/foreign sources; it restores no authorization.
+  Valid bytes remain an unverified candidate, not authenticated authorship.
+- `understanding_closure_candidate` revalidates the supplied Debt/cause/current
+  context and repeats preparation before returning the existing authority-
+  unverified `ClosureCandidate`. No receipt is issued or consumed, no debt or
+  history is mutated, and no application route is enabled. A future gateway
+  must independently load accepted inputs, reject reused operation/session or
+  receipt authority and atomically consume a real foreground receipt. Reusing
+  matching pure inputs is not an idempotence or replay-protection claim.
+- The new reader rejects legacy closure bytes; the old helper rejects the new
+  typed review. V1–v3 history schemas/goldens and the conditional explanation
+  snapshot stay unchanged. The application keeps partial text on stale review;
+  rebinding draft text is not consent or closure. Actual custody, accepted cause
+  mapping and closure remain R2/R4 dependencies.
+
+Tests must independently vary every binding, especially debt cause-review digest
+with the same debt ID and evidence watermark with the same main head. Include
+forged/nondeferred/manual causes, wrong debt kind/status, expiry boundaries,
+operation reuse, canonical round trip, Unicode/size bounds, unknown versions,
+legacy refusal and unchanged inputs. Export through the existing generator,
+run focused/core/schema/docs checks and actual pinned Opus result review.
+
+**Result and cross-review.** Actual Claude Code 2.1.283 reviewed a fixed packet
+with pinned `claude-opus-5-5`, medium effort, safe mode, no tools, disabled
+skills/hooks/plugins/MCP/settings and no session persistence. The runtime JSON
+verifies canonical `claude-opus-5-5`, first-party provider, successful one-turn
+completion and no permission denials. Input: 12 sections, 91,710 bytes,
+SHA-256 `da63ce7d3cd2141b5b3f8cd5e82e4a4dc52d211cd1f9ef0efb3e124afe072c70`.
+The reviewer found no blocking correctness defect and did not execute tests.
+
+| Finding | Local check and disposition |
+|---|---|
+| Equal cause/closure seal times do not prove cause acceptance ordering | Reproduce the accepted equal-second candidate and its false authority flag. Keep the documented nondecreasing clock rule: whole-second timestamps cannot establish accepted append ordering. Add an explicit assertion and require the future accepted loader to prove cause-before-closure from recorded operations. Do not invent an extra clock delay as authority. |
+| Maximum-lifetime assertion tested only object truthiness | Assert the exact expiry and successful canonical round trip at the five-minute bound. |
+| Raw non-NFC restore bytes were not directly tested | Add decomposed Unicode encoded without normalization; runtime rejects it despite its equivalent normalized meaning. |
+| Optional exact-class check for context subclasses | No concrete bypass was reported; closed schema validation already rejects added fields. Retain the existing typed-value convention without claiming protection against arbitrary same-process Python execution. |
+| Legacy and new helpers share `ClosureCandidate`; future code could pick the weaker route | Document that the protected understanding gateway must accept and recheck the versioned review path, never a generic candidate/result status as authority. No protected gateway is added here. |
+| A directly constructed review dataclass has unchecked fields | Document that its payload/digest must not be trusted before complete recheck; modified-field/payload/digest tests already exercise refusal. |
+
+Verification: the initial 59 combined closure/review/partial-draft/work tests
+pass. Add the cumulative v3 source-change and invalid-context cases; all 17
+debt tests pass. `python3.13 scripts/verify.py --scope core` then completes 202
+contract, 132 probe, 42 validation, 22 security and 395 application tests:
+793 total, 789 pass, four Windows-only skips, zero failures, exit 3. The skips
+are actual WebAuthn, AppContainer and two junction cases. The run takes 206.293 s
+and also checks docs, source fixture and tracked whitespace. This observes the
+shared checkout, including concurrent TUI tests, not ownership of that work.
+After the Opus documentation/test follow-ups, all 17 debt tests pass again in
+0.945 s; runtime code and schema exporter remain hash-identical to the reviewed
+snapshot. No second independent review or repeated full core run is claimed.
+Docs scope passes all 67 Markdown files and tracked whitespace; generated-schema
+`--check` passes. Existing accepted ADRs and research-history schemas are unchanged.
+
+The contract is ready for a future accepted loader/authorization adapter; it
+does not prove accepted cause origin, displayed topic derivation, user presence,
+receipt/session replay protection or human comprehension. Application closure
+and protected custody remain unavailable. The next independent R3 boundary is
+the finite impact/lineage mapping above, not another native or UI rewrite.
+
+##### Partial explanation draft contract
+
+Implementation boundary frozen on 2026-09-28 before coding and now implemented
+in `application/paper_understanding.py`, its application tests and generated
+`paper-understanding-draft-v1.json` through the existing schema exporter.
+`paper_service.py` and the other stream's TUI/authoring APIs remain unchanged.
+
+- `PaperUnderstandingSession(history, project_id=..., work_id=..., draft=None)`
+  owns one existing conditional understanding item, reconstructed through the
+  return service. It takes no provider, accepted Debt, receipt or filesystem
+  path. `state()` returns detached context/topics/draft with acceptance and
+  closure unavailable. Known source AI remains visible; draft text is never
+  described as verified human understanding.
+- The provider-independent `claimbranch.understanding-topics/v1` catalog selects
+  up to three issues from the causal graph: affected claim scope; referenced
+  evidence/interpretation; selected unrun experiment, otherwise manuscript
+  consequence when applicable. Each topic binds its kind, source node/relation
+  references, prompt, causal view and rule version. Omitted plans do not become
+  requested experiment explanation. This is a topic catalog for already deferred
+  conditional merges, not the future low/medium/high acceptance classifier.
+- `edit(topic_id, text, reuse_rationale=None)` retains incomplete or empty text.
+  Explicit rationale reuse references the original judgment reason rather than
+  requiring it to be rewritten; subsequent text edits preserve that reference
+  unless explicitly deselected. Topic entries never become completed answers.
+  The UI owner controls editor keep/undo; `leave_open()`/`snapshot()` returns
+  the same unaccepted draft bytes for an adapter's cancel/return path.
+- The closed `claimbranch.paper-understanding-draft/v1` snapshot stores explicit
+  project/work/cause and topic-rule bindings, the last bound operation and
+  context fingerprint, revision and one-to-three text/reference entries.
+  Each text allows empty content and at most 16 KiB UTF-8 after NFC normalization;
+  adapters synchronize to the returned text. The canonical draft is at most
+  64 KiB including metadata and JSON escaping. Failed edits retain the prior
+  draft; the UI keeps its uncommitted buffer. The shared validator honors only
+  the explicit `minLength: 0` opt-in; existing scientific text stays nonblank.
+  The draft includes unaccepted authority and cannot contain a debt
+  ID, completed answer, signature or closure disposition. This is serialization
+  in memory, not a disk checkpoint or verified human authorship.
+- Reconstruct snapshot bindings from the owned history prefix before loading.
+  Reject unknown versions/fields, changed cause/rules/topics, invalid IDs,
+  foreign projects/items and unknown or mismatched historical context without
+  mutation. A later source retains text and its old basis, exposing staleness.
+  `update_source(history)` admits only the same append-only history lineage;
+  `rebind_context(expected_context_digest)` explicitly attaches retained text
+  to the displayed current context without answering, approving or closing it.
+  No old review capability is restored. Versioned accepted closure bindings
+  and R4 durable custody remain later work.
+
+Tests exercise the recorded fixture and replay, multiple owned items, selective
+merge topic scope, reuse without copying the reason, partial Korean text,
+leave-open/return, evidence-only changes, same-head history changes, stale
+rebinding, invalid snapshots, bounds and detached reads. Reconstructing bytes
+can prove candidate continuity; only later protected restart and human observation
+can establish durable custody and regained understanding.
+
+**Result and independent review.** Actual Claude Code 2.1.283 reviewed one
+fixed packet using pinned `claude-opus-5-5`, medium effort, safe mode, no tools,
+disabled skills/hooks/plugins/MCP/settings and no session persistence. The JSON
+result verifies canonical `claude-opus-5-5`, first-party provider, successful
+one-turn completion and no permission denials. Input: 13 sections, 82,649 bytes,
+SHA-256 `1ba377963288d4066c8889b43a55453cba8a9028a061fe790e17e5c1b374756e`.
+This was static review, not independent test execution or human observation.
+
+| Finding | Local check and disposition |
+|---|---|
+| Global blank-string change may relax existing scientific schemas | Audit all nine prior exported schemas; none already opts into blank text. Add a regression alongside required scientific-text rejection. Keep the standard `minLength` opt-in. |
+| Exported shape does not prove canonical bytes, aggregate size or owned topic identity | Document runtime source/canonical-byte checks in the generated schema and developer contract. Add `uniqueItems`; runtime already rejects duplicate or reordered topic IDs. Keep the 64 KiB cap and test escaped-text overflow without losing prior data. |
+| A hypothetical zero-topic deferred item could be inaccessible | No valid triggering history was supplied or reproduced. Exercise all five admitted change kinds, including interpretation-only and plan-only merges, and reject empty selection. All produce one to three grounded topics; this is bounded coverage, not proof for future change kinds. |
+| Scoped selection and restore boundaries lacked direct checks | Test exact plan/claim and selected-relation references, both bundled items, real before-cause/later-operation binding mismatches and invalid/foreign source updates. All reject or retain state as intended. |
+| NFC text may differ from the editor's input buffer | Document synchronization to returned canonical text; test decomposed Korean input. No new normalization rule is introduced. |
+
+Verification before review follow-ups: 44 focused explanation/work/review/debt
+tests pass. `python3.13 scripts/verify.py --scope core` completes 189 contract,
+132 probe, 42 validation, 22 security and 377 application tests: 762 total,
+758 pass, four Windows-only skips (WebAuthn, AppContainer and two junction
+cases), zero failures, exit 3. Source fixture, docs and tracked whitespace pass.
+This observes the shared checkout; it does not take ownership of the other
+stream's tests. After the schema/comment/documentation and coverage follow-ups,
+all 16 `tests.application.test_paper_understanding` tests pass; exporter `--check`
+and the documented in-memory reconstruction example pass. The normalizer,
+canonical helper and exporter are unchanged from the reviewed snapshot. The
+only runtime follow-up adds schema-level unique entries to an already-enforced
+topic-ID rule; no second independent review or repeated full core run is claimed.
+Final `python3.13 scripts/verify.py --scope docs` passes all 67 Markdown files
+and tracked whitespace; the generated-schema check also passes again.
+
+No blocking defect was found in owned reconstruction, authority separation,
+stale source handling or atomic mutation. R4 still needs a concurrency/parent
+binding before storing divergent draft sessions; this snapshot supplies no disk
+custody. This result enables explanation drafting, not accepted debt closure,
+new impact-policy coverage, TUI integration or measured understanding.
+
+##### Understanding return service result
+
+Implemented on 2026-09-28. The code/test increment is
+`PaperService.understanding_return` and `UnderstandingReturnTests`; the active
+TUI/authoring stream is separate. Documentation reconciles the domain projection,
+developer invocation/fingerprint, intended availability and saturation oracle.
+No accepted command schema, ADR, native adapter or release gate changed.
+
+Two fixed-source static reviews used Claude Code 2.1.283 and pinned
+`claude-opus-5-5`, medium effort, safe mode, no tools, disabled
+skills/hooks/plugins/MCP/settings and no session persistence. Both JSON results
+identify canonical `claude-opus-5-5`, first-party provider, successful one-turn
+completion and no permission denials. Initial input: 13 sections, 92,146 bytes,
+SHA-256 `066706130a9722e3e7e345b45880c7ede423b097fc7c8390b41845a0a806d0d9`.
+Follow-up: nine sections, 44,448 bytes,
+SHA-256 `8b412ed4864dc271daac640b4b879f7fbb9439dd77e66ac03bc36149dfb50e2b`.
+Neither review executed tests or established human understanding.
+
+| Finding | Local result and disposition |
+|---|---|
+| Individually valid views can exceed the shared canonical limit when combined | Reproduced with one existing deferred merge and later synthetic observations. The added test fails in the original implementation. Hash the independently bounded components plus metadata; retain full view content and the unchanged canonical limit. Regression and replay pass. |
+| Only the first causal item and helper histories were tested | Add the second episode's distinct cause and both items in the documented bundled fixture, with replay/provenance/authority checks. Tighten the evidence-only case to one correction with both heads and episode metadata unchanged. |
+| Follow-up: embedded view digests must be rechecked by a verifier | Producer hashes were correct. Amend the verification recipe to recompute component content before envelope comparison; test both intact components and tampered returned views. This documentation/test correction follows the second review; no third review is claimed. |
+| Follow-up: pre-existing pending-list or single-view resource limits | No new runtime defect established. A bounded cumulative-judgment drill reaches the existing history/manifest limit before reproducing the proposed pending-only overflow. Existing pending-list and individual-view limits remain; the new envelope does not waive them or prove that every future workload fits. |
+
+Verification: 32 focused paper-work/review/debt tests pass in 6.849 s. The
+final core run completes 189 contract, 132 probe, 42 validation, 22 security
+and 354 application tests: 739 total, 735 pass, four Windows-only skips,
+zero failures, exit 3. The skips are WebAuthn, AppContainer and two junction
+cases. Core also passes the source fixture, documentation and tracked whitespace.
+It observes the shared checkout, including the other stream's current tests;
+it does not claim ownership or native validation of their work. After the
+follow-up wording/test change, the focused digest/detachment test passes again.
+
+This read-only increment supplies an original/current return reader. The
+subsequent [partial-explanation increment](#partial-explanation-draft-contract)
+adds in-memory writing separately. Accepted UnderstandingDebt, source-artifact
+verification, authorized closure and durable restart remain the reviewed
+R3/R4/R7 dependencies above.
+
+##### Understanding plan cross-review evidence
+
+The user explicitly requested this review on 2026-09-28. Claude Code 2.1.283
+reviewed 21 fixed source sections/files with pinned `claude-opus-5-5`, medium
+effort, safe mode, no tools, disabled skills/hooks/plugins/MCP/settings and no
+session persistence. The JSON runtime result reports canonical
+`claude-opus-5-5`, first-party provider, success, one turn and no permission
+denials. Input SHA-256:
+`780718521eb0fe382e7e831328c0504b8bffca1ad40f6068ef69e866d4f59e22`.
+No private research or conversation transcript was included. This is static
+plan review, not dynamic implementation or human-comprehension validation.
+
+| Reviewer finding | Local verification and disposition |
+|---|---|
+| F1: no conditional-work to exact-Debt binding | Confirmed in `research_schema.py`, `PaperService.pending_work` and `Debt.id`. Preserve conditional reading/writing and disable closure without a real cause review. Do not invent an accepted Debt merely to call the helper. This blocks that conversion, not the first draft API. |
+| F2: head-only closure freshness omits independent evidence changes | Confirmed in `ClosureReview` and the separate watermark projection. Add versioned cause/current-context binding and negative cases before exposure; no accepted closure path currently exists to claim an observed exploit. |
+| F3: impact/lineage rules may overburden new operations | Keep the finite impact-table and lineage-contract work. Reject the proposed "only newly changed AI content counts" rule and "AI-off never has debt" test: domain section 9 explicitly retains transitive influence and T1b retains source AI history. Broad current branch attribution is a limitation to refine with evidence, not authority to erase known contributions or ask the user to waive them. |
+| F4: deferral cannot retain partial explanation in its empty answers field | Confirmed. Use a separate bound non-authoritative explanation draft and provider-independent topic identity; retain rationale reuse without grades or mandatory rephrasing. |
+| F5: accepted lifecycle needs versioned replay/rebuild and no implicit supersession | Confirmed planning gap. Specify accepted open/restart/close and interruption cases in R4, preserve old candidate histories, reject unsupported versions and leave understanding supersession unexposed in this integration. No arbitrary v4 format is selected now. |
+
+The first reviewer suggested starting with closure services. The initial replan
+prioritized the already requested pure authoring prerequisite. Once its active
+implementation was observed in the shared checkout, leave that work with its
+owner and start the independent conditional return projection next. This does
+not require or fabricate accepted history. The review's proposed new
+product decision about inherited AI is unnecessary for this work: retain the
+existing rule while designing finer attribution, without rewriting ADR 0005.
+
+A second review covered 11 fixed revised-plan/source sections. Its JSON result
+again identifies `claude-opus-5-5`, first-party, successful one-turn completion
+and no permission denials under the same restrictions. Input SHA-256:
+`edb83ecfa58b55f32ab1f919380a669566cffb48add25f6499f60e2013c69d0c`.
+It found no material blocker for the pure draft API or conditional return
+projection. Local inspection supports its three clarifications: do not carry
+selected-review or judgment-text requirements into draft projection; preserve
+inherited source provenance without claiming draft debt outcomes; distinguish
+authoring ownership from the existing conditional pending-item identity.
+Those clarifications and the observed concurrent-work status were applied
+after the second review. No third review, full implementation certification or
+new native/human verification is claimed. Update the domain design when the
+versioned closure binding is implemented; this plan does not freeze its schema.
+
+#### TUI result-to-judgment implementation sequence
+
+##### Remaining TUI implementation ledger
+
+Established 2026-09-29 at the user's request. Nine remaining **outcome groups**,
+not equal-size tasks, a percentage, or a promise of nine turns. Keep these IDs
+stable and update state/evidence/dependencies after every increment; split a
+row explicitly if necessary instead of silently increasing the count. Existing
+reading/graph/manual construction and judgment/argument/result recovery are
+implemented baseline, not repeated items here. Release-wide backend work is
+listed only for the TUI connection it enables.
+
+| Unit | Researcher outcome | Current state and dependency |
+|---|---|---|
+| U1 | Reopen partial explanations with their original judgment, source and rationale links | Implemented 2026-09-29 in the Mac synthetic encrypted checkpoint; typed source/basis, kept/unfinished text, Opus review and native/PTY/core checks recorded in Progress. No review completion/debt closure on restore. |
+| U2 | Reopen unfinished scientific-change fields and review answers without reviving review authority | Complete 2026-09-29 within the Mac synthetic checkpoint: typed original basis, U/Ctrl+O comparison and explicit changed-basis choice. Opus fixes, 17 recovery cases and all nine previously blocked native cases verified; see Progress for the original failed core and successful reruns. |
+| U3 | Reopen manuscript wording under its original scientific review and exact source | Complete 2026-09-29 within the Mac synthetic checkpoint: recorded/detached mapping, named return/discard controls and original bytes shared by digest, with no restored review. Opus repairs, 16 recovery tests and final 47 terminal/manuscript tests pass; Progress retains the original core failures, repaired reruns and Windows coverage gap. |
+| U4 | Create/open one's compatible paper from the terminal, including an incomplete argument | First synthetic connection verified: demo project init/open, exact setup preview, human-written thesis/question, AI-off incomplete argument and encrypted writing with source association retained. Targeted/native/Opus/fixed-core evidence is in Progress. Existing no-episode entry is now verified with explicit question preview/start, cancellation/EOF/interruption, stale-save refusal and actual PTY restart; review and check evidence is in Progress. Named Paper connection now previews relocation/refresh, preserving exact nested writing; review and final validation are in Progress. Complete public lifecycle/readiness remains with B08. No protected real-use claim follows from these controls. Real use retains source/privacy gates. |
+| U5 | Confirm a captured result and connect legitimate evidence to the argument | Depends on owning confirmation/domain/gateway integration; provisional input already exists. |
+| U6 | Authorize scientific changes, defer understanding review and later close the exact debt | Depends on accepted-source/store and foreground authority; current previews remain unaccepted. |
+| U7 | Apply a manuscript change, compile and recover visibly | Depends on R5 actual file/compile/recovery boundary; exact supplied-source preview already exists. Complete manuscript-review answer retention with this review/apply integration; U3 retains wording/source input, not those answers or live review authority. |
+| U8 | Request useful live AI and selectively incorporate proposals with origin retained | Whole-judgment example replacement and prior-buffer restoration now compare current/after text before explicit confirmation; cancellation preserves writing and origin. Review and verification evidence is in Progress. Useful live requests and selective typed incorporation still depend on R8 permitted topology and bounded incorporation/typed-origin contracts; fixed examples remain available. |
+| U9 | Complete the integrated terminal journey and verify performance/host/input/usability | Incremental tests continue now. Current-basis reconstruction, same-prefix pending work and same-batch earlier-basis reconstruction now share locally owned services. The latest controlled two-older-basis device-save median is 1.607→1.236 s; mixed current/earlier writing has no demonstrated speedup. Review and check evidence is in Progress. Original-review duplication is now measured and pooled in the verified v7 checkpoint increment: exact original content shares bytes, while each input keeps its original binding and separate restored state. Existing v5/v6 work remains readable. Original graph and editable-record lookups now share one batch-local projection per exact prefix/episode/ref; controlled twelve-field complete native saves have a 2.105→1.389 s median. Independent session/request checks remain per input. The subsequent direct historical-session construction removes a redundant workspace query while preserving each session’s independent query: controlled twelve-field native save median 1.421→0.871 s. Original review-writing branch groups now share immutable prefix replay within one validation; mixed-input native measurements and overlapping ranges are recorded in Progress. Larger manual and integrated review-writing saves now share current source-node membership within one workspace validation; measured native save medians are 7.405→0.203 s and 10.781→1.287 s, with scope and checks in Progress. Preserve earlier context and checkpoint bounds. Final closure also needs supported Linux/SSH/tmux, physical Korean IME, unfamiliar-user and integrated-adapter evidence. |
+
+Current remaining count: **6 groups** (U1–U3 complete; U4–U9 open). Next:
+U4 public lifecycle/readiness still needs B08 after the implemented terminal
+entry and explicit source controls. U9 now shares same-batch earlier-basis
+calculation and has measured mixed/older-basis saves plus original-review size.
+The versioned exact-original-session pool increment is implemented; observed
+review, failed full-core result and repaired checks are recorded in Progress. Same-owner earlier judgments remain distinct; per-row
+bindings, detached state, old-file reading, native/PTY return and unchanged
+all-or-nothing limits remain required. The original-source query increment now groups initial graph/record reads by
+exact prefix/episode/ref, retaining independent per-input validation; its checks
+and controlled complete-save measurements are recorded in Progress. Immutable
+original prefixes now replay once across review-writing branch groups while
+branch projections stay separate. Mixed older/current fields plus an explanation
+answer are measured; ranges overlap, so this establishes removed computation
+rather than a general latency gain. Larger manual and integrated review-writing
+workloads now demonstrate a separate repeated-owner-query bottleneck and its
+call-local correction; measurements and validation are in Progress. Mixed manual
+construction/capture, explanation and wording now have process/native return
+and whole-checkpoint failure
+coverage, including explicit independent writing expectations and corrected
+save retry; evidence and test-revision scope are in Progress. Cause-appropriate save-failure guidance is implemented and reviewed, including
+visible causes in editor footers. Final fixed-source core completes with no
+failures/errors, including native and actual-PTY recovery; its four Windows-only
+skips remain incomplete coverage. The earlier locked-Mac run and final evidence
+remain in Progress. The same mixed flow now has actual keyboard creation,
+interruption, source-unavailable restart and continued wording checks; evidence
+is in Progress. The 2026-10-06 dependency audit finds no available Linux/tmux
+host: the user reports none, tmux is absent and the local Docker daemon is
+unreachable. No host installation or new remote access is implied. Next resume
+U5's result-confirmation connection when B02/B03 supply legitimate accepted
+evidence, U6's scientific acceptance/closure when B03/B06 are ready, U7's
+manuscript actions when B07 is ready, U4's public lifecycle when B08 is ready,
+and U8's selective/live assistance when B10/B11 are ready. Continue U9
+host/input/usability observations when their environment or human participant is
+available; no synthetic rerun substitutes for those observations. Add another optimization only if that journey reveals
+a measured bottleneck. Historical-session construction now omits only its
+redundant workspace query; standard per-session source verification remains
+independent. Measure any further proposal against complete saves and readable
+return, rather than treating fewer checks as the goal. Do not
+introduce a persistent source cache, enlarge bounds or truncate writing.
+U5–U8 require specific upstream integrations; U9's final closure still includes
+human/host access.
+Report changes to this count plus the next unit after each completed increment.
+
+
+Plan prepared 2026-09-27 from the user's requested intent audit. Use the
+[product journeys](../../product/product-spec.md#6-primary-journeys),
+[intent assessment and proposed composition](../../designs/2026-09-22-episode-review.md#planned-terminal-working-composition)
+and [terminal oracles](../../validation/cases/saturation.md#103-terminal-prototype-oracle)
+as inputs. Existing reading, routing, notes, proposal and comparison controls
+are the baseline, not work to rebuild. These milestones are not completion
+percentages or calendar estimates. Preparation completed on 2026-09-27;
+T1a contextual writing and T1b named actions/AI-off launch are implemented on
+2026-09-28. Initial T3a/T5a ownership now explicitly reuses an existing-node work;
+T2a's claim/link/plan authoring and independent draft graph are implemented in memory.
+T3b now reuses one owner through explicit session-only source-node links.
+T2b now has provisional result capture beside an existing subject; empty-project
+entry, confirmed-result integration and T5b durability remain open. Manual
+interpretation construction and explicit judgment reuse are now connected;
+scenarios on newly authored plans remain outside this slice.
+Later domain/persistence gates are unchanged. The first milestone
+records implemented interaction, not human comprehension or host readiness.
+
+**Human-led baseline.** Apply the design's
+[authorship assessment and criteria](../../designs/2026-09-22-episode-review.md#human-led-construction-and-understanding-review).
+Prove a complete manual construction path, not merely a switch that disables
+AI. Blank states foreground add result/claim/connection/plan; no background
+proposal or automatic graph construction supplies missing reasoning. Optional
+assistance remains available before a complete judgment. Existing accepted
+impact/debt rules remain unchanged; manual input is not proof of comprehension.
+
+**End-to-end outcome.** Starting with a new bounded synthetic paper/result,
+form a judgment without a prewritten conclusion, connect its chosen claim and
+manuscript consequences, then close and reopen the process with the same source
+references, human/AI contributions and pending work. Exercise AI-off and optional
+proposal routes separately. The final accepted/apply/verify path depends on its
+existing authorities; an in-memory candidate is not this completion criterion.
+
+**First implementation (T1a, now implemented).** Start milestone 1 with source context in the Work
+reader and a small named action surface. In the same increment compare the two
+entry stories as written walkthroughs using new synthetic content, identifying
+the authoring and draft contracts needed by milestones 2–3. This produces
+contract questions, not new project-entry code in T1a. Do not start another
+independent style, shortcut or framework iteration. Do not wait for protected writes to make this
+read/write-in-memory interaction concrete.
+
+- [x] **1. Keep the research subject present while writing.** Compare two
+  compositions over the same content: the existing graph plus contextual
+  reading/writing, and a focused writing pane retaining a compact argument/source
+  strip. Preserve the graph as the main navigation and the current narrow-screen
+  full-pane return. Show selected observation/conditions and the active draft
+  before secondary command/provenance detail. Offer named manual context
+  actions first and explicit contextual AI help as a secondary action;
+  existing keybindings remain compatible. Add empty judgment/content, pending
+  and stale examples and a new synthetic argument outside the authored caption
+  table; empty-project entry belongs to T2b.
+  Main code: `tui.py`, `tui_model.py`, `tui_review.py`, `tui_subject.py`,
+  `tui_judgment_ui.py`; existing review/card adapters remain compatible.
+  Done when source and judgment remain identifiable with the judgment editor
+  open at 144×42 and 80×24. In-editor source expansion/collapse preserves text,
+  cursor and undo state. Opening and returning from writing preserves graph
+  position, and the researcher can
+  find the next action without knowing c/R/C/M in advance. Record agent-observed
+  behavior separately from later unfamiliar-user observation. T1a's source
+  reader/editor and T1b's named action surface are implemented and checked.
+  Unfamiliar-user and live-host observations remain separate under milestone 7.
+
+- [ ] **2. Start from a new result and author a bounded argument.** Add a
+  project/session entry with create/open capability states and two paths:
+  unresolved result first, or existing claim first. Capture a minimal paper
+  question/working thesis, explicit run/source reference, observed content,
+  conditions and measurement definition; permit unfinished reasoning. Expose
+  add claim/subclaim, plan follow-up and connect-existing-record actions.
+  Preview graph changes with explicit draft/proposal labels and preserve shared
+  observation identity. Scientific relationships require valid endpoints, type
+  and rationale; hierarchy is separate. Reuse bounded upsert validation in
+  `paper_changes.py` / `research_history.py`; R3 must supply legitimate initial
+  project and evidence-draft adapters where missing. A TUI must not invent seed
+  observations or append accepted history to make an empty project render.
+  A clearly synthetic provisional layer is acceptable for early interaction
+  checks, and must not be advertised as real project initialization/storage.
+  Done when novel typed content can be created and revised through the terminal
+  without fixture/JSON edits, cancel leaves the prior graph intact, source
+  absence is explicit, and unknown/missing fields never become invented facts.
+  Exercise this route with AI disabled, no provider configuration and no
+  proposal records. Permit partial capture without a completed explanation;
+  require the rationale when staging a complete scientific relationship, and
+  reuse it at review instead of asking for a second account.
+  The draft projection must remain visible independently of a prepared review
+  or complete judgment. Editing a judgment or allowing review to expire must
+  invalidate review authority without erasing candidate work. Decide candidate
+  ownership before T2a; its detailed boundary below precedes full T3b linking.
+  First provisional T2b result capture is now implemented beside an existing
+  subject, with partial source/measurement/judgment fields and retained original
+  context. It cannot initialize a blank project, confirm evidence or enter the
+  argument/review; those remaining service connections keep this milestone open.
+
+- [x] **3. Reuse one working judgment across its consequences.** Compare an
+  explicit working-draft identity linked to several nodes with explicit reuse
+  of an existing node-bound draft. Prefer the former if it satisfies current
+  provenance/freshness contracts without conflating distinct decisions. Show the
+  active work and its target nodes when navigating; allow a separate judgment
+  in the same episode. Keep personal notes independent. Preserve old drafts
+  until explicit link/reuse; never combine contributions automatically. Select
+  and document the bounded service identity before implementation; revise
+  versioned schemas/recovery only through their owners if required.
+  Main code: `paper_workspace.py`, `paper_draft.py`, `tui_review.py` and
+  `tui_work_links_ui.py`; model support stays outside presentation.
+  Done when one judgment can address shared evidence and two claims without
+  retyping, an unrelated judgment remains separate, original AI/human history
+  remains inspectable, and edits revoke the relevant reviews.
+  The bounded T3b implementation uses existing owner identity and explicit
+  references rather than a new ID; it never migrates or merges old work. Its
+  session-only references and manual checkpoint boundary are documented in
+  the terminal workflow; full durable return remains milestone 5.
+
+- [ ] **4. Review one coherent scientific and manuscript consequence.** Keep
+  the active judgment visible while selecting changed claims/relations and
+  comparing current/proposed graphs. Present the chosen effects in research
+  language with exact details available. Reuse existing explanation text;
+  request only missing required information. Open the affected source block and
+  deliberate wording edit from the same work, retaining its rationale as basis.
+  Reuse `PaperService`, `tui_branch_ui.py`, `tui_manuscript_ui.py` and the existing
+  source-bound manuscript service. Scientific review, accepted reasoning, file
+  application, verification and recovery remain separately named outcomes.
+  Done for the UI slice when one selected consequence reaches an exact diff
+  without a second judgment narrative and changed scope/source invalidates it
+  without losing text. Actual acceptance requires R2/R4; file write/compile/
+  rollback requires R5. An unavailable action explains the missing capability
+  and leaves manual work available instead of pretending success.
+  Include the deferred-explanation return and exact closure preparation in the
+  [understanding-debt exercise](#understanding-debt-alignment-review); keep its
+  conditional preview separate from R2/R4's accepted transition.
+  Conditional return now connects original/current science, partial writing and
+  rationale reuse through W. This is session-only. Exact closure preparation
+  still needs an accepted cause source; v3 conditional items cannot supply it.
+  Selected merge review now also opens detached wording review directly, with
+  contextual reason reuse and an exact supplied-source diff. Parent changes
+  revoke child review; older wording stays reachable under its original scope.
+  Cross-basis transfer and the protected/durable integrations remain open.
+
+- [ ] **5. Connect durable save and return.** Agree the recovery contract with
+  R2/R4 before adapting UI: exact project/history identity, working-draft scope,
+  source references, human/AI contributions, pending changes/wording, schema
+  compatibility and conflict/interruption behavior. Present session-only,
+  saved draft, reviewed and accepted states distinctly. Resume the same active
+  work after process restart, showing changed source/review status and the next
+  unfinished action. Retain U's writing versus W's scientific-work distinction.
+  Existing `tui_recovery.py` manual checkpoints remain compatible; do not
+  serialize AI/scientific work there without the required provenance/custody
+  implementation. Done when fresh-process and interrupted-save tests restore
+  exact content and origin, fail without overwriting good data, and never revive
+  stale review authority. Native backup primitives alone do not close this UI
+  milestone. Do not defer this until all appearance improvements are complete.
+  Apply the [understanding-debt restart case](#understanding-debt-alignment-review)
+  to original/current reasoning and the unfinished review, not only saved text.
+
+- [ ] **6. Connect useful optional AI in the same work.** Design its in-context
+  interaction alongside milestones 2–3 using frozen responses; integrate the
+  live adapter once R8's permitted endpoint/egress gates are ready. Provide
+  focused critique, alternative interpretation and discriminating-experiment
+  suggestions tied to selected sources. Typed node/link proposal staging is
+  unsupported by today's amendment contract. Keep suggestions separate as
+  proposal text; add no stage-from-proposal control until the domain/service
+  owner supplies amendment contribution lineage, including AI influence when
+  the judgment itself is manual. Manually retyping or editing an adopted AI
+  relationship must not erase its origin. Verify this boundary before enabling
+  typed adoption; merely keeping a copy of the proposal is insufficient.
+  Compare suggestions against the active human judgment. Add a bounded
+  incorporation path rather than only the existing whole-text adoption;
+  retain clearly named replacement and prior-text recovery. Choose the
+  contribution contract before implementing partial adoption. No unsolicited
+  completion, implicit request or graph generation is part of this milestone.
+  Preserve source mapping and original proposal after human editing. No AI
+  suggestion confirms evidence or accepts reasoning. Reuse existing request/
+  consent/adoption mechanisms, not a separate chat history as project truth.
+  Done when manual work remains usable during pending/cancelled/failed replies,
+  late output cannot replace a newer judgment, and a real permitted provider
+  has been evaluated for usefulness in this task. A canned reply closes only
+  the interaction portion, never the live-provider milestone.
+  Verify reuse of human explanation without treating rephrasing, text length
+  or AI grading as proof of understanding. Accepted high-impact deferral and
+  human-only debt closure use ADR 0005 through the responsible authorities;
+  the current conditional preview must not claim that debt was opened.
+
+- [ ] **7. Validate the whole terminal journey and own-project boundary.**
+  Exercise the same result-to-paper story through actual supported storage,
+  acceptance and manuscript adapters, plus both AI-off and permitted AI paths.
+  Quit/restart must restore context and remaining work. Run early terminal-only
+  synthetic checks on an available Linux/SSH/tmux host from milestone 1 onward;
+  validate the integrated deployment separately when its custody/authorization
+  boundary is chosen and implemented. Include Korean input/paste, resize,
+  suspend/resume, long content, no-color mode and clean shell return. Observe an
+  unfamiliar researcher without shortcut coaching: can they explain evidence,
+  uncertainty, their reason, AI influence and affected wording? Record failures
+  and repeated-input/navigation burden against the approved evaluation protocol.
+  Human understanding, physical IME and real host behavior cannot be closed by
+  snapshots or PTY tests. Private research waits for existing source/privacy
+  gates; source delivery still requires R6/R9 clean-checkout/operator evidence.
+  Include the [deferred-explanation journey](#understanding-debt-alignment-review)
+  and distinguish observed ability to explain from recorded review/closure flags.
+
+**Dependency and ownership map.** Milestone 1 can start on current code.
+Milestone 2 needs bounded initialization/evidence adapters from R3; milestone 3
+needs a working-draft identity decision and compatible provenance. Its initial
+ownership decision also precedes T2a candidate authoring. Milestone 4's
+preview portion can proceed before protected writes. Milestone 5 depends on
+R2/R4 accepted custody/recovery; milestone 6's live path depends on R8 and its
+deployment gates. R5 supplies real manuscript actions. Milestone 7 integrates
+them. Design/prototype missing-capability states while owners work; do not
+implement an alternate store, signer or provider in TUI code. Selecting a remote
+approval/storage topology is a separate authority decision, not an incidental
+layout implementation choice.
+
+**Verification and resumption.** For each behavior increment, establish the
+missing outcome, implement a bounded slice, run affected application/domain
+checks and `python3.13 scripts/verify.py --scope core`, and perform the pinned
+Opus review required by the native harness. Reproduce concrete findings and
+rerun affected checks. Extend existing `test_tui_workflow`, `test_tui_context`,
+`test_tui_review`, `test_tui_resume_review`, `test_tui_terminal` and relevant
+paper/recovery suites; add tests for new service contracts where needed.
+Use source-independent synthetic examples rather than changing the original
+goldens to suit the UI. Keep wide/narrow comparisons in temporary artifacts;
+distill the chosen treatment into the living design. Update product/validation/
+workflow docs when actual behavior changes, then run docs checks. A skipped
+platform or unavailable human/SSH check remains explicit incomplete coverage.
+At each stopping point update these checkboxes with observed outcome and the
+next concrete action; a finished screen does not mark its backend milestone done.
+
+**First T5b judgment connection, 2026-09-29.** The new v2 work envelope and
+[encrypted judgment command](../../development/workflow.md#encrypted-terminal-judgment-recovery)
+now connect original source-node owners, partial judgments, adopted contributions,
+pre-adoption writing, manual capacity fallback, notes, work links/choices and
+unfinished judgment/note editors to the existing device store. The offline
+request budget survives reopening without reviving requests or consent.
+The v1 API and manual `--draft-file` remain separate and compatible. That first
+increment left candidate/result/review/wording/explanation retention open; the
+authoring connection below now covers candidates/results. Full T5b remains open. Raw execution traces and view
+settings remain explicitly outside this bounded checkpoint. Final affected, native/PTY, pinned Opus, core and docs evidence is recorded
+in Progress; Windows/real-server/human gates remain open.
+
+**T5b authoring connection, 2026-09-29.** The v3 envelope now preserves
+candidate records, unfinished forms, aliases, selection/omission, source revision
+and provisional result fields through the same encrypted store. Original context
+is reconstructed from a checked history prefix and query digest. Live text is
+unfinished input, not a kept scientific record; no current review is restored.
+Old v1/v2 parsing and manual checkpoint exclusion remain intact. This closes the
+candidate/result rows of the earlier adapter gap assessment below, within the
+synthetic Mac path. Wording, partial explanation/review inputs, own-project TUI
+entry and protected operations remain open. Current commands and exclusions
+belong to the [recovery workflow](../../development/workflow.md#encrypted-terminal-judgment-recovery).
+
+**T5b integration assessment, 2026-09-28.** The new `PaperWork` / `PaperWorkStore`
+backend is concrete, but its `claimbranch.paper-work/v1` envelope is not a TUI
+session snapshot. Map the following before adding a Save action. The separate
+[device work-key integration](#device-work-key-integration) owns key reopening;
+do not implement keys, a second store or an accepted writer in the TUI.
+
+| TUI state to resume | Current backend fit and remaining adapter contract |
+|---|---|
+| Scientific source | Version-three candidate history round-trips; ordinary version-two demo history is not admitted. Select supported entry explicitly rather than silently converting fixtures. |
+| Working judgment and origin | One typed Judgment is supported, but TUI episode/ref/node ownership, separate draft text/reason buffers, linked-node choices and several independent works need explicit versioned identity/retention. Do not rebuild AI-influenced work as manual text. |
+| Authored science | The backend retains amendment origins, not TUI kept/unfinished candidate forms, selection, aliases/revisions or each form's earlier source binding. Agree a typed extension before saving these. |
+| Result intake | Provisional fields, original source snapshot and separate unfinished edits have no field in the current work envelope. Do not store them as confirmed history or unrelated Judgment fields. |
+| Explanation return | The backend accepts service explanation snapshots; UI unfinished editor buffers and exact return context still need an adapter preserving kept versus unfinished writing. |
+| Wording and exact review | Historical operation review is supported without resumed authority. TUI wording drafts, exact parent review, supplied-source binding and old-basis return are different objects and remain unmapped. |
+
+First freeze a bounded end-to-end work envelope through the application/storage
+owners, covering all fields a specific Save action claims to retain. Then use
+the existing encrypted store and key APIs, exact restore validation and
+fresh-process/interrupted-save tests. Preserve ADR 0013 compatibility and report
+any deliberately session-only work beside the save result and on quit. This is
+the next durability task, not evidence that T5b or protected server custody is
+complete.
+
+##### Delivery order and first implementation slice
+
+The seven milestones above describe outcomes, not a waterfall. Use these
+bounded increments; each remains pending until its own implementation evidence
+is recorded. Application filenames below are relative to
+`claimbranch/application/`; explicitly prefixed `core/` paths are relative to
+`claimbranch/`.
+Keep existing controls usable throughout and avoid a second scientific store.
+
+| Increment | Work and principal files | Dependency and completion boundary |
+|---|---|---|
+| T1a: source beside judgment | `tui_subject.py`, `tui_judgment_ui.py`, `tui_review.py`, `tui_model.py`, `tui.py`: recorded subject/conditions with the current judgment and reason. | Implemented 2026-09-28. Wide and narrow editing retain source context; full read-only inspection preserves text, cursor and undo state. Existing node-bound draft ownership remains explicit. See Progress for checks and coverage limits. |
+| T1b: named manual actions and AI-off entry | `tui_actions.py`, `cli.py`, `tui.py`, `tui_model.py`, `tui_review_ui.py`, `paper_workspace.py`: contextual actions and a terminal launch disabling frozen assistance. | Implemented 2026-09-28. Manual writing/review is named; creation and AI availability appears before forms. CLI/model/actual-PTY checks prove AI-off entry with manual work intact and no new proposals/traces. See Progress for cross-review and platform limits. |
+| T3a/T5a: choose work identity and recovery contract | `paper_workspace.py`, `paper_draft.py`, recovery/service owners: compare explicit draft identity with explicit reuse, including source binding and revisions. | Initial 2026-09-28 boundary chooses explicit existing episode/ref/node ownership, candidate revision and source binding; old drafts/checkpoints stay compatible. Missing owner/capacity refuses without eviction; changed history retains text and needs explicit refresh. Candidate fields remain session-only. Full linked identity and versioned durable recovery remain T3b/T5b; decide those before claiming own-project resumption. |
+| T2a: create reasoning over existing sources | `core/research_history.py` shares amendment validation; `paper_candidates.py` owns candidate work; `tui_candidates_ui.py` exposes manual forms/graph through `tui_review.py`. | Claim/subclaim, scientific-link, unrun-plan and interpretation creation/edit/removal plus judgment-independent projection implemented 2026-09-28. Plans require explicit target/objective/conditions/complete measurement. Interpretations explicitly choose recorded observations and may reuse kept wording as the owning judgment after comparison. Original owner return, incomplete fields, selection, source freshness and review invalidation are explicit. Final review still requires complete judgment. Draft-plan scenarios remain separate; no empty project or new evidence is claimed. |
+| T2b: start a project/result | CLI/session entry and bounded initialization/evidence-draft adapters supplied by R3; TUI only presents their states. | Needs T3a/T5a and a legitimate draft projection that can represent no accepted thesis/evidence. First provisional slice captures result/source/measurement text and tentative judgment beside an existing subject through `paper_intake.py` and `tui_intake_ui.py`. Empty-project entry, legitimate evidence confirmation and integration into argument/review remain open. It fabricates no confirmed observation, completed run or accepted thesis. |
+| T3b: link active work | `paper_workspace.py`, `tui_work_links_ui.py`, `tui_model.py`, `tui_review.py`. | Explicit references to an existing owner implemented 2026-09-28. One judgment links to up to 16 same-episode/ref source nodes; separate choices, notes, contribution history, candidates and unfinished input retain their identities. Link/source freshness and review invalidation are checked. Associations are session-only; no checkpoint schema migration or accepted scientific edge is added. See Progress for verification. |
+| T5b: save and reopen work | Existing device store plus `tui_work_recovery.py`; `tui_recovery.py` remains the manual adapter. | Judgment/origin/note/link, candidate/result, conditional-explanation, unfinished scientific-review input and original-context manuscript wording recovery implemented and verified 2026-09-29. Manuscript review answers remain U7; full own-project/accepted custody remains open. Integrate after T2b/T3b, before claiming the new authoring path usable for research. Resume exact human/AI content without restoring valid authorization. Volatile synthetic trials may proceed earlier with explicit labeling. |
+| T4: connect consequences | Existing scientific comparison, `tui_branch_ui.py`, `tui_manuscript_ui.py` and service adapters. | Draft/preview integration follows T3b and may proceed while T5b is pending. Protected acceptance and file application close only with R2/R4 and R5 evidence. |
+| T6: requested AI assistance | Existing request/adoption services plus a bounded incorporation contract. | Prototype beside T2/T3; manual route remains independently complete. Live provider depends on R8; save/restart of assisted work depends on T5b. Typed proposal staging additionally requires amendment contribution lineage; a manual judgment cannot hide AI-influenced relations. |
+| T7: integrated journey | Existing terminal, paper, recovery and delivery suites; human/host observation. | Terminal checks start at T1. Final closure requires real supported storage/authority/manuscript/provider paths as applicable, plus separately recorded human and server observations. |
+
+T2a is supported by the existing core test
+`tests/contract/test_paper_changes.py:test_new_claim_and_edge_close_dependencies_without_creating_a_history_command`.
+That test is evidence for bounded candidate upserts, not evidence that the TUI
+can create them or that a new project can yet be initialized. New candidate
+IDs must come from the application contract and remain stable while editing;
+scientific content and connections come from explicit user input. Automatic
+spatial layout of those records remains presentation behavior.
+
+**T1b AI-off launch.** Implemented as `demo tui --ai-off`: absence of a frozen
+response passes through `run_terminal` and `TerminalWorkspace` into
+`PaperWorkspace`, including comparison projections. The existing demo default
+remains explicitly fixed offline assistance. CLI/model/actual-PTY coverage
+checks disabled request entry and zero new proposal/trace records with manual
+writing unaffected. Recorded source AI history remains intact. This introduces
+no live provider configuration or external call.
+
+**T2a ownership and display boundary.** Before T2a, T3a must explicitly choose
+either an existing node/work context as the initial owner or the new bounded
+work identity. The former is a valid initial decision, with its later migration
+recorded; it is not permission to postpone ownership until after authoring.
+Never key candidate ownership implicitly to whatever node is currently
+selected. Provide a return-to-owning-work action. Keep its
+unaccepted graph projection separate from expiring review payloads. Extend the
+application-owned candidate store currently represented by
+`TerminalReview.amendments`, bound to the chosen owner and candidate revision;
+do not store candidates in `PaperDraftSession._changes_request/preview/review`.
+Those session fields remain invalidatable review snapshots. Today `_clear_changes`
+does not erase `TerminalReview.amendments`; the new work is stable ownership
+and a separate projection, not a repair for proven loss of that existing store.
+
+R3 supplies a new judgment-free domain validation/projection entrypoint before
+this UI integration. `paper_changes.py` currently supplies a schema, and
+`preview_paper_changes` requires a complete Judgment; neither is that entrypoint.
+Share `amendment_schema()` and the existing domain identity, endpoint, hierarchy
+and cardinality validation rather than duplicating them in presentation. Input
+is the explicit history/ref/episode and typed candidate set; output is a
+non-authoritative draft projection or concrete validation errors, never a
+review/authorization receipt. Partial editor fields remain in the candidate
+store with visible errors and do not acquire invented values to render a valid
+graph. Add core contract cases for blank judgment, valid new claim/link,
+duplicate/dangling IDs, cycles/limits and unchanged source history. Do not
+fabricate a Judgment or weaken final `preview_paper_changes` requirements.
+
+Candidate fields are editable as work; new nodes must not become
+`PaperWorkspace.draft` or ADR 0013 checkpoint targets
+before the corresponding identity/recovery contract exists. Show that capability
+state and the owning-work action instead of passing a non-history ID to those
+services. Remove candidate is distinct from omit in review, and names/removes or
+retains its dependent candidate links explicitly. Acceptance: create a claim,
+edit the unfinished judgment, navigate away/back and expire a prepared review;
+the candidate stays available, origin/ownership stays explicit and no checkpoint
+entry is created for an unsupported ID. Any kept candidate creation/edit/removal
+or review-selection change advances the owner revision and invalidates its
+prepared scientific/branch/merge reviews. Final review recomputes from the
+current candidate set, source binding and complete judgment; an older digest
+cannot authorize a newer candidate. Include mutation-after-review and failed
+validation cases, retaining authored text on both paths. T3b/T5b close full
+per-work editing and resumption; T2a alone is a volatile authoring slice.
+
+**First patch recipe (T1a).** Use the selected observation plus a blank manual
+judgment from the existing synthetic example, and a second source-independent
+synthetic content case built only in tests through existing history commands
+(see `tests/contract/test_paper_history.py` helpers). Do not modify the shipped
+example or add caption-table matches. First demonstrate the current missing
+source context with an outcome test in `tests/application/test_tui_workflow.py` or
+`test_tui_review.py`. Then render the actual source statement, available
+conditions and measurement context before editable judgment/reason. Label
+the work with its owning selected node. In T1a, moving to another graph node
+opens that node's existing draft context; returning restores the old context.
+Do not pin/carry a judgment across nodes before T3b. At 80×24 retain a
+compact source summary with an explicit expand action rather than promising
+all long text fits. With the judgment editor open, keep the compact context
+visible; expanding/collapsing it preserves text, cursor and undo history.
+Keep full source wording accessible and do not substitute authored caption-table
+text for it.
+For claims/thesis show their statement and scope; for plans show the objective,
+available conditions and actual plan status; a plan alone is not a completed
+run. Expose recorded scientific links
+and named evidence as explicit follow actions, and show missing-evidence/content
+states honestly. Label observation text as recorded content and artifact paths
+as source references; displaying a reference does not open or verify the file.
+No production node-identity, persistence-format or accepted-state change is part of T1a;
+test-only history IDs are permitted.
+Compare the two documented compositions using the same task and content before
+choosing the treatment; use human feedback when available and label agent-only
+observations honestly.
+
+Run from the repository root, using the existing interpreter:
+
+```sh
+python3.13 -m unittest discover -s tests/application -p 'test_tui_workflow.py'
+python3.13 -m unittest discover -s tests/application -p 'test_tui_review.py'
+python3.13 -m unittest discover -s tests/application -p 'test_tui_terminal.py'
+python3.13 scripts/verify.py --scope core
+```
+
+These are the T1a implementation checks; its observed 2026-09-28 results are in
+Progress. They do not close later milestones. Extend the actual-PTY journey for source/work
+navigation, Korean paste, resize and clean exit. Inspect 144×42 and 80×24 in
+the real terminal. Reuse the existing source-review harness for the bounded
+Opus check, resolve concrete findings, update the design/validation/workflow
+documents affected by implemented behavior and record final checks here.
+
+**Manual completion scenario.** With AI disabled and no provider configured,
+start a new synthetic result, author two claims, connect the same observation
+to both with distinct relationship reasons, and write a tentative judgment.
+Mark a limitation and a follow-up plan without inventing an outcome. Cancel
+one candidate edit and return to it explicitly. After T5b, quit/reopen and
+verify exact authored content, source identity, unfinished state and no AI
+records. Reuse the judgment for an exact scientific/manuscript consequence
+through T4; acceptance remains a separate authorized transition.
+
+**Requested-assistance scenario.** From an unfinished judgment, explicitly
+request a counterargument using selected context, compare it, incorporate a
+bounded chosen part and edit it. Original AI influence stays visible. Cancel
+or reject another suggestion and confirm no accepted state changes. Exercise
+explanation reuse, Not now and accepted deferral separately once their
+authorities exist; an unused proposal or routine note never becomes debt.
+No unsolicited proposal is needed to complete the manual scenario.
+For live-provider usefulness, preregister this task's observations before the
+trial: source fidelity, a relevant limitation/alternative, whether the researcher
+can use it without reconstructing context, and any repeated editing/navigation.
+Record concrete failures and human choice; canned replies, preference alone or
+an AI comprehension score do not close that usefulness check.
+
+**Recovery/failure scenario.** Inject missing source, expired review, full
+draft capacity, interrupted/failed save and late provider reply. Authored text
+must remain available, prior good persisted data must not be overwritten,
+and stale or missing capability must not produce an acceptance/saved claim.
+Record unimplemented recovery/capability outcomes as open gates. These are
+engineering scenarios; unfamiliar-user observations remain separate from
+automated correctness and the preregistered live-paper study.
+
+**Out of this sequence.** Further palette/gallery work, a Rust rewrite,
+unrestricted canvas editing, automated experiment execution, broad ingestion,
+collaboration and a general command palette are not prerequisites of this loop.
+Revisit a framework/performance decision only with measured constraints.
+Preserve existing Terminal sessions and unrelated owner work; no automatic
+commit, deployment or publication follows from this plan.
+
+##### Claude plan cross-review
+
+Requested and completed 2026-09-27. Claude Code 2.1.283 ran pinned
+`claude-opus-5-5` at medium effort twice on bounded fixed source packets.
+Both JSON runtime results reported that exact canonical model, first-party
+provider, successful completion, one turn and no permission denials. Safe mode,
+no tools, disabled skills/hooks/plugins/MCP/settings and no session persistence
+kept the review read-only. Inputs contained this plan, relevant design/product/
+accepted ADR excerpts and synthetic application/test code; no private research
+or whole conversation was sent. Raw inputs/results remain temporary artifacts,
+not canonical project documentation.
+
+The first pass covered 15 source sections/files; its input SHA-256 was
+`5222cc21494e5778d4e247010ee473d09a0c8f1fc277e588d79a53e9f080aa86`.
+The revised second pass covered nine sections, including the previously omitted
+judgment editor and core preview validation; its input SHA-256 was
+`222880f2799a7cf945799a5d71210c4ab705c2f00c1d0adb76f5f0fda1067779`.
+
+| Finding | Local verification and final plan disposition |
+|---|---|
+| F1: new candidates would depend on selected-node ownership and an expiring complete-judgment review | Confirmed missing authoring contract. T3a ownership now precedes T2a; a domain-owned judgment-free draft projection and independent application candidate store are explicit prerequisites. Create/edit/remove and navigation/expiry retention cases are required. |
+| F2: T1a implied cross-node pinned work before identity work | Removed that implication. T1a labels each node's own draft and preserves switch/return; linked work belongs to T3b. |
+| F3: source visibility was tested only in the reader | Confirmed `tui.py`'s judgment edit modal omits source context. T1a requires visible context during editing at both sizes and preserves text/cursor/undo on source expansion. |
+| F4: typed AI-suggested amendments could lose origin with a manual judgment | Confirmed current preview derives influence from source/judgment lineage. Typed proposal staging stays unavailable until a contribution contract covers those amendments. No promise to detect unreported manual retyping is made. |
+| F5: novel fixture and source meaning were vague | Specify test-only history construction, non-observation content and missing states, and source-reference versus opened-artifact meaning. Empty judgment/content in T1 is separate from empty-project entry. |
+| F6: entry-story coding conflicted with T1a scope | T1 entry comparison is a written walkthrough; T2b owns actual project/result entry. |
+| F7: AI-off state had no early disclosure/terminal entry owner | The plan assigned the CLI switch, capability plumbing, disabled request action and actual-PTY manual path to T1b. Implemented subsequently on 2026-09-28; see Progress for evidence. |
+
+The second pass found F2–F7 resolved at plan level and T1a ready to start. It
+kept F1 partly open and identified four later-slice dependencies: judgment-free
+validation, candidate storage ownership, review invalidation on mutation and
+the AI-off launch path. All four are now explicit in T2a/T1b above after local
+source checking. One reviewer description was too broad: `_clear_changes`
+does not delete the app's existing amendment dictionary. Its real risk was
+using expiring review data as the future candidate store; the plan preserves
+the current distinction. These final clarifications were locally reviewed,
+not sent for a third pass. No reviewer approval substitutes for the unchecked
+implementation, source safety, terminal or human-study gates.
+
+Validation for this planning-only change:
+`python3.13 scripts/verify.py --scope docs` passed all 67 Markdown files and
+whitespace checks. No runtime code changed, so implementation suites and PTY
+journeys above remain future checks. Start with T1a; do not start new typed
+authoring by bypassing its now-explicit domain and ownership dependencies.
+
+#### R3/R8 paper context and draft connection
+
+Implemented 2026-09-23. Researcher action: ask for help on a specific argument
+while the interpretation is still unfinished, inspect its exact context, and
+retain ownership of subsequent edits. Previously the paper query and the
+original prose-only AI compiler had no shared adapter. The new
+[service workflow](../../development/workflow.md#paper-context-and-offline-drafting)
+owns commands and API/bounds; generated request/field contracts remain derived
+from code. `PaperService` still owns only a read projection of ResearchHistory,
+and `PaperDraftSession` owns only a volatile unaccepted working draft.
+
+Plan review -> implementation -> result review:
+
+1. Establish absent context/draft/CLI entry points with focused expected-failure
+   cases. Preserve the original v1 field contract and source fixtures.
+2. Add v2 structured context through the existing one-shot broker, reading
+   current paper records rather than caller-supplied classifications. Keep
+   explicit scientific links distinct from structural parents; require visible
+   observation/plan status and selected relation endpoints. Reject oversized or
+   stale content instead of truncating it or expanding the neighborhood.
+3. Add a blank draft with optional frozen AI, opt-in unfinished text, retained
+   AI/human contributions, cancellation, exact request matching, expiry and
+   manual continuation. Reuse the rationale in candidate draft review. Keep the
+   replaced edit buffer so adopting AI does not silently lose unfinished work.
+4. Exercise one scripted paper journey through CLI and source-artifact smoke.
+   Reuse the recorded synthetic response already in the paper fixture. A frozen
+   reply demonstrates wiring, not model quality or user understanding.
+
+Result review, 2026-09-23:
+
+- Paper context/draft, v1/v2 context security, CLI and source-artifact suites:
+  all 41 tests passed in 3.312 seconds. The artifact test builds reproducible
+  archives and exercises the paper-draft journey after independent extraction.
+- Generated schemas and runtime resources each passed `--check`; the recorded
+  CLI workflow also ran directly. Documentation passed for 64 Markdown files;
+  tracked-diff and new implementation/test-file whitespace checks passed.
+- `python3.13 scripts/verify.py --scope all`, with the configured OpenSSL 3,
+  ran 513 tests in 46.142 seconds: 507 passed, five Windows-only checks skipped,
+  one import error. The concurrent UI session had added
+  `tests/application/test_tui.py` before `claimbranch/application/tui.py` existed.
+  The runner exited 1 and did not run its final whitespace step; the separate
+  whitespace check above is not a clean full-suite result. Preserve the other
+  session's files and rerun integration once that module/CLI work is ready.
+
+No native prompt, cleanup retry, signing credential, network provider, private
+research, commit or publication was used. The outstanding full-suite result
+does not erase the scoped passes or complete the remaining release gates.
+
+Next integration boundaries: connect the separate UI adapter to these exact
+services. The selected-change increment below adds scientific effect review;
+`review_draft` itself still only materializes a Judgment. Neither creates another
+canonical episode. Multi-episode reuse, protected own-project storage/restart, source
+verification, native approval/private delivery, manuscript execution and live
+provider usefulness remain open. R2 execution retains the existing cleanup/
+custody gate below; this increment does not claim R3/R8 or the release complete.
+
+#### R3 paper draft to selected scientific review
+
+Implemented 2026-09-23. Researcher action: review what their current judgment
+would change, what dependencies it requires, and what remains before authorizing
+anything. Previously the paper draft review returned only a Judgment. The
+[service workflow](../../development/workflow.md#paper-context-and-offline-drafting)
+now documents the selected amendment API and generated request schema; the
+[domain extension](../../designs/2026-08-03-domain-model.md#paper-argument-extension-under-review)
+owns its finite model and unresolved repeated-episode boundary.
+
+Plan review -> implementation -> result review:
+
+1. Establish missing history/session/CLI entry points with expected failures.
+   Keep this read/preview work independent of R2, and preserve the other
+   session's UI/TUI files and changes.
+2. Reuse v2 amendment shapes and dependency closure in the history owner.
+   Revalidate the selected graph, retained status bases and active evidence.
+   Derive before/after graphs and explicit scientific reach without changing
+   source history, claim status by inference, or manuscript bytes.
+3. Bind preview and review to project/episode/ref, complete source digest,
+   draft identity/revision and expiring review identity. Preserve inherited
+   AI provenance; inspect effects before answering or deferring explanation.
+   Reuse the human rationale and make Not now preserve the working draft.
+4. Exercise both manual and recorded-AI CLI routes, with a narrowed measured
+   claim, changed relation/interpretation and an omitted plan amendment. Extend
+   the independent source-artifact smoke with the exact selection/provenance
+   and unaccepted-state checks.
+
+Result review, 2026-09-23:
+
+- All 28 focused paper-change, session-review and CLI tests pass. The separate
+  nine-test CLI/source-artifact run also passed, including reproducible archives
+  and the extended offline review after extraction outside the checkout.
+- Generated schemas and runtime resources pass `--check`; the recorded workflow
+  ran directly through the CLI. Tracked whitespace and the 12 touched
+  implementation/test files (including untracked files) passed whitespace checks.
+- `python3.13 scripts/verify.py --scope all`, with the configured OpenSSL 3,
+  ran 551 tests in 48.033 seconds: 544 passed, five Windows-only tests skipped,
+  two TUI tests failed. Documentation passed for 65 Markdown files and the
+  source fixture passed. The runner exited 1 and skipped its final whitespace
+  stage; the separate whitespace check is not a clean full-suite result.
+- The failures are `test_reading_relation_preserves_source_direction_and_complete_rationale`
+  and `test_density_and_layout_changes_preserve_research_context` in
+  `tests/application/test_tui.py`. A focused rerun reproduced both: the new
+  relationship-reading flag and compact-density state were not entered by
+  `Terminal.key`. Preserve the concurrent UI owner's work. Rerun these checks
+  and full integration after its key-handler changes land; do not mark the
+  repository/release gate passed from this service's scoped results.
+
+Next boundaries: UI/TUI integration is owned by the other session. The v2
+history still permits one alternative/merge and one Interpretation; the v3
+increment below adds cumulative candidate episodes without changing v2 or
+providing protected daily reuse. Protected acceptance/storage/restart requires R2/R4; actual
+source verification, manuscript apply/compile/recovery and live AI remain open.
+No native probe/cleanup retry, private research, provider call or publication
+is needed for this increment. The unchanged R2 blocker is scoped below.
+
+#### R3 cumulative paper episodes
+
+Implemented 2026-09-23. Researcher action: continue the same paper after a new
+result while retaining earlier evidence, judgments, unselected alternatives
+and the context of local drafts. The previous one-merge lifetime cannot be the
+daily product limit. This increment follows the
+[cumulative domain contract](../../designs/2026-08-03-domain-model.md#cumulative-paper-episodes)
+and exposes the [episode/draft adapter](../../development/workflow.md#cumulative-paper-episodes)
+for the concurrent TUI's node/ref projections. Those links own lasting API,
+semantics and finite limits.
+
+Plan review -> implementation -> result review:
+
+1. Inspect the current TerminalWorkspace, PaperService and paper draft API.
+   Keep node/relation data compatible and add episode identity to draft keys;
+   do not edit the UI owner's layout, navigation or key handlers.
+2. Establish missing episode/history/service entry points with expected
+   failures. Add v3 seeds/commands, one active episode, explicit close and
+   per-episode alternatives/merges. Preserve old schema/golden bytes rather
+   than silently reinterpreting an existing history.
+3. Reuse dependency/partial-graph validation and enforce current-episode
+   Interpretation ownership. Preserve every prior Judgment chain, global
+   correction events, closed reasoning and operation-time replay. Inherited
+   AI keeps its explanation requirement across new manual episodes.
+4. Add episode queries and a bounded volatile workspace that retains distinct
+   episode/ref/node drafts on append-only source refresh. Test the current TUI
+   reader with v3 data. Add two frozen synthetic histories and a CLI journey,
+   then include that journey in independent source-ZIP validation.
+
+Result review, 2026-09-23:
+
+- All 30 focused episode/domain/application/CLI/source-artifact checks passed
+  in 8.186 seconds. The earlier combined draft/service/TUI run also passed all
+  52 tests, including the UI owner's repairs for the prior relationship/density
+  failures. The packaged CLI replays both retained episodes outside the checkout.
+- A final semantic check found that AI context could omit a historical
+  Interpretation's episode origin. Add an explicit selected `episode_id` for
+  that v3 paper case without sending the contribution archive. The new
+  regression plus context/draft/security/CLI checks passed all 47 tests in
+  5.300 seconds; original v1 wire bytes remain unchanged.
+- Final `python3.13 scripts/verify.py --scope all`, with configured OpenSSL 3,
+  ran 582 tests in 58.518 seconds: 577 passed, five Windows-only checks skipped,
+  zero failures. The runner exited 3 for incomplete platform coverage, not a
+  clean all-platform pass. Documentation passed for 65 Markdown files, the
+  source fixture passed, and the runner's tracked whitespace stage passed.
+- Generated schemas and the expanded runtime resource inventory passed
+  `--check`. The recorded episode CLI ran directly. Whitespace checks also
+  passed for the 17 touched implementation/test files, including untracked ones.
+
+Remaining integration: the TUI owner still connects episode selection, the
+PaperWorkspace draft cache and scientific review controls. The subsequent
+[exact merge increment](#r3-exact-cumulative-merge-review) supplies v3 candidate
+sealing; protected own-project storage/restart and actual authorization remain
+open with R2/R4. R5 manuscript work and R8 live-provider usefulness are unchanged. These
+candidate episodes do not replace the V0 EpisodeLedger eligibility/outcome
+protocol. There is no native probe/cleanup retry, private-source access,
+installation, commit or publication in this increment.
+
+#### R3 exact cumulative merge review
+
+Implemented and verified, 2026-09-23. Researcher action: inspect the second
+episode's selected effect on the paper and retain the exact same scientific
+decision through review. This closes the candidate sealing gap of the cumulative
+history increment, independently of R2's blocked native work. The
+[domain contract](../../designs/2026-08-03-domain-model.md#cumulative-paper-episodes)
+owns binding/provenance semantics; the
+[contributor API](../../development/workflow.md#exact-cumulative-merge-review)
+owns TUI integration steps and limitations. No UI layout/key file is owned here.
+
+Plan review -> implementation -> result review:
+
+1. Reproduce v3's missing seal and merge projection before implementation.
+   Inspect the concurrent TUI's shared node/relation contract and keep it intact.
+2. Bind source Judgment chains into a separate v3 review payload. Independently
+   recompute the exact command, source seed/history, heads/watermark and selected
+   effects; carry inherited AI explanation and conditional obligations. Preserve
+   original v1/v2 payloads and all frozen command/manifests.
+3. Add a no-write before/after merge projection and volatile review session for
+   recorded alternatives. Reuse graph impact projection. Reject stale/changed
+   scope, source, manuscript fingerprint and time; Not now leaves drafts/history.
+4. Exercise both CLI routes and extracted source ZIP. Compare the independently
+   calculated candidate graph/provenance to the frozen example. Add hostile
+   provenance replacement and cross-session tests, then run full regression.
+
+Result review:
+
+- All six initial domain cases failed at the missing entry points before the
+  implementation; the following domain/review regression passed 65 checks.
+  The missing application adapter was likewise reproduced before implementation,
+  and its combined session/change-review/service run passed all 24 checks.
+- After adding evidence/operation-identity substitution, source-chain replacement,
+  Not now/draft retention and invalid-explanation cases, the final focused
+  domain/session/CLI/source-ZIP run passed all 27 checks in 16.454 seconds.
+- `CLAIMBRANCH_TEST_OPENSSL=/opt/homebrew/opt/openssl@3/bin/openssl
+  /opt/homebrew/bin/python3.13 scripts/verify.py --scope all` ran 607 tests in
+  78.920 seconds: 602 passed, five Windows-only checks skipped, zero failures.
+  Exit 3 correctly reports incomplete platform coverage. This includes the
+  concurrent UI owner's latest TUI model/real-PTY checks. Documentation passed
+  for 65 Markdown files, the original source fixture passed, and tracked-diff
+  whitespace passed.
+- Schema and runtime-resource generators passed `--check` via their module
+  entry points. The recorded repeated-episode CLI ran directly, and all 11
+  touched code/test files, including untracked files, passed whitespace checks.
+  No candidate schema/history golden or UI layout/key file was changed here.
+
+Remaining after this increment: TUI control integration and explicit
+draft-to-recorded-alternative staging (subsequently implemented
+[below](#r3-draft-to-branch-candidate)), R2/R4 native authority and protected durable state, R5 manuscript work,
+R8 useful live AI and the existing release/user gates. A supplied manuscript
+fingerprint is unverified context. The adapter neither appends to its owned
+history nor saves the calculated candidate; it cannot substitute for a broker,
+receipt or accepted store. No native probe, cleanup, private source, live
+provider, installation, commit or publication is part of this increment.
+
+#### R implementation cross-review with Claude Opus 5.5
+
+Review date: 2026-09-23. The user explicitly requested this model for R1-R9
+cross-validation. Claude Code 2.1.280 successfully called the pinned
+`claude-opus-5-5`; runtime result metadata identified that same canonical model
+and no fallback. The first pass used a fixed copy of the current uncommitted
+source, read-only Read/Glob/Grep tools, restricted file access and disabled
+skills/hooks/plugins/MCP/session persistence. It performed static review, not
+test execution or native experiments. The parent checked the findings against
+the original code. Raw model transcripts are not project documentation.
+
+Confirmed defects at review time, both repaired by the
+[following increment](#r3-draft-to-branch-candidate):
+
+| ID / priority | Trigger and observed consequence | Location and missing regression |
+|---|---|---|
+| CR-01 / P2 | In the older browser workspace, save interpretation text with an empty rationale, request the frozen proposal and adopt it. The original text disappeared from state; Contribution authors were only `ai`. | Fixed in `DemoWorkspace.use_proposal`: retain the incomplete edit buffer separately and expose its text/reason in the browser disclosure. Regressions cover detached state, later editing/Not now and real Chrome keyboard/reflow. Incomplete text still does not become a fabricated completed Contribution. |
+| CR-02 / P2 | Add a valid Interpretation-to-Claim scientific relation and explicitly select that relation and both endpoints for `critique-interpretation`. Context compilation rejected it in both v2 and v3. | Fixed in `core.context.compile_context`: permit the scientific domain's Interpretation source. Regressions retain explicit endpoints, v3 origin episode and exclusion of experiment/plan sources or non-Claim targets. |
+
+Current regression for CR-01, from the repository root. Before repair, the
+`before_proposal` buffer was absent and the human text disappeared:
+
+```python
+from claimbranch.application.workspace import DemoWorkspace
+w = DemoWorkspace(clock=lambda: 1000)
+w.edit("Unfinished human reading", "")
+request_id = w.preview_request()["outbound"]["request_id"]
+w.request_proposal(request_id)
+w.use_proposal()
+assert w.state()["before_proposal"] == {"text": "Unfinished human reading", "rationale": ""}
+assert [item.contributor for item in w.judgment.history] == ["ai"]
+```
+
+CR-02 was reproduced using `paper()` from `tests.contract.test_paper_history`
+and `first_episode(merge=False, close=False)` from
+`tests.contract.test_paper_episodes`. Append a `record-interpretation` command
+with the unchanged current Judgment plus a new `supports` edge from
+`interpretation` to `claim-pruning-detail`. Query the fresh alternative view;
+select Interpretation `statement`/`episode_id`, Claim `statement`/`status` and
+that edge. Both sources exist and the graph query succeeds; context compilation
+raised `scientific relation requires both explicitly selected endpoints` before
+repair. The new v2/v3 regressions now compile exactly those selected records.
+The parent independently encountered this mismatch before receiving Opus's
+matching finding. No live AI dispatch was involved in either reproduction.
+
+Do not count the first pass's other suggestions as confirmed integrity bugs:
+
+- Closed-episode amendment overlays can reach `unaccepted-review`. The parent
+  reproduced this, but the owned manifest remains byte-identical and
+  `acceptance_available`/`authorization_verified` remain false. The actual
+  `PaperMergeSession` rejects the closed episode. Existing tests deliberately
+  allow old-episode draft previews. Preserve that distinction and make the
+  historical-preview/current-write boundary explicit during draft staging;
+  do not claim an accepted historical Interpretation was rewritten.
+- Trace-payload erasure versus proposal retention, the 120-second adoption
+  lifetime, surfacing a stale reasoning watermark in merge projection, and
+  symmetric `supported`/`contested` status validation were suggestions or
+  hypotheses. They were not established as new defects by this review and do
+  not authorize changing the existing product contract.
+
+Coverage and limits:
+
+| R area | Inspected implementation | Limit of this review |
+|---|---|---|
+| R1/R7 | Paper service/draft/workspace/merge adapters; TUI model reading/scenario/draft paths; old browser workspace | TUI key handlers, browser graph renderer and server were not deeply audited; no new usability or accessibility observation |
+| R2 | Exact synthetic `authority_flow`, `authorization_attempt`, `review_binding`; native probe classification and documented gates | Mac native helper internals and actual custody/private IPC/worker isolation were not re-verified; Windows observations remain absent |
+| R3 | Full history, canonical encoding, command schemas, selection, provenance and review; related episode/merge tests | No new P1 established in this static pass, not an exhaustive proof or an accepted-store pass |
+| R4/R5 | Volatile source/draft continuity, pure debt/saga, `workspace_storage`, synthetic authority apply/recovery flow | No durable product gateway, native authorization or real compiler/restoration exercise |
+| R6 | Source builder, runtime-resource inventory, archive checker, artifact tests and CI configuration | Parent ran existing source-artifact tests; no remote CI/release or unfamiliar-user trial observed |
+| R8 | Context fields, compiler, consent and one-use offline dispatch/adoption | No real product model-server deployment or live egress validation |
+| R9 | Current documented entry/release/value gates | No implemented real-use evaluation to audit or new prospective user evidence |
+
+The narrow second pass read `authority_flow.py`, `workspace_storage.py`, the
+two authorization/review contracts, `check_source_artifact.py`,
+`build_source.py`, `export_runtime_resources.py` and their source-artifact tests.
+Its runtime metadata again reported `claude-opus-5-5`, success and no permission
+denials. It found no additional P1/P2. Its lower-priority observations concerned
+probe file modes/crash durability, failure classification, inventory strictness
+and negative-test specificity; they were not promoted to confirmed defects or
+automatic fixes. Both model calls were static: only the parent executed tests
+and the synthetic reproductions. No model review closes native authority,
+restart/recovery, actual compiler or release gates.
+
+Fresh parent verification: configured-OpenSSL `python3.13 scripts/verify.py
+--scope all` ran 608 tests in 71.498 seconds: 603 passed, five Windows-only
+skips, zero failures; exit 3 reports incomplete platform coverage. Documentation
+passed for 65 Markdown files, the original source fixture and tracked whitespace
+passed. These existing tests do not cover CR-01/CR-02's triggering cases.
+
+The subsequent [repair and staging increment](#r3-draft-to-branch-candidate)
+addresses both confirmed defects and connects complete drafts to recorded changes
+in the active episode. Incomplete drafts remain editable, not completed
+Judgments. TUI controls remain with their owner; the longer-term next gate is
+R2-backed R4 durable continuity. The review itself changed only this plan; its
+findings did not authorize live providers or native probes.
+
+#### R3 draft-to-branch candidate
+
+Plan review, 2026-09-23: the researcher must be able to take a complete manual
+or offline-AI-assisted draft into the current episode's reasoning alternative,
+inspect its selected consequences, then use the existing exact merge review.
+The existing amendment preview is hypothetical and cannot itself supply a
+recorded Judgment. Keep old-episode previews available without permitting
+historical staging. Existing v1/v2/v3 command and fixture bytes remain unchanged.
+
+Implementation sequence:
+
+1. Regress CR-01 and CR-02 before fixing them. Show the retained incomplete
+   pre-proposal buffer in the existing browser; preserve explicit context
+   endpoints and the v3 Interpretation episode-origin requirement.
+2. Add pure v3 branch construction and a volatile `PaperDraftSession` adapter.
+   Require an explicit active, unmerged episode. A main draft may create an
+   alternative only when none exists; otherwise draft on the existing
+   alternative. Record only selected amendments plus required dependencies.
+   A matching current Interpretation must be present; omitted proposals stay
+   outside the branch. Never infer a scientific statement or evidence event.
+3. Retain the exact existing current-episode Contribution prefix and append
+   independent draft contributions with their human/AI authors, original text,
+   rationale and trace identity intact. Rebind only new parent links, disclose
+   the combined chain in the preview, and keep other episode Judgments intact.
+   Reject finite-history overflow or a superseded draft that cannot be joined
+   without changing its stated rationale. Repeated preparation must not duplicate
+   contributions. Bind draft/view, commands, source and candidate digests and time;
+   edits, refresh, reselection, expiry and Not now invalidate the preparation.
+4. Exercise manual and recorded offline draft → branch → exact merge candidate
+   through the existing CLI/ZIP episode journey. Check branch omission, global
+   evidence, inherited AI, restart-free draft retention, stale/closed contexts,
+   detached responses and non-mutation. Run full scoped verification and browser
+   recovery checks. Leave TUI layout/key integration to its owner.
+
+Result review so far:
+
+- Both defect regressions failed on the old behavior, then all 24 focused
+  workspace/context checks passed. The six initial branch cases failed at the
+  missing adapter before implementation; the branch/draft/change/merge run then
+  passed 38 checks. Additional provenance/overflow/concurrent-draft and forbidden
+  context endpoints passed 15 checks. A further independent AI-chain join case
+  is included in the full run.
+- Both CLI variants and source-archive checks passed all ten cases. The episode
+  journey now begins with a blank draft, constructs branch/Interpretation
+  commands, refreshes the volatile workspace explicitly and calculates the exact
+  merge. Its scientific graph and retained episode Judgments match the frozen
+  example while original fixture command/manifests remain unchanged.
+- Existing Chrome passed the synthetic manual/recorded/graph journeys at 1440
+  and 390 pixels, including long incomplete Korean text in the recovery
+  disclosure, keyboard activation, focus and reflow. The first new disclosure
+  check lacked the Enter character in its CDP key event; using the existing
+  driver's complete Enter event and awaiting the toggle fixed the test. No
+  product keyboard workaround was introduced. This is not a screen-reader or
+  unfamiliar-researcher usability pass.
+- `CLAIMBRANCH_TEST_OPENSSL=/opt/homebrew/opt/openssl@3/bin/openssl
+  /opt/homebrew/bin/python3.13 scripts/verify.py --scope all` ran 626 tests in
+  83.681 seconds: 621 passed, five Windows-only checks skipped, zero failures.
+  Exit 3 reports incomplete platform coverage. Documentation passed for 65
+  Markdown files, the original source fixture passed and tracked whitespace
+  passed. The full suite includes the concurrent TUI owner's updated graph
+  canvas tests; this increment did not change its layout/model/key files.
+- Research-schema and runtime-resource generators passed `--check` via their
+  module entry points. No original schema or fixture golden was rewritten.
+
+Candidate construction does not approve or persist any history. R2-backed R4
+durable continuity, TUI control integration, R5 manuscript completion, useful
+live R8 AI and release/user gates remain separate work. No native probe, cleanup,
+private source, live product provider, installation, commit or publication ran.
+
+#### R3 and R5 outstanding work and manuscript review
+
+Plan review, 2026-09-23. The user excludes TUI integration and authorizes the
+remaining non-UI work. Protected R4 storage still depends on unresolved R2 key
+custody/private delivery/worker confinement and the explicit recovery trade-off;
+do not invent a production store or repeat the blocked native experiment.
+The independent next outcome is that a candidate merge retains visible
+unfinished explanation/manuscript consequences, and a researcher can inspect
+the exact marked-source replacement without treating graph closure as completed
+manuscript work. This advances the existing result-to-paper loop.
+
+Sequence and checks:
+
+1. Project work from the owned v3 history's recorded merge commands. Preserve
+   stable causal identities, episode and contribution context across later
+   episodes and replay. These are conditional consequences of unverified
+   candidates, not accepted Debt records; no fabricated review receipt or
+   second scientific log. Unrecorded previews, Not now and episode closure
+   neither open accepted debt nor resolve existing conditional work.
+2. Add an independent volatile manuscript-review session over one projected
+   manuscript item. Start with blank wording and reuse the existing draft and
+   human rationale contract. Require supplied UTF-8 bytes with one exact marked
+   block; unavailable source produces no diff. Bind current history/head/evidence,
+   work item, draft/provenance, exact before/after byte hashes, session and time.
+   Preserve surrounding bytes, escape TeX text and never infer replacement
+   wording from a selected plan or omitted Interpretation. Source-byte identity
+   is not filesystem verification or permission to write.
+3. Retain source AI through explanation/deferral. Reconstruct the review before
+   returning candidate postimage bytes; reject source/history/draft changes,
+   expiry, foreign reviews and duplicate/invalid markers. Not now keeps the
+   wording and leaves work outstanding. No file apply, compiler observation,
+   closure, accepted writer or durable recovery is introduced.
+4. Exercise both existing CLI/source-ZIP episode routes with independently
+   replayed work and an explicitly synthetic source block. Regress exact byte
+   preservation, missing source, stale contexts and conditional work retention,
+   then run scoped full verification and documentation checks.
+
+Result review so far:
+
+- Ten initial work/manuscript cases failed at the missing entry points before
+  implementation. The first connected run passed 22 checks including existing
+  browser-workspace regressions. Result review reproduced the independently
+  refreshed wording-context mismatch and fixed it without dropping the draft.
+- Work/manuscript, both CLI variants and the extracted source-artifact run passed
+  22 tests in 26.943 seconds. The following cache/refinement run passed all 11
+  targeted work/manuscript checks; plan-only and same-head/new-run checks passed
+  separately, as did explicit offline AI wording adoption/editing/review.
+- Repeated conditional-work reads over the same immutable source took 0.783
+  seconds for five calls in a local check; canonical disposable caching reduced
+  that check to 0.171 seconds including its first build. This is a local
+  observation, not a release performance gate. Detached reads, replay equality
+  and changed-source invalidation remain covered.
+- Schema and runtime-resource generators passed `--check`; no existing command,
+  schema or fixture golden changed. The read-only `demo paper --pending` command
+  ran directly.
+- Configured-OpenSSL `python3.13 scripts/verify.py --scope all` ran 644 tests in
+  100.378 seconds: 639 passed, five Windows-only skips, zero failures. Exit 3
+  reports incomplete platform coverage. Documentation passed for 65 Markdown
+  files, the original source fixture passed and tracked whitespace passed.
+  Concurrent TUI tests are included in the full run; this increment changed no
+  TUI layout/model/key file or control wiring. The later strengthened wording
+  request check explicitly excludes manuscript marker/source text from outbound
+  context; it changes only assertions, not runtime behavior.
+
+TUI layout, keys and control wiring remain with their owner. R2-backed R4
+continuity and R5 apply/compile/recovery remain gated. No native retry, cleanup,
+new credential/account/permission, private source, live model, installation,
+commit or publication is part of this increment.
+
+#### R8 split request and response handling
+
+Plan review, 2026-09-23: R3/R5 now preserve the paper judgment and manuscript
+consequence for review. R8 still completes its frozen response synchronously
+inside the draft lock, leaving no explicit interval in which an adapter can
+cancel or edit while the request is outstanding. This increment separates
+dispatch from arrival without adding a transport, worker or TUI controls.
+
+1. Extend the existing offline broker with one-shot start/completion and a
+   closed, bounded provider-result envelope. Bind the dispatch to the exact
+   destination/context/consent; preserve request and response hashes and raw
+   payload availability. Consume failed attempts as well as successful ones.
+2. Expose begin/complete on `PaperDraftSession` with constructor-owned frozen
+   responses only. Keep the synchronous convenience method. Retain dispatched
+   attempt status across cancellation, expiry, edits, source refresh and a new
+   request; an old completion must never overwrite a newer proposal or draft.
+3. Verify refusal, malformed/oversized/tool-bearing output, concurrent
+   completion, cancellation, late and superseded arrival, request budget,
+   manual continuation, payload erasure and unchanged candidate history.
+4. Run a focused Opus 5.5 static review of this fixed increment, reproduce and
+   repair confirmed defects, then verify and record the result.
+5. Only then connect the reusable behavior to an R6 offline CLI/source-artifact
+   exercise, with its own plan review, tests and Opus result review.
+
+This implements an existing ADR 0006 boundary. No new production architecture
+decision is made. Supplied bytes remain untrusted, proposals remain optional,
+and all attempts/traces remain volatile. Actual transport, native deployment
+proof, durable encrypted trace ingress and live usefulness require R2/R4/H0
+and the later endpoint decision. Existing native and source-admission blockers
+remain scoped to those dependent operations.
+
+Implemented result:
+
+- `OfflineBroker.begin/complete` consume exact consent before arrival and
+  normalize a closed `claimbranch.provider-result/v1` envelope. Pending,
+  failed and cancelled dispatches count toward the finite budget. One
+  completion wins; unknown or repeated responses cannot create another trace.
+- `PaperDraftSession.begin_proposal/complete_proposal` retain dispatched attempt
+  state and permit edits/review/cancellation between calls. Old arrivals cannot
+  overwrite new proposals or consume a newer preview. Frozen response bytes
+  are constructor-owned, not supplied by a UI; synchronous callers still work.
+- Responses have a 64 KiB ingress bound and 16 KiB text bound. Invalid
+  shape/Unicode/duplicate keys, tools/authority fields and refusal/failure
+  text produce no proposal. Exact bounded raw bytes retain a hash; an
+  oversized/non-byte result has an explicitly unavailable response hash.
+- Trace payload erasure preserves both adopted Contributions and stable trace
+  identity. Never-retained malformed bytes remain `unavailable` after erasure.
+
+Review evidence: Claude Code 2.1.280 ran `claude-opus-5-5` on a fixed source
+snapshot with only Read/Glob/Grep and no skills/hooks/plugins/MCP/session
+persistence. Both runtime results reported canonical model `claude-opus-5-5`,
+first-party provider, success and no permission denials. The first review used
+10 tool calls/11 turns and found no P1/P2; its erasure observation was reproduced
+and fixed locally. A second, three-call/five-turn review checked that exact
+correction and found no additional defect. The parent verified hashes for all
+18 reviewed source/test files; only the correction and its regression changed
+between snapshots. NFC normalization and the response envelope byte bound are
+intentional canonical/ingress rules, not a promise to preserve raw proposal
+prose bytes. Raw review output remains outside the repository.
+
+Verification: the initial 53 focused checks passed, followed by the configured
+OpenSSL full suite: 661 tests in 101.137 seconds, 656 passed, five Windows-only
+skips, zero failures (exit 3). After the erasure repair, the 54 affected checks
+passed in 3.552 seconds; documentation passed for 65 Markdown files and tracked
+whitespace. These checks and model reviews do not prove live transport or
+production/native authority.
+
+R6 follow-on plan review: provide `demo paper --provider` as five independent
+offline exercises over the same bundled paper. Each names the research question
+and selected context, records arrival status and human continuation, and erases
+eligible raw traces while retaining provenance. Use the existing source builder
+and add its isolated archive smoke oracle; do not add an endpoint, bootstrap,
+new runtime dependency or TUI handler. A second focused Opus review and local
+CLI/archive checks are required before this follow-on is complete.
+
+R6 implementation and review:
+
+- The command now executes adopt/edit, cancel, edit-before-arrival, expire and
+  refuse routes through the same adapter. Each independent session uses the
+  selected synthetic paper, permits human review, preserves the source and
+  erases raw trace bytes while keeping trace identity and adopted provenance.
+  The archive's start instructions and isolated checker include this route.
+- The two new application/CLI cases failed before implementation (missing
+  workflow module and unsupported flag). After implementation, all 13
+  CLI/source-artifact/example checks passed in 9.475 seconds.
+- Actual `claude-opus-5-5` reviewed this separate fixed increment: 13 read-only
+  tool calls/14 turns, success, first-party canonical-model metadata and no
+  permission denials. It found one P2: the named research question was absent
+  from the exact outbound content, and current Interpretation was not selected
+  for the critique request. The parent reproduced this with a failing request
+  body assertion before fixing it.
+- The fix uses the existing explicitly selected unfinished-draft context.
+  `edit(QUESTION, "")` followed by `prepare_request(include_draft=True)` binds
+  the question to screening, byte limits, draft revision and exact consent.
+  This does not fabricate a completed human Contribution. The successful
+  adoption route retains the unfinished question in `before_proposal`.
+  The selected current Interpretation and the displayed question are checked
+  in the extracted artifact as well as the unit example.
+- The 13 affected checks passed again in 8.945 seconds. Opus's seven-call,
+  eight-turn follow-up confirmed P2 resolved with no new blocking defect;
+  runtime metadata again named `claude-opus-5-5`, success and no permission
+  denials. It suggested duplicating additional unit assertions in the artifact
+  checker. That smoke checks request/display consistency and delivered flow;
+  unit checks separately bind literal measurement/seed context, rationale,
+  origin, digest and question-buffer recovery. Neither check establishes
+  scientific usefulness. No additional runtime defect was confirmed.
+- The parent verified the reviewed snapshot against all 17 copied source,
+  fixture and test files. Raw review outputs remain outside the repository.
+  TUI controls, live endpoints, protected stores/writes and native setup were
+  not added. Final integrated verification ran 664 tests in 103.706 seconds:
+  659 passed, five Windows-only skips, zero failures (exit 3). Schema and
+  runtime-resource generators report current output. Documentation passes for
+  65 Markdown files; tracked whitespace and all 12 touched code/test files,
+  including untracked ones, pass the whitespace check.
+
+#### R2 preparation tied to durable research use
+
+Current policy, 2026-09-25: the user selected the recoverable device-replacement
+direction. [ADR 0014](../../architecture/decisions/0014-device-replacement-recovery.md)
+owns the decision and its loss/exposure consequences. The earlier pending-choice
+notes below are historical; do not request that decision again. Protected R4
+work still requires native custody/private delivery/isolation and implemented,
+validated recovery mechanics.
+
+Native cancellation and peer-delivery increment, 2026-09-27:
+
+- Follow-up observation, 2026-09-28: the user requested continuation and action
+  instructions. After checking the unchanged reviewed source, a sixth explicit
+  `--review` returned `review_observed` / exit 0. `same_public_identity`,
+  `explicit_authentication_succeeded`, `signing_started`,
+  `signature_after_restart_verified`, both noninteractive-denial fields and
+  `cleanup_verified` were true. Product authority/custody remained false.
+  No agent supplied native UI input or authentication. This verifies the
+  previously missing positive operation with the explicitly evaluated context;
+  it does not retroactively explain an old absent prompt or cancellation label.
+  No runtime changed, so another model review or full core rerun was unnecessary.
+  The next actual prerequisite is cleanup of the two earlier owned Sandbox
+  paths, followed by measured worker access and product custody/identity work.
+  Existence-only checks found both paths, without symlinks. Finder reveal was
+  requested for exactly those paths; no deletion/permission change or new
+  Sandbox experiment has been performed by the agent.
+- A fourth old `--review` run returned a verified signature and noninteractive
+  denials, but the user reported that the second native authentication window
+  did not appear. Root cause remains unproved; the already-zero biometric
+  unlock reuse duration was not a sufficient diagnosis. No cancellation pass
+  was inferred from that result.
+- `MacKeyReopen.swift` now explicitly evaluates device-owner authentication on
+  the current review context before dispatching a protected key operation.
+  Cancellation/failure/expiry cannot enter signing; a timely successful callback
+  uses the same context with further implicit interaction disabled. All matched
+  output requires successful evaluation and signing dispatch. Native key access
+  control and independent signature verification remain mandatory.
+- The first fixed five-file review used actual Claude Code 2.1.283, canonical
+  `claude-opus-5-5` / first-party provider, Read/Glob/Grep only, no MCP/skills,
+  disabled installed customization/persistence, and no permission denials.
+  It found no confirmed P1/P2. A minor missing cancel-after-sign-start check
+  was corrected in the next increment.
+- The fifth human run returned `cancelled` (exit 3), no signature,
+  `explicit_authentication_succeeded: false`, `signing_started: false`, and
+  successful owned-temp cleanup. The user confirms the macOS authentication
+  window appeared and was cancelled. The old diagnostic reported
+  `cancel_source: review`; it did not retain a native error/stop trigger, so
+  that exact discrepancy cannot be reconstructed. The new diagnostics retain
+  both bounded observations and prioritize an explicit native user-cancel over
+  a racing app-close. Their regression checks pass; no further human window
+  was opened to manufacture or infer missing evidence.
+- `MacDelivery.swift` and `macos_delivery.py` implement mutually checked local
+  socket peers: kernel audit token, dynamic code validity, exact identifier/
+  CDHash, and signed/running hardened-runtime flags. Frames and deadlines are
+  bounded; consumption requires exact current bytes, happens once, and cannot
+  follow cancellation or expiry. The directory/socket are disposable and no
+  existing destination is replaced. Cancellation is terminal for its binding;
+  it does not merely discard one response and allow the same request later.
+- Eight delivery tests pass, including actual wrong-peer denial in both
+  directions, an exactly pinned unhardened peer, changed/stale/project-mismatched
+  bytes, replay, terminal cancel, expired and malformed frames, closed output
+  validation and preserving an existing destination. The CLI's seven groups
+  return `observed`, `peer_delivery_verified: true`, `cleanup_verified: true`
+  and exit 0. Authorization, product identity and worker isolation remain false.
+- Actual Opus 5.5 reviewed the fixed eight-file delivery/authentication packet
+  and found no confirmed P1/P2. Fix its two minor measurement findings: change
+  only project bytes in the cross-project case, and compare client outcomes
+  with the server's expected results. A final three-file review of those fixes
+  also found no confirmed P1/P2. All reviews report first-party canonical
+  `claude-opus-5-5`, successful completion and no permission denials with only
+  Read/Glob/Grep exposed. Final delivery hashes and the earlier five reviewed
+  authentication/dependency hashes match the checked source. The residual
+  suggestion to repeat per-client CLI assertions in unit tests is nonblocking;
+  the final real CLI exercise already runs those assertions.
+- Final focused verification passes all 31 reopen/review/delivery tests. The
+  final delivery CLI exercise passes all seven groups. Core scope ran 678 tests
+  (184 contract, 132 probe, 42 validation, 22 security, 298 application): 674
+  passed, four Windows-only skips, zero failures; exit 3 reports incomplete
+  coverage. Docs, source fixture and tracked whitespace also passed. That core
+  run preceded the two measurement refinements; their affected native tests
+  and CLI were rerun afterward. Journal/harness suites were not selected.
+  Direct documentation checks pass for 67 Markdown files, and all 11 changed
+  files, including untracked native code, pass the separate whitespace scan.
+- The two exact previously owned Sandbox paths remain present and are not
+  symlinks (existence-only check). No recursive read, permission change, cleanup
+  or new container was attempted. Human availability for one positive run of
+  the revised authentication flow has been requested; no reply is treated as
+  approval or as measured signing success.
+- These are native peer/transport observations, not an authorized-product
+  gateway. A same-user caller can launch the helpers; trusted launch topology,
+  provisioned/stable pins, product key custody, worker confinement and durable
+  consumption are not supplied by ad-hoc signing or volatile test state. The
+  unchanged Sandbox cleanup blocker still prevents an isolation retry.
+- Documentation impact: developer commands/result semantics, external API
+  interpretation and execution evidence changed. Product/validation documents
+  now explicitly require human creation of typed nodes/edges with AI disabled,
+  with evidence confirmation kept on its proper path. No TUI implementation,
+  scientific schema, recovery policy or new authority boundary was selected.
+
+Implemented signed recovery increment, 2026-09-27: add an explicit signed candidate
+profile over the existing archive. Its checkpoint binds the exact history bytes,
+project, replay digest, operation count and checkpoint ID under a domain-specific
+canonical format. A trusted signer fingerprint and the expected checkpoint
+digest come from outside the backup; neither may be adopted from its contents.
+Structural parsing/replay is not signature verification. Require native P-256
+verification before the restore API writes anything, then preserve original
+public key and signature bytes under the new local encryption key. Reject
+wrong keys/projects/checkpoints, forged or altered signatures, modified histories
+even with a recomputed internal digest, malformed frames and unsigned downgrade.
+
+The executable demonstration uses a newly generated software signing fixture
+held only in native process memory and clearly reports that scope. It does not
+reuse or export a device key, answer an authentication prompt, certify scientific
+acceptance or enroll a new device. Historical accepted receipts and authority
+transitions remain a later integration; the selected product policy is unchanged.
+Legacy unsigned candidate recovery remains a distinct API with its old limited
+claims. No silent fallback between the two profiles is allowed.
+
+Signed recovery implementation and result review, 2026-09-27:
+
+- `claimbranch/core/recovery_checkpoint.py` frames the bounded archive,
+  canonical checkpoint, uncompressed public key and DER signature within
+  263621 bytes. External project/signer/checkpoint expectations are mandatory.
+  Replay and exact checkpoint reconstruction reject inconsistent metadata,
+  noncanonical/duplicate JSON, wrong project, framing errors and unsigned input.
+  A parsed value never represents a verified signature or accepted authority.
+- `MacRecovery.swift` now verifies P-256/SHA-256 signatures in a separate
+  process; malformed protocol input and cryptographic rejection have distinct
+  fixed error results with no payload output. Its explicit `fixture-sign` mode
+  creates only a throwaway software key in native memory. The shared plaintext
+  bound increased from 263168 to 270336 bytes to accommodate the signed frame;
+  this is an experimental bound change, not a production compatibility promise.
+- `scripts/probes/macos_signed_recovery.py` checks the external pins and actual
+  signature before any write, then reencrypts the same original signed bytes
+  under a distinct disposable local key. It reuses private owned-directory,
+  descriptor-relative, ciphertext-only, new-destination publication. The CLI
+  accepts only `--check`/`--exercise`, no paths or secret inputs. Fixed public
+  errors suppress subprocess payloads and exception details.
+- The initial signed probe test run failed on the absent module. After
+  implementation, 30 focused archive/checkpoint/native tests passed in 6.723
+  seconds. Added malformed-DER rejection and public error-redaction coverage
+  then passed all eight signed native/driver tests in 1.973 seconds. An
+  additional independent signature test against installed OpenSSL 3.6.4 passed
+  in 1.263 seconds; the earlier run also passed the system `openssl` verifier.
+  No signing private key file, OS authentication or private source was used.
+- Actual `python3.13 -B -m scripts.probes.macos_signed_recovery --exercise`
+  returned `signed_recovery_observed` / exit 0 for 14 synthetic operations.
+  Original signed bytes, replay, rekeyed encrypted destination, forgery/message/
+  signer/downgrade/project/checkpoint/key/tamper rejection, interruption,
+  destination preservation and cleanup all passed. The result explicitly
+  labels `disposable-software-fixture`; authorization, product custody and
+  cross-device verification remain false.
+- Actual Claude Code 2.1.283 reviewed 13 fixed source/test/ADR files with
+  Read/Glob/Grep, medium effort, restricted/safe mode, no installed skills/hooks
+  or MCP and no session persistence. Runtime records canonical
+  `claude-opus-5-5`, first-party provider, 13 turns, success and no permission
+  denials. Built-in `agents-md`/`telemetry` entries remained in CLI metadata;
+  no custom plugin was loaded. No confirmed P1/P2 was found. Review was static
+  and did not execute tests or inspect the temporary-root helper/replay deeply.
+  Its proposed pipe-bound test gap is partly covered already: existing tests
+  exercise the current maximum through Python/native seal/open and native
+  maximum-plus-one rejection. A largest-valid-history signed restore and
+  several additional malformed-field/fixture-only cases were not added solely
+  for coverage; no behavior defect was reproduced. ECDSA can have equivalent
+  signature encodings: the implementation preserves the supplied bytes, while
+  external pins authenticate the key/checkpoint, not a unique DER encoding.
+- Two core attempts overlapped changes in the other session's TUI/application
+  files. The first observed tiny-terminal/resume-list failures; both passed
+  immediately against the updated source. The next observed discard-confirmation
+  and ready-proposal preservation failures; those also passed the exact targeted
+  rerun after source updates. The second attempt ran 666 tests (660 passed,
+  four Windows-only skips, two failures, exit 1); it is not a passing run.
+  Eight application/test files changed during that run, while all 13 reviewed
+  recovery snapshot hashes remained unchanged. No TUI/application code was
+  edited in this increment.
+- The final core attempt ran 668 tests: contract 184, probes 123, validation 42,
+  security 22 and application 297. It observed 663 passes, four Windows-only
+  skips and one TUI error (exit 1). `ReadingWorkflowTests.
+  test_unfinished_picker_finds_other_nodes_and_branches` encountered a missing
+  mock `Terminal.screen`; its exact current-source rerun passed in 0.038
+  seconds. `tui.py`, `test_tui_resume_review.py` and `test_tui_workflow.py`
+  changed during that run. The other failures also passed their updated-source
+  reruns, but no clean whole-core result is claimed. Stop repeating the moving
+  integration target; the TUI session must finish its edits before a stable
+  integrated run. Recovery implementation, focused checks and fixed-source
+  review are complete, and their source hashes remain unchanged.
+- The core runner stopped before tracked whitespace after application failure.
+  All six changed code/test files, including untracked files, separately have
+  no `git diff --no-index --check` diagnostics; all nine touched files pass the
+  trailing-whitespace/final-newline scan. Final `verify.py --scope docs` passed
+  for 67 Markdown files and tracked whitespace (exit 0). This is not a full-suite, Windows
+  execution, stable TUI integration or release-completion claim.
+- A fresh 2026-09-27 existence-only check found both previously named owned
+  Sandbox resources still present and not symlinks. No cleanup, new Sandbox
+  experiment or permission expansion occurred. The remaining private-delivery,
+  worker-isolation and protected product-integration gates stay open; this
+  signature experiment cannot supply their evidence.
+
+Implemented recovery increment, 2026-09-25: implement the data-recovery component
+independently of native user-presence cancellation and Sandbox cleanup. A
+portable archive contains only the existing finite candidate history (seed,
+ordered commands and a replay-manifest digest), with exact-byte round trips.
+It deliberately excludes device private keys, accepted receipts, external raw
+artifacts, terminal drafts and in-flight provider/review state. Restoring this
+artifact returns a candidate, never an accepted history or future write right.
+
+For this bounded experiment, use CryptoKit AES-256-GCM with a fresh 32-byte salt,
+HKDF-SHA256 derivation per artifact, a fresh 12-byte nonce and a 16-byte tag.
+Authenticate the versioned header. The 32-byte random recovery key is supplied
+separately; it is neither a password nor a device signing key. Keep keys and
+plaintext on internal stdin/stdout pipes and in memory, never in argv, logs or
+files. Save ciphertext only, decrypt and replay in a fresh process, then
+reencrypt the recovered candidate under a different disposable local key before
+publishing a new file. Never overwrite an existing destination. A known expected
+manifest rejects an older valid snapshot; without that external expectation,
+AEAD alone cannot prove recency or scientific authority.
+
+Use known-answer crypto vectors, hostile format/input tests, process restart,
+wrong key/version/project/snapshot, malformed authenticated payload and
+before-publication interruption oracles. The CLI accepts no research paths or
+recovery secrets and reports only bounded observations; this is a mechanism
+experiment, not the supported product backup format or safe private custody.
+The production stack/identity, full signed recovery manifest, new-device
+enrollment and an actual replacement-device exercise remain separate gates.
+
+Recovery implementation and result review, 2026-09-25:
+
+- `claimbranch/core/recovery.py` packs the exact seed and ordered command bytes
+  plus the replay-manifest digest, within 262446 bytes. Decoding rejects unknown
+  framing/version, excessive lengths/counts, truncation, trailing bytes, invalid
+  transitions, changed manifest and another expected project. Without an external
+  expected digest it deliberately returns only an untrusted candidate; replay
+  cannot authenticate the origin or choose the latest backup.
+- `scripts/probes/native/MacRecovery.swift` implements the bounded binary crypto
+  pipe with a 263168-byte plaintext limit, using standard CryptoKit operations.
+  The authenticated envelope is a versioned six-byte marker, 32-byte salt and
+  the 12-byte nonce/ciphertext/16-byte tag. Native authentication rejection is
+  distinguished from invalid input; neither emits plaintext. Known answers come
+  from OpenSSL's AES-256-GCM vectors and RFC 5869 A.1, not self-generated expected
+  outputs. The helper accesses no file, OS credential, provider or UI.
+- `scripts/probes/macos_recovery.py` compiles/checks that helper, transports keys
+  and payload only through captured pipes, and writes only ciphertext beneath
+  a private owned temporary directory. The restore API requires a separately
+  supplied project and manifest expectation, replays before writing, then
+  reencrypts with a distinct disposable local key. Descriptor-relative exclusive
+  staging and hard-link publication refuse existing destinations, including a
+  destination created during publication. Read checks reject links, special
+  files, unsafe ownership/modes and excessive input. This is an experiment API,
+  not a protected gateway or a supported private-research entry point.
+- Initial checks failed on the missing archive/probe modules. The missing
+  snapshot expectation later reproduced a concrete failure before its fix.
+  All 17 focused tests pass with `python3.13 -m unittest
+  tests.contract.test_recovery_archive tests.probes.test_macos_recovery -v`.
+  Coverage includes all three history profiles and both manual/recorded variants,
+  every truncation of a small archive, exact replay, native known answers,
+  wrong key/header/salt/nonce/ciphertext/tag, maximum/partial-pipe input,
+  authenticated malformed history, private-file aliasing, destination races,
+  handled interruption, rekeyed readback and bounded public diagnostics.
+- Actual `python3.13 -B -m scripts.probes.macos_recovery --exercise` returned
+  `recovery_observed` / exit 0 for 14 synthetic operations. History round trip,
+  encrypted destination, wrong-key/tamper/project/snapshot rejection, unpublished
+  interrupted restore, existing-destination preservation and cleanup were true.
+  Authorization, product custody and cross-device verification remained false.
+  No authentication prompt, container, account change or private source was used.
+- Actual Claude Code 2.1.282 reviewed an eleven-file fixed snapshot read-only,
+  using Read/Glob/Grep, medium effort, no MCP, skills/hooks or session persistence.
+  Runtime reports canonical `claude-opus-5-5`, first-party provider, success and
+  no permission denials. The source hashes match the reviewed snapshot. No
+  confirmed P1/P2 was found. Its static review did not execute the native or
+  filesystem tests; those were run independently above. Minor observations were
+  a signal window leaving staging ciphertext, broad rejection checks in the
+  exercise (covered more precisely by unit cases), and unverified unexpected
+  exception types. None was represented as product protection.
+- `python3.13 scripts/verify.py --scope core` ran 566 tests: 562 passed, four
+  Windows-only tests skipped, no failures (exit 3). Counts: contract 178, probes
+  115, validation 42, security 22, application 209. Documentation, source fixture
+  and tracked whitespace passed. Journal/harness and Windows evidence were not
+  selected or supplied; this is not a full-suite or release-completion claim.
+- Final docs-only verification passed for 67 Markdown files and tracked
+  whitespace; all eight touched files, including untracked code/tests, also
+  passed a separate whitespace scan. All eleven reviewed source hashes still
+  match. A fresh existence-only check found both previously named owned Sandbox
+  resources present and not symlinks. No cleanup, recursive inspection, new
+  container or permission change was attempted; dependent isolation/protected
+  integration remains blocked at the recorded native gate.
+
+Remaining limits: a hard crash may leave ciphertext staging or two links after
+publication; reads reject multiple links, but automatic crash repair and actual
+power-loss recovery are not implemented. A directory-sync error after publication
+is reported without removing the published file. Keys and plaintext in memory
+are not isolated or zeroized. This artifact excludes accepted receipts/signatures,
+external raw artifacts, UI drafts and in-flight provider/review state; it cannot
+stand in for the complete product backup. Next implement/review the authenticated
+history/authority manifest and device-enrollment transition, and integrate the
+native custody/private-delivery boundary before opening protected R4 writes.
+
+Implemented native increment, 2026-09-25: explicit `--review` shows a bounded
+preparation window first. Its human-operated button creates only a new synthetic
+Secure Enclave key with the existing user-presence access control and saves the opaque
+representation only if creation finishes before cancellation/expiry. Terminate
+that process before reconstruction, noninteractive denial and the separate
+review/signing window. Cancelling preparation emits no key identity or signature
+and stops the flow. No key use occurs from a mere window launch. Keep
+`--exercise` noninteractive and retain its measured failures. Use the same
+deadline/terminal rules and parent cleanup; never allow a late creation result
+to advance to signing. This explicit two-step exercise is not product enrollment
+or the implementation of ADR 0014 recovery.
+
+Result review for explicit preparation:
+
+- The initial focused run failed because the new preparation mode and driver
+  routing were absent. After implementation, all 22 focused tests pass with
+  `python3.13 -m unittest tests.probes.test_macos_key_reopen_review
+  tests.probes.test_macos_key_reopen -v`. The added cases verify that cancelled
+  or expired preparation cannot expose key identity/signature or start later
+  processes; the native gate check covers late and cancelled creation. Tests
+  do not perform OS authentication or create a Secure Enclave credential.
+- Actual Claude Code 2.1.282 reviewed a fixed seven-file snapshot using only
+  Read/Glob/Grep, with MCP, skills/hooks and persistence disabled. Runtime
+  reports canonical `claude-opus-5-5`, first-party provider, success and no
+  permission denials. All seven source hashes still match the reviewed copy.
+  No confirmed P1/P2 was found. A bounded expiry edge can leave the opaque
+  blob written before the second deadline check; the parent stops and deletes
+  the owned temporary directory without advancing. Review did not operate
+  native windows or diagnose the earlier creation error.
+- Three explicit real `--review` runs returned `review_observed` / exit 0:
+  `same_public_identity`, `signature_after_restart_verified`,
+  `noninteractive_signing_denied_before`,
+  `noninteractive_signing_denied_after` and `cleanup_verified` were true.
+  `authorization_verified` and `product_custody_verified` remained false.
+  No agent sent UI input or supplied authentication. The second and third runs
+  were intended for cancellation, but the user confirmed approving native
+  authentication in each. Their successful signatures therefore do not
+  reproduce an ignored-cancellation defect. No cancellation result or particular
+  authentication modality was inferred, and no fourth native run had been
+  launched at that earlier checkpoint. Later observations are recorded at the
+  beginning of this R2 section.
+  A later cancellation exercise remains necessary for this flow. The seven-file
+  Opus snapshot matched the current source at the prior check; this follow-up
+  changed only execution evidence, with no runtime or acceptance change.
+- Core scope ran 539 tests across contract (173), probes (103), validation
+  (42), security (22) and application (199). It exited 1 with 13 reported
+  failures, including subtests, in `test_tui_overview`, `test_tui_terminal` and
+  `test_tui_workflow`; four Windows-only tests were skipped. TUI files changed
+  during the run in the separately owned session. Documentation and source
+  fixture passed; the failed application stage prevented the final whitespace
+  stage. A separate docs-only scope passed for 67 Markdown files and tracked
+  whitespace. Journal/harness suites were not selected. Do not infer a clean
+  integration result or take ownership of the other session's TUI changes.
+- After the other session changed its TUI implementation, one focused rerun of
+  those three modules passed all 35 tests. That new evidence justified one core
+  rerun: 542 tests, 538 passes, four Windows-only skips, no failures (exit 3).
+  Contract/probe/validation/security counts were unchanged; application now
+  contained 202 tests. Documentation, source fixture and tracked whitespace
+  passed. All ten files changed by this increment, including untracked files,
+  passed the separate whitespace scan. The skipped coverage remains incomplete;
+  no journal/harness, Windows or product-release completion is claimed.
+
+Earlier review implementation, 2026-09-25: extend the reconstruction probe with
+an explicit `--review` path. Create a new test key noninteractively, terminate its creating
+process, compare its identity after reconstruction and require signing denial
+without interaction. A separate foreground process shows one fixed review,
+then only its human-operated button enables a fresh authentication context.
+Bind a per-run random challenge, displayed-text digest, pinned public identity
+and encrypted-representation digest. A separate verifier checks the returned
+public signature over those exact bytes; a new process must still reject
+noninteractive signing afterward. The review uses a sleep-aware monotonic
+deadline and terminal cancellation; cancelled/expired results contain no
+signature. The check/test paths create no Secure Enclave key and show no
+authentication window. This is a bounded native experiment, not a production
+IPC channel, receipt, recovery policy or protected workspace. Build and review
+the implementation before asking for the human's native participation.
+
+Earlier result review, before explicit preparation on 2026-09-25: the
+implementation is present in
+`scripts/probes/native/MacKeyReopen.swift` and
+`scripts/probes/macos_key_reopen.py`, with nine new checks in
+`tests/probes/test_macos_key_reopen_review.py`. The first run failed on the
+missing `assess_review` API. A later regression reproduced the inconsistent
+preflight reaching the review process before final rejection; it now stops
+before the window. All 20 focused checks pass, covering closed output, exact
+nonce/key/message binding, distinct processes, terminal stripping, cleanup,
+native cancellation/expiry state and an independent OpenSSL/CryptoKit signature
+oracle. That oracle uses only a disposable software test key; the runtime
+Secure Enclave path has no software fallback and tests create no OS credential
+or authentication window.
+
+Actual Claude Code 2.1.282 reviewed a fixed seven-file source copy with only
+Read/Glob/Grep, no MCP, skills/hooks or persisted session. Runtime metadata
+identifies canonical `claude-opus-5-5`, first-party provider, successful result
+and no permission denials. It found no confirmed P1/P2. Limits noted include
+top-level-only native cancellation classification (a wrapped cancellation fails
+closed as error), both native roles sharing the fixed review text, public
+command metadata in timeout diagnostics, and lifecycle tests not driving the
+actual window. The review was static; native approval usability is unmeasured.
+
+`python3.13 scripts/verify.py --scope core` ran 529 tests: 525 passed, four
+Windows-only tests skipped, no failures (exit 3). Documentation, source fixture
+and tracked whitespace checks passed. Journal/harness suites were not selected;
+this is not a full-suite or Windows completion claim.
+
+The explicit real `--review` invocation after Opus stopped during `create` with
+`NSOSStatusErrorDomain/-25308` (exit 1). No review window, prompt, signature or
+accepted write occurred. It was not retried. The earlier successful
+noninteractive reconstruction remains separate evidence; the creation-error
+cause is still unmeasured. Next native diagnosis must determine why creating a
+fresh protected key requires interaction in this state and, if required, prepare
+an explicit human-operated key-creation step before the separate restarted
+review. Do not automatically enable interaction or infer human participation.
+At that point approval/cancellation and sleep/late-result behavior still needed
+real observations; the newer signing evidence above supersedes the approval gap.
+The two previously owned Sandbox directories remain present on an existence-only
+check; no cleanup, container experiment or permission change was attempted.
+At that stopping point the recovery preference was pending. The subsequent
+explicit user selection is now recorded in ADR 0014 above.
+
+2026-09-24 execution amendment: product restart requires real key continuity,
+so investigate that dependency before adding another synthetic paper journey.
+Apple's CryptoKit sample documents that a Secure Enclave key's
+`dataRepresentation` is an encrypted block usable only by that same enclave;
+the installed SDK exposes reconstruction with an explicit `LAContext`.
+This suggests a bounded alternative to the prior `SecItem` persistent-key
+experiment. It does not establish an app-private storage policy or recovery.
+Create only a new synthetic user-presence-protected key, write its opaque
+representation inside an owned temporary directory outside Git, terminate the
+process and reconstruct its public identity in a second process. Both creation
+and reconstruction use `interactionNotAllowed`; no user prompt or signature is
+permitted in this first measurement. Record actual errors rather than weakening
+access control. Any eventual approval/signing exercise must be separately
+visible to the human. The existing App Sandbox cleanup block still prevents
+that isolation experiment and product protected-write readiness; it does not
+prevent this separate process/key-reconstruction measurement. No production
+store, signing profile, recovery policy or real-source use is selected here.
+
+Follow-on measurement: add `scripts/probes/macos_key_reopen.py` and
+`scripts/probes/native/MacKeyReopen.swift` for explicit `--check`/`--exercise`.
+The latter uses five separate processes: create, reconstruct, attempt a fixed
+synthetic signature with interaction disabled, reconstruct one-byte-corrupted
+data, then reconstruct the restored original. A successful noninteractive
+signature fails the gate and is never emitted. Unknown error codes are not
+counted as interaction denial. Bound every native result and key file, reject
+symlinks/hardlinks/nonregular or permissive files, and remove the owned temporary
+directory. This probe is separate from the foreground approval experiment and
+cannot produce a product receipt.
+
+Observed on macOS 26.5.1 (25F80), 2026-09-24: the explicit exercise returned
+`incomplete` / exit 3. Public identity and representation matched across valid
+processes; noninteractive signing was denied with
+`com.apple.LocalAuthentication/-1004`; the one-byte-corrupted representation
+still reconstructed; the restored original reconstructed again. Temporary-file
+cleanup succeeded. Both `authorization_verified` and
+`product_custody_verified` remained false. Do not promote this limited restart
+observation to integrity, approved signing after restart, or product readiness.
+No new Sandbox container, explicit Keychain item, permission change, provider
+call, installed package, real research record or TUI integration was involved.
+The final 11-test suite passed, including real SDK compilation/capability and
+unsafe-file rejection without creating keys. The final explicit native attempt
+after the classification correction stopped at `create` with
+`NSOSStatusErrorDomain/-25308` (exit 1). It did not reach reconstruction or
+tampering, create a prompt, or grant authority. Its environmental cause is not
+established; do not claim that a locked session or one particular API setting
+caused it. No further native attempt was made after that failure.
+
+Actual Claude Opus 5.5 reviewed a fixed six-file source snapshot with only
+Read/Glob/Grep, no MCP, skills, hooks or persisted session. The runtime reported
+canonical model `claude-opus-5-5`, first-party provider, successful completion
+and no permission denials. Its P2 finding was that any key-constructor exception
+could falsely satisfy the tamper gate, including authentication-required errors.
+Four regression cases failed before correction. No constructor error is now
+treated as integrity proof; `tampered_reopen_status` and `tamper_error` remain
+observations, while `tamper_integrity_verified` stays false and exercise results
+stay incomplete. The same actual model reviewed the fixed snapshot and found
+no remaining confirmed P1/P2 in that correction. Both reviews were static, not
+native execution or product certification.
+
+Verification: `python3.13 scripts/verify.py --scope core` ran 510 tests with
+506 passes, four native-Windows skips and zero failures (exit 3). Docs, fixture
+and tracked whitespace checks passed. The corrected implementation then passed
+all 11 focused tests; journal/harness suites were not selected for this probe
+change. The final docs-only scope passed for 66 Markdown files. These are
+bounded results, not a new full-suite or Windows verification claim.
+
+Next protected integration remains stopped: establish production native key
+custody, trusted launch/peer identity and worker
+confinement; finish ADR 0014's accepted-history,
+authority-transition and replacement-device validation before connecting
+protected R4 writes. Candidate archive/encryption/recovery mechanics now have
+the bounded evidence above. The disposable restarted-key
+signing observation above resolves only its bounded native sub-gate.
+The original two Sandbox paths were manually removed and verified absent on
+2026-09-28. The subsequent single access-denial measurement succeeded; its one
+new owned container was also manually removed and verified absent. No probe
+paths remain in either location; see the current Progress entry
+and the Mac authority/isolation evidence below. Preparation of a foreground review
+does not authorize AI to answer its native authentication. Do not replace this
+milestone with additional paper demos.
+
+Recovery-policy checkpoint: the recoverable proposal was explicitly selected
+by the user on 2026-09-25 and moved into ADR 0014. Next freeze and review the
+encrypted artifact/key boundary and authority-transition protocol against that
+decision, then prove restore/new-device behavior. Selecting the policy is not
+evidence that the cryptographic format or recovery is implemented.
+
+The required outcome is that a restarted app can recognize legitimate prior
+history, keep research private, and authorize exactly the newly reviewed action
+without giving an AI worker that ability. It is not a general OS administration
+or identity platform. The source/SDK findings are in the
+[Mac trust reference](../../references/macos-local-trust-and-recovery.md).
+
+Earlier candidate experiment boundaries, with mechanisms still unselected.
+Apply the corrected source-delivery scope in the decision packet below before
+choosing a custody experiment; this table does not require an Apple account:
+
+| Boundary | Concrete preparation / pass observation | What cannot establish the result |
+|---|---|---|
+| Package and custody | Review an app-like signed helper/host, specific entitlement/profile and login-context key access; create only a tagged synthetic credential, restart and recover the same public identity; verify approved signing and terminal cancellation | Flipping the disposable probe's permanent-key flag, a capability Boolean, or using an existing personal key |
+| Exact scientific authority | Broker independently reloads the sealed operation, selection, project/ref/evidence/file state and provenance; foreground action binds that content; gateway consumes one receipt atomically | Generic Touch ID success, the browser's human flag, or treating a signature as proof of scientific understanding |
+| Private delivery | Verify the actual packaged peers and role-specific signing requirements, deny worker/wrong-peer/cross-project/replayed requests, and keep approval material out of browser/provider output | A localhost port, caller role, or a generic interpreter's signature alone |
+| Worker access | Measure protected-store/key/manuscript and disallowed-network denial using the actual worker; preserve observations and cleanup evidence | The prior failed cleanup, a missing file, or a small helper's denial standing in for an external model server |
+| Recovery | Demonstrate separately which backup restores data, which keys verify old decisions, and which authorized process can enable future writes on this or another device | Calling a source clone or readable export a complete research/authority backup |
+
+##### Source-delivered native runtime preparation
+
+Reviewed 2026-09-29. The remaining own-project write cannot safely promote an
+arbitrary deserialized PaperWork or a successful disposable authentication into
+accepted history. First make the source-built runtime repeatable and inspectable
+across process restart. This provides a concrete build/launch input to P1;
+it does not itself select a production trust perimeter or freeze enrollment.
+
+Implement `application/mac_runtime.py` and packaged `native/RuntimeIdentity.swift`.
+Build explicitly into an existing empty private directory outside Git, using
+installed Swift and ad-hoc hardened signing with distinct broker/gateway IDs.
+The compiled role is fixed; the helper accepts only a no-effect identity check.
+A closed manifest records exact source, binary and code hashes. Return its
+SHA-256 as a build pin and require that separately supplied pin on reopen;
+a replaced self-consistent manifest must not become its own trust root.
+
+Recheck private regular files, complete inventory, hashes and signature before
+launch, sanitize the child environment, enforce deadlines/output limits, then
+compare dynamic self identity and running hardening with the pin. Successful
+preflight creates no key, receipt, research record, listener or native prompt.
+It proves local build/integrity/self-inspection only: arbitrary hostile same-user
+path replacement, peer authentication, privileged custody, source provenance,
+update enrollment and SSH/Linux protection remain separate requirements.
+Never expose an arbitrary-command execution method. Preserve existing outputs;
+a failed build may leave an explicitly incomplete directory, retried in a fresh
+one rather than deleting or overwriting it automatically.
+
+Verify actual source-only build and fresh-process check, modified manifest or
+binary, wrong pin/role/signature, links, unsafe placement, interrupted build,
+closed output and source-artifact independence. Run actual bounded Opus review,
+fix reproduced findings, then core/docs checks from fixed sources. Preserve
+other-session TUI edits. The researcher outcome remains a later restarted app
+that can recognize its enrolled approval implementation; this preparation must
+never appear as research approval in doctor or a saved work envelope.
+
+Runtime preparation result review, 2026-09-29: actual first-party canonical
+`claude-opus-5-5` successfully reviewed a fixed 54,788-byte packet, SHA-256
+`452f568debab342f6923cc1d070319595375b126d115620d70366a23dff67be5`.
+One turn, no permission denials, no tools/hooks/plugins/skills/MCP/session
+persistence. Address actionable source-update, ancestor-path, cleanup ordering,
+diagnostic, umask, private temporary-output and lost-pin guidance findings.
+Reproduction before repair admits a world-writable parent, creates a requested
+0700 binary as 0600 under umask 0177, and records wait/reap before group kill.
+After repair the parent is refused, exact 0700 mode is established only on the
+new owned file, and group kill precedes wait. Actual Darwin returns EPERM for
+an exited unreaped child-only group; verify WNOWAIT exit before accepting that
+no-signal result. An owned straggler regression covers cleanup after leader exit.
+Changed packaged source now refuses preflight before launch; pinned old code
+is not silently relabeled compatible with updated source. Diagnostics use a
+closed message allowlist, preserving arbitrary-exception/path redaction.
+
+The suggested shared-cache change was unnecessary: both roles already use the
+same per-build cache. Set build TMPDIR explicitly to the private staging root
+and align the artifact test timeout with the summed tool budgets. Decline the
+suggestion to skip a Mac missing its required installed toolchain; that is a
+failed prerequisite, not passing coverage. Strengthen the nonexecuting doctor
+and directory-no-write tests. The helper's output remains self-inspection, not
+peer proof; arbitrary same-user races and unmeasured ACL protection are not
+claimed. The supplied pin remains an integration input, not enrolled authority.
+
+Initial native execution exposed codesign's requirement-file/string distinction;
+use its documented `-R=<requirement>` argument. That initial one-test run fails
+in 42.786 seconds, then 13 native cases pass in 41.228 seconds. Expanded runtime,
+CLI and source-artifact checks pass 32 tests in 92.608 seconds before the review
+fixes. Final affected and fixed-source core evidence follows below; the earlier
+runs are not substituted for verification of the repaired version.
+
+Final runtime verification, 2026-09-29: repaired runtime, CLI and artifact
+suites pass all 37 tests in 97.664 seconds, including actual local build and
+preflight from an extracted source artifact, current-source mismatch, unsafe
+parents, process cleanup and preserved source files. Fixed 363-file source
+snapshot SHA-256
+`f59401a292e5bb177183b90c7864cb4d3fd477a77c348af7618647d9945605ca`:
+`python3.13 -B scripts/verify.py --scope core` runs 209 contract, 132 probe,
+42 validation, 22 security and 632 application tests. Total 1,037: 1,033 pass,
+four Windows-only skips, zero failures, exit 3, 587.701 seconds. Skipped cases
+remain actual WebAuthn, AppContainer and two junction behaviors. The seven owned
+code/schema/test files remain byte-identical to the tested snapshot. Docs pass
+for 67 Markdown files; generated schemas and tracked whitespace pass. The
+snapshot is removed after the run. No real project, approval key, provider,
+publication or repeat human-presence/Sandbox exercise is involved.
+
+Outcome: source-delivered code can now build and later inspect its exact native
+roles without an Apple publisher account. The independent pin and current
+source check prevent automatic trust in adjacent replacement metadata or an old
+helper after a source update. This completes local build/preflight preparation,
+not the R2 protected writer. Next connect explicitly enrolled approval identity
+and runtime pin, independently owned scientific source and exact review, private
+delivery and atomic receipt consumption; preserve the existing source/recovery
+and actual-provider gates. Do not promote a self-check, supplied pin or loaded
+candidate history to scientific acceptance. No new user permission is needed
+for the completed preparation; any future enrollment asks for its actual human
+participation only when the concrete native operation is ready.
+
+##### Mac package and custody decision packet
+
+Status: the 2026-09-28 signed-binary recommendation and Apple-team availability
+question are withdrawn after the user's source-delivery clarification. This
+packet was an assistant proposal, never an accepted implementation ADR. Its
+earlier technical review did not make its distribution premise a requirement.
+
+The [product support and delivery contract](../../product/product-spec.md#2-target-user-and-support-setting)
+already permits a GitHub source-based release. The
+[release scope](../../product/releases/validation-prototype.md#7-explicitly-outside-this-release)
+defers public installers. [ADR 0010](../../architecture/decisions/0010-macos-first-platform-adapters.md)
+selects the available Mac for development and native validation without freezing
+a production identity, runtime or installer. [ADR 0012](../../architecture/decisions/0012-terminal-research-workspace.md)
+keeps the experiment host's actual terminal, including SSH, as the intended daily
+workspace. A Mac login-session experiment cannot silently replace that workflow.
+
+**Corrected execution boundary.** GitHub source delivery is the existing target,
+not a new choice to put back to the user. Developer ID, notarization, an Apple
+publisher account and ready-to-run Mac binaries are not selected prerequisites.
+Do not resume the withdrawn account question, inspect credentials or install a
+profile on this proposal's authority. If a later concrete custody design needs
+a particular entitlement or account, first establish its necessity and compare
+a source-deliverable alternative; the existence of one Apple API is insufficient.
+
+The accepted technical human-authority, private-workspace and recovery contracts
+remain in force. Exact foreground authorization, denied model writes, atomic
+receipt consumption, retained provenance and verified recovery still need a
+working product integration. Removing the unselected distribution premise does
+not make an ad-hoc helper, caller role or authentication Boolean accepted
+authority. ADR 0014 already resolves the device-replacement policy; do not
+reopen that choice.
+
+**Reusable evidence and remaining work.** Preserve the observed native signing
+after restart, authenticated peer checks, small-worker access denial and bounded
+candidate recovery results. Both known Sandbox identifiers have been manually
+removed and verified absent; cleanup no longer blocks work. These observations
+do not establish product custody, actual-provider confinement, accepted-store
+transactions or protected SSH/Linux operation. The implementation must still
+select and verify a source-deliverable custody/launch boundary against those
+specific requirements, with concrete cost and host limitations.
+
+Continue from the [goal-aligned complete loop](#goal-alignment-and-next-complete-loop)
+and existing [human-led authoring sequence](#delivery-order-and-first-implementation-slice).
+Manual claim/link authoring now uses the R3 judgment-free typed-draft
+projection and explicit existing-node work ownership; its next increments stay
+with the active authoring owner. Follow the [reviewed order](#reviewed-implementation-order)
+for the independent backend checkpoint. New-project/evidence entry remains
+distinct from reasoning drafts; the TUI owner supplies the interaction. R2/R4 must connect
+the same work to protected storage so closing and reopening preserves source
+references, human/AI contributions and unfinished consequences. R5 supplies the
+actual manuscript operation and R8 the permitted live provider. These are existing
+work items, not newly completed capabilities or permission for real research.
+
+Evaluate any further native task by the exact missing integration it unlocks
+for that loop. Do not repeat resolved disposable experiments, make all portable
+work wait for platform questions, or count another probe as own-project delivery.
+Keep publication, source readiness and prospective scientific-value evidence
+separate under the existing release contract.
+
+**Disposition of the earlier review.** Actual Claude Code 2.1.283 / canonical
+first-party `claude-opus-5-5` reviewed five bounded documents with read-only
+tools, no MCP/skills/session persistence and no permission denials. It identified
+team/profile, builder cost, Mac/SSH scope and approval-scope gaps within the
+candidate proposal. That packet did not include the complete product/release
+contract; its review cannot establish that signed-binary delivery belongs in the
+first release. Its optional suggestion to reopen recovery policy was already
+rejected against ADR 0014. No new Opus review or runtime verification is claimed
+for this documentation-only correction.
+
+##### Earlier R2 preparation and product-entry notes
+
+The dated notes below preserve prior execution evidence. Their former
+cleanup-blocked state and browser-first next steps are historical; the current
+Progress, terminal sequence and corrected source-delivery boundary above govern
+resumption.
+
+The P1 policy choice is now resolved by ADR 0014. Recovery-key custody and the
+authority-continuity protocol still require implementation review and real
+evidence. Never export the device signing key or create trusted authority from
+an unsigned import merely to make a restore test succeed.
+
+The App Sandbox experiment and combined protected-write readiness remain
+stopped at the previously documented owned-container cleanup gate. This review
+does not repeat that experiment, broaden permissions or enable protected writes.
+The independent reconstruction measurement above, R2 design/source review and
+paper/context integration remain possible. Report the dependency actually
+blocked rather than saying all Mac implementation is finished.
+
+Result review, 2026-09-23: `python3.13 scripts/verify.py --scope docs` passed
+64 Markdown files and tracked whitespace. The paper-history/replay/service,
+current workspace and context-egress suites passed all 43 tests in 2.046 seconds.
+These checks support the implemented boundaries cited in this review; no new
+runtime capability, live model usefulness or end-to-end protected journey was
+implemented/proved by this documentation/preparation increment. The previous
+full 488-test result remains separate evidence and was not rerun. A fresh
+read-only existence check still found both named owned sandbox directories;
+no recursive inspection or native retry occurred. The following native mutation
+remains blocked; paper/context preparation and the other session's UI work are
+not blocked by that cleanup state.
+
+Non-UI execution review, 2026-09-22: retain the v1 fixture contract byte-for-byte.
+Implement an explicit v2 profile through `ResearchHistory`, not a second record
+store: the seeded claim is the thesis; additional Claim changes carry main/sub
+roles and structural parent IDs; scientific edges separately express support,
+challenge and qualification. Add immutable completed-experiment metadata and
+global evidence measurements with explicit definitions. Permit one bounded
+alternative and selected merge as before. Use bounded acyclic claim relations
+and deterministic reachability, never automatic truth propagation. Bind scenario
+queries to a history/ref digest; they report hypothetical impact without writes.
+Expose a versioned application service and a separate synthetic paper CLI
+example for the UI session. The existing web/design files are outside this work.
+Freeze concrete bounds with the schema and test shared evidence, stale/wrong
+context, cycles, provenance, exact retries, selection and old-golden preservation.
+
+R6 independent increment review, 2026-09-22: keep Python 3.13 as the declared
+prerequisite and produce a reproducible, stdlib-only source ZIP of the runtime
+and verified example resources. This is a synthetic source preview, not the
+usable own-project release or a signed installer. Move runtime validation and
+fixture loading into the package; keep source fixtures canonical and verify
+generated copies. Exercise the unpacked artifact from an unrelated directory
+without repository imports, including its loopback app. Extend CI to domain,
+application, security, schema/resource freshness and artifact smoke checks.
+No license choice, dependency installation, native probe, commit or publication
+is required to complete this independent increment.
+
+Current implementation entry point, 2026-09-22. The user requires a usable
+GitHub-delivered research app and a primary paper argument workspace. Read:
+
+1. [product requirements PG-1–PG-5](../../product/product-spec.md#7-interaction-and-visual-character)
+   and the [source-delivery gate](../../product/releases/validation-prototype.md#55-source-delivery-readiness);
+2. [ADR 0011](../../architecture/decisions/0011-paper-argument-graph-workspace.md),
+   which changes UI admission but preserves scientific authority;
+3. the [workspace proposal](../../designs/2026-09-22-episode-review.md#paper-argument-workspace)
+   and [model extension questions](../../designs/2026-08-03-domain-model.md#paper-argument-extension-under-review);
+4. the [observable graph oracles](../../validation/cases/saturation.md#102-paper-argument-workspace-oracles).
+
+For UI/UX execution, use the [design harness](../../development/uiux-harness.md)
+and [first comparison brief](../../designs/2026-09-22-episode-review.md#uiux-baseline-and-next-exploration).
+They add source-informed design exploration within this sequence; they do not
+replace the product/model gates or turn the earlier storyboard into final UI.
+
+UI/UX research verification, 2026-09-22: `python3.13 scripts/verify.py --scope
+docs` passed documentation checks for 63 Markdown files and tracked whitespace
+after correcting one directory link to its source file. The documentation
+integration, Episode Review design and application graph suites passed all
+13 tests. The existing Chrome smoke passed manual/recorded-AI and graph flows
+at 1440/390 pixels on an unmodified second attempt; the initial navigation/CDP
+failure is recorded in `Surprises & Discoveries` and remains unresolved.
+Inspected the resulting actual UI screenshots. No full core/platform suite,
+screen-reader evaluation, new graph-oracle pass or human usability study is
+claimed for this documentation-only increment.
+
+Confirmed direction and assistant proposals are explicitly separated in those
+sources. Exact styling is not fixed by the user. Do not ask again whether the
+graph should be primary, or treat prior sheet-only specs as a reason to defer it.
+Freeze routine implementation details through proportional review; surface a
+material semantic/authority choice or blocker rather than inventing an answer.
+
+Current implementation: the [connected subset table](#product-app-review-surface-and-ai-delivery-sequence)
+describes partial R work, not R2–R9 completion. The browser still serves a
+volatile fixture-only session and `graph.py` has its earlier run-first
+projection. The v2 core now models thesis/main/subclaim roles, shared evidence,
+defined experiment measurements and conditional impact through a separate
+service/CLI. It uses a self-contained synthetic accuracy example; the original
+fixture and its missing damage definition are unchanged. `doctor --json` still
+returns 3: real acceptance, private projects, durable resume, manuscript writes/
+compile and live transport are unavailable.
+
+The R6 increment removes runtime imports from checkout scripts/tests. A verified
+resource generator, reproducible source ZIP and isolated CLI/HTTP smoke now
+exercise the application outside the repository. CI is configured for portable
+domain/application/security and packaging checks on Linux/Mac; its remote run
+has not been observed. There is still no owner-selected LICENSE, declared
+commit/tag, signed native installer or own-project delivery evidence. The
+earlier HEAD-archive failure remains valid committed-source evidence: no app
+commit or publication occurred during this implementation.
+
+Next implementation sequence; check each outcome before advancing its dependent
+work, and keep independent Mac/portable work moving:
+
+| Order / owner | Concrete work and review | Required result |
+|---|---|---|
+| 1 — R1/R3 review | Revise the existing design with a paper example; settle thesis/claim roles, typed links, shared evidence, source/metric fields, scenario semantics and finite bounds in the domain design | A newcomer can follow thesis → claim → evidence → experiment; proposed relations and missing definitions are explicit before schema work |
+| 2 — R3 implementation | Version the extended schema/commands and add a separately named synthetic paper fixture with manual/AI provenance; preserve original F0 goldens | Deterministic replay and tests for shared evidence, optional subclaims, conflicts, stale assumptions and non-authoritative scenarios |
+| 3 — R1/R7 implementation | Replace the optional graph with the primary workspace in `claimbranch/application/graph.py` and `web/`; use readable content, left-to-right reading, related-node emphasis and visual current/possible impact with contextual judgment/AI/source details | Actual desktop/narrow browser review satisfies the graph oracles; generated old scenes are not counted as proof |
+| 4 — R2/R4/R5 integration | Prove the Mac native boundary, select the store/key/recovery implementation, then connect own-project initialization, durable drafts/history and the fenced manuscript workflow | Quit/restart preserves the same argument and pending work; authorized apply verifies or safely recovers |
+| 5 — R6/R8/R9 delivery | Provide clean-source setup, include runtime resources, expand CI, resolve license/support documentation, connect a real supported provider, and run independent-user/profile and real-use gates | The release's usable-source criteria pass on the declared Mac; Windows remains separately deferred |
+
+Steps 1–3 may run synthetically before native authority is complete. The owned
+Mac sandbox-container cleanup blocker applies to that native experiment: do
+not retry it or expand permissions while cleanup remains unresolved. It does
+not block model/design work. Never replace missing custody/private IPC/isolation
+with a synthetic approval, and retain P0 before real research use.
+
+Non-UI implementation/result review, 2026-09-22:
+
+- R3 now has v2 paper candidates, generated seed/command/scenario schemas,
+  explicit experiment metrics, shared evidence, deterministic scientific reach,
+  exact scenario freshness and manual/recorded-AI fixtures. The original v1
+  fixture goldens still match. The model/service is ready for the UI session;
+  no new graph layout, HTTP route or protected record store is claimed.
+- R6 now has verified bundled resources, package-owned fixture loading and
+  validation, a deterministic source ZIP, and an isolated artifact checker.
+  Building twice produced identical bytes; the final 40-file preview SHA-256
+  was `6fcc7e54af4c748b67b07bb81c644b4ac339207e31471f5f0affd36c3ed7d654`.
+  A separate final build/check passed doctor (expected exit 3), both original
+  replays, paper impact and an actual loopback session from an unrelated
+  extracted directory. Acceptance remained unavailable with zero accepted writes.
+  Contributor commands and remaining distribution limits are in the
+  [source-preview workflow](../../development/workflow.md#reproducible-synthetic-source-preview).
+- The focused paper/service/artifact suites passed all 26 tests. Then
+  `CLAIMBRANCH_TEST_OPENSSL=/opt/homebrew/opt/openssl@3/bin/openssl
+  /opt/homebrew/bin/python3.13 scripts/verify.py --scope all` completed 488 tests
+  in 40.565 seconds: 483 passed, five Windows-only cases skipped, no failures.
+  The runner returned 3 for incomplete coverage. Documentation (64 Markdown
+  files), source-fixture integrity and tracked whitespace passed. Both generated
+  schema and runtime-resource checks passed. There was no live endpoint,
+  manual authentication, actual isolation rerun, private data, GitHub CI run or
+  new browser-layout/accessibility evaluation in this increment.
+
+Blocking point after those independent increments: R2 cannot yet supply the
+production authorization required by R4's protected store and R5's real writer.
+A read-only existence check still found both previously recorded owned sandbox
+directories. They were not opened recursively, removed or recreated. The
+persistent Secure Enclave custody/recovery decision and authenticated private
+IPC/actual worker-denial proof remain open as recorded in
+[the native result](#mac-authority-and-isolation-increment). Stop this dependent
+integration rather than store private drafts in plaintext or substitute a
+synthetic receipt. Resume after owned cleanup is resolved and the production
+custody/recovery and private-delivery boundary is selected/proved. The new
+source preview, portable model and separate UI work remain usable independently.
+This is not a Windows prerequisite or a claim that every remaining portable
+task is impossible. P0, real-provider deployment/consent, license selection,
+independent-user/profile and real-research release gates remain open.
+
+Before each implementation increment, review its contract; afterward run the
+focused tests and appropriate regression, inspect the actual user outcome and
+update this plan. Report current package, what is being built, what it enables
+and remaining gates. Use no Superpowers, separate handoff file or automatic
+Notion journal. Preserve the existing dirty/untracked work and obtain new
+authorization only for actions beyond the user's established scope.
+
+Documentation-only result review, 2026-09-22: `python3.13 scripts/check_docs.py`
+passed for 61 Markdown files. `python3.13 -m unittest
+tests.contract.test_episode_review_design tests.application.test_graph -v`
+passed all 11 existing storyboard/projection regression tests; `git diff
+--check` passed. These checks validate documentation and preserve the old
+examples, not implementation of the new requirements. The full runtime suite
+was not rerun for this documentation-only change; runtime work remains unchecked.
+
+### Product app, review surface, and AI delivery sequence
+
+Graph demonstration amendment, 2026-09-22: the user explicitly requested example
+arguments, evidence and experiments displayed as a graph in the actual UI.
+Implement this as an episode-local read projection with labeled relationships
+and an inspector, using the current fixture and editorial surface. The example
+launch mode fills only a fresh synthetic workspace from the recorded manual
+fixture; ordinary entry remains blank. No graph editing, additional canonical
+entities, real experiment execution or accepted authority is introduced. Draw
+with repository-owned HTML/SVG/CSS and use the existing installed Chrome for
+actual screenshots; no rendering library or network asset is needed.
+
+Implemented graph result, 2026-09-22: `demo review --example` and the guarded
+blank-session example action load the recorded manual judgment with an explicit
+illustrative experiment objective. The read projection exposes eight nodes and
+twelve relationships, including the two challenge edges, one qualification,
+structural dependencies and unrun plan. Five projection tests pass. Real Chrome
+passed graph inspection, keyboard relationship traversal, omitted/stale state,
+literal hostile text and reflow at 1440/390 pixels, and produced actual UI PNGs.
+The full OpenSSL-pinned `scripts/verify.py --scope all` run executed 461 tests in
+40.823 seconds: 456 passed, five Windows cases skipped, no failures; exit 3
+preserves that coverage limit. Documentation (60 files), fixture integrity and
+tracked whitespace passed. This demonstration changes no accepted research,
+does not run a new experiment and does not close H0/H1/R2.
+
+Execution amendment, 2026-09-22: independent R3/R4/R5 rules and thin R6/R7/R8
+adapters may be implemented and exercised together using synthetic data while
+native R2 remains open. This does not close H0/H1. The current bounded surface
+uses the existing Python stdlib and repository-owned HTML/CSS/JavaScript, serves
+only loopback, keeps drafts in process memory, and never grants a receipt or
+writes a manuscript. One-use fragment bootstrap, exact Host/Origin, HttpOnly
+SameSite session, CSRF, expiry, no-store and a restrictive CSP are tested. Its
+plain-HTTP loopback session is explicitly a synthetic prototype; the selected
+production secure-session/deployment boundary remains open. No certificate,
+account, dependency installation or system permission change is implicit.
+
+Connected implementation and result review, 2026-09-22:
+
+| Package | Implemented independent subset | Still gated |
+|---|---|---|
+| R3 | finite episode/provider/manuscript state values; v1 history and v2 paper roles, metrics, shared evidence, selected review and hypothetical read service | full canonical record/receipt/lifecycle integration and protected paper persistence |
+| R4 | field/project/sensitivity-limited context; exact one-shot offline dispatch; trace digest retained after payload erasure | protected store, encrypted durable drafts, atomic receipt consumption and restore |
+| R5 | exact source/marker-bounded escaped manuscript preview; fenced supplied-observation lifecycle and closure checks | real fenced writer, authenticated preimage and isolated compiler |
+| R6 | CLI doctor/replays/paper scenarios/review; verified bundled resources; reproducible source ZIP and isolated CLI/HTTP smoke; configured portable CI | owner-selected license, declared release commit, observed CI, native packaging and complete H0/onboarding |
+| R7 | volatile interactive editorial review; selection, provenance, exact candidate text, Not now, same-session reload and local-session denials | production secure session/native authority, durable resume and full accessibility gates |
+| R8 | exact visible request preview, cancel, fixed example proposal, human editing and explicit explanation deferral | live transport/deployment, endpoint exercises and usefulness evaluation |
+| R9 | readiness remains explicit and no private inputs admitted | private mapping, real research, unfamiliar researcher and approved prospective protocol |
+
+Verification commands and operational limits are canonical in the
+[contributor workflow](../../development/workflow.md#interactive-synthetic-episode-review).
+Focused contracts and real Chrome smoke pass. Full regression with
+`CLAIMBRANCH_TEST_OPENSSL=/opt/homebrew/opt/openssl@3/bin/openssl
+/opt/homebrew/bin/python3.13 scripts/verify.py --scope all` ran 456 tests in
+39.671 seconds after follow-up review: 451 passed, five Windows-only cases
+skipped, no failures.
+The runner returned 3 (incomplete platform coverage), not clean exit 0.
+Documentation (60 Markdown files), source-fixture integrity and tracked-diff
+whitespace checks passed. The 41 added tests cover portable lifecycles, bounded
+context and the connected application, including the two follow-up regressions.
+Real Chrome separately passed manual, plan-only wording exclusion,
+AI editing/deferral, cancellation, Not now, same-session reload, literal hostile
+provider text and keyboard/focus/reflow at 1440 and 390 pixels. The actual
+`demo review --no-open` CLI served HTTP 200; Ctrl+C returned 130 and closed its
+listener. `doctor --json` still returns 3 with the real-use gates unavailable.
+Full VoiceOver,
+NVDA and product onboarding gates remain unrun. All accepted writes stay zero
+and product authorization remains unverified.
+
+Planning baseline: 2026-09-22, after the completed Mac synthetic A1–A4 increment.
+Current execution amendment: the user has now selected macOS replacement
+implementation under [ADR 0010](../../architecture/decisions/0010-macos-first-platform-adapters.md).
+Mac R2 and portable R3 may advance independently. Platform-specific protected
+writes remain gated by that platform's actual evidence. Historical Windows
+procedures below are retained for execution on the home machine.
+This section makes the existing P1–P4 phases executable in useful slices. It
+does not restart A1, repeat completed probes, or broaden the candidate release.
+Package labels R1–R9 below are execution references inside P1–P4, not new gates.
+
+#### Goal and source of intent
+
+The user's “에메랄드 캐슬” names the intended future state of the researcher,
+not a literal document title or a specific feature. Their direction is to work
+backward from that goal when choosing how to solve present problems. The
+[product definition](../../product/product-spec.md#1-product-definition) owns
+the resulting human outcome; the earlier [Dream state](#0c---dream-state)
+supplies its personal-agent context. A researcher should be able to use AI
+deeply, explain and own their decisions, and retain the connection between
+evidence, changing reasoning and the paper.
+
+The current [product definition](../../product/product-spec.md#1-product-definition)
+turns that goal into a first-pass workspace: the researcher enters an unresolved
+result, examines evidence, forms their judgment once, optionally gets AI help,
+and sees the consequences for the paper. A durable audit is generated from
+those same actions; there is no second judgment form or mandatory Notion step.
+
+The first usable product is one complete, bounded version of that experience:
+one compatible paper, an unexpected result, an interpretation and explicit
+selected merge, and one manuscript consequence through verification or recovery.
+The wider personal-agent ambition is preserved by replaceable context/provider
+ports and inspectable lineage. General chat, broad ingestion, unrestricted graph editing,
+OpenClaw/MCP, and server management retain their
+[evidence-triggered admission rules](../../product/releases/candidate-mvp.md#3-candidate-capabilities).
+They are not silently dropped from the long-term ambition or added to H1.
+
+Work backward through three questions before accepting a technical task:
+
+1. What should the researcher be able to understand, decide or resume here?
+2. What experience and durable information make that action possible?
+3. What is the smallest implementation that provides it while preserving the
+   authority, privacy and recovery contract?
+
+For example, reconstructing why a claim weakened requires the observed
+conditions, chosen interpretation, human reason and affected sentence to be
+visible together. That calls for a bounded episode view over preserved lineage;
+neither a database test nor drawing a graph is the end-user outcome. Likewise,
+AI connectivity is useful when a proposal helps the researcher inspect an
+alternative or articulate a consequence while keeping their own judgment.
+Returning valid JSON alone is only transport evidence.
+
+| Original value to preserve | First-product realization | Owning packages |
+|---|---|---|
+| Understand why a scientific argument changed | evidence → interpretation → selected decision → exact manuscript consequence, with current and historical views | R3, R4, R5, R7 |
+| Researcher remains the author | explicit scoped approval, preserved rationale, complete AI/human contribution history | R2, R3, R4, R7 |
+| AI helps throughout the work | optional in-context proposal request, human editing/selection, continuation after refusal or cancellation | R7, R8 |
+| Review asks only what matters | reuse entered judgment; contextual 1–3 prompts for high-impact AI work; distinguish Not now from debt-opening deferral | R1, R3, R7 |
+| Return to the research without reconstructing a chat | reopen the same episode; show what changed and what remains open; resume pending review | R4, R6, R7 |
+| Fit existing tools and protect private research | external local workspace, referenced artifacts, bounded LaTeX change, manual/offline operation, replaceable provider | R2, R5, R6, R8 |
+
+#### Delivery strategy and dependencies
+
+Use the already-selected finite graph/authority approach, delivered through
+researcher-visible outcomes. Building a screen directly on the disposable probe
+would omit provenance, debt and recovery semantics; building the whole research
+platform first would delay observing whether the core workflow helps. Neither
+is the selected implementation path.
+
+```text
+R3 paper state + R7 contextual interaction + R4/R8 scoped offline context
+  -> one synthetic first-pass loop, with manual and recorded-AI variants
+
+R2 Mac authority/isolation + reviewed custody/store choices
+  -> R4 protected persistence joined to that same loop
+      -> R5 actual manuscript/compile/recovery + R6 complete H0/operator gates
+          -> R8 evidenced live connection + R7 complete H1 experience
+              -> R6/R9 own-project delivery and prospective value evaluation
+
+P0 source verification: required BEFORE the first real record, adoption,
+manuscript write or pilot, including real-paper H1 rehearsals.
+```
+
+This dependency view is governed by the
+[current goal-alignment review](#goal-alignment-and-next-complete-loop).
+R labels identify responsibility, not a waterfall that defers observing the
+researcher's workflow until every infrastructure package is complete.
+
+Implement R2 on the available Mac and portable R3 contracts without waiting for
+Windows. An unverified native adapter or synthetic approval cannot enable a
+protected writer. R1 feedback is an experience checkpoint, not a prerequisite
+for pure domain work or reversible synthetic interactions. Resume Windows A2's
+first unchecked native step on the user's home machine; retain its own measured
+results and do not infer them from Mac success. The current R2 increment is
+specified under “Mac authority and isolation increment” below.
+
+#### Shared boundaries and ownership
+
+Use the [target responsibilities](../../../ARCHITECTURE.md#logical-responsibility-boundaries)
+and [finite domain contract](../../designs/2026-08-03-domain-model.md) as the
+interface sources. R2 records the exact source layout, runtime, lockfile,
+serialization and test runner in an implementation ADR before production code.
+The source ownership slots below are logical modules, not an implied language,
+framework or already-existing directory. Test/fixture paths are planned concrete
+deliverables; if R2 changes their runner or extension, update this plan first.
+
+| Owner | Consumes → produces | Forbidden dependency |
+|---|---|---|
+| Domain | versioned operation, expected heads/evidence and deterministic inputs → validated events, impact, debt transitions | UI, provider, storage, filesystem or ambient clock |
+| Store/gateway | exact sealed review + privately delivered receipt → atomic operation/receipt consumption and operation-specific result | provider-originated raw or accepted writes |
+| Read projections | canonical history and trace references → episode, current/historical, impact and pending-review views | independent scientific authority |
+| Foreground broker | independently reloaded sealed review → exact one-use receipt or terminal cancellation/failure | caller human flags or JavaScript-held receipt/key |
+| Manuscript adapter | authorized PatchIntent + fenced expected state → observed apply/compile/restore result | implicit acceptance, arbitrary shell command or automatic debt closure |
+| Context/provider boundary | scoped context + matching outbound consent → bounded Proposal and execution trace | full project export, tool execution or canonical store handle |
+| CLI/Episode Review | the same public query/command contracts → user intent, progress and exact result | duplicate domain state machine or direct database mutation |
+
+Reuse `scripts/contracts/first_pass.py`, `review_binding.py`,
+`authorization_attempt.py`, the WebAuthn verifier and probe tests as behavior
+oracles. Keep `scripts/probes/authority_flow.py`, `workspace_storage.py`,
+`frozen_provider.py` and `scripts/authority_demo.py` explicitly disposable.
+The product cannot import a fake verifier or open a probe store as live history.
+The Notion contributor helper remains independent.
+
+#### R1 — Make the intended research experience reviewable (P1/H1 design)
+
+Current revision: follow the [paper workspace proposal](../../designs/2026-09-22-episode-review.md#paper-argument-workspace)
+and the delivery amendment above. The user has supplied the context review and
+changed the primary experience; implementing PG-1–PG-5 and reviewing the result
+remain open. Do not interpret the old checked storyboard tasks as completion
+of this revised R1 outcome.
+
+Earlier artifact execution contract, 2026-09-22: the user requested plan review, implementation
+and result review in that order, stopping at material blockers. Outcome-based
+review retains the finite scope but strengthens undecided entry, preserved
+reasoning, inspectable AI edits and explicit resume context. Deliver the design
+and snapshots below plus a generated, standalone offline HTML storyboard at
+`docs/designs/assets/episode-review.html`; `scripts/render_episode_review.py`
+and its local template render only `tests/fixtures/ui/episode-review.json` and
+the verified source fixture. No server, app framework, live provider, approval,
+research storage or user-file access is part of this design artifact. Add
+`tests/contract/test_episode_review_design.py` for semantic scene invariants,
+safe rendering and generated-artifact consistency. Compare the editorial
+reading layout with a compact variant of the same content. The default is a
+recommendation pending the existing human context/visual review, not an
+inferred acceptance. Windows-specific R2 checks require a Windows host; the
+Mac and portable work now follow ADR 0010 independently.
+
+- [x] Create the focused design proposal
+  `docs/designs/2026-09-22-episode-review.md`, linked from `docs/designs/README.md`,
+  only when executing this package. Use the existing design template and cite
+  the product journeys, rather than creating another product specification.
+- [x] Walk the saturation case from undecided entry through evidence inspection,
+  one entered judgment, selected reasoning, manuscript consequence and return.
+  Show AI-off, fixed proposal, edited proposal, stale review, Not now, explanation
+  deferral, recovery and resume variants. Make the two debt types distinguishable
+  without requiring the researcher to know their internal record names.
+- [x] Start the review with the desired researcher outcome, then show the flow
+  that supports it. Include an undecided synthetic variation within the same
+  F0 bounds, without prefilled interpretation or rationale, so the design cannot
+  pass merely by displaying a known final answer. Use the operator oracles to
+  check whether evidence, interpretation, uncertainty, AI influence and the
+  consequence are inspectable; do not add a comprehension exam.
+- [x] Provide annotated views of one linear decision sheet: situation/evidence;
+  optional unaccepted suggestion; before/after and selected/omitted dependencies;
+  manuscript diff; reused rationale and contextual questions; named action;
+  operation-specific result; collapsed provenance. A small pending list is
+  secondary. Exact outbound preview and recovery are task states of this flow.
+- [x] Define view-model examples in `tests/fixtures/ui/episode-review.json` for
+  all variants, including long Korean rationale, missing source, pending provider,
+  context changed during a request, and applied-but-unverified manuscript.
+  Preserve research content in examples; do not put API keys, local paths or
+  real private sources in them. These are test examples, not a second schema.
+- [x] Receive the user's review of the running example: readable scientific
+  nodes, thesis-first paper structure, related-node emphasis and visual impact
+  are required. Record the direction through ADR 0011 and the product spec.
+- [ ] Replace the former primary-layout proposal with a reviewable paper example
+  and contextual judgment/AI/manuscript controls. Define missing terms and
+  distinguish source facts from explicit synthetic assumptions; review the
+  revised actual screen against the graph oracles. Detailed mechanisms remain
+  proposals, and no final font/color approval is a prerequisite to routine work.
+
+Result review, 2026-09-22:
+
+- The [design proposal](../../designs/2026-09-22-episode-review.md) and
+  [offline storyboard](../../designs/assets/episode-review.html) are ready for
+  user review. Related deferral/resume scenes reuse one judgment and reason;
+  the undecided scene has neither prefilled. AI original and human edits remain
+  separate. Stale, unavailable-source and recovery scenes offer no adoption.
+- The six new semantic/rendering checks passed. The final full run used Python
+  3.13.15 and the existing OpenSSL 3.6.4 test oracle:
+  `CLAIMBRANCH_TEST_OPENSSL=/opt/homebrew/opt/openssl@3/bin/openssl
+  /opt/homebrew/bin/python3.13 scripts/verify.py --scope all`. It ran 361 tests
+  in 51.967 seconds: 356 passed, zero failed and five Windows-only tests skipped.
+  The harness returned 3 for incomplete platform coverage. Documentation
+  checks passed for 58 Markdown files, fixture integrity and tracked-diff
+  whitespace passed, and the generated storyboard's `--check` passed.
+- Existing Chrome rendered the local file in a disposable profile. At
+  1440 × 1100 (edited AI judgment) and 390 × 1100 (compact pending-provider,
+  editorial recovery and undecided scenes), browser checks observed one visible
+  scene, matching navigation state, heading focus after navigation, the selected
+  reading style, disabled product actions and no horizontal overflow. Screenshots
+  were visually inspected. These are bounded browser observations, not complete
+  keyboard/screen-reader, editing, persistent-resume or user-comprehension tests.
+  Initial screenshot/diagnostic attempts needed a bounded browser wait and a
+  document-ready check; the successful run terminated its owned process and
+  removed its disposable profile. No browser configuration or dependency was
+  installed or changed for the user.
+- Original stop point, superseded by ADR 0010: artifact preparation and agent review are complete. The existing
+  human context/visual checkpoint is still unchecked, and a Windows host is
+  unavailable for R2's actual approval, cancellation and isolation evidence.
+  R2 remains open; no product frontend, production domain/store or live provider
+  implementation has begun. The next implementation requires those entry
+  conditions rather than treating the synthetic screen as native proof.
+
+Exit: the researcher can identify what happened, what they are deciding, what
+will change and what remains open from every variant, without a completed
+external log, audit dump or AI answer. The output is a reviewed design and
+interaction examples; it does not claim a usable UI or H1 completion.
+
+#### R2 — Close native authority and select a supported implementation (A2/P1)
+
+Mac-first execution now follows ADR 0010. The checklist below retains the
+Windows target's requirements; apply the same outcome-level oracles through
+the Mac adapter and record separate observations. Windows absence is not a
+Mac or portable-core blocker.
+
+##### Mac authority and isolation increment
+
+Implement `scripts/probes/macos_authorization.py` with a repository-owned Swift
+source under `scripts/probes/native/`. It must expose read-only capabilities
+and a fixed synthetic foreground review, never arbitrary research paths or
+caller-supplied approval material. Compile into an owned non-Git temporary
+directory with the installed SDK; do not install dependencies or enroll
+biometrics. Real user presence requires the human's native interaction.
+
+Use a process-lifetime Secure Enclave key with user-presence access control to
+sign the exact fixed challenge. The current probe explicitly sets
+`kSecAttrIsPermanent: false`; it does not persist a Keychain credential. Keep
+the private key out of Python, verify the returned signature and reject
+late/cancelled results. Capability discovery, a matching signature and full
+production authorization are separate results; persistent key custody, private
+delivery and protected storage remain unproven by this probe alone.
+
+Implement a bounded App Sandbox worker experiment over freshly created
+synthetic data. Compare unsandboxed access with denied sandboxed access and
+verify unchanged protected bytes. Record actual access errors, never infer
+isolation from a successful launch or missing file. Clean owned processes and
+containers without modifying the user's existing permissions or identities.
+
+Observed on macOS 26.5.1 (25F80) arm64 with installed Swift 6.3.3, Python
+3.13.15 and Command Line Tools on 2026-09-22:
+
+- The noninteractive capability check reports owner authentication, biometrics
+  and Secure Enclave available. This creates no credential or approval.
+- The first persistent-key attempt failed with `-34018`. No production signing
+  identity, entitlement profile or recovery policy was selected. The revised
+  ephemeral experiment produced two human-approved, verified signatures while
+  denying private-key export. Both runs reported `authorization_verified:
+  false` and `persistent_custody_verified: false`.
+- Actual native cancellation returned `-2` with no signature and no verified
+  presence. The error-domain mapping was then corrected and covered by the
+  noninteractive native test; the manual cancellation was not rerun after that
+  correction. Expiry/late-result rejection exists in code but has no measured
+  manual expiry observation from this session.
+- The App Sandbox run could not finish owned-resource cleanup; its original
+  access observations were lost behind that error. Native trashing also failed.
+  Read-only existence checks confirmed the same owned identifier remains at
+  `~/Library/Containers/org.claimbranch.sandboxprobe.a7f594ee3ae24a35b25caad3a2c7e0fb`
+  and `~/Library/Application Scripts/org.claimbranch.sandboxprobe.a7f594ee3ae24a35b25caad3a2c7e0fb`.
+  These belong to the synthetic test, not a research project. Do not follow the
+  normal OS-created links inside it into other user folders. The user cannot
+  perform manual cleanup now; stop native isolation work, leave permissions
+  unchanged, and retain this as an unresolved blocker. Do not delete another
+  container or repeat the experiment to hide this failure.
+- The revised probe preserves access observations separately from cleanup
+  failures and refuses a new experiment if any `org.claimbranch.sandboxprobe.*`
+  container or application-script directory remains. Its contract tests mock
+  this condition without creating another actual sandbox container. The revised
+  native isolation experiment has not been rerun. Deprecated `sandbox-exec`
+  was not adopted as a cleanup workaround.
+
+Next native work, after this owned cleanup can be resolved, must establish
+persistent key custody and recovery, authenticated private delivery and actual
+worker confinement before protected research writes. The
+[Mac trust reference](../../references/macos-local-trust-and-recovery.md)
+records the relevant primary API sources; availability is not acceptance.
+
+Follow-up actual isolation measurement, 2026-09-28:
+
+- The user reported moving the old test folders to Trash. Existence-only checks
+  confirmed both original paths were absent and the probe-name preflight was
+  empty. No Trash inspection or deletion was performed.
+- One unchanged `python3.13 -B -m scripts.probes.macos_isolation --check` run
+  observed baseline read, write and loopback-network access with errno 0. Its
+  App Sandbox child denied all three operations with errno 1 (`EPERM`). The
+  protected synthetic bytes remained unchanged. This is observed access denial
+  by the small native worker, not confinement of an external model server.
+- The driver retained `observation_status: denial_observed`, the full bounded
+  baseline/denial results and unchanged-byte check even though final cleanup
+  failed. Final `status: cleanup_failed`, exit 1, `cleanup_verified: false`;
+  `authorization_verified` and `provider_isolation_verified` remain false.
+- Only `~/Library/Containers/org.claimbranch.sandboxprobe.ac14d69bb02b449ca6e96c2f185a9807`
+  remained (not a symlink), after removal returned `EPERM`. Its Application
+  Scripts counterpart is absent. Finder reveal was requested for this exact
+  synthetic container to support manual Trash cleanup. Do not broaden system
+  permissions, inspect links inside it, or launch another Sandbox experiment.
+- The user then moved that final container to Trash. Subsequent existence-only
+  checks find neither known identifier in Containers or Application Scripts,
+  and no remaining `org.claimbranch.sandboxprobe.*` path. Manual cleanup is
+  resolved. Preserve the original automatic-cleanup failure and separately
+  recorded access denial; do not infer that future automated cleanup works.
+- The unchanged isolation contract suite passed all five tests. No code or
+  acceptance contract changed, so another full core/model review was not
+  required. Document checks run after the evidence update. Once the one owned
+  container is gone, keep this measured denial evidence; the next work is
+  product custody, packaged launch/peer identity and actual worker integration,
+  not repetition of the same disposable denial test.
+
+Automated result review, 2026-09-22:
+
+```sh
+CLAIMBRANCH_TEST_OPENSSL=/opt/homebrew/opt/openssl@3/bin/openssl /opt/homebrew/bin/python3.13 scripts/verify.py --scope all
+```
+
+The full run completed 392 tests in 52.364 seconds: 387 passed, none failed,
+and five Windows-only tests were skipped (PowerShell 5.1, real WebAuthn
+capabilities, real AppContainer denial, and two junction cases). The runner
+therefore returned exit 3 for incomplete coverage, not a clean overall pass.
+The original source fixture, documentation checks for 60 Markdown files, and
+tracked-diff whitespace check passed. All 31 new R2/R3 tests ran: 19 portable
+review/debt cases, seven Mac authorization cases including noninteractive
+native compilation, and five isolation observation/preflight cases. Automated
+tests did not request authentication or create an actual sandbox container.
+The final documentation-only result update was followed by another successful
+documentation and whitespace check; no code changed after the full run.
+
+Portable R3 work uses the existing Python runtime and explicit deterministic
+inputs, with no GUI, provider, signing-key, store or clock dependency. Freeze
+only the implemented contract subset and document gaps to the complete F0
+inventory. Do not call this a production accepted-state gateway.
+
+- [ ] Finish A2.2/A2.3's native credential, exact foreground review, cancellation,
+  expiry, private delivery and actual worker-denial checks. Use the existing
+  `scripts/probes/windows_authorization.py`, `webauthn_assertion.py`,
+  `windows_isolation.py` and their suites; record only observed target results.
+  Retain owned-resource/cleanup evidence and failures in their existing sections.
+- [ ] Measure storage/replay/concurrency and Windows marker/compile/recovery
+  behavior against P1's oracles. Inspect the actual provider/server identity when
+  considering a deployment; the small helper's denial is not server confinement.
+- [ ] Present the measured package/runtime, store, presence/key, private IPC,
+  browser-helper, compiler and recovery trade-offs at the existing P1 checkpoint.
+  Record the chosen implementation in the next available ADR and index it.
+  Freeze exact supported versions, dependencies/lock ownership, source/module
+  paths and test commands as part of that decision. No automatic installation,
+  enrollment or account/permission change follows from this planning document.
+- [ ] Implement ADR 0014's selected key-loss/device-replacement policy and
+  verify the complete backup boundary before claiming safe custody; do not ask
+  the user to select that policy again. Define product-readable unsupported/unknown
+  results and manual continuation for every optional unavailable component.
+
+Exit: actual native proof and a recorded stack/deployment decision for the
+selected target, with no synthetic-approval fallback in a live writer. Mac can
+close its gate independently; Windows-specific approval and isolation remain
+open until measured on Windows. A working screen closes neither trust gate.
+
+#### R3 — Implement the finite research and judgment contract (P1 → P2)
+
+- [x] Review and implement the portable candidate subset of the [paper argument extension](../../designs/2026-08-03-domain-model.md#paper-argument-extension-under-review)
+  required by ADR 0011. Freeze roles, typed claim relations, shared-evidence and
+  scenario semantics, finite limits, schema version and replay/migration rules.
+  Keep the original single-claim candidates as regression inputs; add a separate
+  synthetic paper example and prove no scenario can become accepted evidence.
+  Protected persistence/migration and the complete operation/receipt inventory
+  remain separate unchecked work; v1 is not implicitly migrated to v2.
+
+Implemented portable history increment, 2026-09-22: immutable project-global evidence events,
+current versus historical reasoning views, one non-nested branch, and exact
+dependency-closed selected-merge previews now live in
+`claimbranch/core/research_history.py`. The generated
+`schemas/research-command-v1.json` closes this increment's input types; frozen
+IDs/times make histories replayable. Corrections retain
+the original observation and append an explicit corrective statement; no
+branch owns or overwrites evidence. Merge content and evidence watermark are
+bound to the existing review core. Tests cover hidden evidence, rewritten
+history, stale heads/watermarks, missing dependencies and altered merge content.
+`tests/contract/test_research_history.py` has 18 tests and
+`test_research_replay.py` has five. Combined with the existing review/debt tests,
+42 focused tests passed before full regression. Separate `research-manual.json`
+and `research-recorded.json` plus their
+goldens preserve the three mixed observations, optional experiment omission,
+original AI text/human edit and deferral. They are portable candidate histories,
+not the complete H0 fixtures named below. `scripts/replay_research_history.py`
+verifies their exact bytes without a provider or native resource.
+
+Result verification, 2026-09-22: the same full command recorded under R2,
+`CLAIMBRANCH_TEST_OPENSSL=/opt/homebrew/opt/openssl@3/bin/openssl
+/opt/homebrew/bin/python3.13 scripts/verify.py --scope all`, completed 415 tests
+in 38.413 seconds: 410 passed, none failed, five Windows-only checks skipped;
+exit 3 correctly reports incomplete coverage. All 23 new history/replay tests
+ran. The original fixture, 60-file documentation check and tracked-diff
+whitespace passed. Schema generation consistency and both frozen replay
+commands also passed. A final documentation-only result update was followed
+by another docs/whitespace check; no code changed after full regression.
+
+These pure transitions calculate candidate states; they do not confer authority
+or replace the R4 protected writer. The full canonical record/receipt/saga
+inventory remains a distinct integration milestone.
+
+Continue the remaining portable schema, episode/debt lifecycle and typed-view
+integration independently. R4's offline context/egress rules and thin view
+adapters can likewise be implemented without the failed sandbox experiment;
+actual protected persistence, native authority claims and live-provider access
+retain their own unmet gates. Do not infer a global implementation stop from
+the residual-container cleanup status.
+
+Implemented subset, 2026-09-22: `claimbranch/core/canonical.py`, `review.py` and
+`debt.py` contain pure deterministic candidate contracts with no filesystem,
+OS, provider, store or implicit clock dependency. Tests in
+`tests/contract/test_research_review.py` (15) and `test_debt_closure.py` (4)
+cover blank entry, retained AI originals and human edits, context-bound review,
+selected dependency closure/global evidence references, Not now versus explicit
+deferral, and separate current-state debt-closure candidates. Compile results
+are supplied typed observations, not proof of an actual compiler run. Both
+candidate paths explicitly leave authorization unverified. Full R3 checkboxes
+remain open; this is not a complete DomainOperation schema or gateway.
+
+- [ ] In the portable layout selected by ADR 0010, implement the full domain and canonical serialization
+  modules from the closed domain design. Produce versioned record/command
+  schemas under `schemas/` with unknown fields, operations, versions and
+  resource overflows rejected before append. Reconcile the draft design's
+  common envelope with the plan's historical tables before freezing schema;
+  do not select a field merely because a table was easier to implement.
+- [ ] Add `tests/contract/test_f0_operations.py`, `test_selected_merge.py`,
+  `test_contributions_and_debt.py` and `test_review_bundle.py`. First demonstrate
+  failures for branch-hidden evidence, overwrite corrections, dangling merge
+  dependencies, erased AI influence, stale bundles, deferral without debt, and
+  model-originated debt closure. Then implement their valid counterparts.
+- [ ] Complete the A1 review into a full ReviewBundle: exact operation, project,
+  episode, heads, evidence watermark, manuscript state, schema/rules, impact,
+  contribution chain, rationale and answer/deferral. Reusing text must never
+  reuse authorization. Return deterministic typed events/views for R4/R7.
+  Before extending accepted review beyond the current finite profile, bind the
+  impact, amendment-origin and contextual explanation contracts identified in the
+  [understanding-debt review](#understanding-debt-alignment-review). Its return
+  projection, partial-explanation API, versioned closure-context contract and
+  separate proportional-policy assessment are implemented. Actual closure still requires accepted cause loading and
+  R2/R4 authority. Follow the [reviewed order](#reviewed-implementation-order)
+  for active authoring work and versioned accepted-source integration; ordinary
+  capture does not require completed review.
+- [ ] Freeze the remaining F0 inputs in
+  `tests/fixtures/saturation/h0-manual.json` and `h0-recorded.json`: clocks, IDs,
+  nonce/signing inputs, proposal/trace identity and rule versions. Keep the
+  partial P0 source fixture and private-source fidelity gate distinct.
+
+Exit: legal/illegal finite transitions, selection/omissions, temporal evidence,
+provenance and both debt lifecycles are executable contracts. Domain/gateway
+coverage follows the existing target; test cases demonstrate outcomes rather
+than merely re-computing implementation hashes.
+
+#### R4 — Keep real research history durable and recoverable (P2)
+
+- [ ] Implement the selected canonical store, trusted gateway, proposal/trace
+  ingress and disposable projections as separate owners. Store accepted
+  operations and one-use receipt consumption atomically; enforce expected heads,
+  idempotency, exact project association and the full R2 access boundary.
+- [ ] Implement the bounded context compiler and consent/dispatch contract here,
+  before H0: field/project/sensitivity/byte restrictions, human-export separation,
+  exact destination/content digest, and default-deny live transport. Add
+  `tests/security/test_context_egress.py` with a recording fake transport to prove
+  disallowed reads and changed consent cannot dispatch. R8 later connects real
+  transport to this same boundary; it does not supply a missing H0 safeguard.
+- [ ] Add `tests/f0/test_replay.py`, `test_crash_matrix.py`,
+  `test_projection_rebuild.py` and `tests/security/test_authority_boundary.py`.
+  Reproduce two-consumer, before/after-append interruption, stale/cross-project
+  receipt, direct worker write, missing-key and projection-loss failures before
+  implementing the corresponding recovery/denial paths.
+- [ ] Implement verified external workspace association and encrypted durable
+  sensitive state using the selected key boundary. Add
+  `tests/f0/test_workspace_association.py` for no-write preview, reopen, explicit
+  paper relocation, ambiguous/missing identity, Git/path aliases and unavailable
+  original artifacts. Product relocation needs renewed binding; do not inherit
+  the temporary integration's relocation behavior or fixed-path limitation.
+- [ ] Implement readable export separately from signed restore; verify-only
+  untrusted import cannot gain accepted authority. Add `tests/f0/test_restore.py`
+  and `tests/migration/test_copy_on_write.py` for new-empty-destination restore,
+  wrong authority, version skew and interrupted destination selection retaining
+  the original. Check rollback/diagnosis before storing private research.
+
+Exit: a restarted app reconstructs the same decisions, rationale, contributions
+and pending work; AI removal and projection rebuild cannot alter the canonical
+manifest. Recovery uses a tested artifact/key boundary, not a Git clone or a
+human-readable export presented as a complete backup.
+
+#### R5 — Finish one manuscript consequence safely (P2)
+
+- [ ] Implement the selected manuscript/compile adapter with exact marker and
+  fingerprint resolution, a fenced writer, authenticated encrypted preimage,
+  durable intent, pinned isolated compiler and explicit observed results.
+  Preserve the separation between graph decision, applied bytes, compilation,
+  verified output, restore and later human debt closure.
+- [ ] Add `tests/f0/test_manuscript_saga.py` and
+  `tests/security/test_compiler_boundary.py`. Inject interruption at every
+  snapshot/journal/temp-write/replace/flush/compile/finalization/restore boundary;
+  test external edits, two writers, supersession, wrong marker, disk full, key
+  loss, compiler timeout and undeclared side effects on the supported filesystem.
+- [ ] Bind closure to the exact debt, patch/attempt, source/output/compiler/config,
+  head and fencing token. Prove that restored or merely matching postimage bytes
+  cannot count as verified or close debt. Unknown bytes enter recovery-only
+  inspect/export/verified-restore behavior; never guess or overwrite them.
+
+Exit: the researcher can apply, compile and human-close one bounded consequence,
+or see exact restoration/open debt/recovery-required state. A successful graph
+commit alone never completes this package.
+
+#### R6 — Ship the offline public workflow and close H0 (P2)
+
+- [ ] Implement a repository-owned Mac bootstrap, the selected pinned package/lock, and
+  the public `claimbranch` CLI adapters. Provide version/help, doctor, offline
+  demo, episode status, diagnosis, audit export and recovery actions with the
+  existing stable streams, UTF-8, JSON, exit codes and safe-next-action contract.
+  Retain `scripts/bootstrap.ps1` as the deferred Windows adapter, not a Mac
+  prerequisite. Include app assets and runtime fixtures in the declared artifact.
+- [ ] Extend CI beyond documentation/fixture checks to domain, application,
+  security and clean-source startup/packaging. Record a license decision and
+  supported setup/recovery/reporting guidance before publication. Verify the
+  [source-delivery gate](../../product/releases/validation-prototype.md#55-source-delivery-readiness)
+  against committed/release inputs rather than the maintainer's working tree.
+- [ ] Add `tests/cli/test_public_contract.py`, `test_doctor.py`,
+  `test_offline_demo.py` and `test_rescue_paths.py`; include missing optional AI
+  or compiler, Korean/spaced paths, interruption and unsupported configurations.
+  The repository-only `scripts.authority_demo` remains a development probe;
+  the public demo uses the product contracts and verifies its audit manifest.
+- [ ] Run full H0-manual and H0-recorded histories through R3–R5 and replay each
+  into a new store against its own `h0-manual.golden.json` or
+  `h0-recorded.golden.json`. The recorded path preserves human edits, AI
+  contribution, explanation deferral and later human closure; no provider is
+  called. Add final compiler fingerprints/output evidence to the fixtures.
+- [ ] Run the existing three-cold-trial onboarding, full marked-file, migration,
+  authority and workload gates. Supply the short verified commands and rescues
+  in `docs/development/workflow.md`; add user docs through the normal index only
+  once the corresponding public artifact works.
+
+H0 uses the verified R2 foreground helper. If the browser route does not yet
+exist, it remains unavailable and no browser-protection claim is made; R7 must
+prove its complete session protocol before exposing it. R4's offline
+context/egress and proposal-ingress denials already apply to both H0 histories.
+
+Exit: all H0 gates pass on the named supported host. The researcher can install
+from the documented checkout, understand readiness and run the offline example
+without administering a runtime or database. No general installer is added.
+
+#### R7 — Make Episode Review the actual research workspace (P3/H1)
+
+- [ ] Implement the paper argument workspace and contextual Episode Review
+  from the revised R1/R3 contracts. Synthetic interaction work may precede H0;
+  protected own-project operation requires its native/store gates. Use the same
+  gateway, read projections and state derivations as the public CLI. The browser
+  has no direct store handle, signing key or portable approval receipt.
+- [ ] Implement the first-project path: initialization preview/apply, researcher
+  episode template, start/reopen/status, marker verification and manuscript
+  doctor. Real-source use additionally requires P0; synthetic H1 runs do not.
+- [ ] Build PG-1–PG-5: meaningful node content, thesis-first reading, optional
+  subclaims/shared evidence, accessible related-node emphasis and visual
+  changed/unchanged and hypothetical-result paths. Attach unaccepted suggestions,
+  human edits, exact source comparison, rationale/questions and named review
+  actions to that argument context. Preserve the draft across provider failure, expiry,
+  stale review and restart; draft persistence remains non-authoritative and
+  follows the selected private-state policy.
+- [ ] Add `tests/h1/test_first_pass.py`, `test_review_resume.py`,
+  `test_manuscript_states.py` and `test_accessibility.py`; tie them to R1's
+  examples and every operator-oracle row. Verify initial undecided entry,
+  rationale reuse, different deferrals, reviewed-versus-current context, no
+  implicit submit approval, keyboard focus/live regions and bounded reflow.
+  Complete the [understanding-debt journey](#understanding-debt-alignment-review)
+  through R3/R4's accepted lifecycle and exact separate human closure; an item
+  reader or passing closure-candidate test alone does not close this check.
+- [ ] Add `tests/security/test_review_session.py` for bootstrap replay,
+  Host/Origin/CSRF/framing, two tabs, browser close during approval, expired
+  session, port collision and reconnect. Native/CLI fallback retains the same
+  exact-review and authority rules. Run keyboard and VoiceOver checks on the
+  Mac target; retain the Windows keyboard/NVDA pass for that adapter. Rendering
+  tests alone do not substitute for either platform's accessibility checks.
+
+Exit: the user completes the manual research loop in the approved screen,
+returns later to the same meaning and open work, and needs neither a second log
+nor raw audit inspection. Provider functionality may still be the offline stub;
+that state is an intermediate surface milestone, not full H1 completion.
+
+#### R8 — Connect useful AI without changing scientific authority (P3/A4)
+
+- [ ] Reuse R4's context compiler and exact consent/dispatch contract; implement
+  the visible egress preview, bounded provider transport, proposal normalization
+  and durable attempt/trace integration.
+  Use one provider-neutral envelope for the stub and live endpoints. Persist
+  identity, input/response digests, human edits/disposition and payload
+  availability; retain a missing-payload marker when eligible raw data expires.
+- [ ] First integrate the stub into R7's explicit request action. Keep drafting
+  and manual decisions available while a request runs; offer cancellation and
+  show late/stale/refused/malformed results as unaccepted. Rendering arbitrary
+  provider text must not execute markup, scripts, tools or commands.
+- [ ] Make the bounded request useful to the actual decision: compare the
+  interpretation with the mixed observations, critique overclaiming, propose
+  the optional discriminating experiment, or draft the one marked consequence.
+  Each fixture names the research question and expected evidence/uncertainty
+  references. The researcher can inspect and revise the answer in context;
+  fluency, schema validity or automatic adoption is not the usefulness oracle.
+  Stay within the existing proposal/experiment/anchor limits and do not claim
+  this small smoke set establishes model quality or a default provider.
+- [ ] Add `tests/h1/test_provider_flow.py` and
+  `tests/security/test_provider_output.py`; extend R4's
+  `tests/security/test_context_egress.py` with transport-specific cases.
+  Test field/byte/project scope, secret and raw-artifact exclusion, redirects,
+  destination/content changes after consent, forged approvals, oversized output,
+  payload erasure, cancellation/repetition and unchanged accepted manifests.
+- [ ] After H0, choose the first permitted endpoint with the user using actual
+  deployment evidence. Expose compatibility, protection and outbound privacy as
+  separate results. Implement `provider add/probe/test/explain` around an
+  already-running endpoint; never install or supervise its server. Unknown
+  protection stays unavailable, with the same manual continuation.
+- [ ] Implement `scripts/run_provider_smoke.py` and at most five frozen cases
+  under `tests/fixtures/provider/`. Run only with the exact permitted destination
+  and payloads. Deliver the existing loopback and permitted hosted exercises in
+  stages; completing one endpoint is an intermediate milestone, not permission
+  to claim the other topology or waive H1's loopback learning gate. Deterministic
+  CI uses the stub and never contacts either live endpoint.
+
+Exit: in the same research episode, the user previews a bounded request, gets
+AI critique/wording, edits or rejects it, and authorizes only their chosen
+scientific action. Complete the ten-active-minute provider-learning gate and
+actual-runtime denials before reporting live H1 support.
+
+#### R9 — Admit real research, then evaluate the product (P0/P4)
+
+- [ ] Rehearse the complete source-delivery gate and paper graph oracles with
+  an unfamiliar supported Mac researcher and a separate clean profile/machine.
+  Demonstrate their own compatible project, durable quit/reopen, retained AI
+  influence, authorized manuscript outcome and recovery. Synthetic scene or
+  unit-test counts cannot substitute for these user-visible results.
+- [ ] Confirm P0's private-source mapping before any real use, even during H1.
+  Rehearse project reopen, backup/restore, migration, lost provider, recovery
+  inspection and supported-machine setup with the chosen custody policy.
+- [ ] Complete the unfamiliar-researcher and second-clean-profile/machine
+  journeys without coaching or internal edits. Record whether the user can
+  explain what changed and what remains open; never claim that AI or a passing
+  interaction test certifies scientific understanding.
+- [ ] Freeze versions and the user-approved first-pass comparison protocol in
+  the existing P4 artifacts before collecting new episodes. Use the release's
+  three qualifying starts/eight-week boundary and frozen outcome rules. The
+  original known-answer fixture and synthetic demo cannot supply prospective
+  episodes or evidence of research value.
+
+Exit: report the observed product outcome and remaining scope honestly. Only
+the existing VALIDATED gate admits ordinary candidate-MVP expansion; a failed
+initial shape follows the separately approved minimum-revision route.
+
+#### Execution and acceptance discipline
+
+For each package, read its canonical sources and consume the previous package's
+named outputs, demonstrate the named failure, implement one outcome, run its
+tests and the required regression, then update this plan. Each progress recap
+states current package, what is being built, the user capability it enables and
+the remaining platform gate. A package's technical tests and its stated
+researcher-visible exit both matter: if the mechanism passes while the intended
+action remains cumbersome or opaque, record the experience gap rather than
+declaring product value. P4 owns actual live-value evaluation. Do not create a separate execution journal or
+automatically commit, publish, enroll or contact a provider.
+
+Existing commands runnable now, from the repository root:
+
+```sh
+python3.13 scripts/verify.py --scope docs
+python3.13 -B -m scripts.authority_demo
+python3.13 scripts/verify.py --scope core
+```
+
+They check current documentation/probes, not completion of the planned product.
+R2 freezes product test commands; the
+[validation table](#validation-and-acceptance) remains the release oracle and
+its illustrative pytest commands are not claimed to work today. Native skips
+cannot close a Windows gate. Re-run the full suite at product integration
+boundaries, and require one independent review for a substantial implementation.
+
+Cross-package review focus: preserved human/AI lineage after editing (R3/R4/R7),
+changed evidence or manuscript during review (R2/R4/R5/R7), reopening incomplete
+work after crash or provider loss (R4–R8), changing provider destination after
+consent (R8), and recovery/custody after machine/key changes (R2/R4/R9). Each has
+named test ownership above. The completed synthetic A tests are the starting
+regressions, never substitutes for these product tests.
 
 ### Source-independent storage probe
 
@@ -1609,23 +14224,283 @@ unless user inspection reveals a concrete problem within this bounded view.
 
 #### A2. Demonstrate a real foreground authorization boundary
 
-- [ ] Extend the P1 Windows broker spike specified below, using
-  `scripts/probes/windows_authorization.py` and
-  `tests/probes/test_windows_authorization.py` plus the minimum native helper
-  required by the measured API. First freeze the selected API and helper
-  interface in this section; do not infer presence from terminal input or
-  manufacture a production signing scheme in Python.
-- [ ] Use only disposable keys, synthetic reviews, and own temporary objects.
-  Pin positive human-presence and cancellation cases, independent sealed-review
-  reload, private receipt delivery, and negative worker/key/store/IPC access
-  before implementation. Automated denial tests cannot replace the separately
-  observed human gesture. Ask before any device enrollment, account setup, or
-  existing permission change; do not alter Windows settings to make a test pass.
-- [ ] Run scoped unittest discovery for that probe, the documented manual
-  presence/cancellation procedure, and `--scope core`. Record actual runtime
-  compatibility and residual failures, then resolve the existing P1 toolchain
-  gate with the user. If a primitive fails, preserve the result and compare
-  the existing native/CLI fallback without weakening foreground authorization.
+Preparation on the replacement macOS host (2026-09-21): the initial interpreter
+was Python 3.9.6, below the contributor requirement. `scripts/verify.py` now
+rejects unsupported execution with exit 2 before starting checks or discovering
+tests, while keeping `--plan` a non-executing preview. The user explicitly
+approved installing Python 3.13 through Homebrew; Python 3.13.15 is now
+available for regression checks without changing application contracts.
+Only macOS is currently available. Continue platform-independent verification
+here, and defer real Windows observations; do not replace them with mocks or
+silently select a macOS presence primitive as the product trust boundary.
+
+The first A2 increment is a **read-only Windows capability probe**, not an
+authorization implementation. Freeze `scripts/probes/windows_authorization.py`
+with `probe_capabilities()` and `python -B -m
+scripts.probes.windows_authorization --check`. Use the system WebAuthn DLL's
+`WebAuthNGetApiVersionNumber` and
+`WebAuthNIsUserVerifyingPlatformAuthenticatorAvailable` only. Microsoft API
+version 4 is the candidate floor because a later disposable-credential
+experiment needs its credential-deletion API. This chooses an investigation
+candidate, not the product presence primitive or a signing scheme.
+
+Return a bounded JSON report with status `available`, `unavailable`,
+`unsupported`, or `error`, the observed API version and authenticator
+availability when known, and `authorization_verified: false` in every case.
+Exit 0 means only that the two capability prerequisites were observed; 3 means
+unsupported/unavailable; 1 means a Windows API/load failure. No enrollment,
+credential enumeration/creation/deletion, prompt, receipt, filesystem write,
+network request, or accepted operation is exposed. Non-Windows hosts must not
+load the DLL. The library is loaded from System32 only. Tests cover each
+outcome, the HRESULT failure path, CLI output/exit behavior, and a separately
+skipped real Windows read-only call. Mocked capability results are not Windows
+evidence. Keep the actual foreground success/cancellation, key custody, IPC,
+receipt, and A2 exit checks below open until exercised on Windows.
+
+The 2026-09-22 review divides the remaining work into three bounded increments.
+The user authorized this refinement and implementation on the available Mac.
+A1 already tests review/action/session/expiry matching; reuse it rather than
+build another binding schema. Documentation impact is the execution contract,
+developer checks, and API research. Accepted product authority is unchanged.
+
+##### A2.1. Model one authorization attempt on macOS
+
+Files: `scripts/contracts/authorization_attempt.py` and
+`tests/contract/test_authorization_attempt.py`. This is a serialized, in-memory
+reference model with injected clock, review reader, and response verifier; none
+is a production trust boundary. It creates no key, native prompt, receipt,
+store, subprocess, or network request. Each result always reports
+`authorization_verified: false`, including a matching synthetic response.
+
+Freeze these internal interfaces before implementation:
+
+```python
+@dataclass(frozen=True)
+class AttemptRequest:
+    binding: BoundReview
+    challenge: bytes
+
+@dataclass(frozen=True)
+class AttemptResult:
+    status: str
+    authorization_verified: bool = field(default=False, init=False)
+
+class AuthorizationAttempt:
+    def __init__(self, binding, *, nonce, load_review, verify_response, clock): ...
+    @property
+    def request(self) -> AttemptRequest: ...
+    @property
+    def result(self) -> AttemptResult: ...
+    def finish(self, response) -> AttemptResult: ...
+    def cancel(self) -> AttemptResult: ...
+```
+
+Construction requires a valid unexpired A1 binding, an exact 32-byte nonce,
+callable dependencies, and an independently reloaded matching review. Recheck
+time after that read. Invalid setup raises `ContractError` and produces no
+attempt. Clock values are nonnegative exact integers in the same test time
+domain as expiry; backwards observations fail closed. Synthetic callers supply
+the nonce; production must generate fresh entropy inside the trusted broker.
+The candidate challenge is SHA-256 of the concatenation of the literal bytes
+`ClaimBranch/A2-attempt/v1\0`, the decoded 32-byte A1 binding digest, and nonce.
+This binds all A1 fields and a distinct attempt nonce. It is not a signature or
+a final F0/WebAuthn payload schema; A1 does not yet contain the full ReviewBundle.
+
+`finish` transitions `pending -> verifying`, checks time, invokes the injected
+verifier with `(request, response)`, reloads current review on an exact `True`
+verdict, and checks time and A1 freshness again before terminal `matched`.
+Other verdicts become `rejected`; dependency exceptions or invalid/backwards
+clock observations become `failed`; expiry is `now >= expires_at` and becomes
+`expired`; changed or missing current review becomes `stale`. Cancellation
+during pending or either callback becomes terminal `cancelled`; a later return
+or exception cannot revive it. Repeated/reentrant `finish` raises `ContractError`
+before invoking dependencies. `cancel` preserves an already terminal result.
+Terminal outcomes cannot resume; another attempt must re-read current state.
+
+- [x] Observe failing tests, then implement the lifecycle using A1 matching.
+  Verify response binding to action/session/review/attempt, current-review
+  reload, cancellation during verification/read, expiry while waiting,
+  clock rollback, verifier/reader failure, terminal repeat rejection, and exact
+  preservation of the user's rationale. Test doubles implement only the absent
+  native verification boundary, never pretend to prove a gesture or signature.
+- [x] Run contract tests, one focused independent review, and full regression;
+  record Windows skips explicitly. This completes only A2.1. A new process or
+  object can replay these synthetic inputs; durable receipt replay protection,
+  thread safety, protected review storage, and key custody are not implemented.
+
+Measured 2026-09-22 on macOS with Python 3.13.15: 15 new lifecycle tests and all
+65 contract tests passed. One independent Astra review found no blocking
+defects. Full regression through `scripts/verify.py --scope all` ran 318 tests
+in 50.333 seconds: 313 passed, zero failed, and five Windows-only cases skipped
+(PowerShell 5.1, real WebAuthn, AppContainer, and two junction cases). The runner
+returned exit 3 for incomplete platform coverage. Documentation (57 files),
+original source-fixture, and tracked-diff whitespace checks passed.
+
+Minor coverage follow-ups from review: add committed tests for cancellation
+followed by a final-reader exception, and clock rollback inside verifier/final-
+reader callbacks. The reviewer separately exercised these combinations and
+observed the intended terminal `cancelled`/`failed` outcomes; no implementation
+defect was reproduced. They are deferred coverage additions, not Windows
+enforcement evidence or extra committed regression tests.
+
+##### A2.2. Verify the actual Windows presence adapter
+
+**Portable assertion-verification increment (2026-09-22).** Continue on the
+available Mac by replacing A2.1's echo verifier in integration tests with a
+bounded WebAuthn assertion validator and real ES256 verification. This is shared
+response validation, not the Windows presence adapter or a production stack
+selection. Files: `scripts/probes/webauthn_assertion.py`,
+`tests/probes/test_webauthn_assertion.py`, and one public synthetic signed fixture
+at `tests/fixtures/webauthn/assertion-es256.json`. Keep the native capability
+CLI unchanged and issue no receipt or authorization claim.
+
+Freeze this narrow, internal candidate profile:
+
+```python
+@dataclass(frozen=True)
+class PinnedCredential:
+    credential_id: bytes
+    user_handle: bytes
+    rp_id: str
+    origin: str
+    public_key_spki: bytes
+
+@dataclass(frozen=True)
+class Assertion:
+    credential_id: bytes
+    client_data_json: bytes
+    authenticator_data: bytes
+    signature: bytes
+    user_handle: bytes | None = None
+
+class AssertionVerifier:
+    def __init__(self, credential, *, verify_signature): ...
+    def __call__(self, request: AttemptRequest, response: Assertion) -> bool: ...
+```
+
+The constructor requires a caller-pinned credential (not key material from
+the response), an exact canonical uncompressed P-256 DER SubjectPublicKeyInfo,
+an ASCII DNS RP ID, and origin exactly `https://<rp_id>`. This native-probe
+profile deliberately excludes subdomain/port origins, other algorithms,
+extensions, cross-origin ceremonies, and backup-eligible credentials; it is
+not a general WebAuthn relying party. Credential IDs are 1-1024 bytes and user
+handles 1-64 bytes. Registration, public-key provenance, non-exportability, and
+trusted transport must still be demonstrated on Windows.
+
+Before cryptographic verification reject malformed types/lengths, mismatching
+credential or present user handle, client JSON above 8192 bytes, duplicate JSON
+keys, non-object JSON, unsupported fields, wrong `webauthn.get` type, noncanonical
+base64url challenge, origin mismatch, or any `crossOrigin` value other than
+absent/false. Require exactly 37 authenticator-data bytes: matching RP-ID hash,
+flags exactly UP+UV (`0x05`) for this restricted profile, and a four-byte counter.
+Do not infer single use from that counter; zero counters are permitted.
+Signature input is the original authenticator bytes concatenated with SHA-256
+of the original client JSON bytes, never reserialized JSON. Bound DER signature
+size to 8-72 bytes; the native verifier checks its encoding and EC validity.
+
+The mandatory trusted callback is
+`verify_signature(public_key_spki, signed_bytes, signature) -> bool` using
+ES256 (P-256/SHA-256). Only an exact boolean is accepted; callback exceptions
+and invalid callback return types propagate to A2.1's terminal `failed` state,
+while invalid assertions or signature mismatch return `False`. No default
+verifier or response-supplied success flag is allowed. A2.1 still returns
+`authorization_verified: false` even for a valid synthetic signed response.
+
+- [x] Write failing validation and lifecycle-integration tests, then implement
+  the shared verifier. Use a public fixed fixture signed by an OpenSSL-generated
+  disposable software key; retain no private key in the checkout. Test original
+  signed bytes, modified signature/JSON/authenticator bytes, wrong pinned key,
+  and response-context rejection before crypto; no handwritten ECC or signing.
+- [x] Exercise real crypto with an already-installed OpenSSL command in test
+  code only. Select `CLAIMBRANCH_TEST_OPENSSL` when explicitly provided, otherwise
+  `openssl` on PATH; a missing default executable skips only the named crypto
+  tests, while a bad explicit override, launch failure, timeout, or unexpected
+  exit code is a test error. Exit 1 has the oracle limitation recorded below.
+  Pin temporary public-key/signature inputs outside the repository and use
+  bounded argument-vector subprocesses. This does not select OpenSSL for the
+  Windows/product runtime. Run a focused independent review and full regression.
+
+Measured 2026-09-22: the 13 assertion tests passed using Python 3.13.15 and the
+explicit test executable `/opt/homebrew/opt/openssl@3/bin/openssl` (OpenSSL
+3.6.4). All four native-signature tests ran; none was replaced by a mock or skip.
+An independent Astra review found no blocking defects. Full regression with
+that same executable selected ran 331 tests in 50.921 seconds: 326 passed,
+zero failed, and the existing five Windows-only cases skipped. The runner
+returned exit 3 for incomplete platform coverage. Documentation (57 files),
+original source-fixture, and tracked-diff whitespace checks passed.
+
+Deferred minor from review: the test-only OpenSSL oracle maps all exit-1 results
+to mismatch, including an unusable EC key. Its fixed fixture positive test
+guards this increment, but more precise error classification is a follow-up.
+The shared verifier itself propagates callback exceptions and rejects invalid
+callback return types; it does not silently convert those errors to mismatch.
+Only this portable increment is complete. The native Windows adapter below,
+OS-backed credential/presence proof, and A2.3 remain unimplemented/unverified.
+
+Extend `scripts/probes/windows_authorization.py` and its tests, plus the smallest
+native helper required by the measured API. Keep `--check` discovery-only.
+Freeze the helper's request/response transport and selected API/structure
+versions before coding the adapter on a Windows-capable host. WebAuthn remains
+a candidate, not a selected production dependency. Its required experiment is:
+
+- Create one owned disposable platform credential and pin its credential ID,
+  public key, RP ID, allowed algorithm, and user-verification requirement in
+  the trusted probe. Map the complete sealed review, exact action, session,
+  expiry, schema/rule versions, and fresh attempt nonce to the assertion
+  challenge; extend the synthetic A1 subset explicitly before claiming full F0
+  binding. Neither arbitrary caller keys nor an `actor_class` field are trusted.
+- Verify the assertion's challenge/client data, expected RP/origin context,
+  exact enrolled credential, presence and required verification flags, and
+  signature using an established native cryptographic implementation. Decide
+  and document whether the verified assertion is the receipt proof or gates a
+  separate OS-held signing key; do not invent a Python signing scheme. Prove
+  the chosen key is non-exportable in the tested configuration; availability
+  or a successful prompt alone cannot establish that property.
+- Show the exact operation in the trusted foreground review surface and pin
+  the displayed snapshot through the gesture. Test approval and cancellation
+  manually. Reload current state after the gesture and reject changed scope,
+  expiry, cancellation, or a terminated request even if a late API return says
+  success. Treat the OS timeout as a hint, enforce the broker deadline, and use
+  a per-attempt cancellation ID. Invalidate the attempt before requesting native
+  cancellation; confirm native completion before disposing owned resources.
+- Give the experiment a bounded resource ledger outside Git containing only
+  exact owned identifiers and cleanup state, never research content/private
+  keys. Record creation intent before the call and the returned credential ID
+  immediately. Delete only positively identified owned resources; interruption
+  between creation and ID capture is unresolved cleanup, not permission to
+  enumerate/delete unrelated credentials. Surface a manual recovery step and
+  fail the experiment on ambiguous ownership, failed deletion, or a lingering
+  helper. A retry must not hide an earlier cleanup failure. Record the precise
+  successful deletion/release evidence and its limits.
+
+Ask before device enrollment, account setup, or existing permission changes;
+use only disposable credentials and synthetic state. A test run cannot silently
+change Windows settings to make itself pass. Native invocation remains gated
+on a Windows host; this Mac increment does not implement or run it.
+
+##### A2.3. Demonstrate private delivery and scope the A3 handoff
+
+- [ ] Connect the native helper to a disposable trusted receiver using private
+  IPC. Pin the OS identities and ACLs on each endpoint; prove legitimate
+  delivery and actual worker connection/key/store denial. Do not substitute a
+  caller-supplied identity field or connection failure for an access-denied
+  observation. Keep portable proof out of browser JavaScript and model output.
+- [ ] In that receiver reject duplicate, substituted, cross-project/session,
+  expired, and cancelled attempts within the live experiment. Receiver restart
+  invalidates outstanding attempts. This is scoped replay evidence, not durable
+  receipt consumption. A3 owns atomic accepted append plus receipt consumption,
+  concurrent consumers, crash recovery, persisted replay rejection, and final
+  expected-state checks at the mutation boundary.
+- [ ] Record whether the demonstrated surface is native-only or browser-mediated.
+  Native-only evidence grants no browser claim. The Host/Origin/CSRF/bootstrap/
+  frame/hostile-page cases in the broker protocol remain mandatory before any
+  browser-mediated authorization in H1; if A2 includes a browser route, run them
+  in A2. Foreground native presentation must still show exactly what is approved.
+- [ ] Run scoped probe tests, the manual presence/cancellation procedure, core
+  and full regression, and cleanup checks. Record actual runtime/build and
+  residual failures before resolving the P1 toolchain gate with the user.
+  Failure of a primitive preserves the result and leads to a bounded fallback
+  comparison, never to weaker authority or an implied production-stack choice.
 
 Exit: actual enforcement evidence, not only schema tests. A2 does not authorize
 installation, enrollment, deployment topology, or recovery-policy choices.
@@ -1666,6 +14541,73 @@ and idempotence rules. No failed probe justifies resetting a workspace or
 loosening authority. Source verification, key-loss recovery, H1 context review,
 and V0 study choices remain separate human checkpoints.
 
+#### Mac synthetic A1–A4 integration increment
+
+2026-09-22: the user explicitly selected complete synthetic A1–A4 integration
+on Mac, retaining Windows approval/isolation as unverified. This increment
+precedes the production A3/A4 gates above; it does not satisfy or remove them.
+No production stack, Mac product support, live endpoint, or real-paper access
+is selected. Documentation impact: execution state and contributor commands;
+product requirements and accepted ADRs remain unchanged.
+
+Frozen implementation scope (implemented and verified below):
+
+- `scripts/probes/authority_flow.py`: extend the existing disposable
+  `WorkspaceProbe` sandbox, reuse `BoundReview` and `AuthorizationAttempt`,
+  and bind exact judgment, selected fixture changes, expected head, manuscript
+  before/after bytes, project and receiver session. Synthetic verifier injection
+  remains explicitly non-authoritative. Restart invalidates outstanding attempts.
+- One SQLite transaction appends the synthetic operation, uniquely consumes
+  its attempt, advances the expected head, and records patch intent. Exact
+  retries return the existing record; changed retries, replay under a new key,
+  stale context/head/file, cancellation and expiry must leave it unchanged.
+- Persist manuscript apply/restore intent before replacing the disposable copy.
+  Reopen and recover only exact known before/after bytes; preserve unexpected
+  edits. Test actual subprocess termination at durable boundaries and concurrent
+  consumers. This is process-crash evidence, not power-loss or hostile-filesystem
+  isolation. Compile verification and debt closure remain false.
+- `scripts/probes/frozen_provider.py`: one bounded proposal-only response for
+  the exact pending draft/request; reject malformed, repeated, stale, cancelled
+  and late output. It has no storage/file/tool capability and makes no network
+  call. Manual and frozen-proposal paths both use the human judgment contract.
+- `scripts/authority_demo.py`: fixed verified saturation fixture, no user path
+  or endpoint argument, automatic owned temporary-directory cleanup; run both
+  histories through review, synthetic approval, append, reopen/retry, apply and
+  restore. Display explicit synthetic/OS-unverified/compiler-unverified status.
+- Add failing tests in `tests/probes/test_authority_flow.py`,
+  `tests/probes/test_frozen_provider.py` and `tests/contract/test_authority_demo.py`,
+  implement inline, then run targeted and full grouped verification and one
+  independent review. Update this section with observed evidence and remaining
+  production gates; do not relabel this as H0 completion.
+
+Completion evidence, 2026-09-22:
+
+- [x] Both `python3.13 -B -m scripts.authority_demo` and the JSON CLI path
+  complete manual/frozen histories with one record each, exact rationale and
+  separate proposal provenance, stable reopen/retry, selected fixture graph
+  reconstruction, manuscript-copy apply/restore and owned-sandbox cleanup.
+- [x] The three new test modules contribute 24 tests. Full regression with
+  `CLAIMBRANCH_TEST_OPENSSL=/opt/homebrew/opt/openssl@3/bin/openssl`
+  and `/opt/homebrew/bin/python3.13 scripts/verify.py --scope all` ran 355 tests
+  in 51.588 seconds: 350 passed, zero failed, five Windows-only skips; runner
+  exit 3 preserves incomplete platform coverage. Skips were PowerShell 5.1,
+  actual WebAuthn discovery, actual AppContainer, and two junction cases.
+  Documentation (57 Markdown files), source-fixture and whitespace checks passed.
+- [x] Independent review found one important defect: inherited paper rebinding
+  could redirect an outstanding or recorded intent. The regression first failed,
+  then passed after the integrated probe rejected rebind. The full suite above
+  includes the fix; there were no other important or minor findings in this
+  integration review. Earlier A2.2 test-oracle limitations remain documented.
+- [x] Contributor commands and implementation limits are in the existing
+  developer workflow, linked from the root README. No dependency was installed,
+  endpoint contacted, credential enrolled, or user manuscript opened by this
+  increment.
+- [ ] Actual Windows foreground approval/cancellation, protected credential and
+  private IPC/worker denial remain A2 work. The P1 production toolchain decision,
+  complete H0 audit/replay/compile/debt/recovery contract, H1 surface and live A4
+  provider topology are still open. The synthetic checkpoint is closed; the
+  production A milestone and this overall ExecPlan remain active.
+
 ### Human decision checkpoints
 
 Ask one concrete question at the relevant checkpoint, explain the recommended
@@ -1675,9 +14617,9 @@ up-front questionnaire or treat an AI recommendation as approval.
 | Before | User decides | Work that can continue without this decision |
 |---|---|---|
 | P0 private-source exit, before any real research use | whether the redacted observations, interpretation, and manuscript change faithfully represent the private case | explicitly synthetic development and offline fixture checks; no assumed private-source fidelity |
-| P1 toolchain/enforcement lock | measured runtime, presence primitive, and any installation/account/recovery trade-off; ADR 0009 policy is already chosen | synthetic contracts and bounded probes; no assumed deployment permission or production isolation |
+| P1 toolchain/enforcement lock | measured runtime, presence primitive, and remaining installation/account trade-offs; ADR 0009 and ADR 0014 policies are already chosen | synthetic contracts and bounded probes; no assumed deployment permission or production isolation |
 | First live provider | the permitted endpoint and evidenced deployment consistent with ADR 0009, plus exact outbound consent | AI-off/frozen-proposal implementation and hostile-response tests; no assumed server access or warning bypass |
-| Private-data recovery contract | key-loss and cross-device recovery trade-off before promising custody of irreplaceable research | placement and association contract tests; no claim that Git clone or a readable export restores all private state |
+| Private-data recovery contract | device replacement direction is selected in ADR 0014; ask only about a material deviation from that policy | implement and test its artifact/key/authority boundary; no claim that Git clone or a readable export restores all private state |
 | H1 surface implementation | whether the proposed decision sheet provides enough context without requiring duplicate explanation | approved headless kernel and safety tests |
 | V0 protocol implementation | comparison allocation, case/time budget, AI availability, and equivalent completion boundaries | H0/H1 work and a proposed comparison in the release scope; no prospective collection |
 | A failed hypothesis needs wider scope | the exact minimum revision and its evidence | repairs within the existing failed gate; no automatic expansion |
@@ -1742,10 +14684,12 @@ real-use pilots are prohibited regardless of synthetic test results.
   and missing/ambiguous associations cannot silently create records.
 - Freeze reopen/relocation and backup scope alongside initialization: a moved
   paper must be explicitly rebound to the verified existing workspace; a
-  readable export is distinct from a complete restore artifact. Present the
-  unresolved key-loss/cross-device recovery choice to the user before promising
-  safe custody. Do not implement cloud sync or export private signing keys as
-  a shortcut. Exercise model-write denial at the external location too.
+  readable export is distinct from a complete restore artifact. Implement the
+  selected ADR 0014 policy and demonstrate its encrypted backup, recovery-key
+  and new-device authority boundary before promising safe custody. Ask only if
+  a necessary material deviation arises. Do not implement cloud sync or export
+  private signing keys as a shortcut. Exercise model-write denial at the
+  external location too.
 - Start by making the [first-pass operator oracle](../../validation/cases/saturation.md#10-operator-experience-oracle)
   a contract fixture alongside the safety cases: an undecided episode may enter
   with source evidence and an existing claim, without a final interpretation,
@@ -1952,11 +14896,11 @@ and cannot make the provider-free demo depend on LaTeX.
   already-running loopback exercise in ten active minutes. ClaimBranch does not
   download, quantize, start, stop, route, update, or benchmark model servers.
 - Build the minimum direct local review experience:
-  - a command-launched local `Episode Review` workspace for the current
-    research situation; conversational chat is deferred;
-  - one linear decision sheet ordered by situation, not-yet-accepted AI
-    suggestion, scientific before/after, dependency closure, manuscript
-    consequence, human rationale/teach-back, and action-scoped authorization;
+  - a command-launched paper argument workspace with contextual `Episode Review`;
+    conversational chat is deferred;
+  - the PG-1–PG-5 graph experience with contextual not-yet-accepted AI suggestion,
+    scientific before/after, dependency closure, manuscript consequence,
+    human rationale/teach-back and action-scoped authorization;
   - an explicit `Request AI suggestion` action and a digest-bound outbound
     review step before any remote request;
   - two distinct deferrals: `Not now` makes no accepted change, while
@@ -1972,7 +14916,7 @@ and cannot make the provider-free demo depend on LaTeX.
   server lease per project, `episode review --no-open`, a clean copyable URL,
   default-browser failure, session expiry/reconnect, browser close during
   authorization, explicit stop, and corporate proxy/firewall diagnostics.
-- Before V0, an unfamiliar supported-Windows researcher completes bootstrap,
+- Before V0, an unfamiliar researcher on the first supported Mac completes bootstrap,
   doctor, offline demo, project dry run, one manual episode, one deferred
   review resume, and recovery inspection without coaching or direct
   `.claimbranch/` edits. The artifact records success thresholds and every help
@@ -2118,11 +15062,16 @@ revision and discards evidence collected under the old value for that trigger.
 | embeddings or GraphRAG | on at least 30 frozen retrieval questions, typed neighborhood plus FTS recall is below 90% after two bounded tuning attempts | retrieval error analysis |
 | graph-native database | a correctness invariant cannot be implemented in SQLite, or a design budget is missed by >20% after two profiled query/index attempts | profiles and failed-gate report |
 | generalized merge/revert | two independent prospective cases require the same out-of-F0 branch/merge shape | two redacted case manifests |
-| full graph canvas/dashboards | after exactly one focused context/Inbox correction pass, at least 5 recorded navigation failures remain across at least 3 qualifying starts | UX event and interview log |
+| unrestricted graph editing/dashboards beyond ADR 0011 | after exactly one focused context/Inbox correction pass, at least 5 recorded navigation failures remain across at least 3 qualifying starts | UX event and interview log |
 | broad import mapping | two independent real result formats cannot be represented without manual re-entry | adapter failure fixtures |
-| public packaging/v1.0 | V0 is `VALIDATED`; the pre-V0 unfamiliar-user and clean-checkout gates remain passing; and export/import reproduces both H0 goldens | release-gate report |
+| public installers/auto-update or v1.0 beyond usable source delivery | V0 is `VALIDATED`; the pre-V0 unfamiliar-user and clean-checkout gates remain passing; and export/import reproduces both H0 goldens | release-gate report |
 
 ### Failed-gate scope firewall
+
+The user-directed paper argument workspace is already admitted by ADR 0011,
+and source setup/readiness belongs to the delivery baseline. Neither needs a
+failed V0 or the old canvas/public-packaging trigger before implementation.
+The restrictions below continue to apply to unrelated expansion.
 
 Unavailable private originals leave P0 source verification open; they do not
 constitute a failed synthetic-development gate. The approved synthetic lane
@@ -2384,12 +15333,13 @@ automatically authorize a graph database.
 ## NOT in scope
 
 - co-equal GPU kernel, training, distributed, rental, or capacity curriculum;
-- a complete web application, daemon, desktop shell, command palette, or
-  projection suite before live validation;
+- a general-purpose web platform, daemon, desktop shell, command palette or
+  unrestricted projection suite before live validation; the bounded paper
+  argument workspace and usable source-delivery path are current requirements;
 - arbitrary/nested/criss-cross semantic branches, general LCA merge, or an
   automatic semantic conflict solver;
 - a universal scientific ontology or plugin ecosystem;
-- GraphRAG, embeddings, graph-native storage, or a full graph canvas without a
+- GraphRAG, embeddings, graph-native storage or unrestricted graph editing without a
   measured trigger;
 - `.bib` related-work management, collaboration, mobile, SaaS, or multi-tenant
   permissions;
@@ -2410,12 +15360,17 @@ automatically authorize a graph database.
 | local names and marker syntax | proposed ADR 0004 | validate through the bounded spike before acceptance |
 | branch hypothesis | proposed ADR 0002 | retain as proposed until the selected-merge fixture and live comparison justify it |
 | documentation governance | docs policy, indexes, and `scripts/check_docs.py` | use as the current executable quality gate |
-| product implementation | none | no application code or settled stack exists to reuse yet |
+| product implementation | portable `claimbranch/core` and volatile `claimbranch/application` prototype | reuse rules and interaction plumbing; native authority, durable storage, paper-level graph and live AI remain incomplete |
 | P0 validation tooling | partial redacted source fixture, blank baseline, standard-library checker, and adversarial tests | extend toward the complete P0/P1 fixture boundary; do not infer a runtime stack, full F0 contract, or private-episode proof |
 | agent runtime/channels | OpenClaw and MCP ecosystems | integrate later; do not rebuild inside ClaimBranch |
 | local inference transport | OpenAI-compatible servers such as `llama.cpp` | use only behind the provider contract after P2 |
 
 ## Autoplan review
+
+The historical sheet-first UI choice, graph-canvas deferral and public-packaging
+deferral in this review are amended by ADR 0011 and the current
+[delivery amendment](#paper-graph-and-usable-delivery-amendment). Retain this
+review as historical reasoning; do not reapply its old UI scope to current work.
 
 This section preserves the earlier review and its estimates, not current
 implementation evidence or blanket permission to decide for the user. Follow

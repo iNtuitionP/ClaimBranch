@@ -1,6 +1,6 @@
 """Behavior of the implementation harness, not a test of its prose."""
 
-from contextlib import redirect_stdout
+from contextlib import redirect_stderr, redirect_stdout
 import io
 import json
 import os
@@ -26,15 +26,49 @@ class VerificationHarnessTests(unittest.TestCase):
 
     def test_core_checks_dependent_storage_and_original_fixture(self):
         self.assertEqual(
-            ["docs", "fixture", "contract", "probes", "validation", "whitespace"],
+            ["docs", "fixture", "contract", "probes", "validation", "security", "application", "whitespace"],
             [check.name for check in verify.make_plan(["core"])],
         )
+
+    def test_alpha_has_explicit_portable_coverage_and_does_not_replace_core(self):
+        self.assertEqual(['docs','fixture','schemas','resources','contract','alpha-application','whitespace'],
+                         [c.name for c in verify.make_plan(['alpha'])])
+        self.assertEqual(1,sum(c.name=='contract' for c in verify.make_plan(['alpha','core'])))
+        self.assertEqual(['docs','fixture','schemas','resources','all-tests','whitespace'],
+                         [c.name for c in verify.make_plan(['alpha','all'])])
+
+    def test_alpha_selection_keeps_personal_and_real_terminal_tests_and_names_exclusions(self):
+        def cases(suite):
+            for case in suite:
+                if isinstance(case,unittest.TestSuite): yield from cases(case)
+                else: yield case
+        selected=list(cases(verify.alpha_suite()))
+        ids={t.id() for t in selected}
+        self.assertTrue(any('test_personal_archive' in key for key in ids))
+        self.assertTrue(any('test_personal_result_record_correction_next_question_and_restart' in key for key in ids))
+        self.assertTrue(any('test_writing_checkpoint' in key or 'test_failed' in key for key in ids))
+        # Exclude native Mac test modules, not portable policy tests whose
+        # method names describe Mac sandbox rules without executing them.
+        self.assertFalse(any(key.split('.')[1].startswith('test_mac_') for key in ids))
+        self.assertIn('application.test_codex_app_server.CodexAppServerTests.'
+                      'test_mac_policy_closes_mach_lookup_and_authorization_except_observed_os_services', ids)
+        for excluded in verify.ALPHA_EXCLUDED_TESTS: self.assertNotIn(excluded,ids)
+        self.assertFalse(any(getattr(t,'__unittest_skip__',False) or
+            getattr(getattr(t,t._testMethodName),'__unittest_skip__',False) for t in selected))
+
+    def test_stale_alpha_exclusion_is_a_configuration_error_before_running(self):
+        errors=io.StringIO()
+        with patch.object(verify,'ALPHA_EXCLUDED_TESTS',frozenset({'missing.alpha.test'})), \
+             patch.object(verify,'run_suite',side_effect=AssertionError('suite started')), \
+             redirect_stdout(io.StringIO()), redirect_stderr(errors):
+            self.assertEqual(2,verify.main(['--_tests','alpha']))
+        self.assertIn('missing.alpha.test',errors.getvalue())
 
     def test_scopes_are_deduplicated_and_full_discovery_runs_only_once(self):
         plan = verify.make_plan(["journal", "docs", "journal"])
         self.assertEqual(["docs", "journal", "skills", "whitespace"], [c.name for c in plan])
         full = verify.make_plan(["core", "all", "harness", "journal"])
-        self.assertEqual(["docs", "fixture", "all-tests", "whitespace"], [c.name for c in full])
+        self.assertEqual(["docs", "fixture", "schemas", "resources", "all-tests", "whitespace"], [c.name for c in full])
 
     def test_invalid_or_missing_scope_does_not_silently_run_everything(self):
         for scopes in ([], [""], ["made-up"], ["core", "made-up"]):
@@ -81,6 +115,37 @@ class VerificationHarnessTests(unittest.TestCase):
         result = subprocess.run([sys.executable, str(ROOT / "scripts/verify.py"), "--plan"],
                                 cwd=ROOT, capture_output=True, timeout=20)
         self.assertEqual(2, result.returncode)
+
+    def test_unsupported_python_stops_before_checks_or_test_discovery(self):
+        # Without the preflight, an old interpreter launches checks and emits
+        # import/setup errors instead of identifying the missing prerequisite.
+        for arguments in (["--scope", "all"], ["--_tests", "tests"]):
+            output, errors = io.StringIO(), io.StringIO()
+            with self.subTest(arguments=arguments), \
+                    patch.object(sys, "version_info", (3, 9, 6)), \
+                    patch.object(verify, "run_checks", side_effect=AssertionError("checks started")), \
+                    patch.object(unittest.TestLoader, "discover", side_effect=AssertionError("discovery started")), \
+                    redirect_stdout(output), redirect_stderr(errors):
+                self.assertEqual(2, verify.main(arguments))
+            self.assertEqual("", output.getvalue())
+            self.assertIn("3.10", errors.getvalue())
+            self.assertIn("3.9.6", errors.getvalue())
+
+    def test_supported_python_boundary_allows_checks(self):
+        # Rejecting the documented minimum would incorrectly block supported hosts.
+        for version in ((3, 10, 0), (3, 13, 0)):
+            with self.subTest(version=version), \
+                    patch.object(sys, "version_info", version), \
+                    patch.object(verify, "run_checks", return_value=3):
+                self.assertEqual(3, verify.main(["--scope", "docs"]))
+
+    def test_plan_still_previews_without_a_supported_test_runtime(self):
+        # --plan describes commands only; its success is never test evidence.
+        output = io.StringIO()
+        with patch.object(sys, "version_info", (3, 9, 6)), redirect_stdout(output):
+            self.assertEqual(0, verify.main(["--scope", "core", "--plan"]))
+        self.assertEqual(["docs", "fixture", "contract", "probes", "validation", "security", "application", "whitespace"],
+                         [check["name"] for check in json.loads(output.getvalue())["checks"]])
 
     def test_full_discovery_works_with_the_existing_test_directory_layout(self):
         # Discover actual modules but do not recursively execute this suite.

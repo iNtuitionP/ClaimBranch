@@ -2,7 +2,7 @@
 kind: release-scope
 status: proposed
 owners: maintainers
-last_reviewed: 2026-08-14
+last_reviewed: 2026-10-07
 canonical_for: candidate first-release scope after validated live-paper use
 ---
 
@@ -10,8 +10,21 @@ canonical_for: candidate first-release scope after validated live-paper use
 
 This is a conditional product hypothesis, not the current implementation plan.
 The smaller [validation prototype](validation-prototype.md) must first finish
-with a VALIDATED live-paper outcome. ClaimBranch has no usable application or
-settled stack today.
+with a VALIDATED live-paper outcome. The separate experimental
+[personal alpha](validation-prototype.md#55-source-delivery-readiness) supplies
+manual own-project use; the protected product and settled production stack remain
+unavailable.
+
+The paper argument workspace admitted by ADR 0011 and the
+[usable source-delivery criteria](validation-prototype.md#55-source-delivery-readiness)
+belong to the current baseline. They are not conditional expansions waiting for
+this MVP's entry gate. The capability-growth rules below concern additions
+beyond that revised baseline.
+
+The first manual own-project GitHub milestone under
+[ADR 0016](../../architecture/decisions/0016-own-project-source-release.md)
+now precedes complete H0/H1 and V0. This candidate MVP still requires VALIDATED;
+neither the narrower source release nor deferred-feature status passes that gate.
 
 ## 1. Entry gate
 
@@ -78,7 +91,7 @@ cannot be captured without repeated manual re-entry.
 - additional branch/merge shapes only after two independent episodes require
   the same out-of-F0 shape;
 - correction paths that append history and make supersession legible; and
-- focused context navigation before any full graph canvas.
+- bounded paper-argument navigation before any unrestricted graph editor.
 
 A universal ontology, generic event-sourcing framework, general three-way
 semantic merge, automatic conflict solver, or arbitrary extension bag is not a
@@ -134,10 +147,13 @@ and never become accepted scientific edges implicitly.
 
 ### 3.7 UI growth
 
-The quiet editorial Episode Review remains primary. Broader Inbox/context
-correction gets one focused iteration before a graph canvas or dashboard is
-considered. A broader visual surface requires at least five recorded navigation
-failures across at least three qualifying episodes after that iteration.
+The [paper argument workspace](../product-spec.md#7-interaction-and-visual-character)
+is already a baseline requirement under
+[ADR 0011](../../architecture/decisions/0011-paper-argument-graph-workspace.md),
+with contextual Episode Review. Its admission does not wait for this candidate
+MVP or the old graph-canvas trigger. Further Inbox/dashboard or unrestricted
+visual editing expansion still needs a focused iteration and at least five
+recorded navigation failures across at least three qualifying episodes.
 
 Chat may become contextual capture or query, never the source of truth or
 default home. Accessibility gates remain part of every expansion.
@@ -172,7 +188,7 @@ A future MVP plan must add exact numeric gates, but it cannot weaken these:
 - general Research OS, OpenClaw clone, plugin/provider marketplace, or channel
   platform;
 - model download/quantization/supervision/router;
-- universal ontology, general semantic VCS, or full graph canvas;
+- universal ontology, general semantic VCS or unrestricted graph editing;
 - public installer and auto-update before the release plan verifies migration,
   support, and rollback; and
 - a v1.0 label before the future release's own live acceptance passes.

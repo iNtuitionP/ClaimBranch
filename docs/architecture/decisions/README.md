@@ -10,10 +10,19 @@ alternatives, and consequences. Use the [ADR template](../../_meta/templates/adr
 | [0003](0003-ai-proposals.md) | accepted | AI produces proposals, never accepted state |
 | [0004](0004-local-layout-and-names.md) | proposed | Normalize local names for the schema spike |
 | [0005](0005-human-authority-provenance-and-understanding-debt.md) | accepted | Preserve human authority, contribution provenance, and understanding debt |
-| [0006](0006-three-graph-planes-and-provider-boundary.md) | accepted | Separate canonical, context, and execution graph planes |
+| [0006](0006-three-graph-planes-and-provider-boundary.md) | accepted | Separate canonical, context, and execution graph planes; UI admission amended by ADR 0011 |
 | [0007](0007-research-episode-and-manuscript-saga.md) | accepted | Bind one research episode to a fenced manuscript saga |
 | [0008](0008-private-research-workspaces.md) | accepted | Keep research records in private workspaces outside Git by default |
 | [0009](0009-external-inference-and-local-authority.md) | accepted | Keep inference externally operated and enforce research authority locally |
+| [0010](0010-macos-first-platform-adapters.md) | accepted | Implement on macOS first with shared research contracts and separate OS authority adapters |
+| [0011](0011-paper-argument-graph-workspace.md) | accepted | Make the paper argument graph the primary research workspace; preserve scientific authority boundaries |
+| [0012](0012-terminal-research-workspace.md) | accepted | Keep daily research interaction in the experiment host's terminal; adapt argument navigation to keyboard focus |
+| [0013](0013-terminal-draft-recovery.md) | accepted | Recover opt-in private terminal drafts without creating accepted research state |
+| [0014](0014-device-replacement-recovery.md) | accepted | Restore encrypted research backups with a separately held recovery key and enroll a new device signing key; validation timing amended by ADR 0016 |
+| [0015](0015-native-local-enrollment.md) | accepted | Establish local approval bindings through foreground native enrollment in a fixed private namespace |
+| [0016](0016-own-project-source-release.md) | accepted | Manual own-project source delivery; first-release protected-custody requirement superseded by ADR 0017 |
+| [0017](0017-personal-terminal-alpha.md) | accepted | Deliver a key-free personal terminal workspace, get feedback, then iterate |
+| [0018](0018-optional-personal-ai.md) | accepted | Add optional proposal-only AI to the personal workspace after typed origin and return checks; qualify the actual provider separately |
 
 Numbers are never reused. A proposed ADR may change during review. After
 acceptance, repair only wording, links, metadata, or explicit supersession;

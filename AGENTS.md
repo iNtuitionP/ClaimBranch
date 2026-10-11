@@ -13,6 +13,10 @@ workflow rules, not the project encyclopedia.
    [the documentation policy](docs/_meta/documentation-policy.md).
 4. For work inside a subtree, follow the closest `AGENTS.md` as well as this
    file. A direct user instruction takes precedence.
+5. After every context compaction, reread the canonical philosophy, goals,
+   boundaries and current work using the [resumption reading path](docs/development/implementation-harness.md#resume-after-context-compaction)
+   before continuing. A compacted summary is an orientation aid, not a substitute.
+   During long work, also use that harness's milestone-based philosophy checks.
 
 ## Repository map
 
@@ -32,13 +36,18 @@ workflow rules, not the project encyclopedia.
 ## Implementation workflow
 
 The user selected the [native implementation harness](docs/development/implementation-harness.md)
-for ClaimBranch. Use it for build/change requests, without the brainstorming
-approval loop unless the user asks for that workflow again. Continue authorized
+for ClaimBranch. Do not use Superpowers skills. Choose a proportional,
+task-specific plan/review/check sequence from the user's current instruction;
+avoid repeated document reads and mechanical ceremony. Continue authorized
 implementation and verification; ask only when missing intent, a product
 trade-off, or a new authority boundary changes the outcome. This does not waive
 source verification, safety gates, or the journal's separate approvals.
 Use `python scripts/verify.py --scope <scope>` for explicit-scope checks; skipped
 coverage is not a clean pass. Keep durable progress in the existing ExecPlan.
+For UI/UX work, use the [design harness](docs/development/uiux-harness.md).
+For the next GitHub delivery milestone, follow the
+[manual own-project release order](docs/plans/active/2026-08-04-claimbranch-v1-and-gpu-systems.md#github-manual-release-implementation-order);
+do not require all deferred product features before this release.
 
 ## Documentation contract
 
@@ -67,8 +76,9 @@ The following are short safety summaries. The
 [product specification](docs/product/product-spec.md) and
 [decision index](docs/architecture/decisions/README.md) remain canonical.
 
-- The repository is in specification and validation-design stage; no usable
-  application or settled implementation stack exists yet.
+- The repository contains specifications, portable domain code and an interactive
+  synthetic prototype. Protected product operations and the production stack
+  remain incomplete; see the root README for current availability.
 - Accepted evidence is global and append-only; reasoning may branch.
 - AI output is proposal-only. It cannot confirm evidence, merge a semantic
   branch, modify the manuscript, or resolve debt.

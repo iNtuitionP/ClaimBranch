@@ -6,4 +6,6 @@ machine-checkable.
 
 - [Repository checks](workflow.md)
 - [Native implementation harness](implementation-harness.md)
+- [UI/UX design harness](uiux-harness.md) — context, references, comparable
+  prototypes, visual tuning and research-task verification.
 - [Notion coding journal](notion-coding-journal.md)

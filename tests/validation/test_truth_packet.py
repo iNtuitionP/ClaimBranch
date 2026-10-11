@@ -285,8 +285,22 @@ class TruthPacketCliTests(unittest.TestCase):
             result = self.run_checker(packet)
 
         self.assertEqual(1, result.returncode)
-        self.assertIn("ERROR: manifest.json: JSON nesting is too deep", result.stderr)
+        self.assertEqual("", result.stdout)
+        # Decoder recursion thresholds vary across supported Python builds.
+        # Either parsing rejects the nesting or the closed schema rejects it.
+        self.assertIn(result.stderr, (
+            "ERROR: manifest.json: JSON nesting is too deep\n",
+            "ERROR: manifest.json: unexpected keys: deep\n",
+        ))
         self.assertNotIn("Traceback", result.stderr)
+
+    def test_decoder_recursion_error_is_reported_without_a_value(self) -> None:
+        validator = check_truth_packet.TruthPacketValidator(CANONICAL_PACKET)
+        with mock.patch.object(check_truth_packet.json, "loads", side_effect=RecursionError):
+            value = validator.load_json("manifest.json")
+
+        self.assertIsNone(value)
+        self.assertEqual(["manifest.json: JSON nesting is too deep"], validator.errors)
 
     def test_manifest_rejects_unknown_fields(self) -> None:
         with TemporaryDirectory() as directory:

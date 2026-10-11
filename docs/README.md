@@ -8,9 +8,21 @@ in-progress material visibly different.
 
 - Product or UX work: [product map](product/README.md) ->
   [product specification](product/product-spec.md) -> relevant
-  [validation case](validation/README.md).
+  [validation case](validation/README.md); use the
+  [UI/UX harness](development/uiux-harness.md) for design exploration and review.
 - Current scope and sequencing: [active execution plans](plans/active/README.md)
-  -> [ClaimBranch graph contract to live-paper validation](plans/active/2026-08-04-claimbranch-v1-and-gpu-systems.md).
+  -> [alpha feedback and publication sequence](plans/active/2026-08-04-claimbranch-v1-and-gpu-systems.md#alpha-feedback-and-publication-sequence).
+  For the requested next LLM capability, read the
+  [optional AI follow-up proposal](plans/active/2026-08-04-claimbranch-v1-and-gpu-systems.md#optional-ai-follow-up-implementation-plan);
+  it preserves the completed manual alpha and separates portable preparation
+  from live scope/deployment decisions.
+  The [GitHub manual own-project release order](plans/active/2026-08-04-claimbranch-v1-and-gpu-systems.md#github-manual-release-implementation-order)
+  retains the completed first-alpha implementation sequence.
+  The [selected key-free personal-workspace boundary](plans/active/2026-08-04-claimbranch-v1-and-gpu-systems.md#key-free-personal-workspace-alternative)
+  prioritizes implementation, early feedback and correction before the protected
+  product's native work.
+  The [paper-graph amendment](plans/active/2026-08-04-claimbranch-v1-and-gpu-systems.md#paper-graph-and-usable-delivery-amendment)
+  retains the broader product direction.
 - Domain or architecture work: [target architecture](../ARCHITECTURE.md) ->
   [architecture status](architecture/README.md) ->
   [draft domain design](designs/2026-08-03-domain-model.md) -> relevant ADR.
@@ -50,6 +62,10 @@ means work is still in progress. The full lifecycle is defined in the
 See the [root README](../README.md) for implementation status. Add generated
 reference, user documentation, a changelog, or runbooks when the first real
 artifact needs them, not to complete a preconceived folder tree.
+
+The root README uses a [repository banner](assets/claimbranch-banner.svg) and
+an [actual synthetic terminal snapshot](assets/terminal-preview.svg). The latter
+is rendered from `demo tui --snapshot --ai-off`, not a live-AI observation.
 
 ## Rules that keep the map trustworthy
 
