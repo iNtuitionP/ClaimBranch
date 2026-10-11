@@ -18,6 +18,7 @@
 </p>
 
 <p align="center">
+  <a href="https://github.com/iNtuitionP/ClaimBranch/releases/tag/v0.1.0-alpha.2">Download alpha</a> ·
   <a href="#quick-start">Quick start</a> ·
   <a href="#your-own-paper">Your own paper</a> ·
   <a href="#what-works-today">Features</a> ·

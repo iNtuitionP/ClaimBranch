@@ -160,13 +160,19 @@ success. Do not call the product v1.0 before the live-paper gate passes.
   Initial portable CI exposes the additional input/check-budget repairs below.
   This changes checkout consistency, not Windows app support or L04 completion.
 
-- [ ] 2026-10-11 KST - Publish and verify the alpha patch for observed source CI.
+- [x] 2026-10-11 KST - Publish and verify the alpha patch for observed source CI.
   Reproduce ESC plus a curses integer keypad suffix being returned as standalone
   Escape (two failing unit subcases), then preserve it as an ignored modified
   key. All 59 affected TUI/artifact/harness and actual-PTY checks pass, with actual
   Opus 5.5 PASS. Preserve initial Mac loopback timeout and Ubuntu key-test failure;
   adjust bounded checker/CI budgets and front-load their regression cases.
-  Full updated local/remote alpha and a fresh-clone patch artifact still follow.
+  Source commit `1d46c80` is tagged and published as
+  [v0.1.0-alpha.2](https://github.com/iNtuitionP/ClaimBranch/releases/tag/v0.1.0-alpha.2).
+  Its fresh-clone manual/rescue and independent runtime checks pass; downloaded
+  assets match the checked licensed ZIP. Full updated local alpha/harness passes:
+  209 contract, 988 application and 22 harness cases, with no skips. Actual
+  affected regressions pass on both portable CI hosts; the complete remote run
+  remains in progress and is not claimed as a pass.
 
 - [x] 2026-10-11 KST - L04 model/effort preflight is implemented and verified.
   Two separately authorized exact synthetic diagnostics fail:
@@ -6094,6 +6100,18 @@ The executable milestone names used throughout this plan are:
 
 ## Outcomes & Retrospective
 
+- 2026-10-11 KST - The observed modified-key cancellation and checkout-byte
+  problems are repaired in published
+  [v0.1.0-alpha.2](https://github.com/iNtuitionP/ClaimBranch/releases/tag/v0.1.0-alpha.2).
+  Actual affected regressions pass on macOS and Ubuntu CI; Windows fixture checks
+  pass. Its fresh-clone and independently extracted manual/backup/rescue journeys
+  pass, and the GitHub-downloaded licensed artifact matches those checked bytes.
+  Full updated local alpha/harness passes all 1,219 selected cases without skips;
+  complete remote CI remains in progress at this checkpoint. The
+  [publication evidence](#alpha-feedback-and-publication-sequence) preserves
+  earlier failures and bounded review results. S=4/4 and L=3/4 are unchanged;
+  live AI, protected product and human-value validation remain unfinished.
+
 - 2026-10-11 KST - The owner-authorized manual alpha is publicly available as
   [v0.1.0-alpha.1](https://github.com/iNtuitionP/ClaimBranch/releases/tag/v0.1.0-alpha.1),
   with MIT, original README assets and the complete own-project return/rescue
@@ -7911,10 +7929,17 @@ the next evidence is whether a person can perform that loop, not another native
 key experiment. Recorded behavior cannot certify comprehension or scientific truth.
 
 **Remaining count.** S stays **4/4 completed, zero first-alpha feature groups
-remaining**. Source-publication work and feedback are the next actions below;
-they do not reopen S03/S04 or introduce new implementation IDs. The wider B/U
+remaining**. Current-source publication is complete; feedback is the next action
+below. These do not reopen S03/S04 or introduce new implementation IDs. The wider B/U
 ledgers remain future work, with overlapping dependencies rather than a count
 to add to the alpha. The complete product and V0 are still unfinished.
+
+**Current publication.** The owner-authorized manual source is published as
+[v0.1.0-alpha.2](https://github.com/iNtuitionP/ClaimBranch/releases/tag/v0.1.0-alpha.2),
+under MIT, with the live-AI limitation visible. Rows 1–2 below are complete for
+that checked artifact; row 3's new-content feedback is the next researcher action.
+Complete remote CI observation remains separate from local validation and does
+not reopen completed feature groups.
 
 | Order | Next action and owner | Observable completion |
 |---|---|---|
@@ -8022,6 +8047,32 @@ both match `claude-opus-5-5`; it preserves the unknown timeout cause and notes
 that a concurrently queued resize is also consumed with that prefix. Live AI
 remains unavailable, S=4/4 and L=3/4 are unchanged, and no formal understanding,
 protected authority or Windows-product pass follows.
+
+**Patch publication evidence.** Source commit
+`1d46c8028543dc849b6e1619dd88e94fde50bc7c` is fast-forward published to main,
+tagged `v0.1.0-alpha.2` and published as an MIT prerelease; alpha.1 remains
+unchanged. A fresh clone independently passes the public personal PTY/return/
+rescue journey, builds the 131-member runtime ZIP and passes the extracted
+doctor, replay, graph/draft/episode/offline-provider, terminal, loopback and
+personal/backup/rescue checks without repository-runtime fallback. ZIP SHA-256
+is `db12f1bb46b1fea3ee56dc02208eb5b94b0b8263c0b7eadc9499995112c29ff7`.
+Downloading both release assets from GitHub confirms that digest, checksum file,
+member count and byte-identical MIT notice. A tag push without the command-scoped
+owner credential initially fails through an unavailable editor credential helper;
+the scoped retry succeeds without switching the global account or exposing tokens.
+The [actual source CI](https://github.com/iNtuitionP/ClaimBranch/actions/runs/38104477555)
+already passes documentation, Windows fixtures and the three front-loaded
+input/artifact regressions on both macOS and Ubuntu. Its complete portable scopes
+remain in progress at this checkpoint. The updated local integration completes
+`python3.13 -B scripts/verify.py --scope alpha --scope harness --temp-root /private/tmp`
+with all selected checks passed: documentation (71 Markdown files), fixture,
+schemas, resources, 209 contract cases (9.982 s), 988 application cases
+(655.491 s), 22 harness cases (0.588 s) and whitespace. There are no selected
+skips. Documentation-only publication evidence and the README download link
+then pass the 71-file documentation check again; unchanged runtime coverage is
+not rerun for those edits. The release states the remaining remote status
+explicitly. This is
+current-source publication, not L04 completion or a new AI-request approval.
 
 For row 3, use the [six connected personal-alpha feedback tasks](../../validation/cases/saturation.md#personal-alpha-feedback-tasks)
 with invented content. That case owns inputs, task order and observation points;
