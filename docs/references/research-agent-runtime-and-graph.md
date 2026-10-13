@@ -2,7 +2,7 @@
 kind: reference
 status: active
 owners: maintainers
-last_reviewed: 2026-10-10
+last_reviewed: 2026-10-12
 canonical_for: external research on personal-agent runtimes, graph retrieval, and local inference serving
 ---
 
@@ -11,6 +11,26 @@ canonical_for: external research on personal-agent runtimes, graph retrieval, an
 Runtime/graph sources reviewed 2026-08-14; the personal-provider configuration
 sources below were inspected 2026-10-10. These inform ClaimBranch's boundaries; they do not
 make an integration or technology implemented truth.
+
+## Contextual conversation and selected graph actions
+
+Reviewed 2026-10-12 against official documentation and the primary VISAR paper.
+This is source inspection, not hands-on product validation or a dependency
+selection. The [workspace design review](../designs/2026-09-22-episode-review.md#contextual-conversation-and-small-edit-proposals)
+owns the proposed application to ClaimBranch.
+
+| Source | Observed mechanism | What to borrow / boundary |
+|---|---|---|
+| [VISAR, sections 4.3.1–4.3.3](https://arxiv.org/html/2304.07810v2) | Users select text and add it to the graph, directly edit nodes/edges, and select suggested counterarguments before reviewing the outline. Text and graph selections highlight their counterparts. | Closest interaction reference for selective incorporation. Its tree-based essay outline and generated evidence suggestions do not establish empirical observations, shared-evidence semantics or research authority. |
+| [tldraw agent starter](https://tldraw.dev/starter-kits/agent) | Context parts and action utilities are separate. Each action supplies its schema, validation, application and presentation; stale/nonexistent shape references may cancel an action. Modes narrow available capabilities. | Reuse separation of reading and small operations. The starter also modifies the canvas during generation; ClaimBranch must stage proposals and retain human recording instead. This is not a reason to replace the TUI with a canvas SDK. |
+| [Tana Outliner AI Chat](https://outliner.tana.inc/learn/features/ai-chat), [AI Agents](https://outliner.tana.inc/learn/features/ai-agents) | Chat can start from a node; node references supply context. Agent commands appear below chat and operate in the originating node's context. Referencing a tree includes its descendant nodes. | Borrow object-bound conversation and explicit follow-up commands. Do not copy automatic subtree disclosure or optional background startup requests into ClaimBranch's reviewed-context boundary. |
+| [CopilotKit v2 human input hook](https://docs.copilotkit.ai/reference/v2/hooks/useHumanInTheLoop) | An interactive tool pauses for a custom confirmation/form UI and resumes through a user-response callback. Its parameter schema and UI are separate from ordinary prose. | Borrow editable action cards and explicit responses. A UI callback alone does not prove exact scientific scope, stale-state refusal or authority; those remain application checks. No React dependency is selected. |
+| [OpenClaw execution approvals](https://docs.openclaw.ai/tools/exec-approvals) | An approval-backed execution binds concrete command/context and rechecks applicable identities; allow-once differs from durable policy. Documentation explicitly limits approvals' security guarantees. | Borrow explicit pending-action review and rechecking. This is command-execution infrastructure, not a scientific graph or ClaimBranch authority implementation; no shell, general tools or gateway is admitted. |
+
+Inference from these patterns: conversation can remain readable independently
+of an optional, narrowly typed edit proposal. They do not prove this will improve
+ClaimBranch research, eliminate malformed edits or resolve its observed L04
+failure. Validate that outcome locally, then through the actual selected service.
 
 ## OpenClaw
 

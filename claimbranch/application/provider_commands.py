@@ -1,4 +1,4 @@
-"""Public BYO preparation and personal-session attachment with a closed live gate."""
+"""Public BYO preparation and explicit personal Codex connection."""
 import json
 import secrets
 import sys
@@ -14,17 +14,16 @@ from .tui_project import project_workspace
 
 
 class PersonalProviderConnection:
-    """Session-only selected profile; configuration cannot qualify a deployment.
+    """Session-only attachment; exact foreground review precedes every dispatch.
 
-    Actual provider evidence is still missing. The public qualification gate
-    deliberately refuses before transport creation or credential lookup. Owned
-    test peers replace that check to exercise the downstream integration only.
-    No serialized flag, CLI switch or restored checkpoint can bypass it.
+    The checked Mac Codex relay is the supported live route. Other models/API
+    deployments remain previews; no saved configuration is consent to send.
     """
     def __init__(self, directory):
         self.store = ProviderProfileStore(directory)
         self.profile = self.workspace = None
         self.enabled = False
+        self.cleanup_pending = False
         self.transports = {}
 
     def __enter__(self):
@@ -44,9 +43,11 @@ class PersonalProviderConnection:
         self.current_profile()
         self.workspace = app.paper
         app.provider_connection = self
-        app.message = 'Personal LLM selected for unsent previews. Live provider not qualified; manual work remains available.'
+        app.message = self.connection_notice()
 
     def current_profile(self):
+        if self.cleanup_pending or any(hasattr(t,'cleanup_failed') and t.cleanup_failed() for t in self.transports.values()):
+            raise ContractError(self.cleanup_notice())
         if not self.enabled:
             raise ContractError('AI OFF. Manual work and earlier AI origins remain available.')
         current = load_provider_profile(self.store.read())
@@ -58,18 +59,46 @@ class PersonalProviderConnection:
         raise ContractError('Actual provider not qualified. No key was read or request sent. '
                             'Continue manually; actual research-file, mount, credential, IPC and API evidence is required.')
 
-    def begin(self, worker, prepared):
+    def codex_worker_type(self, profile):
+        from .paper_proposal_work import CodexProposalWork, CodexProposalPreview
+        return CodexProposalWork if profile.value['model']=='gpt-6-sol' else CodexProposalPreview
+
+    def connection_notice(self):
+        if type(self.profile) is CodexProfile and self.profile.value['model']=='gpt-6-sol':
+            return 'Codex selected. Review exact content before each request; Mac runtime/login checked on send. No request sent.'
+        return 'Personal LLM selected for unsent previews only; this connection is not supported for live requests.'
+
+    def require_codex_qualification(self, profile):
+        if type(profile) is not CodexProfile or profile.value['model']!='gpt-6-sol' or profile.value['client_version']!='0.158.0':
+            raise ContractError('Live Codex requires the explicitly selected gpt-6-sol profile and CLI 0.158.0.')
+        from .codex_relay import installed_runtime
+        # Inspect only identities and private permissions. The asynchronous
+        # relay checks the exact executable version under confinement before
+        # exposing the login alias. Neither check reads login bytes here.
+        installed_runtime()
+
+    def begin(self, worker, prepared, *, confirmed_http_digest=None):
         profile = self.current_profile()
         if worker.workspace is not self.workspace or prepared.profile != profile:
             raise ContractError('The selected personal connection or request owner changed; review again.')
         if type(profile) is CodexProfile:
-            from .paper_proposal_work import CodexProposalPreview
-            if type(worker) is not CodexProposalPreview:
+            from .paper_proposal_work import CodexProposalWork
+            if type(worker) is not self.codex_worker_type(profile):
                 raise ContractError('The selected Codex preview owner changed.')
             worker.recheck_preview(prepared, profile)
-            raise ContractError('Actual Codex client not qualified. No client, login credential or request was used. '
-                'Restricted runtime access, exact destinations/wrapper and checked return must be verified. '
-                'This is an application input preview; continue manually.')
+            if type(worker) is not CodexProposalWork:
+                raise ContractError('Actual Codex client not qualified. No client, login credential or request was used. '
+                    'This is an application input preview; continue manually.')
+            if confirmed_http_digest != worker.http_preview(prepared, profile)['body_sha256']:
+                raise ContractError('Complete HTTP preview changed; inspect a new exact request.')
+            self.require_codex_qualification(profile)
+            from .codex_relay import CodexRelayTransport
+            transport = self.transports.get(worker.owner)
+            if transport is None:
+                transport = self.transports[worker.owner] = CodexRelayTransport()
+            worker.begin(prepared,transport=transport,confirmed_digest=prepared.digest,
+                current_profile=profile,confirmed_http_digest=confirmed_http_digest)
+            return
         self.require_qualification(profile)
         from .provider_transport import ProviderTransport
         transport = self.transports.get(worker.owner)
@@ -79,16 +108,24 @@ class PersonalProviderConnection:
 
     def close(self):
         self.enabled = False
-        for transport in self.transports.values():
+        for transport in tuple(self.transports.values()):
             transport.close()
-        for transport in self.transports.values():
-            transport.wait_closed(2)
-        self.transports.clear()
+        deadline=time.monotonic()+5
+        for owner,transport in tuple(self.transports.items()):
+            if transport.wait_closed(max(0,deadline-time.monotonic())):
+                del self.transports[owner]
         self.store.close()
+        self.cleanup_pending=bool(self.transports)
+        return not self.transports
+
+    def cleanup_notice(self):
+        return ' '.join(transport.cleanup_notice() if hasattr(transport,'cleanup_notice') else
+            'Request cleanup not confirmed; continue manually and close this session.'
+            for transport in self.transports.values())
 
 
 def add_provider_commands(commands):
-    provider = commands.add_parser('provider', help='Prepare your own LLM API or Codex login connection; live dispatch is not enabled')
+    provider = commands.add_parser('provider', help='Connect Mac Codex gpt-6-sol with exact request review; other API/models are preview-only')
     actions = provider.add_subparsers(dest='provider_action', required=True)
     for name in ('configure', 'configure-codex', 'inspect', 'preview'):
         action = actions.add_parser(name)

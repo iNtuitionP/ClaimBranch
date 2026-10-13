@@ -17,6 +17,7 @@ def enabled(app):
 
 def excluded_work(app):
     result = ['unfinished research editor text'] if getattr(app, 'uncheckpointed_editor', False) else []
+    if getattr(app, 'unsent_discussion_question', False): result.append('unsent AI discussion question (session only)')
     if app.branches.volatile_work(): result.append('branch/merge work')
     if any(mode == 'answer' for _, mode in app.manuscript.buffers):
         result.append('manuscript review answers')

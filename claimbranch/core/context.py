@@ -215,12 +215,12 @@ def review_outbound(context, destination, *, request_id, nonce, now, result_form
         raise ContractError("typed context and destination required")
     if compile_context(context.records, context.selection) != context:
         raise ContractError("compiled context changed")
-    if result_format not in ("text", "typed"):
+    if result_format not in ("text", "typed", "advisory"):
         raise ContractError("unknown provider response format")
     if (retention not in ('volatile-session-only', 'workspace-history')
             or result_format == 'text' and retention != 'volatile-session-only'):
         raise ContractError('unsupported provider retention; legacy text review remains volatile')
-    if result_format == "typed":
+    if result_format in ("typed", "advisory"):
         from .paper_proposals import PURPOSE_KINDS
         if context.selection.schema_version != 2 or context.selection.purpose not in PURPOSE_KINDS:
             raise ContractError("typed dispatch requires scientific paper context v2")
@@ -234,6 +234,8 @@ def review_outbound(context, destination, *, request_id, nonce, now, result_form
     # bind their response contract in the displayed one-shot review as well.
     if result_format == "typed":
         value['result_schema'] = 'claimbranch.provider-result/v2'
+    elif result_format == 'advisory':
+        value['result_schema'] = 'claimbranch.provider-advice/v1'
     return OutboundReview(request_id, nonce, now, now + 120, canonical_bytes(value), digest(value))
 
 

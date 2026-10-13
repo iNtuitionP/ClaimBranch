@@ -1,3 +1,44 @@
+# Python runtime, environments and local test output.
 __pycache__/
 *.py[cod]
+.venv/
+venv/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+.coverage.*
+htmlcov/
+
+# Reproducible packages and disposable local artifacts (not source fixtures).
+/build/
+/dist/
+/*.egg-info/
+/.artifacts/
+/.cache/
+/.local/
+/tmp/
+/.tmp/
+/.worktrees/
+
+# Machine-specific environment and credentials. Keep safe examples reviewable.
+.env
+.env.*
+!.env.example
+!.env.sample
+.envrc
+.direnv/
+/.codex/auth.json
+/.codex/config.toml
+/.codex/history.jsonl
+/.codex/sessions/
+/.codex/log/
+/.claude/settings.local.json
+/.claude/worktrees/
+
+# Editor / operating-system files. Shared agent skills and hooks stay tracked.
+.idea/
+.vscode/
+*.swp
+*.swo
 .DS_Store

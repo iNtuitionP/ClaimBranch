@@ -384,7 +384,122 @@ class PersonalProviderReturnTests(unittest.TestCase):
 
 
 class CodexProposalRetentionTests(unittest.TestCase):
-    def pending(self, app=None, *, clock=None, include_draft=False, value=None):
+    def test_selected_advice_prefills_once_and_retains_origin_through_edit_and_return(self):
+        from claimbranch.application.paper_advisory import AdviceEdits
+        from claimbranch.core.advisory import advice_from_text
+        app,worker,prepared,_=self.pending(prompt='What is missing?',
+            value=advice_from_text('CPU-A만 측정했습니다.\nCPU-B에서 재검증이 필요합니다.'.encode()))
+        worker.complete(prepared.review.request_id)
+        editor=AdviceEdits(app.paper,app.context_key(),prepared.review.request_id,clock=lambda:100)
+        comparison=editor.preview('claim',0,len('CPU-A만 측정했습니다.'))
+        self.assertEqual({},editor.work.records)
+        before=app.paper.history.manifest()
+        key=editor.prefill(comparison)
+        self.assertEqual('CPU-A만 측정했습니다.',editor.inputs[key]['body']['statement'])
+        self.assertEqual('',editor.inputs[key]['body']['scope'])
+        editor.work.project()  # Unfinished input does not block the existing graph.
+        self.assertEqual({},editor.work.records)
+        with self.assertRaises(ContractError):editor.prefill(comparison)
+        record=deepcopy(editor.inputs[key])
+        record['body'].update(role='main',parent_ids=['thesis'],scope='CPU-A only',statement='Caching helps on CPU-A only.')
+        editor.work.put(record);editor.inputs.pop(key);editor.work.project()
+        saved=snapshot(app);reopened=TerminalWorkspace(saved.history,ai_off=True);restore(reopened,saved)
+        lineage=reopened.paper.candidates(*reopened.context_key()).origins[key]
+        self.assertTrue(lineage.ai_influenced)
+        self.assertEqual('CPU-A만 측정했습니다.',decode(lineage.payload)['revisions'][0]['advisory_origin']['passage'])
+        self.assertEqual('Caching helps on CPU-A only.',lineage.amendment['body']['statement'])
+        self.assertEqual(before,reopened.paper.history.manifest())
+
+    def test_explicit_edit_uses_typed_candidates_and_retains_instruction(self):
+        app,worker,prepared,_=self.pending(prompt='Make the limited claim and its unrun test.',edit=True)
+        self.assertTrue(prepared.edit)
+        self.assertIsNotNone(json.loads(prepared.body)['output_schema'])
+        worker.complete(prepared.review.request_id)
+        preview=worker.compare(['repeat'])
+        self.assertEqual(['narrow'],preview['required_item_ids'])
+        before=worker.work.records
+        with patch('claimbranch.application.paper_proposal_work.check_capacity',side_effect=ContractError('full')):
+            with self.assertRaises(ContractError):worker.stage(preview)
+        self.assertEqual(before,worker.work.records)
+        worker.stage(preview)
+        saved=snapshot(app);returned=TerminalWorkspace(saved.history,ai_off=True);restore(returned,saved)
+        entry=returned.paper.proposal_history()[0]
+        self.assertEqual('Make the limited claim and its unrun test.',entry['edit']['prompt'])
+        self.assertNotIn('discussion',entry)
+        self.assertEqual(2,len(returned.paper.candidates(*returned.context_key()).origins))
+
+    def test_unfinished_passage_does_not_block_independent_edit_and_keeps_one_source(self):
+        from claimbranch.application.paper_advisory import AdviceEdits
+        from claimbranch.core.advisory import advice_from_text
+        app,worker,prepared,_=self.pending(prompt='Next?',value=advice_from_text(b'Test CPU-B.'))
+        worker.complete(prepared.review.request_id)
+        editor=AdviceEdits(app.paper,app.context_key(),prepared.review.request_id,clock=lambda:100)
+        key=editor.prefill(editor.preview('scientific-edge',0,11))
+        self.assertEqual('Test CPU-B.',editor.inputs[key]['body']['rationale'])
+        self.assertEqual({},editor.work.records)
+        with self.assertRaisesRegex(ContractError,'required'):worker.erase_payload(prepared.review.request_id)
+        app,edit,request_edit,_=self.pending(app,prompt='Make the limited claim',edit=True)
+        edit.complete(request_edit.review.request_id);edit.stage(edit.compare(['narrow']))
+        self.assertEqual(1,len(edit.work.records))
+        saved=snapshot(app);returned=TerminalWorkspace(saved.history,ai_off=True);restore(returned,saved)
+        self.assertIn(key,returned.review.candidate_inputs[returned.context_key()])
+        self.assertNotIn('reply_text',decode(editor.work.origins[key].payload)['revisions'][0]['advisory_origin'])
+
+    def test_clarification_can_be_explicitly_selected_for_next_edit_and_return(self):
+        value={'schema':'claimbranch.provider-result/v2','status':'ok','critique':'Which claim is B?', 'items':[]}
+        app,worker,prepared,_=self.pending(prompt='Connect A to B',edit=True,value=value)
+        worker.complete(prepared.review.request_id)
+        app,second,next_edit,_=self.pending(app,prompt='B means thesis',edit=True,
+            previous_requests=[prepared.review.request_id])
+        self.assertEqual('Which claim is B?',decode(next_edit.discussion)['previous'][0]['text'])
+        second.complete(next_edit.review.request_id)
+        saved=snapshot(app);returned=TerminalWorkspace(saved.history,ai_off=True);restore(returned,saved)
+        self.assertEqual(2,len(returned.paper.proposal_history()))
+
+    def test_edit_can_ask_for_clarification_without_creating_anything(self):
+        value={'schema':'claimbranch.provider-result/v2','status':'ok','critique':'Which claim is B?', 'items':[]}
+        app,worker,prepared,_=self.pending(prompt='Connect A and B.',edit=True,value=value)
+        worker.complete(prepared.review.request_id)
+        self.assertEqual(value,worker.historical()[0]['result'])
+        self.assertEqual({},worker.work.records)
+        with self.assertRaises(ContractError):worker.compare([])
+
+    def test_passage_cancel_tampering_quota_and_expiry_preserve_science(self):
+        from claimbranch.application.paper_advisory import AdviceEdits
+        from claimbranch.core.advisory import advice_from_text
+        now=[100];app,worker,prepared,_=self.pending(prompt='Next test?',value=advice_from_text(b'Test CPU-B.'))
+        worker.complete(prepared.review.request_id)
+        editor=AdviceEdits(app.paper,app.context_key(),prepared.review.request_id,clock=lambda:now[0])
+        for kind in ('claim','experiment-plan','scientific-edge'):
+            preview=editor.preview(kind,0,11)
+            bad=deepcopy(preview);bad['passage']='Forged'
+            with self.assertRaises(ContractError):editor.prefill(bad)
+            with patch('claimbranch.application.paper_proposal_work.check_capacity',side_effect=ContractError('full')):
+                with self.assertRaises(ContractError):editor.prefill(preview)
+            self.assertEqual({},editor.work.records)
+        now[0]=160
+        with self.assertRaises(ContractError):editor.prefill(preview)
+        self.assertEqual({},editor.work.records)
+        self.assertEqual('Test CPU-B.',app.paper.proposal_history()[0]['result']['text'])
+
+    def test_unfinished_advice_plan_reopens_with_missing_fields_and_tamper_refusal(self):
+        from claimbranch.application.paper_advisory import AdviceEdits
+        from claimbranch.application.paper_work_store import PaperWork
+        from claimbranch.core.advisory import advice_from_text
+        app,worker,prepared,_=self.pending(prompt='Next?',value=advice_from_text(b'Test CPU-B.'))
+        worker.complete(prepared.review.request_id)
+        editor=AdviceEdits(app.paper,app.context_key(),prepared.review.request_id,clock=lambda:100)
+        key=editor.prefill(editor.preview('experiment-plan',0,11))
+        saved=snapshot(app);returned=TerminalWorkspace(saved.history,ai_off=True);restore(returned,saved)
+        body=returned.review.candidate_inputs[returned.context_key()][key]['body']
+        self.assertEqual('planned',body['status']);self.assertEqual('',body['metric']['definition'])
+        self.assertNotIn('value',body)
+        bad=decode(saved.payload)
+        origin=bad['workspace']['proposals']['origins'][0]['lineages'][0]['revisions'][0]['advisory_origin']
+        origin['passage']='Invented AI text.'
+        with self.assertRaises(ContractError):PaperWork(canonical_bytes(bad))
+
+    def pending(self, app=None, *, clock=None, include_draft=False, value=None, prompt=None, previous_requests=(), edit=False):
         from claimbranch.application.paper_proposal_work import CodexProposalWork
         from claimbranch.application.codex_app_server import CodexAppServerTransport, CodexResult
         from claimbranch.application.provider_profile import CodexProfile
@@ -393,7 +508,8 @@ class CodexProposalRetentionTests(unittest.TestCase):
         import sys
         app = app or fixture()
         worker = CodexProposalWork(app.paper, app.context_key(), clock=clock or (lambda:100))
-        prepared = worker.prepare(request(app), profile=CodexProfile.create(model='gpt-6.1-sol'), include_draft=include_draft)
+        prepared = worker.prepare(request(app), profile=CodexProfile.create(model='gpt-6.1-sol'),
+            include_draft=include_draft, prompt=prompt, previous_requests=previous_requests, edit=edit)
         raw = canonical_bytes(value or response())
         job = Job.__new__(Job)
         job.result = CodexResult(prepared.review.request_id, prepared.digest, 'completed', 42,
@@ -405,6 +521,82 @@ class CodexProposalRetentionTests(unittest.TestCase):
         with patch.object(transport, 'start', return_value=job):
             worker.begin(prepared, transport=transport, confirmed_digest=prepared.digest, current_profile=prepared.profile)
         return app, worker, prepared, job
+
+    def test_advice_reads_reopens_and_never_becomes_graph_items(self):
+        from claimbranch.core.advisory import advice_from_text
+        from claimbranch.application.paper_proposal_work import RetainedProposalReview
+        value=advice_from_text('CPU-A 결과만으로 CPU-B를 일반화할 수 없습니다.\n추가 측정이 필요합니다.'.encode())
+        app,worker,prepared,_=self.pending(prompt='어떤 주장이 아직 불확실한가요?',value=value)
+        before=app.paper.history.manifest()
+        worker.complete(prepared.review.request_id)
+        self.assertEqual(value,worker.historical()[0]['result'])
+        with self.assertRaises(ContractError): worker.compare([])
+        saved=snapshot(app)
+        self.assertEqual('claimbranch.paper-work/v12',decode(saved.payload)['schema'])
+        reopened=TerminalWorkspace(saved.history,ai_off=True);restore(reopened,saved)
+        entry=reopened.paper.proposal_history()[0]
+        self.assertEqual(value,entry['result'])
+        self.assertEqual('어떤 주장이 아직 불확실한가요?',entry['discussion']['prompt'])
+        self.assertEqual(1,reopened.review.session()._prior_dispatches)
+        self.assertEqual({},reopened.paper._proposal_active)
+        self.assertEqual(before,reopened.paper.history.manifest())
+        with self.assertRaises(ContractError):
+            RetainedProposalReview(reopened.paper,reopened.context_key(),entry['request_id'])
+
+    def test_follow_up_includes_only_chosen_owned_messages_and_keeps_the_budget(self):
+        from claimbranch.core.advisory import advice_from_text
+        from claimbranch.application.paper_proposal_work import CodexProposalWork,restore_proposals,proposal_snapshot
+        from claimbranch.application.provider_profile import CodexProfile
+        value=advice_from_text(b'Test CPU-B before generalizing.')
+        app,worker,first,_=self.pending(prompt='What is missing?',value=value)
+        worker.complete(first.review.request_id)
+        app,second,prepared,_=self.pending(app,prompt='How could we test that?',
+            value=value,previous_requests=[first.review.request_id])
+        selected=decode(prepared.discussion)
+        self.assertEqual('Test CPU-B before generalizing.',selected['previous'][0]['text'])
+        self.assertEqual('What is missing?',selected['previous'][0]['prompt'])
+        second.complete(prepared.review.request_id)
+        saved=snapshot(app); returned=TerminalWorkspace(saved.history,ai_off=True);restore(returned,saved)
+        entry=returned.paper.proposal_history()[1]
+        self.assertEqual(selected,entry['discussion'])
+        with self.assertRaisesRegex(ContractError,'included'):
+            second.erase_payload(first.review.request_id)
+        for mutate in ('prompt','text','request_id'):
+            bad=proposal_snapshot(returned.paper)
+            if mutate=='prompt': bad['attempts'][1]['discussion']['prompt']='Forged question'
+            else: bad['attempts'][1]['discussion']['previous'][0][mutate]='forged'
+            with self.assertRaises(ContractError): restore_proposals(returned.paper,bad)
+        app,third,last,_=self.pending(returned,prompt='Third question',value=value)
+        third.complete(last.review.request_id)
+        with self.assertRaisesRegex(ContractError,'three'):
+            CodexProposalWork(app.paper,app.context_key()).prepare(request(app),profile=CodexProfile.create(model='gpt-6-sol'))
+
+    def test_an_action_failure_does_not_erase_saved_advice(self):
+        from claimbranch.core.advisory import advice_from_text
+        value=advice_from_text(b'No graph edit is necessary yet.')
+        app,first,prepared,_=self.pending(prompt='Discuss this result',value=value)
+        first.complete(prepared.review.request_id)
+        app,second,next_request,_=self.pending(app,value={'invalid':'graph-item'})
+        second.complete(next_request.review.request_id)
+        saved=snapshot(app);returned=TerminalWorkspace(saved.history,ai_off=True);restore(returned,saved)
+        entries=returned.paper.proposal_history()
+        self.assertEqual(value,entries[0]['result'])
+        self.assertEqual('malformed',entries[1]['provider_disposition'])
+
+    def test_erasing_selected_reply_invalidates_unsent_follow_up(self):
+        from claimbranch.core.advisory import advice_from_text
+        from claimbranch.application.paper_proposal_work import CodexProposalWork
+        app,first,original,_=self.pending(prompt='What remains unknown?',
+            value=advice_from_text(b'Only CPU-A was measured.'))
+        first.complete(original.review.request_id)
+        follow_up=CodexProposalWork(app.paper,app.context_key(),clock=lambda:100)
+        prepared=follow_up.prepare(request(app),profile=original.profile,
+            prompt='What should we measure next?',previous_requests=[original.review.request_id])
+        first.erase_payload(original.review.request_id)
+        with self.assertRaisesRegex(ContractError,'unavailable'):
+            follow_up.recheck_preview(prepared,original.profile)
+        self.assertEqual(1,len(app.paper.proposal_history()))
+        self.assertEqual('erased',app.paper.proposal_history()[0]['payload_availability'])
 
     def test_checked_items_stage_edit_and_restore_without_capability(self):
         app, worker, prepared, _ = self.pending()
@@ -736,6 +928,220 @@ with PersonalProjectStore(sys.argv[1]) as store:
             'disposition':entry['provider_disposition'],'codex':entry['codex']}
         entry['trace_digest']=digest(trace);rewritten=PaperWork(canonical_bytes(value))
         with self.assertRaises(ContractError):project.with_work(rewritten)
+        self.assertEqual(project.payload,self.store.load().payload)
+
+
+class PersonalContextualReturnTests(unittest.TestCase):
+    from tests.application.test_personal_research import PersonalResearchTests as _fixture
+    setUp = _fixture.setUp
+    result = _fixture.result
+    confirm_result = _fixture.confirm_result
+
+    def receive(self, query, value, *, prompt, edit=False, previous=()):
+        import sys
+        from contextlib import closing
+        from types import SimpleNamespace
+        from claimbranch.application.paper_proposal_work import CodexProposalWork
+        from claimbranch.application.provider_profile import CodexProfile
+        from claimbranch.application.codex_app_server import CodexAppServerTransport, CodexResult
+        worker = CodexProposalWork(self.app.paper, self.app.context_key(), clock=lambda:100)
+        prepared = worker.prepare(query, profile=CodexProfile.create(model='gpt-6-sol'),
+            prompt=prompt, edit=edit, previous_requests=previous)
+        raw = canonical_bytes(value)
+        result = CodexResult(prepared.review.request_id, prepared.digest, 'completed', 42,
+            hashlib.sha256(raw).hexdigest(), raw, 'gpt-6-sol', '0.158.0', 'thread-owned', 'turn-owned')
+        job = SimpleNamespace(poll=lambda:result, cancel=lambda:False)
+        with closing(CodexAppServerTransport((sys.executable,'-I','-c','pass'), cwd=self.directory.parent, environment={})) as transport:
+            with patch.object(transport, 'start', return_value=job):
+                worker.begin(prepared, transport=transport, confirmed_digest=prepared.digest, current_profile=prepared.profile)
+            worker.complete(prepared.review.request_id)
+        return worker, prepared.review.request_id
+
+    def advice(self):
+        from claimbranch.core.advisory import advice_from_text
+        observation = self.confirm_result()
+        self.app.select('thesis')
+        self.app.keep_draft('The measured effect is conditional.', 'Only the input changed on this hardware.')
+        query = {'schema_version':1, 'project_id':self.app.view['project_id'], 'episode_id':self.app.episode_id,
+            'ref':'main', 'view_digest':self.app.view['digest'], 'purpose':'compare-evidence',
+            'selections':[{'record_id':'thesis','fields':['statement','role']},
+                {'record_id':observation,'fields':['statement','status','value','conditions','metric']}],
+            'scientific_edge_ids':[]}
+        text = '이 조건에서는 잡음이 지연을 늘릴 수 있습니다.\n관찰은 이 장치에 한정됩니다.\n다른 장치에서 비교하세요.\n모든 장치에서도 같을까요?'
+        worker, request_id = self.receive(query, advice_from_text(text.encode()), prompt='이 관찰로 무엇을 말할 수 있나요?')
+        return observation, query, worker, request_id, text
+
+    def candidates(self):
+        from claimbranch.application.paper_advisory import AdviceEdits
+        observation, query, worker, request_id, text = self.advice()
+        editor = AdviceEdits(self.app.paper, self.app.context_key(), request_id, clock=lambda:100)
+        keys = []
+        for kind, passage in zip(('claim','scientific-edge','experiment-plan','claim'), text.splitlines()):
+            start = text.index(passage)
+            key = editor.prefill(editor.preview(kind,start,start+len(passage)))
+            record = deepcopy(editor.inputs[key])
+            if kind == 'claim':
+                record['body'].update(role='main', parent_ids=['thesis'], scope='This measured hardware only',
+                    statement='Human: noise increases latency here.' if not keys else 'Omitted generalization.')
+            elif kind == 'scientific-edge':
+                record['body'].update(edge_type='supports',source_id=observation,target_id=keys[0],
+                    rationale='Human: 24 ms exceeds the clean 20 ms baseline.')
+            else:
+                record['body'].update(claim_id=keys[0],conditions='Another device; identical input and repetitions',
+                    metric={'name':'latency','definition':'input to output time','unit':'ms','comparison':'clean input'})
+            editor.work.put(record); editor.inputs.pop(key); keys.append(key)
+        editor.work.toggle(keys[0])  # Required by the selected connection and plan.
+        editor.work.toggle(keys[-1])  # Independent suggestion remains omitted.
+        self.app.review.candidate_works[self.app.review.key] = editor.work
+        return observation, query, editor.work, request_id, keys
+
+    def test_passage_record_correction_fresh_process_backup_and_readable_origin(self):
+        import subprocess,sys
+        from types import SimpleNamespace
+        from claimbranch.application.personal_project import PersonalProjectStore
+        from claimbranch.application.tui_project import project_workspace
+        from claimbranch.application.tui_proposals import ProposalsUI
+        observation, _, work, request_id, keys = self.candidates()
+        preview = self.research.prepare('reasoning')
+        self.assertFalse(preview.display['recording_available'])
+        self.assertEqual(3,len(preview.display['item_origins']))
+        entries = [{'topic_id':preview.display['explanation_topics'][0]['id'],
+                    'text':'다른 장치의 조건은 아직 생각하는 중입니다.','reuse_rationale':False}]
+        self.research.keep_explanation(preview,entries=entries)
+        preview = self.research.prepare('reasoning',explanation_state='leave-for-later',explanation_entries=entries)
+        self.research.commit(preview)
+        first = self.app.paper.recorded_origins()[0]
+        self.assertEqual('Only the input changed on this hardware.',first['cause']['judgment']['rationale'])
+        recorded = {r['id']:r for r in self.app.paper.history.view('main')['changes']}
+        self.assertNotIn(keys[-1],recorded)
+        self.assertEqual('planned',recorded[keys[2]]['body']['status'])
+        self.app.select(observation)
+        correction = self.app.intake.create(self.app.context_key())
+        for field,value in {'observation':'Corrected latency: 23 ms','value':'23','rationale':'Clock offset corrected.'}.items():
+            self.app.intake.keep(correction,field,value)
+        self.research.commit(self.research.prepare('correct',item_id=correction))
+        later = [{'topic_id':entries[0]['topic_id'],'text':'수정 후에도 다른 장치는 미검증입니다.','reuse_rationale':False}]
+        self.research.keep_retained_explanation(first['cause'],entries=later)
+        self.app.recovery.save(self.app)
+        destination = self.directory.parent/'restored-contextual'; destination.mkdir(mode=0o700)
+        restored = PersonalProjectStore.restore_backup(self.store.backup(),destination)
+        returned = project_workspace(restored)
+        self.assertEqual(first,returned.paper.recorded_origins()[0])
+        self.assertEqual('claimbranch.project-work/v9',decode(restored.payload)['schema'])
+        from claimbranch.application.personal_research import PersonalResearch
+        context = PersonalResearch(returned).explanation_contexts()[0]
+        self.assertEqual(later,context['explanation']['entries'])
+        self.assertEqual(entries,context['recorded_explanation']['entries'])
+        self.assertTrue(context['changed_context']); self.assertFalse(context['closure_available'])
+        with self.assertRaises(ContractError):returned.paper.erase_proposal_payload(request_id)
+        ui = ProposalsUI(SimpleNamespace(app=returned)); ui.owner = returned.work_key()
+        shown = '\n'.join(ui.content('origins'))
+        self.assertIn('ORIGINAL QUESTION / 이 관찰로 무엇을 말할 수 있나요?',shown)
+        self.assertIn('REQUESTED MODEL / gpt-6-sol',shown)
+        self.assertIn('REPORTED MODEL / gpt-6-sol / provider-reported, not independently verified',shown)
+        self.assertIn('SELECTED AI PASSAGE',shown)
+        self.assertIn('Human: noise increases latency here.',shown)
+        script = '''
+from claimbranch.application.personal_project import PersonalProjectStore
+from claimbranch.application.tui_project import project_workspace
+import sys
+with PersonalProjectStore(sys.argv[1]) as store:
+ app=project_workspace(store.load()); record=app.paper.recorded_origins()[0]
+ assert len(record['lineages'])==3
+ assert all(o['revisions'][0]['advisory_origin'] for o in record['lineages'])
+ assert not app.paper.ai_available and not app.paper._proposal_active
+ assert app.paper.history.view('main')['evidence'][0]['value']=='23'
+ assert not any(e['staging_available'] for e in app.paper.proposal_history())
+ print('contextual-origin-return-ok')
+'''
+        run = subprocess.run([sys.executable,'-B','-c',script,str(destination)],capture_output=True,text=True,timeout=30)
+        self.assertEqual(0,run.returncode,run.stderr); self.assertIn('contextual-origin-return-ok',run.stdout)
+        self.assertEqual(self.source,(self.paper/'paper.tex').read_bytes())
+
+    def test_explicit_edit_keeps_selected_earlier_advice_with_recorded_origin(self):
+        from types import SimpleNamespace
+        from claimbranch.application.tui_proposals import ProposalsUI
+        from claimbranch.application.tui_project import project_workspace
+        observation, query, _, advice_id, text = self.advice()
+        value = response(); value['items'] = [value['items'][1]]
+        value['items'][0]['body']['source_id']['id'] = observation
+        worker, edit_id = self.receive(query,value,prompt='이 관찰로 논제의 범위를 한정하는 연결을 만들어줘.',edit=True,previous=[advice_id])
+        key = worker.stage(worker.compare(['limit']))[0]
+        record = worker.work.records[key]; record['body']['rationale'] = 'Human: the observation covers one device only.'
+        worker.work.put(record)
+        self.app.review.candidate_works[self.app.review.key] = worker.work
+        preview = self.research.prepare('reasoning')
+        entries = [{'topic_id':t['id'],'text':'','reuse_rationale':True} for t in preview.display['explanation_topics']]
+        self.research.commit(self.research.prepare('reasoning',explanation_state='reviewed',explanation_entries=entries))
+        returned = project_workspace(self.store.load())
+        ui = ProposalsUI(SimpleNamespace(app=returned)); ui.owner = returned.work_key()
+        shown = '\n'.join(ui.content('origins'))
+        self.assertIn('ORIGINAL EDIT INSTRUCTION / 이 관찰로 논제의 범위를 한정하는 연결을 만들어줘.',shown)
+        self.assertIn('EXPLICITLY INCLUDED EARLIER REPLY / '+advice_id,shown)
+        self.assertIn(text,shown)
+        self.assertIn(edit_id,shown)
+        self.assertEqual('reviewed',returned.paper.recorded_origins()[0]['explanation']['state'])
+        before = returned.paper.proposal_history()
+        with self.assertRaises(ContractError):returned.paper.erase_proposal_payload(advice_id)
+        self.assertEqual(before,returned.paper.proposal_history())
+        # Optional typed payload can still be erased; the selected item and
+        # instruction remain readable from the recorded contribution.
+        returned.paper.erase_proposal_payload(edit_id)
+        from claimbranch.application.paper_work_store import PaperWork
+        from claimbranch.application.tui_work_recovery import snapshot_value
+        saved = self.store.load().with_work(PaperWork.create(returned.paper.history,workspace=snapshot_value(returned)))
+        self.store.save(saved)
+        again = project_workspace(self.store.load())
+        self.assertEqual('erased',again.paper.proposal_history()[1]['payload_availability'])
+        self.assertTrue(again.paper.origin_for(key).ai_influenced)
+        ui = ProposalsUI(SimpleNamespace(app=again)); ui.owner = again.work_key()
+        self.assertIn('Human: the observation covers one device only.','\n'.join(ui.content('origins')))
+
+    def test_later_human_derivation_inherits_recorded_passage_origin(self):
+        from claimbranch.application.tui_project import project_workspace
+        _, _, _, request_id, keys = self.candidates()
+        self.research.commit(self.research.prepare('reasoning',explanation_state='leave-for-later'))
+        first = self.app.paper.recorded_origins()[0]
+        self.research.commit(self.research.prepare('next',question='Do those conditions also hold on another device?'))
+        self.app.select(keys[0]); self.app.keep_draft('Generalization remains open.','Only the original device has a measurement.')
+        work = self.app.review.candidates()
+        child = work.create('claim',{'role':'subclaim','statement':'A second device needs an independent check.',
+            'scope':'Not yet measured','parent_ids':[keys[0]]})
+        preview = self.research.prepare('reasoning')
+        self.assertTrue(preview.display['ai_origin_retained']); self.assertFalse(preview.display['recording_available'])
+        self.research.commit(self.research.prepare('reasoning',explanation_state='leave-for-later'))
+        returned = project_workspace(self.store.load())
+        second = returned.paper.recorded_origins()[1]
+        inherited = next(o for o in second['lineages'] if o['revisions'][-1]['amendment']['id']==keys[0])
+        self.assertIn(inherited,first['lineages'])
+        self.assertEqual(request_id,inherited['revisions'][0]['advisory_origin']['request_id'])
+        self.assertIn(child,{r['id'] for r in returned.paper.history.view('main')['changes']})
+
+    def test_stale_cancel_failed_save_and_tampered_origin_preserve_personal_work(self):
+        from claimbranch.application.paper_work_store import PaperWork
+        _, _, work, request_id, keys = self.candidates()
+        self.app.recovery.save(self.app)
+        original = self.store.load().payload
+        from contextlib import nullcontext
+        for failure in ('cancel','expiry','edit','save'):
+            with self.subTest(failure=failure):
+                self.research.clock = lambda:2000000000
+                preview = self.research.prepare('reasoning',explanation_state='leave-for-later')
+                if failure == 'cancel':self.research.cancel()
+                if failure == 'expiry':self.research.clock = lambda:2000000300
+                if failure == 'edit':self.app.keep_note('Newer writing')
+                with patch('claimbranch.application.paper_work_store.os.replace',side_effect=OSError('injected')) if failure=='save' else nullcontext():
+                    with self.assertRaises(ContractError):self.research.commit(preview)
+                self.assertEqual(original,self.store.load().payload)
+                self.assertEqual([],self.app.paper.recorded_origins())
+                self.assertTrue(work.origins[keys[0]].ai_influenced)
+        self.research.commit(self.research.prepare('reasoning',explanation_state='leave-for-later'))
+        project = self.store.load()
+        for field in ('passage','action_id'):
+            value = decode(project.work.payload)
+            origin = value['workspace']['proposals']['recorded'][0]['lineages'][0]['revisions'][0]['advisory_origin']
+            origin[field] = 'rewritten'
+            with self.assertRaises(ContractError):project.with_work(PaperWork(canonical_bytes(value)))
         self.assertEqual(project.payload,self.store.load().payload)
 
 

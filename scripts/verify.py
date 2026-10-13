@@ -43,6 +43,8 @@ ALPHA_APPLICATION_TARGETS = (
     'application.test_paper_proposal_work',
     'application.test_provider_proposal_work',
     'application.test_codex_app_server',
+    'application.test_codex_egress',
+    'application.test_codex_relay',
     'application.test_paper_provider_example',
     'application.test_paper_record_transition',
     'application.test_paper_review_policy',

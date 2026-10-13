@@ -23,6 +23,10 @@ alternatives, and consequences. Use the [ADR template](../../_meta/templates/adr
 | [0016](0016-own-project-source-release.md) | accepted | Manual own-project source delivery; first-release protected-custody requirement superseded by ADR 0017 |
 | [0017](0017-personal-terminal-alpha.md) | accepted | Deliver a key-free personal terminal workspace, get feedback, then iterate |
 | [0018](0018-optional-personal-ai.md) | accepted | Add optional proposal-only AI to the personal workspace after typed origin and return checks; qualify the actual provider separately |
+| [0019](0019-reviewed-codex-http-relay.md) | accepted | Replace the CLI-generated request with exactly reviewed HTTP bytes through a one-shot trusted broker; actual service qualification remains separate |
+| [0020](0020-retained-proposal-review.md) | accepted | Explicitly review retained AI items against current context without another provider request |
+| [0021](0021-external-proposal-import.md) | accepted | Import explicitly unverified external AI responses and review locally without another inference |
+| [0022](0022-contextual-advice-and-explicit-edits.md) | accepted | Separate readable contextual advice from explicit, human-selected graph-edit proposals |
 
 Numbers are never reused. A proposed ADR may change during review. After
 acceptance, repair only wording, links, metadata, or explicit supersession;

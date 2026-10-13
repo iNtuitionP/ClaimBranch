@@ -132,10 +132,44 @@ class CodexPreparationTests(unittest.TestCase):
     def test_codex_complete_preview_refuses_excess_bytes(self):
         from claimbranch.application.provider_profile import CodexProfile, prepare_personal_provider_request
         app = fixture(); context = app.paper.draft(*app.context_key()).compile_proposal_context(request(app))
-        with patch('claimbranch.application.provider_profile.result_schema',return_value={'large':'a'*65536}):
+        with patch('claimbranch.application.provider_profile._codex_output_schema',return_value={'large':'a'*65536}):
             with self.assertRaises(ContractError):
                 prepare_personal_provider_request(CodexProfile.create(model='gpt-6.1-sol'), context,
                     request_id='request-1', nonce='nonce-1', now=100)
+
+    def test_codex_generation_schema_uses_supported_subset_without_changing_ingress(self):
+        from claimbranch.application.provider_profile import CodexProfile, prepare_codex_request
+        from claimbranch.core.paper_proposals import result_schema
+        from tests.application.test_paper_proposals import context
+        scientific=result_schema()
+        prepared=prepare_codex_request(CodexProfile.create(model='gpt-6-sol'),context(),
+            request_id='request-1',nonce='nonce-1',now=100)
+        schema=json.loads(prepared.body)['output_schema']
+        allowed={'type','properties','required','additionalProperties','items','enum','anyOf'}
+        def check(node):
+            self.assertFalse(set(node)-allowed)
+            if node.get('type')=='object':
+                self.assertIs(False,node['additionalProperties'])
+                self.assertEqual(set(node['properties']),set(node['required']))
+                for child in node['properties'].values(): check(child)
+            if 'items' in node: check(node['items'])
+            for child in node.get('anyOf',[]): check(child)
+        check(schema)
+        self.assertEqual('object',schema['type'])
+        self.assertEqual({'type':'string','enum':['claimbranch.provider-result/v2']},
+            schema['properties']['schema'])
+        variants=schema['properties']['items']['items']['anyOf']
+        self.assertEqual(['claim','interpretation','scientific-edge','experiment-plan'],
+            [v['properties']['kind']['enum'][0] for v in variants])
+        self.assertEqual([{'type':'string'},{'type':'null'}],schema['properties']['critique']['anyOf'])
+        self.assertEqual(scientific,result_schema())
+        self.assertIn('oneOf',scientific['properties']['items']['items'])
+        self.assertEqual(64,scientific['properties']['items']['maxItems'])
+
+    def test_codex_generation_projection_refuses_unknown_contract_keywords(self):
+        from claimbranch.application.provider_profile import _codex_output_schema
+        with patch('claimbranch.application.provider_profile.result_schema',return_value={'unreviewed':True}):
+            with self.assertRaises(ContractError): _codex_output_schema()
 
     def test_codex_saved_project_preview_preserves_research_and_manuscript(self):
         from claimbranch.application.provider_profile import CodexProfile

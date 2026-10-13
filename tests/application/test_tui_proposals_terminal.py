@@ -18,10 +18,10 @@ class ProposalTerminalTests(unittest.TestCase):
     send=helper.TerminalProcessTests.send
     assert_restored=helper.TerminalProcessTests.assert_restored
 
-    def launch(self,*arguments,cwd=helper.ROOT):
+    def launch(self,*arguments,cwd=helper.ROOT,environment=None):
         self.output=b''
         self.process=subprocess.Popen([sys.executable,'-B','-m','claimbranch',*arguments],cwd=cwd,
-            env={**os.environ,'TERM':'xterm-256color','PYTHONUTF8':'1'},
+            env={**os.environ,'TERM':'xterm-256color','PYTHONUTF8':'1',**(environment or {})},
             stdin=self.slave,stdout=self.slave,stderr=self.slave,process_group=0)
 
     def request(self):
@@ -111,6 +111,53 @@ class ProposalTerminalTests(unittest.TestCase):
                 self.assertEqual({},app.review.candidates().records)
                 self.assertEqual('직접 판단 중이다.',app.draft()['text'])
 
+    def test_advice_candidates_record_partial_reason_and_backup_return_with_ai_off(self):
+        from tests.application.test_provider_proposal_work import PersonalContextualReturnTests
+        from claimbranch.application.personal_project import PersonalProjectStore
+        from claimbranch.application.tui_project import project_workspace
+        # The B terminal case exercises passage selection. Begin C at the saved
+        # edited candidates; every recording/explanation action below uses PTY input.
+        case = PersonalContextualReturnTests(); case.setUp(); self.addCleanup(case.doCleanups)
+        import time
+        case.research.clock = time.time
+        _, _, _, _, keys = case.candidates()
+        case.app.recovery.save(case.app); case.store.close()
+        self.launch('project','open','--directory',str(case.directory)); self.expect('AI OFF')
+        self.send(';\x1b[F'+'\x1b[A'*4+'\n','PERSONAL RECORD PREVIEW')
+        self.send('G','PERSONAL COMPARISON')
+        self.resize(80,24); self.send('\t\x0c','BEFORE')
+        self.send('\x1b','PERSONAL RECORD PREVIEW')
+        self.resize(40,12); self.send('\x0c','Personal controls paused')
+        self.resize(80,24); self.send('\x0c','PERSONAL RECORD PREVIEW')
+        self.send('\x1b[F\x0c','1 explain'); self.send('1','PERSONAL EXPLANATION')
+        self.send('\n','PARTIAL TEXT')
+        self.send('\x1b[200~다른 장치의 조건을 아직 검토 중입니다.\x1b[201~\x13','no science')
+        self.send('\x1b','PERSONAL RECORD PREVIEW'); self.send('\x1b[F\x0c','Enter record')
+        self.send('2','DISPLAYED PERSONAL EFFECT'); self.send('\x1b[F\x0c','Enter record')
+        self.send('\n','Personal research recorded and saved'); self.send('q'); self.assert_restored(0)
+        with PersonalProjectStore(case.directory) as store:
+            returned = project_workspace(store.load()); record = returned.paper.recorded_origins()[0]
+            self.assertEqual(3,len(record['lineages']))
+            self.assertEqual('Only the input changed on this hardware.',record['cause']['judgment']['rationale'])
+            self.assertEqual('leave-for-later',record['explanation']['state'])
+            self.assertIn('다른 장치',record['explanation']['entries'][0]['text'])
+            self.assertNotIn(keys[-1],{r['id'] for r in returned.paper.history.view('main')['changes']})
+            backup = store.backup()
+        restored = case.directory.parent/'pty-restored'; restored.mkdir(mode=0o700)
+        PersonalProjectStore.restore_backup(backup,restored)
+        self.launch('project','open','--directory',str(restored)); self.expect('AI OFF')
+        self.send(';\x1b[F\x1b[A\n','SAVED AI ORIGIN')
+        for _ in range(4):self.send('\x1b[6~')
+        self.assertIn('MODEL / gpt-6-sol'.encode(),self.output)
+        self.send('\x1b','ARGUMENT GRAPH')
+        self.send(';\x1b[F\n','PERSONAL EXPLANATION'); self.send('\n','PERSONAL EXPLANATION')
+        self.send('\n','PARTIAL TEXT'); self.expect('다른 장치')
+        self.send('\x1b','PERSONAL EXPLANATION')
+        self.send('\x1b','RETURN TO PERSONAL EXPLANATIONS')
+        self.send('\x1b','ARGUMENT GRAPH')
+        self.send('q'); self.assert_restored(0)
+        self.assertEqual(case.source,(case.paper/'paper.tex').read_bytes())
+
 
 @unittest.skipUnless(helper.SUPPORTED,'requires Unix PTY and Python curses')
 class ProviderPreviewTerminalTests(unittest.TestCase):
@@ -188,6 +235,81 @@ with patch.object(PersonalProviderConnection, 'require_qualification'):
             self.assertEqual(SOURCE,(paper/'paper.tex').read_bytes()); self.assertEqual(1,len(peer.requests))
 
     def test_public_codex_preview_manual_restart_without_client_or_attempt(self):
+        self.codex_preview_journey('gpt-6.1-sol','REVIEW CODEX APPLICATION INPUT','Actual Codex client not qualified')
+
+    def test_discussion_question_owned_answer_and_backup_return_in_real_terminal(self):
+        from claimbranch.application.paper_assistance_example import history,SOURCE
+        from claimbranch.application.paper_work_store import PaperWork
+        from claimbranch.application.project_work import ProjectWork,preview_association
+        from claimbranch.application.personal_project import PersonalProjectStore
+        from claimbranch.application.tui_project import project_workspace
+        from claimbranch.application.provider_profile import CodexProfile,ProviderProfileStore
+        with tempfile.TemporaryDirectory() as folder:
+            root=Path(folder);paper=root/'paper';work=root/'work';config=root/'llm'
+            paper.mkdir();work.mkdir(mode=0o700);config.mkdir(mode=0o700)
+            subprocess.run(['git','init','-q',str(paper)],check=True);(paper/'paper.tex').write_bytes(SOURCE)
+            association=preview_association(paper,'paper.tex','anchor',work)
+            with PersonalProjectStore.create(work,project_id='cache-study') as store:
+                store.save(ProjectWork.create(PaperWork.create(history()),association),preview=association)
+            with ProviderProfileStore(config) as store: store.write(CodexProfile.create(model='gpt-6-sol').payload)
+            # Own only the transport result, never invoke a provider or login.
+            driver='''import sys, hashlib
+from types import SimpleNamespace
+from unittest.mock import patch
+from claimbranch.application.cli import main
+from claimbranch.application.provider_commands import PersonalProviderConnection
+from claimbranch.application.codex_app_server import CodexResult
+from claimbranch.core.advisory import advice_from_text
+from claimbranch.core.canonical import canonical_bytes
+def start(prepared, **options):
+    raw=canonical_bytes(advice_from_text('CPU-B는 미측정입니다. 조건을 맞춘 실험을 제안합니다.'.encode()))
+    result=CodexResult(prepared.review.request_id,prepared.digest,'completed',42,
+        hashlib.sha256(raw).hexdigest(),raw,'gpt-6-sol','0.158.0','thread-owned','turn-owned')
+    return SimpleNamespace(poll=lambda:result,cancel=lambda:False,wait_closed=lambda _:True)
+with patch.object(PersonalProviderConnection,'require_codex_qualification'),patch(
+        'claimbranch.application.codex_relay.CodexRelayTransport.start',side_effect=start):
+    raise SystemExit(main(['project','open','--directory',sys.argv[1],'--provider-directory',sys.argv[2]]))
+'''
+            self.output=b''
+            self.process=subprocess.Popen([sys.executable,'-B','-c',driver,str(work),str(config)],cwd=helper.ROOT,
+                env={**os.environ,'TERM':'xterm-256color','PYTHONUTF8':'1'},
+                stdin=self.slave,stdout=self.slave,stderr=self.slave,process_group=0)
+            self.expect('ARGUMENT GRAPH')
+            self.send(';\x1b[F\x1b[A\x1b[A\x1b[A\n','DISCUSS THE SELECTED ARGUMENT')
+            self.send('\x1b[200~CPU-B에서 무엇을 더 확인해야 하나요?\x1b[201~','CPU-B')
+            self.resize(40,12);self.send('\x0c','Proposal controls paused')
+            self.resize(80,24);self.send('\x0c','DISCUSS THE SELECTED ARGUMENT')
+            self.send('\x13','SELECT EXACT AI CONTEXT')
+            self.send(' \n','REVIEW COMPLETE CODEX HTTP REQUEST')
+            self.send('\x1b[F\x0c','Enter send reviewed request');self.send('\n','READ AI ADVICE')
+            self.expect('CPU-B는 미측정입니다')
+            self.send('2','SELECT AN EXACT ANSWER PASSAGE')
+            self.resize(40,12);self.send('\x0c','Proposal controls paused')
+            self.resize(80,24);self.send('\x0c','SELECT AN EXACT ANSWER PASSAGE')
+            self.send('\n','COMPARE AI PASSAGE AND DRAFT')
+            self.send('\x1b[F\x0c','Enter prepare editable draft')
+            self.send('\n','PLAN A FOLLOW-UP / UNRUN')
+            self.send('\x1b','YOUR ARGUMENT DRAFTS');self.send('\x1b','ARGUMENT GRAPH')
+            self.send('q');self.assert_restored(0)
+            with PersonalProjectStore(work) as store:
+                app=project_workspace(store.load());entry=app.paper.proposal_history()[0]
+                self.assertEqual('CPU-B에서 무엇을 더 확인해야 하나요?',entry['discussion']['prompt'])
+                self.assertIn('CPU-B는 미측정',entry['result']['text'])
+                candidate=app.paper.candidates(*app.context_key())
+                self.assertTrue(next(iter(candidate.origins.values())).ai_influenced)
+                self.assertEqual('',next(iter(app.review.candidate_inputs[app.context_key()].values()))['body']['conditions'])
+                self.assertFalse(app.paper.ai_available);backup=store.backup()
+            restored=root/'restored';restored.mkdir(mode=0o700);PersonalProjectStore.restore_backup(backup,restored)
+            self.launch('project','open','--directory',str(restored));self.expect('AI OFF')
+            self.send(';\x1b[F\x1b[A\n','AI RESPONSE HISTORY');self.send('\n','READ AI ADVICE')
+            self.expect('CPU-B는 미측정입니다')
+            self.send('\x1b','ARGUMENT GRAPH');self.send('q');self.assert_restored(0)
+            self.assertEqual(SOURCE,(paper/'paper.tex').read_bytes())
+
+    def test_complete_codex_http_preview_narrow_manual_restart_without_dispatch(self):
+        self.codex_preview_journey('gpt-6-sol','REVIEW COMPLETE CODEX HTTP REQUEST','Install Codex 0.158.0')
+
+    def codex_preview_journey(self,model,heading,refusal):
         from claimbranch.application.paper_assistance_example import history, SOURCE
         from claimbranch.application.paper_work_store import PaperWork
         from claimbranch.application.project_work import ProjectWork, preview_association
@@ -203,13 +325,14 @@ with patch.object(PersonalProviderConnection, 'require_qualification'):
             with PersonalProjectStore.create(work,project_id='cache-study') as store:
                 store.save(ProjectWork.create(PaperWork.create(history()),association),preview=association)
             with ProviderProfileStore(config) as store:
-                store.write(CodexProfile.create(model='gpt-6.1-sol').payload)
-            self.launch('project','open','--directory',str(work),'--provider-directory',str(config))
-            self.expect('AI preview'); self.expect('ARGUMENT GRAPH')
-            self.send('A','SELECT EXACT AI CONTEXT'); self.send(' \n','REVIEW CODEX APPLICATION INPUT')
+                store.write(CodexProfile.create(model=model).payload)
+            self.launch('project','open','--directory',str(work),'--provider-directory',str(config),
+                environment={'PATH':str(root/'no-codex-installed')})
+            self.expect('AI Codex' if model=='gpt-6-sol' else 'AI preview'); self.expect('ARGUMENT GRAPH')
+            self.send('A','SELECT EXACT AI CONTEXT'); self.send(' \n',heading)
             self.resize(40,12); self.send('\x0c','Proposal controls paused')
-            self.resize(80,24); self.send('\x0c','REVIEW CODEX APPLICATION INPUT')
-            self.send('\x1b[F\x0c','Enter check live gate'); self.send('\n','Actual Codex client not qualified')
+            self.resize(80,24); self.send('\x0c',heading)
+            self.send('\x1b[F\x0c','Enter send reviewed request' if model=='gpt-6-sol' else 'Enter check live gate'); self.send('\n',refusal)
             self.send('\x1b','ARGUMENT GRAPH'); self.send('e','YOUR JUDGMENT')
             self.send('\x1b[200~AI 없이 판단을 이어간다.\x1b[201~\t원래 측정 범위를 확인한다.\x13','Draft kept')
             self.send('q'); self.assert_restored(0)

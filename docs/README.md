@@ -16,6 +16,9 @@ in-progress material visibly different.
   [optional AI follow-up proposal](plans/active/2026-08-04-claimbranch-v1-and-gpu-systems.md#optional-ai-follow-up-implementation-plan);
   it preserves the completed manual alpha and separates portable preparation
   from live scope/deployment decisions.
+  The [current L04 contextual assistance order](plans/active/2026-08-04-claimbranch-v1-and-gpu-systems.md#l04-contextual-assistance-implementation-order)
+  plans readable discussion, small explicit graph edits and connected return
+  inside that same remaining outcome.
   The [GitHub manual own-project release order](plans/active/2026-08-04-claimbranch-v1-and-gpu-systems.md#github-manual-release-implementation-order)
   retains the completed first-alpha implementation sequence.
   The [selected key-free personal-workspace boundary](plans/active/2026-08-04-claimbranch-v1-and-gpu-systems.md#key-free-personal-workspace-alternative)

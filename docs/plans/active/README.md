@@ -11,9 +11,14 @@ index and keep its progress current.
   The owner-authorized [manual source alpha](https://github.com/iNtuitionP/ClaimBranch/releases/tag/v0.1.0-alpha.2)
   is published under MIT, with live AI unavailable;
   the same L04 remains later work through the [AI-connected publication order](2026-08-04-claimbranch-v1-and-gpu-systems.md#ai-connected-github-publication-order).
+  The [current candidate source synchronization](2026-08-04-claimbranch-v1-and-gpu-systems.md#2026-10-13-candidate-source-synchronization)
+  records the separately authorized GitHub update and its remaining live-use limits.
   The user's requested next LLM capability is organized in the
   [four-unit optional AI follow-up proposal](2026-08-04-claimbranch-v1-and-gpu-systems.md#optional-ai-follow-up-implementation-plan),
   with portable preparation and a separately reviewed live boundary.
+  Resume the proposed next implementation at the
+  [L04 contextual assistance order](2026-08-04-claimbranch-v1-and-gpu-systems.md#l04-contextual-assistance-implementation-order),
+  which reuses completed work for readable advice and human-selected graph edits.
   The [GitHub manual own-project release order](2026-08-04-claimbranch-v1-and-gpu-systems.md#github-manual-release-implementation-order)
   and its [four integration outcomes](2026-08-04-claimbranch-v1-and-gpu-systems.md#first-release-outcome-ledger)
   retain the implemented alpha baseline.

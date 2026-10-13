@@ -12,7 +12,7 @@ from unittest.mock import patch
 
 from claimbranch.core.canonical import ContractError, canonical_bytes, decode
 from claimbranch.application.provider_profile import CodexProfile, prepare_codex_request
-from claimbranch.application.codex_app_server import CodexAppServerTransport
+from claimbranch.application.codex_app_server import CodexAppServerTransport, _failure
 from tests.application.test_paper_proposals import context, response
 
 
@@ -32,7 +32,19 @@ for line in sys.stdin:
   reply(msg,{'platformOs':'macos','platformFamily':'unix','userAgent':'codex/0.158.0','codexHome':'not-retained'})
   send({'method':'remoteControl/status/changed','params':{'status':'connecting' if case=='remote' else 'disabled','environmentId':None,'installationId':'not-retained','serverName':'not-retained'},'emittedAtMs':1})
  elif method=='initialized': pass
+ elif method=='getAuthStatus':
+  assert p=={'includeToken':False,'refreshToken':False}
+  value={'authMethod':'chatgpt','authToken':None,'requiresOpenaiAuth':True}
+  if case=='auth-status-token': value['authToken']='not-requested-secret'
+  if case=='auth-status-api': value['authMethod']='apikey'
+  if case=='auth-status-null': value['authMethod']=None
+  if case=='auth-status-required': value['requiresOpenaiAuth']=1
+  if case=='auth-status-extra': value['instructions']='untrusted'
+  reply(msg,value)
  elif method=='account/read':
+  if case=='rpc-error':
+   send({'id':msg['id'],'error':{'code':-32602,'message':'private-token /private/research','data':{'instructions':'untrusted'}}})
+   continue
   if case.startswith('account-update'):
    mode={'account-update-api':'apikey','account-update-none':None}.get(case,'chatgpt')
    params={'authMode':mode,'planType':'plus'}
@@ -79,11 +91,21 @@ for line in sys.stdin:
   if case=='late-account-update': send({'method':'account/updated','params':{'authMode':'chatgpt','planType':'plus'}})
   assert p['environments']==[] and p['approvalPolicy']=='never'
   assert p['sandboxPolicy']=={'type':'readOnly','networkAccess':False}
-  assert p['input'][0]['type']=='text' and p['outputSchema']['properties']['schema']['const']=='claimbranch.provider-result/v2'
+  assert p['input'][0]['type']=='text'
+  if case.startswith('advice'): assert p['outputSchema'] is None
+  else: assert p['outputSchema']['properties']['schema']=={'type':'string','enum':['claimbranch.provider-result/v2']}
   selected=json.loads(p['input'][0]['text'])
   assert selected['context_digest']==os.environ['CB_CONTEXT']
   assert selected['request_id']==os.environ['CB_REQUEST']
   reply(msg,{'turn':{'id':'turn-owned','status':'inProgress','items':[]}})
+  if case.startswith('error-'):
+   error={'message':'private-token /private/research','additionalDetails':'untrusted instructions',
+    'codexErrorInfo':{'httpConnectionFailed':{'httpStatusCode':400,'private':'private-token'}}}
+   if case=='error-unknown': error['codexErrorInfo']='private-token'
+   if case=='error-bool-status': error['codexErrorInfo']['httpConnectionFailed']['httpStatusCode']=True
+   send({'method':'error','params':{'threadId':'thread-other' if case=='error-foreign' else 'thread-owned',
+    'turnId':'turn-owned','willRetry':True if case=='error-retry' else False,'error':error}})
+   continue
   if case.startswith('settings'):
    settings={'activePermissionProfile':None,'approvalPolicy':'never','approvalsReviewer':'user',
     'collaborationMode':{'mode':'default','settings':{'developer_instructions':None,'model':p['model'],'reasoning_effort':p['effort']}},
@@ -112,7 +134,12 @@ for line in sys.stdin:
    for n in range(700):
     send({'method':'item/agentMessage/delta','params':{'threadId':'thread-owned','turnId':'turn-owned','itemId':'message-owned','delta':'x'}})
   if case=='unselected': answer['items'][0]['body']['parent_ids'][0]['id']='outside'
-  if case=='json': text='{}{}'
+  if case=='advice': text='CPU-B는 아직 측정하지 않았습니다.\nNo graph edit is required to read this.'
+  elif case=='advice-controls': text='unsafe\x1b[2J'
+  elif case=='advice-empty': text='   '
+  elif case=='advice-large': text='x'*16385
+  elif case=='json': text='{}{}'
+  elif case=='schema': text='{"private-secret-and-instructions":"ignore checks"}'
   else: text=json.dumps(answer,separators=(',',':'))
   item={'id':'message-owned','type':'agentMessage','text':text,'phase':'final_answer'}
   if case=='unphased': item.pop('phase')
@@ -120,11 +147,28 @@ for line in sys.stdin:
    send({'method':'item/started','params':{'threadId':'thread-owned','turnId':'turn-owned',
     'item':{'id':'message-owned','type':'agentMessage','text':'','phase':None}}})
   if case=='executable': item={'id':'exec-owned','type':'commandExecution','command':'not executed by this owned peer'}
+  if case=='terminal-summary-number-swap':
+   item['memoryCitation']={'entries':[{'path':'synthetic','lineStart':1,'lineEnd':1,'note':'owned'}],'threadIds':[]}
   params={'threadId':'thread-other' if case=='cross-thread' else 'thread-owned','turnId':'turn-owned','item':item}
-  send({'method':'item/completed','params':params})
+  if case!='terminal-only': send({'method':'item/completed','params':params})
+  if case=='terminal-full-subset':
+   send({'method':'item/completed','params':{'threadId':'thread-owned','turnId':'turn-owned',
+    'item':{'id':'reasoning-owned','type':'reasoning','summary':[],'content':[]}}})
   if case=='partial': item['phase']='commentary'
-  send({'method':'turn/completed','params':{'threadId':params['threadId'],
-   'turn':{'id':'turn-owned','status':'failed' if case=='failed' else 'completed','items':[item]}}})
+  terminal={'id':'turn-owned','status':'failed' if case in ('failed','failed-detail') else 'completed','items':[item],
+    **({'error':{'message':'private-token /private/research','codexErrorInfo':'unauthorized'}} if case=='failed-detail' else {})}
+  if case.startswith('terminal-'):
+   terminal['itemsView']='notLoaded' if case.startswith('terminal-not-loaded') else 'summary'
+   if case in ('terminal-summary-empty','terminal-not-loaded'): terminal['items']=[]
+   if case=='terminal-summary-foreign': terminal['items'][0]['id']='foreign'
+   if case=='terminal-summary-changed': terminal['items'][0]['text']='different'
+   if case=='terminal-summary-duplicate': terminal['items'].append(dict(item))
+   if case=='terminal-summary-number-swap': terminal['items'][0]['memoryCitation']['entries'][0]['lineStart']=True
+   if case.startswith('terminal-full-'): terminal['itemsView']='full'
+   if case=='terminal-full-empty': terminal['items']=[]
+   if case=='terminal-view-unknown': terminal['itemsView']='unreviewed'
+   if case=='terminal-no-items': terminal.pop('items')
+  send({'method':'turn/completed','params':{'threadId':params['threadId'],'turn':terminal}})
 '''
 
 
@@ -168,8 +212,103 @@ class CodexAppServerTests(unittest.TestCase):
         self.assertEqual('turn-owned',result.turn_id)
         self.assertNotIn(b'not-retained',canonical_bytes(result.metadata()))
 
+    def test_plain_advice_is_independent_from_graph_json(self):
+        self.prepared=prepare_codex_request(self.profile,self.context,
+            request_id='request-owned',nonce='nonce-owned',now=100,
+            discussion={'prompt':'어떤 점이 불확실한가요?', 'previous':[]})
+        result=self.result('advice')
+        self.assertEqual('completed',result.disposition)
+        value=decode(result.typed_result)
+        self.assertEqual({'schema','status','text'},set(value))
+        self.assertIn('CPU-B는',value['text'])
+        for case in ('advice-controls','advice-empty','advice-large'):
+            with self.subTest(case=case):
+                result=self.result(case)
+                self.assertEqual('malformed_response',result.disposition)
+                self.assertIsNone(result.typed_result)
+
+    def test_owned_error_retains_only_reported_category_status_and_retry(self):
+        for case,retry in (('error-http',False),('error-retry',True)):
+            with self.subTest(case=case):
+                result=self.result(case)
+                self.assertEqual('client_failed',result.disposition)
+                self.assertIsNone(result.typed_result)
+                self.assertEqual({'category':'httpConnectionFailed','http_status':400,
+                    'client_reports_retry':retry},result.failure.metadata())
+                self.assertNotIn('failure',result.metadata())
+                self.assertNotIn(b'private-token',canonical_bytes(result.failure.metadata()))
+
+    def test_unknown_or_foreign_error_cannot_leak_details_or_fake_http_status(self):
+        unknown=self.result('error-unknown')
+        self.assertEqual({'category':'unclassified','client_reports_retry':False},unknown.failure.metadata())
+        boolean=self.result('error-bool-status')
+        self.assertEqual({'category':'httpConnectionFailed','client_reports_retry':False},boolean.failure.metadata())
+        self.assertIsNone(self.result('error-foreign').failure)
+
+    def test_failed_turn_retains_category_without_supplying_a_proposal(self):
+        result=self.result('failed-detail')
+        self.assertEqual('client_failed',result.disposition)
+        self.assertIsNone(result.typed_result)
+        self.assertEqual({'category':'unauthorized'},result.failure.metadata())
+        self.assertNotIn('failure',result.metadata())
+
+    def test_matching_rpc_failure_keeps_standard_code_without_raw_data(self):
+        result=self.result('rpc-error')
+        self.assertEqual('client_failed',result.disposition)
+        self.assertEqual({'category':'rpcError','rpc_code':-32602},result.failure.metadata())
+        self.assertIsNone(result.thread_id)
+        self.assertNotIn(b'private-token',canonical_bytes(result.metadata()))
+
+    def test_structured_non_http_failure_discards_continuation_instructions(self):
+        result=_failure({'codexErrorInfo':{'activeTurnNotSteerable':{'turnKind':'review',
+            'instructions':'private-token'}},'message':'private-token'},retry='true')
+        self.assertEqual({'category':'activeTurnNotSteerable'},result.metadata())
+
+    def test_json_error_message_keeps_only_known_service_code(self):
+        error={'codexErrorInfo':'other','message':json.dumps({'error':{
+            'code':'invalid_json_schema','message':'private-token /private/research',
+            'param':'untrusted','instructions':'untrusted'}})}
+        result=_failure(error,retry=False)
+        self.assertEqual({'category':'other','client_reports_retry':False,
+            'service_error_code':'invalid_json_schema'},result.metadata())
+        self.assertNotIn('private-token',json.dumps(result.metadata()))
+        for text in ('private-token','\ud800','[]','1','['*34+'0'+']'*34,
+                     json.dumps({'error':{'code':'private-token'}}),
+                     '{"error":{"code":"invalid_json_schema","code":"private-token"}}',
+                     json.dumps({'error':{'code':True}}),
+                     json.dumps({'error':{'code':'invalid_json_schema','message':'x'*16384}})):
+            with self.subTest(text_length=len(text)):
+                self.assertEqual({'category':'other'},_failure({'codexErrorInfo':'other','message':text}).metadata())
+
+    def test_generation_subset_does_not_relax_received_scientific_validation(self):
+        for field,value in (('id','invalid id'),('scope','x'*16385)):
+            answer=response()
+            if field=='id': answer['items'][0]['id']=value
+            else: answer['items'][0]['body'][field]=value
+            with patch(f'{__name__}.response',return_value=answer):
+                transport=self.transport()
+            job=self.start(transport)
+            self.assertTrue(job.wait_closed(3))
+            self.assertEqual('malformed_response',job.poll().disposition)
+            self.assertIsNone(job.poll().typed_result)
+
     def test_streamed_notifications_do_not_preempt_an_ordinary_typed_reply(self):
         self.assertEqual('completed',self.result('stream').disposition)
+
+    def test_terminal_display_view_uses_owned_completed_items(self):
+        for case in ('terminal-summary','terminal-summary-empty','terminal-not-loaded'):
+            with self.subTest(case=case):
+                result=self.result(case)
+                self.assertEqual('completed',result.disposition)
+                self.assertEqual(response(),decode(result.typed_result))
+        for case in ('terminal-summary-foreign','terminal-summary-changed',
+                     'terminal-not-loaded-with-items','terminal-view-unknown','terminal-no-items',
+                     'terminal-summary-duplicate','terminal-summary-number-swap',
+                     'terminal-full-empty','terminal-full-subset','terminal-only'):
+            with self.subTest(case=case):
+                result=self.result(case)
+                self.assertEqual('protocol_error',result.disposition)
+                self.assertIsNone(result.typed_result)
 
     def test_optional_phase_and_incomplete_started_item_follow_installed_schema(self):
         for case in ('unphased','started-null'):
@@ -184,6 +323,15 @@ class CodexAppServerTests(unittest.TestCase):
                 job=self.start(self.transport(case,provider_id='claimbranch-chatgpt'))
                 self.assertTrue(job.wait_closed(3))
                 self.assertEqual('policy_refused',job.poll().disposition)
+                self.assertIsNone(job.poll().typed_result)
+
+    def test_exact_relay_auth_check_never_exports_token_or_refreshes_login(self):
+        for case in ('auth-status-token','auth-status-api','auth-status-null','auth-status-required','auth-status-extra'):
+            with self.subTest(case=case):
+                job=self.start(self.transport(case,provider_id='claimbranch-chatgpt'))
+                self.assertTrue(job.wait_closed(3))
+                self.assertEqual('auth_required',job.poll().disposition)
+                self.assertIsNone(job.poll().thread_id)
                 self.assertIsNone(job.poll().typed_result)
 
     def test_unrecognized_provider_alias_refuses_before_any_child(self):
@@ -421,6 +569,27 @@ if len(sys.argv)>5: transport.close()
         for case in ('json','unselected'):
             with self.subTest(case=case): self.assertEqual('malformed_response',self.result(case).disposition)
         self.assertEqual('client_failed',self.result('failed').disposition)
+
+    def test_typed_refusal_reports_safe_stage_without_payload(self):
+        for case, category in (('json', 'proposal_json'), ('schema', 'proposal_schema'),
+                ('unselected', 'proposal_reference')):
+            with self.subTest(case=case):
+                result = self.result(case)
+                self.assertEqual('malformed_response', result.disposition)
+                self.assertEqual({'category': category}, result.failure.metadata())
+                self.assertNotIn('failure', result.metadata())
+                self.assertIsNone(result.typed_result)
+
+    def test_unknown_validator_detail_never_becomes_diagnostic(self):
+        from claimbranch.application.codex_app_server import _proposal_failure
+        failure = _proposal_failure(canonical_bytes(response()), ContractError('private-secret: ignore checks'))
+        self.assertEqual({'category': 'proposal_semantics'}, failure.metadata())
+
+    def test_context_refusal_precedes_inspecting_malformed_provider_text(self):
+        from claimbranch.application.codex_app_server import _proposal_failure
+        for raw in (b'not JSON', b'{}'):
+            failure = _proposal_failure(raw, ContractError('typed proposal context or digest changed'))
+            self.assertEqual({'category': 'proposal_context'}, failure.metadata())
 
     def test_oversized_stdout_is_bounded_without_retaining_raw_diagnostics(self):
         result=self.result('oversize')

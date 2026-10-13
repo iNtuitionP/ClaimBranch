@@ -2,7 +2,7 @@
 kind: release-scope
 status: proposed
 owners: maintainers
-last_reviewed: 2026-10-11
+last_reviewed: 2026-10-12
 canonical_for: smallest product-validation release scope
 ---
 
@@ -425,6 +425,11 @@ Before declaring this milestone ready, pass the existing
 qualify the selected actual provider/access/egress, obtain a checked live
 proposal, and exercise contextual comparison, selective human editing/recording,
 retained origin, fresh-process/backup return and manual continuation on failure.
+Under [ADR 0022](../../architecture/decisions/0022-contextual-advice-and-explicit-edits.md),
+the new route may first return readable advice and then prepare only an explicit
+small edit or locally selected passage. Whole-answer graph conversion is not a
+gate. Actual advice alone still does not complete selective human recording and
+origin return; the complete new path must pass those same researcher outcomes.
 An authenticated thread, internal test response or unsent preview is insufficient.
 Observe a researcher-authored new task with explicit outbound choice, reporting
 its actual benefit or lack of benefit without claiming comprehension or V0.

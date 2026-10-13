@@ -174,7 +174,7 @@ def workspace_schema(version=None):
     pooled['properties']['schema'] = {'const': 'claimbranch.review-pool-workspace/v6'}
     pooled['properties']['review_writing'] = POOLED_WRITING
     if version == 6: return pooled
-    from .paper_proposal_work import PROPOSALS, PROPOSALS_V2, PROPOSALS_V3
+    from .paper_proposal_work import PROPOSALS, PROPOSALS_V2, PROPOSALS_V3, PROPOSALS_V4, PROPOSALS_V5, PROPOSALS_V6
     proposals = deepcopy(pooled)
     proposals['properties']['schema'] = {'const': 'claimbranch.proposal-workspace/v7'}
     proposals['properties']['proposals'] = PROPOSALS
@@ -188,5 +188,17 @@ def workspace_schema(version=None):
     codex['properties']['schema'] = {'const':'claimbranch.codex-workspace/v9'}
     codex['properties']['proposals'] = PROPOSALS_V3
     if version == 9: return codex
+    external = deepcopy(codex)
+    external['properties']['schema'] = {'const':'claimbranch.external-workspace/v10'}
+    external['properties']['proposals'] = PROPOSALS_V4
+    if version == 10: return external
+    advisory = deepcopy(external)
+    advisory['properties']['schema'] = {'const':'claimbranch.advisory-workspace/v11'}
+    advisory['properties']['proposals'] = PROPOSALS_V5
+    if version == 11: return advisory
+    edits = deepcopy(advisory)
+    edits['properties']['schema'] = {'const':'claimbranch.edit-workspace/v12'}
+    edits['properties']['proposals'] = PROPOSALS_V6
+    if version == 12: return edits
     if version is not None: raise ContractError('Unsupported writing workspace version')
-    return {'oneOf': [WORKSPACE, current, explanation, writing, wording, pooled, proposals, provider, codex]}
+    return {'oneOf': [WORKSPACE, current, explanation, writing, wording, pooled, proposals, provider, codex, external, advisory, edits]}

@@ -2,7 +2,7 @@
 kind: development
 status: active
 owners: maintainers
-last_reviewed: 2026-10-07
+last_reviewed: 2026-10-12
 canonical_for: native agent implementation workflow and grouped verification
 ---
 
@@ -125,8 +125,9 @@ user's 2026-09-29 request to preserve the accumulated philosophy during long wor
    independently, with bounded file ownership and explicit requirements.
    Do not dispatch an agent for each trivial step or automatically apply every
    suggestion. Fix concrete defects, preserving the product's focus.
-   For the current R implementation series, the user requires a Claude Opus
-   cross-review after each behavior-changing increment. Use the available
+   The user requires a Claude Opus cross-review after every behavior-changing
+   implementation increment, including the L04 continuation and later series.
+   They reaffirmed this ongoing requirement on 2026-10-12. Use the available
    pinned Opus model on a bounded, fixed source snapshot with read-only tools,
    skills/hooks/plugins/MCP disabled and no session persistence. Verify the
    actual model in the runtime result; do not silently substitute another

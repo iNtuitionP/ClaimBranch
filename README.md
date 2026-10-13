@@ -35,8 +35,8 @@ Form your judgment in that context, record your reason once, and return to the
 same evidence and unfinished work later.
 
 > **Personal terminal alpha.** Manual research, save/restart and local backup/restore
-> work. Live AI is unavailable: the latest Codex test failed without a checked
-> response. Manuscript files stay read-only.
+> work. The Mac Codex connection is a release candidate undergoing final live validation.
+> Manuscript files stay read-only.
 
 <p align="center">
   <img src="docs/assets/terminal-preview.svg" alt="Actual synthetic terminal snapshot: thesis, main claims, shared evidence, a run and an unrun experiment plan. AI is off." width="100%">
@@ -166,9 +166,9 @@ unrestricted process running as the same user.
 | Judgment, reason, notes and unfinished writing | Save and resume |
 | Local backup/export and fresh-directory restore | Available |
 | Hypothetical impact and graph comparison | Available; creates no evidence |
-| AI proposal selection, editing and retained origin | Offline rehearsals and internal adapters |
+| AI proposal selection, editing and retained origin | Retained responses and explicitly labeled external imports |
 | Provider configuration and exact unsent context preview | Available; sends nothing |
-| Live AI requests | **Unavailable** |
+| Live AI requests | Mac Codex release candidate; final live validation pending |
 | Automatic manuscript editing, protected acceptance and debt closure | Deferred |
 
 This is a finite experimental alpha, not a validated research product. Current
@@ -181,12 +181,45 @@ The intended flow: select context, inspect what will be sent, request critique,
 compare and edit suggestions, then record **your** judgment. AI stays optional
 and proposal-only.
 
-API and Codex-login profiles currently prepare unsent input. The live gate
-remains closed. A model catalog or started turn is not a successful AI response.
-There is no automatic fallback, background request or manuscript write.
-Manual work remains usable with AI disabled.
+The current checkout connects **Mac + Codex CLI 0.158.0 + gpt-6-sol** through
+an exact-request review. Final public-route live verification is pending; the
+published alpha.2 remains AI-off. Other API/model profiles are preview-only.
+An actual public-route discussion now returns readable advice and retains it
+after reopening. Direct edit and complete connected-use/release checks remain
+pending; this is not yet a qualified AI release. The earlier typed-response
+failure remains recorded in the execution plan.
 
-[Connection preparation and current limits →](docs/development/workflow.md#personal-llm-configuration-and-unsent-preview)
+Use your existing Codex ChatGPT login, with no API key or copied token:
+
+```sh
+mkdir -m 700 "$HOME/claimbranch-provider"
+python3.13 -m claimbranch provider configure-codex \
+  --directory "$HOME/claimbranch-provider" --model gpt-6-sol
+python3.13 -m claimbranch project open \
+  --directory "$HOME/claimbranch-work" \
+  --provider-directory "$HOME/claimbranch-provider"
+```
+
+Press `A` in the graph, choose context, read the complete request, then explicitly
+send. Requests may use your account allowance; service retention is not verified.
+The response is a proposal: choose items, compare, edit and record your own reason.
+Without a provider profile, manual work and saved AI origins remain available.
+There is no automatic retry, fallback, background request or manuscript write.
+
+The current checkout also offers **Discuss this argument with AI** in `;` actions:
+write a question, choose context and inspect the exact request. This candidate
+path reads plain-text advice without converting the answer into graph items.
+Its answer reader offers explicit passage-to-claim/plan/connection drafts; a
+separate **Prepare a small edit with AI** action takes a bounded instruction.
+Selected candidates can be recorded with your original reason; their AI source,
+human edits and unfinished explanation survive local restart and backup restore.
+Owned terminal/save/return checks and one actual discussion reply pass. Actual
+service validation of direct edit requests and complete connected-use validation
+remain pending.
+
+[Supported setup and current verification →](docs/development/workflow.md#mac-codex-connection-release-candidate)
+[Discussion controls and limits →](docs/development/workflow.md#contextual-discussion-candidate)
+[Review or import an existing AI response →](docs/development/workflow.md#importing-an-external-typed-ai-response)
 
 ## Help shape it
 
@@ -210,6 +243,20 @@ Read [the contributor workflow](docs/development/workflow.md) and
 [AGENTS.md](AGENTS.md) before changing behavior.
 
 ## Documentation
+
+| Path | Contents |
+| --- | --- |
+| `claimbranch/` | Application and domain code, bundled runtime resources |
+| `tests/` | Automated checks and synthetic fixtures |
+| `schemas/` | Versioned contracts and checked generated schemas |
+| `scripts/` | Validation, schema generation and source packaging tools |
+| `docs/` | Product philosophy, ADRs, designs, validation and execution plans |
+| `.github/` | CI workflows |
+| `.agents/`, `.codex/` | Shared contributor skills and hooks |
+
+Local build output and machine-specific settings stay outside source control.
+See [repository layout and local artifacts](docs/development/workflow.md#repository-layout-and-local-artifacts)
+for placement and ignore rules.
 
 - [Documentation map](docs/README.md) — canonical sources and reading paths.
 - [Product philosophy](docs/product/product-spec.md#1-product-definition) — the

@@ -44,6 +44,45 @@ ACCOUNT_PLANS = {'free', 'go', 'plus', 'pro', 'prolite', 'promax', 'team',
     'self_serve_business_prolite', 'self_serve_business_usage_based', 'business',
     'ent26', 'enterprise_cbp_automation', 'enterprise_cbp_usage_based',
     'enterprise', 'edu', 'edu_plus', 'edu_pro', 'unknown'}
+ERROR_CATEGORIES = {'contextWindowExceeded', 'sessionBudgetExceeded', 'usageLimitExceeded',
+    'rateLimitExceeded', 'flexUnavailable', 'serverOverloaded', 'cyberPolicy',
+    'misalignmentPolicyViolation', 'internalServerError', 'unauthorized', 'badRequest',
+    'threadRollbackFailed', 'sandboxError', 'other'}
+HTTP_ERROR_CATEGORIES = {'httpConnectionFailed', 'responseStreamConnectionFailed',
+    'responseStreamDisconnected', 'responseTooManyFailedAttempts'}
+SERVICE_ERROR_CODES = {'invalid_json_schema', 'model_not_found', 'invalid_api_key',
+    'insufficient_quota', 'rate_limit_exceeded'}
+PROPOSAL_FAILURES = frozenset({'advisory_text', 'proposal_json', 'proposal_schema',
+    'proposal_reference', 'proposal_context', 'proposal_semantics'})
+
+
+def _proposal_failure(raw, error):
+    """Closed diagnostic only; never retain rejected text or exception details."""
+    from claimbranch.core.canonical import decode
+    from claimbranch.core.paper_proposals import result_schema
+    from claimbranch.core.research_schema import normalize
+    if str(error) in {
+        'typed suggestions require compiled paper context v2',
+        'typed proposal context or digest changed',
+        'manuscript drafting stays on the existing text-only route',
+    }:
+        return CodexFailure('proposal_context')
+    try:
+        value = decode(raw)
+    except ContractError:
+        return CodexFailure('proposal_json')
+    try:
+        normalize(value, result_schema())
+    except ContractError:
+        return CodexFailure('proposal_schema')
+    # Match only fixed validator messages. Unknown exceptions never become
+    # diagnostics, even when they contain provider text or instructions.
+    category = {
+        'unknown, unselected or wrong-kind proposal reference': 'proposal_reference',
+        'reference a proposed edit by its item id, not its old context identity': 'proposal_reference',
+        'edit requires one matching explicitly selected target': 'proposal_reference',
+    }.get(str(error), 'proposal_semantics')
+    return CodexFailure(category)
 
 
 def mac_codex_policy(client, scratch, *, credential_file=None, proxy_port=None):
@@ -134,6 +173,51 @@ def _frame(value):
 
 
 @dataclass(frozen=True)
+class CodexFailure:
+    """Ephemeral client observations, never raw diagnostics or verified HTTP."""
+    category: str
+    http_status: int | None = None
+    client_reports_retry: bool | None = None
+    rpc_code: int | None = None
+    service_error_code: str | None = None
+
+    def metadata(self):
+        return {key:value for key,value in asdict(self).items() if value is not None}
+
+
+def _failure(error, *, retry=None):
+    info=error.get('codexErrorInfo') if type(error) is dict else None
+    category, status='unclassified', None
+    if type(info) is str and info in ERROR_CATEGORIES:
+        category=info
+    elif type(info) is dict and len(info)==1:
+        code=next(iter(info)); detail=info[code]
+        if code in HTTP_ERROR_CATEGORIES and type(detail) is dict:
+            category=code
+            candidate=detail.get('httpStatusCode')
+            if type(candidate) is int and 100<=candidate<=599: status=candidate
+        elif code=='activeTurnNotSteerable' and type(detail) is dict:
+            category=code
+    # The pinned client maps some HTTP errors to "other" and places the JSON
+    # error envelope in message. Project only a known machine code; never retain
+    # its text, params, paths, instructions or an arbitrary provider-supplied code.
+    service_code=None
+    message=error.get('message') if type(error) is dict else None
+    if type(message) is str and len(message)<=16384:
+        try: raw=message.encode('utf-8')
+        except UnicodeError: raw=b''
+        if len(raw)<=16384:
+            try:
+                envelope=_json(raw)
+                detail=envelope.get('error')
+                code=detail.get('code') if type(detail) is dict else None
+                if type(code) is str and code in SERVICE_ERROR_CODES: service_code=code
+            except _Stop: pass
+    return CodexFailure(category,status,retry if type(retry) is bool else None,
+        service_error_code=service_code)
+
+
+@dataclass(frozen=True)
 class CodexResult:
     request_id: str
     request_digest: str
@@ -146,9 +230,10 @@ class CodexResult:
     thread_id: str | None = None
     turn_id: str | None = None
     cleanup_complete: bool = True
+    failure: CodexFailure | None = None
 
     def metadata(self):
-        value=asdict(self); value.pop('typed_result')
+        value=asdict(self); value.pop('typed_result'); value.pop('failure')
         return value
 
 
@@ -164,6 +249,7 @@ class _Protocol:
         self.items = {}
         self.finished = False
         self.typed = self.response_digest = None
+        self.failure = None
 
     def request(self, request_id, method, params):
         self.pending = request_id
@@ -196,14 +282,27 @@ class _Protocol:
                     or set(message)-{'id','result','error','jsonrpc'}
                     or ('result' in message)==('error' in message)):
                 raise _Stop('protocol_error')
-            if 'error' in message: raise _Stop('client_failed')
+            if 'error' in message:
+                error=message['error']; code=error.get('code') if type(error) is dict else None
+                self.failure=CodexFailure('rpcError',rpc_code=code if type(code) is int
+                    and code in (-32700,-32600,-32601,-32602,-32603) else None)
+                raise _Stop('client_failed')
             value=message['result']
             if type(value) is not dict: raise _Stop('protocol_error')
             request_id=self.pending; self.pending=None
             if request_id==1:
-                return _frame({'method':'initialized'})+self.request(2,'account/read',{'refreshToken':False})
+                # The bounded relay needs login mode, not account discovery.
+                # Pinned getAuthStatus(includeToken=false,refreshToken=false)
+                # avoids account/read's separate workspace-routing request.
+                method,params=('getAuthStatus',{'includeToken':False,'refreshToken':False}) if self.provider_id=='claimbranch-chatgpt' else ('account/read',{'refreshToken':False})
+                return _frame({'method':'initialized'})+self.request(2,method,params)
             if request_id==2:
-                if type(value.get('account')) is not dict or value['account'].get('type')!='chatgpt':
+                if self.provider_id=='claimbranch-chatgpt':
+                    if (set(value)!={'authMethod','authToken','requiresOpenaiAuth'}
+                            or value['authMethod']!='chatgpt' or value['authToken'] is not None
+                            or value['requiresOpenaiAuth'] is not True):
+                        raise _Stop('auth_required')
+                elif type(value.get('account')) is not dict or value['account'].get('type')!='chatgpt':
                     raise _Stop('auth_required')
                 return self.request(5,'model/list',{'limit':100,'includeHidden':True})
             if request_id==5:
@@ -314,7 +413,11 @@ class _Protocol:
             if params.get('status')!='disabled' or params.get('environmentId') is not None:
                 raise _Stop('policy_refused')
             return b''
-        if method=='error': raise _Stop('client_failed')
+        if method=='error':
+            if (self.thread_id is not None and self.turn_id is not None
+                    and params.get('threadId')==self.thread_id and params.get('turnId')==self.turn_id):
+                self.failure=_failure(params.get('error'),retry=params.get('willRetry'))
+            raise _Stop('client_failed')
         if method in PASSIVE_EVENTS:
             if 'threadId' in params and self.thread_id is not None and params['threadId']!=self.thread_id:
                 raise _Stop('protocol_error')
@@ -340,13 +443,30 @@ class _Protocol:
             if type(turn) is not dict: raise _Stop('protocol_error')
             self._identity({'threadId':params.get('threadId'), 'turnId':turn.get('id')})
             if not self.turn_ack: raise _Stop('protocol_error')
-            if turn.get('status')!='completed' or turn.get('error') is not None: raise _Stop('client_failed')
-            if type(turn.get('items')) is not list or turn.get('itemsView','full')!='full': raise _Stop('protocol_error')
-            # Some notification streams carry items separately. If the terminal
-            # notification includes them, they must agree with completed items.
+            if turn.get('status')!='completed' or turn.get('error') is not None:
+                self.failure=_failure(turn.get('error'))
+                raise _Stop('client_failed')
+            view=turn.get('itemsView','full')
+            if (type(turn.get('items')) is not list or type(view) is not str
+                    or view not in ('full','summary','notLoaded')
+                    or view=='notLoaded' and turn['items']):
+                raise _Stop('protocol_error')
+            # The pinned client also emits summary/notLoaded terminal views.
+            # Only owned item/completed events supply full proposal content.
+            # Every item present in the terminal display must still agree; a
+            # summary alone can never manufacture a completed assistant message.
+            terminal_ids=set()
             for item in turn['items']:
                 self._item(item)
-                if item['id'] not in self.items or self.items[item['id']]!=item: raise _Stop('protocol_error')
+                if item['id'] in terminal_ids or item['id'] not in self.items:
+                    raise _Stop('protocol_error')
+                terminal_ids.add(item['id'])
+                # Stable JSON preserves bool/int/float distinctions that Python
+                # container equality erases, without imposing domain string limits
+                # on the complete assistant-message envelope.
+                encode=lambda value: json.dumps(value,sort_keys=True,separators=(',',':'),allow_nan=False)
+                if encode(self.items[item['id']])!=encode(item): raise _Stop('protocol_error')
+            if view=='full' and terminal_ids!=set(self.items): raise _Stop('protocol_error')
             finals=[i for i in self.items.values() if i['type']=='agentMessage' and i.get('phase')=='final_answer']
             if not finals:
                 finals=[i for i in self.items.values() if i['type']=='agentMessage' and i.get('phase') is None]
@@ -354,8 +474,17 @@ class _Protocol:
             raw=finals[0]['text'].encode('utf-8')
             if len(raw)>65536: raise _Stop('response_too_large')
             self.response_digest=hashlib.sha256(raw).hexdigest()
-            try: self.typed=canonical_bytes(provider_typed_result(raw,self.prepared.context))
-            except ContractError: raise _Stop('malformed_response') from None
+            try:
+                if self.prepared.discussion is not None and not self.prepared.edit:
+                    from claimbranch.core.advisory import advice_from_text
+                    self.typed=canonical_bytes(advice_from_text(raw))
+                else:
+                    from claimbranch.core.paper_proposals import provider_edit_result
+                    self.typed=canonical_bytes((provider_edit_result if self.prepared.edit else provider_typed_result)(raw,self.prepared.context))
+            except ContractError as error:
+                self.failure = (CodexFailure('advisory_text') if self.prepared.discussion is not None and not self.prepared.edit else
+                    _proposal_failure(raw, error))
+                raise _Stop('malformed_response') from None
             self.finished=True; return b''
         raise _Stop('protocol_error')
 
@@ -454,7 +583,8 @@ class CodexJob:
                     self._prepared.profile.value['model'] if completed else None,
                     protocol.client_version if protocol is not None else None,
                     protocol.thread_id if protocol is not None else None,
-                    protocol.turn_id if protocol is not None else None,cleanup_complete)
+                    protocol.turn_id if protocol is not None else None,cleanup_complete,
+                    protocol.failure if protocol is not None else None)
                 self._done.set()
 
 

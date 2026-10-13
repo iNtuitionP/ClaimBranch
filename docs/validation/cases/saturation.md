@@ -2,7 +2,7 @@
 kind: validation-case
 status: active
 owners: maintainers
-last_reviewed: 2026-10-11
+last_reviewed: 2026-10-12
 canonical_for: saturation workflow acceptance criteria
 ---
 
@@ -1546,6 +1546,60 @@ durability gate. Execution order and test ownership belong to the active plan.
 
 ### 13.1 Optional AI follow-up acceptance proposal
 
+**Contextual discussion amendment (2026-10-12).** Under
+[ADR 0022](../../architecture/decisions/0022-contextual-advice-and-explicit-edits.md),
+first read plain-text advice on selected science without requiring graph items.
+Use a Korean question, include no earlier messages by default, then explicitly
+choose a retained reply for a follow-up. Check original question/model/context
+and selected-message integrity, three-attempt continuity, cancellation, stale
+input, unsafe/oversized text refusal and manual continuation. An invalid later
+typed edit must leave the earlier advice readable. Advice cannot enter existing
+item staging or become an evidence record. Save/restart and fresh-directory
+backup restore must retain the answer with AI disabled and no send capability.
+Unsent questions have an explicit session-only/quit-loss boundary.
+
+The [owned controller checks](../../../tests/application/test_provider_proposal_work.py)
+and [actual terminal checks](../../../tests/application/test_tui_proposals_terminal.py)
+exercise this discussion slice. Actual live discussion remains a separate
+observation. The subsequent selected passage/action origin and human recording
+checks remain required by the [current L04 order](../../plans/active/2026-08-04-claimbranch-v1-and-gpu-systems.md#l04-contextual-assistance-implementation-order).
+Do not apply the legacy fixture's two-item requirement to a discussion-only
+answer, or count readable advice as completion of the selected-edit journey.
+
+For the local edit path, select a canonical answer span into each supported
+form; no request or graph acceptance occurs. Cancel comparison and verify no
+draft; explicitly prepare once and refuse replay. Retain missing fields and
+original AI text through editing, unkeep/reopen and ordinary backup. Invalid
+span, source mutation, expiry and full checkpoint must preserve previous work.
+Unfinished passage input must coexist with independent valid typed staging;
+retain its source once and refuse erasure/eviction while origin references it.
+Clarification text must be fully readable, with explicit follow-up and selected
+prior-message inclusion; a session-only unavailable source offers no local edit.
+An unrun plan cannot supply scientific support. For an explicit instruction,
+check the separate exact input binding, selected previous messages, four-item
+bound, clarification-only response, selected dependency closure, graph preview
+and atomic failure. Existing typed validators continue rejecting unknown or
+unselected endpoints, cycles and fabricated evidence. Reading either mode never
+restores send or staging consent.
+
+The connected local recording cases now exercise three selected/required passage
+origins (claim, connection and unrun plan), an omitted independent suggestion,
+the original human reason, explicit explanation choice and separate partial
+writing. Correct a measured value, retain the original cause/AI text, save,
+open in a fresh AI-off process and restore a backup into a new directory. A later
+human-authored subclaim inherits its recorded parent's AI origin. A direct edit
+retains explicitly included advice and its original instruction, including after
+eligible typed-payload erasure. Inspect the question, requested/reported model,
+original answer/context and passage alongside human edits. Refused erasure of
+required or copied source text must leave restored work unchanged; cancellation,
+expiry, changed writing, failed save and origin tampering preserve prior data.
+The [provider return cases](../../../tests/application/test_provider_proposal_work.py)
+and actual PTY case above exercise this C outcome. PTY starts with saved edited
+candidates, records through real terminal input with Korean partial explanation,
+resizes, quits and reads origin/explanation from a restored project with AI off.
+Actual connected usefulness remains D acceptance, not inferred from these local
+checks or from a stored explanation choice.
+
 Proposed 2026-10-08 for the
 [four-unit AI follow-up](../../plans/active/2026-08-04-claimbranch-v1-and-gpu-systems.md#optional-ai-follow-up-implementation-plan).
 These are future end-to-end checks, not whole-flow observed passes. The next
@@ -1643,6 +1697,15 @@ return. Missing login, tool/approval requests, executable items, ambient
 instructions, changed model/version, duplicate JSON, unselected references,
 partial/failed/cross-thread output and byte/deadline limits refuse. Cancellation
 and timeout terminate/reap the owned client without returning adoptable text.
+Pinned terminal `itemsView` may be full, summary or notLoaded (omitted means full).
+Accept completed content only from owned item/completed events, never terminal-
+only text. Summary can omit earlier items; notLoaded must be empty, while full
+must list every owned completed ID. Any supplied terminal items must exactly
+match with JSON type distinctions retained; unknown views, duplicates, changed/
+foreign items, nonempty notLoaded and incomplete full views refuse. The terminal
+status/acknowledgement, final-message uniqueness and unchanged typed scientific
+validation still apply. Actual local CLI/SSE observations do not turn a remote
+protocol failure into a qualified live response.
 Missing/duplicate/aliased model rows, unsupported effort/modality or an unread
 catalog page refuse before thread/turn creation; malformed catalogs, missing
 required top-level fields and extra fields refuse too. A valid older catalog
@@ -1666,7 +1729,92 @@ spent outbound attempt rather than pass live usefulness or infer an unrecorded
 HTTP/authentication/schema cause. Any future diagnostic must retain only a
 bounded error category/status projection, excluding raw messages, instructions,
 paths and credentials; that projection remains an untrusted client observation.
+The internal adapter now exposes that projection as ephemeral `result.failure`.
+Check exact owned thread/turn identity, allowlisted installed-schema categories,
+optional integer HTTP status 100–599 (never Boolean), exact Boolean retry
+observation and standard matching RPC codes. Unknown detail remains unclassified;
+raw error text and continuation instructions cannot survive the projection.
+Failed turns supply no proposal, foreign notifications supply no owned diagnostic,
+and scientific result metadata/checkpoint formats exclude the projection.
+The pinned client may encode a service JSON envelope in `message` while its
+category is `other`. Check bounded duplicate-free object parsing and only the
+five known `service_error_code` values described in the
+[adapter contract](../../development/workflow.md#internal-codex-app-server-adapter).
+Arbitrary code/text/params, duplicate keys, non-object/oversized/nested-invalid
+JSON and invalid Unicode must neither leak nor authorize a retry. Earlier exact
+approved live diagnostics remain failed/spent with no known direct cause.
+Codex generation uses the supported schema subset independently from unchanged
+scientific validation. The exact preview/digest binds that projected schema;
+changed generation must invalidate the old body, review and consent. Check
+closed required fields, all four disjoint item kinds, nullable types and unknown-
+keyword refusal. Removing generation-only limits cannot permit invalid IDs,
+oversized text, duplicate references, unselected context or invalid dependencies
+through typed ingress. Local actual-CLI HTTP controls may exercise a synthetic
+strict-schema refusal and completion, but cannot prove remote service acceptance,
+access/egress qualification or researcher benefit.
+Owned failure fixtures cannot establish the cause of the earlier live failure.
 Public Codex dispatch and existing saved formats remain unchanged by that adapter.
+An identical, separately authorized synthetic diagnostic now completes a checked
+typed reply under the repaired adapter. It remains a standalone input, not a
+request owned by a personal project or a provider qualification. Changing its
+context/digest to import that reply elsewhere must not be allowed.
+Actual local HTTP controls observe nested `additional_tools`, developer/environment
+messages and client metadata despite an empty top-level tool list. Check the
+whole transmitted body; a top-level tool count cannot prove scoped egress.
+The separate [offline HTTP compiler cases](../../../tests/application/test_codex_egress.py)
+check selected-only input/instructions/schema, explicit no-tools/no-encrypted-
+reasoning request, exact bytes/hash and independent current profile/context/time.
+Expired/future/noninteger clocks, changed current inputs and an added field with
+a recomputed binding digest refuse. Compilation/preview opens no socket or
+credential and creates no consent; a future live owner must enforce ownership,
+one-shot choice and controlled actual transmission separately. No relay, exact
+endpoint acceptance, retention or novel-task benefit is established by these cases.
+The separate [exact relay cases](../../../tests/application/test_codex_relay.py)
+now check frozen body/header replacement, fixed upstream path, one counted
+attempt, framing/size/compression/redirect refusal and no credential echo.
+Check no-authentication version preflight before a login alias, dead/blocked
+worker cancellation, exact matching wire outcome before typed incorporation,
+visible retained scratch on uncertain cleanup and refusal of later starts.
+The [contextual TUI cases](../../../tests/application/test_tui_proposals.py)
+check complete HTTP read/confirmation, stale body/context/draft refusal,
+independent Codex qualification before login/attempt, owned typed origin return
+and unclosed-owner retention with one shutdown deadline. Also check a bounded
+44-header service reply through the actual stdlib worker, with local request
+count/line/aggregate bounds still refusing before upstream access. Separate
+service count/line/aggregate failures must remain visible, bounded and
+non-adoptable. The ephemeral failure projection accepts only known phase/category
+values, discards secret-bearing error text and extra retry/message fields, and
+never survives into scientific history or a reopened checkpoint. Response-header
+refusal must identify status, framing, media type or encoding without raw values.
+Duplicate content-type/encoding refusal, mixed-case identity headers and actual
+stdlib chunk decoding are checked; trailing whitespace on the transfer token
+cannot cause raw chunk framing to be reported as a relayed SSE response.
+Missing, blank or JSON-labeled media headers accept only an actual bounded SSE
+prefix. Check fragmented BOM/field prefixes, exact byte replay/counting, HTML,
+actual JSON, empty/unknown content, the 2 KiB prefix and total body limits, and
+credential echo split across inspected and remaining bytes. Real HTTP parser
+and worker cases must cover missing media headers and a fully consumed body.
+Real socket cases bound chunk-metadata dribbling by the absolute sniff deadline
+and preserve the later body idle timeout after a slowly arriving valid prefix.
+HTTP 200 without checked content cannot pass live qualification. These owned
+controls do not establish service acceptance or human scientific judgment.
+For an owned completed Codex message rejected by typed ingress, check distinct
+canonical-JSON, schema and unselected-reference diagnostics. Unknown validator
+text must map to a fixed category, never appear in diagnostics. Current-session
+terminal history exposes the category without retaining it in personal saves or
+reopened research, and the malformed response supplies no adoptable proposal.
+Retained proposals may enter a new explicit local review under
+[ADR 0020](../../architecture/decisions/0020-retained-proposal-review.md).
+Check original/current reading before selection, no new request or attempt,
+unchanged historical disposition and origin, refused expiry/erasure/context or
+owner changes, and preserved IDs/human edits on repeated selection. Personal
+recording, fresh-process return and backup/restore retain the original AI lineage;
+reopening cannot restore an active review. Separate operator diagnostic files
+must not be mislabeled as complete historical application attempts.
+Actual target-specific CLI and native API positive/negative observations belong
+in the existing L04 plan and must name their scope. Required OS cache channels
+cannot be widened to arbitrary preference, IPC or key services. Refer to
+[ADR 0019](../../architecture/decisions/0019-reviewed-codex-http-relay.md).
 The separate checked Codex-origin cases in
 [proposal retention tests](../../../tests/application/test_provider_proposal_work.py)
 connect owned returns through dependency selection, human edits, explicit
@@ -1678,7 +1826,8 @@ bounded input/outcome commitments, without HTTP status, account/login data or a
 client capability. Old formats remain closed and byte-identical; trace rewrites
 refuse even with recomputed hashes. Raw-payload erasure/quota must preserve
 adopted origin, original reason and independent explanation choice. Restored
-responses are historical and cannot stage new items. These owned checks still
+responses are historical and cannot stage new items without an explicit new
+local review under ADR 0020. These owned checks still
 do not qualify actual authenticated access/egress or demonstrate useful live AI.
 
 The [internal wire tests](../../../tests/application/test_provider_transport.py)
@@ -1734,7 +1883,7 @@ attempts remain spent and unconfirmed reaping is disclosed.
 | Reject or cancel | Merely opening/comparing, Esc/Not now, refusal or invalid output changes no kept candidate or recorded science. Explicitly staged work remains distinct from a later cancelled review. Existing writing and manual continuation stay usable. |
 | Change state while waiting | Owner/judgment identity, recorded view or included draft changes revoke affected adoption. If the draft was omitted from input, continued typing keeps independently valid typed items readable; staging requires a fresh comparison with current writing. Whole-judgment replacement keeps its stricter revision binding. Dependency/selection changes revoke dependent comparisons/reviews without blanket sibling cancellation. Late/duplicate arrivals cannot overwrite work or revive consent. |
 | Save, reopen and restore | Save/quit/fresh open and backup/fresh restore retain item origins, human edits/reason, kept/unfinished writing and original context within one versioned workspace. One response's multiple items must not be miscounted as multiple dispatched requests. No request, consent, current adoption/review or protected authority is restored. Changed source remains explicit; failed/corrupt/newer/conflicting saves preserve available work. |
-| Return to an unstaged response | Retained available suggestions reopen as read-only historical material with their original basis. Opening cannot stage them or resurrect consent; a fresh explicit request precedes further incorporation. Previously staged candidates remain editable/reviewable with origin without another model call. Erased/not-retained payload status stays honest. |
+| Return to an unstaged response | Retained available suggestions reopen as read-only historical material with their original basis. Opening cannot stage them or resurrect consent; an explicit new local review of identical original/current context precedes further incorporation. Changed context requires a new proposal. Previously staged candidates remain editable/reviewable with origin without another model call. Erased/not-retained payload status stays honest. |
 | Reach an edit or total-storage bound | Keeps, complete dependency batches and checkpoints obey all bounds, including 256 KiB. Refusal retains buffers and last valid origin without partial staging, truncation or revision merging. Optional newly received unstaged payloads may be explicitly marked not-retained under the declared quota, preserving digest/disposition and session reading; they cannot block an otherwise valid human save or evict previous saved/adopted material silently. |
 | Leave an explanation unfinished | Help/staging stays quiet. Personal explanation state defaults to not-reviewed separately from AI origin; partial text, explicit reviewed choice or leave-for-later choice retain original reason/context. Consequential AI recording requests that explicit choice through existing contextual review. AI alone cannot manufacture deferral, comprehension or accepted debt. Legacy deferred encoding requires compatible human choice; no personal enum is inserted into protected/F0 records. |
 | AI off after earlier adoption | Provider removal/disabling preserves prior AI origin and the same manual episode/review/return. No model request occurs, and earlier influence is never relabeled manual. |
@@ -1782,3 +1931,29 @@ content is sufficient and private research is not automatically required.
 Report a concrete benefit or absence of benefit instead of counting known
 fixture wording as usefulness. Reuse the prior manual-loop regression and run
 affected checks; do not repeat all six unchanged human tasks at each AI unit.
+
+
+### External proposal import checks
+
+A private typed external response is previewed before exact local confirmation.
+Dry-run and cancellation leave the checkpoint unchanged; importing contacts no
+provider and creates no research judgment or evidence. Display external/unverified
+source identity during history and selection. Preserve its declared original
+hashes separately from computed normalized/import hashes through restart and
+backup. Reject changed source bindings, duplicate judgment imports, foreign
+references and insufficient retention capacity. An exhausted three-request budget
+stays exhausted. Long reading remains possible; expired comparisons require
+refresh. Failure to open a replacement review preserves the previous review.
+These checks implement [ADR 0021](../../architecture/decisions/0021-external-proposal-import.md).
+
+
+### Public Codex connection release checks
+
+On the pinned Mac Codex route, exact HTTP review reaches the real connection
+without replacing qualification in tests of the public entry. Missing runtime,
+unsupported model, changed content, expired input and cancelled review cannot
+launch. An owned returned proposal supports item comparison/staging and ordinary
+save/reopen with no restored connection. Generic API/unsupported Codex profiles
+remain preview-only. Actual service validation uses separately consented input;
+unit peers do not establish account access. Record final alpha and extracted
+source checks, actual service outcome, human use and release status separately.

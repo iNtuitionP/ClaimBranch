@@ -318,3 +318,40 @@ with PersonalProjectStore(sys.argv[1]) as store:
                 self.assertEqual(status, app.project_source_status)
                 self.assertEqual('원래 관찰을 다시 확인해야 한다', app.note())
                 self.assertEqual(decode(self.project.payload)['associations'], decode(saved.payload)['associations'])
+
+
+class ExternalProposalCommandTests(unittest.TestCase):
+    from tests.application.test_personal_research import PersonalResearchTests as _fixture
+    setUp = _fixture.setUp
+
+    def test_private_import_preview_cancel_save_and_backup_restore(self):
+        from claimbranch.core.canonical import canonical_bytes
+        from claimbranch.application.personal_project import PersonalProjectStore
+        from tests.application.test_paper_proposals import response
+        value=response();value['items']=[value['items'][0]]
+        query={'schema_version':1,'project_id':self.app.view['project_id'],'episode_id':self.app.episode_id,
+            'ref':self.app.ref,'view_digest':self.app.view['digest'],'purpose':'critique-interpretation',
+            'selections':[{'record_id':'thesis','fields':['statement','role']}],'scientific_edge_ids':[]}
+        source={'kind':'external-diagnostic','verification':'unverified-import','model':'gpt-6-sol',
+            'request_id':'request-external','request_body_digest':'a'*64,'reported_response_digest':'b'*64}
+        envelope={'schema':'claimbranch.external-proposal/v1','owner':list(self.app.context_key()),
+            'request':query,'source':source,'result':value}
+        path=self.directory.parent/'import.json';path.write_bytes(canonical_bytes(envelope));path.chmod(0o600)
+        before=self.store.load().payload;self.store.close()
+        command=['project','import-proposal','--directory',str(self.directory),'--input',str(path)]
+        with redirect_stdout(io.StringIO()),patch('socket.socket',side_effect=AssertionError('no network')):
+            self.assertEqual(0,main(command+['--dry-run']))
+            with patch('builtins.input',return_value=''):
+                self.assertEqual(0,main(command))
+            with PersonalProjectStore(self.directory) as store: self.assertEqual(before,store.load().payload)
+            with patch('builtins.input',return_value='import'):
+                self.assertEqual(0,main(command))
+        with PersonalProjectStore(self.directory) as store:
+            project=store.load();backup=store.backup()
+        self.assertEqual('claimbranch.project-work/v7',decode(project.payload)['schema'])
+        destination=self.directory.parent/'restored-import';destination.mkdir(mode=0o700)
+        restored=PersonalProjectStore.restore_backup(backup,destination)
+        app=project_workspace(restored);entry=app.paper.proposal_history()[0]
+        self.assertEqual(source,entry['external']);self.assertFalse(entry['dispatched'])
+        self.assertFalse(app.paper.ai_available);self.assertEqual(0,app.review.session()._prior_dispatches)
+        self.assertEqual(self.source,(self.paper/'paper.tex').read_bytes())

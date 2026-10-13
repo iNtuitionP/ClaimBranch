@@ -2,11 +2,37 @@
 kind: development
 status: active
 owners: maintainers
-last_reviewed: 2026-10-11
+last_reviewed: 2026-10-13
 canonical_for: repository-local validation commands and documentation enforcement
 ---
 
 # Repository checks
+
+## Repository layout and local artifacts
+
+Keep runtime code in `claimbranch/`, executable checks and synthetic fixtures in
+`tests/`, maintained contributor tools in `scripts/`, and versioned contract
+schemas in `schemas/`. Product intent, ADRs, validation and active plans remain
+in the existing indexed `docs/` tree. Generated schemas and bundled runtime
+resources are intentionally tracked where the consistency checks require them;
+being generated or unused by today's alpha is not a reason to remove them.
+Shared `.agents/` skills and `.codex/` hooks are contributor source, not local
+credentials, and remain reviewable.
+
+`.gitignore` excludes Python environments/caches, root `build/` and `dist/`,
+root `.artifacts/`, `.cache/`, `.local/`, `tmp/`, `.tmp/`, `.worktrees/`, local
+environment files and known per-user agent settings/session locations. Safe
+`.env.example` and `.env.sample` files remain eligible for tracking. Use `dist/`
+for locally built release ZIPs and `.artifacts/` for synthetic check output;
+publish release artifacts separately from source. Private research, live
+request/response reviews, credentials and backups still belong outside this
+repository. Ignoring a directory is not a privacy boundary.
+
+Before committing, inspect `git status --short` and `git diff --check`. Use
+`git check-ignore -v --no-index <path>` to explain an ignore rule, and
+`git ls-files -ci --exclude-standard` to detect already tracked files that now
+match ignore rules. Review those files individually; do not bulk-untrack source,
+schemas, tests or historical decisions to make the working tree look clean.
 
 For the user-selected native execution loop and grouped verification commands,
 see the [implementation harness](implementation-harness.md). The individual
@@ -666,8 +692,9 @@ origin/explanation consequences and sixteen partial causal contexts are bounded;
 earlier history is not truncated to fit.
 
 Historical unstaged suggestions are read-only. Restore never installs consent,
-an outstanding broker request or staging authority; new incorporation requires
-a fresh request. Payload availability is `available`, `not-retained` or `erased`.
+an outstanding broker request or staging authority. New incorporation requires
+a fresh local review of identical original/current context under ADR 0020, or a
+new provider request when that context has changed. Payload availability is `available`, `not-retained` or `erased`.
 The whole project, including writing/origin/source association, obeys 256 KiB.
 Never-saved optional raw payloads yield to valid human writing and required
 origin, remaining session-readable with a notice; already saved payloads cannot
@@ -1105,6 +1132,17 @@ instructions/input/output schema, empty environment/dynamic-tool/capability
 roots and no approval. It checks returned model, CLI version, working directory,
 ephemeral state, read-only policy with `networkAccess: false` and instruction
 sources. That network value is a tool-policy setting, not denial of client HTTP.
+The exact unsent Codex body now contains a generation-only projection of the
+typed v2 schema. Responses supports a
+[JSON Schema subset](https://developers.openai.com/api/docs/guides/structured-outputs).
+Keep closed required object fields and types/enums, project disjoint nullable/
+item-kind `oneOf` unions to `anyOf` and string constants to enums, and omit
+known domain-only annotations, byte/length/count/uniqueness constraints from
+generation. Unknown future schema keywords refuse preparation. The unchanged
+local typed ingress still enforces the complete scientific limits, identity,
+references and dependencies before any proposal can be used. This changes the
+complete preview/input digest; an earlier body or consent cannot validate it.
+Historical saved input digests stay opaque commitments, not regenerated HTTP.
 Unexpected executable items, server tool/approval requests or active remote
 control terminate the job. These checks are not actual file/tool/HTTP confinement:
 installed readOnly has no restricted read-root field, and thread overrides do
@@ -1130,10 +1168,32 @@ can pin request/stream retry counts to zero without changing the existing login.
 Only one completed final assistant message from the owned thread/turn is decoded
 through the existing scoped typed ingress. A completed turn, valid JSON and
 selected references are required; partial/different-context/tool-bearing output
-cannot supply a proposal. The result carries distinct Codex disposition, request/
+cannot supply a proposal. Terminal `itemsView` accepts only the pinned `full`,
+`summary` and `notLoaded` values; omitted view defaults to `full`. Full view must
+contain exactly the owned completed-item IDs; notLoaded must contain no items.
+Any present terminal item must match an owned completion with JSON types intact,
+and duplicate IDs refuse. Summary/empty views supply no proposal text: only the
+owned complete events can supply one unique final or legacy unphased assistant
+reply. An actual local CLI/SSE control confirms summary terminal views and
+unchanged full response decoding, including a longer synthetic answer; this is
+not an actual-provider verdict. The result carries distinct Codex disposition, request/
 response hashes, timing and bounded runtime IDs, without fictional HTTP status,
 account identity, raw diagnostics or automatic scientific incorporation. No
-served-model identity is proven: the configured model is checked against the
+raw error message or `additionalDetails` is retained. An owned failure now also
+exposes a separate ephemeral `result.failure` observation: pinned client error
+category, optional integer HTTP status (100–599), exact Boolean retry indication
+or standard JSON-RPC error code. The pinned client can place a JSON service-error
+envelope inside `message` while reporting category `other`. Parse only a complete,
+duplicate-free object within 16 KiB for the five known codes `invalid_json_schema`,
+`model_not_found`, `invalid_api_key`, `insufficient_quota` and `rate_limit_exceeded`;
+only that static `service_error_code` can survive. Raw text, params, instructions,
+unknown codes and malformed/non-object/oversized envelopes are discarded.
+Unknown categories are `unclassified`; malformed
+values and foreign thread/turn details are discarded. These are reported client
+values, not inspected HTTP traffic or permission to retry. Failed turns still
+supply no proposal. `result.metadata()` and the retained scientific outcome
+exclude this observation, so checkpoint formats and earlier origins are unchanged.
+No served-model identity is proven: the configured model is checked against the
 thread's echo, separately from any future actual inference evidence. The internal
 Codex origin controller below now connects owned returns to selective staging
 and saved history. Real authenticated dispatch still depends on the actual
@@ -1171,14 +1231,320 @@ The later [file-access observation](#personal-llm-configuration-and-unsent-previ
 now repairs the stronger global-read startup failure and checks outside-file
 denial through actual host-file APIs. It does not qualify Mach IPC or generated HTTP.
 Closing all proxy tunnels before a synthetic turn observes the settings event
-without model egress. The latest approved diagnostic reaches a checked turn
-acknowledgement/start with matching model metadata, then fails with a client
-error and no typed response. Its detailed error was not retained; no specific
-HTTP/authentication/schema cause is established. That attempt is spent and
-must not be silently resent. Neither controls nor a started turn prove useful assistance.
+without model egress. The approved failure diagnostic reaches a checked turn
+acknowledgement/start with matching model metadata, then fails in 1,916 ms with
+category `other`, `willRetry: false`, no HTTP status and no typed response. Its
+exact approved attempt is spent; the direct service cause remains unknown.
+Actual CLI controls against an owned loopback peer, with no real credentials or
+external inference, show the original strict schema is forwarded unchanged and
+a synthetic HTTP 400 schema error maps to `other` with the JSON envelope in
+`message`. With the revised generation subset that peer returns one synthetic
+completed turn, `store: false`, `stream: true` and no top-level tools. This repairs an
+independently identified request incompatibility; a locally supplied error/
+response does not establish the remote failure's cause or qualify live service.
+The revised exact synthetic input receives separate one-shot approval. That
+attempt runs 13,699 ms and reaches three item completions and turn/completed,
+then the adapter refuses with `protocol_error`; no typed response is retained.
+It is spent. Local actual CLI controls independently reproduce `itemsView:
+summary`, which the adapter previously rejected by requiring full. The terminal
+view repair above passes the local full-event/typed-ingress control. Under the
+owner's continuation instruction, the previously prepared identical synthetic
+input is dispatched once and returns a checked typed proposal in 10,890 ms.
+The response critiques missing operation names, damage definition and measurement
+conditions. Cleanup completes. Its configured/echoed model is `gpt-6-sol`, client
+0.158.0; this does not independently prove served-model identity. That attempt
+is spent. It is a standalone diagnostic, without a personal project's owned
+request; do not rebind its input/context digest to import it into another work.
+
+A further actual local HTTP control, without external inference, observes nested
+`additional_tools` input definitions, developer messages, scratch environment
+and client metadata. Empty top-level `tools` does not establish selected-only
+transmission. These extra fields were not covered by the application-input
+preview; public dispatch remains blocked on exact HTTP and access qualification.
+Existing-login local-peer controls can run with public CA roots while denying
+SecurityServer/trustd lookup. They do not prove actual service TLS, credential
+or all IPC confinement. A no-Mach control fails startup/cleanup; it is not a pass.
+
+`application/codex_egress.py` now compiles an **offline candidate** complete HTTP
+body, independently of the CLI wrapper. Current owner-supplied profile, selected
+context and clock are required; changes, expiry and rehashed added fields refuse.
+It fixes tools to empty, tool choice to none, encrypted-reasoning inclusion to
+empty, and uses only the selected application instructions/input/schema.
+The preview names the candidate exact endpoint, body bytes/hash, static headers,
+opaque authentication requirement, one-attempt budget, zero retries and unknown
+actual retention. It opens no socket, client or credential, proves no ownership
+or consent and grants no dispatch. The candidate endpoint/body have not been
+tested with the service. An owner must separately establish
+active-preview identity, exact outbound choice and actual controlled I/O.
+
+The separate internal `application/codex_relay.py` now implements that controlled
+one-shot path under [ADR 0019](../architecture/decisions/0019-reviewed-codex-http-relay.md).
+It replaces all generated content with the frozen reviewed body and forwards
+only fixed headers plus opaque login headers to the fixed validated HTTPS
+endpoint. The stdlib worker is trusted application code, not an OS-isolated
+model worker. The actual CLI has the target-specific file/network/API policy.
+No-authentication version checking precedes its login alias. Normal cleanup
+removes owned temporary data; unconfirmed cleanup keeps its owner/path visible,
+revokes the alias where possible and blocks another request. Preserve potentially
+live files and the original login; remove only the named temporary folder after
+its processes are closed. Never treat this as protection from arbitrary same-user
+programs or proof of service retention.
+
+For explicitly configured `gpt-6-sol` Codex profiles, the existing personal TUI
+now displays the complete unsent HTTP body, digest, destination, static headers
+and opaque-authentication description. Enter requires reading that full preview
+and rechecking its owning science/draft/profile. The independent public Codex
+qualification gate still refuses before client/login access or an attempt.
+Other Codex models retain the narrower application-input preview. Configuration
+does not enable either route. Owned returns from the new transport use existing
+selective comparison/editing, personal recording and saved-origin return, with
+unchanged workspace v9/work v10/project v6 formats. Actual service acceptance,
+fresh outbound choice and novel-task benefit remain unverified.
+
+The relay now keeps local request parsing separate from service-response parsing:
+32 versus 64 headers, an 8 KiB line limit and a 16 KiB aggregate wire-header
+limit for each. Bounds apply while reading, without changing the HTTP library's
+shared globals. Response headers are still discarded except for checked framing
+and content type; the exact body/destination/authentication allowlist is unchanged.
+An owned real-worker control reproduces the previous rejection of a bounded
+44-header SSE response. This is not proof of the cause of an earlier live failure.
+
+Failed live jobs now expose only a closed phase/category projection in ephemeral
+`wire_result.failure`: local request, TLS connection, sending, response headers
+or response stream. Certificate/protocol/timeouts, remote closure and header
+limits are distinguished without saving exception text, response error bodies,
+header values, credentials or retry instructions. Header refusal distinguishes
+`response_status`, `response_framing`, `response_media_type` and
+`response_encoding`; HTTP 200 alone does not imply a usable model response.
+Reject duplicate content-type/encoding fields and preserve framing ambiguity
+refusal. A missing/blank or `application/json` media type permits inspection of
+at most 2 KiB of decoded body for an SSE field/comment prefix. Recognized SSE
+keeps every inspected byte in the original stream, counted once; HTML, actual
+JSON, empty or unrecognized content refuses as `response_stream_format`.
+An absolute 15-second sniff watchdog also bounds dribbling chunk metadata;
+it does not shorten the subsequent 15-second body idle timeout. The parent's
+60-second request deadline remains. Normal SSE headers need no sniffing.
+Media type and identity encoding ignore case and surrounding whitespace;
+the chunked transfer token must match the actual stdlib decoder, which does
+not trim trailing whitespace. Other encoding remains unsupported. These fixed
+diagnostics do not retrospectively establish an earlier failure's cause.
+A matching owned Codex
+controller displays that limited diagnostic in the terminal; it is excluded
+from research history and backups. Unknown fields/categories refuse projection.
+Failure neither authorizes a retry nor qualifies a service. A new request still
+requires exact review, current ownership and the remaining explicit-attempt budget.
+
+A completed Codex message rejected by typed proposal validation now carries a
+separate ephemeral `response_validation` diagnostic: `proposal_json` for the
+bounded canonical JSON contract (including duplicate keys, numbers and Unicode),
+`proposal_schema` for the closed response structure, `proposal_reference` for
+known invalid selected/item references, `proposal_context` for known compiled
+context refusals, or `proposal_semantics` for other contract refusals. These are
+stages/categories, not raw field paths or proof that a response was syntactically
+invalid JSON. Only a matching owned malformed result supplies this projection.
+The terminal history reader shows it in the current session; research saves and
+backups exclude it. Rejected content and exception text are never retained.
+Acceptance rules and the public qualification gate remain unchanged. Older
+failures lacking these diagnostics cannot be reclassified retrospectively.
+
+```sh
+python3.13 -B -m unittest tests.application.test_codex_egress
+python3.13 -B -m unittest tests.application.test_codex_relay
+```
+
+The received RLVR question is prepared privately as unresolved user-authored
+work, with no observations or experiments; its ordinary personal save/reopen
+and candidate HTTP preview run without inference. This is not useful live
+assistance or L04 completion. A new exact body requires a new outbound choice
+after the actual transmission boundary is ready.
+See the [failure diagnosis and schema repair](../plans/active/2026-08-04-claimbranch-v1-and-gpu-systems.md#2026-10-11-l04-safe-failure-diagnosis-result-review).
 See the [model preflight and diagnostic result](../plans/active/2026-08-04-claimbranch-v1-and-gpu-systems.md#2026-10-11-l04-codex-model-preflight-and-diagnostic-result-review).
 See the [authenticated diagnostic result](../plans/active/2026-08-04-claimbranch-v1-and-gpu-systems.md#2026-10-10-l04-authenticated-codex-diagnostic-result-review)
 for the preserved failures and dependent stop. Public launch remains unavailable.
+
+#### Contextual discussion candidate
+
+The current checkout adds the first discussion slice under
+[ADR 0022](../architecture/decisions/0022-contextual-advice-and-explicit-edits.md).
+It uses the existing [Mac Codex candidate connection](#mac-codex-connection-release-candidate).
+The published alpha does not include it. On 2026-10-13, one exact-approved
+synthetic RLVR question returns readable advice through the public Mac connection
+and survives a fresh open. Selected passages now form saved, unrecorded claim/
+plan/connection drafts with retained origin. These agent-operated checks do not
+establish human usefulness or complete connected-use/release qualification; see
+the [current L04 evidence](../plans/active/2026-08-04-claimbranch-v1-and-gpu-systems.md#l04-contextual-assistance-implementation-order).
+
+In an open personal project with that profile, use `;` → **Discuss this argument
+with AI**. Write a question, then `Ctrl+S` opens the context picker. Choose
+recorded nodes/relations; `d` explicitly includes the draft, `q` returns to the
+question and `h` selects up to two earlier replies from the same judgment.
+Nothing is sent until the complete HTTP review and explicit send. The remaining
+three-attempt budget is shared with typed requests, including failures/restart.
+Selected earlier text is retained with the follow-up request. A referenced
+reply cannot be erased separately while that input retains it.
+
+The answer reader shows ordinary text, the original question and AI origin.
+`f` starts a follow-up with no previous messages included automatically; `o`
+reads original graph context and request history. Reading creates no node,
+connection, evidence or judgment.
+
+To use a passage locally, press `1` for a claim, `2` for an unrun plan or `3`
+for a scientific connection. These are application controls, not parsed model
+instructions. Choose an exact answer line; `s` lets you remove surrounding text
+and choose a shorter, uniquely located excerpt. Enter previews the complete
+passage and candidate fields, then a separate Enter prepares one unfinished editable form.
+Esc before confirmation creates nothing. `x` dismisses these controls for that
+reply in this session. There is no automatic offer dialog or request.
+
+The existing candidate form starts with the selected statement, objective or
+rationale; parent, scope, endpoints, conditions and measurement fields remain
+blank until chosen. Complete them explicitly. `Ctrl+S` keeps edits; `g` in the
+draft list shows the graph after its required fields validate. A plan projects a
+`tests` association and supplies no evidence or scientific support. Personal
+recording remains separate, and local preparation works with AI off. Unfinished
+forms remain outside the kept graph and cannot block an independent valid edit.
+The selected character span and later human revisions retain the original
+answer's identity through unfinished writing and backup. Store the answer once;
+while a candidate or recorded origin references it, separate payload erasure or
+quota eviction is refused. Removing an unrecorded draft removes its reference;
+recorded origin stays append-only. Changed context requires a new model request
+for AI reinterpretation; reading the original answer remains available.
+
+For natural-language interpretation, use `;` → **Prepare a small edit with AI**.
+Write the intended edit, select graph context and optionally earlier advice,
+then inspect the complete request. It returns at most four typed items including
+dependencies, or clarification with no items. A clarification opens in a full
+scrollable reader; `f` starts a revised edit instruction without declining it,
+and `h` explicitly includes the earlier clarification in the next request.
+Missing or ambiguous scientific
+fields must be clarified; no node is retrieved outside selected input. Select
+items, compare before/after content and `G` graphs, then explicitly stage the
+whole dependency group. Invalid or cancelled edits preserve advice and manual
+work. This reuses typed result v2 under a separate versioned instruction binding;
+it never parses an entire prose answer. The request shares the existing
+three-attempt limit and has no automatic retry. Actual service validation of
+this edit mode remains a later check; owned tests alone are not live qualification.
+
+After editing, use **Record selected reasoning personally**. Its graph comparison
+shows selected, required and omitted changes and reuses your original judgment
+and reason. AI influence requires an explicit explanation choice: review the
+contextual topics or leave them for later. Partial explanation stays editable;
+neither preparing a candidate nor recording a choice proves understanding.
+An omitted suggestion stays outside recorded science. Result correction appends
+history and keeps the earlier AI contribution and reason intact.
+
+After save/restart or fresh-folder backup restore, **Inspect AI item origins**
+shows the selected passage, original question/edit instruction, requested model,
+separately labeled provider-reported model, original answer and selected graph
+context alongside human revisions. Explicitly included earlier replies retain
+their own source links. These are historical inputs, not a claim that current
+science is identical. The view reads saved data with AI off and makes no request.
+Required passage sources and copied follow-up replies cannot be separately erased
+after reopening either. Optional typed payload erasure still retains the adopted
+item, original instruction and contribution history. **Return to personal
+explanations** opens current partial writing beside its original reason; the
+immutable recorded choice remains separate. No send/review permission or debt
+closure restores. Backend and actual-terminal checks exercise this local record/
+correction/return loop; the actual connected researcher-use observation is pending.
+
+Questions are limited to 4,096 UTF-8 bytes, answers to 16,384 bytes, and complete
+requests/checkpoints retain their existing bounds. An over-limit question stays
+editable. An unsent question is session-only, survives closing its pane and is
+named in the quit-loss disclosure. Sent questions and retained answers use the
+existing project save and backup/restore; no credential or consent restores.
+If an optional answer cannot fit the checkpoint, its reader explicitly reports
+`not-retained`; live reading and the minimal attempt trace remain available.
+Old typed response/checkpoint formats retain their validators. Advice-only work
+uses workspace v11/work v12/project v8. New instruction requests or passage
+origins use workspace v12/work v13/project v9 with the same ordinary private
+atomic saving. Opening legacy files does not destructively convert them.
+
+#### Mac Codex connection release candidate
+
+The current checkout connects the existing Codex relay through the public
+personal project entry. Release verification is in progress; the published
+alpha.2 still has its older AI-off behavior. Actual request approval and the
+remaining release evidence are tracked in the
+[publication order](../plans/active/2026-08-04-claimbranch-v1-and-gpu-systems.md#ai-connected-github-publication-order).
+The latest public-path check reached HTTP 200 but its response failed typed
+proposal validation. This candidate is not yet qualified as a working AI release;
+do not mistake successful HTTP transport for usable suggestions.
+
+Use Python 3.13 on the verified Mac with Codex CLI **0.158.0**, an existing
+ChatGPT login stored by Codex in its private login file, and explicitly selected
+**gpt-6-sol**. No API key or copied token is needed. Other models and API profiles
+remain unsent previews; unsupported hosts, missing/private-permission failures
+and version/authentication failures leave manual work available. Install/login
+through Codex itself; ClaimBranch neither installs a client nor refreshes tokens.
+
+```sh
+mkdir -m 700 /path/to/new-private-provider
+python3.13 -m claimbranch provider configure-codex --directory /path/to/new-private-provider --model gpt-6-sol
+python3.13 -m claimbranch project open --directory /path/to/private-work --provider-directory /path/to/new-private-provider
+```
+
+In the graph press `A`, choose recorded context with Space, optionally include
+kept draft text with `d`, and Enter to preview the full HTTP content. Read it
+with PgDn/End; Enter sends that exact request, while Esc cancels. The preview
+names destination, model, account usage, limits and unknown service retention.
+The client version is checked asynchronously under confinement before login
+access. The request runs with a 60-second limit and no automatic retry; at most
+three attempts per judgment. Use `m` to continue writing during the request.
+Read returned items, select with Space, `c` compare and Enter to stage; use the
+normal personal judgment/reason review to record. Failure or cancellation changes
+no science. Saved response history remains available without reconnecting.
+
+The fixed route implements [ADR 0019](../architecture/decisions/0019-reviewed-codex-http-relay.md).
+It is an experimental pinned client integration, not general Codex model/account
+support or a guarantee of service retention. A runtime check is not a claim that
+every account has model access. Saved configuration never restores send consent.
+
+#### Reviewing saved AI items without another request
+
+In AI response history, open a retained successful response and read its full
+original context. Press `r`, read the original/current comparison, then Enter to
+select items. This works with AI off and sends no request. Use the existing
+chosen/required/omitted comparison before staging, then edit and personally
+record through the normal judgment/reason workflow. Reading has no timeout. Each
+comparison lasts 120 seconds; press `c` to refresh an expired comparison. Reuse currently requires identical
+original/current canonical input. Changed research or included draft input requires
+a new proposal; erased content cannot be reused.
+
+Complete proposal histories and explicitly labeled external imports support this
+path. A separate diagnostic is never relabeled an application-owned live attempt. Request/model/response/trace identities remain unchanged. Cancelling
+changes no historical disposition. Repeated selection reuses prior item IDs and
+keeps edits. Save/reopen restores origins but no active local review or consent.
+See [ADR 0020](../architecture/decisions/0020-retained-proposal-review.md).
+
+#### Importing an external typed AI response
+
+Close the project TUI first. The local command previews the complete import;
+only typing `import` saves it. It sends no request and records no science.
+
+```sh
+python3.13 -m claimbranch project import-proposal --directory /private/work --input /private/response.json --dry-run
+python3.13 -m claimbranch project import-proposal --directory /private/work --input /private/response.json
+```
+
+The input must be an owner-only regular file (for example mode 600), at most
+128 KiB. Its closed envelope has `schema: "claimbranch.external-proposal/v1"`,
+`owner` (episode/ref/source-node triple), `request` conforming to the
+[context request schema](../../schemas/paper-context-request-v1.json), `result`
+conforming to the [typed response schema](../../schemas/provider-result-v2.json),
+and `source`. The latter contains exactly `kind: "external-diagnostic"`,
+`verification: "unverified-import"`, `model`, `request_id`,
+`request_body_digest`, and `reported_response_digest` (the two digests are
+64-character lowercase SHA-256 values). The request names current project/view
+and selected recorded context; arbitrary prose/chat exports are not supported.
+
+Source model and original hashes are explicitly unverified declarations. The
+normalized result and local import receive separate checked bindings. One import
+per judgment, sixteen per workspace, never resets or consumes live request
+budget. Insufficient storage refuses rather than silently discarding this
+response. Open the project and its AI response history; the external label stays
+visible. Use `r` and the local-review flow above to select items. Save/reopen and
+backup retain origin, not prior selection authority. This feature does not
+enable a live provider. See [ADR 0021](../architecture/decisions/0021-external-proposal-import.md).
 
 #### Checked Codex proposal retention
 

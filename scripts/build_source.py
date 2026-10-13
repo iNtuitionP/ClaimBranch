@@ -8,7 +8,7 @@ import zipfile
 
 from scripts.export_runtime_resources import ROOT, check_resources, require_unlinked
 
-MAX_SOURCE_MEMBERS = 131
+MAX_SOURCE_MEMBERS = 135
 
 README = """ClaimBranch experimental personal terminal alpha
 
@@ -53,25 +53,41 @@ and exits. Failed/uncertain saves retain live writing and give reopen guidance.
 Personal work and backups are ordinary UNENCRYPTED private local files.
 They are personal history, not signed protected authority. Permissions reduce
 accidental disclosure but do not stop another unrestricted same-user program.
-AI is off. Retained AI origin stays visible. No protected acceptance, automatic
-manuscript write, debt closure, provider, Windows support or migration is enabled.
-provider configure/inspect/preview prepare your own API format, endpoint, model
-and environment-secret NAME in a separate private configuration directory.
-Run python3.13 -m claimbranch provider configure --help. These commands do not
-read keys or send requests; actual provider qualification/live use is unfinished.
-project init/open --provider-directory /path/to/private-llm-config explicitly
-attaches that profile for contextual unsent previews. The header says AI preview.
-A selects recorded science, d includes kept draft text and p selects the task.
-Enter prepares exact API content; End reads, Esc returns to manual writing.
-The public live gate refuses before key lookup or I/O. Disable/enable previews
-through named actions; neither setup nor a saved checkpoint qualifies a provider.
-An existing Codex ChatGPT login is separate from an API key. Use
-provider configure-codex --directory /path/to/new-private-config --model YOUR_CODEX_MODEL
-for a credential-free profile; attach it with the same --provider-directory.
-This previews selected APPLICATION INPUT, not CLI-generated HTTP content or send
-consent. Its client version is a supported candidate, not observed at setup.
-No Codex client, key, attempt, trace or response is created. Actual restricted
-CLI execution/return remains unavailable; do not copy login tokens into profiles.
+AI is off unless you explicitly attach your private provider profile. Retained
+AI origin stays visible. No protected acceptance, automatic manuscript write,
+debt closure, Windows AI support or authority migration is enabled.
+provider configure/inspect/preview prepare API profiles without reading keys or
+sending requests; generic API and unsupported Codex model routes are preview-only.
+The current Mac Codex route is a release candidate. An actual discussion reply
+has been received and saved; complete connected-use/release validation is pending.
+Use a user-owned direct Codex CLI 0.158.0 executable and its existing private
+~/.codex/auth.json ChatGPT login. Keychain-only login, npm wrappers, other client
+versions and non-Mac live execution are unsupported; manual work remains usable.
+Never copy tokens into profiles. Select the supported model explicitly:
+
+    python3.13 -m claimbranch provider configure-codex --directory /path/to/new-private-config --model gpt-6-sol
+    python3.13 -m claimbranch project open --directory /path/to/private-work --provider-directory /path/to/new-private-config
+
+For readable advice, use ; -> Discuss this argument with AI. Write your question
+and Ctrl+S opens the context picker. Select recorded science; d explicitly adds
+the draft and h explicitly selects earlier replies. No previous reply is included
+automatically. Enter prepares complete HTTP content; End reads, Esc cancels, Enter sends only
+that reviewed content after runtime checks. Account usage may apply; actual
+service retention is unknown. Each request has a 60-second limit, no automatic
+retry; at most three attempts per judgment. During the request, m continues
+manual writing. A readable answer makes no graph change. In its reader, 1 starts
+a claim, 2 an unrun plan and 3 a connection: select an exact passage, inspect the
+preview, then prepare an unfinished form. Complete missing fields yourself. A
+planned experiment tests its target claim; it supplies no observed result.
+For a natural-language edit instruction, use ; -> Prepare a small edit with AI.
+This is a separate reviewed request, returning at most four candidate items or
+a clarification. This edit route has owned-test coverage but remains unverified
+against the actual service. Select items, c compares, G shows graphs and Enter
+stages only that batch. Personal recording still needs your judgment/reason and review.
+Inspect AI item origins retains the original question, answer, selected passage
+or item and later edits. Return to personal explanations preserves partial work.
+Local history re-review works with AI off; no saved request consent restores.
+
 Finite alpha bounds: 8 episodes/runs, 16 observations, 32 evidence events and
 64 commands; one interpretation/selected merge per episode. Unsupported extra
 work is refused and your writing stays readable. Try disposable work first.

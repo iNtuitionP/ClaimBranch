@@ -87,7 +87,13 @@ class ActionsUI:
                    'Choose recorded science and task, then inspect the exact unsent API request. Actual provider not qualified; no complete judgment required.' if connection else
                    'Choose exact context, then review a fixed offline request. No live model; no complete judgment required.',
                    'OPTIONAL AI', True, '' if typed or app.paper.ai_available else 'AI OFF. Manual writing remains available. No request will be prepared.'),
-        ] + ([Action('Disable personal AI connection' if connection.enabled else 'Enable personal AI previews',
+        ] + ([Action('Discuss this argument with AI', 'proposal:discuss',
+                     'Ask a question and read natural-language advice. Choose graph context and earlier replies explicitly; no graph change.',
+                     'OPTIONAL AI', True, '' if connection.enabled else 'Enable the personal connection first.'),
+              Action('Prepare a small edit with AI', 'proposal:edit',
+                     'Describe one intended claim, plan or typed connection. Review exact input, then compare the returned candidates.',
+                     'OPTIONAL AI', True, '' if connection.enabled else 'Enable the personal connection first.'),
+              Action('Disable personal AI connection' if connection.enabled else 'Enable personal AI connection',
                      'proposal:disable' if connection.enabled else 'proposal:enable',
                      'Session-only choice. Keep manual work and saved origins; enabling creates no request or provider qualification.', 'OPTIONAL AI')]
              if connection else []) + ([Action('Compare current AI items', 'proposal:current', 'Select independent items; compare required/omitted scope and both draft graphs before staging.', 'OPTIONAL AI')]

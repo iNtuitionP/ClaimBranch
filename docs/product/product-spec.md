@@ -2,7 +2,7 @@
 kind: product-spec
 status: draft
 owners: maintainers
-last_reviewed: 2026-10-11
+last_reviewed: 2026-10-13
 canonical_for: intended product behavior and boundaries
 ---
 
@@ -54,6 +54,16 @@ Partial explanation stays editable on its original cause after review expiry or
 changed current science. Return opens the latest partial writing, separately
 from the immutable recorded review choice; it cannot overwrite newer text with
 an older recorded explanation or restore recording authority.
+Retained, originally checked AI items may be explicitly reviewed again without
+another inference request under [ADR 0020](../architecture/decisions/0020-retained-proposal-review.md).
+The new local review shows original/current context, preserves original origin,
+and requires fresh item comparison/selection; reopening restores no consent.
+The first implementation permits identical canonical context only; changed
+research requires a new proposal rather than silently rebinding old advice.
+Explicit external typed responses may also be imported as unverified AI sources
+under [ADR 0021](../architecture/decisions/0021-external-proposal-import.md),
+without inventing an original application request or recording science. Reading
+is untimed; fresh comparisons retain short-lived staging validity.
 Actual provider and exact outbound consent remain separate gates. The current
 public personal app is still AI-off. The portable typed-input/response subset is
 available as an [offline contributor exercise](../development/workflow.md#typed-proposal-ingress-exercise),
@@ -92,6 +102,27 @@ connects owned returns to selective editing, personal recording and save/restart
 backup with complete origin and independent explanation choice. Actual
 authenticated access/egress and useful live assistance remain unavailable;
 these internal components do not qualify a provider or enable public AI.
+The separate [exact HTTP relay](../architecture/decisions/0019-reviewed-codex-http-relay.md)
+now connects a complete unsent HTTP preview for explicitly selected `gpt-6-sol`
+to the existing owned proposal/return controller. It replaces the CLI wrapper
+with exactly reviewed bytes, retaining manual work and existing save formats.
+The current checkout now connects that fixed route through public personal
+init/open for Mac, CLI 0.158.0 and explicit gpt-6-sol; each send checks runtime
+conditions and exact foreground consent. Other routes remain preview-only.
+The published alpha remains AI-off until connected-use and release validation
+complete; current candidate instructions are in the
+[workflow](../development/workflow.md#mac-codex-connection-release-candidate).
+
+The next contextual-assistance change is selected under
+[ADR 0022](../architecture/decisions/0022-contextual-advice-and-explicit-edits.md).
+Its current discussion slice adds a readable plain-text reply and explicit
+selection of earlier replies to the existing Mac Codex candidate. Owned tests
+cover question/answer retention, selected-action personal recording, correction
+and AI-off return. An exact-approved actual discussion now returns readable advice
+and survives fresh open; connected human usefulness and release readiness remain
+unverified. See the
+[current workflow](../development/workflow.md#contextual-discussion-candidate)
+and [remaining execution order](../plans/active/2026-08-04-claimbranch-v1-and-gpu-systems.md#l04-contextual-assistance-implementation-order).
 
 ## 1. Product definition
 
@@ -428,6 +459,27 @@ The AI-off path is complete. No empty “ask AI” state blocks the workflow.
 
 AI is an explicit action inside the current episode, not a mandatory onboarding
 step or chat home.
+
+Bounded contextual discussion may return readable advice without graph items
+under ADR 0022. The person explicitly selects previous messages for a follow-up;
+reading or mentioning another record does not authorize extra context or artifact
+access. Advice can recommend a claim or experiment, but only a later explicit
+action prepares a candidate. Invalid edit proposals cannot erase a separately
+validated answer. Keep the question, original response/context and selected
+passage/action origin through edits and personal recording; a human click does
+not establish understanding. The current small-action slice offers local exact-passage
+prefill into existing claim, unrun-plan and connection forms, plus separately
+requested typed edits bounded to four items. Missing fields remain unfinished
+outside the kept graph, without blocking another independent valid edit;
+only complete candidates enter the validated graph. Required source text and its
+selected span survive human editing and local return. Selected/required items
+and omitted suggestions remain distinct at personal recording. The original
+human reason and independent explanation choice survive later correction and
+backup return; newer partial explanation cannot overwrite the recorded choice.
+The source reader identifies the original question or instruction, requested
+and provider-reported model, original answer/context and explicitly included
+earlier replies beside passage and human revisions. Actual connected use remains
+separate from the locally checked personal-recording path.
 
 Before any remote-capable request, ClaimBranch shows the destination, exact
 normalized content, redactions, retention expectation, and request digest. The
@@ -948,9 +1000,10 @@ Required interaction qualities:
 - reflow, contrast, target size, reduced motion, and NVDA behavior are verified
   before V0.
 
-Chat, a broad Inbox home, an unrestricted graph editor, dashboards, command
+General chat as a home, a broad Inbox home, an unrestricted graph editor, dashboards, command
 palette and background daemon remain post-V0 hypotheses. The bounded paper
-argument workspace above is part of current product development.
+argument workspace and explicitly requested contextual discussion under ADR 0022
+are part of current product development.
 
 ## 8. Authority matrix
 

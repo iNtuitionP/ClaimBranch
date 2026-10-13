@@ -2,7 +2,7 @@
 kind: design
 status: in-review
 owners: maintainers
-last_reviewed: 2026-10-11
+last_reviewed: 2026-10-12
 ---
 
 # Design: a research judgment that remains understandable
@@ -237,6 +237,15 @@ consequences they want, record through the appropriate app route using the
 same reason, and later inspect both their thinking and AI influence. A
 complete judgment or separate decision log is not required to ask for help.
 
+For the selected `gpt-6-sol` Codex continuation, the contextual reader now shows
+the complete unsent HTTP body and digest rather than only the application input.
+Its read/confirmation checks remain on the same judgment owner. The separate
+[exact relay](../architecture/decisions/0019-reviewed-codex-http-relay.md) discards
+generated agent wrapper content; qualification still refuses public dispatch
+before login or an attempt. Existing item comparison/editing and reason/origin
+return are connected for owned replies, without new screens or save formats.
+Actual service acceptance and useful novel-task assistance remain L04 gates.
+
 | Approach | Assessment |
 |---|---|
 | Give a filesystem agent the whole project and let it edit saved JSON | Ordinary same-user tools can do this today, but it bypasses the app's review, source bindings and origin contract. Human export/backup is not scoped model context. Excluded from this product integration. |
@@ -265,6 +274,118 @@ proposal items, not fabricated human judgments or model-supplied actor flags.
 Restore original basis and writing without restoring consent, an adoptable
 expired response or a current review. Payload erasure retains its availability
 marker/digest and any contribution material required to explain recorded work.
+
+#### Contextual conversation and small edit proposals
+
+Review requested 2026-10-12. The owner proposes reading the selected argument,
+discussing it in natural language, and explicitly asking for a claim, planned
+experiment or connection. AI may also suggest a concrete next graph action.
+This section assesses that direction; it does not implement a new response
+contract, supersede accepted ADRs or close L04. External observations and their
+limits are in the [reference comparison](../references/research-agent-runtime-and-graph.md#contextual-conversation-and-selected-graph-actions).
+
+**Finding.** This serves the existing human outcome: form the judgment in
+context, retain chosen AI influence, and resume without a second decision log.
+The current `provider-result/v2` already permits advisory critique with zero
+items. It does not require every sentence to become a node. However, the current
+live path validates critique and all proposed items as one typed result; an
+invalid item can reject the whole return. Separate readable advice from edit
+validation explicitly rather than silently salvaging a failed legacy envelope.
+The previous live rejection remains unresolved; the new design is not its proven
+fix.
+
+| Contract | Assessment of the proposed flow |
+|---|---|
+| Graph as primary workspace, contextual help | Keep conversation attached to the selected argument/episode and show the affected graph. The product's broad deferred-chat wording needs clarification for this bounded surface; a general chat home remains outside scope. |
+| Proposal-only AI and human construction | A model describes a candidate operation. Trusted application code prepares the candidate; only a human selects/stages and separately records a scientific consequence. No model-facing writer or arbitrary tool execution. |
+| Provenance and understanding | Preserve originating reply/selected passage, request/model/input basis and human edits. Pressing a button is not proof of understanding. Quiet drafting needs no quiz; consequential recording keeps the existing reason and explicit explanation/deferral choice. |
+| Evidence and planned experiments | Reuse the existing experiment-plan type and its target-claim association, projected as `tests`. A planned experiment supplies no result and cannot itself `support` a claim. Do not add a generic config node or fabricate measurements. |
+| Scoped input and exact outbound review | Readable context retains selected types, roles, scope, relation direction/rationale and experiment/observation status. Additional nodes, previous messages or a draft must be selected into the actual reviewed request; mention of B does not authorize silently reading its files. |
+| Return and current state | Reading a saved reply restores no action permission. Revalidate targets/current source before preparing an edit. Existing ADR 0020/0021 identical-context and external-source limits remain; a changed-context conversation-to-edit binding needs its own explicit design. |
+
+**Selected bounded flow (discussion, edit preparation and personal return locally checked; actual connected use pending).**
+
+1. Read selected graph context and discuss it in the existing terminal workspace.
+   Return bounded, safely rendered advisory text without requiring graph items.
+   Retain an owned response identity independently of any edit candidate.
+2. Offer a small optional action card only when useful: create a claim, prepare
+   an unrun experiment, or connect explicitly identified existing records. The
+   user can also invoke these directly. Suppress repeated dismissed suggestions;
+   no background request or automatic edit is implied by offering a card.
+3. Resolve natural-language aliases to current visible identities; clarify an
+   ambiguous target/type/direction. Show missing scientific fields as missing.
+   A user-selected passage may prefill an editable candidate locally; a separate
+   model interpretation is another explicitly reviewed request, not a free retry.
+4. Show the exact candidate content, typed connection, source passage and graph
+   effect. Confirming creates unaccepted draft work through existing services.
+   Keep no-op/cancel/manual continuation available. Validate independent small
+   actions separately; an inseparable node-plus-connection group stays atomic.
+5. Reuse the existing personal reasoning review for actual recording, with the
+   person's reason and complete AI origin. Saving and reopening retain advice,
+   unfinished candidates and origins, never a pending approval capability.
+
+An action schema is data, not permission to execute a tool. The selected Codex
+relay has no model tools under ADR 0019; this proposal can retain that boundary
+and translate bounded action data inside the trusted app. Exposing real model
+function/tool execution would require a separate authority review, not a renamed
+`create_node` command. Automatic experiment execution and manuscript edits remain
+excluded.
+
+**Contract work before implementation.** Define a versioned advisory-message
+and selected-action origin binding rather than relabeling text as an old checked
+item. Bound conversation retention/context inclusion and preserve existing saved
+formats. Clarify the product's contextual-chat scope, amend response/return
+acceptance and L04's existing outcome, and record a new ADR for the new contract
+without rewriting accepted history. Reuse graph/query, candidate, validation,
+personal recording and save/backup services; no new agent framework is required.
+
+**Selected implementation choice (2026-10-12).** [ADR 0022](../architecture/decisions/0022-contextual-advice-and-explicit-edits.md)
+records the owner's implementation instruction. The requested
+[four-batch L04 plan](../plans/active/2026-08-04-claimbranch-v1-and-gpu-systems.md#l04-contextual-assistance-implementation-order)
+separates two explicit modes. Discussion returns bounded advisory text without
+graph JSON. Preparing an edit returns a small typed action proposal in response
+to the person's instruction; it may ask for clarification or leave scientific
+fields incomplete in an editable form. It never runs automatically after each
+answer. Direct edit requests need no preceding conversation. The existing
+whole-result v2 contract remains readable and is not silently weakened.
+
+The quickest passage-to-graph route is local: select retained text, open the
+existing claim/plan/connection form, edit and inspect its graph effect. If model
+interpretation would help, the person explicitly requests it and reviews that
+new outbound content. AI may recommend a next action in its prose; adjacent
+context-valid application controls must not pretend to be parsed model intent.
+This first version does not need a second provider call or an executable action
+block embedded in every advisory response to offer useful next steps.
+
+Retain the original reply and its selected passage independently from action
+validation. The new origin variant binds their exact text and request/model/
+context to the candidate and later human revisions. Saved advice is readable
+without granting staging authority. Fresh identical-context comparison is
+required for a retained action; changed-context AI editing requires a new
+request under the existing retention decision. Product/acceptance wording and
+the ADR distinguish local implementation from actual connected use. Local controls offer claim, unrun plan
+and connection forms; the person selects an exact source line or shorter excerpt
+before comparison. These quiet controls can be dismissed for the session and
+never open another request automatically. A separate explicit instruction uses
+the existing typed result v2 with a four-item limit or critique-only clarification.
+Personal recording reuses the reason and independent explanation choice. The
+existing origin reader now joins a selected passage or typed item to its
+original question/instruction, requested/reported model, answer and selected
+historical graph context. Explicitly included earlier messages retain their
+source links, without suggesting that those older graphs were all transmitted
+again. Partial explanation and recorded choice remain separate after correction
+and backup return. Required source erasure checks apply after restart as well
+as during a live request. Owned terminal/save/return checks are not actual
+live-provider observations.
+
+**Observable checks.** A readable answer with no edit must succeed; a malformed
+optional action must not erase independently validated advice; ambiguity must not
+pick an arbitrary node; planned work must create no evidence/support; cancellation,
+duplicate activation and stale graph state must not apply an unintended change;
+selected passage and human edits must survive recording/restart/backup with AI
+off. Check Korean natural-language requests and the same path in wide/narrow
+terminals. Actual provider usefulness and human understanding remain distinct
+from parser or fixture success.
 
 #### Typed proposal and return contract
 
@@ -360,7 +481,9 @@ live usefulness, human understanding or completed visual interaction.
    frozen with the actual L04 endpoint. Save received but unstaged suggestions
    as bounded read-only historical material when available. Opening them does
    not install an attempt, consent, current comparison or staging capability;
-   further AI incorporation starts a fresh explicit request. Already staged
+   further AI incorporation may start an explicit local review under
+   [ADR 0020](../architecture/decisions/0020-retained-proposal-review.md), comparing
+   original and current context without another request. Already staged
    candidates remain editable/reviewable with their origins without asking AI
    again. Raw-payload erasure cannot delete the origin of recorded work.
    Minimal trace metadata and required adopted-item origins take precedence
@@ -2304,3 +2427,10 @@ visually accepted. Earlier R1 artifacts and checks remain available as bounded
 evidence; the revised experience needs new result review. The
 [active execution plan](../plans/active/2026-08-04-claimbranch-v1-and-gpu-systems.md)
 owns test results, the stop point and the next authorized step.
+
+
+The [external import decision](../architecture/decisions/0021-external-proposal-import.md)
+also permits explicitly unverified external typed responses in this same local
+review. History, comparison and saved-origin reading retain that distinction;
+local import context cannot imply original application dispatch. Reading is
+untimed and each staging comparison is refreshed explicitly after expiration.

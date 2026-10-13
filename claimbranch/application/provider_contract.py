@@ -81,3 +81,13 @@ CODEX_RETAINED_MODEL_V1 = {'type':'string','minLength':1,'maxLength':128,'x-utf8
     'pattern':'^[A-Za-z0-9][A-Za-z0-9._:/@+\u002d]*$'}
 CODEX_RETAINED_REQUEST = obj(binding=CODEX_INPUT_BINDING,
     client_version={'const':'0.158.0'}, reasoning_effort={'enum':['low','medium','high','xhigh']})
+
+CODEX_ADVISORY_BINDING = obj(**{**CODEX_INPUT_BINDING['properties'],
+    'schema': {'const':'claimbranch.codex-advisory-binding/v1'},
+    'discussion_digest': CODEX_INPUT_BINDING['properties']['context_review_digest']})
+CODEX_ADVISORY_REQUEST = obj(binding=CODEX_ADVISORY_BINDING,
+    client_version={'const':'0.158.0'}, reasoning_effort={'enum':['low','medium','high','xhigh']})
+CODEX_EDIT_BINDING = obj(**{**CODEX_ADVISORY_BINDING['properties'],
+    'schema': {'const':'claimbranch.codex-edit-binding/v1'}})
+CODEX_EDIT_REQUEST = obj(binding=CODEX_EDIT_BINDING,
+    client_version={'const':'0.158.0'}, reasoning_effort={'enum':['low','medium','high','xhigh']})

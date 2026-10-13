@@ -12,7 +12,8 @@ from claimbranch.core.canonical import ContractError, canonical_bytes, decode, d
 from claimbranch.core.context import ContextRecord, Destination, compile_context, review_outbound
 from claimbranch.core.paper_changes import AmendmentLineage, lineage_schema, request_schema as changes_schema
 from claimbranch.core.paper_context import FIELDS, request_schema
-from claimbranch.core.paper_proposals import _references, provider_typed_result, result_schema
+from claimbranch.core.paper_proposals import _references, provider_typed_result, provider_edit_result, result_schema
+from claimbranch.core.advisory import ADVICE, DISCUSSION, AdvisoryReply, checked_advice
 from claimbranch.core.research_history import ResearchHistory
 from claimbranch.core.research_schema import HASH, ID, JUDGMENT, array, normalize, nullable, obj
 from .paper_authoring_snapshot import SOURCE
@@ -67,7 +68,103 @@ CODEX_ATTEMPT['required'].append('codex')
 PROPOSALS_V3 = obj(**{**PROPOSALS['properties'], 'attempts':array({'oneOf':[ATTEMPT,LIVE_ATTEMPT,CODEX_ATTEMPT]},48)})
 
 
+EXTERNAL_SOURCE = obj(kind={'const':'external-diagnostic'}, verification={'const':'unverified-import'},
+    model=CODEX_RETAINED_MODEL_V1, request_id=ID, request_body_digest=HASH, reported_response_digest=HASH)
+EXTERNAL_ATTEMPT = deepcopy(ATTEMPT)
+EXTERNAL_ATTEMPT['properties']['external'] = EXTERNAL_SOURCE
+EXTERNAL_ATTEMPT['required'].append('external')
+EXTERNAL_ATTEMPT['properties']['dispatched'] = {'const':False}
+EXTERNAL_ATTEMPT['properties']['destination'] = obj(url={'const':'offline://frozen'}, model=CODEX_RETAINED_MODEL_V1)
+PROPOSALS_V4 = obj(**{**PROPOSALS['properties'],
+    'attempts':array({'oneOf':[ATTEMPT,LIVE_ATTEMPT,CODEX_ATTEMPT,EXTERNAL_ATTEMPT]},64)})
+
+from .provider_contract import CODEX_ADVISORY_REQUEST, CODEX_EDIT_REQUEST
+ADVISORY_ATTEMPT = deepcopy(CODEX_ATTEMPT)
+ADVISORY_ATTEMPT['properties'].update(result=nullable(ADVICE), discussion=DISCUSSION,
+    codex=obj(request=CODEX_ADVISORY_REQUEST, outcome=nullable(CODEX_OUTCOME)))
+ADVISORY_ATTEMPT['required'].append('discussion')
+PROPOSALS_V5 = obj(**{**PROPOSALS_V4['properties'],
+    'attempts':array({'oneOf':[ATTEMPT,LIVE_ATTEMPT,CODEX_ATTEMPT,EXTERNAL_ATTEMPT,ADVISORY_ATTEMPT]},64)})
+EDIT_ATTEMPT = deepcopy(CODEX_ATTEMPT)
+EDIT_ATTEMPT['properties'].update(edit=DISCUSSION, codex=obj(request=CODEX_EDIT_REQUEST,outcome=nullable(CODEX_OUTCOME)))
+EDIT_ATTEMPT['required'].append('edit')
+LINEAGE_V3 = {'oneOf':[lineage_schema(),lineage_schema(2),lineage_schema(3)]}
+PROPOSALS_V6 = deepcopy(PROPOSALS_V5)
+PROPOSALS_V6['properties']['attempts']['items']['oneOf'].append(EDIT_ATTEMPT)
+PROPOSALS_V6['properties']['origins']['items']['properties']['lineages']['items'] = LINEAGE_V3
+PROPOSALS_V6['properties']['recorded']['items']['properties']['lineages']['items'] = LINEAGE_V3
+
+
+def _check_import_limits(entries):
+    imported = [e for e in entries if 'external' in e]
+    if len(imported) > 16 or len({tuple(e['owner']) for e in imported}) != len(imported):
+        raise ContractError('Only one external response per judgment and sixteen per workspace can be retained')
+    if len({e['external']['request_id'] for e in imported}) != len(imported):
+        raise ContractError('This external request identity is already retained in this workspace')
+    if len(entries) - len(imported) > 48:
+        raise ContractError('Proposal attempt history is full')
+
+
+def _external_binding(entry):
+    return digest({'kind':'external-proposal-import/v1','context_digest':entry['context_digest'],
+        'normalized_digest':entry['normalized_digest'],'external':entry['external'],
+        'created_at':entry['created_at'],'owner':entry['owner'],'source':entry['source'],
+        'request':entry['request']})
+
+
+def preview_external_proposal(workspace, owner, request, raw, source):
+    """Local preview; may allocate an empty draft in memory, never save or send."""
+    source = normalize(source, EXTERNAL_SOURCE)
+    session = workspace.draft(*owner)
+    if (request['episode_id'],request['ref']) != tuple(owner)[:2]:
+        raise ContractError('Import must belong to the current judgment context')
+    bundle = session.compile_proposal_context(request, include_draft=False)
+    value = provider_typed_result(raw, bundle)
+    if value['status'] != 'ok': raise ContractError('Only a successful typed response can be imported')
+    preview = {'owner':list(owner), 'request':deepcopy(request), 'context':decode(bundle.payload),
+        'context_digest':bundle.digest, 'result':value, 'external':source,
+        'draft_id':session._draft_id, 'editor_revision':session._revision}
+    preview['digest'] = digest(preview)
+    return preview
+
+
+def import_external_proposal(workspace, owner, request, raw, source, *, confirmed_digest, now):
+    """Explicit local history import; no inference, staging or human judgment."""
+    with workspace._lock:
+        preview = preview_external_proposal(workspace,owner,request,raw,source)
+        if preview['digest'] != confirmed_digest or type(now) is not int or now < 0:
+            raise ContractError('Review this exact external response and current context before import')
+        if any(e.get('external') == preview['external'] and e['owner'] == list(owner)
+               for e in workspace._proposal_entries):
+            raise ContractError('This external response is already retained for this judgment')
+        normalized = digest(preview['result'])
+        entry = {'owner':list(owner),'source':{'commands':len(workspace.history.commands),'digest':request['view_digest']},
+            'request':deepcopy(request),'draft_id':preview['draft_id'],'draft_revision':None,'draft_fields':None,
+            'request_id':'import-'+secrets.token_hex(16),'nonce':'local-import','created_at':now,'expires_at':now,
+            'destination':{'url':'offline://frozen','model':preview['external']['model']},
+            'context_digest':preview['context_digest'],'dispatched':False,'disposition':'proposed',
+            'response_digest':normalized,'normalized_digest':normalized,'provider_disposition':'proposed',
+            'reservation':'','payload_availability':'available','result':preview['result'],'external':preview['external']}
+        entry['request_digest'] = _external_binding(entry)
+        entry['trace_digest'] = digest(_trace_value(entry))
+        normalize(entry,EXTERNAL_ATTEMPT)
+        _check_import_limits([*workspace._proposal_entries,entry])
+        try:
+            check_capacity(workspace,proposal_snapshot(workspace,entries=[*workspace._proposal_entries,entry]), allow_eviction=False)
+        except ContractError as error:
+            if str(error) == 'canonical JSON byte limit exceeded':
+                raise ContractError('External response cannot fit in saved work; no import was saved') from error
+            raise
+        workspace._proposal_entries.append(entry)
+        return entry['request_id']
+
+
 def proposal_workspace_schema(proposals):
+    if any('edit' in e for e in proposals['attempts']): return 'claimbranch.edit-workspace/v12'
+    if any(lineage['schema'].endswith('/v3') for row in [*proposals['origins'],*proposals['recorded']]
+           for lineage in row['lineages']): return 'claimbranch.edit-workspace/v12'
+    if any('discussion' in e for e in proposals['attempts']): return 'claimbranch.advisory-workspace/v11'
+    if any('external' in e for e in proposals['attempts']): return 'claimbranch.external-workspace/v10'
     if any('codex' in e for e in proposals['attempts']): return 'claimbranch.codex-workspace/v9'
     return 'claimbranch.provider-workspace/v8' if any('provider' in e for e in proposals['attempts']) else 'claimbranch.proposal-workspace/v7'
 
@@ -78,6 +175,7 @@ def _trace_value(entry):
              'disposition':entry['provider_disposition']}
     if 'provider' in entry: value['provider'] = entry['provider']
     if 'codex' in entry: value['codex'] = entry['codex']
+    if 'external' in entry: value['external'] = entry['external']
     return value
 
 
@@ -124,15 +222,16 @@ def proposal_snapshot(workspace, *, origins=None, entries=None, recorded=None):
         'explanations': deepcopy(workspace._personal_explanations)}
 
 
-def check_capacity(workspace, proposals, *, records=None, selected=None):
+def check_capacity(workspace, proposals, *, records=None, selected=None, unfinished=None, allow_eviction=True):
     """Check prospective complete writing before publishing an atomic batch."""
+    _check_import_limits(proposals['attempts'])
     app = workspace._checkpoint_app
     if app is None:
         # Backend-only owners still obey the same bound; the real terminal uses
         # its complete workspace/project envelope below, including all writing.
-        normalize(proposals, PROPOSALS_V3)
+        normalize(proposals, PROPOSALS_V6)
         canonical_bytes({'seed': decode(workspace.history.seed), 'commands': [decode(c) for c in workspace.history.commands],
-                         'proposals': proposals, 'candidates': list((records or {}).values())})
+                         'proposals': proposals, 'candidates': list((records or {}).values()), 'unfinished':list((unfinished or {}).values())})
         return
     from .tui_work_recovery import snapshot_value
     from .paper_work_store import PaperWork
@@ -144,6 +243,8 @@ def check_capacity(workspace, proposals, *, records=None, selected=None):
         item['session']['dispatched'] = max(item['session']['dispatched'], count)
     for entry in value['authoring']['candidates']:
         owner = tuple(entry['owner'])
+        if unfinished and owner in unfinished:
+            entry['unfinished'] = list(unfinished[owner].values())
         if records and owner in records:
             previous = set(r['id'] for r in entry['records'])
             entry['records'] = list(records[owner].values())
@@ -155,13 +256,33 @@ def check_capacity(workspace, proposals, *, records=None, selected=None):
             if selected and owner in selected:
                 entry['selected'] = sorted(selected[owner])
                 entry['omitted'] = sorted(set(entry['omitted']) - set(selected[owner]))
-    fit_new_payloads(app, value)
+    if allow_eviction:
+        fit_new_payloads(app, value)
+    else:
+        work = PaperWork.create(app.paper.history, workspace=value)
+        project = getattr(app.recovery, 'project', None)
+        if project is not None: project.with_work(work)
 
 
 def historical_entries(workspace):
     return [{**deepcopy(item), 'staging_available': False,
-             'notice': 'Historical response only; a fresh explicit request is required for new incorporation.'}
+             'notice': 'Historical response; explicitly review its original and current context before selecting items.'}
             for item in workspace._proposal_entries]
+
+
+def required_advice_ids(proposals):
+    return {revision['advisory_origin']['request_id']
+        for row in [*proposals['origins'],*proposals['recorded']] for lineage in row['lineages']
+        for revision in lineage['revisions'] if revision.get('advisory_origin')}
+
+
+def check_payload_erasure(workspace, request_id):
+    """Required origins and copied follow-up input survive live and saved return."""
+    if request_id in required_advice_ids(proposal_snapshot(workspace)):
+        raise ContractError('This answer is required by retained passage origins and cannot be erased separately')
+    if any(message['request_id'] == request_id for entry in workspace._proposal_entries
+           for message in entry.get('discussion', entry.get('edit', {})).get('previous', [])):
+        raise ContractError('This reply is included in a retained follow-up input and cannot be erased separately')
 
 
 def fit_new_payloads(app, value, *, project=None):
@@ -178,7 +299,8 @@ def fit_new_payloads(app, value, *, project=None):
             if str(error) != 'canonical JSON byte limit exceeded':
                 raise
             removable = [e for e in value['proposals']['attempts'] if e['result'] is not None
-                         and e['request_id'] not in app.paper._saved_proposal_payloads]
+                         and e['request_id'] not in app.paper._saved_proposal_payloads and 'external' not in e
+                         and e['request_id'] not in required_advice_ids(value['proposals'])]
             if not removable:
                 raise
             entry = removable[-1]
@@ -223,11 +345,22 @@ def _origin_check(history, origin, attempts):
     if value['project_id'] != decode(history.seed)['project_id']:
         raise ContractError('Item origin belongs to another project')
     for revision in value['revisions']:
+        advice = revision.get('advisory_origin')
+        if advice:
+            attempt = attempts.get(advice['request_id'])
+            if (attempt is None or 'discussion' not in attempt or not attempt['dispatched']
+                    or attempt['provider_disposition'] != 'proposed' or value['episode_id'] != attempt['owner'][0]
+                    or any(advice[k] != attempt[k] for k in ('request_digest','context_digest','response_digest','trace_digest'))
+                    or advice['reply_digest'] != attempt['normalized_digest']):
+                raise ContractError('Advice origin lacks its owned historical response binding')
+            if (attempt['result'] is None or attempt['payload_availability'] != 'available'
+                    or attempt['result']['text'][advice['start']:advice['end']] != advice['passage']):
+                raise ContractError('Selected passage requires its retained exact original answer')
         item = revision.get('proposal_origin')
         if not item:
             continue
         attempt = attempts.get(item['request_id'])
-        if (attempt is None or not attempt['dispatched'] or attempt['normalized_digest'] is None
+        if (attempt is None or 'discussion' in attempt or (not attempt['dispatched'] and 'external' not in attempt) or attempt['normalized_digest'] is None
                 or value['episode_id'] != attempt['owner'][0]
                 or any(item[k] != attempt[k] for k in ('request_digest', 'context_digest', 'response_digest', 'trace_digest'))
                 or item['proposal_id'] != 'proposal-'+digest(attempt['request_id'])):
@@ -262,13 +395,17 @@ def _origin_check(history, origin, attempts):
 
 def restore_proposals(workspace, value, *, unfinished=None):
     from .provider_profile import check_retained_provider_request, check_retained_codex_request
-    value = normalize(value, PROPOSALS_V3)
+    value = normalize(value, PROPOSALS_V6)
+    _check_import_limits(value['attempts'])
     attempts = {}
     for entry in value['attempts']:
         key = entry['request_id']; owner = tuple(entry['owner'])
-        if key in attempts or owner not in workspace._drafts or not entry['dispatched']:
+        if key in attempts or owner not in workspace._drafts or (not entry['dispatched'] and 'external' not in entry):
             raise ContractError('Unique attempt requires its saved judgment owner')
         live = entry.get('provider') or entry.get('codex')
+        if 'discussion' in entry or 'edit' in entry:
+            from .paper_advisory import check_discussion_sources
+            check_discussion_sources(entry, attempts)
         if entry['trace_digest'] is None:
             if (any(entry[k] is not None for k in ('response_digest', 'normalized_digest', 'provider_disposition', 'result'))
                     or entry['reservation'] != 'r'*1024 or entry['payload_availability'] != 'not-retained'
@@ -287,17 +424,29 @@ def restore_proposals(workspace, value, *, unfinished=None):
                 raise ContractError('Received response requires its spent request and consistent disposition')
         bundle = _bundle(workspace.history, entry)
         destination = Destination(**entry['destination'])
-        review = (check_retained_codex_request(bundle, entry) if 'codex' in entry else
+        if 'external' in entry:
+            if (entry['request_digest'] != _external_binding(entry) or entry['dispatched']
+                    or (entry['request']['episode_id'],entry['request']['ref']) != tuple(entry['owner'][:2])
+                    or entry['source']['digest'] != entry['request']['view_digest']
+                    or entry['expires_at'] != entry['created_at'] or entry['draft_fields'] is not None
+                    or entry['destination']['model'] != entry['external']['model']
+                    or entry['provider_disposition'] != 'proposed' or entry['trace_digest'] is None
+                    or entry['response_digest'] != entry['normalized_digest']):
+                raise ContractError('External response import binding changed')
+            review = None
+        else:
+            review = (check_retained_codex_request(bundle, entry) if 'codex' in entry else
             check_retained_provider_request(bundle, entry) if live else
             review_outbound(bundle, destination, request_id=key, nonce=entry['nonce'], now=entry['created_at'], result_format='typed'))
-        if ((not live and review.digest != entry['request_digest']) or bundle.digest != entry['context_digest']
-                or review.expires_at != entry['expires_at']
+        if ((review is not None and not live and review.digest != entry['request_digest']) or bundle.digest != entry['context_digest']
+                or (review is not None and review.expires_at != entry['expires_at'])
                 or (entry['draft_fields'] is None) != (entry['draft_revision'] is None)):
             raise ContractError('Retained request/context/lifetime changed')
         if destination.remote_capable and not live:
             raise ContractError('Only offline historical topology is implemented here')
         if entry['result'] is not None:
-            result = provider_typed_result(canonical_bytes(entry['result']), bundle)
+            result = (checked_advice(canonical_bytes(entry['result'])) if 'discussion' in entry else
+                (provider_edit_result if 'edit' in entry else provider_typed_result)(canonical_bytes(entry['result']), bundle))
             if entry['normalized_digest'] != digest(result) or entry['payload_availability'] != 'available':
                 raise ContractError('Retained response digest or availability changed')
         elif entry['payload_availability'] == 'available':
@@ -306,7 +455,7 @@ def restore_proposals(workspace, value, *, unfinished=None):
             if live:
                 (_check_codex_outcome if 'codex' in entry else _check_wire_outcome)(entry)
             # Provider disposition and local cancellation/staleness are separate.
-            if digest(_trace_value(entry)) != entry['trace_digest'] or not entry['dispatched']:
+            if digest(_trace_value(entry)) != entry['trace_digest'] or (not entry['dispatched'] and 'external' not in entry):
                 raise ContractError('Retained trace identity differs')
         attempts[key] = entry
     for owner in workspace._drafts:
@@ -569,16 +718,22 @@ class PaperProposalWork:
     def erase_payload(self, request_id):
         with self.workspace._lock:
             entry = next((e for e in self.workspace._proposal_entries if e['request_id'] == request_id), None)
-            if entry is None or entry['trace_digest'] is None:
-                raise ContractError('Choose a received historical payload')
-            if 'provider' not in entry and 'codex' not in entry: self.session._broker.erase_payload(request_id)
+            if entry is None or tuple(entry['owner']) != self.owner or entry['trace_digest'] is None:
+                raise ContractError('Choose a received historical payload for this judgment')
+            check_payload_erasure(self.workspace, request_id)
+            if 'provider' not in entry and 'codex' not in entry and 'external' not in entry: self.session._broker.erase_payload(request_id)
             entry['result'] = None; entry['payload_availability'] = 'erased'
             self._responses.pop(request_id, None)
             if request_id == self._current:
                 self._proposal = None; self._comparisons = {}
 
+    def comparison_expiry(self):
+        return self._entry['expires_at']
+
     def compare(self, item_ids):
         with self.workspace._lock:
+            if self._entry is not None and 'discussion' in self._entry:
+                raise ContractError('This reply is advice, not graph items. Prepare an explicit edit separately.')
             self._fresh()
             if self._proposal is None or type(item_ids) not in (list, tuple) or not item_ids or len(set(item_ids)) != len(item_ids):
                 raise ContractError('Select distinct items from this live owned response')
@@ -619,7 +774,7 @@ class PaperProposalWork:
                 'records': records, 'previous_records': [self.work.records[r['id']] for r in records if r['id'] in self.work.records],
                 'dependencies': dependencies, 'editor_revision': self.session._revision,
                 'work_revision': self.workspace.work_revision, 'view_digest': self.session._view_digest,
-                'graph': graph, 'proposal_digest': digest(decode(self._proposal.payload)), 'expires_at': self._entry['expires_at']}
+                'graph': graph, 'proposal_digest': digest(decode(self._proposal.payload)), 'expires_at': self.comparison_expiry()}
             value['digest'] = digest(value)
             self._comparisons[value['digest']] = canonical_bytes(value)
             self._ids = mapped_ids
@@ -674,6 +829,94 @@ class PaperProposalWork:
             self.work._changed()
             self._comparisons.pop(comparison['digest'], None)
             return [r['id'] for r in comparison['records']]
+
+
+class RetainedProposalReview(PaperProposalWork):
+    """New local review of retained AI items, never restored dispatch consent.
+
+    Existing history owns provenance. Revalidation against current selected
+    science grants only a short-lived comparison/staging capability.
+    """
+    def __init__(self, workspace, owner, request_id, *, clock=None):
+        from claimbranch.core.paper_proposals import TypedProposal
+        super().__init__(workspace, owner, frozen_result=b'', clock=clock)
+        with workspace._lock:
+            entry = next((e for e in workspace._proposal_entries if e['request_id'] == request_id), None)
+            if (entry is None or tuple(entry['owner']) != self.owner or entry['result'] is None
+                    or 'discussion' in entry or entry['provider_disposition'] != 'proposed' or entry['payload_availability'] != 'available'):
+                raise ContractError('A retained proposal for this judgment is required')
+            if entry['source']['digest'] != self.session._view_digest:
+                raise ContractError('Recorded research changed; inspect existing items instead of reusing this proposal')
+            active = workspace._proposal_active.get(self.owner)
+            if active is not None and active._current is not None:
+                if isinstance(active, RetainedProposalReview) or active._entry['disposition'] not in ('pending','proposed'):
+                    pass  # Supersede only after every new-review check succeeds.
+                else:
+                    raise ContractError('Close the current proposal review before reviewing saved items')
+            original = _bundle(workspace.history, entry)
+            typed = (provider_edit_result if 'edit' in entry else provider_typed_result)(canonical_bytes(entry['result']), original)
+            if digest(typed) != entry['normalized_digest']:
+                raise ContractError('Retained proposal content changed')
+            self._entry = deepcopy(entry)
+            self._entry_digest = digest(entry)
+            self._request = deepcopy(entry['request'])
+            self._request['view_digest'] = self.session._view_digest
+            self._bundle = self.session.compile_proposal_context(self._request,
+                include_draft=entry['draft_fields'] is not None)
+            if self._bundle.payload != original.payload or self._bundle.digest != original.digest:
+                raise ContractError('Original proposal context changed; inspect its history and existing recorded items. Reuse requires a new proposal.')
+            (provider_edit_result if 'edit' in entry else provider_typed_result)(canonical_bytes(typed), self._bundle)
+            self.work.require_current()
+            self._review_started = int(self.clock())
+            self.basis = {'original': decode(original.payload), 'current': decode(self._bundle.payload),
+                'request_id': request_id, 'destination': deepcopy(entry['destination']),
+                'response_digest': entry['response_digest'], 'trace_digest': entry['trace_digest']}
+            self._proposal = TypedProposal('proposal-'+digest(request_id), self.session._project,
+                self.owner[0], entry['request_digest'], entry['context_digest'], entry['trace_digest'], canonical_bytes(typed))
+            self._current = request_id
+            for origin in self.work.origins.values():
+                for revision in decode(origin.payload)['revisions']:
+                    source = revision.get('proposal_origin')
+                    if source and source['request_id'] == request_id:
+                        for binding in source['item_bindings']:
+                            old = self._ids.setdefault(binding['item_id'], binding['record_id'])
+                            if old != binding['record_id']:
+                                raise ContractError('Retained item has conflicting candidate identities')
+            if active is not None and active._current is not None:
+                active.cancel()
+            workspace._proposal_active[self.owner] = self
+
+    def _fresh(self):
+        if self._current is None or self.workspace._proposal_active.get(self.owner) is not self:
+            raise ContractError('Open a new local review of the retained proposal')
+        if int(self.clock()) < self._review_started:
+            raise ContractError('Local review clock changed; reopen its current context')
+        entry = next((e for e in self.workspace._proposal_entries if e['request_id'] == self._current), None)
+        if entry is None or digest(entry) != self._entry_digest:
+            raise ContractError('Retained response changed or was erased; review again')
+        current = self.session.compile_proposal_context(self._request,
+            include_draft=self._entry['draft_fields'] is not None)
+        if current != self._bundle:
+            raise ContractError('Current proposal context changed; review again')
+        self.work.require_current()
+
+    def comparison_expiry(self):
+        return int(self.clock()) + 120
+
+    def stage(self, comparison):
+        if (type(comparison) is not dict or type(comparison.get('expires_at')) is not int
+                or int(self.clock()) >= comparison['expires_at']):
+            raise ContractError('Local item comparison expired; compare the selected items again')
+        return super().stage(comparison)
+
+    def cancel(self):
+        self._current = self._outbound = self._proposal = None
+        self._comparisons = {}
+
+    def prepare(self, *args, **kwargs):
+        raise ContractError('Retained review cannot prepare or send a request')
+
+    begin = complete = prepare
 
 
 class ProviderProposalWork(PaperProposalWork):
@@ -768,8 +1011,9 @@ class ProviderProposalWork(PaperProposalWork):
                     entry['disposition'] = 'stale' if int(self.clock()) < entry['expires_at'] else 'expired'
                 else: entry['disposition'] = provider
             if provider == 'proposed':
-                proposal = TypedProposal('proposal-'+digest(request_id), self.session._project, self.owner[0],
-                    entry['request_digest'], entry['context_digest'], entry['trace_digest'], canonical_bytes(typed))
+                proposal = (AdvisoryReply(canonical_bytes(typed)) if 'discussion' in entry else
+                    TypedProposal('proposal-'+digest(request_id), self.session._project, self.owner[0],
+                        entry['request_digest'], entry['context_digest'], entry['trace_digest'], canonical_bytes(typed)))
                 entry['normalized_digest'] = digest(typed)
                 self._responses[request_id] = proposal
                 if request_id==self._current and entry['disposition']=='proposed': self._proposal = proposal
@@ -821,16 +1065,20 @@ class CodexProposalWork(CodexProposalPreview):
 
     A trusted caller must qualify authenticated access/egress and foreground
     intent before real dispatch. Tests supply owned peers. The public entry
-    retains CodexProposalPreview and its independent refusal gate.
+    retains its independent refusal gate before creating a live transport.
     """
-    def prepare(self, request, *, profile, include_draft=False):
+    def prepare(self, request, *, profile, include_draft=False, prompt=None, previous_requests=(), edit=False):
         from .provider_profile import prepare_codex_request
         with self.workspace._lock:
             if self.session._prior_dispatches + len(self.session._broker.dispatched) >= 3:
                 raise ContractError('This work allows at most three explicit requests')
             bundle = self.session.compile_proposal_context(request, include_draft=include_draft)
+            from .paper_advisory import select_discussion
+            discussion = select_discussion(self.workspace,self.owner,prompt,previous_requests) if prompt is not None else None
+            if prompt is None and previous_requests:
+                raise ContractError('Earlier messages require an explicit discussion question')
             prepared = prepare_codex_request(profile, bundle, request_id='request-'+secrets.token_hex(16),
-                nonce=secrets.token_hex(24), now=int(self.clock()))
+                nonce=secrets.token_hex(24), now=int(self.clock()), discussion=discussion, edit=edit)
             # An unsent preview neither installs an attempt nor revokes the
             # previous response, including one owned by this same controller.
             self._preview = (deepcopy(request), include_draft, prepared)
@@ -841,27 +1089,48 @@ class CodexProposalWork(CodexProposalPreview):
             raise ContractError('Inspect this owner\'s current Codex input preview')
         request, include_draft, _ = self._preview
         bundle = self.session.compile_proposal_context(request, include_draft=include_draft)
+        if prepared.discussion is not None:
+            from .paper_advisory import select_discussion
+            discussion = decode(prepared.discussion)
+            if canonical_bytes(select_discussion(self.workspace,self.owner,discussion['prompt'],
+                    [m['request_id'] for m in discussion['previous']])) != prepared.discussion:
+                raise ContractError('Selected previous response changed; review a new request')
         prepared.recheck(profile, bundle, now=int(self.clock()))
         self.work.require_current()
 
-    def begin(self, prepared, *, transport, confirmed_digest, current_profile):
+    def http_preview(self, prepared, current_profile):
+        from .codex_egress import codex_http_preview
+        with self.workspace._lock:
+            self.recheck_preview(prepared, current_profile)
+            request, include_draft, _ = self._preview
+            current = self.session.compile_proposal_context(request, include_draft=include_draft)
+            return codex_http_preview(prepared, current_profile=current_profile,
+                current_context=current, now=int(self.clock()))
+
+    def begin(self, prepared, *, transport, confirmed_digest, current_profile, confirmed_http_digest=None):
         from .codex_app_server import CodexAppServerTransport
+        from .codex_relay import CodexRelayTransport
         from .provider_profile import PreparedCodexRequest, retained_codex_request
         with self.workspace._lock:
-            if (type(prepared) is not PreparedCodexRequest or type(transport) is not CodexAppServerTransport
+            if (type(prepared) is not PreparedCodexRequest or type(transport) not in (CodexAppServerTransport, CodexRelayTransport)
                     or confirmed_digest != prepared.digest):
                 raise ContractError('Inspect and confirm this owner\'s exact current Codex input')
             self.recheck_preview(prepared, current_profile)
+            if type(transport) is CodexRelayTransport and confirmed_http_digest != self.http_preview(prepared,current_profile)['body_sha256']:
+                raise ContractError('Inspect and confirm this owner\'s complete current HTTP request')
             if self.session._prior_dispatches + len(self.session._broker.dispatched) >= 3:
                 raise ContractError('This work allows at most three explicit requests')
             request, include_draft, _ = self._preview
             entry = self._request_entry(request, prepared.context, prepared.review, include_draft=include_draft)
             entry.update(request_digest=prepared.digest, dispatched=True,
                 codex={'request':retained_codex_request(prepared), 'outcome':None})
-            normalize(entry, CODEX_ATTEMPT)
+            if prepared.discussion is not None: entry['edit' if prepared.edit else 'discussion'] = decode(prepared.discussion)
+            normalize(entry, ADVISORY_ATTEMPT if 'discussion' in entry else EDIT_ATTEMPT if 'edit' in entry else CODEX_ATTEMPT)
             check_capacity(self.workspace, proposal_snapshot(self.workspace, entries=[*self.workspace._proposal_entries,entry]))
+            current = self.session.compile_proposal_context(request, include_draft=include_draft)
+            options = {'confirmed_http_digest':confirmed_http_digest} if type(transport) is CodexRelayTransport else {}
             job = transport.start(prepared, confirmed_digest=confirmed_digest, current_profile=current_profile,
-                current_context=prepared.context, now=int(self.clock()))
+                current_context=current, now=int(self.clock()), **options)
             # Start has consumed the request even if replacing an earlier
             # owner later raises. Retain/count it before cancellation callbacks.
             self.session._prior_dispatches += 1
@@ -883,7 +1152,7 @@ class CodexProposalWork(CodexProposalPreview):
             self._outbound = None
 
     def complete(self, request_id):
-        from .codex_app_server import CodexResult
+        from .codex_app_server import CodexResult, CodexFailure, PROPOSAL_FAILURES
         with self.workspace._lock:
             job = self._jobs.get(request_id)
             entry = next((e for e in self.workspace._proposal_entries if e['request_id']==request_id),None)
@@ -894,8 +1163,18 @@ class CodexProposalWork(CodexProposalPreview):
             if (type(result) is not CodexResult or result.request_id != request_id
                     or result.request_digest != entry['request_digest']):
                 raise ContractError('Codex return differs from its owned request')
+            from .codex_relay import valid_failure
+            wire=getattr(job,'wire_result',None)
+            failure=wire.get('failure') if type(wire) is dict else None
+            self._live_failure=({'request_id':request_id,**failure}
+                if result.disposition!='completed' and failure is not None and valid_failure(failure) else None)
+            if (result.disposition == 'malformed_response' and type(result.failure) is CodexFailure
+                    and type(result.failure.category) is str and result.failure.category in PROPOSAL_FAILURES):
+                self._live_failure = {'request_id': request_id, 'phase': 'response_validation',
+                    'category': result.failure.category}
             typed, provider = None, 'failed'
             prospective = deepcopy(entry)
+            schema = ADVISORY_ATTEMPT if 'discussion' in entry else EDIT_ATTEMPT if 'edit' in entry else CODEX_ATTEMPT
             prospective.update(response_digest=result.response_digest,provider_disposition=provider,reservation='')
             try:
                 outcome = normalize({k:getattr(result,k) for k in CODEX_OUTCOME['properties']},CODEX_OUTCOME)
@@ -905,7 +1184,8 @@ class CodexProposalWork(CodexProposalPreview):
                     # result can downgrade the completion branch.
                     _check_codex_outcome(prospective)
                     try:
-                        typed = provider_typed_result(result.typed_result,_bundle(self.workspace.history,entry))
+                        typed = (checked_advice(result.typed_result) if 'discussion' in entry else
+                            (provider_edit_result if 'edit' in entry else provider_typed_result)(result.typed_result,_bundle(self.workspace.history,entry)))
                         provider = 'proposed' if typed['status']=='ok' else typed['status']
                     except ContractError:
                         outcome['disposition'] = 'malformed_response'; outcome['reported_model'] = None
@@ -913,7 +1193,7 @@ class CodexProposalWork(CodexProposalPreview):
                 elif result.disposition in ('protocol_error','malformed_response','response_too_large'):
                     provider = 'malformed'
                 prospective['provider_disposition'] = provider
-                normalize(prospective,CODEX_ATTEMPT); _check_codex_outcome(prospective)
+                normalize(prospective,schema); _check_codex_outcome(prospective)
             except ContractError:
                 # An owned immutable result cannot be repaired by polling it
                 # again. Save a terminal sanitized failure, never a stuck attempt.
@@ -928,5 +1208,5 @@ class CodexProposalWork(CodexProposalPreview):
                     'client_version':None,'thread_id':None,'turn_id':None,
                     'cleanup_complete':bounded(result.cleanup_complete,{'enum':[False,True]},False)}
             prospective['trace_digest'] = digest(_trace_value(prospective))
-            normalize(prospective,CODEX_ATTEMPT); _check_codex_outcome(prospective)
+            normalize(prospective,schema); _check_codex_outcome(prospective)
             return self._retain_return(entry,prospective,request_id,typed,provider)

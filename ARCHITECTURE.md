@@ -2,7 +2,7 @@
 kind: target-architecture
 status: draft
 owners: maintainers
-last_reviewed: 2026-10-10
+last_reviewed: 2026-10-12
 canonical_for: target pre-implementation system boundaries and quality constraints
 ---
 
@@ -67,7 +67,28 @@ now checks owned stdio returns through the existing typed ingress. It creates
 a separate internal Codex controller for selective origin return, with distinct
 workspace v9/work v10/project v6 retention alongside unchanged API/offline formats.
 It restores no launch/consent capability. Actual authenticated access/egress and
-useful live return remain L04 work; public launch is still unavailable.
+useful live return remain L04 checkpoints. These paragraphs describe the earlier
+component increments; the current checkout now connects the fixed Mac Codex
+relay through the public personal entry, subject to runtime and exact request
+checks. Final connected-use verification remains pending. The
+[current candidate workflow](docs/development/workflow.md#mac-codex-connection-release-candidate)
+owns setup and the [execution plan](docs/plans/active/2026-08-04-claimbranch-v1-and-gpu-systems.md#ai-connected-github-publication-order)
+owns observed qualification; the published alpha.2 still has no live connection.
+
+The contextual discussion slice under [ADR 0022](docs/architecture/decisions/0022-contextual-advice-and-explicit-edits.md)
+adds a separately versioned advisory response to that same fixed relay. It
+shares exact request ownership, attempt limits and cancellation with typed
+proposals, while retaining question/answer and selected prior-message origin
+in workspace v11/work v12/project v8. Advice has no graph staging capability.
+Selected-passage origin v3 and explicit edit-request bindings now extend the same
+store to workspace v12/work v13/project v9. Local forms retain incomplete fields
+and AI origin; instruction returns use the unchanged typed v2 semantic validator
+plus a four-item limit. The existing personal cause/origin registry now exercises
+selected recording, correction and later derivation with this lineage; no new
+schema is needed. Shared erasure checks protect required source text in both
+live and reopened workspaces. The origin reader reconstructs historical input
+from retained sources without I/O. Owned return/terminal/backup tests do not
+qualify an actual live response or establish connected usefulness.
 
 In order:
 

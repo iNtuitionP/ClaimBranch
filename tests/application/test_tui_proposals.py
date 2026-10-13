@@ -379,6 +379,312 @@ class CodexPreviewUITests(unittest.TestCase):
         self.assertEqual([],self.app.paper.proposal_history())
 
 
+class CodexExactHTTPUITests(unittest.TestCase):
+    """Owned returns only; public service qualification remains independently closed."""
+    def setUp(self):
+        ProposalUITests.setUp(self)
+        from claimbranch.application.provider_commands import PersonalProviderConnection
+        from claimbranch.application.provider_profile import CodexProfile,ProviderProfileStore
+        self.config=self.root/'llm'; self.config.mkdir(mode=0o700)
+        with ProviderProfileStore(self.config) as store: store.write(CodexProfile.create(model='gpt-6-sol').payload)
+        self.connection=PersonalProviderConnection(self.config).__enter__()
+        self.addCleanup(self.connection.close); self.connection.attach(self.app)
+
+    frame=lambda self: ProposalUITests.frame(self)
+    read_end=lambda self: ProposalUITests.read_end(self)
+    stage=lambda self,item: ProposalUITests.stage(self,item)
+
+    def test_local_passage_offer_cancel_dismiss_edit_and_restart_without_request(self):
+        from claimbranch.core.advisory import advice_from_text
+        from tests.application.test_provider_proposal_work import CodexProposalRetentionTests
+        from claimbranch.application.tui_candidates_ui import candidates_ui
+        helper=CodexProposalRetentionTests();self.addCleanup(helper.doCleanups)
+        app,worker,prepared,_=helper.pending(self.app,prompt='What is missing?',
+            value=advice_from_text('CPU-B의 효과는 아직 모릅니다.\nCPU-B를 측정해야 합니다.'.encode()))
+        worker.complete(prepared.review.request_id)
+        self.ui.enter('history');self.terminal.key('enter')
+        self.terminal.key('1');self.assertEqual('proposal-passages',self.terminal.modal)
+        self.terminal.key('enter');self.read_end();self.terminal.key('escape')
+        self.assertEqual({},self.app.review.candidates().records)
+        self.terminal.key('x')
+        self.assertNotIn('APPLICATION ACTIONS','\n'.join(self.ui.content('advice')))
+        self.assertNotIn('1/2/3 local edits',self.frame())
+        self.terminal.key('1');self.assertEqual('proposal-advice',self.terminal.modal)
+        self.ui.dismissed_advice.clear()  # A new session may explicitly offer local controls again.
+        self.terminal.key('2');self.terminal.key('down');self.terminal.key('enter');self.read_end()
+        self.terminal.key('enter')
+        self.assertEqual('candidate-form',self.terminal.modal)
+        ui=candidates_ui(self.terminal)
+        self.assertEqual('CPU-B를 측정해야 합니다.',ui.record['body']['objective'])
+        self.assertEqual('',ui.record['body']['metric']['definition'])
+        self.assertIn('AI ITEM ORIGIN',self.frame())
+        self.app.recovery.save(self.app);saved=self.store.load();returned=project_workspace(saved)
+        work=returned.paper.candidates(*returned.context_key())
+        self.assertTrue(next(iter(work.origins.values())).ai_influenced)
+        self.assertEqual(1,len(returned.paper.proposal_history()))
+
+    def test_explicit_edit_prompt_has_separate_exact_request_and_no_automatic_send(self):
+        self.ui.enter('edit');self.terminal.key(('paste','이 주장을 CPU-A에 한정한 claim으로 만들어 줘.'))
+        self.terminal.key('keep');self.ui.checked={'thesis','obs-a'};self.terminal.key('enter');self.read_end()
+        self.assertTrue(self.ui.outbound.edit)
+        self.assertEqual('json_schema',self.ui.http_outbound['body']['text']['format']['type'])
+        self.assertIn('edit',json.loads(self.ui.outbound.body)['input'])
+        self.terminal.key('escape')
+        self.assertEqual([],self.app.paper.proposal_history())
+
+    def test_long_clarification_is_readable_and_follow_up_needs_no_decline(self):
+        from tests.application.test_provider_proposal_work import CodexProposalRetentionTests
+        helper=CodexProposalRetentionTests();self.addCleanup(helper.doCleanups)
+        text=('어느 주장을 의미하는지 선택해 주세요.\n'*30)+'마지막 확인 질문'
+        value={'schema':'claimbranch.provider-result/v2','status':'ok','critique':text,'items':[]}
+        _,worker,prepared,_=helper.pending(self.app,prompt='A와 B를 연결해 줘',edit=True,value=value)
+        worker.complete(prepared.review.request_id)
+        self.ui.controllers[self.app.work_key()]=worker;self.ui.enter('current')
+        self.assertEqual('proposal-clarification',self.terminal.modal)
+        self.assertNotIn('1/2/3 local edits',self.frame())
+        self.read_end();self.assertIn('마지막 확인 질문','\n'.join(self.ui.content('clarification')))
+        self.terminal.key('f');self.assertTrue(self.ui.edit_mode)
+        self.terminal.key(('paste','B는 thesis를 의미합니다.'));self.terminal.key('keep')
+        self.terminal.key('h');self.terminal.key(' ');self.terminal.key('enter')
+        self.ui.checked={'thesis','obs-a'};self.terminal.key('enter')
+        self.assertEqual('proposal-outbound',self.terminal.modal)
+        self.assertEqual(text,decode(self.ui.outbound.discussion)['previous'][0]['text'])
+        self.assertEqual(1,len(self.app.paper.proposal_history()))
+
+    def test_discussion_question_readable_reply_and_explicit_follow_up(self):
+        from claimbranch.core.advisory import advice_from_text
+        from claimbranch.application.codex_app_server import CodexResult
+        import hashlib
+        self.ui.enter('discuss')
+        self.assertEqual('proposal-prompt',self.terminal.modal)
+        self.terminal.key(('paste','측정하지 않은 CPU-B에는 어떤 불확실성이 있나요?'))
+        self.assertIn('CPU-B',self.frame())
+        self.terminal.key('keep')
+        self.ui.checked={'thesis','obs-a'}
+        self.terminal.key('enter');self.read_end()
+        prepared=self.ui.outbound
+        self.assertEqual({'type':'text'},self.ui.http_outbound['body']['text']['format'])
+        raw=canonical_bytes(advice_from_text('CPU-B에서 동일 조건으로 후속 실험을 계획해 보세요.'.encode()))
+        result=CodexResult(prepared.review.request_id,prepared.digest,'completed',42,
+            hashlib.sha256(raw).hexdigest(),raw,'gpt-6-sol','0.158.0','thread-owned','turn-owned')
+        job=SimpleNamespace(poll=lambda:result,cancel=lambda:False,wait_closed=lambda _:True)
+        with patch.object(self.connection,'require_codex_qualification'),patch(
+                'claimbranch.application.codex_relay.CodexRelayTransport.start',return_value=job):
+            self.terminal.key('enter')
+        self.ui.poll()
+        self.assertEqual('proposal-advice',self.terminal.modal)
+        self.assertIn('후속 실험','\n'.join(self.ui.content('advice')))
+        self.assertEqual({},self.app.review.candidates().records)
+        self.terminal.key('f')
+        self.assertEqual('',self.ui.prompt_buffer.text)
+        self.terminal.key(('paste','후속 실험에서 무엇을 측정해야 하나요?'));self.terminal.key('keep')
+        self.assertEqual(set(),self.ui.previous_requests)
+        self.terminal.key('h');self.terminal.key(' ');self.terminal.key('enter')
+        self.ui.checked={'thesis','obs-a'}
+        self.terminal.key('enter');self.read_end()
+        self.assertEqual(prepared.review.request_id,decode(self.ui.outbound.discussion)['previous'][0]['request_id'])
+        self.terminal.key('escape')
+        self.assertEqual(1,len(self.app.paper.proposal_history()))
+        self.ui.enter('current')
+        self.assertEqual('proposal-advice',self.terminal.modal)
+        self.assertIn('후속 실험','\n'.join(self.ui.content('advice')))
+
+    def test_discussion_invalid_or_cancelled_question_keeps_manual_work(self):
+        before=self.app.draft().copy();self.ui.enter('discuss')
+        self.terminal.key('keep')
+        self.assertIn('nonblank',self.ui.notice)
+        self.terminal.key(('paste','선택할 질문'))
+        self.terminal.key('escape');self.terminal.key('escape')
+        self.ui.enter('discuss')
+        self.assertEqual('선택할 질문',self.ui.prompt_buffer.text)
+        self.assertEqual(before,self.app.draft())
+        self.assertEqual([],self.app.paper.proposal_history())
+
+    def test_session_only_advice_remains_readable_after_a_failed_later_request(self):
+        from claimbranch.core.advisory import advice_from_text
+        from claimbranch.application.codex_app_server import CodexResult
+        from contextlib import nullcontext
+        import hashlib
+        for advisory in (True,False):
+            self.ui.enter('discuss' if advisory else 'ask')
+            if advisory:
+                self.terminal.key(('paste','What remains unknown?'));self.terminal.key('keep')
+            self.ui.checked={'thesis','obs-a'};self.terminal.key('enter');self.read_end()
+            prepared=self.ui.outbound
+            raw=canonical_bytes(advice_from_text(b'CPU-B remains unmeasured.')) if advisory else b'{}'
+            result=CodexResult(prepared.review.request_id,prepared.digest,'completed',42,
+                hashlib.sha256(raw).hexdigest(),raw,'gpt-6-sol','0.158.0','thread-owned','turn-owned')
+            job=SimpleNamespace(poll=lambda:result,cancel=lambda:False,wait_closed=lambda _:True)
+            with patch.object(self.connection,'require_codex_qualification'),patch(
+                    'claimbranch.application.codex_relay.CodexRelayTransport.start',return_value=job):
+                self.terminal.key('enter')
+            with (patch('claimbranch.application.paper_proposal_work.check_capacity',side_effect=ContractError('full payload'))
+                    if advisory else nullcontext()):
+                self.ui.poll()
+            if advisory:
+                self.assertEqual('proposal-advice',self.terminal.modal)
+                self.assertIn('SESSION ONLY','\n'.join(self.ui.content('advice')))
+                self.assertIn('CPU-B remains unmeasured.','\n'.join(self.ui.content('advice')))
+                self.assertIsNone(self.app.paper.proposal_history()[0]['result'])
+        self.ui.enter('history');self.ui.index=0;self.terminal.key('enter')
+        self.assertEqual('proposal-advice',self.terminal.modal)
+        self.assertIn('CPU-B remains unmeasured.','\n'.join(self.ui.content('advice')))
+        self.app.recovery.save(self.app)
+        reopened=project_workspace(self.store.load())
+        self.assertIsNone(reopened.paper.proposal_history()[0]['result'])
+        self.assertEqual('not-retained',reopened.paper.proposal_history()[0]['payload_availability'])
+
+    def test_live_connection_failure_is_visible_but_not_saved_with_research(self):
+        self.preview();prepared=self.ui.outbound
+        from claimbranch.application.codex_app_server import CodexResult
+        result=CodexResult(prepared.review.request_id,prepared.digest,'client_failed',42)
+        class Job:
+            wire_result={'failure':{'phase':'response_headers','category':'header_count_limit'}}
+            def poll(self):return result
+            def cancel(self):return False
+            def wait_closed(self,_):return True
+        with patch.object(self.connection,'require_codex_qualification'),patch(
+                'claimbranch.application.codex_relay.CodexRelayTransport.start',return_value=Job()):
+            self.terminal.key('enter')
+        self.ui.poll()
+        self.assertIn('response_headers / header_count_limit',self.app.message)
+        detail='\n'.join(self.ui.content('history-detail'))
+        self.assertIn('CURRENT SESSION DIAGNOSTIC',detail);self.assertIn('header_count_limit',detail)
+        self.assertEqual('failed',self.app.paper.proposal_history()[0]['disposition'])
+        self.app.recovery.save(self.app)
+        self.assertNotIn(b'header_count_limit',self.store.load().payload)
+        reopened=project_workspace(self.store.load())
+        self.assertEqual('failed',reopened.paper.proposal_history()[0]['disposition'])
+        self.assertFalse(reopened.paper.ai_available)
+
+    def test_typed_failure_is_visible_but_not_saved_with_research(self):
+        self.preview();prepared=self.ui.outbound
+        from claimbranch.application.codex_app_server import CodexResult, CodexFailure
+        result=CodexResult(prepared.review.request_id,prepared.digest,'malformed_response',42,failure=CodexFailure('proposal_schema'))
+        class Job:
+            wire_result={'failure':None}
+            def poll(self):return result
+            def cancel(self):return False
+            def wait_closed(self,_):return True
+        with patch.object(self.connection,'require_codex_qualification'),patch(
+                'claimbranch.application.codex_relay.CodexRelayTransport.start',return_value=Job()):
+            self.terminal.key('enter')
+        self.ui.poll()
+        self.assertIn('response_validation / proposal_schema',self.app.message)
+        detail='\n'.join(self.ui.content('history-detail'))
+        self.assertIn('CURRENT SESSION DIAGNOSTIC',detail);self.assertIn('proposal_schema',detail)
+        self.assertEqual('malformed',self.app.paper.proposal_history()[0]['disposition'])
+        self.app.recovery.save(self.app)
+        self.assertNotIn(b'proposal_schema',self.store.load().payload)
+        reopened=project_workspace(self.store.load())
+        self.assertEqual('malformed',reopened.paper.proposal_history()[0]['disposition'])
+        self.assertFalse(reopened.paper.ai_available)
+
+    def test_unknown_or_extra_failure_detail_cannot_leak_to_terminal_or_snapshot(self):
+        self.preview();prepared=self.ui.outbound
+        from claimbranch.application.codex_app_server import CodexResult
+        result=CodexResult(prepared.review.request_id,prepared.digest,'client_failed',42)
+        class Job:
+            wire_result={'failure':{'phase':'response_headers','category':'http_protocol','message':'private-secret-and-instructions'}}
+            def poll(self):return result
+            def cancel(self):return False
+            def wait_closed(self,_):return True
+        with patch.object(self.connection,'require_codex_qualification'),patch(
+                'claimbranch.application.codex_relay.CodexRelayTransport.start',return_value=Job()):
+            self.terminal.key('enter')
+        self.ui.poll();self.app.recovery.save(self.app)
+        self.assertIsNone(self.ui.worker._live_failure)
+        self.assertNotIn('private-secret',self.app.message)
+        self.assertNotIn(b'private-secret',self.store.load().payload)
+
+    def test_unconfirmed_shutdown_keeps_transport_owner_and_blocks_reenable(self):
+        from unittest.mock import MagicMock
+        transport=MagicMock();transport.wait_closed.return_value=False
+        transport.cleanup_notice.return_value='Request cleanup not confirmed; owned temporary folder retained.'
+        transport.cleanup_failed.return_value=True
+        self.connection.transports['owned']=transport
+        try:
+            self.ui.shutdown()
+            self.assertIs(transport,self.connection.transports['owned'])
+            self.assertTrue(self.connection.cleanup_pending)
+            self.assertIn('not confirmed',self.ui.notice)
+            with self.assertRaises(ContractError):self.connection.current_profile()
+            self.assertFalse(self.connection.close())
+            self.assertIs(transport,self.connection.transports['owned'])
+        finally:
+            transport.wait_closed.return_value=True
+            self.connection.close()
+
+    def test_connection_shutdown_uses_one_deadline_and_retains_only_unclosed_owners(self):
+        from unittest.mock import MagicMock
+        closed=MagicMock();closed.wait_closed.return_value=True
+        pending=MagicMock();pending.wait_closed.return_value=False
+        self.connection.transports={'closed':closed,'pending':pending}
+        try:
+            with patch('claimbranch.application.provider_commands.time.monotonic',side_effect=[10,11,14]):
+                self.assertFalse(self.connection.close())
+            self.assertEqual({'pending'},set(self.connection.transports))
+            closed.wait_closed.assert_called_once_with(4)
+            pending.wait_closed.assert_called_once_with(1)
+        finally:
+            pending.wait_closed.return_value=True
+            self.connection.close()
+
+    def preview(self):
+        self.terminal.key('A'); self.ui.checked={'thesis','obs-a'}
+        self.terminal.key('d'); self.terminal.key('enter'); self.read_end()
+
+    def test_full_http_preview_refuses_missing_runtime_without_attempt(self):
+        from claimbranch.application.paper_proposal_work import CodexProposalWork
+        self.preview(); self.assertIs(type(self.ui.worker),CodexProposalWork)
+        text='\n'.join(self.ui.content('outbound'))
+        self.assertIn('https://chatgpt.com/backend-api/codex/responses',text)
+        self.assertIn(self.ui.http_outbound['body_sha256'],text)
+        self.assertEqual([],self.ui.http_outbound['body']['tools'])
+        self.assertEqual(1,len(self.ui.http_outbound['body']['input']))
+        with patch('claimbranch.application.codex_relay.installed_runtime',side_effect=ContractError('Codex login unavailable')) as lookup:
+            self.terminal.key('enter')
+        lookup.assert_called_once()
+        self.assertIn('Codex login unavailable',self.ui.notice)
+        self.assertEqual([],self.app.paper.proposal_history()); self.assertEqual([],self.ui.pending)
+
+    def test_changed_http_review_and_included_draft_cannot_start(self):
+        self.preview()
+        with patch.object(self.connection,'require_codex_qualification'), patch(
+                'claimbranch.application.codex_relay.CodexRelayTransport.start') as start:
+            self.ui.http_outbound['body_sha256']='0'*64
+            self.terminal.key('enter'); start.assert_not_called()
+            self.assertEqual([],self.app.paper.proposal_history())
+            self.app.keep_draft('New thinking','New reason')
+            self.terminal.key('enter'); start.assert_not_called()
+        self.assertEqual('New thinking',self.app.draft()['text'])
+
+    def test_owned_codex_return_stages_items_keeps_origin_and_reopens_without_login(self):
+        from claimbranch.application.codex_app_server import CodexResult
+        from claimbranch.application.paper_assistance_example import frozen_response
+        import hashlib
+        self.preview(); prepared=self.ui.outbound; raw=frozen_response()
+        result=CodexResult(prepared.review.request_id,prepared.digest,'completed',42,
+            hashlib.sha256(raw).hexdigest(),raw,'gpt-6-sol','0.158.0','thread-owned','turn-owned')
+        class Job:
+            def poll(self): return result
+            def cancel(self): return False
+            def wait_closed(self,_): return True
+        with patch('claimbranch.application.codex_relay.installed_runtime'), patch(
+                'claimbranch.application.codex_relay.CodexRelayTransport.start',return_value=Job()) as start:
+            self.terminal.key('enter')
+        self.assertEqual(self.ui.http_outbound['body_sha256'],start.call_args.kwargs['confirmed_http_digest'])
+        self.assertEqual('proposal-wait',self.terminal.modal)
+        self.ui.poll(); self.assertEqual('proposal-items',self.terminal.modal)
+        self.stage('limit'); self.terminal.key('escape')
+        self.app.recovery.save(self.app)
+        reopened=project_workspace(self.store.load())
+        self.assertFalse(available(reopened)); self.assertFalse(reopened.paper.ai_available)
+        self.assertEqual('gpt-6-sol',reopened.paper.proposal_history()[0]['destination']['model'])
+        self.assertEqual(self.ui.worker.work.origins,reopened.paper.candidates(*reopened.context_key()).origins)
+        self.assertFalse(reopened.paper.proposal_history()[0]['staging_available'])
+
+
 class ProposalUITests(unittest.TestCase):
     def setUp(self):
         folder=tempfile.TemporaryDirectory(); self.addCleanup(folder.cleanup)
@@ -530,6 +836,29 @@ class ProposalUITests(unittest.TestCase):
         ui.enter('origins'); rows='\n'.join(ui.content('origins'))
         self.assertIn('CPU-B remains unmeasured',rows)
         self.assertEqual({},ui.controllers)
+
+    def test_history_new_review_requires_reading_and_retains_origin_after_save(self):
+        self.response(); self.app.recovery.save(self.app)
+        reopened=project_workspace(self.store.load())
+        reopened.recovery=PersonalProjectRecovery(self.store,reopened,self.store.load())
+        self.terminal.app=reopened; self.app=reopened
+        del self.terminal._proposals_ui; self.ui=proposals_ui(self.terminal)
+        before=deepcopy(reopened.paper.proposal_history())
+        self.ui.enter('history'); self.terminal.key('enter'); self.terminal.key('r')
+        self.assertEqual('proposal-history-detail',self.terminal.modal)
+        self.read_end(); self.terminal.key('r')
+        self.assertEqual('proposal-retained-basis',self.terminal.modal)
+        self.assertIn('ORIGINAL AND CURRENT INPUT','\n'.join(self.ui.content('retained-basis')))
+        self.terminal.key('enter'); self.assertEqual('proposal-retained-basis',self.terminal.modal)
+        self.read_end(); self.terminal.key('enter'); self.stage('limit')
+        self.assertEqual(before,reopened.paper.proposal_history())
+        reopened.recovery.save(reopened)
+        returned=project_workspace(self.store.load())
+        self.assertTrue(returned.review.candidates().origins)
+        self.assertFalse(returned.paper.ai_available)
+        self.assertEqual({},returned.paper._proposal_active)
+        self.terminal.key('escape')
+        self.assertIsNone(self.ui.worker._current)
 
     def test_failed_partial_save_retains_live_buffer_and_original_scope(self):
         self.response(); self.stage('limit'); p=self.reasoning(); self.terminal.key('1'); self.terminal.key('enter')

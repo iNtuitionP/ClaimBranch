@@ -363,7 +363,7 @@ class PersonalProposalReturnTests(unittest.TestCase):
     result = _fixture.result
     confirm_result = _fixture.confirm_result
 
-    def stage_relationship(self, *, full=False):
+    def stage_relationship(self, *, full=False, retained=False, external=False):
         observation = self.confirm_result()
         self.app.select('thesis'); self.app.keep_draft('The tested input changes latency.', 'Only this hardware was measured.')
         value = response()
@@ -374,8 +374,22 @@ class PersonalProposalReturnTests(unittest.TestCase):
             'selections':[{'record_id':'thesis','fields':['statement','role']},
                           {'record_id':observation,'fields':['statement','status','value','conditions','metric']}],
             'scientific_edge_ids':[]}
+        if external:
+            from claimbranch.application.paper_proposal_work import preview_external_proposal,import_external_proposal,RetainedProposalReview
+            source={'kind':'external-diagnostic','verification':'unverified-import','model':'gpt-6-sol',
+                'request_id':'external-test','request_body_digest':'a'*64,'reported_response_digest':'b'*64}
+            preview=preview_external_proposal(self.app.paper,self.app.context_key(),query,canonical_bytes(value),source)
+            request_id=import_external_proposal(self.app.paper,self.app.context_key(),query,canonical_bytes(value),source,confirmed_digest=preview['digest'],now=100)
+            worker=RetainedProposalReview(self.app.paper,self.app.context_key(),request_id,clock=lambda:1000)
+            key=worker.stage(worker.compare(['limit']))[0]
+            self.app.review.candidate_works[self.app.review.key]=worker.work
+            return observation,worker,key
         worker = PaperProposalWork(self.app.paper, self.app.context_key(), frozen_result=canonical_bytes(value), clock=lambda:100)
         outbound = worker.prepare(query); worker.begin(outbound); worker.complete(outbound.request_id)
+        if retained:
+            from claimbranch.application.paper_proposal_work import RetainedProposalReview
+            worker.cancel()
+            worker = RetainedProposalReview(self.app.paper, self.app.context_key(), outbound.request_id, clock=lambda:1000)
         key = worker.stage(worker.compare(['limit']))[0]
         self.app.review.candidate_works[self.app.review.key] = worker.work
         return observation, worker, key
@@ -423,6 +437,27 @@ class PersonalProposalReturnTests(unittest.TestCase):
         self.assertEqual('partial', context['explanation']['state'])
         self.assertEqual('아직 조건의 범위를 생각하는 중', context['explanation']['entries'][0]['text'])
         self.assertFalse(context['closure_available'])
+
+    def test_retained_review_record_edit_backup_and_fresh_process(self):
+        original = self.stage_relationship
+        self.stage_relationship = lambda: original(retained=True)
+        self.test_manual_judgment_ai_relationship_record_correct_backup_and_fresh_process()
+        from claimbranch.application.paper_proposal_work import RetainedProposalReview
+        self.app.select('thesis')
+        with self.assertRaises(ContractError):
+            RetainedProposalReview(self.app.paper,self.app.context_key(),self.app.paper.proposal_history()[0]['request_id'])
+
+    def test_external_import_record_edit_backup_and_fresh_process(self):
+        original=self.stage_relationship
+        self.stage_relationship=lambda: original(external=True)
+        self.test_manual_judgment_ai_relationship_record_correct_backup_and_fresh_process()
+        entry=self.app.paper.proposal_history()[0]
+        self.assertFalse(entry['dispatched'])
+        self.assertEqual('unverified-import',entry['external']['verification'])
+        from types import SimpleNamespace
+        from claimbranch.application.tui_proposals import ProposalsUI
+        ui=ProposalsUI(SimpleNamespace(app=self.app));ui.owner=self.app.work_key()
+        self.assertIn('EXTERNAL UNVERIFIED AI SOURCE',' '.join(ui.content('origins')))
 
     def test_failed_ai_record_preserves_live_origin_and_saved_original(self):
         self.stage_relationship(); before = self.app.paper.history.manifest(); saved = self.store.load().payload
@@ -521,4 +556,179 @@ class PersonalProposalReturnTests(unittest.TestCase):
         self.assertEqual('erased', self.app.paper.proposal_history()[0]['payload_availability'])
 
 
-if __name__ == '__main__': unittest.main()
+
+
+class RetainedProposalReviewTests(unittest.TestCase):
+    def test_reopened_response_can_be_explicitly_reviewed_without_new_attempt(self):
+        from claimbranch.application.paper_proposal_work import RetainedProposalReview
+        app = fixture(); original = ready(app)
+        saved = snapshot(app); reopened = TerminalWorkspace(saved.history, ai_off=True); restore(reopened, saved)
+        before = deepcopy(reopened.paper.proposal_history())
+        review = RetainedProposalReview(reopened.paper, reopened.context_key(), original._current, clock=lambda:1000)
+        compared = review.compare(['repeat']); review.stage(compared)
+        self.assertEqual(before, reopened.paper.proposal_history())
+        self.assertEqual(1, reopened.review.session()._prior_dispatches)
+        final = snapshot(reopened); returned = TerminalWorkspace(final.history, ai_off=True); restore(returned, final)
+        self.assertEqual(review.work.origins, returned.paper.candidates(*returned.context_key()).origins)
+        self.assertFalse(returned.paper.ai_available)
+        self.assertEqual({}, returned.paper._proposal_active)
+
+    def test_new_review_expiry_and_payload_erasure_revoke_staging(self):
+        from claimbranch.application.paper_proposal_work import RetainedProposalReview
+        for changed in ('expiry', 'erased'):
+            app = fixture(); original = ready(app); original.cancel(); clock = [1000]
+            review = RetainedProposalReview(app.paper, app.context_key(), original._current or app.paper.proposal_history()[0]['request_id'], clock=lambda:clock[0])
+            compared = review.compare(['repeat'])
+            if changed == 'expiry': clock[0] += 121
+            else: original.erase_payload(app.paper.proposal_history()[0]['request_id'])
+            with self.assertRaises(ContractError): review.stage(compared)
+            self.assertFalse(review.work.origins)
+
+    def test_repeated_review_reuses_existing_item_identity(self):
+        from claimbranch.application.paper_proposal_work import RetainedProposalReview
+        app = fixture(); original = ready(app); original.stage(original.compare(['repeat']))
+        record=next(r for r in original.work.records.values() if r['kind']=='claim')
+        record['body']['statement']='Human-edited scope remains.'; original.work.put(record)
+        original.cancel(); before = original.work.records
+        review = RetainedProposalReview(app.paper, app.context_key(), app.paper.proposal_history()[0]['request_id'], clock=lambda:1000)
+        review.stage(review.compare(['repeat']))
+        self.assertEqual(before, review.work.records)
+
+    def test_cancel_keeps_original_attempt_and_no_network_methods_exist(self):
+        from claimbranch.application.paper_proposal_work import RetainedProposalReview
+        app = fixture(); original = ready(app); original.cancel()
+        before = deepcopy(app.paper.proposal_history())
+        review = RetainedProposalReview(app.paper, app.context_key(), before[0]['request_id'], clock=lambda:1000)
+        with self.assertRaises(ContractError): review.begin(None)
+        review.cancel()
+        self.assertEqual(before, app.paper.proposal_history())
+        with self.assertRaises(ContractError): review.compare(['repeat'])
+
+    def test_included_draft_change_and_owner_mismatch_refuse(self):
+        from claimbranch.application.paper_proposal_work import RetainedProposalReview
+        app=fixture(); original=ready(app,include_draft=True); original.cancel()
+        request_id=app.paper.proposal_history()[0]['request_id']
+        with self.assertRaises(ContractError):
+            RetainedProposalReview(app.paper,('episode-a','main','obs-a'),request_id,clock=lambda:1000)
+        review=RetainedProposalReview(app.paper,app.context_key(),request_id,clock=lambda:1000)
+        comparison=review.compare(['repeat'])
+        app.keep_draft('A different current judgment','A different reason')
+        with self.assertRaises(ContractError): review.stage(comparison)
+        self.assertFalse(review.work.origins)
+
+
+class ExternalProposalImportTests(unittest.TestCase):
+    def test_import_review_and_reopen_preserve_explicit_external_origin(self):
+        from claimbranch.application.paper_proposal_work import preview_external_proposal, import_external_proposal, RetainedProposalReview
+        app=fixture()
+        source={'kind':'external-diagnostic','verification':'unverified-import','model':'gpt-6-sol',
+            'request_id':'request-external','request_body_digest':'a'*64,'reported_response_digest':'b'*64}
+        raw=canonical_bytes(response()); query=request(app)
+        preview=preview_external_proposal(app.paper,app.context_key(),query,raw,source)
+        with self.assertRaises(ContractError):
+            import_external_proposal(app.paper,app.context_key(),query,raw,source,confirmed_digest='c'*64,now=100)
+        key=import_external_proposal(app.paper,app.context_key(),query,raw,source,confirmed_digest=preview['digest'],now=100)
+        self.assertEqual(0,app.review.session()._prior_dispatches)
+        saved=snapshot(app)
+        reopened=TerminalWorkspace(saved.history,ai_off=True);restore(reopened,saved)
+        review=RetainedProposalReview(reopened.paper,reopened.context_key(),key,clock=lambda:1000)
+        review.stage(review.compare(['repeat']))
+        after=snapshot(reopened); returned=TerminalWorkspace(after.history,ai_off=True);restore(returned,after)
+        entry=returned.paper.proposal_history()[0]
+        self.assertFalse(entry['dispatched']);self.assertEqual(source,entry['external'])
+        self.assertEqual(review.work.origins,returned.review.candidates().origins)
+        from types import SimpleNamespace
+        from claimbranch.application.tui_proposals import ProposalsUI
+        ui=ProposalsUI(SimpleNamespace(app=returned));ui.owner=returned.work_key();ui.entry=entry
+        self.assertIn('EXTERNAL UNVERIFIED SOURCE',' '.join(ui.content('history-detail')))
+        self.assertIn('EXTERNAL UNVERIFIED AI SOURCE',' '.join(ui.content('origins')))
+        self.assertIn(source['request_body_digest'],' '.join(ui.content('origins')))
+
+        self.assertFalse(returned.paper.ai_available)
+        self.assertEqual('claimbranch.paper-work/v11',decode(after.payload)['schema'])
+        from claimbranch.application.paper_proposal_work import proposal_snapshot,restore_proposals
+        stranger=PaperProposalWork(reopened.paper,('episode-a','main','obs-a'),frozen_result=b'')
+        with self.assertRaises(ContractError): stranger.erase_payload(key)
+        altered=proposal_snapshot(returned.paper);altered['attempts'][0]['owner'][2]='obs-a'
+        with self.assertRaises(ContractError): restore_proposals(returned.paper,altered)
+        with patch.object(review.session._broker,'erase_payload',side_effect=AssertionError('import is not a broker request')):
+            review.erase_payload(key)
+        self.assertEqual('erased',reopened.paper.proposal_history()[0]['payload_availability'])
+        with self.assertRaises(ContractError): review.compare(['repeat'])
+        snapshot(reopened)
+
+        with self.assertRaises(ContractError):
+            import_external_proposal(app.paper,app.context_key(),query,raw,source,confirmed_digest=preview['digest'],now=101)
+
+    def test_external_import_does_not_reset_or_consume_exhausted_request_budget(self):
+        from claimbranch.application.paper_proposal_work import preview_external_proposal, import_external_proposal
+        app=fixture()
+        for _ in range(3): ready(app).cancel()
+        source={'kind':'external-diagnostic','verification':'unverified-import','model':'gpt-6-sol',
+            'request_id':'request-external','request_body_digest':'a'*64,'reported_response_digest':'b'*64}
+        raw=canonical_bytes(response()); query=request(app)
+        preview=preview_external_proposal(app.paper,app.context_key(),query,raw,source)
+        import_external_proposal(app.paper,app.context_key(),query,raw,source,confirmed_digest=preview['digest'],now=100)
+        saved=snapshot(app); reopened=TerminalWorkspace(saved.history,ai_off=True);restore(reopened,saved)
+        self.assertEqual(3,reopened.review.session()._prior_dispatches)
+        self.assertEqual(4,len(reopened.paper.proposal_history()))
+        with self.assertRaises(ContractError): ready(reopened)
+
+
+class ImportBoundaryRegressionTests(unittest.TestCase):
+    def test_reading_can_take_time_and_expired_comparison_can_be_refreshed(self):
+        from claimbranch.application.paper_proposal_work import RetainedProposalReview
+        app=fixture(); original=ready(app); original.cancel(); clock=[1000]
+        review=RetainedProposalReview(app.paper,app.context_key(),app.paper.proposal_history()[0]['request_id'],clock=lambda:clock[0])
+        clock[0]+=600
+        compared=review.compare(['repeat']);clock[0]+=121
+        with self.assertRaises(ContractError): review.stage(compared)
+        review.stage(review.compare(['repeat']))
+        self.assertTrue(review.work.origins)
+
+    def test_failed_review_keeps_previous_review_active(self):
+        from claimbranch.application.paper_proposal_work import RetainedProposalReview
+        app=fixture(); original=ready(app);original.cancel()
+        entry=app.paper._proposal_entries[0]
+        active=RetainedProposalReview(app.paper,app.context_key(),entry['request_id'],clock=lambda:1000)
+        before=deepcopy(entry);entry['normalized_digest']='f'*64
+        with self.assertRaises(ContractError):
+            RetainedProposalReview(app.paper,app.context_key(),entry['request_id'],clock=lambda:1000)
+        entry.clear();entry.update(before)
+        self.assertIs(active,app.paper._proposal_active[app.context_key()])
+        active.stage(active.compare(['repeat']))
+
+    def test_import_limits_and_tamper_binding(self):
+        from claimbranch.application.paper_proposal_work import preview_external_proposal, import_external_proposal
+        app=fixture(); raw=canonical_bytes(response());query=request(app)
+        source={'kind':'external-diagnostic','verification':'unverified-import','model':'gpt-6-sol',
+            'request_id':'request-external','request_body_digest':'a'*64,'reported_response_digest':'b'*64}
+        preview=preview_external_proposal(app.paper,app.context_key(),query,raw,source)
+        import_external_proposal(app.paper,app.context_key(),query,raw,source,confirmed_digest=preview['digest'],now=100)
+        before=deepcopy(app.paper._proposal_entries)
+        source['request_id']='another-external'
+        preview=preview_external_proposal(app.paper,app.context_key(),query,raw,source)
+        with self.assertRaises(ContractError):
+            import_external_proposal(app.paper,app.context_key(),query,raw,source,confirmed_digest=preview['digest'],now=101)
+        self.assertEqual(before,app.paper._proposal_entries)
+        from claimbranch.application.paper_proposal_work import restore_proposals,proposal_snapshot
+        for field in ('model','request_body_digest','reported_response_digest'):
+            value=proposal_snapshot(app.paper); value['attempts'][0]['external'][field]='gpt-6-other' if field=='model' else 'e'*64
+            with self.assertRaises(ContractError): restore_proposals(app.paper,value)
+
+    def test_full_checkpoint_refuses_import_without_dropping_payload(self):
+        from claimbranch.application.paper_proposal_work import preview_external_proposal,import_external_proposal
+        app=fixture();ready(app).cancel();before=deepcopy(app.paper._proposal_entries)
+        raw=canonical_bytes(response());query=request(app)
+        source={'kind':'external-diagnostic','verification':'unverified-import','model':'gpt-6-sol',
+            'request_id':'request-external','request_body_digest':'a'*64,'reported_response_digest':'b'*64}
+        preview=preview_external_proposal(app.paper,app.context_key(),query,raw,source)
+        app.paper._checkpoint_app=app
+        with patch('claimbranch.application.paper_work_store.PaperWork.create',side_effect=ContractError('canonical JSON byte limit exceeded')), patch('claimbranch.application.paper_proposal_work.fit_new_payloads',side_effect=AssertionError('Import must never evict existing payloads')):
+            with self.assertRaisesRegex(ContractError,'cannot fit'):
+                import_external_proposal(app.paper,app.context_key(),query,raw,source,confirmed_digest=preview['digest'],now=100)
+        self.assertEqual(before,app.paper._proposal_entries)
+
+
+if __name__ == '__main__':
+    unittest.main()

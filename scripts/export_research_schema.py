@@ -8,6 +8,7 @@ from claimbranch.core.research_schema import PAPER_SEED, PAPER_SERIES_SEED
 from claimbranch.application.paper_service import scenario_schema
 from claimbranch.core.paper_context import request_schema, fields_schema
 from claimbranch.core.paper_proposals import result_schema as typed_result_schema
+from claimbranch.core.advisory import advice_result_schema
 from claimbranch.core.paper_changes import request_schema as changes_request_schema
 from claimbranch.core.paper_changes import lineage_schema
 from claimbranch.core.review_policy import assessment_schema, decision_schema
@@ -40,9 +41,11 @@ def main():
                "paper-scenario-v1.json": scenario_schema(),
                "paper-context-request-v1.json": request_schema(), "paper-context-fields-v2.json": fields_schema(),
                "provider-result-v2.json": typed_result_schema(),
+               "provider-advice-v1.json": advice_result_schema(),
                "paper-changes-request-v1.json": changes_request_schema(),
                "paper-amendment-lineage-v1.json": lineage_schema(),
                "paper-amendment-lineage-v2.json": lineage_schema(2),
+               "paper-amendment-lineage-v3.json": lineage_schema(3),
                "paper-review-assessment-v1.json": assessment_schema(),
                "paper-review-decision-v1.json": decision_schema(),
                "paper-operation-v1.json": operation_schema(),
@@ -61,12 +64,18 @@ def main():
                "paper-work-v8.json": work_schema(8),
                "paper-work-v9.json": work_schema(9),
                "paper-work-v10.json": work_schema(10),
+               "paper-work-v11.json": work_schema(11),
+               "paper-work-v12.json": work_schema(12),
+               "paper-work-v13.json": work_schema(13),
                "project-work-v1.json": project_work_schema(),
                "project-work-v2.json": project_work_schema(2),
                "project-work-v3.json": project_work_schema(3),
                "project-work-v4.json": project_work_schema(4),
                "project-work-v5.json": project_work_schema(5),
                "project-work-v6.json": project_work_schema(6),
+               "project-work-v7.json": project_work_schema(7),
+               "project-work-v8.json": project_work_schema(8),
+               "project-work-v9.json": project_work_schema(9),
                "mac-runtime-build-v1.json": runtime_schema(),
                "key-registration-v1.json": key_registration_schema(),
                "review-signing-request-v1.json": signing_request_schema(),

@@ -2,7 +2,7 @@
 kind: exec-plan
 status: active
 owners: maintainers
-last_reviewed: 2026-10-11
+last_reviewed: 2026-10-13
 ---
 
 # ExecPlan: ClaimBranch graph contract to live-paper validation
@@ -40,8 +40,14 @@ The completed manual alpha is the current-source publication baseline; it does
 not complete the later AI-connected milestone.
 For the user's 2026-10-08 request to plan optional LLM reading and graph
 suggestions, use the [four-unit AI follow-up proposal](#optional-ai-follow-up-implementation-plan).
-It is a proposed continuation, not a reopened first-alpha backlog or live-use
-authorization. The existing manual alpha remains available for feedback.
+The 2026-10-12 [contextual assistance implementation order](#l04-contextual-assistance-implementation-order)
+now owns the selected remaining L04 work: readable advice, small human-selected
+edits, personal recording/return and actual connected-use verification. It
+preserves completed L01–L03 and the manual alpha. The discussion implementation
+has passed owned-return and terminal checks; its exact-approved actual service
+request now returns readable advice and survives fresh open. The final connected
+use/source batch is in progress. No transmission permission is inferred from
+implementation approval.
 The completed [GitHub manual-release implementation order](#github-manual-release-implementation-order)
 remains the first-alpha implementation baseline.
 The [key-free personal-workspace direction](#key-free-personal-workspace-alternative)
@@ -137,6 +143,189 @@ Passing the retrospective fixture means `foundation validated`, not product
 success. Do not call the product v1.0 before the live-paper gate passes.
 
 ## Progress
+
+- [x] 2026-10-13 KST - Reconcile the owner-requested GitHub source update:
+  62 code/schema/test/documentation files contain the reviewed contextual-AI
+  candidate and its history, with no research workspace, login or local profile.
+  Every runtime member matches the checked final source artifact. Publish this
+  candidate source to `main` with its actual discussion success and unverified
+  direct-edit/human-use limits; this does not declare L04 or an AI-qualified
+  release complete. See [source synchronization](#2026-10-13-candidate-source-synchronization).
+
+- [x] 2026-10-13 KST - L04-A actual observation passes through the unmodified
+  public Mac Codex connection after exact one-shot consent: HTTP 200, completed
+  in 7,046 ms, readable advisory v1 retained and reopened with AI off. The earlier
+  failed attempt remains; recorded science and manuscript bytes are unchanged.
+  At the owner's request, prepare claim/plan/qualification drafts from exact
+  answer passages, retaining all three origins and no fabricated results or
+  human reason. A–D are now 3/4 complete; D is in progress, S=4/4 and L=3/4.
+- [x] 2026-10-13 KST - D's technical integration passes 209 contract and 1,099
+  application tests, standalone source checks and extracted-source actual-answer/
+  draft return. A separate disposable copy also records the actual-answer origins
+  through real terminal input, backups and reopens with AI off; its reason is
+  labeled agent-written verification, not the owner's judgment. Actual Opus
+  returns conditional PASS with two documentation findings; fix both, rebuild
+  the artifact and pass its ten checks. See [D evidence](#l04-contextual-assistance-implementation-order).
+- [ ] 2026-10-13 KST - D remains open for the owner's own reason/recording/use
+  observation and qualified publication. The owner selects saved local drafts
+  and declines another direct-edit inference. No additional feature implementation
+  or send is currently scheduled; do not invent human feedback to close this row.
+
+- [x] 2026-10-12 KST - L04-C plan review selects the existing personal record,
+  explanation and checkpoint paths for advisory lineage v3 and explicit edit
+  requests; no new store, schema or protected authority is needed. Add connected
+  selected/required/omitted recording, correction, later inherited-origin and
+  fresh-process/backup cases. Reproduce reopened erasure bypassing required
+  source checks and unify the workspace/worker check. Show original question or
+  edit instruction, model, answer, selected graph context and included earlier
+  messages alongside passage/human revisions in the existing origin reader.
+  Four backend journeys and actual PTY pass; actual `claude-opus-5-5` review
+  returns PASS. Clarify its nonblocking requested/reported-model label finding.
+  Final affected regression passes 256 tests in 406.516 s; docs/whitespace and
+  generated schemas pass. C is complete: A–D are 2/4 complete, D is the one
+  remaining implementation/integration batch, and A's actual service observation
+  remains separately open. S=4/4, L=3/4; no app inference or publication.
+
+- [x] 2026-10-12 KST - Implement L04-B local exact-passage prefill and a separate
+  explicit small-edit instruction using existing typed v2 results, with a
+  four-item bound or clarification-only reply. Keep incomplete forms outside
+  the kept graph, retain source text once with passage origin v3, and reuse the
+  existing candidate editors, comparison, atomic staging and private save/restore.
+  The first focused set passes 64 tests; actual Korean/resize/backup PTY passes.
+  Actual Opus review identifies coexistence, copied-source retention, clarification
+  reading/follow-up and unavailable-source action issues. Fix them and pass 44
+  affected regressions, then 321 expanded tests. The Opus delta review finds one
+  remaining footer defect; its regression fails before repair and the 14-case
+  UI set passes afterward. Actual Opus final follow-up returns PASS. See the
+  [batch evidence](#l04-contextual-assistance-implementation-order).
+  B is complete: A–D are 1/4 complete, with C/D the two untouched implementation/
+  acceptance batches and A pending exact actual-send choice. S=4/4 and L=3/4
+  remain unchanged; no app inference or publication.
+
+- [x] 2026-10-12 KST - Implement the local L04-A discussion slice under
+  [ADR 0022](../../architecture/decisions/0022-contextual-advice-and-explicit-edits.md):
+  editable Korean/English questions, explicit previous-message selection,
+  separately checked prose, owned origin retention, AI-off reopen and ordinary
+  backup return. It creates no graph draft or science. The final affected
+  controller/work/TUI/actual-PTY/source-artifact run passes 153 tests; a separate
+  erased-source preview regression passes. Actual `claude-opus-5-5` cross-review
+  identifies two reproduced issues, fixed and regression-checked; final delta
+  review returns PASS. See the [current batch evidence](#l04-contextual-assistance-implementation-order).
+  The exact actual text request is prepared but unsent; A's live observation and
+  B–D remain open. S=4/4, L=3/4; A–D are 0/4 fully complete, with A locally
+  implemented and verified. No publication or inference through the app occurs.
+
+- [x] 2026-10-12 KST - At the owner's request, write the
+  [remaining L04 implementation order](#l04-contextual-assistance-implementation-order)
+  from the philosophy/reference review. Define four execution batches, all
+  unchecked: readable advice with an early actual connection check; bounded
+  action proposals; personal recording and durable origin return; integrated
+  connected-use/source delivery. S=4/4 and L=3/4 remain unchanged. This is a
+  documentation-only plan, with no runtime edit, inference or publication.
+  `python3.13 scripts/verify.py --scope docs` passes all 74 Markdown files and
+  whitespace checks; no runtime or live-provider result is claimed.
+
+- [x] 2026-10-12 KST - Review the owner's contextual conversation and explicit
+  small graph-action direction against philosophy, ADRs, current typed ingress
+  and primary external references. The [design assessment](../../designs/2026-09-22-episode-review.md#contextual-conversation-and-small-edit-proposals)
+  records alignment, scope/response/origin changes and proposed checks; the
+  [reference comparison](../../references/research-agent-runtime-and-graph.md#contextual-conversation-and-selected-graph-actions)
+  covers VISAR, tldraw, Tana, CopilotKit and OpenClaw. Research/documentation only:
+  no new inference, runtime change, dependency, accepted ADR or release claim.
+  The actual malformed L04 reply remains unresolved and the implementation
+  sequence is not silently replaced by this review.
+
+- [ ] 2026-10-12 KST - Owner directs finishing public AI connection and release.
+  Replace the unconditional Codex refusal with the existing fixed Mac relay's
+  runtime/profile checks; keep API/other-model routes preview-only. Public UI
+  tests first fail at the old gate, then 17 affected Codex/UI/profile checks pass.
+  Actual Opus review and final integrated alpha verification pass. A separate synthetic
+  project's exact 5,224-byte request is prepared for one fresh outbound choice;
+  no previous RLVR budget or approval is reused. The pinned CLI preflight passes
+  locally without reading login content or sending inference. Opus's two relay
+  timing defects are reproduced, repaired and re-reviewed; 55 affected checks
+  pass. The owner-approved public-path request reaches HTTP 200 with exact bytes
+  but its reply fails typed proposal validation; cleanup completes and no science
+  changes. The verification driver omitted the session-only diagnostic category;
+  the exact rejected field is unknown. Do not infer a transport failure or relax
+  validation. Release remains pending a usable checked public reply,
+  connected-use evidence; final local source checks pass, with no tag/push yet.
+
+
+- [x] 2026-10-12 KST - Owner explicitly selects externally labeled import of the
+  successful RLVR diagnostic (ADR 0021), without another inference request or
+  fabricated application history. Implement public local preview/import, retained
+  review, original-source display and versioned save/restore. Actual local import
+  retains five RLVR items, three original failed attempts and unchanged science.
+  Human item choice and scientific reason
+  remain the person's next action; no judgment has been recorded on their behalf.
+
+
+- [ ] 2026-10-12 KST - Owner selects explicit retained-response re-review without
+  new inference (ADR 0020). Implement ephemeral current-context review and TUI
+  history entry, preserving original attempts, IDs, edits and AI origin. Checks
+  and Opus review underway. Complete application histories and separate operator
+  diagnostic outputs remain distinct; the RLVR diagnostic lacks the original
+  retained application request envelope and must not be fabricated into one.
+
+- [ ] 2026-10-12 KST - A separately approved fifth RLVR diagnostic succeeds:
+  actual HTTP 200, checked `gpt-6-sol` response in 22,983 ms, critique and five
+  typed suggestions, cleanup complete. Original research history and manuscript
+  remain unchanged; human selective recording/return and public enablement remain
+  open. Also organize repository placement and ignore rules without deleting
+  tracked code, schemas, fixtures or documentation. See the
+  [actual attempt evidence](#2026-10-12-l04-owned-attempt-and-parser-diagnosis).
+
+- [ ] 2026-10-12 KST - The owner approves one additional L04 diagnostic only.
+  Actual service transport now succeeds (HTTP 200, 211,125 streamed bytes), but
+  the completed assistant text fails typed proposal validation. Preserve the
+  separate spent diagnostic and original three-entry personal history. No
+  checked proposal or human judgment is created; public enablement remains
+  blocked. See the [attempt evidence](#2026-10-12-l04-owned-attempt-and-parser-diagnosis).
+
+- [ ] 2026-10-12 KST - Treat the owner's continuation as the exact pending
+  RLVR one-shot approval. Recompile identical reviewed HTTP bytes and dispatch
+  once. The owned result fails in 1,128 ms, upstream attempt one, no HTTP status
+  or body, cleanup complete. Preserve its failed personal trace, unchanged
+  manuscript/judgment and spent intent; no automatic retry. TLS-only and
+  unauthenticated controls pass, but do not establish that attempt's cause.
+  Independently reproduce/fix shared header-parser limits and add closed
+  ephemeral failure diagnostics through the existing TUI; retain the public
+  qualification gate. The owner separately approves a second identical-content
+  request: 1,359-ms failure, HTTP 200, header-validation refusal. Refine closed
+  diagnostics without retrying; reproduce/fix the Opus parser-parity finding.
+  The separately approved final third request fails in 935 ms at the
+  `response_media_type` guard, HTTP 200, no checked reply, cleanup complete.
+  All three work attempts are spent. Stop dependent live enablement and
+  selective live return; manual work, writing and manuscript remain unchanged.
+  Local OpenClaw-style SSE compatibility repair now preserves missing/JSON-labeled
+  streams with bounded inspection; actual service acceptance remains unverified.
+  Final affected cases, actual Opus and extracted-source controls pass within
+  their scopes, without qualifying the service. See the
+  [actual attempt and repair](#2026-10-12-l04-owned-attempt-and-parser-diagnosis).
+
+- [ ] 2026-10-11 KST - Continue L04 with the user's selected Codex login route.
+  Preserve the earlier 1,916-ms failure and separately approved 13,699-ms terminal
+  refusal. After schema/summary repair, the owner's continuation authorizes the
+  identical prepared synthetic diagnostic once: checked typed reply in 10,890 ms,
+  cleanup complete. Actual local HTTP controls reveal nested tool definitions,
+  developer/environment messages and metadata outside the application preview.
+  Public enablement is therefore blocked on controlled exact transmission.
+  The offline HTTP compiler refuses changed current input/profile, expiry and
+  rehashed extra fields; 115 affected tests and final actual Opus 5.5 PASS.
+  Independently extracted 132-member runtime passes its ten declared checks.
+  The new researcher-authored RLVR question saves/reopens privately with no
+  observations, experiments or model request. Remaining L04 connections are
+  actual controlled transmission, then live personal comparison/record/return.
+  No public live gate or saved format changes; see the
+  [safe failure result](#2026-10-11-l04-safe-failure-diagnosis-result-review).
+  The next integrated increment now implements exact one-shot HTTP replacement,
+  complete contextual HTTP preview and owned Codex origin return. Actual CLI
+  and stdlib-supervisor local controls complete with cleanup; first Opus findings
+  are reproduced and repaired with preference/API denial, pre-authentication
+  version checking and visible uncertain cleanup. Final review/regression and
+  actual service/novel-task checks are recorded in the
+  [relay result](#2026-10-11-l04-exact-http-relay-and-contextual-return).
 
 - [x] 2026-10-11 KST - Prepare and publish the owner-authorized current-source
   alpha, without claiming L04 completion. Replace the root README's historical
@@ -4291,6 +4480,62 @@ The executable milestone names used throughout this plan are:
 
 ## Surprises & Discoveries
 
+- 2026-10-13 KST - Plain-text advice succeeds through the actual public route
+  and survives saved return; the older typed failure does not prevent that new
+  path. See the [A/D result](#l04-contextual-assistance-implementation-order).
+  The standalone source carries the same actual answer and draft origins.
+
+- 2026-10-12 KST - C's restored-workspace test reproduces a required source
+  erasure bypass: `PaperWorkspace.erase_proposal_payload` delegates to the live
+  worker only while one exists. After restart, its direct mutation omits both
+  passage-origin and selected-message retention checks. Share the same check
+  at both entry points before mutation. New complete origin-reader assertions
+  also expose that saved question/model/selected-message links were retained
+  but absent from the adopted-origin view. Display them using existing retained
+  attempts and reconstructed original context, with no extra provider/file I/O.
+
+- 2026-10-12 KST - L04-B's first passage implementation placed incomplete forms
+  in kept records, reproducing a whole-graph validation block. The final design
+  uses existing unfinished input plus independent lineage, so another complete
+  typed batch still compares/stages. Initial origin copied the whole answer per
+  candidate; retain one source response instead, verify each exact span against
+  it, and deny erasure/eviction while an origin references it. Clarification-only
+  typed replies need a full reader and explicit revised-instruction route rather
+  than clipped item-list intro/decline. A source unavailable after payload quota
+  cannot offer local passage actions. Actual Opus identifies these problems;
+  focused regressions exercise the fixes, not a simulated reviewer verdict.
+
+- 2026-10-12 KST - L04-A Opus review finds that preparing an unsent follow-up
+  replaced the current answer controller; cancellation then hid that answer.
+  Reproduce it, assign the controller only after successful dispatch and retain
+  session readers for earlier answers after a later failed attempt. The claimed
+  immediate quota-related unreadability is not reproduced: the existing
+  historical reader already overlays the session payload. Add a regression for
+  that actual behavior and the later-request case. Selected prior text is also
+  copied into immutable follow-up input: disclose that retention and refuse
+  separate erasure while referenced. An erase before dispatch already fails the
+  preview's source re-resolution; the final review's packet omitted that method,
+  so confirm it with a focused passing regression rather than invent a defect.
+  The first broad run has 228 tests with one artifact-count fixture failure;
+  update the overflow fixture for the two added runtime modules. Preserve that
+  failed run separately from the subsequent passing 153 affected checks.
+
+- 2026-10-11 KST - Actual Codex HTTP has nested `additional_tools` and ambient
+  developer/environment/metadata fields despite absent/empty top-level `tools`.
+  Earlier top-level counts did not establish tool-free or selected-only egress.
+  An identical old-route diagnostic now completes a checked live reply after the
+  summary-view repair, but cannot qualify or be rebound into a personal project's
+  owned request. See the [current result](#2026-10-11-l04-safe-failure-diagnosis-result-review).
+
+- 2026-10-11 KST - An owned actual 0.158.0 CLI/local HTTP control forwards the
+  complete domain schema into strict `text.format.schema` without converting
+  `oneOf` or `x-utf8-maxBytes`. A supplied HTTP 400 `invalid_json_schema` maps to
+  client category `other` with the JSON envelope in `message`, hiding the machine
+  code from the first safe projection. This is a reproducible local compatibility/
+  diagnostic issue, not evidence of the unknown remote service failure's cause.
+  A generation-only subset completes one local synthetic response without real
+  credentials, tools or external inference; actual provider qualification stays open.
+
 - 2026-10-11 KST - Publication inventory includes 373 changed/new repository
   files from the previously local multi-session implementation. Runtime schemas,
   fixtures and tests belong in source distribution; machine files and private
@@ -5237,6 +5482,64 @@ The executable milestone names used throughout this plan are:
 
 ## Decision Log
 
+- 2026-10-13 KST - The owner selects the prepared local passage drafts and
+  declines an additional direct-edit inference. Continue the local route and
+  leave direct model editing explicitly unverified; do not repeatedly seek
+  another send or treat that optional route as a new implementation blocker.
+  Human reason/recording observation remains distinct from delegated drafts.
+
+- 2026-10-12 KST - For C, reuse workspace v12/work v13/project v9 and the
+  existing personal cause/reason/explanation registry. The record/correction/
+  return paths already accept checked advisory origins; changing their schema
+  would add migration without a new researcher outcome. Connect their original
+  source in the existing origin reader and enforce source-erasure invariants
+  independently of whether a live worker exists. This implements ADR 0022's
+  durable return, with no new authority or accepted ADR reversal.
+
+- 2026-10-12 KST - Reuse complete provider-result/v2 items for explicitly requested
+  small edits under a distinct Codex edit-input binding, enforcing at most four
+  items. Missing or ambiguous meaning returns critique-only clarification; no
+  automatic repair request or alias inference runs locally. Local selected prose
+  uses new advisory-origin v3, never invented typed items. Preserve the exact
+  reply once in its owned attempt while a draft/recorded origin needs it; selected
+  span and human revisions bind to it. Unfinished prefill stays separate from
+  kept graph records, using existing workspace v12/work v13/project v9 storage.
+  These implement ADR 0022 without changing protected authority or old formats.
+
+- 2026-10-12 KST - The owner directs implementation and reaffirms Opus review
+  for every behavior increment. Record that ongoing requirement in the native
+  harness. Accept ADR 0022's separate advice contract in this change; retain
+  legacy typed validators, no-tools exact egress and the shared three-attempt
+  limit. Discussion alone does not stage graph items or establish understanding.
+  Use explicit workspace v11/work v12/project v8 formats in the existing store,
+  not a second conversation database. Kept sent questions/answers return with
+  original origin; unsent questions remain session-only with quit disclosure.
+
+- 2026-10-12 KST - Plan the owner's contextual conversation and small explicit
+  edits as the remaining L04 route. Separate text discussion from a bounded
+  action-request mode; reuse local passage-prefill and existing candidate
+  editors so reading an answer never requires graph conversion. Keep the
+  original failed typed reply as a failure, retain closed legacy formats,
+  and qualify the new path on its own observed result. The linked
+  [design](../../designs/2026-09-22-episode-review.md#contextual-conversation-and-small-edit-proposals)
+  owns the proposed contract; the first implementation batch must reconcile
+  product/release acceptance and record the significant change in a new ADR.
+  This plan is neither that accepted ADR nor live-transmission authority.
+
+- 2026-10-11 KST - Stop dependent public Codex enablement on the newly observed
+  unreviewed HTTP wrapper, as required by ADR 0018. Prepare exact body bytes
+  independently of that wrapper; hashing CLI output or accepting a warning is
+  insufficient. The pure compiler establishes no request ownership/consent and
+  sends nothing. A controlled one-shot route and actual access tests precede
+  new exact outbound choice; reuse existing TUI/controller/return afterward.
+  No API-key purchase, native key, new account or denominator change is introduced.
+
+- 2026-10-11 KST - Separate Codex strict generation from the unchanged domain v2
+  result validator. Bind the supported projected schema in the complete input
+  preview/digest; old consent cannot validate changed bytes. Keep only known
+  bounded JSON service codes as ephemeral diagnostics. This is a local adapter
+  repair under ADR 0018, not a new provider choice or weakened live qualification.
+
 - 2026-10-11 KST - The owner separately selects MIT after the license question.
   Add the canonical MIT notice to source and runtime ZIP, include its hash in
   the artifact manifest, and expand the bounded member budget by exactly one
@@ -6099,6 +6402,68 @@ The executable milestone names used throughout this plan are:
   AI and graph machinery remain visibly attributable but visually secondary.
 
 ## Outcomes & Retrospective
+
+- 2026-10-13 KST - A now has an actual readable response and is complete.
+  D passes integrated alpha and independent-source actual-answer/draft return;
+  its [current evidence and remaining human/publication boundary](#l04-contextual-assistance-implementation-order)
+  distinguish completed technical checks from unobserved human recording/use.
+  S=4/4, L=3/4, A–D=3/4. No additional model send is authorized.
+
+- 2026-10-12 KST - L04-C completes the local personal record/correction/return
+  loop for passage-derived and explicitly requested AI edits. Researchers can
+  inspect original question/instruction, model, source text/context and human
+  revisions beside their recorded reason, while returning to newer partial
+  explanation without rewriting the recorded choice. Required-source erasure
+  now refuses consistently after restart. Actual Opus review, 256 affected
+  regressions, real terminal Korean/resize/record/backup return and docs/schema
+  checks pass. A–D are 2/4 complete. D is the remaining implementation/integration
+  batch; A's actual service observation is still open and can join that exercise.
+  The current source is not newly published, actual AI usefulness is unobserved,
+  and no inference request has been sent through the app in this increment.
+
+- 2026-10-12 KST - L04-B now lets a researcher select part of an answer into an
+  unfinished claim, unrun plan or connection, then complete it in the existing
+  editor. A separate explicit instruction prepares at most four typed items or
+  a readable clarification; no whole-answer conversion or automatic request is
+  required. Incomplete forms coexist with independent graph work, and original
+  AI passages survive edits and save/return. Expanded regression and the final
+  actual Opus follow-up pass. B is complete; two implementation/acceptance
+  batches, C/D, remain, alongside A's separately pending actual service check.
+  Next is C's selected personal recording, original reason/explanation and
+  correction/restart/backup origin journey. No complete connected-use or new
+  release claim follows from this preparation result.
+
+- 2026-10-12 KST - The first new L04 slice now lets a researcher ask, read,
+  save and reopen a contextual answer without graph conversion. Local code,
+  actual terminal and source-artifact checks pass, as does the final bounded
+  Opus delta review. This is not an actual service-response observation. One
+  concrete synthetic text request awaits fresh exact outbound choice; earlier
+  approvals remain spent. Three implementation batches remain after this
+  locally verified A slice; all four completion boxes stay open until A's live
+  observation and the respective B/C/D outcomes run. Do not call L04 complete
+  or erase the previous public malformed-response failure.
+
+- 2026-10-12 KST - The requested next implementation now has a finite
+  [four-batch L04 order](#l04-contextual-assistance-implementation-order), with
+  the actual text connection checked early and human graph selection, reason,
+  AI origin and return still required for completion. No batch has run. The
+  previous public HTTP-200/malformed-response result remains unresolved; a
+  simpler proposed response contract is not evidence that it is repaired.
+
+- 2026-10-11 KST - L04 now preserves safe, ephemeral client failure observations
+  and repairs a strict-generation schema incompatibility without changing saved
+  science, request budgets or public availability. The approved remote attempt
+  fails in 1,916 ms with `other`; its direct cause remains unknown. 83 affected
+  tests, 24 core/diagnostic cases, actual Opus 5.5 and independently extracted
+  source/manual checks pass. Revised input receives separate one-shot approval;
+  that attempt reaches turn completion but refuses with protocol_error at13,699ms.
+  The summary repair is now confirmed by one identical authorized live diagnostic
+  returning a checked typed reply in 10,890 ms. Local HTTP inspection separately
+  identifies an unreviewed ambient wrapper; a new offline exact-body compiler
+  and current-input/time checks pass 115 affected tests and final Opus review.
+  Public transmission remains blocked; the private novel-task preparation sends
+  nothing. S=4/4,
+  L=3/4 remain unchanged; the same connected-AI outcome is unfinished.
 
 - 2026-10-11 KST - The observed modified-key cancellation and checkout-byte
   problems are repaired in published
@@ -7941,6 +8306,32 @@ that checked artifact; row 3's new-content feedback is the next researcher actio
 Complete remote CI observation remains separate from local validation and does
 not reopen completed feature groups.
 
+###### 2026-10-13 candidate source synchronization
+
+The owner explicitly requests that the current changes be reflected on GitHub.
+Synchronize the reviewed contextual-AI source to `main`, retaining the separately
+published alpha.2 download and its historical limits. The current source includes
+the fixed Mac Codex relay, readable advice, selected-passage drafts, retained and
+external response review, complete origin/return formats and their checks/docs.
+The [D result](#l04-contextual-assistance-implementation-order) owns actual service,
+terminal, source and regression evidence. Its final 135-member ZIP is byte-checked
+against the publication runtime; private work and credentials are outside the
+62-file reviewed source inventory.
+
+Publication checks also pass the 22 harness tests, 22 portable security tests
+and 75-file documentation/whitespace scope. The source-fixture CLI suite runs
+42 cases on this Mac: 40 pass and two Windows junction cases are explicitly
+skipped. This is not a clean cross-platform fixture verdict; the configured
+Windows CI job owns those host-specific observations.
+
+This source update is authorized independently of the remaining human-use
+observation. Keep S=4/4, L=3/4 and A–D=3/4. Do not infer another provider send,
+human scientific judgment, a new release tag or completed AI qualification from
+the push. The current GitHub source and the alpha.2 download remain visibly
+different. Remote check outcomes belong to the exact commit's
+[GitHub Actions run](https://github.com/iNtuitionP/ClaimBranch/actions/workflows/docs.yml);
+the earlier local test results are not remote CI evidence.
+
 | Order | Next action and owner | Observable completion |
 |---|---|---|
 | 1 | Reconcile the release source once. This session owns source inventory/setup/CI readiness; the UI/UX session owns graph interaction and presentation. Both reuse the current public project/store interfaces. | Identify the exact code/docs/resources to publish, including currently untracked runtime files. Compare them with the checked S04 artifact and the UI/UX session's final changes. Include declared runtime, schema/fixtures/tests, setup/docs and CI; exclude private work, machine files and unrelated journal state. No blind `git add .`. Existing checks count when their inputs match; changed behavior receives affected checks and Opus review. No merge or new adapter is needed solely because two sessions contributed. |
@@ -8124,24 +8515,573 @@ publication instruction. The [release milestone](../../product/releases/validati
 still requires working optional AI before a release advertises that capability. The
 researcher must obtain useful critique while forming one judgment, compare and
 edit selected proposals, explicitly record the chosen consequence, then reopen
-the same reason and AI influence. Current public dispatch is still unavailable.
+the same reason and AI influence. The current public candidate now receives and retains a readable discussion
+response. Human recording/use feedback and qualified release delivery remain
+unverified; the earlier typed-response failure is preserved. The owner's 2026-10-12 direction is planned in the
+[contextual assistance order](#l04-contextual-assistance-implementation-order),
+which replaces the remaining execution route, not the failed observation.
 
 Reuse the existing L04; S stays 4/4 and L stays 3/4. The following are connections
 within that outcome and source publication, not new implementation units:
 
 | Order | Existing work and next connection | Observable completion |
 |---|---|---|
-| 1 — L04 actual provider | Keep the user's selected Codex/ChatGPT-login route and repaired startup/file controls. Resolve the authenticated IPC failure without broadening research/tool authority, and qualify generated HTTP destinations/content, retention and bounded request behavior. Inspect the pinned installed client and official protocol where useful; prepare exact selected synthetic input before requesting a fresh one-shot choice. Prior approvals are exhausted. | The actual provider can authenticate and complete a checked typed response under its verified access/egress boundary. Login/thread creation alone, an opaque CONNECT tunnel or a test replacement cannot close this gate. No new API-key purchase, credential extraction, native enrollment or unrestricted execution is assumed. |
-| 2 — L04 connected researcher action | Bind that qualified transport to the existing contextual TUI and Codex proposal/origin controller, preserving request ownership, cancellation, stale-input refusal and selective human comparison/recording. Reuse existing save/restart/backup APIs. | A user connects their own account/profile, previews the selected input, explicitly requests help, compares/edits a proposal and records their own consequence. Fresh open/restore retains the original reason and complete AI origin. Cancellation/failure leaves manual writing usable. Exercise one new researcher-authored task and report the concrete benefit or lack of benefit. |
+| 1 — L04 actual provider | Reuse the implemented fixed relay and actual access/egress evidence. Add the proposed bounded advisory-text mode, then check it through the public connection before polishing the action UI. Changed request bytes require fresh exact outbound choice; prior approvals are spent. | Only reviewed content reaches the actual service and yields a readable owned response. Capture the safe failure category before process cleanup if it fails. An HTTP success, old diagnostic or fixture alone does not close this gate. |
+| 2 — L04 connected researcher action | Follow the contextual assistance batches below. A person chooses a passage or requests one small edit, inspects its graph effect and records the chosen consequence. Reuse candidate, personal review and save/restart/backup services with versioned advisory/action origin. | Fresh open/restore retains the person's reason, chosen response passage and complete AI origin. Cancellation/failure leaves manual writing usable. Exercise one new researcher-authored task and report the concrete benefit or lack of benefit. |
 | 3 — Source publication | Reconcile exact runtime/docs/schema/resources/tests/CI, including currently untracked implementation. Run affected checks, bounded actual Opus review for behavior changes, the integrated alpha scope and clean-source terminal/return journey. Complete license/commit/tag/push only within the owner's separate publication instruction. | The checked release source includes the connected AI behavior and version-matched setup without any user's credentials, profile or private research. Remote CI results are observed after push; release claims match supported hosts and enabled features. |
 
 Do not restart completed input, typed ingress, origin retention or manual storage
-work. The actual boundary and checked live response remain material blockers of
-dependent public enablement; local fixes, exact request preparation and source
-review may continue independently. Do not declare the AI-connected milestone
+work. An earlier diagnostic yielded a checked response; the later public result
+below did not. Usable public return and connected-use evidence remain the release
+checkpoint. Local fixes, exact request preparation and source review may continue
+independently. Do not declare the AI-connected milestone
 ready by disabling AI. No protected manuscript/debt, Windows, model-server manager,
 installer or hardware-key work is added. This planning change requires docs
 checks; it performs no model request or runtime behavior change.
+
+**Public connection increment (2026-10-12).** Change the unconditional
+`require_codex_qualification` refusal to checked profile/runtime entry for the
+existing fixed Mac gpt-6-sol/CLI 0.158.0 relay. Generic APIs and other Codex models
+remain unsent previews. Current-context, exact HTTP digest, one-shot ownership,
+request budget, confined version check before login alias, no tools/retries and
+cleanup refusal remain in their existing owners. Update connected-mode labels,
+setup/help and readiness without treating saved configuration as send consent.
+No new authority boundary, device key, dependency or account is introduced.
+The actual-terminal preview tests now remove Codex from the child PATH before
+pressing the send action, verifying supported-mode labeling and missing-runtime
+refusal without relying on the former unconditional gate or contacting an account.
+Both targeted PTY cases pass in 4.422 seconds; the first invocation named the
+wrong test class and ran no cases, then the corrected invocation passes.
+
+
+Two public-entry tests first fail at the unconditional gate; all 17 focused
+Codex/profile/UI cases then pass. Actual Opus first verifies the gate but flags
+an exit/stdout race and overlapping version/relay startup deadlines. Both fail in
+real-child deterministic subcases. Wait for stdout EOF instead of using process
+exit to infer missing metadata; measure relay startup after version checking
+while preserving the original 60-second total. All 55 affected relay/UI/profile
+checks then pass in 18.110 seconds. Final actual `claude-opus-5-5` delta review
+returns PASS, packet 34,844 bytes, SHA-256
+`0d133389b74f34e59c88f2b85847b288e4a620351b1e76f87bb6719fbe2d0320`.
+Runtime/final model usage pinned, one turn, no tools/skills/MCP/errors/denials;
+hooks/memory/persistence disabled. Prior actual filesystem/process and native
+preference/key-service/fork controls remain earlier scoped evidence, not new
+observations or a defense against arbitrary same-user code.
+
+A fresh local preflight verifies CLI 0.158.0 and complete cleanup without reading
+login bytes or opening inference. The separate synthetic public-entry request
+is 5,224 bytes, SHA-256
+`c4d5f0eb623596e5565a03bb25b033e03f131cf2345c61250fbda7729fd705f7`.
+It criticizes an explicitly synthetic/unverified rubric-quality claim, includes
+no original research and cannot reset the original RLVR judgment's three spent
+attempts. The owner subsequently explicitly approves this one transmission;
+its observed outcome is recorded below. That approval is now spent.
+The 133-member candidate ZIP has SHA-256
+`f02a478cbeff0d3cf608d829b3bdcee27a85da79a8f55d6adc6eb3b01d44cf3e`;
+its independent extraction passes all ten declared checks, including real
+personal PTY and backup/rescue. It is a private candidate artifact, not a
+published AI release. The first integrated alpha run completed 1,071 application
+tests with two failures: a pre-change PTY label expectation and a test mock bound
+to `tests.application` while discovery loaded `application`. The latter sent a
+valid fixture instead of its intended malformed response; production validation
+was not bypassed. Bind that mock to `__name__`; all 42 app-server tests then pass
+under discovery in 6.611 seconds. A second integrated run was deliberately
+interrupted after it had loaded the stale test; the final run starts from all
+corrected sources. None of the failed/interrupted runs is a clean pass.
+
+The final packaging-copy correction describes the 60-second limit per request
+without implying a global single-request lock. Rebuilding with the documented
+module entry produces a 133-member ZIP, SHA-256
+`77b3b0ae7d1be4c9db1a1e0767d8f3860649b4a5be3c364d1d86ec26d5376b48`;
+all ten independent artifact checks pass. A preceding direct script invocation
+failed to import `scripts` and produced no artifact; `python3.13 -m
+scripts.build_source` is the correct entry. Harness scope passes 22 tests and
+whitespace; security discovery passes 22 tests. Documentation checks pass for
+74 files. Release notes are prepared privately but no commit, tag, push or
+release has occurred. Human connected-use evidence remains pending, separately
+from the completed final alpha check.
+
+**Actual public-path result (2026-10-12).** The approved request uses real
+`PersonalProviderConnection.begin`, with no qualification mock. One upstream
+attempt returns HTTP 200, 193,159 streamed bytes and the exact reviewed body
+hash above. The CLI finishes in 27,816 ms; application validation returns
+`malformed_response`, retaining no typed items. Response SHA-256:
+`f56f58a238ed9faecd315b48d0768492fea0481d43c2269f9eb0ac894713c780`.
+Cleanup completes, and scientific history/manuscript bytes remain unchanged.
+A fresh process reopens the one failed attempt with no result. This proves the
+public connection reaches the service, not a usable proposal or L04 completion.
+
+The operator driver saved `result.metadata()` but omitted its separate bounded
+`failure` and controller notice. Those diagnostics are deliberately session-only;
+the closed process cannot now reveal the rejected field/category. Do not invent
+a cause from the HTTP status or hash. The private driver now preserves both
+closed diagnostic fields for a future separately authorized attempt, without
+retaining rejected model text. No additional inference was sent. This observed
+failure blocks an AI-ready release; local verification may finish independently.
+
+Final `python3.13 scripts/verify.py --scope alpha` passes: 209 contract tests
+and 1,072 application tests (742.695 seconds for the latter), plus fixture,
+schemas, runtime resources, documentation and whitespace checks. The separate
+harness, security and ten extracted-artifact checks above also pass. Local
+regression success does not erase the actual malformed reply. The remaining
+blocker is a usable checked public response and the human connected-use outcome;
+no additional request or publication was performed.
+
+Use the real `PersonalProviderConnection.begin`, not a qualification mock, for
+that eventual controlled request. Human scientific selection/reason and release
+claims remain separate from fixture-generated choices.
+
+Official [Codex app-server documentation](https://developers.openai.com/siwc/token-sharing-open-source/codex-app-server)
+now also describes an OAuth token-sharing integration via the Responses API.
+That is a different account/token lifecycle from the owner's selected existing
+CLI-login relay. Do not silently migrate credentials or claim a model catalog
+proves account entitlement; the existing fixed experimental route is this task's
+scope. A future supported-auth migration requires its own reviewed scope.
+
+
+###### L04 contextual assistance implementation order
+
+**Selected and in progress 2026-10-12.** The owner directs implementation with
+Opus cross-review at every behavior increment. A's actual public discussion
+passes on 2026-10-13 after exact outbound consent. B is implemented and verified,
+including fixes from actual Opus reviews. C's personal recording and origin-return
+checks are complete. D's integrated verification and source delivery are in progress.
+The [design contract](../../designs/2026-09-22-episode-review.md#contextual-conversation-and-small-edit-proposals)
+owns interaction, response separation and authority; the
+[reference comparison](../../references/research-agent-runtime-and-graph.md#contextual-conversation-and-selected-graph-actions)
+explains the borrowed patterns and their limits. This section owns execution.
+Keep **S=4/4, L=3/4**. The following are **four execution batches
+inside L04 and its source delivery, currently 3/4 complete, with one open**: three feature
+batches and one integrated verification/delivery batch. They do not create L05,
+restart completed L01–L03, or add to the overlapping B/R ledgers. New helper
+functions, regressions or review fixes stay inside their owning batch.
+The actual A answer is reused in D's connected exercise; do not request it again
+solely for a checkbox. B's local preparation/origin and C's personal recording/
+return are complete. D is the one remaining integration/delivery batch. Its
+checks and human-use observation are distinct from adding another feature batch.
+
+**Outcome.** In the existing paper graph, a researcher asks about selected
+claims/evidence, reads a natural-language response, and chooses a useful part.
+They can ask to turn it into a claim or planned experiment, or connect named
+records. The application prepares an editable, unaccepted candidate. The person
+inspects the graph effect, supplies their own reason and explicitly records the
+chosen consequence. On return they can reconstruct the observation, AI advice,
+their edits and their reason without writing a second account. A response with
+no useful edit is still a successful conversation turn. This serves the
+[Dream state](#0c---dream-state) and
+[understanding contract](../../product/product-spec.md#43-provenance-and-understanding-are-independent);
+it does not claim that reading or clicking demonstrates understanding.
+
+**Execution TODO and definition of done.** Each row follows plan review →
+implementation → affected tests and bounded actual Opus review → result recap.
+Review the current source before choosing exact API names; paths below are
+reuse points, not instructions to replace complete modules.
+
+| Batch | Implementation and reuse | Observable completion |
+|---|---|---|
+| [x] L04-A — read and retain an answer | Add a versioned advisory-text mode through `core/context.py`, `application/codex_egress.py`, `codex_app_server.py`, `paper_proposal_work.py`, `provider_commands.py` and the existing contextual `tui_proposals.py`. Separate transport ownership/text validation from typed graph-item validation. Add owned advisory identity and its bounded retention to the existing workspace/store; include an editable follow-up prompt and explicit selection of previous messages. | A no-JSON answer with no graph items is readable, cancellable and saved/reopened with model/request/context origin; it creates no candidate or science. A malformed action response elsewhere cannot erase it. Show this running checkpoint immediately. Then perform an exact-approved public text request early; record an actual readable answer or a precise failure before moving the live-dependent work forward. |
+| [x] L04-B — request and preview a small edit | Reuse `core/paper_proposals.py`, `application/paper_candidates.py` and candidate editors. Connect local selected-passage prefill plus an explicit bounded action-request mode for natural-language instructions. Support claim creation, an unrun experiment plan and eligible typed connections. Add contextual action offers beside advice, ambiguity/missing-field handling, exact source/candidate comparison and graph preview. Retain kept/unfinished action drafts and their advisory origin from this batch. | “Make A a claim” produces an editable candidate; “connect A and B” names the actual identities, direction and relation before staging. A planned experiment links through its target-claim `tests` association. Invalid actions do not damage advice or manual work. Cancel, duplicate activation, changed context and a failing node-plus-link group create no unintended/partial draft. No model request directly writes science. |
+| [x] L04-C — record once and return with origin | Reuse the existing personal recording, review and snapshot/store/backup paths for the new origin variant; extend the origin reader and share required-source erasure checks across live/reopened work. Carry selected/required source passages, action identities, human edits, original reason and independent explanation choice through personal recording, later correction, history refresh and restore. | Starting from a human-written judgment, selectively record an AI-influenced claim/link/plan, omit another suggestion, quit, reopen with AI off and restore into a fresh directory. The recorded consequence, original AI source, edited wording, reason and partial explanation remain inspectable; omitted work remains unaccepted. No review/send consent restores and no origin becomes falsely human-only. |
+| [ ] L04-D — validate connected use and deliver source | Connect the preceding outcomes on one researcher-authored new task. Use the real public provider path and exact outbound choice; reuse the saved A response if it has the required task/context rather than retransmit solely for a checkbox. The owner selected local passage drafts and declined another transmission on 2026-10-13; direct model edit requests remain explicitly unverified and must not be advertised as live-validated. Run integrated alpha, source extraction and actual terminal return/backup checks; update setup/release claims and complete the separately owner-authorized publication sequence. | A person reads actual advice, chooses/edits an action, records their own reason and returns to that origin. Report concrete usefulness/friction without claiming comprehension or V0. A supported extracted source runs the flow without maintainer internals or private files. Only observed working AI is advertised; remote CI and publication results are reported separately from local readiness. |
+
+**A implementation and result review (2026-10-12).** The current checkout adds
+`core/advisory.py` and `application/paper_advisory.py`, uses an explicit discussion
+binding in the existing Codex request/relay and retains owned question/answer
+history through workspace v11/work v12/project v8. The terminal's **Discuss this
+argument with AI** action accepts an editable question, explicit selected science
+and up to two earlier replies. Reading, follow-up editing and saved return have
+no graph-write capability. Legacy typed responses and their validators remain.
+The [workflow](../../development/workflow.md#contextual-discussion-candidate)
+owns controls, bounds and availability labels.
+
+Observed checks:
+
+- The initial affected adapter/controller/TUI run passes 142 tests. The broader
+  228-test run fails one outdated source-member overflow fixture after two runtime
+  modules are added; the final affected controller/work/TUI/actual-terminal/source
+  run passes **153 tests in 260.754 s** after that repair and the review fixes.
+- The real PTY discussion exercise enters a Korean question, handles 40×12 and
+  80×24 resize, reads an owned synthetic prose response, saves/reopens AI-off and
+  restores into a fresh backup destination with unchanged manuscript bytes. It
+  uses a test-owned transport, not a live account. Unsafe/empty/oversized replies,
+  source/message tampering, malformed later actions, attempt continuity and
+  cancellation have affected regression coverage.
+- A separate final erase-before-dispatch regression passes: selecting a reply,
+  preparing a follow-up and erasing the source invalidates the unsent preview
+  without adding an attempt. Saved `not-retained` payload stays unavailable on
+  fresh return even when its session-only answer was readable before exit.
+- Schema regeneration/check passes; `python3.13 scripts/verify.py --scope docs`
+  passes all 75 Markdown files and whitespace checks. The source artifact now permits exactly
+  135 members; the existing overflow case still rejects an additional member.
+  Full alpha regression is reserved for D; these results do not claim it ran.
+
+Two actual restricted, one-turn `claude-opus-5-5` reviews inspect fixed packets
+with no tools, skills or MCP servers and no session persistence. Hooks/memory/
+configured plugins are disabled; the runtime still lists two built-in plugin
+descriptors, so this is not a claim that all plugin metadata is absent. Initial
+packet: 131,653 bytes, SHA-256
+`49bae8fa1d4844f3204da1fd7bbf4d9fa87e6c4c66198f14a6bec1527271ebdd`.
+Cancel-preview/controller replacement and referenced-payload erasure are reproduced
+and fixed; immediate quota unreadability is not reproduced. Final delta packet:
+66,378 bytes, SHA-256
+`526abb6454d6a66e802b60d35e35efaff4559fdef2e544701fed678817383280`;
+actual model metadata agrees and the verdict is PASS. The review did not execute
+tests. Its omitted-preview-method caveat is checked locally by the separate
+passing regression above. Raw review packets stay outside the repository.
+
+**Actual A observation (2026-10-13; complete).** The owner explicitly permits
+one prepared synthetic RLVR/rubric question: 2,270 body bytes, SHA-256
+`46809926714cd5249bb71e67a687ad708f1fb7c11dd75b138c1db2ff2f5ddba7`,
+existing Codex login, gpt-6-sol and the ADR 0019 fixed destination. The public
+`PersonalProviderConnection.begin` path is used without qualification mocks.
+It completes in **7,046 ms**, HTTP 200, one relayed attempt, cleanup complete,
+reported model gpt-6-sol and client 0.158.0. The received prose passes advisory
+v1 validation and is retained; a fresh AI-off open reads the original answer.
+Recorded science and manuscript bytes remain unchanged. Two attempts now exist,
+including the earlier failure; the three-attempt budget is not reset.
+
+The answer distinguishes rubric reward from independent writing quality and
+suggests a blinded pre/post-optimization comparison; it claims no actual result.
+The owner asks the agent to prepare drafts and then chooses to use them without
+another transmission. Local exact-passage forms retain three origins: a claim,
+an unrun plan that tests that claim, and a qualification of the original thesis.
+The agent supplies candidate wording/conditions, honestly leaving sample size
+and rating scale unresolved. No human reason, evidence or recorded scientific
+consequence is invented. This establishes actual advice and delegated draft
+preparation, not human comprehension or a completed recording/use observation.
+
+The separately prepared direct-edit request (8,115 bytes, SHA-256
+`45c70e10a8f411be12115916c4e0ccfca185e9c7682b06c9a67d98d82c4d7e5b`)
+is **unsent by the owner's choice**. Do not ask for it again merely to close a
+checkbox. Its live status remains unverified, while its owned checks remain valid.
+
+**B implementation and result review (2026-10-12; complete).**
+The answer reader offers three quiet application actions: claim, unrun plan and
+scientific connection. A person selects an exact line or shorter unique excerpt,
+reads the complete passage/blank-field comparison and explicitly prepares one
+unfinished form. No automatic model request or accepted graph change occurs.
+Existing candidate forms complete the missing scientific fields; the normal
+validated draft graph and recording review remain separate. An unfinished form
+does not enter kept records or block independent typed staging.
+
+A separate **Prepare a small edit with AI** action binds the person's instruction,
+selected graph and explicitly selected prior advice/clarification into a complete
+unsent HTTP review. Owned returns use the existing typed validator plus a four-item
+limit. The model may ask for clarification with zero items; a scrollable reader
+permits an explicit follow-up without discarding the clarification. It never runs
+a request automatically. Existing dependency-closed comparison/staging checks
+remain atomic, and plans cannot supply observations or support.
+
+Origin v3 preserves the canonical selected span, original owned request/reply
+identity, initial prefill and subsequent human revisions. The source answer is
+retained once in the existing attempt, becomes required while referenced, and
+cannot be silently evicted or separately erased. Workspace v12/work v13/project
+v9 extend the same save/backup family; legacy schemas remain unchanged. Cancel,
+forged/stale/expired previews, duplicate activation and capacity refusal leave
+previous science and writing intact. Quiet local prefill works with AI disabled;
+full personal-recording and correction acceptance is still C.
+
+The initial 64 focused tests and real Korean/narrow/resize/backup PTY pass. The
+first broader run passes 294 tests before the final review corrections; do not
+present that as verification of later changes. After substantive corrections,
+44 affected controller/UI/PTY cases pass. The expanded provider/controller,
+candidate, TUI/actual-PTY, personal/store, source-artifact and semantic suites
+pass **321 tests in 313.231 s**. That run starts before the final footer repair;
+the separate **14 CodexExactHTTPUITests in 10.549 s** pass after it, including
+the regression that first reproduced the misleading clarification controls.
+The expanded run reports one subprocess ResourceWarning but no test failure;
+the named child is no longer running when checked afterward. Schema generation/
+check passes. All 75 Markdown files and whitespace pass through the explicit
+docs scope. This is affected integration evidence, not the full alpha milestone
+run reserved for D. No app-provider inference, native authentication, commit,
+push or release occurs.
+
+The actual first `claude-opus-5-5` packet has 154,267 bytes, SHA-256
+`8582e26ff3ca3d2378cfac55c2418f05417d7fa34b689750a017a9111241da5d`.
+Its FAIL identifies the unfinished/kept coexistence block, duplicated whole-source
+retention, clarification handling and impossible session-only actions. The fixes
+above retain those observations. The complete delta packet has 164,891 bytes,
+SHA-256 `625f7b87d44b529d2df2d25696e574fc48d97c930eee48c5f222789e26060901`;
+it identifies one remaining misleading footer, with no other material regression
+evident in that packet. Reproduce and fix that footer using the shared action-
+availability predicate and clarification-specific controls. The final narrow
+follow-up packet has 15,923 bytes, SHA-256
+`6030b904960d41eb0e51e881ea19a42a023260f1210dc636faa894532c3b06df`;
+its verdict is PASS. Its omitted key/body scope is checked locally: both gate
+local actions through the same predicate, and the key handler additionally
+requires advice mode. Existing narrow-footer clipping is noted as nonblocking,
+not claimed repaired. All three actual model/result metadata records identify
+`claude-opus-5-5`, using the restricted fixed-packet configuration described in A.
+The reviews execute no tests; raw packets and transcripts stay outside Git.
+
+**C implementation and result review (2026-10-12; complete).**
+The existing personal recording path retains advisory lineage v3 and direct
+edit-request origin without a schema change. New connected cases begin with
+a human-written judgment/reason, create passage-derived claim/connection/unrun
+plan candidates, record selected/required items and omit an independent claim.
+Correction appends a new observation value without rewriting the earlier cause,
+selected AI text or human reason. Later personal explanation remains partial
+and separate from the recorded leave-for-later/reviewed choice. A subsequent
+human-authored subclaim retains its recorded parent's AI origin.
+
+`check_payload_erasure` now guards both live worker and reopened workspace
+entry points. Before that fix, a reproduced restored-workspace call erased a
+required answer and could make the next save invalid. Refusal now changes no
+payload or writing. Optional typed-response erasure remains available when
+adopted item content and instruction persist in their origin; it cannot erase
+a reply copied into retained follow-up input. Existing quota handling may still
+drop a never-saved optional reply whose complete text survives in that input;
+its original payload availability stays honest. This is not separate hard
+erasure or loss of the explicitly included text.
+
+The existing origin reader now joins passage/action revisions to the original
+question or edit instruction, requested model, separately labeled unverified
+provider-reported model, original response/context and explicitly selected
+earlier messages. Source resolution reads retained records and reconstructs
+the original graph prefix; it adds no provider or file request. Its personal
+record section identifies the original reason and recorded explanation choice.
+Current partial writing remains reachable through the existing explanation
+return, with no new judgment narrative, restored consent, accepted debt or
+comprehension claim.
+
+Observed intermediate checks: four new backend journeys pass in the focused
+run; the new actual PTY case separately passes in **19.374 s**. PTY starts at
+saved edited candidates (B already exercises passage selection), uses real
+terminal graph comparison, Korean partial explanation, explicit leave-for-later
+recording, 40×12 pause/80×24 return, quit and fresh backup restore with AI off.
+Initial PTY failures came from the fixture's future clock and sending several
+Escape bytes without waiting for distinct screens; fix the fixture and wait for
+each actual view, without changing product clock or key handling. Failed/cancelled/
+expired/changed recording, origin tampering and required-source erasure are also
+covered. Final affected regression passes **256 tests in 406.516 s** across
+provider/proposal work, personal research/archive/project, proposal and personal
+TUI, actual PTY, candidates and work store. This includes the corrected model
+label and PTY fixtures; it is not a full alpha or source-release pass. All 75 Markdown files,
+whitespace and generated-schema checks pass; no new format or runtime member
+is added. A mistaken broad command naming a nonexistent workspace-test module
+is interrupted and replaced with the checked ten-module invocation; the
+interrupted command is not a pass.
+
+Actual restricted one-turn **claude-opus-5-5** reviews a 120,861-byte fixed
+packet, SHA-256 `3734e4823719473cf83cc3fff6f39d0b3c45f12a8ac3455fdb0f3516f7dcff58`.
+Runtime metadata confirms that model, no tools/skills/MCP or permission denials,
+with the same hooks/memory/session restrictions and built-in-plugin metadata
+caveat as A. Verdict: **PASS**, no material defect. Its nonblocking model-label
+ambiguity is corrected afterward and included in final regression; its optional
+payload-eviction observation is retained with the distinction above. The review
+does not execute tests, and its packet predates the PTY fixture repairs.
+Raw packets/transcripts remain outside Git. No app inference, native key,
+commit, push or release occurs. Actual advice/edit use and source delivery
+remain A/D; completing C does not close L04.
+
+**D integration/result review (2026-10-13; in progress).** Reuse the actual
+A answer and the owner's selected local-draft route. No new runtime behavior,
+schema, authority, provider or dependency is required in this batch. Update
+packaged START-HERE instructions for discussion, local passage preparation and
+separately requested edits; keep candidate/release and unverified-route labels.
+
+`python3.13 -B scripts/verify.py --scope alpha --temp-root /private/tmp` passes
+all selected checks: documentation, frozen fixture, generated schemas/resources,
+**209 contract tests in 10.302 s**, **1,099 application tests in 903.694 s** and
+whitespace, exit 0 with no incomplete selected coverage. Native/protected suites
+remain outside this explicit alpha scope. No full-core or remote CI pass is claimed.
+
+Build the 135-member source ZIP with MIT notice and current runtime, then pass
+all ten standalone source checks, including the actual manual PTY/rescue flow.
+The initial artifact SHA-256 is
+`565fe1a95e34dc3cbacbe8b76115492625c57b9abd6d50760d53127fd0d4dec1`;
+the reviewed final artifact is identified below.
+From its independent extraction, public CLI backup/restore of the saved actual
+answer/local drafts into fresh folders succeeds. A fresh child imports only that
+extracted package, finds one retained actual answer, three AI-origin draft records,
+no observations, no recorded reason and no restored send/stage authority.
+Actual `project open` then reads the draft graph and original question/model/
+passage, exercises 80×24/40×12/132×38 resize, saves, exits and restores shell input.
+No inference occurs and manuscript bytes are unchanged. The first private PTY
+probe expected the wrong title (`DRAFT ARGUMENT`); correct it to the actual
+`DRAFT GRAPH` and rerun in a fresh restore destination. No product fix is hidden
+behind that probe repair.
+
+A second isolated restore exercises actual-answer personal recording through
+real terminal input, before/after graph review, explicit leave-for-later, public
+backup and fresh AI-off terminal origin return. Its judgment/reason explicitly
+say they are agent-written verification, not the owner's research decision.
+All three origins persist, no observations are fabricated, and the owner's
+original project remains unrecorded with its drafts intact. An initial private
+probe omitted the personal-recovery adapter when calculating its menu index;
+fix that probe setup before its successful run, with no product change.
+
+Actual one-turn `claude-opus-5-5` reviews a 71,375-byte fixed packet, SHA-256
+`fad848d3dbf13e90a641b82e58bea51164c0794b85a39107ab5163cbd399a245`.
+Runtime metadata confirms the pinned model and no tools/skills/MCP/denials,
+with the existing hooks/memory/session restrictions and built-in plugin metadata
+caveat. **Conditional PASS:** START-HERE does not explicitly label direct edits
+as live-unverified, and README still calls all actual-service validation pending.
+Correct both statements; no runtime defect is reported. The review executes no
+tests and predates the separate disposable recording exercise above.
+
+Rebuild after those copy corrections: final source ZIP SHA-256
+`2ed21d1662f7144a2a2ef0d2350ed6a9e2ff7f5aad95b58dd630e1dab8e2e696`,
+135 members. All ten standalone source checks pass again. Byte comparison proves
+that only START-HERE and its artifact manifest differ from the artifact used for
+the actual-answer terminal/recording return; every runtime member is identical.
+The alpha suite above precedes these final wording fixes, which introduce no
+runtime behavior. Final docs/whitespace checks are rerun after the result update.
+
+Actual human reason/recording/use feedback and AI-qualified publication remain open;
+agent-operated draft creation/PTY is not substituted for them. The owner-selected
+no-extra-send route does not require a further direct-edit request. S=4/4, L=3/4,
+A–D=3/4; D is the only remaining integration/delivery outcome, with its technical
+checks above already complete. No native key, owner's scientific record, commit, push, tag or release is created;
+only the explicitly labeled disposable agent verification copy records science.
+
+**A contract and implementation requirements.** In the
+same change, clarify bounded contextual discussion in product sections 6.4/7,
+the release's connected-use criterion and validation case 13.1. Record a new
+ADR for advisory/action response and origin semantics, explicitly identifying
+the narrow amendments to ADR 0018 and any affected retention assumptions.
+Do not rewrite accepted ADRs or turn this into another approval round for the
+already requested direction. ADRs 0019–0021 retain no-tools, exact transmission,
+identical-context retained review and honest external-source boundaries. If the
+implementation actually needs a different authority boundary, stop only that
+dependent path and report the concrete difference.
+
+The proposed first-release modes are deliberately distinct:
+
+- **Discuss:** one bounded plain-text response. Validate request ownership,
+  completion, byte limits and safe rendering; no graph schema is required.
+  Natural-language recommendations are advice, including a suggestion to make
+  a claim or plan. They never trigger a parser-driven mutation.
+- **Prepare an edit:** an explicit user instruction produces one small closed
+  action proposal, with at most four dependent items using the existing kinds.
+  This is another reviewed request only when model interpretation is wanted.
+  Selecting a passage into an existing form is local and uses no extra request.
+  A direct edit instruction can use this mode immediately, without a preceding
+  discussion. It may return clarification instead of a complete candidate.
+
+The model cannot call graph tools: retain `tools: []` and translate checked
+action data in trusted application code. A reply's local action controls are
+clearly application affordances, not invented model recommendations. Show at
+most three context-valid offers, allow dismissal, and do not prompt again for
+the same dismissed reply. Optional model advice stays in its own text. No
+second call runs automatically to extract actions from an answer; no hidden
+retry repairs a malformed action. The legacy v1/v2 validators and saved inputs
+keep their meaning; never reinterpret a rejected legacy envelope as a newly
+successful advisory response.
+
+**B/C: semantic and return boundaries.** A main/subclaim still needs its proper
+parent, statement and scope. A plan stays `planned` with no fabricated result;
+missing question, conditions or measurement definition remain visible editable
+fields. `supports`, `challenges` and `qualifies` require eligible recorded or
+candidate endpoints and a rationale. A plan's `tests` projection is not such a
+scientific support edge. Resolve aliases against selected known identities;
+when two nodes could mean “B”, ask the person to select one. Unselected records
+must first be explicitly included; never fetch their artifacts by implication.
+If clarification changes the model input, it needs new exact outbound review.
+Incomplete proposals may prefill unaccepted forms but cannot enter the
+validated candidate graph until required fields are complete.
+
+Prepare drafts through the existing candidate service. Independently requested
+actions validate independently; dependencies within one selected node-plus-link
+group stage atomically. Recheck current source, targets, type constraints,
+cycles, capacity and review freshness at staging and recording. Changed graph
+context preserves old advice for reading but cannot silently rebind its action.
+Use a new request for an AI edit on changed context under the existing ADR 0020
+rule; ordinary manual work remains possible. Saved advice needs a fresh local
+comparison to stage anything even when its original context is still identical.
+
+Advisory/action origin must bind the original request/model/input basis, owned
+reply identity, exact selected passage and passage digest, action/revision,
+required dependencies and later human edits. A direct edit request retains its
+own request/action response without fabricating a preceding advisory reply.
+When selected earlier AI messages inform a later action request, retain those
+source-message links as well as inherited graph/judgment origin. Bind passage
+selection to the
+canonical retained text, not screen coordinates or a reformatted copy. Do not
+manufacture an old typed item ID or app-owned request for an external import.
+Continue reading existing formats; add explicit new versions through the
+schema generator for new payloads and origin, with validated copy-on-write
+upgrade and original-file preservation. Keep one existing private store and
+backup format family. Refused/corrupt/newer/oversized saves preserve live text
+and last verified data; no silent clipping of contributions or automatic
+destructive migration. The work is plain personal storage, not native custody.
+
+**Bounds and actual requests.** Reuse 16 selected nodes, 32 selected scientific
+relations, 65,536-byte compiled input/normalized response and the existing
+256 KiB total checkpoint limit. Context selection must preserve types, roles,
+scientific direction/rationale, conditions/metrics and observed/unrun status.
+Earlier conversation turns and the current draft enter a new request only by
+explicit selection shown in that exact preview; no implicit whole-project
+history, hidden summaries or truncation. Preserve the current three dispatched
+attempts per owning judgment, including failures, across both new modes and
+restart. Switching mode, importing or reopening must not reset the counter.
+Reading, local prefill, manual editing and retained review consume no attempt.
+Display the remaining budget before a request; broader conversation budgets are
+a later explicit product change, not a workaround for spent verification calls.
+Retain the current 60-second bound, cancellation and no automatic retry/fallback.
+
+For A, prepare an exact synthetic/new-task text request only after local checks;
+ask for the actual transmission choice when concrete bytes are reviewable.
+The owner's already supplied RLVR/rubric-hacking question can supply the novel
+task; do not require them to invent another topic or rewrite a completed reason.
+Previous approvals are spent. Use `PersonalProviderConnection.begin` without
+a qualification mock and preserve safe closed diagnostic code/field category,
+request/response digests, timing and cleanup before terminating the driver.
+Do not retain rejected raw response text or expose credentials in diagnostics.
+HTTP 200 alone is not readable-response success. If access or transport fails,
+stop that live path, diagnose from the observed failure and continue independent
+offline B/C work; report that live completion is still blocked. The previous
+unknown malformed-response cause stays recorded. Reproducing the obsolete
+whole-result failure is not a separate release requirement if the new released
+flow no longer depends on it and passes its own acceptance.
+
+**Verification.** Run from the repository root with Python 3.13. Add focused
+tests to existing suites rather than create a parallel harness. The groups
+below identify coverage; narrow an intermediate run to affected test methods.
+
+```sh
+# A: ownership, exact bytes, bounded text and public connection; owned peers only
+python3.13 -B -m unittest tests.application.test_codex_egress tests.application.test_codex_app_server tests.application.test_codex_relay tests.application.test_provider_profile tests.application.test_paper_proposal_work
+# B/C: action semantics, candidate review, personal origin and fresh return
+python3.13 -B -m unittest tests.application.test_paper_proposals tests.application.test_paper_candidates tests.application.test_paper_proposal_work tests.application.test_paper_work_store tests.application.test_personal_project tests.application.test_personal_archive
+# Changed TUI paths include wide/narrow actual PTY, Korean text and resize/cancel
+python3.13 -B -m unittest tests.application.test_tui_proposals tests.application.test_tui_proposals_terminal
+python3.13 -m scripts.export_research_schema --check
+python3.13 scripts/verify.py --scope docs
+# D: one integrated milestone run, with new tests included in alpha selection
+python3.13 scripts/verify.py --scope alpha --temp-root /private/tmp
+python3.13 -B -m unittest tests.application.test_source_artifact
+```
+
+Essential negative cases: prose-only success; malformed edit with preserved
+earlier advice; ambiguous/unselected/stale endpoints; requested support from an
+unrun plan; partial dependency failure and duplicate action; cancellation/late
+arrival; AI influence under a human-written judgment; restart/backup with no
+restored approval; budget continuity and atomic storage refusal. Reconcile
+artifact members/resources and generated versions using the existing source
+builder/exporters. Run one bounded actual `claude-opus-5-5` source review per
+behavior batch, verify its returned model, reproduce findings and fix confirmed
+defects before reporting that batch complete. Plan-only edits use docs checks,
+not an inference or native authentication test. Passing fixtures is separate
+from the human connected-use observation in D.
+
+**Blocking, resumption and finish.** Stop the affected recording/send/release
+path for data loss, erased/fabricated origin, incorrect evidence authority,
+unreviewed outbound content, unavailable required credentials/provider or a
+genuinely new human-owned scope choice. Routine parser/UI/test defects are
+implementation work; fix them without another permission round. A missing Opus
+review leaves that batch unverified; preserve progress and state that limit.
+Report both L=3/4 until connected use passes and A–D complete/remaining at every
+stopping point, naming the next observable researcher action. After compaction,
+follow the canonical resumption path and this section rather than restarting
+old R/native work. Keep completed evidence and failures, update these boxes in
+place and explain any necessary scope change before adding another batch.
+
+Finish this continuation when A–D pass and the owner can give feedback on the
+connected flow. No Windows, hardware keys, protected debt closure, manuscript
+automation, model manager, general chat home, external agent framework or new
+graph ontology is part of these four batches. Source publication still follows
+the owner's separate instruction and records remote results honestly.
 
 ###### Optional AI follow-up implementation plan
 
@@ -8158,9 +9098,11 @@ owns observable pass/fail cases. The completed manual alpha remains under
 ADR 0017; ADR 0018 selects its next optional personal-AI scope.
 
 **Position and count.** The manual alpha is complete at S=4/4. This follow-up
-has **four outcome units, L01–L04; 3/4 completed, one remaining** as of
-2026-10-10. L01 is selected input/typed response and L02 is selective staging/
-durable personal origin and explanation. L03 connects offline contextual TUI
+has **four outcome units, L01–L04; 3/4 completed, one remaining**. The
+2026-10-12 [contextual assistance order](#l04-contextual-assistance-implementation-order)
+is the current proposed execution path, with four unchecked batches inside the
+remaining outcome and its source delivery. L01 is selected input/typed response;
+L02 is selective staging/durable personal origin and explanation. L03 connects offline contextual TUI
 selection/editing and return. L04 now supplies BYO configuration, unsent wire
 preparation, internal asynchronous I/O and checked API origin retention;
 public contextual unsent attachment and owned response wiring are now present;
@@ -8168,9 +9110,10 @@ the selected Codex-login route now prepares explicit application input in that
 same UI, with an internal app-server checked-return component now implemented;
 its internal Codex controller now retains selected origin through owned return,
 personal recording and fresh-process/backup reopening in distinct workspace v9/
-work v10/project v6; its actual authenticated application connection remains unavailable;
-actual connected provider and
-novel-task use remain open within that outcome.
+work v10/project v6. The fixed public Mac relay now reaches the service, but its
+latest response fails typed validation. Usable public response and novel-task
+use remain open within that outcome. The older component rows below preserve
+completed work; the contextual order owns the new response/action contract.
 They map onto B10/U8 and part of B11 without being added to those overlapping
 counts. A completed parser/helper/test does not complete its outcome. Keep these
 IDs and denominator fixed; record a real scope change before adding units.
@@ -8178,11 +9121,11 @@ The original planning request performed no implementation; the 2026-10-09
 increment implements L01 without live dispatch or public personal enablement.
 
 **Target flow.** In the existing argument workspace, select an existing claim
-or recorded result and ask for critique, an alternative interpretation or a
-discriminating experiment before finishing the judgment. Inspect the exact
-selected context and optional current draft. Read a separate unrecorded
-proposal; choose individual suggested claims, interpretations, scientific
-connections or unrun plans, edit them and compare their graph effects. Staging
+or recorded result and discuss it before finishing the judgment. Inspect the
+exact selected context and optional draft/previous turns. Read advice without
+requiring graph items. Explicitly select a passage or request a small claim,
+interpretation, scientific connection or unrun-plan proposal, edit it and
+compare its graph effect under the proposed contextual contract. Staging
 does not record science. Explicitly record the chosen consequence through the
 app's appropriate personal or protected route, reusing the original reason.
 Quit/reopen or restore a backup and find the same writing and AI contribution
@@ -9066,6 +10009,766 @@ connected and exercised through selective incorporation and saved return on
 the novel task. No usefulness or comprehension is attested. S=4/4, L=3/4; the
 same L04 is unfinished, not an added backlog unit. The manual alpha and earlier
 origin/unfinished writing remain available.
+
+###### 2026-10-11 L04 safe failure diagnosis result review
+
+**Position and researcher action.** The owner requests continuing AI connection
+and explaining its failure. Reuse the selected Codex/ChatGPT login route and
+existing proposal/controller/TUI/return work. The earlier unsupported client
+model metadata is handled; the supported-model attempt still fails after turn
+start with no retained cause. Do not assert HTTP/authentication/schema/quota
+failure without new evidence. This increment makes the next failure diagnosable
+while preserving manual writing, origin and the same one-judgment workflow.
+
+**Implementation and authority.** The existing adapter now projects known pinned
+0.158.0 client error categories, optional integer HTTP status 100–599, exact
+Boolean retry reports and five standard JSON-RPC codes. Match the owned thread/
+turn before recording notification details and the pending RPC ID before its
+error code. Foreign events fail the job but supply no owned diagnostic. Unknown
+categories become unclassified; raw messages, paths, credentials, extra detail
+and continuation instructions are never retained. A failed terminal turn still
+cannot supply a typed proposal. The frozen `CodexResult.failure` is ephemeral;
+`metadata()` and the strict retained scientific outcome exclude it. Existing
+saved formats, authority, live qualification and retry behavior are unchanged.
+These are client observations, not inspected HTTP evidence or provider qualification.
+
+The exact earlier synthetic input is prepared again: 6,940 bytes, SHA-256
+`a850c47f8ccf20e268cf2b9e2c9e0447d1e98c9d7bcb35d4172c4c2d6d062e39`,
+model `gpt-6-sol`, one 60-second attempt, zero client request/stream retries,
+existing ChatGPT login and the same permitted service origins. Its private
+driver uses the shipped safe projection instead of counting/discarding error
+events. Unsent preparation verifies exact bytes and opens no client/socket.
+CLI-generated HTTP contents/count/retention and actual provider qualification
+remain unverified. At this preparation stage earlier approvals were spent and
+the new exact outbound question was pending; no inference was sent before the
+fresh answer. The approved result and subsequent repair are recorded below.
+
+**Review and checks.** Four new transport tests first produce five missing-field
+errors. After repair, the first affected invocation also contains one invalid
+test-class selector; preserve that loader failure rather than call the whole
+invocation clean. Correct selection passes 55 adapter/Codex-controller/personal-
+return tests in 23.983 seconds, with no skips. The injected uncertain-reaping
+fixture emits its expected ResourceWarning; it is not actual cleanup evidence.
+The review's non-blocking structured-error coverage note gets one additional
+passing case for discarding continuation instructions and a non-Boolean retry
+value. The generated installed schema independently confirms the selected
+categories; the packet itself does not prove that schema or the complete saved
+outcome declaration, which local source/tests separately check.
+
+Actual `claude-opus-5-5` reviews the fixed 39,266-byte packet, SHA-256
+`8fb793d3a3022cac19e209dc317bd1f5a8112d8b3c83d7e0792c23dc768ed5d8`,
+and returns PASS for this delta. Initialization and final usage both identify
+that exact model, one turn, no tools/skills/MCP/errors/permission denials and
+configured hooks/memory/plugins/session persistence disabled. Two built-in
+plugin descriptors remain without tools. It explicitly does not qualify a
+provider. Its pre-turn-ID observation remains deliberately conservative.
+
+Build the 131-member MIT runtime ZIP, SHA-256
+`614b59ba6b86c77a0612070c62f2b648c831e7668a9cba2b475b89cd34b1bb9e`.
+Independent extraction passes all ten declared checks, including actual personal
+PTY and backup/rescue. Explicit docs scope and documentation checks pass 71
+Markdown files. These are affected/extracted checks, not a new full-alpha,
+remote-CI, live/provider, human-usefulness or publication pass. No commit/push
+or release is made for this still-internal increment.
+
+**Approved attempt and repair.** The user answers "동의할게" to that exact pending
+question. Dispatch once using the reviewed 6,940-byte input, model `gpt-6-sol`,
+60-second bound and zero configured client request/stream retries. It returns
+`client_failed` in 1,916 ms after the owned turn acknowledgement/start, with
+category `other`, retry false, no HTTP status and no typed response. Five permitted
+opaque CONNECT tunnels reach `chatgpt.com:443`; HTTP count/content inside them
+is still unverified. Cleanup completes. That outbound attempt is spent and is
+not automatically repeated; no authentication/schema/quota cause is inferred.
+
+An actual pinned CLI control uses only a fresh private directory, an owned
+loopback HTTP peer, no real credentials and no external inference. It forwards
+the domain JSON Schema into strict generation without converting unsupported
+`oneOf`/domain extension keywords. A locally supplied HTTP 400 JSON error with
+code `invalid_json_schema` becomes category `other` and a JSON envelope in
+`message`. This demonstrates the local mapping, not the remote error's cause.
+Repair Codex request preparation with a generation-only supported subset,
+keeping required closed objects, type/enums and disjoint unions while omitting
+known domain-only annotations/bounds. Unknown future keywords refuse. Returned
+science still passes the unchanged full typed validator. Historical saved
+digests remain opaque and no checkpoint schema changes. Extend ephemeral
+failure projection only with five known service codes from bounded, duplicate-
+free JSON objects; raw text, params/instructions, unknown codes, malformed/
+oversized/non-object JSON and invalid Unicode are discarded.
+
+Three initial repair cases fail with two assertion failures and one missing-
+helper import before implementation. Final affected profile/adapter/Codex-
+controller/personal-return checks pass 83 cases in 25.997 seconds, no skips;
+the injected uncertain-reap fixture retains its expected ResourceWarning.
+An additional 24 core/diagnostic cases pass in 0.198 seconds after the final
+Unicode/non-object/nesting coverage. Actual CLI/local peer observes exactly one
+HTTP request with `store: false`, `stream: true`, strict projected schema and
+zero top-level tools, then one synthetic completed turn. That is not real model
+inference or proof that nested input contains no tools.
+
+Actual `claude-opus-5-5` reviews the repaired 66,809-byte fixed packet, SHA-256
+`9e9f8edcfd6d800969846c96ba62c10f9856c209d77d94fd70ef9501c99b5a98`,
+and returns PASS. Runtime/model usage both identify the pinned model, one turn,
+no tools/skills/MCP/errors/permission denials and disabled configured hooks,
+memory/plugins/session persistence. The missing `_json` excerpt is checked
+locally: non-object, malformed/nested JSON and invalid Unicode cannot escape
+the bounded projection. Its wording note is non-blocking: Codex output schema
+is supplied as the per-turn generation constraint. The live acceptance note
+remains explicitly open. Independently extracted 131-member MIT ZIP, SHA-256
+`f5233cb566ac31ce9bba19ed9f805f0d668855c905ae88a67adc2d5c79a02ec8`,
+passes all ten declared source/manual/PTY/rescue checks. No full-alpha, remote
+CI, public release or actual provider qualification is claimed by these checks.
+
+Revised generation changes only that part of the earlier application input;
+selected science, instructions and model stay identical. Complete input is
+4,909 bytes, SHA-256
+`e013dab77ecdb2a0ead5ed24d7aa35e50f98c0d014ca8df95c3982dba568d999`.
+Its exact private review and one-attempt driver are prepared and rechecked
+unsent before the new choice. The earlier approval cannot validate different
+bytes. The same actual wrapper/access/retention
+qualification gaps remain disclosed; there is no silent provider/model fallback.
+
+**Separately approved generation attempt and terminal repair.** The user selects
+"수정한 합성 입력 1회 전송". Dispatch the exact 4,909-byte input once with the same
+client/model/login and limits. It returns `protocol_error` in 13,699 ms after
+three owned item completions and turn/completed; no client error notification,
+service error code or checked response is retained. Five permitted opaque
+CONNECT tunnels reach the service, cleanup completes and this attempt is spent.
+The precise terminal shape of that live response was not retained.
+
+An actual local CLI/SSE control independently reproduces summary terminal view:
+three complete item events and only one terminal assistant item, whose content
+matches the complete event. The installed schema admits full/summary/notLoaded;
+the previous adapter wrongly required full. Accept those known views while
+using only the owned complete events for proposal content. NotLoaded must be
+empty; full must contain the complete owned ID set. Present items must match
+stable JSON types, and duplicates refuse. A terminal-only summary cannot create
+a proposal. Existing status/error/acknowledgement/identity/final-or-legacy-message
+and full scientific validation remain. The original eight-subcase test fails
+three cases before repair. First pinned Opus review finds three inherited
+hardening gaps: full-set completeness, duplicate terminal IDs and bool/int
+container equality. Four negative cases reproduce those failures; fix them
+without using display summaries as science. The final test has 13 subcases.
+Final affected adapter/Codex-controller/personal-return check passes 59 tests
+in 24.743 seconds, no skips, retaining the injected uncertain-reap warning.
+The actual local CLI's short and longer synthetic responses now pass owned
+completion and unchanged typed ingress with summary view. Those controls read
+no real credentials and perform no external inference or provider qualification.
+
+Final actual `claude-opus-5-5` reviews the fixed 40,417-byte packet, SHA-256
+`c9cf3f36dde60c7cda9a427e67e403bbcc5a538d4453aae02b8c4d2c36affe0a`,
+and returns PASS. Actual model usage/runtime both match, one turn, no tools,
+skills/MCP/errors/permission denials and disabled configured hooks/memory/plugins/
+session persistence. Two built-in descriptors expose no tools. Its remaining
+extra-key/order notes are pre-existing or immaterial to the owned proposal source;
+the suggested broader negatives do not identify a new reproduced defect.
+`reasoning` is independently present in the existing safe-item allowlist.
+Final extracted 131-member MIT ZIP, SHA-256
+`80bdb8a1555cb48980187cda9b7c8e879ab26e0e9ce5289995648461de4e5f12`,
+passes all ten source/manual/PTY/rescue checks. Explicit docs scope passes
+71 Markdown files and whitespace. No full-alpha, remote CI or publication is
+performed for this internal repair.
+
+**Authorized confirmation and new material blocker.** Under the owner's
+instruction to fix/complete L04, send the already prepared identical 4,909-byte
+synthetic input once. It completes in 10,890 ms with a checked typed critique
+and a suggested claim edit about missing operation names, damage definition and
+conditions. The response SHA-256 is
+`fba0ae43af975540ba8952f444020f48db86359894e42cdff24bf0ff31e4d417`.
+Client 0.158.0 and configured/echoed model `gpt-6-sol` match; cleanup completes,
+summary has one terminal item and three owned completed events. Five opaque
+service tunnels still do not establish HTTP counts/content/retention. This
+attempt is spent. The response has no personal-project owner: never change its
+context/digest to force an import or claim the novel-task return passed.
+
+Actual local-peer HTTP inspection independently finds `additional_tools`
+namespace definitions, developer messages, local environment and client metadata.
+Zero top-level tools was insufficient. Stop public enablement: the application
+preview does not describe that complete generated request. Existing-login local
+controls run with public CA roots and SecurityServer/trustd lookup removed;
+they perform no external inference and do not qualify actual service TLS or
+all key/IPC APIs. A control removing all Mach lookup fails before HTTP, and its
+cleanup reports EPERM; subsequent scoped inspection finds no matching live
+child, which does not retroactively prove successful cleanup.
+
+**Offline repair and result review.** Add `codex_egress.py` as a pure candidate
+HTTP compiler, independent of generated CLI messages/tools/environment. It uses
+selected input, instructions and strict schema, fixes tools/choice/inclusion to
+empty/none, and names the same service origin's candidate exact path. It opens
+no socket/login, creates no relay, consent or dispatch and changes no saved
+format. A public digest is not authority. Initial rehashed-added-field test
+fails, then recompilation rejects it. First Opus FAIL also identifies passing
+created_at as current time and using prepared inputs as their own current basis.
+Require independently supplied current profile/context/clock; expiry, future,
+bool/float time and changed current inputs refuse. Preview and body now share
+those checks. Active preview ownership and one-shot consent remain the separate
+controller's duty; valid newly prepared objects are not intrinsically owned.
+The HTTP preview includes exact body/hash and static-header/authentication
+description, one attempt, zero retries and unestablished actual retention. Its
+candidate path/body have not been tested against the service.
+
+The initial fixed review packet is 23,845 bytes, SHA-256
+`8886a7e27e4242e4f8c07f2b613709643c3a6241b08330584e24f7069f313aad`,
+actual `claude-opus-5-5` FAIL. Its generation-schema coverage concern is already
+covered by existing profile tests; include those excerpts in final review.
+The fixed final 32,053-byte packet, SHA-256
+`f8567abdbe454a85b16d92a9469b5f51e2c495c951a3453e255762f61285ae78`,
+returns actual Opus 5.5 PASS. Runtime and usage match, one turn, no tools/skills/
+MCP/errors/permission denials, configured hooks/memory/plugins/persistence off;
+two built-in descriptors remain without tools. It proves neither actual clock
+truth nor live qualification. Invalid trusted context types may still raise a
+programming error; they cannot cause dispatch from this pure module.
+
+Preserve the initial import error and old artifact-boundary failure (72 tests,
+one failure). Add the compiler to explicit alpha selection and raise the
+measured source inventory by one, to 132. The 133-member fixture now refuses
+before output creation; the positive source test checks exactly 132 and all ten
+independent extracted-source/manual/PTY/rescue checks. After repairs, all 115
+affected compiler/profile/adapter/controller/artifact cases pass in 69.412 s,
+without skips. The injected uncertain-reaping test emits its expected
+ResourceWarning, not actual cleanup evidence. No new full-alpha, remote CI or
+publication pass is claimed.
+
+Closing `verify.py --scope docs --scope harness` passes all 71 Markdown files,
+22 harness cases (0.672 s) and tracked whitespace, without skips.
+
+The new researcher-authored RLVR question is prepared in a disposable private
+personal project using its exact wording as an unresolved working statement/
+question. Save/reopen and candidate HTTP compilation pass with evidence watermark
+zero, no experiment/observation and unchanged marked source. A first preparation
+driver accesses a nonexistent history attribute after saving; correct it and
+use a fresh destination, preserving the earlier created project. No model
+request occurs, no scientific premise is confirmed and no usefulness is attested.
+
+**Next action and dependent stop.** Keep public dispatch blocked on exact
+transmission/access. The proposed bounded repair is a per-request local route
+that discards the CLI's generated body and forwards only independently reviewed
+bytes to a fixed HTTPS endpoint, with narrow opaque authentication headers,
+one counted upstream attempt, no redirects/retries and bounded cancellation/
+cleanup. Review and test that real implementation and actual resource/API
+denials before fresh exact outbound choice for the RLVR task. Then connect its
+owned return to existing TUI comparison, personal recording and fresh-process/
+backup origin return; obtain actual task feedback. This was the proposed route
+at that stopping point; its implementation and local observations follow below.
+It is not yet qualified. No new login, native key or paid API is required
+merely by this blocker. S=4/4, L=3/4 remain: L04 is an unfinished connected
+outcome, not one final unit test. Documentation impact is internal preparation,
+current availability, operations, validation and this existing plan; product
+authority and public AI-off remain unchanged.
+
+###### 2026-10-11 L04 exact HTTP relay and contextual return
+
+**Position.** S stays 4/4 and L stays 3/4. Finish the existing two connected
+checkpoints: actual reviewed transmission, then the researcher's live
+comparison/record/return. This increment implements their common runtime and
+TUI wiring. No fresh research inference has been transmitted; older approvals
+are spent. Do not reopen manual storage or add native/device-key prerequisites.
+
+**Implemented.** `codex_relay.py` owns a short-lived deterministic stdlib broker
+with one frozen body, fixed TLS destination, opaque login headers, one counted
+POST, no redirects/retries and bounded framing/streaming. It discards all CLI
+messages/tools/environment/metadata. Current preview ownership, independent
+context/profile/clock recompilation and HTTP digest are checked through the
+existing Codex controller and TUI. `gpt-6-sol` has the complete unsent preview;
+other models retain application-input-only preparation. Public qualification
+stays closed before any attempt/login/launch. Saved formats stay workspace v9/
+work v10/project v6, with no saved client/consent capability. The durable
+mechanism decision is [ADR 0019](../../architecture/decisions/0019-reviewed-codex-http-relay.md);
+the [workflow](../../development/workflow.md#internal-codex-app-server-adapter)
+owns operational details.
+
+**Observed causes and controls.** An initial actual local-peer run attempts a
+catalog GET before inference. A source-derived bounded local capability catalog
+suppresses remote fetching without granting entitlement. `account/read` then
+fails workspace-routing discovery; the pinned source confirms this needs a
+separate service. `getAuthStatus` with token export/refresh disabled verifies
+ChatGPT mode without that route. Exact response fields refuse token/API/changed
+authentication. No research inference or network fallback was needed.
+
+First actual Opus review flags broad default host APIs, missing pre-auth version
+verification, retained unreported scratch and shutdown ownership. The shared
+protocol already checked CLI version later; add bounded no-auth `--version`
+verification before the login alias. Deny preference values, signal, fork,
+IOKit and POSIX IPC. Separate actual no-auth rules show that all-IPC denial
+fails managed-preference synchronization; owned-PID sandbox denial logs identify
+exact `apple.cfprefs.daemonv1` and `apple.cfprefs.<OS uid>v1` shared-memory reads.
+Allow only those read-data names. Each OS object is 16,384 bytes by metadata;
+contents were not inspected. No prefix/write/semaphore or key service is added.
+This repairs observed startup while keeping arbitrary preference-value access
+denied; do not infer a blanket unknown-IPC or OS-compromise guarantee.
+
+The final actual CLI plus owned HTTP/SSE peer completes in 186 ms, one exact
+body POST, no external inference, cleanup complete. The entire production
+supervisor and real CLI then complete an owned stdlib fake-upstream control
+in 107 ms, checked typed result, one exact wire outcome, no retained scratch.
+Its first run fails because the private fake Reply omitted `getheader`; repair
+only that control and preserve the failure. Production has no upstream/endpoint
+override. An actual anonymous CLI control under the final policy proves permitted
+scratch read/write and outside direct/symlink/read/write/directory and shell
+denials, unchanged canary/directory and cleanup. Its prior permitted child-CLI
+spawn now refuses because fork is deliberately denied; do not call the legacy
+`file_access_pass` predicate passed. Native owned unique-domain controls pair
+baseline preference read/write/fork and key-service lookup with confined refusal,
+intact owned preference, failed nonexistent-owned keychain query and denied
+SecurityServer/trustd lookup. They are native API probes, not model inference.
+
+On uncertain cleanup, revoke our alias where possible, expose the exact owned
+scratch, suppress typed incorporation, refuse future dispatch and keep unclosed
+transport owners. One shared shutdown deadline replaces repeated waits. Closing
+the public project reports failure instead of a clean exit if cleanup remains
+unknown. Manual writing/save remain separate and preserved. Never delete the
+original login or potentially live request files blindly.
+
+**Checks and remaining TODO.** Initial version tests use an invalid scratch
+prefix and produce two errors; correct the owned fixture. Relay/TUI selection
+passes 55 tests, and the final five complete-HTTP UI cases pass, including two
+new shutdown-owner/deadline cases. Final affected regression passes 148 tests
+in 124.801 seconds with no skips. Its injected uncertain-reaping fixture emits
+the expected ResourceWarning; this is not actual unclosed-process evidence.
+Actual `claude-opus-5-5` re-review returns PASS for the fixed 87,805-byte packet,
+SHA-256 `5732dbadb2ac8ee08b6550a8f4e93dbd891ab8aba2f0852fdca016e3e002fe20`:
+initial and final model usage pinned, one turn, no tools/skills/MCP/errors or
+permission denials, configured hooks/memory/plugins/persistence disabled. Two
+built-in descriptors expose no tools. Correct its non-blocking credential
+wording and wait on an empty selector to avoid CPU spinning; the latter then
+passes all 14 relay cases in 0.673 seconds. Its remaining shorter TUI shutdown
+deadline fails closed and final project close separately awaits owners.
+No reviewed result qualifies an actual service by itself.
+
+The final 133-member MIT source ZIP has SHA-256
+`abaaaa0d26a79e621368b8e7e368cabc0d08b96a67868ec3441ad68a490509da`.
+Independent extraction passes all ten declared checks, including actual
+personal PTY and backup/rescue. Documentation checks pass 72 Markdown files.
+The complete-HTTP Codex actual-PTY/refusal/manual-return check is added beside
+the unchanged application-preview path; its initial invocation names the
+wrong test class and fails two loaders. Correct selection passes both paths in
+4.003 seconds; running the same two actual-PTY paths from the extracted ZIP
+passes in 4.445 seconds. Explicit docs/harness scopes also pass 72 Markdown
+files, 22 harness cases and whitespace. The final whole-supervisor local control
+after the selector correction completes in 108 ms with cleanup and exact body.
+These are affected/source
+checks, not a new full-alpha, service, user-understanding or publication pass.
+The relay supervisor peer tests now use the runner's owned temporary directory
+and a clearly mocked, uncompiled native policy, so Linux CI does not depend on
+`/private/tmp`. Actual Mac policy evidence above stays separate. An initial mock
+adapter passes `dir` twice and causes two fixture errors; correct its explicit
+signature, then all 14 cases pass in 0.658 seconds on this Mac with no skips.
+This preparation is not an observed Linux CI pass.
+
+**Prepared actual checkpoint, not sent.** Reuse the saved/reopened private RLVR
+question, with no fabricated observation/run. The current complete HTTP review
+is 5,408 bytes, SHA-256
+`c0b32e25e8f557564759719f75cddabf5bad6bb1888bbb2b81b89b3d85d9c31e`,
+explicit model `gpt-6-sol`, fixed chatgpt.com endpoint, existing login, total
+60-second bound, one attempt, zero retries and unverified service retention.
+The private operator driver initially has an incorrect recovery import and
+refuses before I/O; repair it before preparing this review. Fresh exact outbound
+choice is pending. After an answer, mint a new owner review using the trusted
+current clock and same reviewed HTTP request identity/content; independently
+recompile and require identical complete body bytes/hash before dispatch. Do
+not use an expired review or its serialized creation time as current authority.
+The driver exclusively marks the intent spent, including a failed/refused start;
+no automatic retry, model change, personal judgment or manuscript write follows.
+
+- [x] Implement bounded exact relay, ownership/preview, cancellation/cleanup and
+  existing selective origin-return wiring; run actual local positive/negative
+  controls without research inference.
+- [x] Complete final independent result review, affected/source checks and
+  complete-HTTP actual-PTY refusal/manual-return from independent extraction.
+- [ ] Prepare fresh exact owned RLVR HTTP input; obtain its one-shot outbound
+  choice, validate actual service/TLS/response and preserve the spent outcome.
+- [ ] Exercise live comparison/editing/personal recording and fresh-process/
+  backup origin return, manual fallback and actual user task feedback. Only then
+  qualify the narrow public route and declare L04 complete.
+
+These are checkpoints inside L04, not new L implementation units. Documentation
+impact is accepted internal mechanism, complete unsent UI, operations, validation
+and current execution state. Public live availability remains unchanged.
+
+###### 2026-10-12 L04 owned attempt and parser diagnosis
+
+**Position and actual authority.** Continue the existing L04; S=4/4, L=3/4.
+The owner says to proceed immediately after the exact pending RLVR question.
+This authorizes that reviewed 5,408-byte HTTP input once, SHA-256
+`c0b32e25e8f557564759719f75cddabf5bad6bb1888bbb2b81b89b3d85d9c31e`,
+model `gpt-6-sol`, existing login, fixed destination and zero retries. Mint a
+new valid review with the trusted current clock, preserve the HTTP identity/
+content, independently verify identical bytes and exclusively mark intent spent.
+Do not reuse the old expired review as authority.
+
+**Observed result.** The actual owned controller records `client_failed` in
+1,128 ms. The broker reports one upstream attempt, no HTTP status and zero
+response bytes. Delivery/inference is unconfirmed; do not claim either that the
+server ran or that no data left. Cleanup completes. Save the failed trace in
+the personal project. Evidence watermark stays zero, manuscript bytes stay
+identical and no judgment is recorded. Public launch remains unavailable.
+This approval is spent, with no automatic repeat or model substitution.
+
+Direct validated TLS succeeds both in the parent environment and an isolated
+empty-environment Python child, with no HTTP, credentials or inference. An
+unauthenticated GET receives 405 and 18 headers; an empty-body POST with a fixed
+invalid synthetic Bearer receives 401 and 17 headers. These use no existing
+login or research content and cannot qualify actual inference. They do not
+prove the earlier failure was authentication, TLS, framing or entitlement.
+
+**Independent defect and repair.** An owned real-worker HTTP peer supplies a
+valid 44-header SSE response within 16 KiB. The old worker rejects it with 502:
+its SDK-wide 32-header setting applies to upstream responses as well as local
+requests. Reproduce that failure before repair. Separate the two bounded parsers
+as described in the [workflow](../../development/workflow.md#internal-codex-app-server-adapter),
+keeping local limits and fixed exact transmission. This is a proven compatibility
+defect, not a proven cause of the earlier actual failure.
+
+The broker now emits only known failure phase/category values. Validate the
+closed wire shape before returning it, capture only a matching owned failure
+and show its complete current-session diagnostic through the existing history
+reader. Raw messages, error bodies, credentials, headers and retry instructions
+cannot enter that projection. Scientific saved formats and origin remain
+unchanged; diagnostics do not restore on reopen or authorize another request.
+Three new failure tests first fail for missing fields before implementation.
+
+The first actual Opus delta review flags local parser errors swallowed by the
+standard library before `do_POST`. Reproduce all three missing local count/line/
+byte diagnostic cases. Retain the reader's safe category and forward it when
+parsing refuses. GET, no-request timeout and early client closure also receive
+limited diagnostics. Neutral failure wording keeps the request spent and manual
+writing retained. Complete diagnostics are readable on the current matching
+history entry even after the modal clears its footer. No second editor or
+research/journal narrative is added.
+
+**Checks and next exact checkpoint.** The first repaired relay/controller/UI
+selection passes 65 cases. After adding bounded-header and privacy cases, the
+affected suite passes 157 tests in 131.872 seconds with no skips; the expected
+injected-reap ResourceWarning is not actual cleanup evidence. This predates the
+final local-parser diagnostic repair; final affected checks and actual Opus
+  re-review are recorded below. The whole real-CLI supervisor with an owned synthetic
+upstream completes in 373 ms with exact body, checked reply and cleanup, no
+external inference. Preserve all initial failures above.
+
+The second Opus result flags accepted socket stalls misclassified as EOF and
+unsupported methods lacking a validation category. Two real five-second stalls
+and one HEAD case first fail. Record only safe categories at the incoming
+`readline` boundary before the standard handler catches timeouts; annotate local
+error replies without overwriting specific diagnostics. Complete request/header
+stalls, early EOF, no request and refusal controls then pass with the existing
+UI cases: 32 tests in 15.371 seconds. This is diagnostic completeness, not a
+reason to repeat inference or widen access.
+
+Final affected regression passes 161 tests in 143.404 seconds with no skips.
+The injected-reap warning remains expected. Actual `claude-opus-5-5` targeted
+final re-review returns PASS for the 19,878-byte packet, SHA-256
+`6a0660144ddef28470625d1ed2ef61ffce9e6cfbad02605d7f4d06a85b477a68`:
+both runtime and final usage pinned, one turn, no tools/skills/MCP/errors or
+permission denials; hooks/memory/configured plugins/persistence disabled. Two
+built-in descriptors expose no tools. The two earlier FAIL verdicts remain
+failures despite successful reviewer execution. Its partial-header EOF note is
+outside the claimed zero-byte EOF distinction and does not authorize a retry.
+
+The final whole-supervisor real-CLI/local-peer control completes in 150 ms,
+checked typed reply and exact body with cleanup, no external inference. The
+133-member MIT runtime ZIP has SHA-256
+`7d8c4084f98735ebab438bc31f44c780a8ee97d7b2a2dd79b052aca723e0db86`;
+independent extraction passes all ten declared checks including personal PTY
+and backup/rescue. Actual funded service acceptance remains unverified.
+
+Prepare a distinct second request for the same unresolved question, preserving
+the first failed attempt. The complete unsent body is 5,408 bytes, SHA-256
+`f13fa2da728e5357ab24dcad8564c3dd709f950e6749c6f96c84c88921244395`.
+Only its request identifier changes; current selected science and model remain
+the same. The owner's separate exact approval spends this request once. Its
+owned result fails in 1,359 ms, with one upstream attempt, HTTP 200, zero response
+bytes and `response_headers / validation`. Cleanup completes and the second
+failed trace saves. No checked model reply or judgment is produced; evidence
+watermark stays zero and manuscript bytes are unchanged. The broad old guard
+cannot distinguish framing, media type or encoding. Do not infer the exact
+second cause, successful inference or that research was not transmitted.
+
+**Header diagnosis correction.** Split the response guards into closed
+`response_status`, `response_framing`, `response_media_type` and
+`response_encoding` categories. Require single media/encoding headers, retain
+all framing/size/compression/redirect refusals and normalize case/whitespace
+where the real parser supports it. No body, destination, authentication,
+credential access, saved format, provider gate or request limit changes.
+Two new tests initially fail eight subcases. Actual Opus first returns FAIL:
+trimming the chunked-transfer token accepts a form that stdlib does not decode.
+Reproduce with actual `HTTPResponse` parsing of an owned chunked wire body;
+the trailing-space case wrongly reports relayed raw framing. Restore parser
+parity and retain explicit refusal instead. This is a confirmed local defect,
+not a demonstrated cause of either earlier real request failure.
+
+Final `claude-opus-5-5` review returns PASS for the 28,127-byte fixed packet,
+SHA-256 `2b79ac6bc6d725e250431ce24cb12277c85c789e39db19066620bfb63a037f0c`.
+Runtime and final usage match the pinned model; one turn, no tools/skills/MCP,
+errors or permission denials; hooks/memory/configured plugins/persistence off.
+Two built-in descriptors expose no tools. Preserve the earlier FAIL. The six
+affected modules pass 163 tests in 143.051 seconds before the final parser-parity
+fix; the final relay/contextual-UI selection then passes 35 in 15.406 seconds,
+without skips. Do not describe the earlier suite as a final-source full pass.
+The final actual CLI/stdlib-supervisor local control completes a checked typed
+reply in 121 ms with exact frozen body and cleanup, no external inference.
+The independently extracted 133-member MIT runtime ZIP has SHA-256
+`5e902804dbe589c6ce0cfb9c192a7cb7a72a0fd85e8dc216dee8715058cdd86a`;
+all ten declared checks pass, including personal PTY and backup/rescue. These
+controls are not actual service acceptance or useful human assistance.
+
+**Final approved request and dependent stop.** Prepare the same selected RLVR
+content with a fresh request identity: 5,408 bytes, SHA-256
+`1dc3eceaf3671a3f03473b1908e9c131a750c6a4502deb3e9a637a36fb4c1bbe`.
+The owner explicitly approves one final dispatch under the existing three-work-
+attempt limit. Recheck current input and mint fresh consent, then send exactly
+once. The actual result is `client_failed` in 935 ms, one upstream attempt,
+HTTP 200, `response_headers / response_media_type`, zero response bytes and
+complete cleanup. The service's media-type header fails the required single-SSE
+check; raw headers/body were not retained, so exact unexpected media type,
+missing versus duplicate header and server-side generation remain unknown.
+Do not claim an account, model, authentication or scientific-content cause.
+
+Three failed traces now remain in the personal project; no observations, runs,
+recorded judgment or manuscript changes were made. All approvals and this work's
+three attempts are spent; no fourth request, fallback or budget extension occurs.
+L stays 3/4. Stop actual-provider enablement and dependent live comparison/
+selective recording/return. The next investigation must establish the service's
+actual response compatibility, using uncredentialed/local controls where
+possible. Another funded attempt or a different credential/provider/budget is
+a fresh human-owned choice, not an implementation continuation. Do not declare
+L04 or the AI-connected release complete on the internal source checks.
+
+**OpenClaw inbound SSE compatibility repair.** Inspect the actual public
+[transport source at commit 883d61f](https://github.com/openclaw/openclaw/blob/883d61f645a0a89216d2509bc2e3e56bec8dda4e/src/agents/provider-transport-fetch.ts#L63).
+It examines up to 2 KiB when a successful response lacks a media type or is
+JSON-labeled, recognizes SSE and normalizes its header while preserving the
+original stream. Its generic SDK path also handles JSON; this fixed Codex route
+only admits actual SSE and retains owned typed-return validation. This confirms
+a local compatibility gap, not the exact cause of our third service failure:
+that response's original header/body was not retained.
+
+Implement the narrow fallback, preserving inspected bytes and their count,
+credential-echo checks, framing/encoding limits and the closed diagnostic shape.
+The new fallback controls first fail twelve subcases. An actual worker case then
+exposes a closed Content-Length socket being touched after sniffing; move the
+normal body idle timeout before sniffing. Preserve the initial 43-case and
+172-case suite failures rather than describe them as passes.
+
+Two actual pinned `claude-opus-5-5` reviews return FAIL. The first identifies that
+chunk decoding can perform multiple socket reads inside one `read1`: a real
+chunk-metadata dribble takes 0.696 seconds despite a 0.2-second test deadline.
+Add an absolute watchdog. The second identifies that a shrinking sniff socket
+timeout leaks into subsequent body reading. Reproduce with a real socket and
+three delayed fragments, then remove that timeout mutation; the watchdog bounds
+sniffing independently. Do not reset the socket after sniffing, which would
+reintroduce the closed-socket defect. Neither finding changes outbound content,
+credentials, destinations, consent, saved research or public qualification.
+
+The six-module regression passes 174 tests in 146.563 seconds before the final
+idle-timeout repair. Final relay/contextual-UI checks pass 46 tests in 16.423
+seconds, including both real socket regressions and worker controls, with no
+skips. The injected-reap warning in the broader suite is expected fault injection,
+not evidence of actual cleanup. The final actual Codex CLI/stdlib-supervisor
+control with a missing-media local peer completes in 133 ms: checked typed reply,
+exact frozen body, 1,998 response bytes and complete cleanup; no external inference.
+Final `claude-opus-5-5` re-review returns PASS for the 47,117-byte packet,
+SHA-256 `d096d46a04b8972f9d30cf3ed2147b2a5c4fc5f6ea7e97bfdef453e96025675f`.
+Runtime and final model usage match; one turn, no tools/skills/MCP/errors or
+permission denials, hooks/memory/configured plugins/persistence off. Two builtin
+descriptors expose no tools. The review covers the relay prefix and relevant
+controls; parent total-deadline/UI ownership and SSL watchdog interruption are
+not proven by that packet. Preserve both earlier FAIL findings and their repros.
+
+The final 133-member MIT source ZIP has SHA-256
+`67dde1b5f69307b4ba3b33c4224fe72fd639dcb2a73d2941a676f32f4ea7bf3a`.
+Independent extraction passes all ten declared checks, including personal PTY
+and backup/rescue. The first checker invocation as a script failed to import
+`scripts`; rerunning the correct module entry succeeds. This is local artifact
+verification, not publication or actual service qualification.
+
+All three approved RLVR attempts remain spent. No additional service request,
+new attempt budget, live enablement, scientific judgment or publication occurs.
+L remains 3/4: the locally checked transport repair is complete; actual service
+reply and useful selective human return remain unverified.
+
+**Owner-approved fourth diagnostic.** After the compatibility repair, the owner
+explicitly allows one additional request for this verification work only.
+Prepare the same RLVR content with a fresh identity: 5,408 bytes, SHA-256
+`1f241e97a4e98ca922fd6c7541b1e76cb28db85782afe394bcff545973172ac1`.
+The personal snapshot also caps one work at three attempts. Preserve its three
+failed entries and avoid producing an unreadable fourth-entry checkpoint:
+use the same exact transport/current-context checks for a separately retained
+operator diagnostic. This spends the additional approval once, with a separate
+exclusive marker; it neither widens the public limit nor incorporates a proposal
+into the original work. Explain that distinction before dispatch.
+
+The approved attempt completes transport in 35,397 ms: one upstream request,
+HTTP 200, 211,125 streamed bytes, `relayed`, no wire failure and complete cleanup.
+The CLI reports version 0.158.0 and an owned completed final assistant message,
+but `provider_typed_result` rejects that text as `malformed_response` before
+proposal incorporation. Its response SHA-256 is
+`0eca222823dc4f568be942418c9e10128518d29d0185a7b09bf124924837660b`.
+The rejected raw message and validation exception were not retained, so the
+specific JSON/schema/context rule cannot be diagnosed retrospectively. Do not
+claim that the model returned invalid JSON specifically, or that the earlier
+header failures had this same cause. Transport compatibility is now observed
+against the actual service; checked proposal acceptance is still unproven.
+
+Original personal history remains three failed entries, evidence watermark zero,
+no recorded judgment and unchanged manuscript. The fourth separate diagnostic
+and spent marker remain private. No retry or model substitution occurs. Stop the
+dependent live-incorporation/public-enablement path. The next local repair is
+bounded schema/context refusal diagnostics at the typed-ingress boundary so a
+future failure identifies its rule without exposing raw content. Any additional
+service request needs separate exact choice; this approval is spent. L04 remains
+open for a checked response and actual human comparison/recording/return. No
+runtime code or public request-limit change was made during this attempt.
+
+**Typed-refusal diagnostic repair.** Continue locally after the fourth attempt;
+no new external request is sent. Add closed canonical-JSON, schema, reference,
+context and other-semantic categories for a rejected final Codex message. Keep
+normal typed acceptance unchanged. Only matching owned malformed results project
+this diagnostic into current-session terminal history; saves/reopen exclude it.
+Unknown exception text cannot appear in the projection. These stage categories
+do not recover the fourth attempt's exact error, because its raw text is gone.
+
+The initial owned-message test fails twice because no failure detail exists.
+After repair, adapter/controller/retention checks pass 90 tests in 51.442 seconds.
+Actual `claude-opus-5-5` first returns FAIL: diagnostic re-parsing can blame JSON
+before honoring a prior compiled-context refusal. Reproduce that misclassification
+with malformed text plus a context error, then prioritize the fixed context
+messages. Final adapter/contextual-UI checks pass 50 tests in 12.265 seconds,
+without skips. Expected injected-reap warnings are fault-injection observations.
+The actual CLI/stdlib-supervisor local control also completes in 130 ms with a
+checked reply and complete cleanup; no external inference. The broader 90-case
+run predates the final classification-order fix; it is not a final full-suite pass.
+
+Documentation impact is operational diagnostics, acceptance cases and this plan;
+no product scope, schema, authority, request budget or public capability changes.
+All four actual approvals remain spent; live typed acceptance/human return is
+still the outstanding L04 outcome. Final actual `claude-opus-5-5` review returns
+PASS for the 34,019-byte snapshot, SHA-256
+`09832532c8ebc20997aa95bb753bc80bf3af0ba2f897ccc3c9c3390b2692e78f`.
+Runtime and final usage match the pinned model: one turn, no error, tools, skills,
+MCP or permission denials; hooks/memory/configured plugins/persistence disabled.
+Two built-in descriptors expose no tools. The initial FAIL remains preserved.
+Its conditional byte-limit concern is unreachable here: both ingress and caller
+use 65,536 bytes. Control-character/normalized-size refusals intentionally retain
+the coarse semantic category; malformed metadata can separately downgrade the
+saved outcome to protocol error without making the diagnostic scientific state.
+The final 133-member source artifact has SHA-256
+`c63e2350239f9685782ede7f48fb55f65aa5c7f1313d38431360311c28988b91`;
+independent extraction passes all ten declared checks including personal PTY
+and backup/rescue. Documentation verification passes all 72 Markdown files and
+whitespace. No publication or additional funded request occurs.
+
+**Fifth diagnostic: actual checked response.** The owner explicitly approves
+one additional separate verification after inspecting the complete 5,408-byte
+request, SHA-256
+`a370d27dd4b5f09156ef28681096de9459b853788f3cd0aaa3d1210e8536acc1`.
+The same selected RLVR question is sent once using existing login and `gpt-6-sol`.
+The actual result completes in 22,983 ms, HTTP 200, 308,957 streamed bytes,
+`relayed`, no transport/validation failure, client 0.158.0 and complete cleanup.
+The checked final-response digest is
+`c29ab5c33cf93c9c0bc73d5f5720e41bbc27b74d899cac7932f29fba36a4947e`.
+It contains a critique, three proposed claims and two unrun experiment plans.
+This is actual typed acceptance, not a claim of scientific correctness or human
+understanding. Keep research content and the private typed response outside Git.
+
+The separate operator verification preserves the original three-entry failed
+personal history; evidence watermark remains zero, no judgment is recorded and
+manuscript bytes remain unchanged. No raw request/response is added to repository
+documentation. The fifth approval is spent, with no retry. Actual transport and
+typed-return checkpoints now pass, but the separate diagnostic is not a connected
+personal adoption/return trace: human comparison/selection, retained origin and
+public qualification remain L04 work. Do not relabel a diagnostic as that complete
+product outcome or infer a human decision from a technically valid response.
+
+**Repository hygiene.** Follow the separation visible in
+[OpenClaw's ignore rules](https://github.com/openclaw/openclaw/blob/main/.gitignore)
+(accessed 2026-10-12): keep maintained source/docs/shared agent instructions,
+exclude local environments, caches, credentials and disposable build output.
+Adapt patterns to this Python repository rather than copying Node/native outputs
+or hiding all generated schemas. Existing code/tests/docs layout remains intact.
+Audit finds no tracked cache/log/ZIP files. Add grouped ignore rules, a root
+repository map and canonical contributor placement guidance. Nineteen positive/
+negative ignore checks pass, including retained schemas, fixtures, agent hooks,
+skills and safe environment examples; no tracked file matches the new rules.
+No source deletion, bulk untracking, Git-history rewrite, commit or push occurs.
+
+Documentation impact: internal parsing/diagnostics, terminal failure reading,
+operations, validation and this plan. No new product scope/ADR, public provider
+qualification, accepted science, manuscript write or source publication.
+
+**Retained review and external import continuation (2026-10-12).** The owner
+selects both local retained-response review and explicitly unverified external
+import. ADRs 0020/0021 own the decisions. The successful fifth diagnostic has
+no original persisted application request envelope; do not reconstruct one.
+The local import retains original declared model/request/body/raw-response
+hashes separately from computed normalized-result/import bindings. Its current
+input is labeled local import context, not proof of original transmitted input.
+No inference, personal judgment, accepted evidence or manuscript write occurs.
+
+Use public `project import-proposal` with bounded owner-private input, complete
+preview and explicit confirmation. Workspace v10/work v11/project v7 add the
+external source without widening older formats. At most one import per judgment,
+sixteen globally, and distinct declared external request IDs reserve separate
+slots from forty-eight application attempts. Import leaves a spent three-request
+budget unchanged. Full retention capacity refuses instead of silently discarding
+the imported response. Source/owner/time are digest-bound; source claims remain
+unverified. Existing origin request/trace links resolve the canonical external
+metadata rather than duplicating it into frozen lineage formats.
+
+Retained review requires equal source views and byte-identical canonical context;
+changed research cannot silently rebind old advice. Repeated selection preserves
+IDs and human edits. Reading is untimed; each comparison has 120 seconds and an
+explicit refresh. Esc closes local capability without changing history. Invalid
+replacement review leaves its predecessor active. Erasure avoids the never-used
+network broker and revokes staging while retaining source identity.
+
+Actual pinned Opus reviews initially return FAIL: source/context/exit cases,
+reading expiry, capacity dropping an import, shared attempt-slot exhaustion,
+pre-validation cancellation, external erasure and misleading source projection.
+Fix reproduced defects. A conditional duplicate-on-record claim relied on missing
+view-binding evidence; add an explicit check and record/reopen regression rather
+than inventing a reproduced failure. Keep all FAIL verdicts distinct from final
+validation. Source projection uses checked persistent request/trace lookup, so
+adding redundant lineage metadata is unnecessary.
+
+Interim evidence: 106 affected proposal/personal/UI tests pass; 90 store/project/
+provider/artifact tests pass; four new boundary regressions pass. After source
+binding/display repair, 54 focused UI/import cases pass. These receipts precede
+the final added erasure/source-display tests; final evidence follows. The real
+five-item RLVR envelope passes the public dry-run locally without transmitting
+or modifying its original checkpoint. L04 remains one outcome, not a growing
+list of newly counted implementation units.
+
+Final-source checks: 52 proposal/CLI/artifact cases pass before the last isolated
+capacity tightening; then seven focused import/CLI cases pass, and ten final
+boundary/record-return/artifact cases pass in 35.018 seconds. The artifact suite
+builds reproducibly and runs all ten independent extracted-runtime checks. Schema
+generation is current; old generated schemas have no changes. Docs/whitespace
+checks pass for 74 documents. These are affected checks, not a full-repository
+regression claim.
+
+Final capacity repair validates the complete work and project without evicting
+ANY existing response. An Opus follow-up incorrectly inferred missing checkpoint
+wiring from omitted constructor code: `TerminalWorkspace` assigns it,
+`restore` reassigns it, and `restore_proposals` marks retained payloads saved.
+Provide those exact call sites for review rather than duplicating initialization.
+Actual `claude-opus-5-5` final follow-up returns PASS and withdraws that last
+blocker after inspecting the constructor/restore chain. Packet 11,700 bytes,
+SHA-256 `8c95ff26f0b7364540a1d12c08cdbccb8817e8c767c7ff47ce42cce8a3541777`.
+Runtime and final usage both match; one turn, no tools/skills/MCP/error/permission
+denials, hooks/memory/persistence disabled. Earlier reviews verified the other
+boundaries and their FAIL verdicts remain recorded above; this final result is a
+delta re-review, not an independent whole-repository audit.
+
+
+The approved real local import now succeeds through the public command. Keep a
+private pre-import backup and original response files. Fresh load has project v7,
+five external/unverified AI items, the same three failed application traces and
+request count three. Science manifest and manuscript bytes are identical; no
+personal judgment or candidate was recorded and no inference was sent. The next
+human action is selective comparison, then their own scientific reason and
+explicit recording. Public provider enablement and the complete L04 live-use
+outcome remain separate; importing a diagnostic does not falsely close them.
+
+
 
 ###### 2026-10-11 L04 Codex model preflight and diagnostic result review
 

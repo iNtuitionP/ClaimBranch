@@ -49,6 +49,15 @@ def response():
 
 
 class TypedProposalTests(unittest.TestCase):
+    def test_explicit_edit_bound_and_unrun_plan_cannot_supply_support(self):
+        from claimbranch.core.paper_proposals import provider_edit_result
+        value=response()
+        for number in range(2):
+            extra=deepcopy(value['items'][0]);extra['id']='extra-'+str(number);value['items'].append(extra)
+        with self.assertRaisesRegex(ContractError,'four'):provider_edit_result(canonical_bytes(value),context())
+        value=response();value['items'][1]['body']['source_id']=reference('repeat','item')
+        with self.assertRaises(ContractError):provider_edit_result(canonical_bytes(value),context())
+
     def test_typed_response_keeps_context_refs_local_dependencies_and_no_record_ids(self):
         value = provider_typed_result(canonical_bytes(response()), context())
         self.assertEqual(response(), value)

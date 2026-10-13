@@ -276,7 +276,8 @@ def compose(app, width, height):
     actual_panes = len(panes(app, width, height))
     density = app.density
     from .tui_proposals import available
-    ai_label = ('AI preview' if getattr(app,'provider_connection',None) and available(app) else
+    connection = getattr(app,'provider_connection',None)
+    ai_label = (('AI Codex' if connection.profile.value.get('schema')=='claimbranch.codex-profile/v1' and connection.profile.value['model']=='gpt-6-sol' else 'AI preview') if connection and available(app) else
                 'AI example' if app.paper.ai_available or available(app) else 'AI OFF')
     badge = ai_label + ' · ' + (f"{actual_panes} pane{'s' if actual_panes != 1 else ''} · " if width >= 100 else '') + density
     context_width = width - len(badge) - 23 if width >= 76 else width - 21
@@ -1230,6 +1231,8 @@ class Terminal:
             'personal-explanation-edit','personal-explanation-source')
         self.app.uncheckpointed_editor = (self.modal not in covered and not covered_authoring and not covered_personal and
                                          any(b.text != b.initial for b in self.buffers))
+        ui = getattr(self, '_proposals_ui', None)
+        self.app.unsent_discussion_question = bool(ui and any(b.text for b in ui.prompt_buffers.values()))
         if not self.app.recovery:
             return True
         active = ((self.modal, [b.text for b in self.buffers]) if self.modal in ("note", "edit") and

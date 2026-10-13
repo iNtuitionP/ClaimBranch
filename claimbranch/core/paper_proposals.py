@@ -187,3 +187,11 @@ class TypedProposal:
     context_digest: str
     trace_digest: str
     payload: bytes
+
+
+def provider_edit_result(raw, context):
+    """Explicit small edit; empty items plus critique asks for clarification."""
+    value = provider_typed_result(raw, context)
+    if len(value['items']) > 4:
+        raise ContractError('An explicit edit permits at most four dependent items')
+    return value

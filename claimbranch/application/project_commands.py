@@ -5,6 +5,8 @@ import os
 from pathlib import Path
 import secrets
 import sys
+import stat
+import time
 
 from claimbranch.core.canonical import ContractError
 from .paper_work_store import PaperWork, WorkReopenRequired
@@ -17,11 +19,16 @@ from .tui_work_recovery import snapshot_value
 def add_personal_project_commands(commands):
     project = commands.add_parser('project', help='Create, resume or recover your personal paper workspace; local files, AI off')
     actions = project.add_subparsers(dest='project_action', required=True)
+    imported = actions.add_parser('import-proposal', help='Review an external AI response locally; no inference or scientific acceptance')
+    imported.add_argument('--directory', required=True)
+    imported.add_argument('--project-id')
+    imported.add_argument('--input', required=True, help='Private regular JSON file containing the explicit external proposal envelope')
+    imported.add_argument('--dry-run', action='store_true')
     for name in ('init', 'open'):
         action = actions.add_parser(name)
         action.add_argument('--directory', required=True, help='Existing owner-private directory outside Git')
         action.add_argument('--project-id', help='Optional expected identity; generated on init and read on open')
-        action.add_argument('--provider-directory', help='Explicit private personal LLM configuration for unsent contextual previews; actual provider qualification still required')
+        action.add_argument('--provider-directory', help='Private personal LLM configuration; Mac Codex gpt-6-sol supports reviewed requests, other routes preview only')
         if name == 'init':
             action.add_argument('--paper-root', required=True, help='Existing local Git paper; source stays read-only')
             action.add_argument('--manuscript', required=True, help='Relative marked .tex source')
@@ -97,11 +104,46 @@ def run_saved_command(args):
     return 0
 
 
+def _import_external(args):
+    from claimbranch.core.canonical import canonical_bytes, decode
+    from claimbranch.core.research_schema import normalize, obj
+    from claimbranch.core.paper_context import request_schema
+    from claimbranch.core.paper_proposals import result_schema
+    from .paper_proposal_work import EXTERNAL_SOURCE, OWNER, preview_external_proposal, import_external_proposal
+    fd = os.open(args.input, os.O_RDONLY | os.O_NOFOLLOW | os.O_NONBLOCK)
+    try:
+        info = os.fstat(fd)
+        if not stat.S_ISREG(info.st_mode) or info.st_size > 131072 or info.st_mode & 0o077 or info.st_uid != os.getuid():
+            raise ContractError('Select an owner-private regular proposal JSON file of at most 128 KiB')
+        with os.fdopen(fd, 'rb', closefd=False) as stream: raw = stream.read(131073)
+    finally:
+        os.close(fd)
+    if len(raw) > 131072: raise ContractError('External proposal file exceeds 128 KiB')
+    value = normalize(decode(raw), obj(schema={'const':'claimbranch.external-proposal/v1'},
+        owner=OWNER, request=request_schema(), source=EXTERNAL_SOURCE, result=result_schema()))
+    with PersonalProjectStore(args.directory, project_id=args.project_id) as store:
+        project = store.load(); app = project_workspace(project)
+        app.recovery = PersonalProjectRecovery(store, app, project)
+        result = canonical_bytes(value['result'])
+        preview = preview_external_proposal(app.paper, value['owner'], value['request'], result, value['source'])
+        print('EXTERNAL AI RESPONSE / imported source claims, not a verified application request. No inference or science recorded.')
+        print(clean(json.dumps(preview, ensure_ascii=False, indent=2)))
+        if args.dry_run: return 0
+        if input('Type import to retain this response for later local review; Enter cancels: ').strip() != 'import':
+            print('Cancelled; no checkpoint changed.'); return 0
+        key = import_external_proposal(app.paper,value['owner'],value['request'],result,value['source'],
+            confirmed_digest=preview['digest'],now=int(time.time()))
+        app.recovery.save(app)
+        print('External AI response retained: '+key+'. Open AI response history to review; no items recorded.')
+    return 0
+
+
 def run_personal_project_command(args):
     from .tui import run_terminal
     saving = False
     connection = None
     try:
+        if args.project_action == 'import-proposal': return _import_external(args)
         if args.project_action in ('status','backup','export','restore'):
             saving = args.project_action=='restore' and not args.dry_run
             return run_saved_command(args)
@@ -171,4 +213,6 @@ def run_personal_project_command(args):
               clean(guidance), file=sys.stderr)
         return 1
     finally:
-        if connection: connection.close()
+        if connection and not connection.close():
+            print(clean(connection.cleanup_notice()),file=sys.stderr)
+            return 2

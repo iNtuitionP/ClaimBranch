@@ -6,33 +6,14 @@ original scientific content and contributions; no projection is trusted on load.
 from copy import deepcopy
 
 from claimbranch.core.canonical import ContractError
-from claimbranch.core.paper_changes import amendment_schema
+from claimbranch.core.paper_changes import partial_amendment_schema
 from claimbranch.core.research_history import ResearchHistory
 from claimbranch.core.research_schema import HASH, ID, array, normalize, nullable, obj
 from .paper_intake import FIELDS, PaperResultIntake
 from .paper_workspace_snapshot import EDITOR_TEXT, NUMBER, OWNER
 
 
-def _partial(schema):
-    schema = deepcopy(schema)
-    if schema.get('type') == 'string':
-        # A blank field is writing, not a valid scientific endpoint or statement.
-        return {'oneOf': [schema, {'const': ''}]} if schema.get('minLength', 0) else schema
-    if 'enum' in schema:
-        schema['enum'].append('')
-    if schema.get('type') == 'array':
-        schema['minItems'] = 0
-    if schema.get('type') == 'object':
-        schema['properties'] = {key: _partial(value) for key, value in schema['properties'].items()}
-    return schema
-
-
-RECORD = amendment_schema()['items']
-for option in RECORD['oneOf']:
-    option['properties']['body'] = _partial(option['properties']['body'])
-    if option['properties']['kind']['const'] == 'claim':
-        fields = option['properties']['body']['properties']
-        fields['scope'] = nullable(fields['scope'])
+RECORD = partial_amendment_schema()
 SOURCE = obj(commands={'type': 'integer', 'minimum': 0, 'maximum': 64}, digest=HASH)
 CANDIDATE = obj(owner=OWNER, source=SOURCE, records=array(RECORD, 64),
     selected=array(ID, 64, unique=True), omitted=array(ID, 64, unique=True),

@@ -174,6 +174,8 @@ class PaperWorkspace:
             entry = next((e for e in self._proposal_entries if e['request_id'] == request_id), None)
             if entry is None or entry['trace_digest'] is None:
                 raise ContractError('Choose a received historical payload')
+            from .paper_proposal_work import check_payload_erasure
+            check_payload_erasure(self, request_id)
             for worker in self._proposal_active.values():
                 if request_id in worker._owned_requests:
                     worker.erase_payload(request_id)
