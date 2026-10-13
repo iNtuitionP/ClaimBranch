@@ -16,6 +16,7 @@ import http.server
 import selectors
 import io
 import socket
+import signal
 from unittest.mock import patch
 
 from claimbranch.application.codex_relay import (serve_once, CodexRelayTransport, CodexRelayJob,
@@ -225,29 +226,50 @@ class CodexRelayTests(unittest.TestCase):
         self.assertFalse(writer.is_alive())
 
     def test_slow_prefix_does_not_shorten_subsequent_body_idle_timeout(self):
-        client,server=socket.socketpair();ready=threading.Event()
+        now=[100.0]
         body=b'data: first\n\ndata: second\n\n'
-        def write():
-            try:
-                server.sendall(b'HTTP/1.1 200 OK\r\nContent-Length: '+str(len(body)).encode()+b'\r\n\r\n')
-                if not ready.wait(2):return
-                time.sleep(.2);server.sendall(b'd');time.sleep(.04);server.sendall(b'ata: first\n\n')
-                time.sleep(.18);server.sendall(b'data: second\n\n')
-            except OSError:pass
-            finally:server.close()
-        writer=threading.Thread(target=write);writer.start()
-        reply=_BoundedResponse(client);reply.begin()
-        class Upstream(Connection):
-            def __init__(self):super().__init__(reply);self.sock=client
-            def getresponse(self):ready.set();return reply
-        try:
-            with patch('claimbranch.application.codex_relay.SNIFF_SECONDS',.3):
-                _,events,status,data,_=self.exchange(connection=Upstream())
-            self.assertEqual(200,status);self.assertEqual(body,data)
-            self.assertEqual('relayed',events[-1]['disposition'])
-            self.assertEqual(len(body),events[-1]['response_bytes'])
-        finally:reply.close();client.close();writer.join(1)
-        self.assertFalse(writer.is_alive())
+        class Fragmented(Reply):
+            def __init__(self):
+                super().__init__(headers=[('Content-Length',str(len(body)))])
+                self.parts=[(114.8,b'd'),(114.9,b'ata: first\n\n'),(116,b'data: second\n\n')]
+            def read1(self,size):
+                if not self.parts:return b''
+                now[0],part=self.parts.pop(0);return part
+        class Timeouts(Socket):
+            def __init__(self):self.values=[]
+            def settimeout(self,value):self.values.append(value)
+        upstream=Connection(Fragmented());upstream.sock=Timeouts()
+        # Advance to just before the prefix deadline without depending on a
+        # hosted runner scheduling two threads within a 60 ms margin.
+        with patch('claimbranch.application.codex_relay.time.monotonic',side_effect=lambda:now[0]), patch(
+                'claimbranch.application.codex_relay.threading.Timer') as timer:
+            timer.return_value.is_alive.return_value=False
+            _,events,status,data,_=self.exchange(connection=upstream)
+        self.assertEqual(200,status);self.assertEqual(body,data)
+        self.assertEqual('relayed',events[-1]['disposition'])
+        self.assertEqual(len(body),events[-1]['response_bytes'])
+        self.assertEqual([45,15],upstream.sock.values)
+        timer.return_value.start.assert_called_once_with()
+        timer.return_value.cancel.assert_called_once_with()
+        timer.return_value.join.assert_called_once_with(.25)
+
+    def test_prefix_cannot_succeed_if_watchdog_expires_or_remains_alive_during_cleanup(self):
+        class Wire(Socket):
+            def shutdown(self,_):pass
+        for race in ('cancel','pending','liveness'):
+            with self.subTest(race=race):
+                class Watchdog:
+                    def __init__(self,seconds,action):self.action=action
+                    def start(self):pass
+                    def cancel(self):
+                        if race=='cancel':self.action()
+                    def join(self,_):pass
+                    def is_alive(self):
+                        if race=='liveness':self.action()
+                        return race=='pending'
+                with patch('claimbranch.application.codex_relay.threading.Timer',Watchdog):
+                    with self.assertRaises(TimeoutError):
+                        _sniff_sse(Reply(headers=[]),Wire(),{'response_bytes':0})
 
     def test_missing_media_keeps_total_response_byte_limit_after_prefix(self):
         body=b'data: '+b'x'*1048576
@@ -314,11 +336,13 @@ class CodexRelayTests(unittest.TestCase):
                 for n in range(40):self.send_header('X-Owned-'+str(n),'bounded')
                 self.send_header('Content-Length',str(len(body)));self.end_headers();self.wfile.write(body)
         with http.server.HTTPServer(('127.0.0.1',0),Upstream) as upstream:
-            thread=threading.Thread(target=upstream.handle_request,daemon=True);thread.start()
+            upstream.timeout=5;thread=None
             # Only the test child supplies an owned HTTP peer. The production
             # executable has no endpoint/factory override. Execute its actual
             # stdlib prefix and _worker, including parser setup.
-            code='''import ast,pathlib,http.client
+            code='''import faulthandler,signal
+faulthandler.register(signal.SIGUSR1)
+import ast,pathlib,http.client
 nodes=ast.parse(pathlib.Path(SOURCE).read_text()).body
 prefix=[]
 for node in nodes:
@@ -328,17 +352,28 @@ exec(compile(ast.Module(body=prefix,type_ignores=[]),'<owned-worker-prefix>','ex
 http.client.HTTPSConnection=lambda *a,**k:http.client.HTTPConnection('127.0.0.1',PORT,timeout=3)
 _worker()
 '''.replace('SOURCE',repr(module.__file__)).replace('PORT',str(upstream.server_port))
+            diagnostic=tempfile.TemporaryFile();self.addCleanup(diagnostic.close)
             proc=subprocess.Popen([sys.executable,'-I','-c',code],stdin=subprocess.PIPE,
-                stdout=subprocess.PIPE,stderr=subprocess.DEVNULL,env={})
+                stdout=subprocess.PIPE,stderr=diagnostic,env={})
             local=None
+            def startup_failed(reason):
+                if proc.poll() is None:
+                    try:proc.send_signal(signal.SIGUSR1)
+                    except ProcessLookupError:pass
+                    try:proc.wait(timeout=.2)
+                    except subprocess.TimeoutExpired:proc.kill();proc.wait(timeout=3)
+                diagnostic.seek(0)
+                self.fail(reason+'; exit='+str(proc.returncode)+': '+
+                    diagnostic.read(4096).decode('utf-8','replace'))
             try:
                 proc.stdin.write(json.dumps({'body':base64.b64encode(b'{}').decode(),'capability':'a'*64}).encode());proc.stdin.close()
                 with selectors.DefaultSelector() as ready:
                     ready.register(proc.stdout,selectors.EVENT_READ)
-                    # Cold hosted runners may need more than three seconds to
-                    # start Python; this case tests headers, not startup latency.
-                    self.assertTrue(ready.select(15),'Owned worker did not announce readiness')
-                port=json.loads(proc.stdout.readline())['port']
+                    announced=ready.select(15)
+                    if not announced:startup_failed('Owned worker did not announce readiness')
+                try:port=json.loads(proc.stdout.readline())['port']
+                except (ValueError,KeyError,TypeError):startup_failed('Owned worker readiness was missing or invalid')
+                thread=threading.Thread(target=upstream.handle_request,daemon=True);thread.start()
                 local=http.client.HTTPConnection('127.0.0.1',port,timeout=5)
                 local.request('POST','/'+'a'*64+'/responses',body=b'discarded local body',headers={'Authorization':'Bearer synthetic-secret'})
                 response=local.getresponse();status=response.status;data=response.read()
@@ -351,7 +386,7 @@ _worker()
                 if proc.poll() is None:proc.kill();proc.wait(timeout=3)
                 for pipe in (proc.stdin,proc.stdout):
                     if not pipe.closed:pipe.close()
-            thread.join(3);self.assertFalse(thread.is_alive())
+                if thread is not None:thread.join(6);self.assertFalse(thread.is_alive())
 
     def test_catalog_lookup_is_never_forwarded(self):
         conn,events,status,_,_=self.exchange(method='GET',path='/'+'a'*64+'/models?client_version=0.158.0')

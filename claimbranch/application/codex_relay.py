@@ -73,6 +73,10 @@ def _sniff_sse(reply,wire_socket,state):
             prefix+=part
     finally:
         watchdog.cancel();watchdog.join(.25)
+        # Expiry may race with the last successful prefix check. Do not hand
+        # off a socket already closed, or still owned by a pending watchdog.
+        if watchdog.is_alive() or expired.is_set():
+            raise TimeoutError('Stream-prefix deadline')
 
 
 class _BoundedHeaders:

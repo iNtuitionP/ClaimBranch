@@ -144,6 +144,12 @@ success. Do not call the product v1.0 before the live-paper gate passes.
 
 ## Progress
 
+- [ ] 2026-10-13 KST - GitHub `main` is updated through `108ae6b`. Its remote
+  docs, Windows and complete Ubuntu jobs pass; Mac passes the repaired PTY case
+  but retains two worker-readiness failures and one short-timer failure. The
+  longer startup wait did not resolve the Mac cause. Continue bounded test
+  diagnosis; do not report the whole CI matrix clean. See the [publication evidence](#2026-10-13-candidate-source-synchronization).
+
 - [x] 2026-10-13 KST - Push the reviewed candidate source as `a6e1606` to GitHub
   `main`. The first remote run passes docs and all 42 Windows fixture cases;
   Ubuntu exposes two PTY test defects. Mac also exposes two owned-worker startup
@@ -8379,6 +8385,64 @@ Final restricted one-turn `claude-opus-5-5` review of all three repairs returns
 `0c965c4aba323d2d8bfeac2bfd935cb85a19379cdfba77d3d5136a0b3c0165c9`.
 Actual model/tool metadata matches the restrictions above. This source-only
 review does not execute tests or establish the follow-up remote CI result.
+
+The [second remote run](https://github.com/iNtuitionP/ClaimBranch/actions/runs/38334201173)
+on `108ae6b` passes docs, Windows and the complete Ubuntu job: 209 contract,
+1,099 application, 22 harness and 22 security cases, followed by independent
+source-artifact checks. Both PTY repairs pass there; the origin repair also
+passes on Mac. Mac still fails the two worker readiness waits at 15 seconds,
+and a separate real-time prefix test returns 502 instead of 200. The prior
+startup scheduling hypothesis is insufficient; these observations supersede
+any inference that increasing the wait fixed the Mac cause.
+
+For bounded diagnosis, retain a worker traceback in a temporary file and expose
+at most 4,096 bytes on readiness failure. Run the existing relay cases in the
+early CI regression step as well as the unchanged full suite. Stabilize the
+separate prefix/body-timeout test using a controlled clock, a fragmented owned
+reply and an independent exact socket-timeout assertion; real socket deadline
+and chunk-dribble tests remain. All 40 relay cases pass locally in 11.572 s.
+A deliberately shortened body timeout is rejected by that revised assertion.
+No application code, HTTP limit, platform gate or live-request authority changes.
+The Mac startup cause and full remote result remain unresolved at this point.
+
+Actual `claude-opus-5-5` diagnosis review returns **NOT PASS**, packet 46,293
+bytes, SHA-256 `11cc0fe23ac85ebfb39d450228458d6c1d1dc89d8c2cb131ad357632a3300746`.
+It identifies incomplete diagnostic failure coverage, stale stack capture,
+blocked later CI coverage, missing successful-watchdog cancellation assertions
+and a real prefix-watchdog cleanup race. Reproduce the last finding: expiry
+during cancellation, or a watchdog still alive after joining, can previously
+return a prefix successfully. Both new subcases fail against the old runtime.
+Refuse those handoffs with a timeout after cancellation/join; this prevents a
+closed or still timer-owned stream from becoming a successful response. It
+does not change the 15-second prefix deadline or authorize a retry.
+
+The revised test observes cancellation explicitly and retains the real socket
+deadline tests. Startup diagnosis now requests an immediate child stack via
+SIGUSR1 on failure, kills/reaps before reading its bounded temporary diagnostic,
+and also handles missing/invalid readiness. Start the test upstream thread only
+after worker readiness and bound its cleanup. A separate five-minute Mac relay
+job makes its completed diagnostic log available while the unchanged full suite
+continues independently; both jobs retain the same cases. All 92 relay/egress/app-server cases pass locally in
+18.760 s. These repairs require a new source artifact and integrated remote
+verification; the earlier artifact hash no longer describes the current runtime.
+
+The next actual Opus packet (49,078 bytes, SHA-256
+`c1cbc527e095be32db0ea369c1c60436a0874fcfc2b60731e6d381d3e444b89c`)
+accepts those changes but identifies a remaining cleanup ordering race. Reproduce
+expiry during the liveness check, then check liveness before the final expiry
+flag. Add the diagnostic `TypeError` case as well. The final restricted actual
+`claude-opus-5-5` delta review returns **PASS**, packet 8,591 bytes, SHA-256
+`1a6436335033f7b31696aaa52d4e277daeffaac3edba1546adeb03935330e246`.
+Runtime metadata confirms the pinned model and the same no-tools/skills/MCP/
+hooks/session restrictions; reviews execute no tests.
+
+The first final 92-case run has one local client-read timeout in the unrelated
+synthetic TLS-error case; rerunning that complete group alone passes all 92 in
+18.673 s without a code or timeout change. Keep that transient result explicit.
+The final 135-member runtime ZIP has SHA-256
+`f2b136f996eabd550c86a878318324e4f0a682ef1ba6bbdf7dfcb8f3ff4e6620`
+and passes all ten independent checks, including actual personal PTY and rescue.
+This local success does not resolve the hosted Mac startup diagnosis.
 
 This source update is authorized independently of the remaining human-use
 observation. Keep S=4/4, L=3/4 and A–D=3/4. Do not infer another provider send,
