@@ -52,6 +52,13 @@ class Connection:
 
 
 class CodexRelayTests(unittest.TestCase):
+    def test_loopback_startup_never_looks_up_a_host_name(self):
+        with patch('socket.getfqdn',return_value='unexpected.lookup') as lookup:
+            _,events,status,body,_=self.exchange()
+        lookup.assert_not_called()
+        self.assertEqual(200,status);self.assertEqual(b'data: owned-synthetic\n\n',body)
+        self.assertEqual('relayed',events[-1]['disposition'])
+
     def test_service_header_count_line_and_total_bytes_remain_bounded(self):
         class Peer:
             def __init__(self,raw):self.raw=raw
@@ -335,7 +342,7 @@ class CodexRelayTests(unittest.TestCase):
                 if include_media:self.send_header('Content-Type','text/event-stream')
                 for n in range(40):self.send_header('X-Owned-'+str(n),'bounded')
                 self.send_header('Content-Length',str(len(body)));self.end_headers();self.wfile.write(body)
-        with http.server.HTTPServer(('127.0.0.1',0),Upstream) as upstream:
+        with module._LoopbackHTTPServer(('127.0.0.1',0),Upstream) as upstream:
             upstream.timeout=5;thread=None
             # Only the test child supplies an owned HTTP peer. The production
             # executable has no endpoint/factory override. Execute its actual

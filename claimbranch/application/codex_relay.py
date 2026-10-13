@@ -12,6 +12,7 @@ import http.server
 import json
 import re
 import socket
+import socketserver
 import ssl
 import sys
 import threading
@@ -131,6 +132,14 @@ def valid_failure(value):
     return value is None or (type(value) is dict and set(value)=={'phase','category'}
         and type(value['phase']) is str and value['phase'] in FAILURE_PHASES
         and type(value['category']) is str and value['category'] in FAILURE_CATEGORIES)
+
+
+class _LoopbackHTTPServer(http.server.HTTPServer):
+    def server_bind(self):
+        # HTTPServer resolves a display name by reverse DNS while binding.
+        # This numeric loopback peer needs no name or resolver access.
+        socketserver.TCPServer.server_bind(self)
+        self.server_name,self.server_port=self.server_address
 
 
 def serve_once(body, capability, emit, *, connection_factory=None, observer=None):
@@ -279,7 +288,7 @@ def serve_once(body, capability, emit, *, connection_factory=None, observer=None
                 observer({'method':'GET','path':self.path.replace(capability,'<capability>')})
             state['failure']={'phase':'local_request','category':'validation'}
             self.send_error(404); self.close_connection=True
-    with http.server.HTTPServer(('127.0.0.1',0),Peer) as server:
+    with _LoopbackHTTPServer(('127.0.0.1',0),Peer) as server:
         server.timeout=55
         emit({'phase':'ready','port':server.server_port})
         server.handle_request()

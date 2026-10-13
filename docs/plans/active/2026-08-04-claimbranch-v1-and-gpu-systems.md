@@ -144,11 +144,19 @@ success. Do not call the product v1.0 before the live-paper gate passes.
 
 ## Progress
 
-- [ ] 2026-10-13 KST - GitHub `main` is updated through `108ae6b`. Its remote
+- [x] 2026-10-13 KST - Diagnose the remaining hosted Mac startup failure:
+  the child stack is blocked in `HTTPServer.server_bind` → `socket.getfqdn`.
+  Remove reverse lookup from the numeric loopback peer and retain the watchdog
+  race repair. All 93 affected tests, ten independent source checks and actual
+  Opus review pass locally. Publish the repairs with a full remote matrix;
+  those local results do not claim the new remote run passed. See the
+  [publication evidence](#2026-10-13-candidate-source-synchronization).
+
+- [x] 2026-10-13 KST - GitHub `main` is updated through `108ae6b`. Its remote
   docs, Windows and complete Ubuntu jobs pass; Mac passes the repaired PTY case
   but retains two worker-readiness failures and one short-timer failure. The
-  longer startup wait did not resolve the Mac cause. Continue bounded test
-  diagnosis; do not report the whole CI matrix clean. See the [publication evidence](#2026-10-13-candidate-source-synchronization).
+  longer startup wait did not resolve the Mac cause. Preserve these failures
+  separately from the later diagnosed repair. See the [publication evidence](#2026-10-13-candidate-source-synchronization).
 
 - [x] 2026-10-13 KST - Push the reviewed candidate source as `a6e1606` to GitHub
   `main`. The first remote run passes docs and all 42 Windows fixture cases;
@@ -8443,6 +8451,28 @@ The final 135-member runtime ZIP has SHA-256
 `f2b136f996eabd550c86a878318324e4f0a682ef1ba6bbdf7dfcb8f3ff4e6620`
 and passes all ten independent checks, including actual personal PTY and rescue.
 This local success does not resolve the hosted Mac startup diagnosis.
+
+The dedicated Mac job in the [diagnostic run](https://github.com/iNtuitionP/ClaimBranch/actions/runs/38337952329)
+provides the missing observation: both child stacks stop in
+`socket.getfqdn` called by `HTTPServer.server_bind`, before relay readiness.
+That cold runner has 19 startup-related failures among 32 relay cases in
+76.559 s. Cancel the remaining superseded jobs after retaining that completed
+diagnostic. A longer Python startup wait was not the fix.
+
+Use a numeric loopback HTTP server whose bind invokes `TCPServer.server_bind`
+and sets the numeric name/port without reverse DNS. Keep the exact IPv4 loopback
+address, Host/capability validation, response limits and external TLS behavior.
+The owned header-test upstream also needs no name lookup. The new regression
+first fails against the old runtime, observing `getfqdn('127.0.0.1')`, then passes
+after repair. All 93 relay/egress/app-server cases pass in 18.411 s. Final actual
+`claude-opus-5-5` review returns **PASS**, packet 28,493 bytes, SHA-256
+`92fc9e9e7fe79f6b2636d014186d2e68a8a8d0e320706c74a0f6c9d49b2b906f`,
+with the same verified restricted runtime metadata. The final 135-member ZIP
+has SHA-256 `37d7a00450f885de5760221d346fb5d233b8229926fcbd979de0458e0d3282ed`
+and passes all ten independent checks. This repairs current startup and stream
+handling without a new request, provider permission or product-scope change.
+Observe the new exact-commit remote matrix separately; earlier failures remain
+part of the publication evidence.
 
 This source update is authorized independently of the remaining human-use
 observation. Keep S=4/4, L=3/4 and A–D=3/4. Do not infer another provider send,
