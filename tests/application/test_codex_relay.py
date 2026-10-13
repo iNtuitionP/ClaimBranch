@@ -334,7 +334,10 @@ _worker()
             try:
                 proc.stdin.write(json.dumps({'body':base64.b64encode(b'{}').decode(),'capability':'a'*64}).encode());proc.stdin.close()
                 with selectors.DefaultSelector() as ready:
-                    ready.register(proc.stdout,selectors.EVENT_READ);self.assertTrue(ready.select(3))
+                    ready.register(proc.stdout,selectors.EVENT_READ)
+                    # Cold hosted runners may need more than three seconds to
+                    # start Python; this case tests headers, not startup latency.
+                    self.assertTrue(ready.select(15),'Owned worker did not announce readiness')
                 port=json.loads(proc.stdout.readline())['port']
                 local=http.client.HTTPConnection('127.0.0.1',port,timeout=5)
                 local.request('POST','/'+'a'*64+'/responses',body=b'discarded local body',headers={'Authorization':'Bearer synthetic-secret'})

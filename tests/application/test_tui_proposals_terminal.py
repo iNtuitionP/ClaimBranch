@@ -147,8 +147,10 @@ class ProposalTerminalTests(unittest.TestCase):
         PersonalProjectStore.restore_backup(backup,restored)
         self.launch('project','open','--directory',str(restored)); self.expect('AI OFF')
         self.send(';\x1b[F\x1b[A\n','SAVED AI ORIGIN')
-        for _ in range(4):self.send('\x1b[6~')
-        self.assertIn('MODEL / gpt-6-sol'.encode(),self.output)
+        # The heading may arrive in an earlier PTY read than the source details.
+        # Wait for those visible details instead of inspecting an undrained buffer.
+        self.expect('REQUESTED MODEL / gpt-6-sol')
+        self.expect('ORIGINAL QUESTION')
         self.send('\x1b','ARGUMENT GRAPH')
         self.send(';\x1b[F\n','PERSONAL EXPLANATION'); self.send('\n','PERSONAL EXPLANATION')
         self.send('\n','PARTIAL TEXT'); self.expect('다른 장치')
@@ -307,7 +309,8 @@ with patch.object(PersonalProviderConnection,'require_codex_qualification'),patc
             self.assertEqual(SOURCE,(paper/'paper.tex').read_bytes())
 
     def test_complete_codex_http_preview_narrow_manual_restart_without_dispatch(self):
-        self.codex_preview_journey('gpt-6-sol','REVIEW COMPLETE CODEX HTTP REQUEST','Install Codex 0.158.0')
+        refusal = 'Install Codex 0.158.0' if sys.platform == 'darwin' else 'requires macOS'
+        self.codex_preview_journey('gpt-6-sol','REVIEW COMPLETE CODEX HTTP REQUEST',refusal)
 
     def codex_preview_journey(self,model,heading,refusal):
         from claimbranch.application.paper_assistance_example import history, SOURCE

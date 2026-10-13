@@ -144,6 +144,16 @@ success. Do not call the product v1.0 before the live-paper gate passes.
 
 ## Progress
 
+- [x] 2026-10-13 KST - Push the reviewed candidate source as `a6e1606` to GitHub
+  `main`. The first remote run passes docs and all 42 Windows fixture cases;
+  Ubuntu exposes two PTY test defects. Mac also exposes two owned-worker startup
+  waits before HTTP begins. Repair test output draining, platform-specific refusal
+  and bounded startup waiting without changing application behavior or excluding
+  tests. All 42 affected relay/PTY tests pass in 32.955 s; two separately delayed
+  child-start cases also pass. Final actual Opus review returns PASS. The
+  [publication evidence](#2026-10-13-candidate-source-synchronization)
+  preserves the failed run separately from its follow-up verification.
+
 - [x] 2026-10-13 KST - Reconcile the owner-requested GitHub source update:
   62 code/schema/test/documentation files contain the reviewed contextual-AI
   candidate and its history, with no research workspace, login or local profile.
@@ -4480,6 +4490,12 @@ The executable milestone names used throughout this plan are:
 
 ## Surprises & Discoveries
 
+- 2026-10-13 KST - The first GitHub Ubuntu run catches a PTY buffer assertion
+  before output is drained and a Mac-only refusal expected on Linux. Mac also
+  times out waiting three seconds for two owned worker starts. The
+  [publication repair](#2026-10-13-candidate-source-synchronization)
+  retains the platform gate and all existing checks.
+
 - 2026-10-13 KST - Plain-text advice succeeds through the actual public route
   and survives saved return; the older typed failure does not prevent that new
   path. See the [A/D result](#l04-contextual-assistance-implementation-order).
@@ -8323,6 +8339,46 @@ and 75-file documentation/whitespace scope. The source-fixture CLI suite runs
 42 cases on this Mac: 40 pass and two Windows junction cases are explicitly
 skipped. This is not a clean cross-platform fixture verdict; the configured
 Windows CI job owns those host-specific observations.
+
+The source is pushed to `main` as
+[`a6e1606`](https://github.com/iNtuitionP/ClaimBranch/commit/a6e1606b10ce9b88f31a684776eb71c6fe9c7175).
+A clean local clone reproduces the exact checked ZIP and passes all ten source
+checks before push. In the
+[first remote run](https://github.com/iNtuitionP/ClaimBranch/actions/runs/38332060662),
+docs and all 42 Windows fixture tests pass, including both junction cases.
+Ubuntu runs 1,099 application cases in 790.713 s and fails two PTY assertions:
+the origin reader checks an undrained buffer after its heading, and the Codex
+preview expects the Mac missing-client message on Linux. The actual Linux
+message correctly refuses the unsupported platform before client/login access.
+
+Repair only those tests: await the original model/question on the source reader,
+and expect the actual platform-specific refusal. Do not replace the runtime gate,
+skip either test, weaken saved-origin assertions or add a request. Both affected
+real PTY cases pass on the Mac in 20.761 s. Actual restricted one-turn
+`claude-opus-5-5` review returns **PASS**, packet 23,887 bytes, SHA-256
+`e15f21c78bef479621f0eff55f6c4288d45b9739c5e36f8c227e8ab77b50b690`.
+Runtime metadata confirms the model, no tools/skills/MCP/denials and the existing
+hooks/memory/session restrictions; built-in plugin descriptors remain metadata.
+The review executes no tests. Product/runtime/schema/CI scope remains unchanged,
+so the prior source-artifact evidence still applies. The follow-up commit retains
+the same full remote matrix; its exact check result must be observed separately
+from this local repair and the failed earlier run.
+
+The first Mac job subsequently completes 1,099 application tests in 1,046.482 s
+with three failures: the same undrained origin assertion and both owned worker
+header tests timing out at `ready.select(3)`, before an HTTP request. The log
+does not record how long those worker starts would have taken. Both header
+tests pass locally without delay in 0.203 s. A 3.5-second injected child-start
+delay reproduces the same old readiness failure, with the child reaped. Permit
+up to 15 seconds only for test-worker startup; preserve request, body and child-
+exit limits and every header assertion. Both delayed cases then pass in 7.287 s,
+and all 42 relay/affected PTY tests pass in 32.955 s. This is a test scheduling
+repair, not an increase in the product's network timeout or a live request.
+Final restricted one-turn `claude-opus-5-5` review of all three repairs returns
+**PASS**, with no material finding: packet 38,562 bytes, SHA-256
+`0c965c4aba323d2d8bfeac2bfd935cb85a19379cdfba77d3d5136a0b3c0165c9`.
+Actual model/tool metadata matches the restrictions above. This source-only
+review does not execute tests or establish the follow-up remote CI result.
 
 This source update is authorized independently of the remaining human-use
 observation. Keep S=4/4, L=3/4 and A–D=3/4. Do not infer another provider send,
