@@ -2,7 +2,7 @@
 kind: exec-plan
 status: active
 owners: maintainers
-last_reviewed: 2026-10-14
+last_reviewed: 2026-10-15
 ---
 
 # ExecPlan: ClaimBranch graph contract to live-paper validation
@@ -8963,7 +8963,34 @@ The synchronized case also passes10 local repetitions. Application source/ZIP
 stay unchanged; rerun hosted checks on the fixed test rather than claim the failed
 run passed. The exact-commit publication script stops on any failed CI result.
 
-Publish experimental source after final checks, observed PR CI and merge. Keep
+**Publication confirmed2026-10-15.** All five jobs in
+[the exact-head PR CI run](https://github.com/iNtuitionP/ClaimBranch/actions/runs/38579569293)
+pass on `b4c17839a0f874dc791515a3ff5c12c19b66a9f1`: documentation, Windows
+validation cases, Mac relay regression and complete Ubuntu/macOS portable jobs.
+Each portable job runs209 contract tests,1360 alpha application tests,22 harness
+tests and22 security tests, plus publication-input and independent source checks;
+selected verification exits cleanly. Application tests take1557.777s on hosted
+Mac and2107.504s on Ubuntu, explaining the bounded45-minute job budget. Prior
+failures/timeouts above remain failures/incomplete observations.
+
+[PR11](https://github.com/iNtuitionP/ClaimBranch/pull/11) merges to main as
+`caa4d0075b5ae4db07c7b5e9080d38e684a31c67` and
+[alpha.3](https://github.com/iNtuitionP/ClaimBranch/releases/tag/v0.1.0-alpha.3)
+is published at2026-10-14T14:59:21Z. The public2288979-byte ZIP and companion
+checksum are downloaded again and match the independently verified155-file
+artifact: SHA-256
+`c5972912f0fbd4700828921c26cd65e1c49958a39f04bbe0a97a409f93f6456f`.
+Runtime/source-builder/schema/license bytes match the verified source8d6f0fb;
+subsequent commits change only test synchronization/environment, CI budget and
+execution documentation. Local main is fast-forwarded without discarding user
+promotional-tooling/ignore/development-map work. The three follow-ups are now
+implemented and verified within this experimental personal boundary, superseding
+the earlier deliberate3-prepared/0-verified stop. Original real-ledger fidelity,
+general reconciliation, broader forms/providers and protected/live product gates
+remain separate. No research-provider inference, native key, journal state or
+manuscript write is performed for this delivery.
+
+ Keep
 local promotional video tooling and its ignore edits outside this change. No
 new provider inference, native keys or manuscript writes are performed. This
 continuation supersedes the deliberate stop above, not the broader unresolved
