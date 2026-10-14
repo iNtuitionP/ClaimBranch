@@ -8943,8 +8943,12 @@ are evidence of their earlier source snapshot only. Latest CI remains the final
 portable release gate; older failure/cancelled runs are not recast as passes.
 
 Latest hosted CI on source8d6f0fb reached late source-artifact checks on macOS
-and terminal checks on Ubuntu with no failed assertion, then hit the existing
-30-minute job timeout. This is cancelled/incomplete coverage, not a pass. Increase
+and terminal checks on Ubuntu, then hit the existing30-minute job timeout.
+Full archived logs also expose two provider-refusal tests that assume a usable
+TERM but CI supplies dumb/unset; the earlier late-stage inspection did not show
+those failures. Reproduce both with TERM=dumb, then simulate the terminal explicitly
+in those tests so they exercise their intended provider boundary. Neither the
+terminal guard nor provider refusal is changed. This is cancelled/incomplete coverage, not a pass. Increase
 only the portable job timeout to45 minutes; keep every test, platform and artifact
 check. Application source and the final ZIP remain byte-identical. Re-run the
 complete hosted gate before merge rather than weaken assertions or infer success.

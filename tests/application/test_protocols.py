@@ -374,7 +374,8 @@ class ProtocolTests(unittest.TestCase):
             self.assertEqual(0,main(['project','backup','--directory',str(self.work),'--archive-directory',str(archive)]))
             self.assertEqual(0,main(['project','restore','--directory',str(restored),'--archive-directory',str(archive)]))
         with PersonalProjectStore(restored) as store:self.assertEqual(project.payload,store.load().payload)
-        with patch('sys.stdin.isatty',return_value=True),patch('sys.stdout.isatty',return_value=True),patch('claimbranch.application.provider_commands.PersonalProviderConnection',side_effect=AssertionError('Provider must remain unopened')),patch('sys.stderr',new_callable=io.StringIO) as output:
+        # Exercise the provider boundary after a usable simulated terminal.
+        with patch.dict('os.environ', {'TERM':'xterm-256color'}),patch('sys.stdin.isatty',return_value=True),patch('sys.stdout.isatty',return_value=True),patch('claimbranch.application.provider_commands.PersonalProviderConnection',side_effect=AssertionError('Provider must remain unopened')),patch('sys.stderr',new_callable=io.StringIO) as output:
             self.assertEqual(1,main(['project','open','--directory',str(restored),'--provider-directory',str(self.root/'never-open')]))
         self.assertIn('not qualified',output.getvalue())
 

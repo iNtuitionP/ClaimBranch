@@ -282,7 +282,8 @@ class TypedObservationTests(unittest.TestCase):
         from claimbranch.application.cli import main
         base=self.measured()
         with PersonalProjectStore.create(self.work,project_id=base.project_id) as store:store.save(base,preview=self.preview)
-        with patch('sys.stdin.isatty',return_value=True),patch('sys.stdout.isatty',return_value=True),patch('claimbranch.application.provider_commands.PersonalProviderConnection.__enter__',side_effect=AssertionError('Provider profile must not be opened')),patch('sys.stderr',new_callable=io.StringIO) as output:
+        # Exercise the provider boundary after a usable simulated terminal.
+        with patch.dict('os.environ', {'TERM':'xterm-256color'}),patch('sys.stdin.isatty',return_value=True),patch('sys.stdout.isatty',return_value=True),patch('claimbranch.application.provider_commands.PersonalProviderConnection.__enter__',side_effect=AssertionError('Provider profile must not be opened')),patch('sys.stderr',new_callable=io.StringIO) as output:
             self.assertEqual(1,main(['project','open','--directory',str(self.work),'--provider-directory',str(self.root/'never-open')]))
         self.assertIn('not qualified',output.getvalue())
 
