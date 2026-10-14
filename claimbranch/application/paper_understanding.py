@@ -78,7 +78,8 @@ def _encode(value):
 
 
 def _last_operation(history):
-    return decode(history.commands[-1])["id"]
+    from .paper_storage_codec import decode as storage_decode
+    return storage_decode(history.commands[-1])["id"]
 
 
 class PaperUnderstandingSession:

@@ -3,6 +3,8 @@ import json
 from pathlib import Path
 import shutil
 import tempfile
+import subprocess
+import sys
 import unittest
 import zipfile
 from unittest.mock import patch
@@ -25,7 +27,7 @@ class SourceArtifactTests(unittest.TestCase):
             self.assertEqual(first.read_bytes(), second.read_bytes())
             with zipfile.ZipFile(first) as archive:
                 names = archive.namelist()
-                self.assertEqual(135, len(names))
+                self.assertEqual(155, len(names))
                 self.assertEqual((ROOT / "LICENSE").read_bytes(), archive.read("LICENSE"))
                 self.assertEqual(len(names), len(set(names)))
                 self.assertFalse(any(name.startswith(("scripts/", "tests/", ".git/")) or "__pycache__" in name for name in names))
@@ -36,7 +38,7 @@ class SourceArtifactTests(unittest.TestCase):
                 for name, expected in manifest["files"].items():
                     self.assertEqual(expected, hashlib.sha256(archive.read(name)).hexdigest())
             result = check_source_artifact(first, temp_root=root)
-            self.assertEqual(["doctor", "saturation", "paper", "paper-draft", "paper-episodes", "paper-provider", "tui", "loopback", "personal-pty", "personal-rescue"], result["checks"])
+            self.assertEqual(["doctor", "saturation", "paper", "paper-draft", "paper-episodes", "paper-provider", "tui", "loopback", "personal-pty", "personal-rescue", "paper-profile-pty", "paper-profile-rescue"], result["checks"])
             self.assertEqual("personal-terminal-alpha", result["kind"])
             self.assertFalse(result["authorization_verified"])
 
@@ -52,9 +54,9 @@ class SourceArtifactTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as directory:
             root=Path(directory); package=root/'claimbranch'; package.mkdir()
             (root / 'LICENSE').write_bytes((ROOT / 'LICENSE').read_bytes())
-            # 133 runtime modules plus START-HERE, LICENSE and manifest exceed
-            # the explicitly supported 135-member artifact by one.
-            for index in range(133):
+            # 153 runtime modules plus START-HERE, LICENSE and manifest exceed
+            # the explicitly supported 155-member artifact by one.
+            for index in range(153):
                 (package/f'module_{index}.py').write_text('# bounded source\n',encoding='utf-8')
             target=root/'oversized-inventory.zip'
             with patch('scripts.build_source.check_resources'), self.assertRaisesRegex(ValueError,'inventory'):
@@ -88,16 +90,51 @@ class SourceArtifactTests(unittest.TestCase):
             root = Path(directory)
             good = root / "good.zip"
             build_source(good)
-            for filename, member in (("tampered.zip", "claimbranch/__init__.py"), ("escape.zip", "../outside.py")):
-                bad = root / filename
-                with zipfile.ZipFile(good) as source, zipfile.ZipFile(bad, "w") as destination:
+            for index, member in enumerate(('claimbranch/__init__.py', '../outside.py',
+                                            '/outside.py', 'a//b', 'a\\b', 'a:b')):
+                bad = root / ('bad-%s.zip' % index)
+                tampered = index == 0
+                with zipfile.ZipFile(good) as source, zipfile.ZipFile(bad, 'w') as destination:
                     for info in source.infolist():
-                        destination.writestr(info, b"raise RuntimeError('tampered')" if info.filename == member else source.read(info))
-                    if member.startswith("../"):
-                        destination.writestr(member, b"not executable")
-                with self.assertRaises(ValueError):
+                        if info.filename == 'claimbranch/__init__.py':
+                            destination.writestr(member, b"raise RuntimeError('tampered')")
+                        else:
+                            destination.writestr(info, source.read(info))
+                with self.assertRaisesRegex(ValueError, 'hash mismatch' if tampered else 'invalid source-preview member'):
                     check_source_artifact(bad, temp_root=root)
-                self.assertFalse((root / "outside.py").exists())
+                self.assertFalse((root / 'outside.py').exists())
+
+    def test_extracted_runtime_refusal_and_actual_missing_curses_import(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            artifact = root / 'source.zip'
+            build_source(artifact)
+            from scripts.check_source_artifact import _unpack
+            destination = root / 'extracted'
+            destination.mkdir()
+            _unpack(artifact, destination)
+            for old in (True, False):
+                program = """import runpy, sys
+OLD = %s
+if OLD:
+    sys.version_info = (3, 9, 6)
+class DenyImports:
+    def find_spec(self, fullname, path=None, target=None):
+        if OLD and (fullname.startswith('claimbranch.application') or fullname.startswith('claimbranch.core')):
+            raise AssertionError('application imported')
+        if fullname in ('curses', '_curses'):
+            raise ImportError('missing curses')
+sys.meta_path.insert(0, DenyImports())
+sys.argv = ['claimbranch', 'doctor', '--json']
+runpy.run_module('claimbranch', run_name='__main__')
+""" % old
+                result = subprocess.run([sys.executable, '-E', '-s', '-B', '-c', program],
+                    cwd=destination, capture_output=True, text=True, timeout=15)
+                self.assertEqual((3, ''), (result.returncode, result.stderr))
+                value = json.loads(result.stdout)
+                self.assertEqual('not-run' if old else 'ready', value['synthetic_replay'])
+                self.assertIsNone(value['prerequisites']['unix-curses']) if old else self.assertFalse(value['prerequisites']['unix-curses'])
+
 
 
 if __name__ == "__main__":

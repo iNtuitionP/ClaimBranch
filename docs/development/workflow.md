@@ -2,7 +2,7 @@
 kind: development
 status: active
 owners: maintainers
-last_reviewed: 2026-10-13
+last_reviewed: 2026-10-14
 canonical_for: repository-local validation commands and documentation enforcement
 ---
 
@@ -3029,12 +3029,789 @@ python3.13 -m scripts.export_research_schema --check
 
 ## Reproducible synthetic source preview
 
+### Personal paper lifecycle capacity
+
+Use `project init --profile paper` with the usual private directory/paper/source
+arguments to opt into the larger manual profile. Existing projects and default
+init keep the episode profile. The versioned capacities and retention limits
+are owned by the [domain contract](../designs/2026-08-03-domain-model.md#personal-paper-lifecycle-extension-planned).
+Read saved headroom after closing its TUI:
+
+```sh
+python3.13 -m claimbranch project status --directory /path/to/private-work --json
+python3.13 -m claimbranch doctor --directory /path/to/private-work --json
+```
+
+Both show used/limit/remaining per scientific kind, event/command/history/manifest
+budgets and saved project bytes. Doctor without a directory lists registered
+profile limits without pretending to know a project's usage. Opening a paper
+project also gives a short capacity notice. A limit refuses the candidate before
+publication; it never drops records or older writing to fit. Capacity is distinct from the read-only anchor and prior-argument import
+commands described below.
+
+Convert compatible old personal work into a separate **new** private directory:
+
+```sh
+python3.13 -m claimbranch project convert-profile --directory /path/to/old-work --destination /path/to/new-work --dry-run
+python3.13 -m claimbranch project convert-profile --directory /path/to/old-work --destination /path/to/new-work
+```
+
+Read the source/result hashes, counts, boundaries and conversion preview, then
+type `convert`. Cancel writes no destination checkpoint. Source bytes and prior
+Contribution chains remain retained; changed source/destination refuses before
+publication. The original stays usable. Conversion currently refuses retained
+proposals and source-bound unfinished scientific/conditional work it cannot
+rebind losslessly; finish/review that work in the original rather than editing
+checkpoint files. This is not protected/encrypted migration or new judgment.
+Ordinary private backup/restore also supports the new versioned frame, even when
+a paper is unavailable. No manuscript or external result artifact is copied.
+
+The paper profile is currently manual/AI-off at the public provider entry: use
+without `--provider-directory`. Its graph and explicitly selected scientific
+context are AI-readable under the unchanged narrow context contract; larger
+storage is not permission to send a whole history or retained raw source.
+No actual provider request qualifies this new profile. Episode-profile AI remains
+as described in its existing candidate workflow. Private `project export` still
+means the unencrypted local saved-work JSON, not a Git-safe selected projection.
+Use the separate selected canonical-share command below for Git sharing.
+
+### Extended metadata registration
+
+The 2026-10-14 follow-up connects source declarations, typed batch registration
+and graph entry. Focused owned tests and an actual Mac terminal rehearsal cover
+these paths; the [execution record](../plans/active/2026-08-04-claimbranch-v1-and-gpu-systems.md#real-paper-migration-implementation-plan)
+owns release regression and independent-review evidence. This is a personal alpha,
+not verified fidelity of any outside research ledger.
+
+New metadata commands declare the **new input's** `human`, `ai`, `mixed` or
+`unknown` origin independently of the person confirming it and independently of
+source-claimed authorship. Missing declaration is unknown, including when a
+protocol's original-source origin says human. Individual metadata commands accept
+`--origin`; human editing cannot erase earlier declared/source AI. New command12,
+work22/project18 and personal/backup frame10 retain this lineage. Existing command
+bytes and legacy envelopes are not rewritten. New AI/mixed/unknown metadata remains a conservative later-review obligation;
+there is no origin reset by subsequent human editing. New co-report input with AI/unknown
+origin still requires explanation review or explicit deferral before recording.
+
+Prepare a private `metadata-batch/v1` file matching
+[the generated schema](../../schemas/metadata-batch-v1.json), with `entries`
+containing `id`, `kind`, `request`, optional `origin`, and explicit `selected_ids`.
+Kinds are `set-claim-wording`, `set-claim-companion`, `set-anchor-context`, `anchor`,
+`measurement`, `protocol`, `co-report`, `critique`. Each request uses its existing
+closed typed input; `anchor` uses manuscript, anchor_id, kind, expresses, plots,
+parents and rationale. Put prerequisites before their dependent entries. Missing
+origin becomes unknown. This transforms an existing base argument through explicit
+new records; it does not automatically map arbitrary old ledger fields or resolve
+unmapped pointers. Previously retained source remains unchanged.
+
+```sh
+python3.13 -m claimbranch project import-metadata \
+  --directory /path/to/private-work --input /path/to/private-extended.json --dry-run
+python3.13 -m claimbranch project import-metadata \
+  --directory /path/to/private-work --input /path/to/private-extended.json
+```
+
+Read the complete selected-entry and graph preview; type `register` once. Candidates
+stay detached until the entire selection passes. An invalid late entry forbids the
+whole save; no prefix is registered. Selected dependencies must be present/current
+or provided earlier; the preview does not invent them. A later entry blocked by an
+invalid prerequisite is reported separately. One existing private saved-write
+boundary publishes the whole resulting candidate. Source/input/project changes
+invalidate review. An identical retained batch refuses rather than duplicating it.
+The raw input, including omitted entries, is retained privately for source return;
+source-record/whole-project budgets apply. Critique originals stay excluded from
+the review projection and separate from empirical evidence.
+
+In the existing graph, `;` → **Register extended records together** opens a private
+file-path field, then the same detached comparison. Read all pages with PgDn/End,
+choose `r`, and type `register`; Esc cancels. Current writing is saved through its
+normal recovery boundary before preparation, and retained workspace text returns
+with the changed graph. The path/preview itself is session-only; keep the input
+file. This removes the need to leave the graph for batch review, but is not a full
+set of per-type graphical forms: input still uses a prepared JSON file.
+
+New-input origins appear in node inspection and selected sharing. Complete JSON
+export refuses metadata-bearing histories because retained inputs may contain
+private omitted content; use private backup or selected canonical sharing.
+No new provider connection, protected approval, manuscript writing or historical
+app authorization follows. Focused checks cover cancellation, stale input, origin/source return, mixed typed
+registration and private save/backup. The Mac terminal rehearsal covers Unicode
+path input, complete review, cancellation, literal registration and fresh loading.
+Broader release checks and limitations are recorded in the existing plan.
+
+### Selected canonical Git sharing
+
+Close the TUI first. For a saved `paper` profile (seed4/5), prepare a local
+selection file using your existing internal record IDs. Reasons need a separate
+selection; an empty list excludes them:
+
+```json
+{"schema":"claimbranch.share-selection/v1","record_ids":["C"],"reason_ids":[]}
+```
+
+Replace `C` with your own recorded claim, observation, experiment, Interpretation,
+plan, scientific edge, registered anchor, companion, co-report or protocol record.
+Do not put this private selection file into Git: its IDs can contain private names.
+Inspect the complete public projection, then repeat without `--dry-run`, read
+all pages and type `export`:
+
+```sh
+python3.13 -m claimbranch project export --canonical \
+  --directory /private/work --selection /private/selection.json \
+  --output /path/to/paper/shared-argument.json --dry-run
+python3.13 -m claimbranch project export --canonical \
+  --directory /private/work --selection /private/selection.json \
+  --output /path/to/paper/shared-argument.json
+python3.13 -m claimbranch project verify-export \
+  --directory /private/work --input /path/to/paper/shared-argument.json
+```
+
+The output parent must already exist and every path component must be real,
+without symlinks (`/private/tmp`, not macOS `/tmp`). Output may live in the paper's
+Git tree, but cannot live in the active private work directory. An existing or
+edited file is never replaced; choose a new name. Changed selection, saved source
+or destination directory invalidates the displayed preview. No Git commit,
+upload, provider request or manuscript write follows. `--dry-run` writes nothing.
+
+The closed [public schema](../../schemas/canonical-share-v1.json) contains current
+main science, selected IDs, disclosed required IDs, an omission manifest and a
+private-revision commitment. IDs use the existing saved opaque mappings. Required
+closure includes parents, current claim-status basis and incoming scientific
+connections, mandatory companions, co-reported readings and linked plans/protocols including all recorded
+failures and rule amendments. Review these dependencies before choosing `export`;
+selecting one record does not promise a one-record file. Reasons can be selected
+only for included records which have a shareable reason (for example an edge,
+observation's latest event, current wording policy, Interpretation or co-report).
+Critique references are resolvable omitted placeholders; their prose/reasons are
+never included. Every record with scientific content keeps declared AI/unknown
+origin and unresolved-source counts; missing origin is unknown. The separate
+`branch_ai_context_present` flag describes surrounding recorded
+judgments; it does not turn unrelated records into AI-authored content. Unmerged
+or omitted alternative amendments cannot change the origin of current main.
+
+Claim scope, wording limits, scoped co-reported readings and exact typed cells,
+units and scientific condition labels are included when selected/required. Cell,
+row and column identities use local numeric coordinates, not private identifiers.
+Protocol references/commitment text, historical measured values/decisions,
+raw source/payloads, artifact paths/hashes, manuscript bytes/bindings, notes and
+unfinished writing are omitted. Known private critique literals and declared
+artifact/manuscript/Git paths copied into selected prose cause a generic refusal.
+This is no general secret detector: read every scientific label/sentence/reason
+before sharing. Invisible/control characters are displayed as literal JSON escapes;
+anonymity and source fidelity remain unverified.
+
+Verification recomputes the bytes from the **same saved private revision**, exact
+selection and fixed policy. Later saved work, edited public bytes or policy/selection
+changes fail verification. Retain a separately private backup of that revision if
+you need to verify after future work; the sharing file cannot restore it. The keyed
+revision commitment publishes no raw source/project digest and proves neither
+authorship nor scientific correctness. This is a read-only projection, not a
+second canonical record, historical audit export, full backup or import/sync path.
+Legacy full-private JSON export still uses `--archive-directory` and refuses
+critique-containing histories; private backup/restore retains their originals.
+Provider qualification and protected authority remain separate.
+
+### Private critiques and sourced questions
+
+A private critique can motivate or be addressed by research without becoming
+empirical evidence. In a personal paper-profile project, close the TUI and prepare
+an owner-private JSON file matching
+[`critique-input-v1.json`](../../schemas/critique-input-v1.json):
+
+```json
+{
+  "schema": "claimbranch.critique-input/v1",
+  "operation_type": "capture-critique",
+  "payload": {
+    "source_kind": "review",
+    "question": "Does the grouped definition reverse the primary conclusion?",
+    "question_origin": "human", "source_origin": "human",
+    "private_original": "Owned synthetic critique text.",
+    "private_identity": null, "private_label": null
+  }
+}
+```
+
+The neutral question is your writing, distinct from the original. Origins are
+human/ai/mixed/unknown source claims, not inferred from a save. Review the question,
+origin and local graph, then type `record` to retain that operation. No separate
+scientific judgment/explanation form is required for capture.
+
+```sh
+python3.13 -m claimbranch project critique --directory /private/work --input /private/critique.json --dry-run
+python3.13 -m claimbranch project critique --directory /private/work --input /private/critique.json
+python3.13 -m claimbranch project critiques --directory /private/work
+```
+
+The returned question ID is opaque and remains stable. To link it, use the same
+input schema with `operation_type: "link-critique"` and payload:
+
+```json
+{
+  "id": "question-claim-link",
+  "critique_id": "critique-0123456789abcdef0123456789abcdef",
+  "relation": "questions", "target_id": "C",
+  "consequence_operation_id": null,
+  "rationale": "This concern asks whether the claim's scope is justified."
+}
+```
+
+Replace IDs with your recorded IDs. `questions` targets a main claim;
+`addressed-by` targets a recorded plan/experiment, with null consequence, or a
+claim with its exact accepted claim/status merge or current wording operation.
+Required newly changed claims in an accepted selection count; unchanged dependency
+references do not. A plan/reference proves neither an experiment ran nor a
+problem is solved. References to work recorded before app capture stay visibly
+retrospective, with outside chronology unverified. The original may have existed
+outside the app earlier; recording now never fabricates an earlier app approval.
+
+`revise-critique-question` uses critique ID, expected current `revision_id`, new
+question, question origin and reason. Earlier questions/reasons and AI/unknown
+influence remain. The TUI question reader shows revisions and associated work,
+without loading private originals. Raw original/identity access is a separate
+explicit local operation:
+
+```sh
+python3.13 -m claimbranch project critique-original --directory /private/work --id critique-0123456789abcdef0123456789abcdef
+python3.13 -m claimbranch project critique-references --directory /private/work
+```
+
+The first command prints private input for your local inspection. Do not share its
+output or the capture input. The second prepares opaque omission/reference
+placeholders only: no question/reason/origin/raw hash/private label/identity. It is
+a small reference projection; use the selected canonical-share path below for science. This default still omits
+private content if your question or reason repeats original text; no automatic
+anonymization of arbitrary prose is claimed.
+
+Exact input/project/source changes, duplicates, invalid targets and capacity refuse
+before saving. Cancel leaves saved state unchanged. Private originals survive
+normal private backup and fresh restore with exact bytes; backups remain
+unencrypted and include those originals. Full `project export` now refuses a
+critique-containing project before file creation; use explicitly private backup
+for recovery. Selected Git sharing uses the separate canonical mode below. Provider use/context
+compilation for this new profile remains refused before credentials/dispatch.
+No manuscript write, source fidelity, scientific support or automatic resolution
+is created. The [private critique contract](../designs/2026-08-03-domain-model.md#personal-paper-lifecycle-extension-planned)
+owns bounds, origins and privacy semantics.
+
+### Registered protocols, outcomes and gate amendments
+
+In a personal paper-profile project, keep the prediction/rule separately from
+measured values. A compatible main experiment plan must exist first; the existing
+human plan-authoring/review path records it. Close the TUI and prepare an
+owner-private JSON input matching [`protocol-input-v1.json`](../../schemas/protocol-input-v1.json).
+All inputs use `schema: "claimbranch.protocol-input/v1"`, `operation_type` and
+its exact `payload`. This edits no saved internal application file.
+
+Run `project protocols --directory /private/work` first. Its `available_plans`
+shows each main plan's ID, complete scientific body and digest, including before
+any registration. Copy that digest into the reviewed input; later rule/record
+IDs remain in the same read-only inspection. The digest binds reviewed input,
+not source correctness. Generated input fields are:
+
+| Operation | Required content |
+|---|---|
+| `register-protocol` | New id, plan id/digest, latest superseded protocol id (null initially), prediction, falsifier, pass/fail wording, optional commitment reference/claimed time, seen/unseen/unknown disclosure, origin/source context, declared gates and reason |
+| `associate-experiment` | New id, protocol id, recorded experiment id, expected registered-plan digest and reason |
+| `amend-gate-rule` | New id, protocol/gate id, latest expected rule id, new tolerance/reference, before/after/unknown result disclosure, origin/source context and reason |
+| `record-gate-result` | New id, association/gate/exact rule id, passed/failed/unknown, observation/event revision basis, origin/source context and reason |
+| `record-outcome` | New id, association id, one selected rule version per gate, selected gate-result ids, observation/event revision basis, consistency classification, discrimination, limitations, origin/source context and reason |
+
+```sh
+python3.13 -m claimbranch project protocol --directory /private/work --input /private/protocol.json --dry-run
+python3.13 -m claimbranch project protocol --directory /private/work --input /private/protocol.json
+python3.13 -m claimbranch project protocols --directory /private/work --node CLAIM_OR_PLAN_ID
+```
+
+Read every page of prediction/rule, before/after argument, basis and source
+status; type `record` only for that operation. Re-read input/project/source checks
+and the existing atomic save refuse stale changes. Cancel keeps saved bytes.
+The reason belongs to the operation, not a mandatory second decision narrative.
+Protocol/outcome/gate record IDs and the returned registered plan/rule digests
+are available in `project protocols` without a node filter.
+
+A gate is `{id,name,tolerance,reference}`. A commitment is null or
+`{reference,claimed_at}` with nullable claimed time. Prewritten wording is
+`{pass_wording,fail_wording}`; observation basis is a list of
+`{observation_id,event_id}`. `origin` is human/ai/mixed/unknown and is not inferred
+from a successful save. Input schemas list the exact fields and finite limits.
+
+The outcome's classification means prediction consistency, not final scientific
+validity. Failed/unassessed/unknown gates stay separately visible; even all
+reported passes certify no validity. A non-discriminating result needs its
+limitation. Assessing original rules after a later amendment does not erase the
+original failure. Changing a tolerance/reference never changes measurement cells.
+A source commit and unseen claim remain unverified; preexisting app observations
+or conflicting before-result disclosure are shown for inspection.
+
+The TUI claim/observation/Interpretation/plan reader carries original/current
+rules, assessments, limitations and stale basis along explicit scientific paths.
+Global evidence/rules stay current in an older episode's reasoning view; an exact
+history-prefix query is distinct. Current plan change is compared against main at that prefix; the displayed
+branch separately reports an absent or differing plan version, rather than
+incorrectly calling a historical-view difference a current mutation. Superseded protocols remain readable but cannot
+receive new completed association/amendment. Declared/imported AI or unknown
+origin follows the existing conservative branch-wide explanation policy; a new
+human reason cannot erase it. Saving, fresh open and backups keep writing and
+original context without restoring review authority. Manuscripts remain read-only,
+no experiment runs, and paper-profile providers remain refused. Source chronology,
+conversion fidelity and real-user benefit are separate from owned fixture checks.
+The [protocol contract](../designs/2026-08-03-domain-model.md#personal-paper-lifecycle-extension-planned)
+owns bounds and semantics.
+
+### Structured measurements and condition queries
+
+The personal `paper` profile now records typed tables without changing legacy
+histories or enabling a provider. Close the TUI before using these commands.
+Prepare an owner-private JSON file matching
+[`measurement-input-v1.json`](../../schemas/measurement-input-v1.json), an input
+format rather than an edit to saved application files. Every input contains
+`schema: "claimbranch.measurement-input/v1"`, `operation_type` and `payload`.
+
+First declare each condition with `operation_type: "declare-condition"`:
+
+```json
+{
+  "schema": "claimbranch.measurement-input/v1",
+  "operation_type": "declare-condition",
+  "payload": {
+    "key": "dose", "values": ["low", "mid", "high"],
+    "groups": [{"id": "registered-doses", "ascending_values": ["low", "mid", "high"]}],
+    "rationale": "The experiment protocol orders these doses."
+  }
+}
+```
+
+Then use `record-measurement` with `event_id`, `target_id`, `run_id`,
+`expected_revision`, `action`, `statement`, `rationale`, `source_context`, `table`
+and `corrections`. A table contains `id`, `estimand`, `conditions` (key/value tags),
+`columns`, `rows` and `artifact_refs`. Each column has `id`, `name`, `type`
+(integer/decimal/text), `raw_unit`, `display_unit`. Each row has `id`, conditions
+and one cell for each column. Each cell has `id`, `column_id` and a typed value:
+`{"type":"decimal","value":"0.12345678901234567890"}`, an integer string, text,
+or `{"type":"missing","reason":"Not measured"}`. Unit labels do not convert
+values automatically. Artifact refs have `id`, `path`, `sha256`, `json_pointer`,
+`tool_sha256` and `commit`; the last two may be null.
+
+- `confirm`: new observation on a recorded experiment, null expected revision,
+  complete table and empty corrections. No measured result is inferred.
+- `transform`: existing active text/imported observation, latest event ID,
+  complete table and empty corrections. Original source/origin/unresolved fields
+  remain inspectable; this does not certify conversion fidelity.
+- `correct-cells`: latest event ID, null table and explicit corrections of
+  `cell_id`/typed `value`; statement must stay unchanged. Units, definitions,
+  conditions and other cells remain intact.
+- `transition`: latest event ID, complete table with a new measurement ID and
+  explicit changed meaning. Reusing a cell ID with different measurement meaning
+  refuses across all retained tables; use new cell IDs. Empty corrections.
+
+```sh
+python3.13 -m claimbranch project measurement --directory /private/work --input /private/measurement.json --dry-run
+python3.13 -m claimbranch project measurement --directory /private/work --input /private/measurement.json
+python3.13 -m claimbranch project observations --directory /private/work --claim C --condition dose=max --group dose=registered-doses
+```
+
+Review every page of the exact table, before/after graph, source status and impact;
+type `record` only for that operation. Cancel, stale input/project/source, unknown
+conditions, capacity and invalid cells leave saved history unchanged. The query
+returns supporting rows/units, explicit local graph and derived condition coverage (matched observation nodes retain the
+full source table beside the filtered row result);
+`max`/`min` requires a named declared ascending group, not text sorting. Retracted
+or invalidated observations remain in global history and are disclosed as inactive
+basis; query coverage never changes claim scope. The existing TUI observation
+reader shows the complete table, revision, retained source and event history.
+
+An optional read-only check opens exactly the file you choose, checks its declared
+hash and one JSON pointer against one cell; it never follows artifact refs itself:
+
+```sh
+python3.13 -m claimbranch project artifact-check --directory /private/work --observation O --artifact artifact-1 --path /private/result.json --cell cell-1
+```
+
+A hash/cell match verifies only those selected bytes/value; it cannot verify
+scientific meaning, units or source fidelity. Missing, changed, unsupported and
+mismatching files are reported without correcting evidence. Private paths and
+raw table/source inputs are never transmitted by these commands.
+
+Tables are bounded to 256 rows, 32 columns, 2,048 cells and 256 KiB; the existing
+aggregate history/manifest/project and event limits still apply. New command9 /
+work19 / project15 / personal and backup frame7 retain ordinary private save,
+fresh open, writing and original origins. Older writers refuse new frames.
+Backing up includes saved tables/history, not external artifact files. The larger
+paper profile's provider gate still refuses before credentials or dispatch.
+The [measurement contract](../designs/2026-08-03-domain-model.md#personal-paper-lifecycle-extension-planned)
+owns exact bounds and semantics. These synthetic checks do not establish private
+source fidelity, scientific correctness or unfamiliar-user usability.
+
+### Co-reported interpretations
+
+Use a personal paper profile when two definitions or sensitivity analyses must
+be reported together. Each reading remains a first-class Interpretation with
+its own statement, scope, global observation basis, explicit relationship to a
+claim and origin declaration. One co-report decision keeps the shared judgment
+and reason. This does not mean both statements are scientifically proven, and
+never changes a claim's support status or an observation's measured value.
+
+Close the TUI first. Prepare existing claims/observations and an active
+[reporting companion](#human-wording-limits-and-reporting-companions), then write
+an owner-private JSON file (`chmod 600`) using the generated
+[co-report input schema](../../schemas/co-report-input-v1.json). For example,
+with already recorded `C-primary`, `C-sensitivity`, `O-primary`, `O-sensitivity`
+and companion `companion-primary-sensitivity`:
+
+```json
+{
+  "schema": "claimbranch.co-report/v1",
+  "id": "decision-definitions",
+  "candidates": [
+    {"id": "reading-primary", "statement": "The primary definition shows an increase.",
+     "scope": "Primary unit-level definition under tested conditions only",
+     "observation_ids": ["O-primary"], "claim_id": "C-primary",
+     "edge_id": "reading-primary-use", "edge_type": "supports",
+     "source_id": null, "origin": "human"},
+    {"id": "reading-sensitivity", "statement": "The grouped definition reverses that reading.",
+     "scope": "Registered grouped sensitivity definition only",
+     "observation_ids": ["O-sensitivity"], "claim_id": "C-sensitivity",
+     "edge_id": "reading-sensitivity-use", "edge_type": "qualifies",
+     "source_id": null, "origin": "human"}
+  ],
+  "selected_ids": ["reading-primary", "reading-sensitivity"],
+  "companion_ids": ["companion-primary-sensitivity"],
+  "judgment": "Report both readings with their separate definitions.",
+  "rationale": "The primary finding cannot be quoted without the sensitivity result.",
+  "disposition": "not-required",
+  "answers": []
+}
+```
+
+```sh
+python3.13 -m claimbranch project co-report --directory /path/to/private-work \
+  --input /path/to/private-co-report.json --dry-run
+python3.13 -m claimbranch project co-report --directory /path/to/private-work \
+  --input /path/to/private-co-report.json
+```
+
+Read the complete paged input, selected/omitted readings, scopes, origins,
+companion membership, before/after and manuscript reach, then type `record`.
+Cancel, stale input/source/project, invalid endpoints and changed evidence append
+nothing. Existing sources are references, not proof of artifact access. Selected
+basis must currently be confirmed/corrected. Every active companion whose target is a selected claim must be included;
+reporting the companion alone does not require the reverse target. Each required companion claim needs a selected scoped reading, whether or not
+it was initially supplied. Selecting one reading for a required companion claim does not force every
+other alternative candidate on that claim. Independent omitted candidates remain unadopted input
+with visible validation problems; they cannot masquerade as scientific alternatives.
+Their reading/edge ids are reserved to prevent later ambiguous reuse.
+
+Choose at least two of up to four candidates; the legacy single-reading workflow
+remains available separately. Create the companion before co-reporting. The
+active episode must have no staged alternative or previous selected transaction;
+use the normal next-question action for another judgment. Episode outcome is
+`co-reported`, distinct from a branch merge. Project ceilings are 128 local
+Interpretations and 32 co-report decisions under the new history extension;
+other scientific and aggregate storage limits still apply.
+
+`origin` is an explicit human/AI/mixed/unknown authorship declaration, not a
+verification claim. Imported and earlier reading influence is independently
+retained. For inherited AI or unknown origin, use `disposition: "deferred"`
+with no answers, or `"answered"` with one to three personal answers; these choices
+do not prove understanding or close debt. `"not-required"` is only available
+without such influence. The graph reader shows both scoped readings, the shared
+reason, omitted membership, original references and unresolved manuscript work.
+Shared evidence keeps one identity; group links are reporting relationships,
+not mutual scientific support.
+
+For a later edit, open a new question and use new reading/edge/decision ids,
+with `source_id` pointing to each previous main Interpretation. Old scoped
+readings, their scientific relationship identities and reasons stay immutable
+and inspectable; declaring the replacement human cannot
+erase the original AI/unknown origin. Restart and local backup preserve this
+record and unfinished notes without restoring confirmation. Work18/project14
+and personal checkpoint/backup frame6 make older writers refuse rather than drop
+fields. The existing workspace formats remain unchanged. Inherited branch history conservatively carries existing AI/unknown review
+requirements, even when later wording is manual; this follows the current
+personal reasoning policy, not a claim that every new sentence came from AI.
+An inactive mandatory observation stays inspectable but cannot be new active
+basis; inspect its history and explicitly revise/retire that dependency before
+another co-report. Nothing is automatically removed. No provider request,
+protected receipt, manuscript write or experiment execution is introduced.
+
+### Human wording limits and reporting companions
+
+The [metadata registration](#extended-metadata-registration)
+adds `--origin` for new input independently of source authorship and confirming
+actor. Existing imported origins remain retained; it is not a qualified live-AI
+edit workflow. Complete verification before using this newer persistence format.
+
+Personal paper profiles now record human reporting restrictions independently
+of claim status. Close the TUI before these commands. Read the complete paged
+before/after, reason, retained imported origins and manuscript-impact preview,
+then type `record`; `--dry-run` and cancellation append nothing.
+
+```sh
+python3.13 -m claimbranch project claim-policy --directory /path/to/private-work \
+  --claim C --grade "Direction only" --limitation "Only these tested conditions" \
+  --allowed "The score improved under these conditions." \
+  --caveat "The sensitivity result reverses this reading." --ban "negligible" \
+  --placement appendix --reason "Support does not justify the stronger wording."
+python3.13 -m claimbranch project claim-companion --directory /path/to/private-work \
+  --id companion-C-O --claim C --companion O --scope paragraph \
+  --reason "Report the sensitivity result wherever this claim is stated."
+python3.13 -m claimbranch project anchor-context --directory /path/to/private-work \
+  --anchor caption-a --placement appendix --reason "Declared appendix location."
+python3.13 -m claimbranch project wording-lint --directory /path/to/private-work
+```
+
+`--allowed`, `--caveat`, `--ban` and `--placement` may be repeated. Grade and
+limitation are your descriptive text; they do not calculate a scientific grade.
+Allowed sentences are examples, not a whitelist proving valid wording. Required
+caveat text is checked literally. A companion is a separate reporting dependency
+on a claim or global observation, not a supports edge. The graph reader shows
+these restrictions and their reasons/origins beside the claim. Impact follows
+explicit reporting obligations while preserving their non-scientific meaning.
+Alternative/historical branch views disclose dependencies whose endpoints are
+absent; current-main restrictions are not newly accepted branch science.
+
+Companion endpoints/scope remain immutable. Use `--retire` with the same
+id/endpoints/scope to append its retirement; a reviewed active revision can
+reinstate the same obligation. A different relationship needs a new identity.
+An identical explicitly reviewed submission may reaffirm a reporting restriction;
+it still consumes a history operation and never closes work.
+Records are retained through ordinary private restart/backup, with work17,
+project13 and checkpoint/backup frame5; older code refuses this frame. No key,
+new provider permission, manuscript mutation or debt closure is introduced.
+
+Placement must be explicitly declared as main/appendix/abstract/unknown on a
+registered block. Optional `anchor-context --paragraphs FILE` reads an
+owner-private JSON list such as
+`[{"index":1,"expresses":["C"],"plots":["O"]}]`. Indices count nonempty,
+blank-line-separated blocks after literal TeX comments and their line endings
+are removed. Only ASCII blank-line paragraph boundaries are counted; active
+characters, macros and full TeX paragraph semantics remain outside coverage.
+Declarations
+must use claims/observations already associated with that anchor. They do not
+prove actual co-citation or complete paragraph coverage. A newly registered
+block/source invalidates its earlier placement/paragraph declaration, even when
+an identically worded block moves to another file; declare the new context.
+
+Lint examines current registered blocks only. It normalizes soft-wrapped whitespace and uses case-insensitive literal
+word boundaries ("share" does not match "shares") and ignores literal comments.
+It reports prohibited phrases, missing caveat text, unavailable/stale sources,
+unknown or disallowed placement, missing companion associations and missing or
+unclassified paragraph companions. Macros/includes/graphics/semantic equivalence
+remain outside coverage; their uncertainty is visible. A clean result neither
+certifies scientific wording nor resolves manuscript or understanding work.
+Budgets: 64 policies, 256 companion records, 64 anchor contexts; each policy
+permits 16 allowed sentences, 16 caveats, 32 prohibited phrases and up to three
+placement categories. The existing aggregate history/project limits still apply.
+
+### Registered manuscript locations
+
+Close the TUI first. This works with manual `--profile paper` or imported-paper
+projects; episode-profile projects retain their single anchor. Compatible legacy
+conversion into a new paper-profile destination remains separate.
+
+```sh
+python3.13 -m claimbranch project anchor-register \
+  --directory /path/to/private-work --manuscript figures.tex \
+  --anchor figure-ablation --kind figure --expresses claim-a \
+  --plots observation-a observation-b --reason "This figure reports these measurements and states this claim." --dry-run
+```
+
+Each location is an explicitly named marked TeX block, using the same start/end
+marker syntax as setup. Kinds are `text`, `figure`, `table`, `caption`. `expresses`
+points to current main claims, `plots` to globally recorded observations (including
+corrected/inactive sources whose status stays visible), and a caption may use
+`--parents figure-ablation`. These are declared references, never evidence strength
+or verification of the graphic. No includes, graphic files or artifact paths are
+opened recursively. A selected file is at most 2 MiB, its marked block 64 KiB.
+
+Remove `--dry-run` to inspect the complete paged source/association preview and type
+`register`. Cancel, changed source, invalid endpoint/kind/duplicate or capacity
+failure leaves the saved project intact. Re-registering the same id appends a new
+binding/reference revision; kind remains fixed after its first explicit registration.
+The legacy initial anchor has no declared kind; its first registration assigns
+one explicitly. A caption parent must already be registered as figure/table. Omitting all reference options
+explicitly disconnects that location while retaining earlier history. At most
+64 anchors including the initial one and 2,048 current associations are allowed;
+existing whole-history/graph/project budgets still apply.
+
+```sh
+python3.13 -m claimbranch project anchors --directory /path/to/private-work
+python3.13 -m claimbranch project anchor-impact --directory /path/to/private-work --nodes claim-a observation-a
+python3.13 -m claimbranch project anchor-impact --directory /path/to/private-work --nodes edge-a --before earlier-operation-id
+```
+
+Impact reports all reached anchors, deterministic before/after witnesses and
+outside coverage. Scientific connections carry reach; structural `part-of` alone
+does not. Connection changes include their old/new endpoints. Unknown ids refuse
+instead of implying no effect. Inspect the new nodes and typed connections in
+`project open`; the reader shows retained block bytes and current source status.
+An unchanged block with an unrelated file edit is distinguished from a changed
+block, identity substitution or missing source. No current-source inspection
+changes replayed scientific state. Original bytes and graphics fidelity are not
+certified, and unregistered locations remain outside coverage.
+
+Registration keeps the seed and old command prefix byte-identical; new command v6
+contains only source registration. Workspace v15/work v16/project v12 and personal/
+backup frame v4 retain writing, earlier reasons, origins and old source prefixes.
+The detached registration transition revokes ephemeral comparisons and refreshes
+live working context while preserving original authoring/recorded cause bindings.
+Personal scientific review shows registered-source freshness and rejects an
+intervening source change. Source checks establish last inspected bytes, not an
+atomic filesystem/history transaction. A missing source remains unresolved and
+writing stays available. Save/restart and private backup/restore retain the same
+registrations; older readers refuse the newer frame without overwriting it.
+All manuscript files remain read-only. The paper profile's provider/protected
+operations remain under their existing separate gates.
+
+### Prior argument mapping preview
+
+Prior-argument import supplies private preview and foreground-confirmed
+registration. Inspect the graph and retained original fields, keep notes and
+unfinished writing, append independent evidence/corrections and save/resume.
+Write a new judgment with its reason and use **Record selected reasoning
+personally** in the existing terminal. Its preview shows selected/required/omitted
+changes and imported source dependencies. Known AI/mixed influence stays distinct
+from unknown authorship and from your new human writing. When source influence is
+AI or unknown, choose reviewed explanation or explicitly leave it for later;
+reading/importing alone asserts no understanding. These origins and up to 32
+recorded explanation consequences survive restart and backup. Legacy low-level
+reasoning operations cannot bypass this source-aware path. The new profile’s
+provider context and protected authority remain unavailable.
+
+```sh
+python3.13 -m claimbranch project import-argument --input /path/to/private-argument.json --dry-run
+python3.13 -m claimbranch project import-argument --input /path/to/private-argument.json --dry-run --json
+```
+
+The simple dry-run uses an owner-private regular file (no symlink, at most
+16 MiB), opens no project/store/artifact and sends nothing. Register into a
+**new**, existing owner-private directory outside Git:
+
+```sh
+python3.13 -m claimbranch project import-argument \
+  --input /path/to/private-argument.json \
+  --directory /path/to/new-private-work \
+  --paper-root /path/to/paper --manuscript paper.tex \
+  --question 'What should we test next?'
+python3.13 -m claimbranch project open --directory /path/to/new-private-work
+```
+
+Read every preview page and the destination/size/source summary, then type
+`import`. The question starts the first **new local** episode; prior decisions
+remain source claims. Actual registration bounds the exact envelope to 4 MiB
+(one retained source), seeded science to 4 MiB, derived manifest/graph to 8 MiB
+and saved project to 16 MiB. The graph/workspace must open before publication.
+A simple dry-run's valid mapping does not guarantee enclosing saved-work budgets
+fit; overflow refuses before append. Input/paper/destination changes, cancellation
+and repeated imports preserve existing files. This command never overwrites a
+populated project. Save failures retain the normal uncertain-save guidance.
+Private backup/restore preserves exact input, inner source, origins, dates/reasons
+and writing. No manuscript is written or provider contacted. This is private source registration, separate from Git sharing; the source-aware
+personal reasoning path above retains imported influence.
+
+The generated [interchange schema](../../schemas/argument-import-v1.json)
+owns `claimbranch.argument-import/v1`: a registered paper profile, project/title,
+one digest/length-bound chunked original JSON source (at most 4 MiB), mapped typed
+records and explicit selected IDs. Every record has a source pointer, declared
+human/AI/mixed/unknown origin, nullable source date and per-body-leaf mapping.
+Missing origin is invalid; unknown dates remain null. Changed values require a
+declared transformation, which is inspectable and does not prove scientific
+fidelity. Transformed leaves remain unresolved; only identity mappings count as
+covered. Original numeric tables remain inert data; active mapped observations
+require a scalar value, while invalidated/retracted observations can retain
+an earlier value without current validity. Missing/only-table measurements stay source-only at initial import, never
+synthesized. A separate reviewed typed-measurement transformation can then
+register exact cells under the measurement contract above. Use JSON
+pointers with NFC keys and `~0`/`~1` escapes.
+
+Supported preview kinds are thesis, claim, completed experiment, observation,
+typed scientific edge, unrun experiment plan and historical decision. A historical
+decision's source-claimed date/reason/group never creates a local episode or past
+app approval. The preview displays complete selected/dependency-required records,
+omitted IDs, per-kind counts, unresolved source pointers and the full original.
+Errors carry envelope/source pointers; malformed JSON cannot provide per-field
+diagnostics and instead refuses parsing. A preview keeps the first 512 diagnostics
+and an exact total count with `diagnostics_truncated` when more exist; such a
+preview remains invalid. Source pointers are at most 2,048 UTF-8 bytes each,
+with at most 8,192 leaves and 1 MiB of total pointer text, checked while traversing
+to avoid amplification. Unsupported fields belong in the retained
+original, not extra accepted-science fields. Omit a record from mapped `records`
+to keep it source-only; changing selection cannot silently prune broken required
+dependencies. Selected historical decisions include their mapped scientific
+references as disclosed required records, without creating past local episodes.
+For mapped claim status, `supported` requires an explicit supporting basis and
+`contested` a challenging basis; inactive observations cannot supply either.
+Claim-to-claim basis relations retain the existing paper semantics; they do not
+prove an observation exists or certify the source claim's truth.
+These are consistency checks, not scientific truth or source-fidelity verdicts;
+incompatible wording/status stays in the original pending an explicit mapping
+change. A summary of a source object does not resolve its unsupported
+children. The source digest remains over exact original bytes independently of
+NFC-normalized scientific mapping and sanitized terminal rendering.
+
+Interactive output pages 40 lines at a time; Enter continues and `q` leaves the
+preview without registering anything. Noninteractive output prints all pages.
+The JSON output includes raw source chunks: keep it private. Selected, required
+and omitted scope plus source/envelope/preview digests are inspection commitments,
+not authorization tokens. These previews are never passed to a provider.
+
 ### Personal terminal alpha source
 
 The existing source builder now packages the personal terminal alpha under
 [ADR 0017](../architecture/decisions/0017-personal-terminal-alpha.md), retaining
 synthetic demos separately. For daily own-project use, follow
 [personal project writing](#personal-project-writing-in-the-terminal).
+Only Python 3.13 runs the application. If it is missing, choose an already
+installed environment tool and run its setup yourself from the source folder:
+
+```sh
+conda create -n claimbranch python=3.13
+conda run -n claimbranch python -m claimbranch doctor
+```
+
+Or, with uv:
+
+```sh
+uv python install 3.13
+uv run --no-project --python 3.13 --no-python-downloads python -m claimbranch doctor
+```
+
+These version-matched examples follow the official
+[conda Python guide](https://docs.conda.io/projects/conda/en/stable/user-guide/tasks/manage-python.html)
+and [uv Python guide](https://docs.astral.sh/uv/guides/install-python/)
+(checked 2026-10-13). They may download a runtime when the user executes setup;
+ClaimBranch executes no installer or environment change. Use an unused conda
+environment name if `claimbranch` already exists. After installation, rerun doctor
+before init/open. The uv check forbids implicit Python downloads and ignores any
+unrelated uv project configuration.
+
+`python3 -m claimbranch doctor` has bootstrap syntax compatible with Python 3.8+
+and displays prerequisite guidance on the verified Mac Python 3.9.6
+before importing application code; this does **not** declare old-runtime app
+support. Wrong versions exit 3, with replays explicitly not run, including JSON
+output. Python 3.8 bootstrap grammar and an actual Mac Python 3.9.6 invocation
+are checked; other old interpreters are not qualified. On Python 3.13, doctor
+also imports `curses` to detect a missing/broken `_curses` extension, and reports
+both Git on PATH and the executable `/usr/bin/git` requirement. A conda-only Git
+does not satisfy the latter. Repair/install system Git through macOS Command
+Line Tools or the Unix host's package manager; no path-check bypass is provided.
+On macOS, doctor also checks developer Git behind the executable system shim
+without launching it. An Xcode-selected toolchain also needs its license accepted
+through Apple tools; doctor does not probe license acceptance or run Git. `/usr/bin/git` and `/usr/bin/python3` may open Apple’s
+installer when Command Line Tools are absent: use an already installed Python
+for guidance, and install tools explicitly before using system Git. On an old
+Python, curses readiness is `null` (not checked for the required interpreter),
+then checked when doctor runs under 3.13. Importability does not verify terminal
+terminfo; starting the TUI remains a separate check.
+After conda doctor, run `conda activate claimbranch` and use `python -m claimbranch`
+for the later interactive commands; `conda run` captures output by default. With
+uv, keep the same `uv run --no-project --python 3.13 --no-python-downloads python`
+prefix for all later commands, including init/open.
+Missing curses needs a Python build with ncurses support, rather than pip or a
+virtual environment alone. Windows TUI remains unsupported. Simulated missing
+prerequisites check guidance; conda/uv installations are not tested locally.
+
 Run from a trusted checkout using Python 3.13; no package installation or
 third-party build tool is needed:
 

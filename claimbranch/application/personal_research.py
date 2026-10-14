@@ -13,6 +13,7 @@ import time
 from claimbranch.core.canonical import ContractError, bounded_text, canonical_bytes, decode, digest
 from claimbranch.core.research_history import ResearchHistory
 from .paper_branch import judgment_value
+from .paper_storage_codec import decode as storage_decode
 from .paper_work_store import PaperWork
 from .tui_model import TerminalWorkspace
 from .tui_retention import personal, recovery_copy
@@ -36,12 +37,16 @@ class PersonalPreview:
 
 
 def _binding(app):
-    return canonical_bytes({'history': hashlib.sha256(app.paper.history.manifest()).hexdigest(),
+    from .manuscript_anchors import source_statuses
+    anchors = source_statuses(app.paper.history) if app.paper.history.has_manuscript_anchors else {}
+    return app.service._bytes({'anchor_sources':anchors, 'history': hashlib.sha256(app.paper.history.manifest()).hexdigest(),
                             'writing': snapshot_value(app)})
 
 
 def _seal(preview):
-    return canonical_bytes({'kind':preview.kind,'history':hashlib.sha256(preview.history.manifest()).hexdigest(),
+    from claimbranch.core.paper_capacity import encode as paper_encode
+    encode = (lambda value: paper_encode(value,purpose="project")) if preview.history.schema_version in (4, 5) else canonical_bytes
+    return encode({'kind':preview.kind,'history':hashlib.sha256(preview.history.manifest()).hexdigest(),
         'episode':preview.episode_id,'ref':preview.ref,'node':preview.node_id,'fields':preview.fields,
         'display':preview.display,'graphs':preview.graphs,'expires':preview.expires_at,
         'consumed_result':preview.consumed_result, 'origin_record': preview.origin_record})
@@ -85,7 +90,7 @@ class PersonalResearch:
         def append(kind, payload, *, episode_id=episode):
             nonlocal history
             key = 'personal-' + secrets.token_hex(12)
-            history = history.append({'schema_version':3, 'id':key,
+            history = history.append({'schema_version':history.schema_version, 'id':key,
                 'project_id':app.view['project_id'], 'episode_id':episode_id,
                 'created_at':stamp, 'operation_type':kind,
                 'expected_heads':dict(history.heads), 'evidence_watermark':history.watermark,
@@ -170,7 +175,7 @@ class PersonalResearch:
                 display['judgment_reuse'] = 'Your judgment becomes an interpretation with no inferred observation links.'
             judgment = session._current_judgment()
             history, science = app.service.branch_candidate(request,judgment,
-                operation_id='record-'+secrets.token_hex(12), created_at=stamp)
+                operation_id='record-'+secrets.token_hex(12), created_at=stamp, source_node_id=work.owner[2] if history.schema_version==5 else None)
             recorded = history.view('alternative',episode_id=episode)
             selected = [a['id'] for a in science['preview']['amendments'] if a['disposition']!='omitted']
             from .paper_proposal_work import record_provenance, explanation_topics, validate_explanation
@@ -181,19 +186,30 @@ class PersonalResearch:
             explanation = validate_explanation(cause, science['preview'], explanation)
             recording_available = not inherited_ai or explanation['state'] in ('reviewed', 'leave-for-later')
             judgment_ai = any(c['contributor']=='ai' for j in recorded['judgments'] for c in j['history'])
+            if history.schema_version == 5:
+                judgment_ai |= any(r['contributor'] in ('ai','mixed','unknown') for r in science['preview']['provenance']['imported_sources'])
             if recording_available:
-                append('apply-selected-merge', {'selected_ids':selected, 'judgment':recorded['judgment'],
+                merge_payload = {'selected_ids':selected, 'judgment':recorded['judgment'],
                     # Item-level AI remains in the personal origin registry. The
                     # legacy reducer checks judgment AI only; do not invent a
                     # human deferral from either Boolean.
                     'disposition': ('deferred' if explanation['state']=='leave-for-later' else 'answered')
                         if judgment_ai else 'not-required',
                     'answers': [e['text'] if e['text'].strip() else recorded['judgment']['rationale']
-                                for e in explanation['entries']] if judgment_ai and explanation['state']=='reviewed' else []})
+                                for e in explanation['entries']] if judgment_ai and explanation['state']=='reviewed' else []}
+                if history.schema_version == 5:
+                    from claimbranch.core.argument_import import source_references
+                    from claimbranch.core.research_history import _reduce, _preview
+                    state = _reduce(history.seed, history.commands); branch = state['branches']['alternative']
+                    closure = _preview(state, selected).selection.closure
+                    subject = branch['source_node_id']
+                    merge_payload.update(source_node_id=subject, source_refs=source_references(state, branch, [branch['changes'][key] for key in closure], subject))
+                append('apply-imported-merge' if history.schema_version==5 else 'apply-selected-merge', merge_payload)
             if inherited_ai or explanation_state is not None:
-                if len(app.paper._recorded_origins) >= 8:
-                    raise ContractError('This personal workspace retains eight AI/explanation consequences; earlier work and writing remain available. A new recorded consequence exceeds its bounded history.')
-                origin_record = {'operation_id': decode(history.commands[-1])['id'] if recording_available else 'unrecorded-comparison', 'cause': cause, 'lineages': lineages,
+                if len(app.paper._recorded_origins) >= (32 if history.schema_version==5 else 8):
+                    limit = 32 if history.schema_version == 5 else 8
+                    raise ContractError(f'This personal workspace retains {limit} origin/explanation consequences; earlier work and writing remain available. A new recorded consequence exceeds its bounded history.')
+                origin_record = {'operation_id': storage_decode(history.commands[-1])['id'] if recording_available else 'unrecorded-comparison', 'cause': cause, 'lineages': lineages,
                     'source_judgments': deepcopy(science['preview']['provenance'].get('source_judgments', [])),
                     'explanation': explanation}
             graphs = science['preview']['graphs']
@@ -205,6 +221,14 @@ class PersonalResearch:
                 explanation_topics=explanation_topics(cause, science['preview']) if inherited_ai else [],
                 recording_available=not inherited_ai or explanation['state'] in ('reviewed', 'leave-for-later'),
                 follow_up='Manuscript follow-up remains open. No file is applied; any AI explanation remains unfinished.')
+            if history.schema_version == 5:
+                from claimbranch.core.paper_changes import AmendmentLineage
+                known_ai = science['preview']['provenance']['ai_influenced'] or any(
+                    AmendmentLineage.restore(canonical_bytes(lineage)).ai_influenced for lineage in lineages)
+                display.update(imported_sources=science['preview']['provenance']['imported_sources'],
+                    origin_uncertain=science['preview']['provenance']['origin_uncertain'],
+                    ai_origin_retained=known_ai, origin_review_required=inherited_ai,
+                    ai_origin_status='known-ai' if known_ai else 'unknown' if science['preview']['provenance']['origin_uncertain'] else 'no-known-ai')
             ref = 'main'
             from .paper_service import PaperService
             if node not in {n['id'] for n in PaperService(history).query(ref,episode_id=episode)['nodes']}:
@@ -219,6 +243,12 @@ class PersonalResearch:
                            question=question, unfinished_results='Earlier result drafts stay readable, but confirmation requires their episode to be active. Finish those results before starting this question.')
         else:
             raise ContractError('Choose personal result confirmation, correction, reasoning or a next question.')
+        if history.has_manuscript_anchors:
+            from .manuscript_anchors import source_statuses
+            from .paper_service import PaperService
+            if kind in ('confirm','correct'):
+                display['manuscript_impact'] = PaperService(history).anchor_impact([node])
+            display['registered_source_freshness'] = source_statuses(app.paper.history)
         self.pending = PersonalPreview(kind,_binding(app),history,episode,ref,node,fields,display,graphs,now+300,
                                        item_id if kind=='correct' else None, origin_record)
         self._pending_seal = _seal(self.pending)
@@ -320,7 +350,7 @@ class PersonalResearch:
             raise
         app.recovery.project = project
         from .paper_proposal_work import mark_saved
-        mark_saved(app.paper, decode(project.work.payload)['workspace'])
+        mark_saved(app.paper, storage_decode(project.work.payload)['workspace'])
         app.recovery.previous_input = None
         try:
             _install(app,preview.history,preview.episode_id,preview.ref,preview.node_id,preview.fields)
@@ -341,7 +371,7 @@ class PersonalResearch:
 def reasoning_unavailable(app):
     if app.view['episode']['status'] != 'active':
         return 'Choose the active research episode first.'
-    if any(decode(raw)['operation_type']=='apply-selected-merge' and decode(raw)['episode_id']==app.episode_id
+    if any(storage_decode(raw)['operation_type'] in ('apply-selected-merge','apply-imported-merge') and storage_decode(raw)['episode_id']==app.episode_id
            for raw in app.paper.history.commands):
         return 'This episode already has its chosen reasoning. Start the next research question for another update; writing is retained.'
     if app.ref != 'alternative' and 'alternative' in dict(app.paper.history.heads):

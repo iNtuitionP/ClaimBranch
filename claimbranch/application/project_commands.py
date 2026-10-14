@@ -19,17 +19,109 @@ from .tui_work_recovery import snapshot_value
 def add_personal_project_commands(commands):
     project = commands.add_parser('project', help='Create, resume or recover your personal paper workspace; local files, AI off')
     actions = project.add_subparsers(dest='project_action', required=True)
+    extended=actions.add_parser('import-metadata',help='Review selected extended records together; source originals and declared origins retained')
+    extended.add_argument('--directory',required=True)
+    extended.add_argument('--input',required=True)
+    extended.add_argument('--dry-run',action='store_true')
+    argument = actions.add_parser('import-argument', help='Review and register a prior argument in a fresh private project; source origins retained')
+    argument.add_argument('--input', required=True, help='Owner-private regular argument-import/v1 JSON envelope; maximum 16 MiB')
+    argument.add_argument('--dry-run', action='store_true', help='Read-only mapping/graph preview; creates no project')
+    argument.add_argument('--json', action='store_true', help='Complete private preview including original source chunks; not a share export')
+    argument.add_argument('--directory', help='Fresh owner-private destination outside Git; required to register')
+    argument.add_argument('--paper-root', help='Existing paper Git root, read-only')
+    argument.add_argument('--manuscript', help='Relative marked TeX source, read-only')
+    argument.add_argument('--anchor', default='anchor')
+    argument.add_argument('--question', help='New unresolved question after migration; not a historical decision')
+    for name in ('critique','critiques','critique-original','critique-references'):
+        action=actions.add_parser(name,help='Private sourced question or explicit local original; close TUI first')
+        action.add_argument('--directory',required=True)
+        if name=='critique':
+            action.add_argument('--input',required=True)
+            action.add_argument('--origin',choices=['human','ai','mixed','unknown'])
+            action.add_argument('--dry-run',action='store_true')
+        elif name=='critique-original':action.add_argument('--id',required=True)
+    for name in ('protocol','protocols'):
+        action=actions.add_parser(name,help='Review registered rules/results or inspect their dependent paths; close TUI first')
+        action.add_argument('--directory',required=True)
+        if name=='protocol':
+            action.add_argument('--input',required=True)
+            action.add_argument('--origin',choices=['human','ai','mixed','unknown'])
+            action.add_argument('--dry-run',action='store_true')
+        else:action.add_argument('--node')
+    for name in ('measurement','observations','artifact-check'):
+        action=actions.add_parser(name,help='Structured measurement review or read-only condition/artifact query; close TUI first')
+        action.add_argument('--directory',required=True)
+        if name=='measurement':
+            action.add_argument('--input',required=True)
+            action.add_argument('--origin',choices=['human','ai','mixed','unknown'])
+            action.add_argument('--dry-run',action='store_true')
+        elif name=='observations':
+            action.add_argument('--claim',required=True)
+            action.add_argument('--condition',action='append',default=[])
+            action.add_argument('--group',action='append',default=[])
+        else:
+            for flag in ('observation','artifact','path','cell'):action.add_argument('--'+flag,required=True)
+    co=actions.add_parser('co-report',help='Review scoped readings together in one personal transaction; close TUI first')
+    co.add_argument('--directory',required=True)
+    co.add_argument('--origin',choices=['human','ai','mixed','unknown'])
+    co.add_argument('--input',required=True,help='Owner-private claimbranch.co-report/v1 JSON')
+    co.add_argument('--dry-run',action='store_true')
+    for name in ('claim-policy','claim-companion','anchor-context','wording-lint'):
+        action=actions.add_parser(name,help='Human reporting restrictions or read-only marked-block warnings; close TUI first')
+        action.add_argument('--directory',required=True)
+        if name=='wording-lint':continue
+        action.add_argument('--origin',choices=['human','ai','mixed','unknown'])
+        action.add_argument('--reason',required=True)
+        action.add_argument('--dry-run',action='store_true')
+        if name=='claim-policy':
+            action.add_argument('--claim',required=True)
+            action.add_argument('--grade',required=True)
+            action.add_argument('--limitation',required=True)
+            for flag in ('allowed','caveat','ban'):action.add_argument('--'+flag,action='append',default=[])
+            action.add_argument('--placement',action='append',choices=('main','appendix','abstract'),required=True)
+        elif name=='claim-companion':
+            action.add_argument('--id',required=True)
+            action.add_argument('--claim',required=True)
+            action.add_argument('--companion',required=True)
+            action.add_argument('--scope',choices=('anchor','paragraph'),default='anchor')
+            action.add_argument('--retire',action='store_true')
+        else:
+            action.add_argument('--anchor',required=True)
+            action.add_argument('--placement',choices=('main','appendix','abstract','unknown'),required=True)
+            action.add_argument('--paragraphs',help='Private JSON list of index/expresses/plots declarations; original registered block indices')
+    for name in ('anchor-register','anchors','anchor-impact'):
+        action=actions.add_parser(name,help='Read-only registered manuscript locations and explicit scientific uses')
+        action.add_argument('--directory',required=True)
+        if name=='anchor-register':
+            action.add_argument('--manuscript',required=True)
+            action.add_argument('--anchor',required=True)
+            action.add_argument('--kind',choices=('text','figure','table','caption'),required=True)
+            action.add_argument('--expresses',nargs='*',default=[])
+            action.add_argument('--plots',nargs='*',default=[])
+            action.add_argument('--parents',nargs='*',default=[])
+            action.add_argument('--origin',choices=['human','ai','mixed','unknown'])
+            action.add_argument('--reason',required=True)
+            action.add_argument('--dry-run',action='store_true')
+        elif name=='anchor-impact':
+            action.add_argument('--nodes',nargs='+',required=True)
+            action.add_argument('--before',help='Earlier operation ID for old/new association reach')
     imported = actions.add_parser('import-proposal', help='Review an external AI response locally; no inference or scientific acceptance')
     imported.add_argument('--directory', required=True)
     imported.add_argument('--project-id')
     imported.add_argument('--input', required=True, help='Private regular JSON file containing the explicit external proposal envelope')
     imported.add_argument('--dry-run', action='store_true')
+    converted = actions.add_parser('convert-profile', help='Preview legacy personal work conversion into a fresh paper-profile destination; original retained')
+    converted.add_argument('--directory', required=True, help='Existing legacy personal project; close TUI first')
+    converted.add_argument('--destination', required=True, help='Separate existing fresh owner-private directory outside Git')
+    converted.add_argument('--dry-run', action='store_true')
+    converted.add_argument('--json', action='store_true')
     for name in ('init', 'open'):
         action = actions.add_parser(name)
         action.add_argument('--directory', required=True, help='Existing owner-private directory outside Git')
         action.add_argument('--project-id', help='Optional expected identity; generated on init and read on open')
         action.add_argument('--provider-directory', help='Private personal LLM configuration; Mac Codex gpt-6-sol supports reviewed requests, other routes preview only')
         if name == 'init':
+            action.add_argument('--profile', choices=('episode','paper'), default='episode', help='Registered capacity: legacy episode or personal paper lifecycle (manual AI-off)')
             action.add_argument('--paper-root', required=True, help='Existing local Git paper; source stays read-only')
             action.add_argument('--manuscript', required=True, help='Relative marked .tex source')
             action.add_argument('--anchor', default='anchor')
@@ -47,14 +139,25 @@ def add_personal_project_commands(commands):
         action.add_argument('--project-id',help='Optional expected project identity')
         action.add_argument('--json',action='store_true',help='Structured saved-work summary; no private writing')
         if name!='status':
-            action.add_argument('--archive-directory',required=True,help='Separate existing private directory outside Git')
+            action.add_argument('--archive-directory',required=name!='export',help='Separate existing private directory outside Git')
+        if name=='export':
+            action.add_argument('--canonical',action='store_true',help='Selected public projection; never a backup')
+            action.add_argument('--selection',help='share-selection/v1 JSON: record_ids and separate reason_ids')
+            action.add_argument('--output',help='Create-only shared file, including inside Git')
+            action.add_argument('--dry-run',action='store_true',help='Show exact shared content without writing')
         if name=='restore':
             action.add_argument('--dry-run',action='store_true',help='Validate backup and basic destination checks; writes nothing and reserves no session')
+
+    sharing=actions.add_parser('verify-export',help='Compare a canonical share with its exact saved private revision')
+    sharing.add_argument('--directory',required=True)
+    sharing.add_argument('--project-id')
+    sharing.add_argument('--input',required=True)
 
 
 def saved_summary(project,kind):
     return {'kind':kind,'project_id':project.project_id,
         'saved_digest':hashlib.sha256(project.payload).hexdigest(),
+        'capacity': {**project.work.history.capacity(), 'project_bytes': {'used':len(project.payload), 'limit':16777216 if project.work.history.schema_version in (4, 5) else 262144, 'remaining':(16777216 if project.work.history.schema_version in (4, 5) else 262144)-len(project.payload)}},
         'episodes':len(project.work.history.episodes()),'evidence_events':project.work.history.watermark,
         'source_status':project.source_status(),'source_fidelity_verified':False,
         'encrypted':False,'authorization_verified':False,'ai':'off',
@@ -99,8 +202,51 @@ def run_saved_command(args):
         print(result['kind']+' · '+project.project_id+' · saved '+result['saved_digest'])
         print('Source: '+result['source_status']+'. Personal files are unencrypted; no protected approval.')
         print(result['backup_boundary'])
+        print('Capacity: '+result['capacity']['profile'])
+        for key, value in result['capacity']['resources'].items():
+            print('  %s: %s / %s (remaining %s)' % (key,value['used'],value['limit'],value['remaining']))
         if action!='status': print('Output directory: '+clean(str(args.directory if action=='restore' else args.archive_directory)))
         if args.project_action=='restore' and args.dry_run: print(result['destination_checks'])
+    return 0
+
+
+def _convert_profile(args):
+    from .paper_profile_project import convert_paper_project
+    from .project_work import _workspace
+    if os.path.samefile(args.directory,args.destination):
+        raise ContractError('Conversion requires a separate fresh destination; source unchanged')
+    _, identity = _workspace(args.destination)
+    with PersonalProjectStore(args.directory) as source:
+        project = source.load()
+        raw = source._read()
+        candidate = convert_paper_project(project,raw)
+        summary = {**saved_summary(candidate,'paper-profile-conversion-preview'),
+            'original_checkpoint_sha256':hashlib.sha256(raw).hexdigest(),
+            'result_sha256':hashlib.sha256(candidate.payload).hexdigest(),
+            'source_retained':True, 'new_history_version':4, 'new_checkpoint_frame':2,
+            'science_changed':False, 'provider_connection':'not qualified for new profile',
+            'conversion_note':'Original dates and contributions retained; context bindings change, no prior consent restores.'}
+        print(json.dumps(summary,ensure_ascii=False,sort_keys=True,indent=None if args.json else 2),flush=True)
+        if args.dry_run: return 0
+        if not sys.stdin.isatty() or not sys.stdout.isatty():
+            raise ContractError('Conversion requires an interactive terminal; use --dry-run to inspect')
+        if input('Type convert to publish this exact conversion in the fresh destination, or Enter to cancel: ')!='convert':
+            print('Cancelled. Source and destination unchanged.',flush=True); return 0
+        source.verify_unchanged()
+        if _workspace(args.destination)[1]!=identity:
+            raise ContractError('Conversion destination changed; preview again')
+        try:
+            with PersonalProjectStore.create(args.destination,project_id=candidate.project_id) as target:
+                from .project_work import _identity
+                if _identity(os.fstat(target._dir)) != identity:
+                    raise ContractError('Conversion destination identity changed; preview again')
+                source.verify_unchanged()
+                target._save_restored(candidate)
+                source.verify_unchanged()
+        except WorkReopenRequired as error:
+            raise WorkReopenRequired('Conversion save is not confirmed at '+str(args.destination)+
+                '; preserve the original and inspect the destination. '+str(error)) from error
+    print('Converted personal paper saved; original checkpoint retained.',flush=True)
     return 0
 
 
@@ -138,21 +284,165 @@ def _import_external(args):
     return 0
 
 
+def _read_argument_input(path):
+    from claimbranch.core.paper_capacity import PROJECT_BYTES
+    fd = os.open(path, os.O_RDONLY | os.O_NOFOLLOW | os.O_NONBLOCK)
+    try:
+        before = os.fstat(fd)
+        if not stat.S_ISREG(before.st_mode) or before.st_size > PROJECT_BYTES or before.st_mode & 0o077 or before.st_uid != os.getuid():
+            raise ContractError('Select an owner-private regular argument JSON file of at most 16 MiB')
+        with os.fdopen(fd, 'rb', closefd=False) as stream: raw = stream.read(PROJECT_BYTES + 1)
+        after = os.fstat(fd)
+        if (before.st_dev, before.st_ino, before.st_size, before.st_mtime_ns, before.st_ctime_ns) != (after.st_dev, after.st_ino, after.st_size, after.st_mtime_ns, after.st_ctime_ns):
+            raise ContractError('Argument source changed during reading; retry a fresh preview')
+    finally:
+        os.close(fd)
+    return raw
+
+
+def _preview_argument(args, *, raw=None, require_complete=False):
+    from claimbranch.core.argument_import import preview_import
+    from claimbranch.core.paper_capacity import PROJECT_BYTES, source_bytes
+    if not args.dry_run:
+        raise ContractError('Argument registration is not yet available. Use import-argument --dry-run; no project was created.')
+    raw = _read_argument_input(args.input) if raw is None else raw
+    result = preview_import(raw)
+    if args.json:
+        print(json.dumps(result, ensure_ascii=False, sort_keys=True))
+    else:
+        display = {key: child for key, child in result.items() if key != 'source'}
+        text = 'PRIOR ARGUMENT / private read-only preview; no records registered.\n' + json.dumps(display, ensure_ascii=False, indent=2)
+        if 'source' in result:
+            text += '\nCOMPLETE ORIGINAL JSON / retained source claims, not verified science\n' + source_bytes(result['source']).decode('utf-8')
+        lines = clean(text).splitlines()
+        for index in range(0, len(lines), 40):
+            print('\n'.join(lines[index:index+40]), flush=True)
+            if index + 40 < len(lines) and sys.stdin.isatty() and sys.stdout.isatty():
+                try:
+                    answer = input('Enter: next page / q: leave preview (no writes): ').strip().lower()
+                except (EOFError, KeyboardInterrupt) as error:
+                    print('Preview interrupted; no records registered.')
+                    return 130 if isinstance(error, KeyboardInterrupt) else 1
+                if answer == 'q':
+                    print('Preview left before all pages; no records registered.')
+                    return 2 if require_complete else 0 if result['valid'] else 1
+    return 0 if result['valid'] else 1
+
+
+def _register_argument(args):
+    from datetime import datetime, timezone
+    from claimbranch.core.argument_import import history_from_import, preview_import
+    from .project_work import ProjectWork, preview_association, _workspace, _identity
+    if not all((args.directory, args.paper_root, args.manuscript, args.question)):
+        raise ContractError('Argument registration is not yet available without --directory, --paper-root, --manuscript and --question; use --dry-run to inspect.')
+    if not sys.stdin.isatty() or not sys.stdout.isatty():
+        raise ContractError('Registration requires an interactive terminal; use --dry-run to inspect.')
+    raw = _read_argument_input(args.input)
+    if len(raw) > 4194304:
+        raise ContractError('capacity import-input-bytes: %s / 4194304; no project registered. Preview remains available with --dry-run.' % len(raw))
+    inspected = preview_import(raw)
+    if not inspected['valid']:
+        preview_args = type('PreviewArgs', (), dict(dry_run=True, json=args.json, input=args.input))()
+        _preview_argument(preview_args, raw=raw)
+        return 1
+    preview = preview_association(args.paper_root, args.manuscript, args.anchor, args.directory)
+    identity = _workspace(args.directory)[1]
+    now = datetime.now(timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ')
+    history = history_from_import(raw, anchor_id=args.anchor, registered_at=now)
+    # This is the first local question, not a fabricated earlier judgment round.
+    token = secrets.token_hex(16)
+    history = history.append(dict(schema_version=5, id='open-import-'+token,
+        project_id=inspected['project_id'], episode_id='after-import-'+token, created_at=now,
+        operation_type='open-episode', expected_heads=dict(history.heads), evidence_watermark=history.watermark,
+        payload=dict(title=inspected['title'], question=args.question)))
+    candidate = ProjectWork.create(PaperWork.create(history), preview, import_input=raw)
+    # A saved candidate must also open under the actual graph/workspace budgets.
+    project_workspace(candidate)
+    preview_args = type('PreviewArgs', (), dict(dry_run=True, json=args.json, input=args.input))()
+    preview_code = _preview_argument(preview_args, raw=raw, require_complete=True)
+    if preview_code != 0:
+        print('Registration review stopped; no project registered.')
+        return 0 if preview_code == 2 else preview_code
+    print(clean(json.dumps(dict(destination=str(args.directory), registered_at=now,
+        first_local_question=args.question, saved_bytes=len(candidate.payload),
+        result_sha256=hashlib.sha256(candidate.payload).hexdigest(), source_status=candidate.source_status(),
+        history_version=5, encrypted=False, authorization_verified=False), ensure_ascii=False, indent=2)), flush=True)
+    try:
+        answer = input('Type import to register this exact selection in the fresh personal project; Enter cancels: ')
+    except (EOFError, KeyboardInterrupt) as error:
+        print('Registration interrupted; no project registered.')
+        return 130 if isinstance(error, KeyboardInterrupt) else 1
+    if answer != 'import':
+        print('Cancelled; no project registered.'); return 0
+    if _read_argument_input(args.input) != raw:
+        raise ContractError('Import input changed after review; no project registered.')
+    preview.recheck()
+    if _workspace(args.directory)[1] != identity:
+        raise ContractError('Import destination changed after review; no project registered.')
+    with PersonalProjectStore.create(args.directory, project_id=candidate.project_id) as store:
+        if _identity(os.fstat(store._dir)) != identity:
+            raise ContractError('Import destination changed while opening; no project registered.')
+        preview.recheck()
+        if _read_argument_input(args.input) != raw:
+            raise ContractError('Import input changed before publication; no project registered.')
+        store.save(candidate, preview=preview)
+    print('Imported personal argument saved. Past decisions remain source claims; use project open to continue.', flush=True)
+    return 0
+
+
 def run_personal_project_command(args):
     from .tui import run_terminal
     saving = False
     connection = None
     try:
+        if args.project_action in ('critique','critiques','critique-original','critique-references'):
+            from .critiques import run_critique_command
+            return run_critique_command(args)
+        if args.project_action in ('protocol','protocols'):
+            from .protocols import run_protocol_command
+            return run_protocol_command(args)
+        if args.project_action in ('measurement','observations','artifact-check'):
+            from .typed_observations import run_measurement_command
+            return run_measurement_command(args)
+        if args.project_action=='co-report':
+            from .co_report import run_co_report
+            return run_co_report(args)
+        if args.project_action in ('claim-policy','claim-companion','anchor-context','wording-lint'):
+            from .claim_wording import run_wording_command
+            return run_wording_command(args)
+        if args.project_action in ('anchor-register','anchors','anchor-impact'):
+            from .manuscript_anchors import run_anchor_command
+            return run_anchor_command(args)
+        if args.project_action == 'import-argument':
+            saving = not args.dry_run
+            return _preview_argument(args) if args.dry_run else _register_argument(args)
+        if args.project_action == 'convert-profile': return _convert_profile(args)
         if args.project_action == 'import-proposal': return _import_external(args)
+        if args.project_action=='import-metadata':
+            from .metadata_batch import run_batch
+            return run_batch(args)
+        if args.project_action=='verify-export' or (args.project_action=='export' and args.canonical):
+            from .canonical_share import run_share_command
+            return run_share_command(args)
+        if args.project_action=='export' and (not args.archive_directory or args.selection or args.output or args.dry_run):
+            raise ContractError('Private export requires --archive-directory; selected sharing uses --canonical --selection --output.')
         if args.project_action in ('status','backup','export','restore'):
             saving = args.project_action=='restore' and not args.dry_run
             return run_saved_command(args)
-        if getattr(args, 'provider_directory', None):
+        if args.project_action=='init' and args.profile=='paper' and getattr(args,'provider_directory',None):
+            raise ContractError('Personal-paper provider connection is not qualified; initialize without a provider profile.')
+        if args.project_action=='init' and getattr(args, 'provider_directory', None):
             from .provider_commands import PersonalProviderConnection
             connection = PersonalProviderConnection(args.provider_directory).__enter__()
         if args.project_action == 'init':
             args.project_id = args.project_id or 'paper-' + secrets.token_hex(8)
             preview, project, display = setup_preview(args)
+            if args.profile == "paper":
+                from .paper_profile_project import new_paper_project
+                project = new_paper_project(preview, args.project_id, args.title or display["title"], args.thesis or display["thesis"], args.question or display["question"])
+                display["capacity"] = project.work.history.capacity()
+                if connection:
+                    raise ContractError("Personal-paper provider context is not qualified; open without a provider profile.")
             display.update(kind='personal-project-preview', storage='private local files; not encrypted',
                 authorization_verified=False, protected_acceptance='unavailable',
                 on_confirmation='Create personal work and open the terminal; manuscript unchanged.')
@@ -181,6 +471,13 @@ def run_personal_project_command(args):
                 return run_terminal(app.paper.history, workspace=app)
         with PersonalProjectStore(args.directory, project_id=args.project_id) as store:
             project = store.load()
+            if project.work.history.schema_version in (4, 5) and getattr(args,'provider_directory',None):
+                raise ContractError("Personal-paper provider context is not qualified; reopen without a provider profile.")
+            if getattr(args,'provider_directory',None):
+                from .provider_commands import PersonalProviderConnection
+                connection = PersonalProviderConnection(args.provider_directory).__enter__()
+            if project.work.history.schema_version in (4, 5):
+                print("Capacity: "+json.dumps(project.work.history.capacity(),sort_keys=True),flush=True)
             if not project.work.history.episodes():
                 project = first_episode_prompt(project, personal=True)
                 if project is None:
@@ -198,6 +495,8 @@ def run_personal_project_command(args):
     except KeyboardInterrupt as error:
         if args.project_action=='restore':
             guidance='Restoration is not confirmed. Inspect destination '+str(args.directory)+' with project open; preserve the backup and do not overwrite the destination.'
+        elif args.project_action=='export' and args.canonical:
+            guidance='Preserve any sharing output and verify-export before retrying into a new file; private work was not written.'
         elif args.project_action in ('backup','export'):
             guidance='Copy may be incomplete at '+str(args.archive_directory)+'. Preserve it; retry in a new private archive directory.'
         else:

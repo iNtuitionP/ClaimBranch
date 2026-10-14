@@ -40,6 +40,10 @@ def unpack(chunks):
 
 
 def fingerprint(history):
+    if history.schema_version in (4, 5):
+        from claimbranch.core.paper_capacity import encode, decode as paper_decode
+        return hashlib.sha256(encode({'seed':paper_decode(history.seed,purpose='history'),
+            'commands':[paper_decode(c,purpose='history') for c in history.commands]},purpose='project')).hexdigest()
     return digest({'seed': decode(history.seed), 'commands': [decode(c) for c in history.commands]})
 
 
@@ -50,7 +54,8 @@ def history_reference(current, original):
     for before, after in zip(current.commands, original.commands):
         if before != after: break
         count += 1
-    return {'count': count, 'suffix': [decode(c) for c in original.commands[count:]],
+    from .paper_storage_codec import decode as storage_decode
+    return {'count': count, 'suffix': [storage_decode(c) for c in original.commands[count:]],
             'digest': fingerprint(original)}
 
 
@@ -118,9 +123,10 @@ def restore_wording(history, value, *, clock=None):
                     or not ((len(owner) == 2 and owner[0] == 'recorded') or
                             (len(owner) == 4 and owner[0] == 'draft' and owner[2] in ('main', 'alternative')))):
                 raise ContractError('Detached wording requires its original parent identity.')
-            command = decode(original.commands[-1])
+            from .paper_storage_codec import decode as storage_decode
+            command = storage_decode(original.commands[-1])
             item = session.state()['work']
-            if (command['operation_type'] != 'apply-selected-merge' or command['id'] != item['cause_operation_id']
+            if (command['operation_type'] not in ('apply-selected-merge','apply-imported-merge') or command['id'] != item['cause_operation_id']
                     or owner[1] != command['episode_id']):
                 raise ContractError('Detached wording differs from its scientific cause.')
             before = ResearchHistory.replay(history.seed, original.commands[:-1])

@@ -62,37 +62,92 @@ EXPERIMENT = obj(id=ID, question=TEXT, method=TEXT, conditions=TEXT, metric=METR
 PAPER_SEED = obj(schema_version={"type": "integer", "const": 2}, project_id=ID, episode_id=ID,
                 paper_title=TEXT, claim_id=ID, claim_statement=TEXT, anchor_id=ID)
 PAPER_SERIES_LIMITS = {**PAPER_LIMITS, "episodes": 8, "interpretations": 8}
+LIFECYCLE_SEED = obj(schema_version={"const": 4}, profile={"const": "paper"}, project_id=ID,
+    paper_title=TEXT, claim_id=ID, claim_statement=TEXT, anchor_id=ID)
+
 PAPER_SERIES_SEED = obj(schema_version={"type": "integer", "const": 3}, project_id=ID,
                        paper_title=TEXT, claim_id=ID, claim_statement=TEXT, anchor_id=ID)
 
 
 def seed_schema(version):
-    if type(version) is not int or version not in (1, 2, 3):
+    if type(version) is not int or version not in (1, 2, 3, 4, 5):
         raise ContractError("unknown research contract version")
-    return deepcopy({1: SEED, 2: PAPER_SEED, 3: PAPER_SERIES_SEED}[version])
+    if version == 5:
+        from .argument_import import imported_seed_schema
+        return imported_seed_schema()
+    return deepcopy({1: SEED, 2: PAPER_SEED, 3: PAPER_SERIES_SEED, 4: LIFECYCLE_SEED}[version])
 
 
-def paper_payloads():
+def paper_payloads(version=3):
+    from .paper_capacity import LIMITS
+    limits = LIMITS if version in (4, 5) else PAPER_LIMITS
     bodies = deepcopy(BODIES)
     bodies["claim"] = obj(role={"enum": ["main", "subclaim"]}, statement=TEXT, scope=TEXT,
                           parent_ids=array(ID, 3, 1, True))
-    bodies["interpretation"] = obj(statement=TEXT, observation_ids=array(ID, PAPER_LIMITS["observations"], unique=True))
-    bodies["claim-status"]["properties"]["basis_ids"] = array(ID, PAPER_LIMITS["changes"], 1, True)
+    bodies["interpretation"] = obj(statement=TEXT, observation_ids=array(ID, limits["observations"], unique=True))
+    bodies["claim-status"]["properties"]["basis_ids"] = array(ID, limits["changes"], 1, True)
     bodies["experiment-plan"] = obj(claim_id=ID, objective=TEXT, status={"const": "planned"}, conditions=TEXT, metric=METRIC)
     change = {"oneOf": [obj(id=ID, kind={"const": kind}, body=body) for kind, body in bodies.items()]}
     payloads = deepcopy(PAYLOADS)
     payloads["record-experiment"] = EXPERIMENT
     payloads["record-evidence-event"]["properties"]["value"] = nullable(TEXT)
     payloads["record-evidence-event"]["required"].append("value")
-    payloads["record-interpretation"] = obj(changes=array(change, PAPER_LIMITS["changes"], 1), judgment=JUDGMENT)
-    payloads["apply-selected-merge"]["properties"]["selected_ids"] = array(ID, PAPER_LIMITS["changes"], 1, True)
+    payloads["record-interpretation"] = obj(changes=array(change, limits["changes"], 1), judgment=JUDGMENT)
+    payloads["apply-selected-merge"]["properties"]["selected_ids"] = array(ID, limits["changes"], 1, True)
+    if version == 5:
+        from .argument_import import imported_reference_schema
+        payloads['create-imported-reasoning-branch'] = obj()
+        for old, new in (('record-interpretation', 'record-imported-interpretation'), ('apply-selected-merge', 'apply-imported-merge')):
+            payloads[new] = deepcopy(payloads[old])
+            payloads[new]['properties'].update(source_node_id=ID, source_refs=array(imported_reference_schema(), 2048))
+            payloads[new]['required'].extend(['source_node_id', 'source_refs'])
     return payloads
 
 
+# Source identities are private read-only bindings, never scientific evidence.
+ANCHOR_PATH = {'type':'string','minLength':2,'maxLength':8192,'pattern':'^(?:[0-9a-f]{2})+$'}
+ANCHOR_NUMBER = {'type':'string','minLength':1,'maxLength':24,'pattern':'^(0|[1-9][0-9]*)$'}
+ANCHOR_IDENTITY = obj(device=ANCHOR_NUMBER, inode=ANCHOR_NUMBER)
+MANUSCRIPT_SOURCE = obj(root=ANCHOR_PATH,root_identity=ANCHOR_IDENTITY,
+    git_dir=ANCHOR_PATH,git_identity=ANCHOR_IDENTITY,git_common_dir=ANCHOR_PATH,git_common_identity=ANCHOR_IDENTITY,
+    manuscript=ANCHOR_PATH,anchor_id=ID,file_identity=ANCHOR_IDENTITY,size=ANCHOR_NUMBER,
+    mtime_ns=ANCHOR_NUMBER,ctime_ns=ANCHOR_NUMBER,source_digest=HASH)
+ANCHOR = obj(id=ID,kind={'enum':['text','figure','table','caption']},source=MANUSCRIPT_SOURCE,
+    block_digest=HASH,block=array({'type':'string','minLength':1,'maxLength':10924,'pattern':'^[A-Za-z0-9+/]+={0,2}$'},8),
+    expresses=array(ID,64,unique=True),plots=array(ID,256,unique=True),parents=array(ID,4,unique=True),rationale=TEXT)
+
+WORDING_POLICY = obj(claim_id=ID, grade=TEXT, limitation=TEXT,
+    allowed_wording=array(TEXT,16,unique=True), required_caveats=array(TEXT,16,unique=True),
+    banned_phrases=array(TEXT,32,unique=True), placement=array({'enum':['main','appendix','abstract']},3,1,True), rationale=TEXT)
+COMPANION = obj(id=ID, target_id=ID, companion_id=ID, scope={'enum':['anchor','paragraph']},
+    status={'enum':['active','retired']}, rationale=TEXT)
+ANCHOR_CONTEXT = obj(anchor_id=ID, placement={'enum':['main','appendix','abstract','unknown']},
+    paragraphs=array(obj(index={'type':'integer','minimum':1,'maximum':256},
+        expresses=array(ID,64,unique=True),plots=array(ID,256,unique=True)),256), rationale=TEXT)
+REVISION_PAYLOADS = {'set-claim-wording':WORDING_POLICY,'set-claim-companion':COMPANION,'set-anchor-context':ANCHOR_CONTEXT}
+
+CO_READING = obj(id=ID, statement=TEXT, scope=TEXT, observation_ids=array(ID,256,1,True),
+    claim_id=ID, edge_id=ID, edge_type={'enum':['supports','challenges','qualifies']},
+    source_id=nullable(ID), origin={'enum':['human','ai','mixed','unknown']})
+CO_REPORT = obj(id=ID,candidates=array(CO_READING,4,2),selected_ids=array(ID,4,2,True),
+    companion_ids=array(ID,256,1,True),context_digest=HASH,judgment=JUDGMENT,
+    disposition={'enum':['not-required','answered','deferred']},answers=array(TEXT,3,unique=True))
+
 def command_schema(version=1):
-    seed_schema(version)
-    payloads = PAYLOADS if version == 1 else paper_payloads()
-    if version == 3:
+    if version not in (6,7,8,9,10,11,12): seed_schema(version)
+    if version == 11:
+        from .critiques import PAYLOADS as CRITIQUE_PAYLOADS
+    if version == 10:
+        from .protocols import PAYLOADS as PROTOCOL_PAYLOADS
+    if version == 9:
+        from .typed_observations import PAYLOADS as MEASUREMENT_PAYLOADS
+    payloads = {} if version == 12 else CRITIQUE_PAYLOADS if version == 11 else PROTOCOL_PAYLOADS if version == 10 else MEASUREMENT_PAYLOADS if version == 9 else {"record-co-report":CO_REPORT} if version == 8 else REVISION_PAYLOADS if version == 7 else {"register-manuscript-anchor":ANCHOR} if version == 6 else PAYLOADS if version == 1 else paper_payloads(version)
+    if version == 12:
+        from .critiques import PAYLOADS as C
+        from .protocols import PAYLOADS as P
+        from .typed_observations import PAYLOADS as M
+        payloads={**C,**P,**M,**REVISION_PAYLOADS,'register-manuscript-anchor':ANCHOR,'record-co-report':CO_REPORT}
+    if 3 <= version <= 5:
         payloads.update({"open-episode": obj(title=TEXT, question=TEXT), "close-episode": obj()})
     return deepcopy({
         "$schema": "https://json-schema.org/draft/2020-12/schema",
@@ -104,7 +159,8 @@ def command_schema(version=1):
             created_at={"type": "string", "format": "date-time", "minLength": 20, "maxLength": 20,
                         "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$"},
             operation_type={"const": kind}, expected_heads=HEADS,
-            evidence_watermark={"type": "integer", "minimum": 0, "maximum": 6 if version == 1 else PAPER_LIMITS["events"]}, payload=payload)
+            **({"contribution_origin":{"enum":["human","ai","mixed","unknown"]}} if version==12 else {}),
+            evidence_watermark={"type": "integer", "minimum": 0, "maximum": 6 if version == 1 else (1024 if version in (4, 5, 6, 7, 8, 9, 10, 11, 12) else PAPER_LIMITS["events"])}, payload=payload)
             for kind, payload in payloads.items()]})
 
 
@@ -160,7 +216,13 @@ def _check(value, schema):
         raise ContractError("integer outside finite bounds")
 
 
-def normalize(value, schema):
-    normalized = decode(canonical_bytes(value))
+def normalize(value, schema, *, profile="episode"):
+    if profile == "paper":
+        from .paper_capacity import encode as paper_encode, decode as paper_decode
+        normalized = paper_decode(paper_encode(value, purpose="project"), purpose="project")
+    elif profile == "episode":
+        normalized = decode(canonical_bytes(value))
+    else:
+        raise ContractError("unknown capacity profile")
     _check(normalized, schema)
     return normalized

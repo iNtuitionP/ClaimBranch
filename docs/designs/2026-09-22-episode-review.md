@@ -43,6 +43,13 @@ unconnected. The
 [intent audit](#product-intent-audit-and-next-complete-loop) below distinguishes
 implemented presentation from the missing complete research journey.
 
+The 2026-10-14 metadata follow-up adds an existing-graph action for
+private-file selection, complete detached typed-record review and literal batch
+confirmation. It preserves graph/writing context and separates input origin from
+confirming actor. This is a file-based bridge, not approval of a per-type form
+suite or user-usability proof; its [registration workflow](../development/workflow.md#extended-metadata-registration)
+and existing plan own focused checks, actual Mac terminal coverage and release limits.
+
 The following browser/storyboard description records the September 22 baseline;
 it must not be used to infer the current terminal implementation's completeness.
 

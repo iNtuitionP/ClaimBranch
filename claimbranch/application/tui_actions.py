@@ -79,6 +79,7 @@ class ActionsUI:
             Action('Paper connection', 'project-source', 'Inspect the saved paper; preview relocation or source refresh while retaining earlier writing.',
                    unavailable='' if hasattr(app, 'project_source_status') else 'Open a selected project with demo project open first.'),
         ] + ([
+            Action('Register extended records together', 'metadata-batch', 'Choose a private extended-record file here; compare graph effects and declared origins, then record the selected batch once.', 'PERSONAL HISTORY', unavailable='' if app.paper.history.schema_version in (4,5) else 'Use a paper-profile personal project.'),
             Action('Record selected reasoning personally', 'personal:reasoning', 'Review chosen claims/relations and reuse this judgment/reason. Record main and retain the alternative; manuscript stays read-only.', 'PERSONAL HISTORY',
                    unavailable=personal_reason or ('' if all(draft.values()) else 'Write your judgment and reason first.')),
             Action('Start the next research question', 'personal:next', 'Preview a new question. Keep earlier evidence, writing, alternatives and unresolved manuscript work.', 'PERSONAL HISTORY', unavailable=branch_reason),
@@ -151,6 +152,11 @@ class ActionsUI:
                 from .tui_manuscript_ui import manuscript_ui
                 manuscript_ui(terminal).open_saved()
                 return
+            if action.key == 'metadata-batch':
+                from .tui_metadata import metadata_ui
+                try:metadata_ui(terminal).open()
+                except (ContractError,OSError) as error:self.notice=str(error)
+                return
             if action.key == 'project-source':
                 from .tui_project_source import project_source_ui
                 try:
@@ -212,7 +218,7 @@ class ActionsUI:
             frame.fill(6 + row, x, measure, 'selected' if active else 'body')
             label = ('› ' if active else '  ') + ('× ' if action.unavailable else '  ') + action.title
             frame.put(6 + row, x, label, 'selected' if active else 'muted' if action.unavailable else 'body', measure - 8)
-            shortcut = ('' if (action.key or '').startswith(('proposal:', 'candidate:', 'work-links:', 'intake:', 'personal:', 'manuscript:', 'project-source', 'save-status')) else
+            shortcut = ('' if (action.key or '').startswith(('proposal:', 'candidate:', 'work-links:', 'intake:', 'personal:', 'manuscript:', 'project-source', 'metadata-batch', 'save-status')) else
                         ('w ' if action.work and action.key != 'e' else '') + (action.key or ''))
             frame.put(6 + row, x + measure - 7, '--' if action.unavailable else shortcut,
                       'selected_meta' if active else 'muted', 7)

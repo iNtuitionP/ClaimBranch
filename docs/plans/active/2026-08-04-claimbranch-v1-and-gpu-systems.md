@@ -2,7 +2,7 @@
 kind: exec-plan
 status: active
 owners: maintainers
-last_reviewed: 2026-10-13
+last_reviewed: 2026-10-14
 ---
 
 # ExecPlan: ClaimBranch graph contract to live-paper validation
@@ -48,6 +48,19 @@ has passed owned-return and terminal checks; its exact-approved actual service
 request now returns readable advice and survives fresh open. The final connected
 use/source batch is in progress. No transmission permission is inferred from
 implementation approval.
+For the owner's 2026-10-13 real-paper issue planning, resume at the
+[per-issue migration implementation plan](#real-paper-migration-implementation-plan).
+It has 10 planned runtime outcomes and selected import/sharing policies in ADR
+0023; all 10 bounded migration outcomes are implemented (10/10). The
+[original-issue audit](#real-paper-migration-implementation-plan) distinguishes
+this count from full typed migration and records follow-up origin/input gaps. Prior-argument
+registration, source-aware personal reasoning, read-only multi-anchor impact
+and private return are checked. Human wording restrictions and one companion
+obligation, scoped co-reported readings and structured measurement revisions now
+connect with original/amended protocols, private sourced questions and selected
+canonical sharing; manuscript files and graphic fidelity remain outside writing authority. The first new feedback checkpoint is
+prior-argument import with disclosed mapping coverage, private save and return. The existing L04 human-use
+observation remains separate rather than being replaced by this new plan.
 The completed [GitHub manual-release implementation order](#github-manual-release-implementation-order)
 remains the first-alpha implementation baseline.
 The [key-free personal-workspace direction](#key-free-personal-workspace-alternative)
@@ -143,6 +156,33 @@ Passing the retrospective fixture means `foundation validated`, not product
 success. Do not call the product v1.0 before the live-paper gate passes.
 
 ## Progress
+
+- [x] 2026-10-13 KST - Prepare a per-issue migration implementation order with
+  10 observable outcomes; owner confirms batch registration, retained-source
+  partial migration, selected sharing and private critique originals. Record
+  those policies in ADR 0023 and the proposed domain extension. See the
+  [issue implementation plan](#real-paper-migration-implementation-plan).
+  Runtime implementation remains 0/10; actual Opus finds engineering corrections
+  and no new user choice. Final documentation checks follow those amendments.
+
+- [x] 2026-10-13 KST - Assess all eight anonymized paper-migration issues and
+  tracking #10 against the product Dream, accepted philosophy and current code.
+  Reproduce capacity/encoding limits without writes; preserve the six original
+  fixture goldens. Record corrected proposals and feedback order in the
+  [real-paper migration review](#real-paper-migration-issue-review).
+  These are recommendations; no implementation or scope expansion is declared.
+
+- [x] 2026-10-13 KST - Build and render the requested 12-second local HTML pilot
+  with an actual AI-off PTY replay, pinned media tooling and browser preview.
+  Encoding, seeking, narrow preview and media playback checks pass after bounded
+  actual Opus review and confirmed-finding repairs. See the [M01 result](#code-rendered-launch-demo-proposal).
+  The longer film remains M02–M04, three production units; no publication.
+
+- [x] 2026-10-13 KST - Inspect the owner's public Opus demo collection and
+  compare HTML video authoring with the current terminal alpha. Prepare the
+  [code-rendered launch demo proposal](#code-rendered-launch-demo-proposal):
+  one short pilot, then a synthetic research story with actual terminal footage.
+  This is planning only; video production and publishing have not started.
 
 - [x] 2026-10-13 KST - Diagnose the remaining hosted Mac startup failure:
   the child stack is blocked in `HTTPServer.server_bind` → `socket.getfqdn`.
@@ -4504,6 +4544,17 @@ The executable milestone names used throughout this plan are:
 
 ## Surprises & Discoveries
 
+- 2026-10-13: The migration report exposes limits below the shared paper budget:
+  32 lifetime evidence events, 64 changes, 128 generic collection items and
+  shared 256 KiB checkpoint/manifest encoding. The seventeenth observation
+  incorrectly reports an F0 three-observation cap. See the independently
+  reproduced [migration findings](#real-paper-migration-issue-review).
+
+- 2026-10-13: HyperFrames strict static lint cannot see a registry initialized
+  only in external JavaScript. Initializing it in HTML and retaining actual
+  registration in the script fixes the render without disabling strict checks.
+  The real terminal PTY replay also composes successfully; see [M01](#code-rendered-launch-demo-proposal).
+
 - 2026-10-13 KST - The first GitHub Ubuntu run catches a PTY buffer assertion
   before output is drained and a Mac-only refusal expected on Linux. Mac also
   times out waiting three seconds for two owned worker starts. The
@@ -5512,6 +5563,22 @@ The executable milestone names used throughout this plan are:
 
 ## Decision Log
 
+- 2026-10-13: Owner selects reviewed batch registration and partial import with
+  source preservation, selected scientific sharing/reasons opt-in and private
+  critique originals. [ADR 0023](../../architecture/decisions/0023-personal-argument-import-and-sharing.md)
+  owns these accepted policies; implementation/version/capacity remains planned.
+
+- 2026-10-13: Recommend a bounded personal-paper migration/revision feedback
+  slice, preserving legacy fixture profiles and authority boundaries. Import
+  provenance, source verification, scientific scope and co-report obligations
+  need explicit semantics. This recommendation accepts no new schema or gate;
+  see [issue review](#real-paper-migration-issue-review).
+
+- 2026-10-13: Implement the requested motion pilot as isolated promotional tooling
+  under `tools/demo-video/`, using real AI-off PTY output with explicit replay
+  labeling. Preserve the complete real save/reopen demonstration for M02.
+  This changes no product surface or authority; see [M01](#code-rendered-launch-demo-proposal).
+
 - 2026-10-13 KST - The owner selects the prepared local passage drafts and
   declines an additional direct-edit inference. Continue the local route and
   leave direct model editing explicitly unverified; do not repeatedly seek
@@ -6432,6 +6499,17 @@ The executable milestone names used throughout this plan are:
   AI and graph machinery remain visibly attributable but visually secondary.
 
 ## Outcomes & Retrospective
+
+- 2026-10-13: [Migration issue analysis](#real-paper-migration-issue-review)
+  distinguishes verified code blockers from the supplied unverified inventory
+  and proposed expansions. Paper-level capacity and prior-record entry are the
+  first useful feedback outcome; semantic qualifiers and honest historical
+  origin must survive that migration. No original paper or importer is tested.
+
+- 2026-10-13: The [M01 motion pilot](#code-rendered-launch-demo-proposal) now has
+  a working local 1080p export and seekable preview. It makes the proposed visual
+  direction reviewable without changing the terminal app or claiming live-value
+  validation. The full story, final derivatives and publication preparation remain.
 
 - 2026-10-13 KST - A now has an actual readable response and is complete.
   D passes integrated alpha and independent-source actual-answer/draft return;
@@ -8335,6 +8413,2174 @@ under MIT, with the live-AI limitation visible. Rows 1–2 below are complete fo
 that checked artifact; row 3's new-content feedback is the next researcher action.
 Complete remote CI observation remains separate from local validation and does
 not reopen completed feature groups.
+
+###### Real-paper migration issue review
+
+**Reviewed 2026-10-13; recommendations, not implemented or an approved scope
+expansion.** The owner requests analysis of the eight anonymized migration
+reports and [tracking issue #10](https://github.com/iNtuitionP/ClaimBranch/issues/10).
+Issues are user-supplied evidence/requests, not canonical product truth. Their
+reported real-paper inventory and source fidelity have not been independently
+verified; no original paper, review text, ledger or import fixture is available
+in this assessment. Code-level limits are independently inspected and bounded
+synthetic failures reproduced. Preserve the completed S baseline, remaining L04
+human-use outcome and original protected H0/H1/V0 gates. This review creates no
+new implementation, release, publication or inference authority.
+
+**Philosophical finding.** The [human outcome](../../product/product-spec.md#1-product-definition),
+[paper workspace](../../architecture/decisions/0011-paper-argument-graph-workspace.md),
+[personal alpha](../../architecture/decisions/0017-personal-terminal-alpha.md),
+[understanding-debt alignment](#understanding-debt-alignment-review) and
+[original Dream](#0c---dream-state) point toward a researcher who can inspect the
+whole relevant argument, form a judgment once, preserve its uncertainty and AI
+influence, and return to the paper. Requiring prior selection of a tiny evidence
+subset or transcription of hundreds of existing records frustrates that outcome.
+The fixture contract remains valuable regression evidence; its capacity is not
+an empirically measured limit of a useful paper workspace. The appropriate next
+feedback direction is a bounded personal-paper migration and revision loop,
+not an unrestricted ontology, generic agent runtime or autonomous paper editor.
+
+The report is retrospective migration feedback, not a preregistered V0 start or
+an observed V0 failure. One paper with many experiments is still one paper;
+it does not supply two independent prospective branch cases or two independent
+source formats for the older P5 triggers. ADRs 0011/0017 already admit paper
+reading, own-project authoring and feedback-driven correction. A fixed import
+interchange and measured personal capacity proposal can be considered within
+that outcome; generalized format mapping, new scientific types and broadened
+reasoning semantics require an explicit bounded scope/design/ADR reconciliation
+before implementation. Do not pretend the present analysis satisfies the
+protected release's revision/admission rule or declares V0 VALIDATED. Conversely,
+do not require native keys, a new provider, Windows or all deferred R features
+merely to investigate this personal feedback.
+
+**Independent current-code findings.**
+
+- `research_schema.py` sets claims 16 including thesis, observations 16,
+  completed experiments 8, scientific edges 32, plans 8, commands 64, changes 64,
+  evidence events 32, depth 8; v3 adds episodes/retained interpretations 8.
+  The event limit is global to the paper stream, despite an error mentioning
+  an episode. The issue's proposed larger profile omits evidence-event and
+  total-change budgets, both necessary for its own inventory.
+- `canonical.py` caps each encoded document at 262,144 bytes, collections at
+  128, individual strings at 16,384 bytes and nesting at 16; floating-point
+  values are forbidden. `ResearchHistory` independently caps input bytes and
+  materializes its full manifest; personal codecs, work/project envelopes,
+  archives and exports share the same encoder/budget. This is a replay/
+  serialization/storage resource boundary, not merely review-screen length
+  or an unavoidable cryptographic size. Paging a review alone cannot fix it.
+- Synthetic v3 probes refuse the ninth completed experiment, seventeenth
+  observation and ninth episode. A projection refuses 16 new claims plus the
+  thesis. Each failed pure transition leaves the prior manifest unchanged;
+  this does not prove filesystem import atomicity. Observation overflow
+  misleadingly reports `F0 has at most three observations`, although the
+  active paper cap is 16. A 129-item generic collection, aggregate JSON over
+  256 KiB and a binary float independently fail the encoder.
+- A separate synthetic v3 candidate records one joint Judgment and merges
+  two definition-scoped claims together in one selected transaction; a second
+  Interpretation identity is refused. No observations or protected authority
+  are created in that diagnostic. The missing expressiveness is separate
+  interpretation lineage/required companionship, not a prohibition on stating
+  both readings. Complete impact-code inspection confirms that `_impact` and
+  `_change_impact` follow explicit scientific paths, not structural `part-of`.
+  The legacy projection's one anchor expresses only the thesis.
+- All six original v1/v2/v3 manual/recorded fixtures still replay byte-exactly
+  against their frozen goldens. The six-fixture read-only run takes 0.121 s on
+  this Mac; it is baseline diagnostic evidence, not a large-paper performance
+  budget or full regression verdict.
+- Public `project export` already creates readable private checkpoint JSON;
+  it is neither a redacted Git-share projection nor a complete restore backup.
+  `project import-proposal` imports an explicitly external AI response, not a
+  prior human argument. `doctor` explicitly checks Python 3.13. Selected AI
+  context separately caps nodes at 16, edges at 32 and bytes at 65,536.
+  Larger private storage need not send the entire paper to a model.
+
+**Per-issue assessment and corrected direction.**
+
+| Issue | Finding / philosophical fit | Recommended scope and acceptance amendment |
+|---|---|---|
+| [#2 / ISSUE_01](https://github.com/iNtuitionP/ClaimBranch/issues/2) capacity | Confirmed migration blocker; the narrow fixture capacity conflicts with paper-level use, not with keeping resource limits finite. | Add an explicitly versioned personal paper-capacity profile while preserving legacy v1–v3 exactly. Distinguish storage/history, one operation/review, UI view and selected AI-context budgets. Add event/correction, changes, interpretation, session/origin and generic collection limits, not just listed record counts. Show used/limit and limiting dimension before writing. Profile selection chooses registered bounded presets; input cannot declare its own arbitrary maximum. |
+| [#3 / ISSUE_02](https://github.com/iNtuitionP/ClaimBranch/issues/3) prior-argument import | Confirmed missing public path; preserving the person's existing reason rather than retyping it is central to authorship and continuity. | One declared JSON interchange first, with manual/source-specific conversion outside runtime. Preview complete identities, mappings, counts, warnings and indexed diagnostics; validate in an isolated fresh destination, explicitly confirm the exact digest, then publish once. Historical dates/decisions remain external claims, with separate local ingestion time/decision. Preserve known AI origin and explicit unknown origin; `imported` describes transport, not human/AI authorship or protected authority. |
+| [#4 / ISSUE_03](https://github.com/iNtuitionP/ClaimBranch/issues/4) manuscript anchors | Real loss of impact information; necessary for paper alignment, although a single-anchor import can technically begin before full figure/wording support. | First add multiple read-only marked blocks in the currently supported one TeX file, stable IDs/kinds and explicit claim/source associations. Use inverse indexes of `expresses`/`plots` for impact, without reversing displayed relations or inferring impact from structural parents. Return old/new paths, source freshness and unresolved outside coverage. No multi-file writer, graphics editor, apply/compile or automatic obligation closure follows. |
+| [#5 / ISSUE_04](https://github.com/iNtuitionP/ClaimBranch/issues/5) wording contract | Important honesty gap: supported status alone does not express scientific scope, necessary companions or permitted wording. | Version a small human-authored wording policy separate from status: grade/limitation, allowed wording, required companion references/text, prohibited phrases and placement. A co-report requirement is a reviewed dependency with explicit target/anchor/paragraph scope, not an automatic property of every challenges edge. Start with deterministic marked-block warnings and explicit association checks, not semantic certification or automatic rewriting. |
+| [#6 / ISSUE_05](https://github.com/iNtuitionP/ClaimBranch/issues/6) preregistration and gate changes | Strong fit with evidence staying and reasons branching; changing validity rules after seeing data must remain different from correcting the measured number. | Preserve immutable protocol/prediction/falsifier/rule digest and original outcome; append a dated rule/reference/tolerance amendment with reason and decision reference, retaining original failure. Distinguish measurement, evaluation under a rule and human interpretation. Propagate original/current rule and before/after-inspection disclosure to dependent review and selected AI context. A Git hash/time is a source/commit reference, not proof that values were unseen or a trusted preregistration timestamp. |
+| [#7 / ISSUE_06](https://github.com/iNtuitionP/ClaimBranch/issues/7) structured observations | Confirmed representation/query gap, but observations already carry experiment-level metric and condition text. The proposed automatic scope union is unsafe. | Add bounded typed cells/tables, stable cell IDs, explicit units/missing values and project-defined flat condition keys. Use exact decimal strings or another versioned exact numeric encoding; do not admit uncontrolled binary floats into legacy canonical JSON. Append cell corrections against an expected prior revision. Artifact references/digests and declared JSON pointers remain distinct from verified reads. Condition coverage is a derived inspectable summary; it cannot overwrite the human claim scope or certify generalization. |
+| [#8 / ISSUE_07](https://github.com/iNtuitionP/ClaimBranch/issues/8) co-reported interpretations | The code really limits interpretation identities, but it does not force mutually exclusive truth: one judgment can already state both readings and merge several scoped claims/edges. Separate interpretation lineage/mandatory co-reporting remains missing. | First retain definition-specific readings and a decision disposition referencing the same companion-dependency record used by wording policy, with each scope/basis and shared human reason. Keep one exact selected transaction and independent evidence identities; no general multi-branch conflict resolver is needed. Preserve disagreement and companion obligations instead of relabeling the second reading as a discarded alternative or hidden note. |
+| [#9 / ISSUE_08](https://github.com/iNtuitionP/ClaimBranch/issues/9) export / critique / runtime | Three separable needs with different cost. Explicit shareable projection is compatible with private primary storage; feedback origin is useful; runtime guidance is inexpensive. | Export a create-only, deterministic allowlisted projection with schema/version/redaction policy and bounded redaction manifest; verify the same projection against a chosen private history revision. Its bytes will differ from private history and it is not an editable second authority or full backup. Model critique initially as a private sourced question/obligation, not empirical evidence. Preserve required redacted placeholder references on export without text, identity or private paths. Give Python, curses and the actual Git-path prerequisite guidance first; broaden runtime/path support only after an actual compatibility matrix. |
+
+**Acceptance corrections that apply across the proposals.**
+
+- For import, compare declared scientific projections with the equivalent
+  manually authored path, and separately validate imported origin, historical
+  chronology and local ingestion. “Byte-identical history apart from labels”
+  is not an adequate oracle: added origins/local records change downstream
+  hashes, IDs/bindings and potentially command representation. Do not invent
+  old local receipts, source verifications, comprehension or debt closures.
+  Re-import is keyed to canonical source/version/digest/ID mappings; refuse or
+  return the existing result. Changed source is a new reviewed operation, not
+  overwrite. Invalid import leaves the source and chosen target unchanged.
+- The first import must not drop grades, qualifiers, registered failures,
+  structured source values or historical origins while waiting for later
+  semantic features. Retain every unmapped field in bounded, visibly unvalidated
+  source records keyed to the exact source digest and pointer, or refuse that
+  record with an explicit disposition. Reading retained source is not accepting
+  it as a typed scientific fact. Later typed mapping appends a reviewed
+  transformation against that retained source; it is not destructive re-import.
+  A digest without retained/reachable content is insufficient for a durable
+  lossless handoff. Freeze the retention/backup boundary in the import design.
+  The current human/AI-only Contribution enum cannot encode unknown/external
+  authorship; this needs versioned historical origin semantics before importing
+  decisions. Transport source, contributor identity and local authority remain
+  independent dimensions.
+- Declare mappings for numbered claims versus their statements/subclaims,
+  structural parents versus scientific edges, experiment records versus run IDs,
+  and decision-log entries versus scientific Judgment/episode changes. Neither
+  all 84 decisions nor all 140 inventory IDs automatically become one identical
+  kind. Missing chronology or pre-inspection status stays unknown; imported
+  registration timing is claimed by the source. App-recorded order proves only
+  that record order, not that the person had never seen an external result.
+- After the explicit handoff, the private ClaimBranch history is canonical for
+  the imported working argument; Git exports are derived, with their source
+  revision and redaction policy. External ledgers remain original sources and
+  may still be used in existing tools. A later external change requires an
+  explicit comparison/import amendment, never background bidirectional sync or
+  an automatic overwrite of newer app reasoning. Do not require a second
+  narrative or forbid the researcher from using their own tools.
+- “All errors” must mean all diagnostics within an explicit resource ceiling,
+  with stable record/JSON-pointer locations and a truncation/count notice when
+  necessary. Preparse file/record/field bounds protect the importer. A content
+  path/hash is not permission to recursively scan a repository or open artifacts.
+- Raw ledger size is a useful warning, not a direct serialized-store forecast:
+  it includes duplicated prose and omits application envelopes, origins and
+  retained drafts. Count experiment designs, completed runs and external IDs
+  explicitly; the 41 records and 140 inventory IDs need a declared mapping.
+  Benchmark a combined lifecycle fixture and corrections/history, not only
+  isolated maxima. Define measured time/RSS budgets on a named host before
+  promising capacity; account for repeated replay/manifest/retained-origin cost.
+- Enlarging the shared `MAX_BYTES` globally would silently widen review,
+  provider and legacy safety contracts. Freeze version-specific document
+  budgets and schemas; keep old encoding/goldens and old-reader refusal.
+  Migration builds and verifies a new file/store before choosing it, retaining
+  the original. Existing personal atomic-save/lock/recovery behavior must still
+  pass at the new maximum. Do not introduce protected signing custody into
+  this key-free personal change.
+- The existing manifest's single command/event lists cannot exceed 128 with
+  the legacy encoder even when byte caps are raised. A larger profile therefore
+  needs a new bounded encoding/manifest version or bounded segments; simply
+  changing record constants cannot admit 2,048 commands. Preserve legacy
+  collection/output bytes exactly. Account for manifest duplication, snapshots
+  and enclosing work/project envelopes separately from raw command size, and
+  include correction-heavy lifecycle cases. Verify watermark, selected/basis
+  IDs, interpretation references, parent counts, contributions and draft limits
+  as well as named capacities. An 18×3 table does not inherently exceed 128
+  members or depth 16; its concrete shape and enclosing origin/manifest must
+  be measured and bounded rather than assumed invalid.
+- Freeze existing single-anchor query/impact outputs and source associations
+  as compatibility oracles. New explicit associations must not silently relabel
+  the old anchor as expressing all claims. One-file reading is the smallest
+  existing adapter, not a prohibition on multi-file read-only inspection.
+  If the fixture uses included TeX files, a declared bounded file set can be
+  assessed with fingerprints and outside-coverage disclosure; no recursive
+  scan or multi-file writer is introduced by reading it.
+- Larger histories must remain understandable: local neighborhoods, condition
+  filters, search and paged detail preserve one global evidence identity and
+  disclose clipped/filtered/unlinked/invalidated data. A readable changed
+  closure, relevant companions and the existing reason take precedence over
+  forcing hundreds of nodes or a whole history into one review. Selected AI
+  contexts disclose included/omitted coverage, keep mandatory scientific status/
+  provenance fields and exact outbound choice, and remain optional.
+- Lexical lint cannot prove semantic co-citation or absence of overclaiming.
+  Detect literal prohibited phrases and explicit missing companion associations;
+  report uncertainty under macros, missing source or ambiguous paragraph scope.
+  No clean lint closes manuscript/understanding debt. Coverage summaries,
+  protocol consistency, artifact hashes and a user's confirmation similarly
+  establish their own narrow checks, not scientific truth or comprehension.
+- Confidential critique export uses field allowlists and deliberate redaction,
+  not a claim that a secret-pattern regex anonymizes natural language. Retain
+  public graph referential integrity with stable non-content-derived IDs and
+  redacted placeholders; do not turn confidential text hashes into public IDs.
+  Prefer neutral human-authored questions or source-only references over raw
+  critique text. The alpha's ordinary private files remain unencrypted; this
+  analysis makes no confidentiality-policy compliance finding. A distinct
+  reviewed sharing destination may be Git-committable; preserve the existing
+  private archive/export destination rules. Verify/export/publication remain
+  distinct; no automatic Git commit or upload.
+
+**Recommended feedback order, with explicit scope reconciliation first.**
+
+1. Freeze one anonymized lifecycle fixture and its source-to-record mapping,
+   including missing/unknown provenance. The supplied inventory is enough to
+   justify this investigation; originals need not be published. Establish the
+   new bounded personal history/encoding/save/backup contract and used/limit
+   diagnostics. Python prerequisite guidance can ship here independently.
+2. Connect one exact-preview import into a fresh personal project, retaining
+   historical reasons, unknown/known origin and every unmapped source field
+   under the lossless retention rule above; inspect its argument, quit/reopen
+   and back up/restore. This is the first useful feedback checkpoint. Begin
+   with a fixed normalized interchange, not a family of ledger adapters.
+3. Add read-only anchor associations, human wording limits and a small
+   co-report obligation. Demonstrate one real-shaped changed claim reaching
+   all expressly linked passages and preserving its companion/limitation.
+   Co-report dispositions reference this same companion record, not another
+   obligation store. Legacy single-anchor compatibility remains; bounded
+   declared read-only files may be assessed if the fixture needs them, while
+   broader manuscript writing is deferred.
+4. Add the bounded observation table/condition contract, then versioned
+   protocol/outcome/gate amendments. Demonstrate one post-result tolerance
+   change without rewriting the original measured cells, failure or rule.
+   Extend personal review, AI-readable selected context and return together;
+   an unsupported new field must never silently disappear from these paths.
+5. Finish the opt-in redacted Git-share projection and private critique/source
+   references with exact projection verification. Expand public runtime claims
+   only after supported-host/version checks. Review the user's actual migration
+   and revision friction before taking further roadmap items.
+
+These are proposed feedback deliveries, not five new mandatory pre-publication
+R/L gates. The completed S01–S04 and remaining human L04 evidence are unchanged;
+M01–M04 promotional production is unrelated. A later implementation instruction
+should admit the chosen minimum personal slice and reconcile its exact versioned
+scope/ADRs once, then execute plan check → implementation → affected tests and
+actual Opus review. Preserve the larger Dream while improving this one paper's
+next observable action. The durable design can refine this section without
+creating a parallel issue-transcript or handoff document.
+
+**Analysis verification.** Read canonical product/ADR/domain/design/current
+sequence, inspect the owned code and run the in-memory probes and six frozen
+fixture/golden replays above. This verifies the stated finite boundaries, not
+the supplied private source, proposed larger capacity or importer. Documentation
+and bounded independent review results are recorded below.
+
+**Independent review (2026-10-13).** One actual restricted `claude-opus-5-5`
+review uses a fixed 102,351-byte packet, SHA-256
+`3e56782b9233e4bb8f0c2c714dbad889781322160da8cced27499ca9c247e36a`.
+Runtime model usage confirms that exact model; tools, skills, hooks, plugins,
+MCP and session persistence are disabled. The review supports the overall
+alignment but identifies amendments; it is not an implementation PASS and runs
+no tests. Apply the confirmed lossless-import ordering, unknown-origin schema,
+source/claim/edge/experiment mapping, manifest/envelope budget, shared companion
+record, legacy-anchor oracle, declared read-only-file and runtime-prerequisite
+corrections above. Full local impact-code inspection resolves its uncertainty
+about structural reach: neither reviewed path uses structural parentage for
+scientific impact. The new co-report candidate probe supports the existing
+multi-claim reading with one interpretation.
+
+Its suggestion to forbid parallel external-ledger editing is too broad: require
+one declared canonical working record and explicit later reconciliation, while
+preserving the researcher's existing tools. Its claim that an 18×3 table
+necessarily overflows 128/depth 16 is not established; require a concrete shape/
+wrapper measurement. Keep reviewer-confidentiality speculation separate from
+known unencrypted storage and explicit sharing. The model's incomplete packet
+coverage of earlier probe executions/current S/L/M history does not invalidate
+those independently observed results, and is not presented as model verification
+of them. No separate follow-up model run is implied.
+
+Documentation impact is issue assessment/recommended sequence in this existing
+ExecPlan and its index. Product scope, accepted ADRs, code, schemas and release
+claims remain unchanged; no GitHub comment/update, push or user-research inference
+is performed. Final `python3.13 scripts/verify.py --scope docs` passes all 76 Markdown files
+and tracked-diff whitespace. The affected existing
+`tests.application.test_paper_service.PaperServiceTests` and
+`tests.contract.test_paper_history` pass 19 tests in 1.090 s, including the
+structural-versus-scientific impact baseline. The independent in-memory
+capacity/encoding probes, co-report candidate probe and six original
+fixture/golden replays also pass their stated diagnostic expectations.
+These are analysis/baseline checks; no larger-paper performance, source fidelity,
+filesystem import, new schema or full alpha/core result is claimed.
+
+###### Real-paper migration implementation plan
+
+**Requested 2026-10-13; all 10 migration outcomes complete after plan review,
+implementation, result review and actual Opus cross-review.** The owner asks
+for a plan per issue and confirmation of choices affecting product meaning.
+[ADR 0023](../../architecture/decisions/0023-personal-argument-import-and-sharing.md)
+records their replies: exact-reviewed batch registration; retained-source partial
+migration; selected scientific share content with reasons opt-in; private critique
+originals allowed, excluded from share output. These choices do not need to be
+asked again. The [preceding review](#real-paper-migration-issue-review) owns
+findings; the [planned domain extension](../../designs/2026-08-03-domain-model.md#personal-paper-lifecycle-extension-planned)
+owns proposed capacities and semantics. The [planned acceptance oracles](../../validation/cases/saturation.md#personal-paper-migration-and-revision-acceptance-planned)
+own the observable next-version outcomes. The original F0, completed S01–S04,
+remaining L04 human-use evidence and protected R work retain their own scope.
+
+**Outcome ledger: 10 planned, 10 implemented, 0 remaining.** Each row is an observable
+integrated delivery, not a count of every helper/test/schema edit. Issue 08
+contains three independently useful outcomes; count them separately. Shared
+encoding/origin/companion work belongs to its first owning row, not another
+foundation unit. Do not add these counts to S/L/R or promotional M outcomes.
+
+| Done | Original / GitHub issue | Researcher outcome | Dependency |
+|---|---|---|---|
+| [x] | 01 / [#2](https://github.com/iNtuitionP/ClaimBranch/issues/2) | One bounded whole-paper profile saves, reopens and reports capacity with legacy fixtures intact. | New version/resource contract; no private original needed for synthetic implementation. |
+| [x] | 02 / [#3](https://github.com/iNtuitionP/ClaimBranch/issues/3) | Existing argument enters once with retained historical reasons/origins/unmapped source, then survives restart/backup. | 01, selected ADR 0023 import policy. |
+| [x] | 03 / [#4](https://github.com/iNtuitionP/ClaimBranch/issues/4) | A changed claim/result names all explicitly connected passages/figures/tables and outside coverage. | 01; imported source from 02 is useful, not mandatory for manual authoring. |
+| [x] | 04 / [#5](https://github.com/iNtuitionP/ClaimBranch/issues/5) | Human wording limits and one companion obligation remain visible in review and deterministic lint. | 01; 03 for source/anchor lint. |
+| [x] | 05 / [#6](https://github.com/iNtuitionP/ClaimBranch/issues/6) | Registered rules/failures and post-result amendments stay distinct from measured values. | 01, 06's measurement revisions; retained original fields already exist under 02. |
+| [x] | 06 / [#7](https://github.com/iNtuitionP/ClaimBranch/issues/7) | Typed measurements/conditions can be filtered and corrected without rewriting earlier cells or claim scope. | 01; 02 mapping transforms retained source rather than re-importing. |
+| [x] | 07 / [#8](https://github.com/iNtuitionP/ClaimBranch/issues/8) | Definition-specific readings are kept together in one reviewed decision with their shared reporting obligation. | 04's single companion record; 06/05 only if a selected reading requires those types. |
+| [x] | 08-export / [#9](https://github.com/iNtuitionP/ClaimBranch/issues/9) | Explicit selected scientific projection can be stored in Git and verified against its saved private revision. | 01/02 origin and field classification; supports whichever implemented scientific types are present. |
+| [x] | 08-critique / [#9](https://github.com/iNtuitionP/ClaimBranch/issues/9) | A private critique original leads to a human research question and its experiments/claim consequence. | 01/02 private retained-source contract; share/provider exclusion tested before enablement. |
+| [x] | 08-runtime / [#9](https://github.com/iNtuitionP/ClaimBranch/issues/9) | Missing Python/curses/Git prerequisites have a concrete setup route and truthful supported versions. | Independent; share capacity reporting with 01 without duplicate ownership. |
+
+**Original-issue and philosophy audit requested 2026-10-14.** The ten checked
+rows are completed bounded implementation outcomes under ADR0023, **not a claim
+that every original issue acceptance detail or the Emerald Castle is complete**.
+The audit compares actual researcher actions, declared scope corrections and
+original proposals separately. Current private working state is canonical; source
+ledger originals and public Git projections do not become second accepted writers.
+Human confirmation identifies the actor, not proof of scientific truth or
+understanding. Preserve this distinction when describing completion externally.
+
+| Outcome | Original problem coverage | Remaining qualification |
+|---|---|---|
+| 01 capacity | The reported paper fits the new scientific/byte profile and per-type headroom; old fixture/profile is unchanged. | Large source/review/UI/provider budgets remain separate. Scientific counts do not promise arbitrary source text, graphics or one unbounded AI request. |
+| 02 prior argument | Seven base types enter in one reviewed batch with source dates/reasons/origins and exact raw originals, no repeated TUI authoring. | Not a one-shot typed import of wording/protocol/measurement/anchor/co-report/critique records. Unsupported source remains unresolved and later reviewed commands are separate. General external-ledger reconciliation is not implemented. |
+| 03 manuscript locations | Multiple read-only text/figure/table/caption blocks, declared expresses/plots and before/after scientific impact address the revision-location problem. | Only registered locations, supplied bindings and declared references; no semantic paper-wide scan or graphics fidelity certification. |
+| 04 wording | Supported status retains descriptive grade/limitations/allowed wording/caveats/prohibited phrases/placement and explicit companions. Literal registered-block lint works. | Companion is a separate reporting restriction, not an automatic attribute of every challenge. LaTeX semantics and arbitrary unregistered prose remain outside coverage. |
+| 05 protocol/gates | Prediction/falsifier/source-claimed commitment, original failure, consistent/inconclusive/non-discriminating outcome and post-result rule amendments remain distinct from value correction. | App order and a claimed commit cannot prove outside preregistration or scientific validity. Initial import does not automatically classify all original protocol fields. |
+| 06 measurements | Exact typed tables/cells, appended correction/transition, declared condition queries/coverage and one-file artifact hash/pointer check address numeric/string weaknesses. | Imported source tables require separate reviewed transformation. Coverage does not rewrite claim scope; verifier is bounded and not scientific-fidelity proof. |
+| 07 co-report | Two to four scoped readings share a reviewed disposition/companion and retained reason, without forcing one winner or inventing reciprocal support. | Four readings per decision; 128 cumulative Interpretations only after the versioned co-report extension. No general arbitrary merge. |
+| 08 export | Selected current science plus disclosed dependencies is create-only Git-shareable and exactly verifies with its private saved revision. | Deliberately excludes past decision/value history and private originals; no standalone public authenticity, full backup, auto-commit or sync. |
+| 08 critique | Private originals/identities are separate from neutral questions and non-empirical research references; default shared output omits their text. | No automatic resolution/anonymization or confidential-policy verdict. Ordinary private files are unencrypted, as explicitly selected. |
+| 08 runtime | Python3.13/curses/fixed-Git readiness and manual conda/uv guidance address the setup request. | No broadened Python/platform support or automatic dependency installation is claimed. |
+
+**Reproduced paper-sized pipeline, owned synthetic data only.** A separate audit
+constructs 40 claims, 100 observations, 41 experiments, 150 scientific edges,
+84 dated historical decisions and 30 registered text/figure anchors. Exact raw
+source is 687,873 bytes (larger than the reported ~570 KiB); mapped envelope is
+1,441,074 bytes. Mapping preview is valid in 0.042 s. First local question, private
+registration/save/fresh load and exact backup/restore preserve the 2,511,639-byte
+project. One observation reaches all 30 registered anchors; selected canonical
+share verifies. The complete in-process scenario, including 30 separately reviewed
+registration candidates, takes 63.388 s with 129,417,216 process peak RSS bytes
+on this Mac. This demonstrates representational/custody/impact capacity, not
+actual user-source fidelity, graphic correctness or end-user active time. The
+public import requires a new local question, not a fabricated old episode; text
+anchors express claims while figure/table anchors plot observations. The probe
+was corrected to follow these existing contracts, without changing production
+code to admit invalid test data.
+
+**Acceptance differences are intentional and visible.** Scientific import
+projections and separately retained origin/chronology replace the original
+byte-identical-manual-history suggestion. Historical decisions remain dated
+source claims, not fabricated closed app episodes. JSON-pointer diagnostics are
+bounded to 512 samples with total/truncation, rather than physical source lines
+or unlimited errors. Re-import into a populated project refuses; a deliberately
+separate new project is not global duplicate detection. Unmapped transformed
+fields remain unresolved, not inferred or silently certified. These choices
+follow the earlier accepted issue review and selected partial migration policy.
+
+**Follow-up gaps, not a second ten-outcome backlog.** Rich-field batch mapping and
+general changed-source reconciliation would reduce the remaining per-record work.
+New metadata entry is mostly CLI/JSON; a person still needs a graph-contextual
+input experience before unfamiliar-user usability can be claimed. Known imported
+AI/unknown origins survive, but manual wording/anchor/association commands have no
+new per-input external-AI declaration: human-confirmation authority must never be
+read as AI-free content origin. Qualify this explicitly before advertising AI-led
+construction of those metadata types; a future origin-input path must retain
+known AI rather than infer it from prose. Paper-profile public provider attachment
+still refuses before credentials, so the broader always-available optional AI
+promise is not complete for these new records. These limitations do not require
+native-key/Windows work before personal migration feedback.
+
+Current audit tests pass 254 in 341.996 s across capacity, import/registration,
+anchors, wording, co-report, measurements, protocols, critiques, sharing and CLI.
+These are targeted application checks, not a full alpha/native/core pass. Schema
+regeneration check, documentation/whitespace checks also pass. An actual pinned
+first-party Opus5.5 audit received public code and owned case description only
+(no tools/hooks/plugins/memory/real research): initial 127,347-byte packet SHA-256
+`a82df565940c5c82d607f413325061a4c2fbbf23c49bb704673c434df5473f50`;
+follow-up 67,120-byte packet SHA-256
+`9cca0bd373f2baf5a9dee0d1535e12a7e7bbc38d18302771c60af167fa00e3aa`.
+Reproductions distinguish actual incomplete input/origin surfaces from missing
+review-packet functions and unsupported states: five co-report readings cannot
+replay, cumulative128 is intentional, current registered plans cannot be deleted
+or change kind, imported contributor metadata is attached by `_view`, and preview
+completion concerns pages rather than resolving every source field. Literal lint,
+artifact verifier and runtime guidance exist in their owning application modules.
+The review evidence does not replace those source/tests or the later real-use
+checkpoint. Stale living statements that selected sharing/typed measurements/
+imported-origin reasoning were still unavailable are corrected in their canonical
+workflow/product/domain/validation homes; accepted ADR0023 remains unchanged.
+
+**Audit disposition after Opus follow-up and local reproduction.** The reviewer
+corrected the co-report/count/missing-code/historical-plan findings after receiving
+the actual contracts; no five-reading, unknown-current-plan or missing-lint defect
+is admitted. The new metadata provenance limitation is confirmed. A direct owned
+protocol association probe has no `origin` field yet internal `protocol_origins`
+records `['human']` through `record.get('origin','human')`. `_branch_ai` and
+`_branch_uncertain` consume that registry, so this is not merely an unused display
+label. Before enabling externally AI-authored metadata, separate confirming actor
+from declared contribution, default undeclared content to unknown and preserve
+backward replay/record bytes with the applicable versioned contract. Wording and
+anchor metadata also need explicit new-input origin declaration rather than
+inferring it from human terminal confirmation. Current base migration and known
+imported origins remain usable; these observations do not justify declaring the
+broader new-type AI workflow complete. No production schema/replay semantics were
+silently changed during this audit.
+
+Other follow-up observations are bounded rather than confirmed integrity failures.
+Pointer-view budgeting charges repeated representations and can reduce headroom;
+`ResearchHistory.__post_init__` runs `manifest()` including current views before
+returning an appended candidate, so a capacity failure cannot first appear after
+that candidate has already been saved. Near-boundary pointer-cost optimization
+still needs a dedicated fixture before a stronger headroom claim. Interactive
+`--json` shows complete content in one blob and still requires literal `import`;
+it is no comprehension proof and does not remove exact input/source checks.
+Artifact pointers without `/` are rejected by `validate_table` before the verifier;
+empty root pointers are intentional. These do not block the reproduced paper-sized
+base migration. All current audit modifications are documentation corrections and
+execution evidence; no new runtime feature or provider/native authority is added.
+
+**Follow-up 2026-10-14 — user-requested stop immediately before verification.**
+Plan check: retain the original Dream state and ADR0023 partial migration/source
+policy. Improve the person's ability to register existing typed limitations once
+without laundering AI influence or introducing another narrative. Implement three
+bounded follow-ups: new-input origin, ordered typed batch and an existing-graph
+entry. No new provider, native-key, Windows, manuscript write or source-inference
+boundary is authorized. The broader per-type form suite and general ledger diff/
+reconciliation remain distinct from this file-based bridge.
+
+Implementation is prepared in code and generated contracts: command12 preserves
+legacy version behavior while explicitly recording new-input origin; derived
+source/actor markers and review policy distinguish it from source-claimed authorship.
+New co-report AI/unknown input requires explanation or deferral before admission.
+Work22/project18 and private checkpoint/backup frame10 retain this independently,
+including private critique sources; source-profile codecs, schemas and artifact
+inventory are updated. Raw metadata-batch input stays private, readable complete
+export refuses the new history and selected sharing projects declared origins.
+At most256 selected ordered requests use existing validators and detached
+candidates; an invalid late entry or prerequisite blocks the whole save. Exact
+project/source/input/registered-block rechecks bind foreground confirmation; a
+single normal saved-write publishes all selected records. Duplicate raw input
+refuses. Unsupported base-source pointers are preserved rather than silently
+resolved. CLI `project import-metadata` and graph `;` → Register extended records
+together share that preparation, comparison and literal registration flow.
+
+Prepared tests in `tests/application/test_metadata_batch.py` cover separate origin/
+actor/source, unknown default, input retention/return/sharing, fail-whole-batch,
+multiple schema diagnostics, duplicate/invalid selection, unchanged prior commands,
+new association review policy, co-report explanation and literal UI confirmation.
+Existing newer-feature frame assertions and source inventory target are adjusted
+for the intentionally new format; this is preparation, not a pass. The schema
+generator was run to produce reviewable JSON resources. No test runner, static
+check, docs checker, actual terminal rehearsal, actual research/user trial or Opus
+implementation-result review was run for this follow-up. Prior 254-test audit
+results refer to the preceding code and cannot qualify these edits.
+
+**Next stage when authorized:** inspect code/results, run focused metadata and
+legacy/new-feature tests; schema/docs/harness and fresh source extraction checks;
+actual PTY batch entry/cancel/stale/resize/confirmation, private save/reopen/backup
+and old-reader refusal; then pinned Opus5.5 cross-review of the complete final
+origin/batch/save/UI boundary and resolve reproduced findings. Include mixed
+measurement/protocol/gate/anchor/critique batches and late failure/interrupt cuts,
+not only two wording entries. Do not call these three follow-ups verified or
+complete until those checks pass. Current state: 3 prepared, 0 verified; paused at
+the user's requested stage, with no product-choice blocking condition.
+
+**Release continuation 2026-10-14 — publication/merge authorized.** The user
+resumed beyond the earlier deliberate pre-verification stop and requested GitHub
+publication and merge. Six old fixture paths assumed not-required review after
+new undeclared metadata; they now explicitly defer or declare genuinely owned
+human input. A stale-context fixture sets current heads to isolate its intended
+context refusal. No production guard was weakened.
+
+Focused metadata tests: 16 pass, including a mixed measurement/protocol/association/
+anchor/private-critique batch, exact save/reopen/backup, real saved TUI boundary,
+resize/cancel/stale input, declared AI/mixed later review, AI condition-label export
+and omitted critique private-literal refusal. Actual Mac graph PTY covers a Unicode
+private path, full preview, cancellation, literal registration and fresh loading.
+Security suite: 22 pass. Harness scope passes. Full alpha/source checks are running;
+no successful full release regression is claimed at this checkpoint.
+
+Actual pinned first-party `claude-opus-5-5` reviewed the fixed origin/batch/save/UI
+packet (117073 bytes, SHA-256
+`de93cf4c0336885f8bde8fef16ae8538c7922f9528a68480eb847174781f6d0d`).
+Its P1 was reproduced: `_branch_ai` missed the global metadata registry. Repair
+uses declared AI/mixed contributions without fabricated proposals; a known-human
+protocol source cannot suppress a separately declared AI input. Further review
+strengthened omitted critique-literal protection, shared condition-label origins,
+selected co-report edge subjects and explicit unverified actor labeling. Conditional
+anchor/property findings were disproved by supplied payload IDs, operation-based
+properties and the mixed persisted batch. Preserve legacy version semantics.
+
+The second fixed packet (153851 bytes, SHA-256
+`eb2f4c7abfbb8b656209f0d4d625030d3a32e23530a321bb794a6d77e26184e5`)
+received PASS from actual canonical `claude-opus-5-5`, first-party, successful
+runtime result. Both reviews used no tools, skills, hooks, plugins, MCP or session
+persistence. Branch creation copies main uncertainty; broader per-branch scope,
+parent-cap diagnostic consistency and general source reconciliation are follow-ups,
+not grounds to infer absent authorship or relax the present admission rule.
+
+Release preparation found six old-reader tests loading `git show HEAD` as their
+legacy implementation. That changes meaning after committing and cannot establish
+old-reader refusal in CI. Replace it with the exact published baseline reader
+from commit `db5adc6` in a test-only fixture; no Git-history fetch or moving HEAD
+is required. Its runtime frame refusal remains the asserted behavior.
+
+Clean-checkout CI found three links to unpublished local promotional tooling.
+Keep that tool and its development-map edit local; the historical plan describes
+its local paths without claiming they are shipped. Local docs checks alone could
+not reveal that missing-file distinction.
+
+Final release repairs: the broad local attempt completed209 portable contracts
+and1359 alpha application tests; it was not a clean pass, with three moving-HEAD
+legacy-reader fixture failures. All seven affected old-reader cases pass with
+fixed fixtures, including the actual published alpha.2 ZIP pinned to SHA-256
+`db12f1bb46b1fea3ee56dc02208eb5b94b0b8263c0b7eadc9499995112c29ff7`.
+No external Git history or live download is needed in CI. Module-root existence
+and absence of ModuleNotFoundError ensure refusal is not a missing-package pass.
+
+A final Opus non-blocking possibility was actually reproduced: profile conversion
+retains a framed binary checkpoint, so decoding every retained source as JSON
+blocked selected sharing. Check source-record integrity first and skip only
+non-JSON decoding failures; accepted closed metadata batches still use the same
+strict decoder and protect omitted critique literals. The new regression fails
+before repair, then confirms exact binary retention, valid selected sharing and
+continued refusal of known private paths.45 sharing/metadata tests pass. Actual
+pinned first-party Opus5.5 returns PASS on the17757-byte final packet, SHA-256
+`8812cacdbc115f310e34426803151149facbc1c69ba85919636dcf56040993a7`.
+The publication ZIP must be rebuilt from this final source; prior archive checks
+are evidence of their earlier source snapshot only. Latest CI remains the final
+portable release gate; older failure/cancelled runs are not recast as passes.
+
+Latest hosted CI on source8d6f0fb reached late source-artifact checks on macOS
+and terminal checks on Ubuntu, then hit the existing30-minute job timeout.
+Full archived logs also expose two provider-refusal tests that assume a usable
+TERM but CI supplies dumb/unset; the earlier late-stage inspection did not show
+those failures. Reproduce both with TERM=dumb, then simulate the terminal explicitly
+in those tests so they exercise their intended provider boundary. Neither the
+terminal guard nor provider refusal is changed. This is cancelled/incomplete coverage, not a pass. Increase
+only the portable job timeout to45 minutes; keep every test, platform and artifact
+check. Application source and the final ZIP remain byte-identical. Re-run the
+complete hosted gate before merge rather than weaken assertions or infer success.
+
+On final application source, Ubuntu CI completes all checks. macOS runs all1360
+application tests and fails one existing PTY result-capture case: the test sends
+Ctrl+L after a fixed0.2-second Escape drain and, under hosted load, can combine it
+with the still-pending Escape. The unchanged case passes10 local repetitions.
+Synchronize this specific transition on the editor's visible Ctrl+S footer before
+sending Ctrl+L, keeping the Korean-text retention assertion and all later steps.
+The synchronized case also passes10 local repetitions. Application source/ZIP
+stay unchanged; rerun hosted checks on the fixed test rather than claim the failed
+run passed. The exact-commit publication script stops on any failed CI result.
+
+Publish experimental source after final checks, observed PR CI and merge. Keep
+local promotional video tooling and its ignore edits outside this change. No
+new provider inference, native keys or manuscript writes are performed. This
+continuation supersedes the deliberate stop above, not the broader unresolved
+product/source-fidelity and unfamiliar-user gates.
+
+**Engineering decisions resolved locally.** First interchange is strict versioned
+JSON, not YAML plus arbitrary ledger parsers. New profile IDs/versions are
+explicit; old bytes and default limits do not change. New histories use the
+existing personal terminal, ordinary private storage, exclusive session and
+create-only/atomic save/recovery patterns. New profile codec/manifest budgets are
+purpose-bound and cannot widen provider/native-review limits. Use flat bounded
+condition vocabulary and exact numeric representations. Outcome/rule-change
+recording is human-reviewed; no arbitrary evaluator, execution scheduler or
+automatic claim grading is introduced. Named private/read-only source selection
+is explicit; no recursive scan. These are proportional mechanisms within the
+selected direction, not new questions about native keys, model servers or UI
+frameworks.
+
+**Planning-to-implementation boundary.** Before the first code increment, freeze
+its exact version/schema/adapter contracts in the domain design and generated
+resources, reconcile intended personal scope and validation, and record any
+additional durable semantic decision. The selected ADR 0023 policy already
+stands. Ask only when an actual new product trade-off or scientific meaning
+cannot be resolved from it; a dependency, file name or test command is not a
+new permission gate. The following planned commands are illustrative public
+interfaces until implemented; they are not current usage instructions.
+
+**01 — Capacity and storage profile.**
+
+**Execution 2026-10-13 — complete; 2/10 outcomes, 8 remaining.**
+Plan review audited canonical encoding, cumulative reducers, scientific queries,
+manual staging, snapshots, project/store/archive and public entry. The frozen
+subset is research v4/profile paper, workspace v13/work v14/project v10 and
+personal/backup frame v2; [domain contract](../../designs/2026-08-03-domain-model.md#personal-paper-lifecycle-extension-planned)
+owns exact dimensions. Larger manual storage does not widen native review or
+provider codecs. Existing default episode projects stay compatible; opt in to
+paper capacity explicitly until later provider/import contracts are qualified.
+
+Implemented: purpose-bound codecs; count/byte headroom; separate frame selection;
+private raw-source chunks/public-ID mappings; unchanged-manifest derivation;
+manual authoring/return; compatible create-only conversion with unsupported
+source-bound writing refusal. No bulk research import or later type is advertised.
+Two-entry scientific replay/manifest caches and bounded detached query caches
+avoid replay/serialization duplication; they are disposable and confer no authority.
+Initial combined correction-heavy fixture: 64 claims, 256 observations/experiments,
+512 edges, 64 plans, 32 episodes/Interpretations, 1,024 events, 1,439 commands;
+input 1,187,230 bytes and manifest 5,913,085 bytes in the initial spike. On the
+available Mac, initial cold replay 2.78 s/RSS 100,466,688 bytes, save 0.74 s,
+backup 1.38 s, restore 1.99 s. Final text/return/combined measurement still needs
+recording. Keep the explicit time/RSS targets rather than claiming new host support.
+
+The actual paper-profile PTY manual loop now passes locally. Full alpha/harness,
+source extraction and final targeted cases are running. Early checks caught and
+fixed a null initial workspace in extension checking and an overly broad conversion
+refusal for empty understanding containers. The old readers keep an empty
+`work.lock` sentinel by design: test released `flock`, not deletion of that
+persistent file. Final local performance: cold replay 2.70 s, independent fresh-process load
+4.64 s/RSS 114,753,536 bytes, save/fsync 0.71 s, backup 1.28 s, fresh restore
+1.93 s; current fixture input 1,189,470 bytes, manifest 5,921,149 bytes, private
+project 1,288,024 bytes/1,439 commands. Targets passed on this named Mac only.
+The full alpha/harness command exercised 209 contract and 1,127 application tests;
+1,126 application tests passed and one new old-backup lock-file expectation failed.
+Its corrected targeted suite passed 18 tests, then review regressions were added.
+The command itself remains an exit-1 historical result (harness/whitespace not
+run there), not a fabricated whole-command pass. Separate harness 22, docs 77,
+legacy personal-project 17, and source-artifact six checks pass. The source check
+includes both profiles' actual fresh extracted PTY manual/save/restart/backup
+journeys and now asserts the selected/stored paper profile explicitly. Final
+capacity suite/review verification remains to be appended.
+
+Actual Opus first combined review packet 169,868 bytes, SHA-256
+`fa8323687f975b3ad7ad1817a1247abaec28b6bf3e876adaddb35faa2a75bfdf`,
+timed out after 180 s without a verdict. Bounded pinned `claude-opus-5-5`
+reviews then completed for contracts (85,513 bytes/SHA-256
+`26451daf5d22bd2bd8358fd5585181fd14f575090f2f8e897272fda6363cf956`)
+and application flow (83,426 bytes/SHA-256
+`9e1ae085cb543c9368b45429017695bcc1842b139b2eac18fb6929ca2bb27682`).
+Confirmed findings fixed: preserve restore notices beside capacity; compare every
+historical episode/ref in conversion; allowlist/validate the converted workspace;
+assert actual paper-profile source smoke. Provider configuration opening is now
+also deferred until the stored profile admits it. Dedicated 16 KiB base64 schemas
+and correct new-budget generated comments improve the typed boundary.
+Conditional findings about source TEXT size, shared-schema mutation, missing
+next_action and mutable public views were checked against source and focused
+regressions; TEXT was already 16 KiB, lifecycle schemas deep-copy and public views
+are detached. Frozen responses deliberately remain under the legacy provider
+limit, whose canonical subset is identical in the new codec. No blanket widening
+or full-state copies waived the measured performance target.
+The bounded final follow-up packet is 22,702 bytes, SHA-256
+`fb7365fbd382ece53928baafeb928f7b62838f7704a9b3561e5c34cb6a87314b`;
+actual pinned `claude-opus-5-5` follow-up completed with **no confirmed material
+code defects in the shown evidence**. The saved-profile smoke check is reachable
+at the outer context level; excerpt-only concerns were checked against the full
+code. Final capacity suite **21/21 passes**, including public-view/episode cache
+poisoning, unchanged legacy v12 schema, restore-notice retention and provider
+refusal before configuration opening. Legacy personal-project 17 and final fresh
+source-artifact six checks pass after the confirmed fixes.
+
+The entire configured alpha selection was finally rerun in three isolated
+processes, grouped by module without agents or shared mutable test state.
+`alpha_suite()` supplied **1,131 unique case IDs**; the recorded groups contain
+378/377/376 cases, covering every ID exactly once. All three runners require
+nonzero tests, success and no skips and returned exit 0 (287.48/325.95/457.54 s;
+wall 457.54 s). Thus final alpha selection passes; the earlier serial exit-1
+result remains in history. Final portable contract **209**, harness **22**,
+generated schema/resources, docs **77** and whitespace also pass. No protected
+native/full-core/Windows/Linux qualification is inferred from alpha exclusions.
+No actual provider transmission, Git push or private original-case migration ran.
+
+01 closes with an opt-in whole-paper manual project, visible headroom, compatible
+create-only conversion, saved/backup return and legacy bytes intact. **2/10
+outcomes complete; 8 remain. Next: 02 prior-argument import with exact paged
+preview, retained unknown/unmapped origin/source, one personal confirmation and
+saved return.** This is the first migration feedback checkpoint; do not wait for
+all later P1 types to collect feedback, and do not claim those fields are mapped
+merely because source bytes can now be retained.
+
+- Plan check: inventory every capacity/encoding dependency in `canonical.py`,
+  `research_schema.py`, `research_history.py`, paper queries/proposals/reviews,
+  work/project envelopes and personal archive/store. Freeze new purpose-bound
+  schema/codec selection, source and historical-decision limits, retained drafts/
+  contributions and the combined fixture. Preserve graph depth and smaller
+  selected AI context; optional requests must remain narrow and explicit.
+- Implement: registered personal-paper profile and new history/manifest encoding;
+  versioned personal save/backup/restore with distinct new checkpoint/backup frame
+  prefixes and an explicit conversion preview into a new destination. Raw source
+  uses digest-bound base64 chunks, never NFC-normalized text. Persist normalized
+  history/source registries once; derive manifest/views without saving a duplicate
+  full manifest. Saved-revision ID mappings are allocated at creation/conversion. Add used/limit/remaining reports to doctor schema output
+  and saved project status/open, including byte and event/change headroom.
+  Correct misleading legacy error messages without changing legacy limits.
+  Never accept caller-chosen caps or truncate old writing/origins to fit.
+- Verify: all six original golden histories byte-identical; new bounded combined
+  count fixture, correction-heavy variant, exact-cap/cap+1 and aggregate-overflow
+  cases. Actual subprocess restart, save failure, locking/conflict, interrupted
+  save/publication, backup and fresh restore preserve originals and complete
+  origin. Run the actual shipped old readers on minimal new files below 256 KiB,
+  maximum-size files and new backups; no source/canonical mutation and transient
+  lock cleanup are required. Verify byte-exact raw-source roundtrip, including
+  non-NFC text, originals over 16 KiB and encoded storage overhead. Use macOS 26.5.1,
+  Apple M2 Pro and Python 3.13.15 for the initial performance spike: proposed
+  cold replay/load <=5 s and peak process RSS <=512 MiB for the combined fixture,
+  successful private save/fsync <=2 s, backup <=3 s and fresh restore <=5 s.
+  Every later type step extends that same combined fixture and rechecks these
+  targets. These are engineering targets to measure, not current results. Inspect replay/
+  duplication cost before reducing useful capacity or waiving the target.
+- Exit: new own-project manual authoring and saved return work at the declared
+  profile; report observed combined capacity, byte headroom and performance.
+
+**02 — Lossless prior-argument import.**
+
+
+**Execution 2026-10-13 — complete; 3/10 outcomes, 7 remaining.** Final local
+acceptance closes one researcher outcome: preview/register existing argument,
+inspect retained source/reasons/unmapped fields, make a new source-aware personal
+judgment, then save/restart and backup/restore without losing ancestry or writing.
+The earlier initial-registration gate below is historical and is now superseded
+by explicit import-aware reasoning operations; legacy semantic operations remain
+refused on v5. Public provider, later typed revisions and protected authority
+retain their separate gates. This is the first migration feedback checkpoint,
+not original private-case fidelity, scientific truth, usability or V0 evidence.
+
+Final coverage: all **1,178** unique current `alpha_suite()` IDs are accounted for
+with zero missing/extra cases: three isolated ordinary Python groups of
+393/392/392 run all original 1,177 IDs, exit 0 and zero skips
+(334.887/381.986/399.669 s, wall 400.063 s), plus the subsequently added owner-scope
+case in the final **40-case** portable draft/review-writing suite (36.519 s,
+exit 0, no skips). The changed general preview/verify path reuses the actual
+owning node in both directions, including restored unfinished-review inputs;
+unknown origin requires explicit review/deferral while remaining non-AI-labelled.
+The configured alpha inventory includes the >128-source dependency roundtrip,
+9-round return, mutable-view/cache refusal and unchanged v4 wording fingerprint.
+Contract **209**, source artifact **6**, harness **22**, fixture, generated
+schemas/resources, docs **77** and whitespace passed. Final source extraction after the owner-scope delta also passes **6/6**
+(32.590 s), with unchanged configured member count and actual extracted terminal
+authoring/save/return checks.
+
+The earlier serial explicit-scope alpha was intentionally stopped in favor of
+isolated test groups and is not reported as a successful whole-command run.
+Its log remains a partial run. One accidentally broad review-writing command
+also exercised the pre-existing native device-key test explicitly excluded from
+alpha; it failed work encryption/authentication. That command is exit 1, not a
+pass, and establishes no native readiness. The final 40-case rerun uses the
+existing named alpha exclusion (not a runtime skip); no device participation is
+required for this personal import outcome. Earlier nonexistent test-module names
+were corrected; those invocation errors remain failed attempts, not passes.
+
+Final actual pinned `claude-opus-5-5` owner/source follow-up: 13,300 bytes,
+SHA-256 `d1efeb34e0c7ddc00357cbf144e39bff5cebe7cffa8be984aa2ee3502419978b`,
+reported **no blocking findings in this delta**. Verified call sites resolve
+shared work through its original owner before obtaining the session; a viewed
+neighbor cannot replace that owner. Earlier excerpt-only codec concerns were
+checked against real import aliases, identical JSON/SHA-256 encoders, explicit
+history/project budgets and a passing legacy-sized v4 fingerprint regression.
+No incremental hash format, provider widening, real research transmission,
+Git push, manuscript write or new product-policy question was introduced.
+
+Next: execute 03 as one integrated registration/read/impact/return outcome,
+retaining scientific replay and historical source bindings. Do not inflate the
+ledger with its internal helpers or wait for all P1 types before user feedback.
+
+
+
+Execution continuation (2026-10-13, integrated source-aware reasoning; earlier verification in progress):
+
+- The owner requires completion at outcome granularity, rather than stopping at
+  each helper/schema/test. Continue the existing ten-outcome order without a new
+  product approval loop. No Superpowers or agent delegation is used. After each
+  compaction, reread the harness's canonical resumption path; preserve the
+  original Dream and researcher-owned judgment, not just a compacted summary.
+- New v5 import-aware branch/interpretation/merge operations bind the actual
+  owning subject and exact dependency-closed imported source references. Replay
+  recomputes source digest, declared contributor and unresolved count. Old v5
+  semantic commands remain refused so they cannot bypass this contract. Local
+  human Contributions remain human; historical AI/mixed/unknown sources are
+  separate ancestry. Unknown does not become known AI or an AI-free attestation.
+- Personal review shows known-AI/unknown/no-known-AI status separately from its
+  explanation-review requirement. Explicit reviewed or leave-for-later choice
+  is required for known AI/mixed or unknown ancestry. Omitted independent drafts
+  add no selected origin. Later edits/derivations retain prior ancestry; save,
+  correction and backup return retain exact source and human reason. The v5
+  checkpoint admits 32 recorded causal choices and 64 partial causal writings.
+  Private node reading exposes uninterpreted original values on demand; raw
+  original content remains outside scientific/provider projections.
+- Result review caught a legacy decoder in explanation restoration with a
+  70-observation/experiment fixture whose imported ancestry exceeds 128 records.
+  Fixed purpose-selected seed/command reads and wording fingerprints without
+  expanding the provider codec. Its complete review/record/save/backup-return
+  test passes (10.778 s for the whole test, not a cold-load measurement).
+  Earlier mistakes in two new test setups (no personal recovery) and a misplaced
+  reducer patch were reproduced and corrected; their failed runs are not passes.
+- Repeated immutable prefix/cause/branch reconstruction has bounded 16-entry
+  caches; canonical result bytes decode into detached values. No review,
+  consent, authority or mutable graph is cached. Frozen work/history properties
+  avoid repeated full-envelope validation. Source digest changes still refuse
+  and public projection mutation cannot poison a subsequent calculation.
+- Local results so far: parser/registration 43 PASS; affected reasoning/service/
+  capacity regressions 90 PASS; contract 209 PASS; final extracted source 6 PASS;
+  targeted cache/known-AI/unknown return 3 PASS; nine consecutive personal
+  reasoning rounds plus fresh backup return PASS. The complete configured alpha
+  selection is being rerun in three ordinary isolated Python processes; this is
+  test orchestration, not agent delegation. No skipped gate or native/provider
+  qualification is inferred. Do not mark the outcome closed until it finishes.
+- Actual pinned claude-opus-5-5 review: 50,392-byte packet SHA-256
+  `3b1572f5a365bc4d1690bd8acb2dd13ee0dd6be71ad6f5d096664498089d677c`;
+  follow-up 34,541 bytes SHA-256
+  `145d8ac95a5e6cf6719bb1e7b5489f84de97dc5af88db7d074dd54eec6a522ac`.
+  Fixed known registry-AI display and aligned merge source roots with the core's
+  exact selection closure. The branch subject is now read from the just-recorded
+  branch. Missing retained source already fails project validation; the reader
+  additionally reports ContractError rather than StopIteration. The branch
+  cache benefits exact saved-operation reconstruction, not random prepares.
+- Additional codec review packets 6,498 bytes/SHA-256
+  `df3c2aae4b3277fd879e6d47b490329c3943a8796a4542f1c689abef9ffe2f9e`
+  and 11,151 bytes/SHA-256
+  `3edd0625918bd2ddbacfb84a147e4d863dfc73c64d7569930495fe07b5db8bc8`
+  raised excerpt-conditional concerns. Both frozen properties already import
+  storage encode as canonical_bytes; the actual large roundtrip exercises them.
+  Purpose is a byte ceiling, not different framing. ResearchHistory enforces
+  a 4 MiB total before fingerprinting; project codec permits 16 MiB. Both codecs
+  use identical NFC/sorted/compact/UTF-8 JSON and raw SHA-256 on their shared
+  subset. Add a direct v4 legacy-sized fingerprint regression rather than
+  changing the hash to a new incremental format that would invalidate old work.
+  These source-verified conditions are not a new permission or genuine blocker.
+
+
+Execution continuation (2026-10-13, initial registration/read/return; **02 remains open**):
+
+- Reviewed the original Dream, human-outcome/provenance clauses, ADR 0023 and
+  current 02 order. The owner's reminder to reread docs/philosophy/current plan
+  after every automatic compaction is already mandatory in the
+  [resumption path](../../development/implementation-harness.md#resume-after-context-compaction).
+  No additional product-policy approval is needed. Preserve that obligation;
+  the compacted summary cannot replace those fresh readings.
+- Added a source-claimed research-v5 initial argument instead of generating old
+  human commands. One fresh foreground registration preserves the exact raw
+  interchange and inner original in digest-bound private source retention.
+  Source dates/reasons/human/AI/mixed/unknown declarations remain separate from
+  the local prepared registration intent and first new question. Historical
+  decisions are not fabricated local episodes. Initial evidence carries
+  `action: import`, not a false prior confirmation; normal later corrections
+  append and retain that baseline. Imported IDs, including historical decisions,
+  cannot alias new scientific/event/operation identities.
+- New contracts are seed/commands v5, paper-work v15, project-work v11,
+  workspace v14, personal `CBPP` and backup `CBPB` frame version 3. The exact
+  original input is at most 4 MiB for publication (simple read-only preview
+  remains 16 MiB), seeded history 4 MiB, derived manifest/graph 8 MiB and total
+  saved work 16 MiB. Project rederivation compares its seed with retained input;
+  a two-entry process-local cache stores only immutable source calculations,
+  never consent. Existing v1–v4 schemas/goldens remain unchanged; generated
+  legacy resources have no tracked diff. No protected authority is created.
+- `project import-argument` now takes fresh private destination, read-only paper
+  association and a new question, shows complete mapped/original preview and
+  enclosing result sizes, and requires literal `import`. Input, paper and
+  destination are rechecked after confirmation and again before existing atomic
+  create-only storage. Actual graph/workspace opening is preflighted before
+  publication. Cancel/stale input/re-import cannot append partial records or
+  overwrite existing work. EOF and interrupt preserve exit 1/130 through both
+  preview and final confirmation, rather than becoming a successful cancel.
+- Node, scientific connection and read/review projections expose original
+  mapped content, declared authorship/date and per-record paged unresolved fields.
+  Imported status is explicitly an `imported-source-claim`; historical decisions
+  are readable on the thesis, never current episode judgments. Notes and
+  unfinished writing can be saved. Independent evidence/corrections, restart,
+  private backup and fresh-destination restore retain original source and IDs.
+  Identity mappings alone count as covered; declared transformations stay
+  unresolved. Active mapped observations need their scalar value; only-table
+  results stay source-only until typed measurements exist. Invalidated/retracted
+  observations may retain earlier values, as existing final evidence rows do.
+- **Material remaining gate:** old semantic judgment/Contribution paths cannot
+  honestly propagate non-owned imported AI/mixed/unknown origin. V5 therefore
+  refuses create-reasoning-branch, record-interpretation and selected merge before
+  mutation, with preserved graph/writing and guidance. Public provider and
+  context compilation also refuse. This is a dependent compatibility gate under
+  approved partial migration, not a request for keys, native auth, Windows or a
+  new provider call. Do not advertise an imported argument's new reasoning/edit
+  lifecycle or check 02 complete until its versioned provenance propagation and
+  selective record/review/return integration pass.
+- Validation: expected missing `history_from_import` failure was reproduced
+  first. Final parser/import-return suites **38 PASS**; storage/CLI/archive/work
+  regressions **90 PASS**; capacity/service/writing-recovery **47 PASS**; portable
+  contracts **209 PASS**; source-artifact **6 PASS**; harness **22 PASS**. Actual
+  PTY registration/open/quit/fresh status and typed note/backup/fresh restore
+  preserve records without manuscript writes. A 390-record owned source
+  (36 claims, 100 observations/experiments, 150 edges, 4 plans) matches the manual
+  scientific projection: input 524,567 bytes, original 126,991, seed 350,960,
+  manifest 1,096,012; cold import 0.139 s, peak RSS 45,907,968 bytes on this Mac.
+  The initial observation/action histories deliberately differ; imported local
+  command count is zero until the first real local question. This is not actual
+  private-source fidelity or human usefulness evidence. Full alpha/native/provider
+  gates were not rerun or claimed for this still-open 02 increment.
+- Result review fixed initial save's missing association preview, a schema-switch
+  typo before legacy resource regeneration, and a test expecting source mismatch
+  before the earlier stale-head guard. Source-only origin mutation now independently
+  tests exact source/seed comparison; no invariants were weakened. Broad pointer
+  annotation is bounded before allocation and complete opening preflight refuses
+  unusable candidates before publication. Counts include historical decisions
+  separately from local episodes.
+- Actual read-only **claude-opus-5-5** cross-review, tools/MCP/hooks/plugins/session
+  persistence disabled, packet 75,546 bytes SHA-256
+  `4e2337ec1dfea6b1b535ccbf020dc19c992ce2434899e3485bc17c1f0c50b846`:
+  implemented source marks/semantic compatibility guards, transformed-source
+  disclosure, constant-time leaf coverage and immutable rederivation caching.
+  Its omitted-malformed-record suggestion was not automatically applied: explicit
+  source-only removal retains the full original and avoids silently downgrading
+  declared typed records. Shared strict timestamp validation was already present.
+- Subsequent packets: 35,764 bytes SHA-256
+  `9a7cf5ef72a5dc620b86dfdc81077e4442bed31fafa34426d1ddd6911226ab71`,
+  then 20,024 bytes SHA-256
+  `55a3c822014859dc9381511f938eb08232a96a5231e7fc1681008a9bb6f39e5f`.
+  Resolved repeated annotation/graph-budget concerns with indexed metadata,
+  consistently paged source projections and explicit opening preflight. The
+  manifest budget was already exercised in `ResearchHistory.__post_init__` before
+  saving. No stdin `-` path is supported; private regular files are required.
+  The real registration exit-code propagation defect was fixed and checked at
+  both pager and confirmation. Excerpt-only uncertainty about the LRU decorator
+  was checked against the actual source, not treated as missing caching.
+- Final bounded review packet: 11,500 bytes SHA-256
+  `9b19c58a2785af19cb662063cdde067e3b335f97ab07ab268ad815b344c92b92`;
+  completed with actual pinned Opus: **no blocking defect in the final delta**.
+  Conditional cache-mutability concern is checked by frozen bytes/tuple histories,
+  append returning a new object, and a public-view/cache-poisoning regression.
+  Annotation counters deliberately bound pointer amplification; the complete
+  graph digest/opening preflight separately enforces the aggregate 8 MiB budget,
+  including original bodies/decisions. Broad/overlapping source pointers can
+  consume that budget; a valid mapping does not promise every enclosing budget
+  fits. Cache reuse is for the same saved source/timestamp on repeated validation,
+  not unrelated registration intents. Final parser/import-return rerun: 38 PASS.
+- Updated living product/design/availability/workflow/oracles; no raw research,
+  review transcripts, parallel handoff or new TODO outcomes were added. **2/10
+  complete, 8 remaining; 02 is the only current in-progress outcome.** Next safe
+  implementation is the non-owned imported-origin reasoning contract and its
+  review/record/return integration, preserving this working read/retain path.
+
+Execution record (2026-10-13, first read-only integration; **02 remains open**):
+
+- Plan review retained the approved source/origin/partial-mapping policies and
+  original Dream: resume the researcher's existing reason without manufacturing
+  prior app decisions. The current human/AI-only history schema cannot represent
+  unknown/mixed imported authorship honestly. Therefore this first slice exposes
+  mapping/source review without generating legacy human commands or saving a
+  falsely attributed graph. No new outcome row is added: still **2/10 complete,
+  8 remaining**, with 02 in progress.
+- Implemented `claimbranch.argument-import/v1` in
+  `claimbranch/core/argument_import.py` and generated
+  `schemas/argument-import-v1.json`. The closed envelope carries the exact
+  digest-bound original JSON, mapped current records, explicit field transformations,
+  known/unknown declared origins and nullable source dates. Historical decisions
+  stay source claims, with no invented past episodes/snapshots/receipts. Current
+  research v1–v4 and checkpoint schemas are unchanged by this slice.
+- Public `project import-argument --input FILE --dry-run [--json]` now previews
+  selected/required/omitted records, graph endpoints/structural parents, capacity,
+  original reasons, unresolved source and bounded error diagnostics. An owner-private
+  regular input is read with symlink refusal and before/after fd identity checks.
+  Actual registration refuses before input access; there is no destination/store,
+  artifact read, live provider request or manuscript write. Interactive detail is
+  paged; JSON includes raw private originals and is not a sharing projection.
+- Result review added pointer limits while traversing (8,192 leaves, 2,048 UTF-8
+  bytes per pointer, 1 MiB total pointer text), bounded 512 stored diagnostics with
+  exact total/truncation disclosure, selected historical reference closure and
+  claim-status consistency. A container summary leaves unsupported children
+  unresolved. Original numeric tables are inert source data; mapped measurements
+  are never coerced into a fabricated scalar. The inspection commitment binds
+  exact input/source hashes and scope instead of copying a near-limit output.
+- Targeted `test_argument_import.py`: final **26/26 PASS**, including malformed
+  kinds, duplicate IDs/keys, changed digest, NFC/raw-byte retention, explicit
+  transformations, source-only omission, missing/invalid endpoints and basis,
+  cycles/count overflow, long-key/pointer/leaf amplification, diagnostics truncation,
+  timestamps, actual PTY valid/invalid paging exits, interruption handling and a
+  fresh extracted runtime ZIP's public preview. CLI regression **21 PASS**;
+  source-artifact regression **6 PASS** (including existing manual/return journeys).
+  Runtime inventory is explicitly 140 members for the added core module, with
+  over-budget refusal retained. Harness **22 PASS**. Generated schemas and docs
+  checks pass. The earlier direct generator invocation failed package resolution;
+  the correct `python3.13 -m scripts.export_research_schema [--check]` ran successfully.
+  Full alpha/native/OS/provider validation was not rerun or claimed for this
+  read-only slice; the previous 01 full-alpha evidence remains separately scoped.
+- Actual pinned **claude-opus-5-5** read-only review (tools/MCP/hooks/plugins/session
+  persistence disabled) reviewed a 48,303-byte packet, SHA-256
+  `3e5e57d8dbf66d21ad888bfbbc4c646c34d7e78bc288eed52edb2a7849e9c020`.
+  Confirmed resource amplification, unhashable kind, unbounded diagnostic/hash
+  output and invalid-pager success findings were reproduced/fixed. Historical
+  references and active observational status bases gained explicit checks.
+  Impossible date refusal was already implemented by shared timestamp validation;
+  a regression now proves it. Cosmetic/private-helper comments were not treated
+  as blocking defects.
+- Final review packet 24,773 bytes, SHA-256
+  `5e6ca6351d07474303dd9acdacfa120c764112580061f82798f9074890d08c9b`
+  rechecked those fixes. Its remaining claims were checked against full sources:
+  claim-to-claim support is an existing scientific relation, not observational
+  proof, and the outer CLI already caught EOF/interrupt. No blanket observation
+  requirement was added; that would change the established argument semantics.
+  Added explicit documented/tested claim-sourced reasoning and improved pager
+  EOF/interrupt messages (exit 1/130, no registration). A final bounded Opus
+  resolution packet is 8,450 bytes, SHA-256
+  `9642a4be07e59e7022472df5a284b5c3057cec23585344a6092bea19ee1314ea`;
+  it completed with the actual pinned model and **no blocking code defect** in
+  either resolution. The remaining test-strength finding was fixed: require one
+  actual pager prompt and the exact interruption message, rather than matching
+  the general no-registration banner. Final import checks were rerun (26 PASS).
+  Its conditional DAG concern is covered by the existing `_acyclic` call and
+  the explicit cyclic-claim regression; no scientific cycle is admitted.
+- Documentation impact: update product boundary, domain/interchange contract,
+  workflow, validation availability and README in place. Raw source/review packets
+  remain in private temporary directories, not tracked documents.
+- Next safe action: add versioned imported-current-argument and historical-source
+  retention with unknown/mixed origin, then exact confirmed fresh-destination
+  publication and node/review unresolved markers; validate save/fresh open/backup
+  restore before checking 02 complete. No further product-policy approval is
+  pending. This preview is **not yet** the first useful migration/return checkpoint.
+
+- Plan check: freeze one interchange containing original input/digest, declared
+  source-to-ID/type/field mappings, current argument, source historical groups/
+  decisions, contributor claims and retained unsupported pointers. Distinguish
+  numbered claim statements, structural parents, scientific edges, experiment
+  records/run inventory and log decisions. Unknown history/snapshots stay unknown;
+  historical episodes are source claims, never fabricated old local commands.
+- Implement: `project import-argument --dry-run` and exact foreground confirmed
+  publication into a fresh personal destination. Preview all counts, selected/
+  required/omitted records, graph and relevant original fields with paged detail,
+  bounded diagnostics and source pointers. The approved selection is registered
+  once, with original reasons and known/unknown source, local ingestion time and
+  explicit unresolved markers. Preserve full bounded source in private saved
+  storage/backup. A partial record may be retained as source-only; malformed
+  required typed content or inconsistent graph cannot publish as valid science.
+  Transformations into later types append after comparison; repeated source/
+  selection cannot duplicate science or overwrite current app work.
+- Verify: scientific-state projection equals the equivalent manual fixture under
+  declared ID mapping, while imported origin/chronology/local registration have
+  their separate expected outputs. Known AI/unknown origin, unsupported caveats,
+  invalid endpoints/cycles, stale source/selection, malformed/over-limit input,
+  duplicate IDs/re-import and failure at each publication boundary. Missing
+  fields remain missing. Selected invalid science refuses the batch; explicit
+  deselection into source-only state reveals every newly omitted/repaired
+  dependent edge/status in the next confirmation. No silent downgrade occurs.
+  Actual terminal read/review, quit/fresh open and backup
+  restore retain both mapped science and unresolved source. No provider request
+  or manuscript mutation occurs. Import into an existing populated project is
+  a later explicit amendment operation, not an initial overwrite feature.
+- Exit: show the first migration/read/return checkpoint for the retained whole
+  source and its validated mapped argument, with explicit completeness counts.
+  It need not wait for every later semantic feature; unresolved fields remain
+  visible and dependent unsupported operations refuse. If the supplied file
+  cannot represent required measurements without 06, bring that minimum typed
+  measurement slice forward before claiming a usable evidence graph. Do not
+  coerce missing values into a fabricated scalar to keep the order fixed.
+
+**03 — Read-only manuscript anchors and impact.**
+
+
+**Execution 2026-10-14 — complete; 4/10 outcomes, 6 remaining.** The researcher
+can register named text/figure/table/caption uses, inspect marked source and
+freshness in the graph, review claim/result/connection reach across old/new
+associations and return through saved work/backup without rebasing prior reasons.
+The [workflow](../../development/workflow.md#registered-manuscript-locations)
+owns commands; the versioned domain contract owns representation and bounds.
+
+- Plan review chose command v6 solely for source registration inside existing
+  seed-v4/v5 histories. Mixed-command workspace v15/work v16/project v12 and
+  private/backup frame v4 retain exact old seed/command prefixes. No source-only
+  shadow graph or automatic science/wording inference was added.
+- Implemented source-safe explicit file/marker selection, append-only kind-stable
+  registration revisions, global observation references, caption parents,
+  graph/reader direction and source text, deterministic before/after witnesses,
+  outside coverage, scalar-correction consequences and hypothetical reach.
+  Missing/changed source stays unresolved; intervening changes revoke personal
+  comparison. Text/source checks establish last inspected state, not atomic
+  filesystem/history acceptance. No manuscript or graphic is written.
+- Result review fixed a missing checksum import, a generated-version dictionary
+  entry and source-context installation for retained live draft sessions. The
+  detached transition reuses existing context update/review revocation while
+  preserving authored source and immutable recorded cause prefixes. A test that
+  expected an unlinked interpretation to affect a claim was corrected to select
+  an explicit claim amendment; the core did not infer a missing relation.
+  Large block reading now decodes each canonical base64 chunk, with full UTF-8
+  source text available. Earlier failed runs remain failures, not clean passes.
+- Final integrated **15/15** checks pass (11.999 s), including actual PTY
+  foreground registration/open/quit/fresh read, prior AI-origin/new judgment
+  return, source-change refusal, retained writing/backup, old-frame refusal,
+  inactive observations, strict malformed/duplicate/kind validation, exact
+  64-anchor overflow, multi-chunk/big-file reading, first explicit seed kind and
+  blank historical selector refusal. Relevant legacy/capacity/store/service
+  regression **60/60** (64.030 s), service/graph **22/22**, portable contracts
+  **209/209** (13.317 s), final extracted source **6/6** (34.457 s), harness
+  **22/22**, docs **77**, generated schemas/resources, source fixture and
+  whitespace pass. This is explicit affected coverage, not a rerun or claimed
+  pass of the complete protected/native/Windows suite or every alpha test.
+- Combined owned fixture: 64 claims, 256 observations/experiments, 512 scientific
+  edges, 64 plans, 32 episodes, 64 anchors and 1,503 commands. Named Mac/Python
+  3.13 cold replay **2.745 s**, graph query **0.083 s**, save **0.789 s**, backup
+  **1.309 s**, peak RSS **170,409,984 bytes**; history **1,277,568** and saved
+  project **1,381,657 bytes**. Independent-process load **4.959 s**, fresh restore
+  **2.038 s** with exact payload equality, RSS **135,299,072 bytes**. Existing
+  <=5 s replay/load/restore and <=512 MiB targets pass on this host only; cold
+  load is close to the threshold. Source ZIP now has **141** declared members.
+- Actual pinned Opus 5.5 initial packet 36,370 bytes/SHA-256
+  `4f349f9d8e9561f283b2088fb7aca13ce96b5170713ad531475462ff1be2e75e`
+  was rejected by the provider's `reasoning_extraction` filter and supplied no
+  review verdict. Rephrased 12,720-byte code packet/SHA-256
+  `601369e44e10e099359cc1943105038644a46035311527182c0398eda5cda49e`
+  completed. Fixed held-parent openat reading, defensive helper schema checks and
+  scientific-edge endpoint roots; malformed types/duplicates were already
+  rejected at the public command boundary. Its assumed branch-local evidence,
+  missing CLI defaults and external-work payload were checked against canonical
+  global evidence, explicit defaults and embedded complete-work envelopes.
+- Follow-up 15,154 bytes/SHA-256
+  `d5c1952350e7d8435e6f4599f1d396166ee61e666d1764f11d86e7e37d56b93a`
+  raised a seed-figure assumption not representable by old seed schemas. The
+  legacy seed has no kind: first explicit registration assigns it; later kinds
+  are immutable. Added a concrete seed-figure/caption/invalid-change regression
+  and explicit blank-before refusal. Final actual pinned **claude-opus-5-5**
+  packet **16,171 bytes**, SHA-256
+  `3cfb32de471022cd74eee35577053352f408af57f9cbeac59750dc3272ef2941`,
+  reports **no confirmed defects in the shown source under stated constraints**.
+  No private real-case transmission, dependency install, Git publication,
+  manuscript write, native-key requirement or new product-policy choice occurred.
+
+Next integrated outcome: 04 descriptive wording limits and one companion
+obligation, reusing these same anchors and original human reasons. Remaining
+count is six; internal helpers/tests are not new outcomes. User/private-source
+fidelity, unfamiliar-person usability and scientific correctness remain separate
+from owned-fixture acceptance.
+
+
+
+Earlier execution 2026-10-14 — implementation in progress before final verification.
+Plan review preserves the original human judgment/source prefix by admitting a
+separate v6 anchor-registration command into existing v4/v5 personal histories.
+It neither rewrites genesis nor adds a project-only shadow graph. The
+[domain contract](../../designs/2026-08-03-domain-model.md#personal-paper-lifecycle-extension-planned)
+owns source fields, mixed-command envelopes and bounds. Implementation covers
+both manual and imported paper projects: explicit named registration, source
+inspection, graph references, before/after impact and private return. No new
+product-policy question, native key, OS approval or provider request is needed.
+Continue through verification and pinned Opus cross-review before closing 03;
+internal helper/schema edits do not change the ten-outcome count.
+
+
+
+Plan-review continuation (2026-10-13; implementation not started): preserve the
+scientific-view digest used by historical work and imported-origin cause replay.
+A project-only graph overlay that changes the view while source reconstruction
+has only history would invalidate old reasons after return. Anchor associations
+therefore need a versioned replayable contract, with source identity/freshness
+retained separately from scientific truth. Do not implement them as arbitrary
+opaque-source records or as support edges. The unit ends only when explicit
+registration, all reached anchors/witnesses, changed/missing source handling,
+new personal review, saved return and old single-anchor regressions pass together.
+No new scientific/product choice or OS/key/provider participation is required.
+
+
+- Plan check: freeze text/figure/table/caption identities, declared file/marker/
+  marked-block digests plus file identity/revision, explicit `expresses` and
+  `plots` reference directions,
+  inverse impact indexes and current single-anchor outputs. Start with known
+  marked TeX blocks; support a bounded explicitly selected read-only file set
+  when needed, with unregistered/include/graphics coverage honest. This grants
+  no recursive source ingestion or multi-file writing.
+- Implement: named anchor registration/inspection, explicit source selection and
+  claim/observation association through existing authoring/review. Project graph
+  nodes and selected-change review list all reached anchors and deterministic
+  witness paths across old/new science and associations. Figures/tables reference
+  their declared observations; links do not prove the actual graphic is faithful.
+- Verify: one claim at several anchors; corrected observation used by several
+  figures/tables/captions; changed/removed association retains old reach; unrelated
+  anchor unchanged; structural parent alone yields no scientific impact. Duplicate
+  markers, changed/missing source, path substitution and stale review refuse or
+  disclose unresolved state while keeping writing. Legacy single-anchor queries
+  and impacts retain their frozen meaning; all source bytes remain unchanged.
+  An unrelated file edit leaves unchanged block bytes identifiable while file
+  revision/coverage and dependent review freshness remain explicit.
+- Exit: one claim change shows where the person must inspect wording/data next,
+  with original reason and explicit outside coverage.
+
+**04 — Wording policy and one companion dependency.**
+
+2026-10-14 plan review: implement descriptive human reporting restrictions on
+current main claims, separate from support status and protected authority.
+Commands v7 append to seeds 4/5 without altering earlier bytes: wording policy
+(64), companion dependency (256), and anchor placement/explicit paragraph
+context (64). Companion endpoints and scope are stable per identity; retire
+rather than erase. Blank-line paragraph indices are declarations against an
+exact registered block, never an inferred TeX parse. Case-insensitive literal
+word-boundary warnings exclude simple comments; macros, missing/stale blocks,
+unclassified placement and incomplete paragraph declarations remain disclosed.
+Existing reasons, imported source references and unfinished work survive;
+work17/project13/frame5 prevent older writers from dropping these fields.
+Public authoring uses paged CLI review/explicit `record`, graph/source readers
+show restrictions, and read-only lint never changes status or closes debt.
+No new provider capability or native verification is required.
+
+2026-10-14 implementation/result review: **04 complete; 5/10 outcomes complete,
+5 remain.** Public `claim-policy`, `claim-companion`, `anchor-context`,
+`wording-lint` now connect to exact paged confirmation, before/after graphs,
+directed non-scientific reporting reach, human reason/source readers and private
+return. Supported claims retain status while separately carrying direction-only/
+appendix-only limits. Context commits the whole exact registered binding, so
+changed wording and same-text relocation both require fresh classification.
+Archived views disclose unavailable reporting endpoints without dangling edges.
+Literal matching preserves word boundaries and normalizes soft wrapping; comment
+escape parity, comment-newline joins, following physical blank lines and Unicode
+separators are tested. Explicit paragraph declarations use a narrow literal
+ASCII-blank-line model, not a TeX parser/semantic completeness certificate.
+Identical reviewed reporting submissions can reaffirm a restriction; retirement
+and reinstatement of identical endpoints/scope are explicit append-only choices.
+
+Verification: 19 new integration cases PASS (30.538s), including actual PTY
+record/open/quit, stale scientific review refusal, original reason/known AI
+source through new reasoning and observation correction, backup/fresh return,
+manual profile without import, 256 companions/257th refusal, old-reader refusal,
+literal/paragraph edge cases and missing historical endpoints. Existing capacity,
+import-registration, service and project-work regression: 69 PASS (207.445s).
+Contract/golden checks: 209 PASS (13.733s); original truth fixture: valid six
+artifacts/three observations. Source packaging and anchor suite: 21 PASS
+(50.495s); final source check: 6 PASS (37.660s), independently extracted 143-member runtime.
+The reporting-relationship reader label also passes its targeted case (0.439s).
+Generated schema checks
+remain current and no tracked legacy schema/golden bytes changed. Documentation:
+77 files; harness: 22 PASS; whitespace PASS. These are explicitly affected checks,
+not a claim of full alpha/protected-platform or provider qualification. Earlier
+new-test invocations used an incorrect draft/snapshot/correction API and a
+nonexistent fixture script; corrected invocations above passed, and those failed
+commands are not counted as clean checks.
+
+Actual pinned `claude-opus-5-5` public-code review completed, with hooks/plugins/
+MCP/tools disabled and no research input. Initial 35,249-byte packet SHA-256
+`a7cfc464859e3e2815daf9af09d0d909ad539679c76d06acfa742b6c5ceb1936`
+identified stale placement, missing-view endpoints and literal comment handling;
+reproductions and fixes are included. Follow-ups refined soft wrapping and
+physical paragraph/comment boundaries. A suggested removed-main-claim retirement
+trigger is unreachable under the closed append/update-only claim operations;
+current-main constraints are not future claim-deletion support. Context view
+returns raw detached registrations, and record IDs already include companion
+and operation namespaces. Full follow-up packet 41,383 bytes SHA-256
+`b9a744bd08a19d670028b8100a41038b665b9a78fafc89691856e200997d5121`
+left only the comment component to repair. Final focused 16,768-byte packet
+SHA-256 `e66d808542b94510c10a2bc6f6c39736242f1b9b68190360addf24329714ea23`
+confirmed no remaining defect in that corrected component. Earlier confirmed
+issues are fixed; unsupported TeX/semantic parsing remains a documented boundary.
+
+Documentation impact: product, domain contract, validation oracle, workflow,
+architecture summary and this existing plan updated in place. No accepted ADR
+was rewritten; no push, provider inference, native keys or journal action occurred.
+Next integrated outcome: **07**, retain scoped interpretations together in one
+reviewed decision referencing these same companion dependencies.
+
+
+- Plan check: freeze descriptive grade/limitation, allowed wording, required
+  caveats/references, banned phrase and placement fields separate from claim
+  status. Define a single versioned companion record with target/companion,
+  anchor/paragraph scope and human reason. Retained source limitations from 02
+  remain inspectable before they gain this semantic mapping.
+- Implement: bounded manual authoring/change review for those fields, reusing the
+  existing reason/origins and before/after graph. Add read-only marked-block lint
+  for literal prohibited phrases and missing declared companion associations;
+  explain unsupported macros/ambiguous paragraph/source rather than certifying
+  wording. Apply the same companion records in 07 and AI-readable selected
+  context. AI may propose a change but cannot grade science or auto-record it.
+- Verify: supported yet direction-only/appendix-only claim; a banned term and
+  missing companion are found; placement mismatches, unknown source and false
+  lexical matches are honest. Changing grade/caveat revokes previous review;
+  original/AI source survives correction, restart and backup. Lint cannot close
+  manuscript/understanding work or alter files/status.
+- Exit: the claim's permitted strength and required companion stay visible while
+  writing, reviewing and revisiting its manuscript use.
+
+**06 — Typed observations and condition queries (before 05).**
+
+2026-10-14 plan review: reread canonical philosophy/goals/release/ADR0023,
+original Dream state and current dependency order. This outcome helps the person
+find actual measured conditions behind a claim and inspect a correction without
+rewriting the observation, reason or scope. Freeze exact typed table/cell IDs,
+opaque immutable condition vocabulary with explicit ascending groups, declared
+unit labels and source hashes. Reuse global evidence, private store and source
+reader; strict command9/work19/project15/frame7, unchanged seed4/5 and legacy
+commands. Original imported source/unresolved meaning remains separate from the
+new personally reviewed transform. Optional hash/pointer check is explicitly
+one-file/read-only and cannot certify science. No new product choice, source
+access, dependency install, provider request or native key is needed.
+
+**Execution 2026-10-14 — complete; 7/10 outcomes, 3 remaining.** Public
+`project measurement --input FILE [--dry-run]` now declares conditions and
+confirms/transforms/corrects/transitions bounded exact measurement tables after
+full paged review and literal `record`. A transform retains original text,
+source dates/origins, digest and unresolved pointers. Correcting a named cell
+retains other values and the prior table. Changed meaning/units/conditions needs
+an explicit new table and new affected cell identities; all previous tables,
+including retired cells, are checked. Generic text correction cannot erase a
+structured measurement. Invalidation/retraction keeps it readable without
+reviving its basis. Exact project, current seed manuscript binding, registered
+anchor freshness and input bytes are rechecked before the existing atomic save.
+
+`project observations --claim C --condition dose=max --group dose=GROUP` now
+returns exact supporting rows, columns/units, estimand, declared sources, local
+graph and derived coverage. It follows support plus Interpretation basis,
+preserves one global identity and shows unstructured/inactive/hidden basis.
+Extrema follow the declared ascending group, never lexical sorting. Matching
+graph observations retain full source tables beside filtered row results;
+coverage never changes human claim scope. The TUI reader displays full tables,
+revision, source-origin and append-only history. `project artifact-check` opens
+one explicitly named regular file, checks claimed hash and one pointer/cell,
+and reports mismatch, race, missing/unsupported paths without writing science.
+No automatic unit conversion or scientific-fidelity verdict is inferred. Symlink
+prefixes such as Mac `/tmp` must be selected through their real `/private/...`
+path; refusal does not authorize following them.
+
+Verification: initially absent API reproduced before implementation. Final
+**23 measurement tests pass in 17.161 s**: 18×3 exact decimals, integer/text and
+missing values; 2,048-cell boundary and overflow; retired cell meaning; import
+origin/unresolved preservation; corrections, stale revision/source/input, inactive
+basis, direct/Interpretation support, strict query selectors, artifact hash/value
+mismatch and changed-during-read refusal. Actual PTY records, fresh-opens and
+quits; the actual shipped HEAD reader refuses frame7 without changing bytes.
+Public backup/fresh-directory restore and retained notes reproduce saved content.
+Provider attachment refuses before profile/credential access. Existing co-report,
+wording, anchor and imported-registration **77 tests pass in 220.297 s**;
+contract/goldens **209 pass in 13.775 s**; independently extracted source **6 pass
+in 40.400 s**, now 147 members. Generated schemas are current; no tracked legacy
+schema/golden diff. Original truth checker passes 6 artifacts/3 observations.
+Final post-record docs/harness checks pass: 77 documents, 22 harness tests in
+0.936 s and tracked-diff whitespace. No whole-alpha/core/native/provider qualification is claimed.
+
+Actual pinned `claude-opus-5-5` reviewed fixed public-code packets with tools,
+MCP/plugins/hooks/skills/session persistence disabled. Initial packet 71,588 B,
+SHA-256 `957401f1562bde449a43693787e3c79831ed840ef303193de04098640b313e87`.
+Confirmed retired-cell/changed-meaning ambiguity was fixed across all observation
+measurement history; duplicate/malformed groups were independently fixed. Local
+checks also found and fixed missing seed-source freshness (registered anchors
+alone did not bind the initial manuscript). Initial suggestions to reactivate
+inactive imports or call corrected status unresolved-source resolution were
+rejected against the unchanged source/origin and terminal retraction contract;
+stdin/dash input was never supported. Follow-up packet 88,170 B, SHA-256
+`3ec274a77d3822d7ad60e3aaa8a8d0723094cb48f27de4060172155c68b83d9d`; runtime
+confirmed actual first-party Opus5.5 and reported no executable blocking defect.
+Conditional observations are explicit: cell IDs are observation-scoped, decimal
+precision/sign is preserved text, symlink prefixes refuse, and graph readers
+retain complete source tables alongside filtered rows. Failed intermediate
+PTY-test input and non-TTY provider-test setup were corrected, not counted as
+passes. Source fidelity, real-user benefit, rule/gate semantics and new-profile
+AI qualification remain separate.
+
+Documentation impact: product/release availability, domain schemas/semantics,
+manual commands, validation and this existing TODO. ADR0023 is not rewritten;
+no parallel handoff or journal is created. Philosophy check: the person can
+inspect inconvenient, corrected and condition-specific results without the app
+choosing claim scope or declaring understanding. **Next: 05 protocol/outcome/gate
+amendments, then 08 private critique and 08 selected canonical sharing.**
+
+
+- Plan check: freeze exact decimal/integer/text/missing cell types, stable row/
+  cell IDs, raw/display units and project-defined condition keys; no floats in
+  legacy canonical JSON or universal condition-node ontology. Freeze table/cell/
+  per-record bytes and revision budgets using the 18×3 example, without assuming
+  its shape inherently exceeds the legacy collection/depth cap. Artifact hashes
+  are claims until independently checked through a declared read-only path.
+- Implement: table authoring/import transformation and append-only cell/value
+  correction with expected prior revision, reason and source context. Add condition
+  filters/local graph views and derived observation-coverage summaries, preserving
+  shared identities and human claim scope. An optional bounded artifact check
+  reads only an explicitly selected regular file and declared JSON pointer;
+  mismatch/missing/changed bytes remain visible and never silently correct data.
+- Verify: 18×3 values, per-seed/model/dose conditions, units/missingness and exact
+  numeric replay; cell correction retains earlier values and other cells. Changed
+  units/estimand/conditions require a new declared measurement transition. Query
+  claim X at dose=max uses declared protocol/group semantics, not lexical maximum
+  or an inferred universal dose. Invalidated/retracted basis, stale correction,
+  changed artifact/hash and source unavailability retain history. Wider condition
+  coverage cannot change claim scope automatically.
+- Exit: the person can find the actual measured cells/conditions behind a claim
+  and see what changed without searching prose or retyping a table.
+
+**05 — Protocol, outcome and gate amendments.**
+
+2026-10-14 plan review: retain the canonical authorship/understanding goal,
+ADR0023 source-claimed import boundary and 06 measurement revisions. The next
+researcher action is to see original prediction, failed gate and post-result
+change beside the result, with one reason, without retyping a second judgment or
+letting a revised rule erase a failed prediction. Freeze strict command10 /
+work20 / project16 / frame8 alongside old history bytes, with a closed protocol
+input and explicit main-plan scientific digest/completed-record association.
+Separate prediction consistency, discrimination and reported gate coverage;
+no automated validity, outside chronology, source fidelity, experiment execution,
+claim grading or provider enablement. New protocol meaning needs a version;
+recorded rules/results and AI/unknown source remain inspectable. Aggregate existing
+history/storage limits continue to bound independent per-type limits. No new
+human-owned policy choice is missing; native keys, Windows or research-provider
+transmission are not prerequisites. Product/domain/schema/usage/validation docs
+change together in their existing canonical homes. The native harness's pinned
+Opus cross-review and affected checks precede completion; remaining count stays
+7/10 while this outcome is in result review.
+
+
+**Execution 2026-10-14 — complete; 8/10 outcomes, 2 remaining.** Public
+`project protocol --input FILE [--dry-run]` now exact-reviews original protocols,
+explicit completed-record association, gate amendments, gate results and outcomes
+before paged literal `record`. `project protocols` lists main plans/digests before
+first registration and inspects original/current rules/results by node. The
+[protocol contract](../../designs/2026-08-03-domain-model.md#personal-paper-lifecycle-extension-planned)
+and [workflow](../../development/workflow.md#registered-protocols-outcomes-and-gate-amendments)
+own the frozen fields, bounds and manual usage. This preserves a single reason,
+ordinary private storage, append-only originals and source-claimed chronology;
+new metadata advances context heads but never edits measurement cells or claim
+status. No source-grade, execution, protected approval or provider capability
+is created. Selected AI-readable graph context contains these records; actual
+new-profile provider fields/egress stay unqualified and refused.
+
+Prediction consistency is independent from discrimination and reported gate
+coverage. Partial/failed/unknown/zero-declared-gate coverage cannot certify
+validity. Original failed gates remain alongside post-result changed reference/
+tolerance and later passes. Superseded protocols stay readable; new associations
+and amendments require the current registered plan/version. Source claim of unseen
+results is not proof: registration/amendment snapshots disclose preexisting app
+observations, including conflicts found on later association. Global registries
+remain global in older reasoning views; current plan change comes from main at
+that prefix, while displayed-plan match/visibility is separate.
+
+Final **32 protocol tests PASS (18.497 s)** cover all five synthetic reported
+shapes, exact rule/basis identity (order-independent), current/inactive/stale
+observations, 256-assessment boundary and overflow, immutable original values,
+foreign AI/unknown origin and explicit explanation choice. Imported AI plan
+annotations do not alter its digest or resolve source; original/unresolved content
+survives. Complete-head bindings also revoke alternative commands on registry
+change. Exact input/source/project change and cancel preserve saved bytes.
+Actual PTY record/fresh open/quit, real shipped HEAD reader refusal, retained notes
+and public backup/fresh-directory restore pass. Provider attachment refuses before
+profile/credential access. Existing measurement/co-report/wording/anchor/import
+regression **100 PASS (241.369 s)**; final contract/goldens **209 PASS
+(14.091 s)**. Final post-record docs verify all 77 documents and whitespace;
+harness **22 PASS**. Final independent source **6 PASS (41.947 s)** with
+149 members; schemas are current, old tracked schema/golden bytes unchanged,
+original truth packet passes 6 artifacts/3 observations. No whole alpha/core/native
+or new-profile provider qualification is claimed.
+
+Actual pinned first-party `claude-opus-5-5` reviewed fixed public-code snapshots
+with tools/MCP/plugins/hooks/skills/session persistence disabled. Initial packet
+99,985 B, SHA-256 `ef84e2025bc36b7a40d04c612d4e91ee382515ed0c844468cab885e3fccce262`.
+Reproduced/fixed imported-plan hash contamination, superseded protocol binding,
+preexisting-result disclosure and order-sensitive basis. Follow-up reproduced
+missing planned-test claim context, stale-plan amendment and pre-association
+amendment disclosure; these were fixed with separate tests. Planned-test context
+is a reference, never support. Suggestions to collapse prediction consistency
+into gate validity, forbid partial reports or remove current global registries
+from older reasoning refs conflict with the selected semantics; explicit coverage
+and scope labels retain them honestly.
+
+Later focused review reproduced false current-plan mutation warnings from absent
+and differently versioned older plans. The repair derives current plan digests
+from main at the requested history prefix and reports displayed-view match and
+visibility independently. Final reviewed packet **70,052 B**, SHA-256
+`0031fffaff814e70a11579d6bfd893f1ddf7a3c6002ca3f8db36ce9d6a17cb45`;
+runtime confirms actual Opus5.5 and reports **no reachable correctness defect**.
+Its conditional plan-removal concern is unreachable in the closed command set:
+accepted merges add/replace records; no accepted plan-delete operation exists.
+Intermediate test failure expecting the wrong duplicate-basis error was repaired;
+an existing co-report test hit the legitimate monotonic-clock guard before its
+intended stale-context check. Its test clock is now pinned to the current command,
+so the unchanged product invariant no longer masks the tested refusal. Failed
+runs are not claimed clean passes; repaired tests/regression pass.
+
+Documentation impact updates existing product/release/domain/architecture,
+manual usage/validation and this TODO, without changing accepted ADR0023 or
+creating a handoff/journal. Philosophy check: seeing a registered failure and
+later amended tolerance helps the person own their limitation, rather than making
+the graph choose a scientific conclusion. Source chronology/fidelity, actual
+understanding and useful live research remain unverified. **Next: 08 private
+critique, then 08 selected canonical sharing; 2 outcomes remain.**
+
+- Plan check: freeze original prediction/falsifier, prewritten pass/fail wording,
+  commitment reference and pre-inspection disclosure with unknown states. Distinguish
+  registered-rule consistency, discrimination/validity limitations and the person's
+  scientific interpretation. Imported chronology is source-claimed; tool record
+  order is not proof that an external result was unseen.
+- Implement: explicit plan-to-completed-record association and rule-version-bound
+  outcome assessments. Append gate results and separate tolerance/reference
+  amendments with decision/reason, source and before/after-result disclosure.
+  Retain original rule/failure even if a later rule passes. Dependent claim review,
+  origin return and selected AI context show all relevant original/current rule
+  status; no automatic new supported status or experiment execution.
+- Verify: all five reported case shapes using synthetic data: failed prediction,
+  rule-consistent but nondiscriminating result, cross-run identity failure followed
+  by a changed reference, post-result tolerance widening, and sensitivity reversal.
+  Measurement cells do not change merely because a rule changes. Unknown/forged
+  claimed chronology stays unverified; changed rule/results invalidate reviews;
+  original failures and human reasons survive restart/backup.
+- Exit: a reviewer can distinguish a confirmatory source claim, exploratory
+  reinterpretation and an actual corrected number on every dependent path.
+
+**07 — Co-reported readings.**
+
+2026-10-14 plan review: add one explicit personal co-report transaction on the
+current main argument in an active episode with no staged alternative/earlier
+selected transaction. Up to four scoped candidates; at least two selected,
+explicit claim/observation basis, original-reading reference and declared
+human/AI/mixed/unknown origin. Reuse one judgment/reason and 04's active companion
+identities. Selected membership is dependency-closed; omitted candidates remain
+in the operation as unadopted input. The exact current graph/reporting context
+and global evidence watermark bind confirmation. Readings become first-class
+Interpretations, with a reviewed co-report disposition; no fictitious prior
+branch merge or mutual scientific-support cycle. A later revision uses new
+reading identities referring to earlier originals. Version command8/work18/
+project14/frame6 preserves old bytes and refuses old writers. 128 project
+Interpretations is admitted only by this new transaction; legacy one-reading
+operations remain unchanged. Graph/source inspection, private return and
+explicit manuscript/explanation follow-up stay visible; no automatic debt
+closure, provider permission or protected approval is introduced. Result and
+Opus cross-review must pass before marking row07 complete.
+
+2026-10-14 implementation/result review: **07 complete; 6/10 outcomes complete,
+4 remain.** Public `project co-report --input FILE [--dry-run]` now previews and
+records 2–4 selected scoped Interpretations in one exact personal transaction.
+The primary and reversed sensitivity readings remain independent nodes; one
+shared judgment/reason, source references and 04 reporting dependencies stay
+inspectable in the graph. Original-reading links and co-report group links are
+non-scientific; observation-basis impact reaches the scoped interpretation and
+claim without inventing support. Claims/evidence values remain unchanged.
+Source identity and expected graph/head/watermark changes refuse old review.
+New relationships/readings use new identities, leaving earlier co-report edges,
+scope and source immutable. Episode outcome is explicitly `co-reported`.
+
+Selected companion closure is directed: every obligation with a selected target
+is required; every required companion claim needs at least one selected reading.
+Other alternatives on that same claim are optional, and reporting a companion
+alone never requires an unrelated reverse target. Independent omitted candidates
+are unadopted input with visible validation problems and reserved IDs, not graph
+alternatives or scientific records. Known/unknown original influence survives
+human edits through source lineages and archived judgments; a human-only merge
+that drops the actual Contribution chain already refuses under the original
+kernel contract. Composite judgment need not equal any single statement: that
+would force one reading to erase the others. No semantic agreement or
+understanding is inferred.
+
+Verification: **23/23 new integrated tests PASS (18.337s)**. They cover 2/4
+readings, optional/required omissions, invalid/unadopted input, actual corrected
+basis and stale input/project/companion refusal, directed closure, source lineage,
+later new-identity revision, immutable old relationship/reading refusal, original
+notes/explanation/backup return, actual PTY record/open/quit and shipped old-reader
+refusal. The combined 32-decision/128-reading case replays and queries exactly,
+backup/return matches and a 33rd episode refuses before append. Existing wording,
+anchors, service and argument-registration regression: **60 PASS (192.503s)**.
+Contract/goldens: **209 PASS (13.483s)**. Final independently extracted source:
+**6 PASS (37.727s)**, 145 members. Generated schemas remain current; tracked old
+schema/golden bytes remain unchanged. Documentation: 77 files; harness: 22 PASS;
+whitespace PASS; original truth packet remains valid. These are affected scopes,
+not full alpha/native/provider qualification. Early test fixtures accidentally
+passed imported view metadata as experiment input and attempted a forbidden
+Contribution-erasing merge; corrected checks passed and failed runs are not
+claimed successful.
+
+Actual pinned `claude-opus-5-5` reviews ran with hooks/plugins/MCP/tools disabled,
+using only public source and owned synthetic context. Initial packet 42,575 bytes
+SHA-256 `240963bdfb13fc841378a1d82fb3a920f0627343f923bbf77585862bbaa7a9f0`
+led to distinct close outcome, reserved omitted IDs and explicit source-chain
+checks. Follow-up reproduced/fixed old relationship amendment, dead alternative
+creation and absent required companion reading. Suggestions to reverse directed
+reporting obligations, force every alternate candidate or grade composite text
+conflict with the selected contract; executable tests establish these boundaries.
+Final packet 60,172 bytes SHA-256
+`41384bea8abb52a4a6035edba1595f865f4e9523b98d3388dd6937bf56bf3343`
+confirmed **no reachable blocking defects**. Minor answer detachment/count-error
+formatting and inactive-companion guidance were repaired and tested afterward.
+The existing conservative branch-wide AI/unknown explanation requirement remains
+explicitly documented; source retention must not be relabeled AI-free. It is not
+scientific grading, a new runtime outcome or a hidden provider readiness claim.
+
+Documentation impact: current product/domain/architecture summaries, workflow,
+validation and existing plan updated in place; generated co-report input,
+command8/work18/project14 schemas included. No accepted ADR changed, no journal,
+provider inference, native key work, commit or push. Next integrated outcome:
+**06 — typed observations and condition queries**, followed by 05, 08 critique,
+and 08 selected canonical sharing.
+
+
+- Plan check: version a small co-report disposition and multiple interpretation
+  identity/basis/scope within one reviewed decision. Keep the existing single-
+  interpretation path and one selected transaction default. Use 04's companion
+  record; no second co-citation store or general multi-branch conflict resolver.
+- Implement: create/select up to four separately identified readings with their
+  scopes and source revisions, one reused human rationale and explicit co-report
+  membership. Dependency-closed review includes required companions and separates
+  omitted readings. Shared evidence remains global; disagreement cannot disappear
+  merely because one reading is selected.
+- Verify: positive primary and reversed sensitivity reading both reach the new
+  personal main in one exact selection using legacy untyped observations for
+  the independent first case; scopes, origin and mandatory companion
+  survive edits/restart/backup. Missing/inconsistent membership, changed selected
+  basis or omitted required companion invalidates review. Old one-interpretation
+  golden histories remain unchanged and no mutual scientific-support cycle is
+  invented to express the bundle.
+- Exit: both readings remain first-class and the graph/wording review shows the
+  reason they must be reported together.
+
+**08-export — Selected Git-share projection.**
+
+- Plan check: freeze a closed export schema, default-deny field allowlists and
+  selection/dependency/redaction policy under the chosen ADR 0023 scope. Existing
+  private export/backup stays unchanged. Public IDs are stable and non-content-
+  derived for all exported structured record/reference IDs using mappings already
+  present in the saved revision; internal IDs themselves may contain confidential
+  names. Export stays a pure projection; reasons are selected separately.
+- Implement: `project export --canonical` as a distinct sharing mode with exact
+  local preview, explicit selection and create-only user-selected destination,
+  including Git. `project verify-export` recomputes the projection from the saved
+  private revision and policy commitment. It requires the private source for that
+  comparison, not a purported full-history reconstruction from redacted output.
+  No Git commit/upload or import-back synchronization follows.
+- Verify: byte-deterministic output for identical saved revision/policy/selection;
+  source/policy/selection/output tampering fails. Redacted dependencies remain
+  resolvable without exposing known private originals, identities, paths or origin
+  payloads. Include a selected content-bearing internal ID and opaque mappings
+  in the leak oracle, plus repeated export that allocates no new private state.
+  Test explicit reason opt-in and malformed/incomplete selections, stale
+  source and existing edited destination preservation. A preview supplies no
+  authority to send scientific data to an external provider.
+- Exit: selected shared argument can live next to the paper and be checked without
+  creating another editable scientific source of truth.
+
+**Execution 2026-10-14 — complete; 10/10 migration outcomes, 0 remaining.**
+Plan review retained the Emerald Castle action: share selected scientific lineage
+with collaborators through existing Git tools, without creating another editable
+judgment narrative or public authority. No unsettled product choice, native-key
+participation, new research-provider request or private source access was needed.
+Canonical-share/v1 now supplies default-deny per-kind fields, explicit selection
+and disclosed closure, separately selected reasons, opaque saved IDs and a
+read-only private-revision commitment. Current claim-status basis, incoming
+science, wording/companions, scoped co-reported readings, exact cells/units/semantic
+conditions and linked protocol failures/amendments remain legible. Source,
+critique prose, private paths, manuscript bytes, working text and historical backup
+records are deliberately omitted. Known private literals copied into selected
+fields refuse rather than silently changing scientific meaning.
+
+Public `project export --canonical` pages the complete escaped semantic content,
+requires literal `export`, binds destination filesystem identity before preview,
+rechecks selection/private saved bytes and publishes a create-only file, including
+inside Git. APFS case/normalization aliases of the live private work directory
+refuse by ancestor identity. Existing/edited destinations, changed parent/source/
+selection and pre-publication write failures preserve files. `verify-export`
+recomputes exact bytes with that specific private revision, public selection and
+fixed policy. No ID allocation, private save, Git commit/upload, provider permission,
+manuscript write, restore authority or anonymization verdict follows. The legacy
+full private export/backup boundary remains distinct.
+
+Result review: 28 sharing tests pass in 11.283 s, including actual PTY export and
+fresh-process verify, content-bearing private IDs, source/policy/selection/output
+changes, private literal copies/case/Unicode, companion/status/co-report/protocol
+closure, exact typed cells, control escapes, parent aliases/swaps, cancellation,
+write failure and preservation. The large fixture uses 64 claims, 256 observations,
+256 experiments, 512 edges and 64 plans; 1,152 public records fit in 615,845 bytes.
+Its deterministic two-export test has a 30-second bound. A separate Mac diagnostic
+measures two exports plus verification; the preceding run was 1.760 s at
+76,021,760 process peak RSS bytes, not a deployment-wide memory guarantee.
+Existing CLI/private-backup/source tests pass 40 in 72.825 s; final source-only
+recheck passes six in 41.981 s with 152 shipped members. Contracts pass 209 in
+14.096 s; explicit harness scope passes 22 in 0.941 s. Generated schemas match;
+tracked legacy schemas and fixture/golden files remain unchanged. Documentation
+and whitespace checks pass; no full alpha/core, private-source fidelity, anonymity,
+researcher understanding or live value is claimed from these checks.
+
+Actual pinned first-party Claude Opus5.5 reviewed public code/owned markers with
+no tools, hooks, plugins, memory, repository write or research context. Initial
+packet 64,641 bytes, SHA-256
+`ec5f7bc87e4aaf5989e7abf10b927337b0251ff1151565b5c1c1a53942f32edd`,
+follow-up 80,325 bytes
+`9641797807dc6c1ca2fc2ee3e33cea88b020aa35299869a5abf25f06d4328f76`,
+closing 87,600 bytes
+`7e6f7b9c03901bed64f21f6e8bcdc71e89787a30532ba7ba695619a16214130e`,
+and adopted-origin review 102,026 bytes
+`d50f9f9356e4eff0d89df0d1d35237400bca6d8cafd9e1e097b39a09273e3d5d`
+identified reproduced atime, experiment closure, APFS alias, literal normalization,
+destination control display, cleanup and unmerged-status origin defects; fixed
+with independent oracles. Record origins now follow actually adopted merge
+amendments/co-report sources, with surrounding branch AI separately disclosed.
+Final conditional concerns were checked against actual `_preview` and
+`_paper_changes`: newly adopted Interpretations are in selected/required amendments
+(the direct AI-adopted-reading oracle passes), and two concurrent claim-status
+records for one claim are rejected by the core. Sensitivity-only co-report closure
+already works and has its own oracle. Missing protocol basis/vocabulary mutation
+and rejected main Interpretations are unsupported inputs, not reasons to weaken
+schemas. OSError is handled by the actual public command boundary. No reachable
+review finding remains unresolved after these source/tests checks.
+
+Canonical workflow, product/release scope, domain, architecture, validation and
+README now describe this implemented personal subset. ADR0023 is unchanged;
+no extra summary/journal was created. This closes the requested migration ledger,
+not L04 human-use observations, protected H0/H1/V0, publication or the full active
+plan. The next checkpoint is actual prior-argument migration feedback with visible
+unresolved meaning and retained private return.
+
+**08-critique — Private critique and sourced research questions.**
+
+2026-10-14 plan review: preserve ADR0023's selected private-original policy,
+private ordinary storage and human-authored question/uncertainty distinction.
+The researcher action is to connect an external concern to their research work
+without turning it into evidence or requiring another judgment narrative.
+Freeze strict command11/work21/project17/frame9, exact raw capture-input registry
+outside scientific history, opaque identities, question revisions and typed
+non-scientific references. Explicit original reading/private backup retains data;
+default reference output is an allowlist, full readable export and new-profile
+provider context refuse until separately qualified. Record origin independently,
+never auto-anonymize arbitrary prose or declare resolution. No new unresolved
+human choice, device key, source access or research-provider transmission is needed.
+Result/Opus review is in progress; count remains 8/10 until completion.
+
+
+**Execution 2026-10-14 — complete; 9/10 outcomes, 1 remaining.** Public
+`project critique --input FILE [--dry-run]` now captures the exact private original
+input separately from a human-authored question, then exact-reviews question
+revisions and non-empirical claim/plan/experiment/consequence associations.
+`critiques` lists neutral fields/reasons; `critique-original` explicitly reads the
+private original locally; `critique-references` emits stable opaque omission/
+reference records only. The [private contract](../../designs/2026-08-03-domain-model.md#personal-paper-lifecycle-extension-planned)
+and [workflow](../../development/workflow.md#private-critiques-and-sourced-questions)
+own fields/bounds/usage. This completes private concern-to-work inspection, not
+scientific support, resolution, chronology proof, full sharing or new egress.
+
+Exact source capture bytes/identities/labels remain only in project17's bounded
+private registry, outside scientific commands/graph/TUI default readers. Revision
+reason and original/known/unknown influence remain after human editing. Duplicate
+normalized captures refuse even when JSON is reformatted. Registry missing/tamper/
+orphan/duplicate cases refuse; originals remain immutable on save. Default
+projection excludes all prose/labels/origins/hashes/source handles, even intentional
+known-secret copies in neutral questions or link reasons. It maps every ID/reference
+to saved opaque public identities and refuses missing mappings without private
+key tracebacks. Normal full JSON export refuses before file creation; expressly
+private backup retains sources. Provider context/attachment stays refused.
+References to earlier app-recorded work are allowed and explicitly labeled
+retrospective, because a critique may preexist outside app capture; no motivation
+or resolved status is inferred. A claim consequence must be an actual selected/
+required accepted amendment, not an unchanged dependency in merge closure, or the
+current wording operation for that target. Past superseded wording is still in
+history but is not a newly linkable current wording consequence in this slice.
+
+Final **25 critique tests PASS (10.228 s)**: separate raw original/neutral
+question, scientific evidence denial, connected plan/record/claim limitation path,
+actual selected consequence versus old dependency, preexisting-work labels,
+normalized retry, preserved revision reasons and AI/unknown origin, 128-question
+boundary/overflow, source tamper/orphans and unchanged-input/source refusal.
+Known original/identity/path/prose/hash marker exclusion covers preview/neutral
+listing/default placeholders/provider/export/errors. Actual PTY capture/open/quit,
+shipped HEAD reader refusal, kept notes, public private-backup/fresh-restore and
+exact source bytes pass. Existing protocol/measurement/co-report/wording/anchor/
+import **132 tests PASS (259.871 s)**. Final contract/goldens **209 PASS
+(14.293 s)**; independently extracted source **6 PASS (42.402 s)**, 151 members.
+Schema regeneration check is current, tracked legacy schema/golden bytes unchanged,
+truth fixture passes 6 artifacts/3 observations. Docs/harness check passes 77
+Markdown files and 22 harness tests; final post-record verification also passes
+documentation and tracked-diff whitespace.
+No whole-alpha/core/native/actual-provider or source-fidelity claim is made.
+
+Actual pinned first-party `claude-opus-5-5` reviewed bounded public-code/synthetic
+packets with tools/MCP/plugins/hooks/skills/session persistence disabled. Initial
+packet 145,260 B, SHA-256
+`c588cc05214726fa39f99050bb93ba35eaddc2d1c61a05802cd5a38117b33b5c`.
+Local reproductions fixed ordinary listing/preview private-source hashes, normalized
+retry and unchanged-merge-dependency falsely appearing as claim consequence.
+Follow-ups fixed source-handle preview allowlist, retained revision reasons and
+redacted missing-source/mapping errors; current-wording operation IDs were
+independently verified, not a missing field. Review's proposed strict app-time
+ordering would discard legitimate prior-work references and confuse app capture
+with outside chronology; explicit retrospective labels preserve the selected
+migration policy. Link-identity overwrite is unreachable: shared `_record_ids`
+covers links/sources and the different-target retry test refuses. Review runs
+outside Git by design; actual Git/PTY tests run in the checked repository. No skip
+or vendored old-code duplicate was added to hide an assumed environment failure.
+Final packet **77,317 B**, SHA-256
+`cfe3a9b1d83a82c62d523a46de01997146d0da8485b51c6a99651dc4eb4e28ec`;
+runtime confirms actual Opus5.5 and **no reachable integrity/privacy defect**.
+Initial opaque-ID length mismatch was corrected before passing tests; failed
+intermediate runs are not claimed clean passes.
+
+Documentation impact updates existing product/release/domain/architecture,
+usage/validation and this TODO. Accepted ADR0023 stays unchanged; no new journal,
+hand-off or permission ceremony. Philosophy check: a researcher can return to why
+a concern led to work and inspect their earlier wording/reason while raw private
+review material remains separate from scientific evidence and publication.
+Ordinary unencrypted private storage and non-certified neutrality remain explicit.
+**Next: 08 selected canonical Git-share export/verification; one outcome remains.**
+
+- Plan check: freeze private raw source/digest and a separate human-written question
+  with public-safe opaque identity, source classification and claim/experiment/
+  consequence references. The owner permits ordinary private raw originals;
+  they are never default AI context or share fields. Capture stays quiet and is
+  not a new judgment/explanation form.
+- Implement: explicit private source capture, question/obligation authoring and
+  typed questioning/addressed-by associations that are not empirical support.
+  Retain raw originals in saved work/normal private backup with the declared budget.
+  Known private source fields, identities and their direct quotes remain private
+  through origin/derived labels; human-created sharing text is explicitly reviewed,
+  not automatically anonymized by a model or regex.
+- Verify: critique -> question -> planned/completed experiment -> changed claim,
+  with no fabricated observation; source-original restart/backup return. Every
+  default export/provider projection excludes private originals/identities even
+  through referenced origins, error diagnostics and derived labels. User-authored
+  neutral questions remain distinguishable from the original confidential text;
+  the system does not claim to detect unreported copying in arbitrary prose.
+- Exit: the researcher can explain which external concern motivated the work
+  while keeping its original private.
+
+**08-runtime — Prerequisite guidance and supported versions.**
+
+**Execution 2026-10-13 — complete; 1/10 outcomes, 9 remaining.**
+Plan review retained Python 3.13, fixed system Git and AI-off personal boundaries.
+`claimbranch/runtime.py` provides a Python-3.8-parseable read-only bootstrap;
+`__main__` refuses wrong versions before application/domain imports. Doctor now
+checks the actual curses import and explains missing Python/curses/system Git,
+including manual conda/uv alternatives. The source ZIP includes the helper under
+its explicit 136-member bound; START-HERE, CLI help and setup guidance agree.
+No package install, global configuration, native approval, research read or
+provider request is part of the bootstrap. Existing project formats and limits
+are unchanged. Documentation impact: setup, intended delivery, acceptance and
+this execution ledger; no architecture/authority decision changed.
+
+Local result review: 17 CLI tests and five source-artifact tests pass. The latter
+runs deterministic packaging and independent extraction with actual personal
+PTY/init/open/save/restart/backup/restore checks. Actual macOS Python 3.9.6
+returns exit 3/JSON guidance with replays not-run; Python 3.13.15 doctor returns
+ready. AST parsing checks bootstrap grammar at 3.8 without claiming app support.
+Explicit docs/harness scopes pass (77 Markdown files, 22 harness tests and
+whitespace). Conda/uv installs and old-runtime application support are untested;
+setup commands were verified against official guides, not executed. The actual
+Opus packet is 52,272 bytes, SHA-256
+`9df56d0ab3dc2bf098df390bf3c4823ad38bc9323f10d90fb993edcd4042177b`;
+the actual reviewer was pinned `claude-opus-5-5`. It identified Mac Git-shim
+readiness, old-interpreter curses reporting, a ZIP path test short-circuited by
+member budget and missing interactive continuation guidance. All were corrected:
+Mac developer Git is checked without invoking a shim; old-runtime curses is
+unverified/null; path tests replace a member and assert the precise path refusal;
+conda activation/uv continuation and installation-not-tested limits are explicit.
+Fresh extracted subprocesses also confirmed that missing curses cannot crash
+parser construction. After fixes, 20 CLI and six source-artifact tests pass,
+including the complete extracted manual return smoke. Docs/whitespace pass.
+A bounded follow-up actual Opus packet is 28,912 bytes, SHA-256
+`a84a298e4efdbf87ef38d8854b503e630715d0ef2ce9714ddc8910fca62ac6c7`;
+actual `claude-opus-5-5` follow-up reported no remaining blocking correctness
+defects and confirmed the earlier fixes. Its three low-severity notes were
+addressed: disclose Xcode license acceptance is not probed, test active developer
+selection takes precedence over fallback tools, and direct retries to the chosen
+3.13 interpreter rather than assume a `python3.13` PATH command. Final affected
+checks pass: 21 CLI tests, six artifact tests (including extracted personal return
+and bootstrap refusal), 77 Markdown checks and whitespace. Harness's 22 tests
+also passed in the first result review. No full core/native/Linux/support verdict
+is inferred. New setup alternatives remain installation-untested on this host.
+
+Next is 01: whole-paper capacity/version and visible headroom, retaining existing
+history bytes; then 02 delivers the first prior-argument import/save/return
+feedback checkpoint. This increment adds no release/push, provider send or
+actual private-case migration.
+
+- Plan check: inspect actual Python/curses/Git-path checks and public bootstrap
+  behavior, including a Python too old to import application syntax. Retain 3.13
+  as supported until a real alternate-runtime matrix passes.
+- Implement: version-matched one-line conda/uv setup recipes and actionable doctor
+  output/help for each missing prerequisite; do not install dependencies or change
+  system configuration automatically. A lightweight preflight/docs path can show
+  guidance before application imports. Resolve a Git-path compatibility change
+  only if its actual authority/path/test assumptions are retained.
+- Verify: simulated missing prerequisites plus preflight parsing targeted at
+  Python 3.8 syntax via `ast.parse(..., feature_version=(3,8))`. Run an actual
+  old interpreter if available; grammar simulation alone is not runtime support.
+  Fresh
+  supported source extraction runs doctor/help/manual start. If 3.11/3.12 are
+  evaluated, run full relevant contract/application/source checks on them and
+  declare only observed support. Absent interpreters do not block guidance or
+  current Mac feedback.
+- Exit: a researcher has an actionable route into the supported app instead of
+  debugging an unexplained version/path failure.
+
+**Integrated execution and verification.** Start with 08-runtime and 01; do not
+hold either for absent real source. Then 02 provides the first migration/read/
+quit/reopen/backup feedback checkpoint. Continue 03 -> 04 -> 07, then 06 -> 05,
+then private critique and share export. Independent slices can move earlier
+when their dependencies are already satisfied; no new parallel-agent workflow
+or extra user confirmation follows from a file dependency.
+
+Each integrated outcome follows plan check -> implementation -> implementation
+result review (affected checks) -> actual bounded `claude-opus-5-5` cross-review,
+then fixes/rechecks and update of this ledger.
+Use real PTY and fresh processes for visible interactions/return, invalid input
+and interrupted saves for custody, and frozen replay for semantic changes.
+Group full `python3.13 scripts/verify.py --scope alpha --scope harness --temp-root
+/private/tmp`, generated-resource checks and clean-source journey at the
+migration/return milestone and before declaring the new source ready. A shared
+protected adapter change requires its affected core/native checks; an isolated
+personal extension does not require a new device key or Windows participation.
+No skip or unavailable host becomes a clean whole-core/support verdict.
+
+Update product/domain/validation/workflow and generated schemas in the same
+behavior change. The live AI route's separate service/human-use criterion remains;
+owned fixture/context tests never qualify a provider. Verify AI-readable fields
+and explicit node/edit proposal constraints against each supported new schema.
+Legacy typed edits cannot drop new limitations/protocol/companion fields by
+replacing an older body; unsupported modes refuse with manual continuation.
+Disclosure of incomplete context precedes exact send: safe unresolved flags/counts
+contain no retained bytes, sensitive pointer names or direct quotes. Test that a
+request containing such a node sends none of its private raw source. Eligible
+unmapped science needs explicit field selection and exact review; raw critique is
+not introduced as a provider field. Changed wire bytes require their own outbound
+choice; no extra inference runs solely for a checkbox. Existing known AI origins
+and manual continuation remain available.
+
+**Material stops.** Stop the affected outcome for loss/erasure of source or origin,
+unsupported historical meaning being presented as validated science, an unsafe
+save/import replacing the original, unknown-version mutation, confidentiality
+leakage in known private fields, or a need for new authority/publication/provider
+access. Investigate ordinary test/UI failures and continue independent authorized
+work; missing private originals stop fidelity claims, not synthetic/profile work.
+Failure of a measured capacity target triggers diagnosis/profiling and a concrete
+report, not an automatic reduction of the user's required scientific scope.
+
+**Tracker #10.** Keep one reviewed anonymized source-to-record inventory, mapped/
+retained/omitted counts and observed feedback beside these outcomes. When the
+implementation is later authorized, update the exact issues/checklist only within
+an explicit issue-write instruction. Do not post this planning conversation or
+mark any issue complete now. Close the migration tracker only after actual
+supported import/return and the separately selected revision/share outcomes pass;
+retain out-of-scope or unavailable source cases honestly.
+
+**Plan review and current status.** All 10 outcomes remain planned. The four
+behavior choices above are confirmed; no product-choice question is pending.
+Version names, file paths, bounded codecs, JSON interchange and test grouping are
+engineering decisions to freeze during implementation rather than another broad
+approval cycle. New scientific mappings in the user's actual file remain theirs
+to confirm at import; this plan does not invent those private meanings. Actual
+Opus/doc validation evidence for this planning increment is recorded below.
+
+**Actual plan cross-review — 2026-10-13.** Restricted `claude-opus-5-5` reviews
+one fixed 60,506-byte packet, SHA-256
+`ed231497ffb50ee7a885666e250808a373e17a63f81dd9889c9afd41d6748b6f`.
+Runtime usage confirms that model, no tools/MCP/permission denials, skills/hooks/
+plugins disabled and no session persistence. The review finds ten engineering
+amendments and no new user decision; it is not an implementation PASS and runs
+no tests. Incorporate distinct small/large checkpoint/backup framing, raw-byte
+chunks, stored-versus-derived budget accounting and save/backup timings, complete
+count inventories and later combined-fixture rechecks, deterministic partial
+selection/dependency handling, metadata-only unresolved AI markers, preallocated
+opaque exported IDs including content-bearing internal IDs, per-block source
+freshness and actually bounded preflight syntax/runtime claims. Foreign AI
+origin remains separate from owned app traces, and the independent co-report
+case uses legacy observations. Old-reader tests protect canonical/original files
+and check transient locks, rather than promising no temporary filesystem activity.
+
+All four user-selected policy dimensions are settled under ADR 0023. No further
+approval is inferred or requested for routine schema/file/test choices. Final `python3.13 scripts/verify.py --scope docs` passes all 77 Markdown files
+and tracked-diff whitespace after the engineering amendments. This planning
+increment changes accepted policy, proposed domain/validation and execution
+sequence only; no application test or runtime implementation result is claimed.
+All 10 runtime outcomes remain unimplemented.
+
+###### Code-rendered launch demo proposal
+
+**Requested 2026-10-13; M01 pilot implemented for local review.** The owner asks whether the
+[Opus demo collection](https://erucipe.notion.site/Opus-5-5-3e8d5c9e7e59809f82cee101850fa8e8)
+can inform a ClaimBranch promotional video, requests a production plan, then
+authorizes making the pilot. The full 60-second story remains proposed.
+This is a feedback/publication asset, not another S/L/R completion gate or a
+replacement product UI. The [product outcome](../../product/product-spec.md#1-product-definition),
+[graph requirements](../../product/product-spec.md#7-interaction-and-visual-character)
+and [current availability](../../../README.md#ai-status) constrain its claims.
+
+**Audience and outcome.** A Git/LaTeX-using empirical researcher should see why
+they would connect a claim to evidence, inspect an AI contribution, choose their
+own interpretation and later recover that context. The invitation is to try one
+small research judgment and report friction. Stars are a secondary signal.
+Working message: "Trace the argument. Keep your reason." The original Dream
+means retaining the researcher's understanding and authorship; it does not
+require depicting a literal emerald castle.
+
+**Reference observations and limits.** The public Notion bookmark records were
+read without authentication. They include Kevin Ngo's JavaScript story animation,
+an Antikythera game described by its creator as a single HTML file, a procedural
+painting gallery, and a collection of video remakes. Kevin Ngo's public preview
+image was visually inspected: paper-cut shapes, a dark blue night, warm window
+light and hand-drawn textures. Original X video playback/source was not available;
+the inspected image does not verify motion, timings or how every frame was made.
+The collection mixes technologies, so "all of these are HTML animations" is not
+an established fact. Borrow continuity, clear visual causality and a handmade
+research-notebook feel; do not copy its characters, art, music or source assets.
+The [linked collection](https://skillry.dev/ai-videos/opus-5-5) points to both
+HyperFrames and Remotion examples; creator descriptions there are attributed
+claims, not independent implementation verification.
+
+**Recommended production approach.** Use HTML/CSS for readable text and layout,
+SVG for semantic graph shapes/edges, GSAP for one seekable timeline, and the local
+HyperFrames CLI to render MP4. Its [official implementation](https://github.com/heygen-com/hyperframes)
+documents browser preview and headless Chrome/FFmpeg frame rendering; the
+[GSAP timeline](https://gsap.com/docs/v3/GSAP/Timeline/) supports seeking and
+coordinating scenes. These match a graph-centered film without introducing a
+React app. [Remotion](https://www.remotion.dev/docs/the-fundamentals) is a credible
+alternative for frame-driven React compositions; use it only if the pilot
+exposes an actual rendering limitation, not as a second parallel implementation.
+A manual screen recording alone supplies product evidence but gives less control
+over graph explanation. Hand-building another frame encoder is out of scope.
+
+The recommended look is restrained research-notebook illustration flowing into
+the existing terminal: warm paper, dark ink, emerald focus and amber unresolved
+questions. A drawn line becomes a typed relation; the same claim stays spatially
+recognizable across scenes. Keep scientific labels still long enough to read.
+Emerald marks attention, not scientific truth. Arrowheads follow scientific
+meaning independently of reading order. Show observations arriving with their
+recorded experiment source; an animation cannot manufacture confirmed evidence.
+No decorative 3D fly-through, illegible terminal-wide zoom, continuous text
+motion, or auto-generated graph/evidence sequence. The owner has selected the
+reference family, not a final palette or composition; judge those in the pilot.
+
+**Working storyboard — 60 seconds, synthetic RLVR case.** One narrative, no
+new live provider request. The claim is whether optimizing a writing rubric
+improves independently assessed writing quality. Define rubric score and the
+independent comparison in readable language. Do not invent measured percentages
+or label a planned evaluation as observed support. Any fictional researcher
+choice is illustrative and never recorded as the owner's real scientific judgment.
+Use one concrete counterexample: the synthetic rubric score rises while blind
+human ratings fall on the same writing comparison. This challenges the broad
+claim; it is not an inconclusive result or a real RLVR finding. Explain the task
+as "rubric score vs. blind human ratings" without requiring viewers to know RLVR.
+Limit each scene to one short main sentence plus necessary node labels.
+
+| Time | Scene and visual action | Meaning to preserve |
+|---|---|---|
+| 0–6 s | A result note, a claim and an AI passage lie apart; ask why this result changed the claim. | The lost object is the researcher's reasoning context. |
+| 6–18 s | A paper thesis unfolds left to right into one claim, a labeled synthetic observation and its experiment record. | Define the terms; reading order never reverses the scientific relation. |
+| 18–30 s | The synthetic counterexample arrives from its experiment record. Highlight the connected claim; show a revised claim as a candidate while keeping other evidence visible. | Evidence remains; emphasis neither determines truth nor records the interpretation. |
+| 30–42 s | Select one precisely attributed advice passage, edit the candidate, explicitly record a fictional researcher's reason, and choose a proposed blind comparison. | AI origin stays visible; the unrun plan uses its target-claim `tests` association, not a support edge. |
+| 42–54 s | Cut to a genuine current-terminal capture of a disposable synthetic personal judgment: read its reason, quit and reopen it with AI off. | Identify actual footage, captured version and time compression. This shows manual persistence; it does not imply a live AI request or fabricate an AI-origin record. |
+| 54–60 s | Return to the argument with its reason and next question; show ClaimBranch, GitHub destination and experimental terminal-alpha status. | Invite one concrete use attempt; preserve current AI route limitations. |
+
+Animated explanatory scenes carry a legible "Illustrated synthetic example"
+label and are not styled as a new shipping browser application. The actual TUI
+segment comes from the supported current checkout and a disposable synthetic
+project through public actions. The existing [actual A observation](#l04-contextual-assistance-implementation-order)
+does concern the synthetic RLVR/rubric question and retained a real answer; the
+owner declined another transmission. An exact quoted passage may appear in the
+illustration only with its original context/source identified. Never transfer it
+to an unrelated project as a new owned response. If the intact source is no longer
+available, use explicit "illustrative AI suggestion" wording, with no model/date
+receipt. Record video copy/asset authorship in the production manifest; synthetic
+copy is delegated illustration, not the owner's scientific judgment. Capture no
+account name, home path, keys
+or private research. Do not imply automatic manuscript edits, autonomous
+scientific decisions, validated comprehension or a completed qualified AI release.
+The proposed CTA targets the demonstrated development checkout, currently
+`db5adc6798cf878098027386cece481d7d8ab447`; freeze the actual captured revision
+and matching setup link in M01. The end card says "Experimental terminal alpha;
+AI features in development checkout." Do not send viewers to the AI-off alpha.2
+download after presenting those features as available there.
+
+**Four production units; M01 built, M02–M04 pending.** Each follows plan check → creation →
+visual/semantic verification, with one bounded actual Opus 5.5 review per
+integrated increment under the native harness. Reviews must name the inspected
+frames/script; a text-only review is not proof of watched motion or usability.
+
+- [x] **M01 — 12-second pilot.** Freeze one claim/evidence/plan vocabulary and
+  the version-to-feature mapping. Build the 6–18 s sequence as a browser preview
+  and short local MP4, including a 2–3 second real terminal capture to test media
+  seeking/compositing early. Use large terminal text and a tightly framed capture,
+  recording the capture method. Inspect playback and seeking at full size and a
+  phone-sized display. Show it promptly and invite one researcher to explain what
+  connects to what; this feedback is not a permission or product-release gate.
+  Exit: readable scene and a working local export. A failed embedded clip first
+  gets a simple FFmpeg segment join; change renderer only for a remaining cause.
+- [ ] **M02 — Complete research story.** Expand the same timeline to 60 s,
+  capture the real TUI sequence, and connect the return to the original question.
+  Review each scientific state and every proposed/recorded transition against
+  the current app. Exit: complete, honest rough cut that works with sound off.
+- [ ] **M03 — Finish and derive.** Improve typography, pauses, transitions and
+  original/local sound only after the rough cut reads clearly. Produce a
+  1920×1080, 30 fps H.264 MP4, one 15-second cut and a poster from the same scene
+  source. English is the proposed main copy, with Korean text kept separately
+  for a later localized render; avoid two full captions competing on screen.
+  Audio and localization are deferrable. The short cut retains synthetic/alpha
+  labels; omit it if readability requires more time, rather than drop those labels.
+- [ ] **M04 — Verify and prepare delivery.** Inspect full playback plus scene
+  boundaries, seek/replay determinism, missing glyphs/assets, clipping and
+  640-pixel-wide readability. Check duration, codec, first/last frames and the
+  exact GitHub installation destination/version. Reproduce the local render
+  from the pinned setup; run `python3.13 scripts/verify.py --scope docs` for
+  changed documentation and relevant media checks. Prepare reviewable outputs;
+  no social post, hosted upload or source push follows from this planning request.
+
+**Repository/tooling placement.** Keep production source, scene data, fonts and
+their licenses in a small `tools/demo-video/` package with exact dependencies,
+a lockfile, pinned Node version and required dependency license notices, including
+GSAP. Keep its setup/render instructions with that package and link
+them from the development map when it exists. Ignore scoped `node_modules/`,
+browser caches and render intermediates; use the existing ignored `dist/` for
+exports. Check selected poster/thumbnail assets into `docs/assets/` only when
+they are actually referenced. Videos can be attached to a release after a later
+publication instruction; they are not Python runtime/source-ZIP requirements.
+Do not add all video tools or promotional sources to the application bundle.
+
+At planning time Node 26.9.0 and Chrome were available on the inspected Mac. No `ffmpeg` executable
+was found on PATH, and Remotion/Playwright/Puppeteer did not resolve from this
+checkout. The official HyperFrames CLI requires Node 22+ and FFmpeg. Setup and
+the pinned renderer's Mac compatibility were then unverified. The planning
+turn installed nothing; the subsequent M01 result below records local setup.
+Use the CLI directly without Superpowers or automatic skill installation; inspect
+scaffolding side effects before using an initializer. Freeze fonts/media locally,
+seed procedural texture, and drive all changes from the seekable timeline rather
+than wall-clock timers or live services. Rendering must not call an LLM.
+
+**Planning validation.** `python3.13 scripts/verify.py --scope docs` passes all
+75 Markdown files and whitespace before review. One bounded actual
+`claude-opus-5-5` review (19,539-byte packet, SHA-256
+`d246b88e7317f0aec3f788890fcf7b444daf440ad7ddcd2a36bb28c66d318d57`)
+returns six amendment groups, not PASS. Incorporate exact CTA/version mapping,
+explicit illustrative/quoted provenance, a single counterexample and candidate
+state, a lighter reading burden, early terminal compositing, and deferrable sound.
+Its claim that no retained RLVR advice exists is contradicted by the actual A
+observation above; do not use that assumption to request another inference call.
+Its demand for owner approval of all fictional copy is not adopted as a new gate.
+The review has no tools, MCP, skills, hooks or session persistence; usage reports
+the pinned model and one turn with no permission denials. After the amendments,
+the same documentation/whitespace checks pass again. Product runtime behavior, current UI scope,
+L04 qualification and release evidence are unchanged. At that planning checkpoint,
+production was **4/4 remaining**; the subsequent pilot result is below.
+
+
+**M01 implementation and local result — 2026-10-13.** The requested “try making
+one” now produces `dist/demo-video/claimbranch-pilot.mp4` and a paused browser
+preview. Local `tools/demo-video/README.md` authoring commands and
+`tools/demo-video/manifest.json` record synthetic copy, authorship, captured revision
+and asset provenance. This local tooling is not included in the paper-migration
+source publication; its development-map link stays with the unpublished tooling.
+The output is 12 seconds, 1920×1080, H.264 at 30 fps, silent. English text,
+warm-paper illustration, typed arrows and a separate draft interpretation lead
+into 2.75 seconds of actual bundled AI-off terminal output and a two-second
+alpha/source-preview end card. The terminal is a real 96×26 PTY capture replayed
+in xterm.js, with three held app states and an explicit label; it is not an OS
+recording or a demonstration of persistence. Its saturation example is separate
+from the illustrated writing task. No new app LLM request or AI answer is used.
+M02 still owns the complete own-project save/reopen story and any attributed AI
+passage. No human judgment, understanding, live utility or release gate is inferred.
+
+The isolated npm package pins HyperFrames 0.8.150, GSAP 3.15.0, Puppeteer Core
+25.10.0, xterm.js 6.0.0, Fontsource 5.3.0 and local Mac ARM FFmpeg/FFprobe packages.
+Install used `--ignore-scripts --no-audit --no-fund`. The existing Chrome and
+process-local config/telemetry settings avoid a global install, browser download,
+skill/plugin installation or machine configuration change. Local font/xterm
+licenses and the GSAP notice are retained. Generated assets/dependencies/caches
+and MP4 inspection output stay ignored; Python runtime packaging is unchanged.
+
+The first strict render correctly refused a timeline registry hidden in an
+external script. Initialize the actual registry in HTML and register the external
+timeline into it; strict lint remains enabled. The subsequent official render
+succeeds in 22.2 seconds. Visual inspection of actual encoded graph, terminal
+and end frames catches/fixes overlapping relation text; a longer end-card hold
+and larger synthetic/actual labels improve the pilot. Browser checks pass a
+byte-identical forward/backward seek, play/pause/restart, 640-pixel reflow,
+local-only page assets, capture/source-manifest equality and restricted preview
+routes. FFprobe checks codec, dimensions, rate and duration; Chrome also plays
+the encoded terminal/end segment through completion. Full-size and 640-pixel
+images were inspected. These are agent/media checks, not unfamiliar-user
+comprehension or accessibility certification. Export SHA-256:
+`77c7e85a570588bbad040a32cf9f53a92594ace4d073f84895970eb46dfb6b0a`.
+Terminal capture SHA-256:
+`15b000d98719130ef86d09e0e3b91c1837bef343883c8a333ce68b506e5fcb29`.
+
+One bounded actual `claude-opus-5-5` source review uses a fixed 43,367-byte
+packet (SHA-256 `94d96dbcd3f03d8bca3b510cd1a878f91109717d4c55212dcbc2914640f894f9`).
+Runtime usage confirms that exact model; tools, MCP, skills, plugins, hooks and
+session persistence are disabled. It returns findings, not a visual PASS.
+Reproduce and repair encoded-slash traversal within the local preview package;
+reject decoded parent segments and enforce the generated-assets realpath.
+Strengthen the real capture with clean application-source and resolved import
+checks, minimal inherited environment, and actual changed-node/reader markers.
+The existing cursor sequence demonstrably reaches the app, so retain it instead
+of assuming a broken key binding. Separate demo data from actual-output labeling
+and give the end card its own source-preview label. Extend exact seek checks to
+mid-motion and embedded-video frames, then rerender and rerun all media checks.
+Retain “Your argument” as promotional copy beside the explicit bundled-example
+label; it is not claimed to be the viewer's personal project. All resulting
+checks pass; updated encoded terminal/end frames are visually inspected. This
+text-only Opus review did not inspect images or watch motion. Documentation impact
+is promotional tooling/commands and execution state only; product behavior,
+scientific schemas, ADRs and release scope are unchanged. Documentation checks
+currently pass all 76 Markdown files and whitespace. No core/alpha regression
+is claimed for this isolated media change. Next: show the local pilot for
+feedback, then M02–M04; **3 production units remain**, separately from S/L/R.
+No push, hosted publication or social post is performed.
 
 ###### 2026-10-13 candidate source synchronization
 

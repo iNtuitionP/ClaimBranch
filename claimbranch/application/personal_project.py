@@ -8,22 +8,71 @@ from .tui_project import ProjectRecovery
 
 
 PERSONAL_MAGIC = b'CBPP\x00\x01'
+PAPER_PERSONAL_MAGIC = b'CBPP\x00\x02'
+IMPORT_PERSONAL_MAGIC = b'CBPP\x00\x03'
+ANCHOR_PERSONAL_MAGIC = b'CBPP\x00\x04'
+WORDING_PERSONAL_MAGIC = b'CBPP\x00\x05'
+CO_REPORT_PERSONAL_MAGIC = b'CBPP\x00\x06'
+MEASUREMENT_PERSONAL_MAGIC = b'CBPP\x00\x07'
+PROTOCOL_PERSONAL_MAGIC = b'CBPP\x00\x08'
+METADATA_PERSONAL_MAGIC = b'CBPP\x00\x0a'
+CRITIQUE_PERSONAL_MAGIC = b'CBPP\x00\x09'
+from claimbranch.core.paper_capacity import PROJECT_BYTES
+from .paper_storage_codec import decode as storage_decode
 
 
 class _PersonalCodec:
-    max_bytes = MAX_BYTES + len(PERSONAL_MAGIC)
+    max_bytes = PROJECT_BYTES + len(PERSONAL_MAGIC)
 
     def seal(self, raw):
-        # This is framing, not encryption or an authenticated authority record.
-        if type(raw) is not bytes or len(raw) > MAX_BYTES:
+        value = storage_decode(raw)
+        metadata = value.get('schema') == 'claimbranch.project-work/v18'
+        critique = value.get('schema') == 'claimbranch.project-work/v17'
+        protocol = value.get('schema') == 'claimbranch.project-work/v16'
+        measurement = value.get('schema') == 'claimbranch.project-work/v15'
+        co_report = value.get('schema') == 'claimbranch.project-work/v14'
+        wording = value.get('schema') == 'claimbranch.project-work/v13'
+        anchored = value.get('schema') == 'claimbranch.project-work/v12'
+        imported = value.get('schema') == 'claimbranch.project-work/v11'
+        paper = value.get('schema') in ('claimbranch.project-work/v10', 'claimbranch.project-work/v11', 'claimbranch.project-work/v12','claimbranch.project-work/v13','claimbranch.project-work/v14','claimbranch.project-work/v15','claimbranch.project-work/v16','claimbranch.project-work/v17','claimbranch.project-work/v18')
+        maximum = PROJECT_BYTES if paper else MAX_BYTES
+        if len(raw) > maximum:
             raise ContractError('personal work exceeds its limit')
-        return PERSONAL_MAGIC + raw
+        return (METADATA_PERSONAL_MAGIC if metadata else CRITIQUE_PERSONAL_MAGIC if critique else PROTOCOL_PERSONAL_MAGIC if protocol else MEASUREMENT_PERSONAL_MAGIC if measurement else CO_REPORT_PERSONAL_MAGIC if co_report else WORDING_PERSONAL_MAGIC if wording else ANCHOR_PERSONAL_MAGIC if anchored else IMPORT_PERSONAL_MAGIC if imported else PAPER_PERSONAL_MAGIC if paper else PERSONAL_MAGIC) + raw
 
     def open(self, raw):
-        if (type(raw) is not bytes or not raw.startswith(PERSONAL_MAGIC)
-                or not len(PERSONAL_MAGIC) < len(raw) <= self.max_bytes):
-            raise ContractError('unsupported or invalid personal checkpoint; original retained')
-        return raw[len(PERSONAL_MAGIC):]
+        if type(raw) is not bytes:
+            raise ContractError('personal checkpoint requires bytes')
+        if raw.startswith(METADATA_PERSONAL_MAGIC):
+            maximum, prefix = PROJECT_BYTES, METADATA_PERSONAL_MAGIC
+        elif raw.startswith(CRITIQUE_PERSONAL_MAGIC):
+            maximum, prefix = PROJECT_BYTES, CRITIQUE_PERSONAL_MAGIC
+        elif raw.startswith(PROTOCOL_PERSONAL_MAGIC):
+            maximum, prefix = PROJECT_BYTES, PROTOCOL_PERSONAL_MAGIC
+        elif raw.startswith(MEASUREMENT_PERSONAL_MAGIC):
+            maximum, prefix = PROJECT_BYTES, MEASUREMENT_PERSONAL_MAGIC
+        elif raw.startswith(CO_REPORT_PERSONAL_MAGIC):
+            maximum, prefix = PROJECT_BYTES, CO_REPORT_PERSONAL_MAGIC
+        elif raw.startswith(WORDING_PERSONAL_MAGIC):
+            maximum, prefix = PROJECT_BYTES, WORDING_PERSONAL_MAGIC
+        elif raw.startswith(ANCHOR_PERSONAL_MAGIC):
+            maximum, prefix = PROJECT_BYTES, ANCHOR_PERSONAL_MAGIC
+        elif raw.startswith(IMPORT_PERSONAL_MAGIC):
+            maximum, prefix = PROJECT_BYTES, IMPORT_PERSONAL_MAGIC
+        elif raw.startswith(PAPER_PERSONAL_MAGIC):
+            maximum, prefix = PROJECT_BYTES, PAPER_PERSONAL_MAGIC
+        elif raw.startswith(PERSONAL_MAGIC):
+            maximum, prefix = MAX_BYTES, PERSONAL_MAGIC
+        else:
+            raise ContractError('unsupported personal checkpoint; original retained')
+        if not len(prefix) < len(raw) <= maximum+len(prefix):
+            raise ContractError('personal checkpoint exceeds its versioned limit')
+        payload = raw[len(prefix):]
+        value = storage_decode(payload)
+        expected = {'claimbranch.project-work/v10': PAPER_PERSONAL_MAGIC, 'claimbranch.project-work/v11': IMPORT_PERSONAL_MAGIC,'claimbranch.project-work/v12':ANCHOR_PERSONAL_MAGIC,'claimbranch.project-work/v13':WORDING_PERSONAL_MAGIC,'claimbranch.project-work/v14':CO_REPORT_PERSONAL_MAGIC,'claimbranch.project-work/v15':MEASUREMENT_PERSONAL_MAGIC,'claimbranch.project-work/v16':PROTOCOL_PERSONAL_MAGIC,'claimbranch.project-work/v17':CRITIQUE_PERSONAL_MAGIC,'claimbranch.project-work/v18':METADATA_PERSONAL_MAGIC}.get(value.get('schema'), PERSONAL_MAGIC)
+        if prefix != expected:
+            raise ContractError('personal checkpoint frame/profile mismatch')
+        return payload
 
 
 class PersonalProjectStore(ProjectAssociationStore, PaperWorkStore):

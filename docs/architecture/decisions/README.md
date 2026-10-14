@@ -27,6 +27,7 @@ alternatives, and consequences. Use the [ADR template](../../_meta/templates/adr
 | [0020](0020-retained-proposal-review.md) | accepted | Explicitly review retained AI items against current context without another provider request |
 | [0021](0021-external-proposal-import.md) | accepted | Import explicitly unverified external AI responses and review locally without another inference |
 | [0022](0022-contextual-advice-and-explicit-edits.md) | accepted | Separate readable contextual advice from explicit, human-selected graph-edit proposals |
+| [0023](0023-personal-argument-import-and-sharing.md) | accepted | Register reviewed prior personal records in one batch, preserve unmapped source, and share only explicitly selected content |
 
 Numbers are never reused. A proposed ADR may change during review. After
 acceptance, repair only wording, links, metadata, or explicit supersession;

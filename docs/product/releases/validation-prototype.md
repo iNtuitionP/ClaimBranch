@@ -2,7 +2,7 @@
 kind: release-scope
 status: proposed
 owners: maintainers
-last_reviewed: 2026-10-12
+last_reviewed: 2026-10-14
 canonical_for: smallest product-validation release scope
 ---
 
@@ -407,6 +407,31 @@ are deferred. AI remains off by default; retained origin stays inspectable.
 Manuscript wording and unresolved follow-up support the person's existing editor;
 reviewing them cannot imply that a file was applied or an obligation closed.
 Enable later capabilities only with their owning authority/privacy/recovery evidence.
+
+#### Planned personal paper migration follow-up
+
+The owner's 2026-10-13 issue-planning request and selected
+[ADR 0023](../../architecture/decisions/0023-personal-argument-import-and-sharing.md)
+policies concern a next personal version. Its explicit manual whole-paper capacity
+subset is now implemented under the [versioned capacity contract](../../designs/2026-08-03-domain-model.md#personal-paper-lifecycle-extension-planned);
+verification does not qualify public AI for this new profile. Exact-reviewed
+prior-argument registration and source-aware personal reasoning now retain
+unsupported originals, historical authorship/reasons and new human judgment
+through private return. Read-only registered anchors, human wording/companion restrictions and scoped
+co-reported readings, exact structured measurements and original/amended protocol
+records and private sourced questions now connect to inspection
+and private return. Selected current-science sharing now has explicit dependency
+preview, reason opt-in, opaque IDs and exact private-revision verification;
+[sharing coverage](../../development/workflow.md#selected-canonical-git-sharing)
+excludes private originals and historical backups. They do not reopen the completed manual
+alpha or declare the full protected candidate MVP/V0 admitted. The
+[per-issue execution plan](../../plans/active/2026-08-04-claimbranch-v1-and-gpu-systems.md#real-paper-migration-implementation-plan)
+and [planned personal acceptance oracles](../../validation/cases/saturation.md#personal-paper-migration-and-revision-acceptance-planned)
+record what must pass before those capabilities are advertised. Private-source
+fidelity, scientific correctness and actual user benefit are independent from
+synthetic capacity/import checks. Native keys, Windows participation and an
+extra provider request are not prerequisites for this personal planning/fixture
+work; existing protected authority and live-provider gates retain their scope.
 
 #### AI-connected GitHub publication milestone
 

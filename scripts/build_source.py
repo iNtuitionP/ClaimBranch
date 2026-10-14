@@ -8,7 +8,7 @@ import zipfile
 
 from scripts.export_runtime_resources import ROOT, check_resources, require_unlinked
 
-MAX_SOURCE_MEMBERS = 135
+MAX_SOURCE_MEMBERS = 155
 
 README = """ClaimBranch experimental personal terminal alpha
 
@@ -20,6 +20,32 @@ Unzip into a new folder and open a terminal there:
 
     python3.13 -m claimbranch doctor
     python3.13 -m claimbranch project init --help
+
+If Python 3.13 is missing, choose an already installed tool (manual download):
+
+    conda create -n claimbranch python=3.13
+    conda run -n claimbranch python -m claimbranch doctor
+
+Or:
+
+    uv python install 3.13
+    uv run --no-project --python 3.13 --no-python-downloads python -m claimbranch doctor
+
+Run from this extracted folder. Python 3.8+ can display prerequisite guidance
+with python3 -m claimbranch doctor (3.9.6 verified; 3.8 grammar checked); only
+Python 3.13 runs the application. On Macs without Command Line Tools,
+/usr/bin/python3 itself may open Apple's installer; use an installed Python.
+Doctor checks importable curses/_curses, Git on PATH and executable /usr/bin/git.
+Conda Git alone is insufficient; install/repair system Git through OS tools.
+On Mac, doctor also checks developer Git behind the system shim without running
+it. Xcode-selected tools need their license accepted; doctor does not probe this.
+Do not use /usr/bin/git to probe missing tools: it can open Apple's installer.
+A missing _curses requires a Python build with ncurses, not pip or a venv alone.
+No setup command is executed automatically. Windows TUI is unsupported.
+After conda doctor: conda activate claimbranch, then use python -m claimbranch
+for all interactive commands; conda run captures output by default. With uv,
+use the same uv run prefix above for init/open and all later commands. Setup
+routes are documentation-verified, not locally installation-tested.
 
 Use an existing local Git paper and a relative UTF-8 .tex file (at most 64 KiB)
 with one marked block, written by you:
@@ -91,6 +117,26 @@ Local history re-review works with AI off; no saved request consent restores.
 Finite alpha bounds: 8 episodes/runs, 16 observations, 32 evidence events and
 64 commands; one interpretation/selected merge per episode. Unsupported extra
 work is refused and your writing stays readable. Try disposable work first.
+
+For a paper lifecycle, choose project init --profile paper: 64 claims, 256
+observations, 256 experiments, 512 scientific edges, 32 episodes, 64 manuscript
+anchors and 2048 commands. Existing episode projects retain their original bounds.
+project import-argument previews and explicitly registers selected existing
+records, preserving original sources, dates, unknown origins and unresolved fields.
+project import-metadata --directory /path/to/private-work --input /path/to/private-batch.json
+adds ordered typed extensions after complete preview and the literal register.
+Use --dry-run to inspect without registration. In the graph, ; -> Register
+extended records together opens the same private-file review. Each batch entry
+declares human/ai/mixed/unknown content origin; an absent declaration is unknown.
+New-input AI influence survives later human edits and save/backup return.
+Multiple text/figure/table/caption anchors remain read-only. Wording restrictions,
+co-reported interpretations, typed measurement tables, protocol/outcome/gate events
+and private critiques have bounded explicit input formats. See repository schemas
+and docs/development/workflow.md for formats, scope and unresolved limitations.
+Private backup preserves full saved sources. Full readable export refuses histories
+with retained metadata/critique input; project share exports explicitly selected
+science and project verify-share compares it to that saved private revision.
+Sharing never automatically commits, uploads or modifies the paper.
 
 Close the TUI before status/backup/export. Use separate NEW private directories:
 

@@ -661,6 +661,9 @@ class Terminal:
             frame.put(3, 1, 'Save details paused. Enlarge to 48 x 18.', 'top_warning', frame.width - 2)
             frame.put(5, 1, 'Esc returns. Writing stays in memory.', 'top_muted', frame.width - 2)
             return frame
+        if self.modal.startswith('metadata-'):
+            from .tui_metadata import metadata_ui
+            return metadata_ui(self).draw(frame)
         if self.modal.startswith('project-source'):
             from .tui_project_source import project_source_ui
             return project_source_ui(self).draw(frame)
@@ -856,6 +859,10 @@ class Terminal:
         if self.modal.startswith('personal-'):
             from .tui_personal import personal_ui
             personal_ui(self).dispatch(event)
+            return None
+        if self.modal.startswith('metadata-'):
+            from .tui_metadata import metadata_ui
+            metadata_ui(self).dispatch(event)
             return None
         if self.modal.startswith('project-source'):
             from .tui_project_source import project_source_ui

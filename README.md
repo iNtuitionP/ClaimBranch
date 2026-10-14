@@ -18,7 +18,7 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/iNtuitionP/ClaimBranch/releases/tag/v0.1.0-alpha.2">Download alpha</a> ·
+  <a href="https://github.com/iNtuitionP/ClaimBranch/releases/tag/v0.1.0-alpha.3">Download alpha</a> ·
   <a href="#quick-start">Quick start</a> ·
   <a href="#your-own-paper">Your own paper</a> ·
   <a href="#what-works-today">Features</a> ·
@@ -70,6 +70,11 @@ cd ClaimBranch
 python3.13 -m claimbranch doctor
 python3.13 -m claimbranch demo tui --ai-off
 ```
+
+If Python 3.13 is missing, `python3 -m claimbranch doctor` (Mac Python 3.9.6 verified; 3.8 grammar checked)
+shows setup guidance before loading the app. On Macs without Command Line Tools,
+`/usr/bin/python3` itself may open Apple’s installer prompt; use an installed
+Python instead. [Conda/uv setup and prerequisite fixes →](docs/development/workflow.md#personal-terminal-alpha-source)
 
 The demo opens a synthetic paper and keeps work only for the running session.
 To see plain output without an interactive terminal:
@@ -157,23 +162,49 @@ unrestricted process running as the same user.
 
 [Backup, export and recovery details →](docs/development/workflow.md#personal-project-writing-in-the-terminal)
 
+> **Paper migration:** register prior arguments, review extended records together
+> from the graph, and preserve declared AI/unknown origins through save and backup.
+> [Formats and limits](docs/development/workflow.md#extended-metadata-registration)
+
 ## What works today
 
 | Capability | Current availability |
 |---|---|
 | Thesis, main/subclaims, shared evidence and typed relationships | Manual personal workspace |
 | Result capture, explicit confirmation and append-only correction | Available |
+| Exact value tables, condition queries and cell corrections | Opt-in personal paper profile |
+| Original predictions, gate failures and reviewed rule amendments | Opt-in personal paper profile |
+| Private critiques, neutral questions and research references | Opt-in personal paper profile; private originals retained |
+| Scoped co-reported readings and reporting companions | Opt-in personal paper profile |
 | Judgment, reason, notes and unfinished writing | Save and resume |
 | Local backup/export and fresh-directory restore | Available |
+| Selected canonical Git sharing and private-revision verification | Opt-in paper profile; [explicit preview](docs/development/workflow.md#selected-canonical-git-sharing) |
 | Hypothetical impact and graph comparison | Available; creates no evidence |
 | AI proposal selection, editing and retained origin | Retained responses and explicitly labeled external imports |
 | Provider configuration and exact unsent context preview | Available; sends nothing |
 | Live AI requests | Mac Codex release candidate; final live validation pending |
 | Automatic manuscript editing, protected acceptance and debt closure | Deferred |
 
-This is a finite experimental alpha, not a validated research product. Current
-bounds include 8 episodes/runs, 16 observations and one selected reasoning merge
-per episode. [Scope and limits →](docs/product/releases/validation-prototype.md#55-source-delivery-readiness)
+This is a finite experimental alpha, not a validated research product. The default
+episode profile retains 8 episodes/runs and 16 observations. An opt-in manual
+`project init --profile paper` supports 64 claims, 256 observations/experiments,
+512 scientific edges and 32 episodes. Explicit scoped co-report decisions can
+retain several readings together; legacy alternative operations keep their bounds.
+[Capacity, headroom and conversion →](docs/development/workflow.md#personal-paper-lifecycle-capacity)
+The larger profile’s public AI connection remains unavailable.
+[Prior-argument import](docs/development/workflow.md#prior-argument-mapping-preview)
+now registers an exact-reviewed selection in a fresh project and preserves source
+origins/unresolved fields through return. New personally reviewed reasoning keeps
+its imported dependencies, known AI influence and unknown authorship through edits
+and saved return; foreign sources are not fabricated local AI contributions.
+Paper-profile projects can now register several read-only text, figure, table and
+caption blocks and inspect their declared claim/result uses. Changing a claim or
+result shows affected locations, with source freshness and uncovered passages
+explicit. [Register and inspect manuscript locations →](docs/development/workflow.md#registered-manuscript-locations)
+[Typed measurements and condition queries →](docs/development/workflow.md#structured-measurements-and-condition-queries)
+[Registered protocols and gate amendments →](docs/development/workflow.md#registered-protocols-outcomes-and-gate-amendments)
+[Private critiques and questions →](docs/development/workflow.md#private-critiques-and-sourced-questions)
+[Scope and limits →](docs/product/releases/validation-prototype.md#55-source-delivery-readiness)
 
 ## AI status
 

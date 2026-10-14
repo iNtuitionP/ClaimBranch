@@ -2,7 +2,7 @@
 kind: product-spec
 status: draft
 owners: maintainers
-last_reviewed: 2026-10-13
+last_reviewed: 2026-10-14
 canonical_for: intended product behavior and boundaries
 ---
 
@@ -38,6 +38,10 @@ restore now preserve that saved workspace. The
 [personal source artifact](../development/workflow.md#personal-terminal-alpha-source)
 now runs this manual loop from independent extraction on the available Mac.
 It is experimental alpha behavior, not protected product or live-value validation.
+The source entry now refuses unsupported Python before loading application code
+and gives manual prerequisite guidance; doctor detects working curses and the
+fixed system-Git path. Python 3.13 remains the supported runtime. See the
+[setup guide](../development/workflow.md#personal-terminal-alpha-source).
 
 The user selected an optional personal-AI continuation on 2026-10-09 under
 [ADR 0018](../architecture/decisions/0018-optional-personal-ai.md).
@@ -129,6 +133,21 @@ and [remaining execution order](../plans/active/2026-08-04-claimbranch-v1-and-gp
 ClaimBranch is a local-first personal research agent that preserves human
 authorship while making AI available throughout empirical research.
 
+The next personal-paper capacity subset now supplies an explicit manual lifecycle
+profile, saved headroom and create-only compatible conversion. It preserves legacy
+history bytes and refuses unsupported conversion/provider modes with the original
+work intact. Exact-reviewed prior-argument registration now retains declared
+origins, historical reasons, required records and unresolved source through
+private save, restart and backup return. Imported status is a source claim;
+new personally reviewed reasoning preserves imported dependency origins separately
+from the present person’s contributions. Unknown authorship stays explicitly
+unknown and requires a deliberate explanation-review choice. [Import usage](../development/workflow.md#prior-argument-mapping-preview)
+states the boundary. Named read-only text/figure/table/caption registrations now expose explicit
+claim/result uses and source freshness with before/after impact and retained
+private return. Structural containment alone creates no scientific consequence.
+Measurement, protocol and selected-sharing contracts are described below;
+see [capacity usage](../development/workflow.md#personal-paper-lifecycle-capacity).
+
 Its product promise is:
 
 > When an unexpected result challenges an important claim, ClaimBranch
@@ -177,9 +196,59 @@ authorization; reuse never carries old consent forward. Necessary audit
 history remains inspectable without requiring the researcher to author it as
 another narrative. The contributor Notion journal is not part of this workflow.
 
+The owner selected a planned prior-argument migration and sharing policy on
+2026-10-13 under [ADR 0023](../architecture/decisions/0023-personal-argument-import-and-sharing.md).
+An exact-reviewed personal import can register the selected existing records in
+one batch, retaining known/unknown origin and unsupported source without
+inventing prior app approval. Partial migration exposes unresolved meaning;
+unsupported dependent operations do not gain validity from successful saving.
+Selected scientific records are the default share scope, with reasons opt-in;
+critique originals may remain in private ordinary storage but are excluded from
+share/provider context by default. Selected sharing now implements this boundary through the
+[explicit projection workflow](../development/workflow.md#selected-canonical-git-sharing). Registration, imported-origin personal reasoning
+and private return are available under the import boundary above. The
+[issue implementation plan](../plans/active/2026-08-04-claimbranch-v1-and-gpu-systems.md#real-paper-migration-implementation-plan)
+owns their sequence and verification.
+
+The personal origin/batch implementation separates confirming actor from new-input origin
+and registers explicitly reviewed typed extensions together. Its
+[registration entry](../development/workflow.md#extended-metadata-registration)
+has focused owned-test and Mac terminal coverage; the existing execution plan
+records broader release checks separately from scientific/source fidelity. It preserves the partial-migration choice instead
+of inferring unsupported meaning, and qualifies no additional provider.
+
 The mnemonic remains:
 
 > **Evidence stays. Claims branch. The researcher remains the author.**
+
+The current personal paper profile also keeps human wording restrictions
+separate from claim status: descriptive strength/limitation, allowed sentences,
+required caveat text, prohibited phrases and placement. One reviewed reporting
+companion stays visible in graph inspection and manuscript-impact review.
+Read-only registered-block warnings disclose lexical/association failures and
+unknown source/paragraph/TeX coverage, never scientific validity or debt closure.
+The [manual restriction workflow](../development/workflow.md#human-wording-limits-and-reporting-companions)
+explains explicit confirmation, retention and limits. Scoped co-report decisions now keep multiple readings, one shared reason and
+the same reporting companion in the graph and private return; the
+[co-report workflow](../development/workflow.md#co-reported-interpretations) owns
+its manual confirmation and limits. Structured observations now retain exact typed cells, units, declared conditions,
+append-only value corrections and explicit measurement transitions. Condition
+coverage and local filtered graph views help find supporting results without
+rewriting human claim scope. Declared artifact hashes stay unverified unless the
+person explicitly checks one file/pointer/cell; even a match cannot certify
+scientific fidelity. The [measurement workflow](../development/workflow.md#structured-measurements-and-condition-queries)
+owns the manual review and return path. Original predictions, source-claimed commitments and gate rules now remain beside
+explicit outcome assessments and post-result amendments. A consistent prediction
+cannot imply valid evidence: failures, incomplete gates and limitations remain
+visible on dependent paths, with measured values unchanged. The
+[protocol workflow](../development/workflow.md#registered-protocols-outcomes-and-gate-amendments)
+owns personal recording and chronology limits. Private sourced questions now
+retain original critiques separately from neutral questions, connect explicit
+research work and preserve revision reasons/origin through private return. They
+are not empirical evidence or automatic resolution. Default reference output
+omits private text; selected sharing now uses the separately reviewed public projection. The
+[critique workflow](../development/workflow.md#private-critiques-and-sourced-questions)
+owns local original access and export/provider restrictions.
 
 ## 2. Target user and support setting
 
