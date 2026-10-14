@@ -8916,6 +8916,11 @@ old-reader refusal in CI. Replace it with the exact published baseline reader
 from commit `db5adc6` in a test-only fixture; no Git-history fetch or moving HEAD
 is required. Its runtime frame refusal remains the asserted behavior.
 
+Clean-checkout CI found three links to unpublished local promotional tooling.
+Keep that tool and its development-map edit local; the historical plan describes
+its local paths without claiming they are shipped. Local docs checks alone could
+not reveal that missing-file distinction.
+
 Publish experimental source after final checks, observed PR CI and merge. Keep
 local promotional video tooling and its ignore edits outside this change. No
 new provider inference, native keys or manuscript writes are performed. This
@@ -10474,9 +10479,10 @@ production was **4/4 remaining**; the subsequent pilot result is below.
 
 **M01 implementation and local result — 2026-10-13.** The requested “try making
 one” now produces `dist/demo-video/claimbranch-pilot.mp4` and a paused browser
-preview. [Authoring commands](../../../tools/demo-video/README.md) are linked
-from the development map; [the production manifest](../../../tools/demo-video/manifest.json)
-records synthetic copy, authorship, captured revision and asset provenance.
+preview. Local `tools/demo-video/README.md` authoring commands and
+`tools/demo-video/manifest.json` record synthetic copy, authorship, captured revision
+and asset provenance. This local tooling is not included in the paper-migration
+source publication; its development-map link stays with the unpublished tooling.
 The output is 12 seconds, 1920×1080, H.264 at 30 fps, silent. English text,
 warm-paper illustration, typed arrows and a separate draft interpretation lead
 into 2.75 seconds of actual bundled AI-off terminal output and a two-second
