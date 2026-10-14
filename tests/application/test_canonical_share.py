@@ -20,6 +20,23 @@ from claimbranch.application.cli import main
 
 class CanonicalShareTests(unittest.TestCase):
     setUp = critique_tests.CritiqueTests.setUp
+    def test_converted_project_keeps_binary_original_without_blocking_selected_sharing(self):
+        from claimbranch.application.tui_project import prepare_project
+        from claimbranch.application.paper_profile_project import convert_paper_project
+        from claimbranch.application.personal_project import _PersonalCodec
+        legacy=prepare_project(self.preview,project_id='legacy-paper',title='Synthetic',thesis='A limited thesis.',question='What remains unknown?')
+        checkpoint=_PersonalCodec().seal(legacy.payload)
+        converted=convert_paper_project(legacy,checkpoint)
+        claim=converted.work.history.view('main')['claims'][0]['id']
+        output=prepare_share(converted,self.choose(claim))
+        self.assertTrue(verify_share(converted,output))
+        from claimbranch.core.paper_capacity import source_bytes
+        self.assertTrue(any(source_bytes(s)==checkpoint for s in decode(converted.payload,purpose='project')['sources']))
+        self.assertNotIn('sources',decode(output,purpose='project'))
+        private=prepare_project(self.preview,project_id='legacy-private',title='Synthetic',thesis=str(self.paper),question='What remains unknown?')
+        private=convert_paper_project(private,_PersonalCodec().seal(private.payload))
+        with self.assertRaisesRegex(ContractError,'known private'):
+            prepare_share(private,self.choose(private.work.history.view('main')['claims'][0]['id']))
     def choose(self, *records, reasons=()):
         return dict(schema=SELECTION_SCHEMA, record_ids=list(records), reason_ids=list(reasons))
     def capture_critique(self, **changes):

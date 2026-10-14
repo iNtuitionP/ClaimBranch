@@ -248,10 +248,13 @@ with PersonalProjectStore(sys.argv[1]) as s:
         self.assertEqual(before,path.read_bytes())
 
     def test_shipped_old_reader_rejects_small_large_near_budget_and_backup_frames(self):
-        import tarfile
-        artifact=subprocess.run(['/usr/bin/git','archive','HEAD'],cwd=ROOT,capture_output=True,check=True).stdout
+        import zipfile,hashlib
+        # Exact published v0.1.0-alpha.2 ZIP: a moving HEAD is not an old reader.
+        artifact=(Path(__file__).with_name('fixtures')/'personal-alpha2.zip').read_bytes()
+        self.assertEqual('db12f1bb46b1fea3ee56dc02208eb5b94b0b8263c0b7eadc9499995112c29ff7',hashlib.sha256(artifact).hexdigest())
         reader=self.root/'shipped-old-reader';reader.mkdir()
-        with tarfile.open(fileobj=io.BytesIO(artifact),mode='r:') as archive:archive.extractall(reader,filter='data')
+        with zipfile.ZipFile(io.BytesIO(artifact)) as archive:archive.extractall(reader)
+        self.assertTrue((reader/'claimbranch'/'__main__.py').is_file())
         small=self.project
         large=ProjectWork.create(PaperWork.create(ResearchHistory(*combined())),self.preview)
         maximum=decode(large.payload,purpose='project')
@@ -271,6 +274,7 @@ with PersonalProjectStore(sys.argv[1]) as s:
                 else:args=['-m','claimbranch','project','status','--directory',str(directory),'--json']
                 result=subprocess.run([sys.executable,'-E','-s','-B',*args],cwd=reader,capture_output=True,text=True,timeout=15)
                 self.assertNotEqual(0,result.returncode,result.stdout)
+                self.assertNotIn('ModuleNotFoundError',result.stderr)
                 self.assertEqual(raw,path.read_bytes())
                 self.assertEqual({name} if backup else {name,'work.lock'},set(p.name for p in directory.iterdir()))
                 if not backup:

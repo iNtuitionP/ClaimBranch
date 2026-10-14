@@ -267,7 +267,12 @@ def _check_known_private(project, value):
     # Omitted batch entries are retained privately too. Their known private
     # literals cannot be laundered through another selected scientific record.
     for record in saved.get('sources', []):
-        source=decode(source_bytes(record),purpose='project')
+        raw=source_bytes(record)
+        try:source=decode(raw,purpose='project')
+        except ContractError:
+            # Profile conversion retains a framed binary checkpoint. It is
+            # not a metadata batch; its integrity was checked above by source_bytes.
+            continue
         if type(source) is not dict or source.get('schema')!='claimbranch.metadata-batch/v1':continue
         for entry in source['entries']:
             request=entry['request']

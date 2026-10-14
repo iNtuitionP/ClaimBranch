@@ -8921,6 +8921,27 @@ Keep that tool and its development-map edit local; the historical plan describes
 its local paths without claiming they are shipped. Local docs checks alone could
 not reveal that missing-file distinction.
 
+Final release repairs: the broad local attempt completed209 portable contracts
+and1359 alpha application tests; it was not a clean pass, with three moving-HEAD
+legacy-reader fixture failures. All seven affected old-reader cases pass with
+fixed fixtures, including the actual published alpha.2 ZIP pinned to SHA-256
+`db12f1bb46b1fea3ee56dc02208eb5b94b0b8263c0b7eadc9499995112c29ff7`.
+No external Git history or live download is needed in CI. Module-root existence
+and absence of ModuleNotFoundError ensure refusal is not a missing-package pass.
+
+A final Opus non-blocking possibility was actually reproduced: profile conversion
+retains a framed binary checkpoint, so decoding every retained source as JSON
+blocked selected sharing. Check source-record integrity first and skip only
+non-JSON decoding failures; accepted closed metadata batches still use the same
+strict decoder and protect omitted critique literals. The new regression fails
+before repair, then confirms exact binary retention, valid selected sharing and
+continued refusal of known private paths.45 sharing/metadata tests pass. Actual
+pinned first-party Opus5.5 returns PASS on the17757-byte final packet, SHA-256
+`8812cacdbc115f310e34426803151149facbc1c69ba85919636dcf56040993a7`.
+The publication ZIP must be rebuilt from this final source; prior archive checks
+are evidence of their earlier source snapshot only. Latest CI remains the final
+portable release gate; older failure/cancelled runs are not recast as passes.
+
 Publish experimental source after final checks, observed PR CI and merge. Keep
 local promotional video tooling and its ignore edits outside this change. No
 new provider inference, native keys or manuscript writes are performed. This
