@@ -201,6 +201,14 @@ def check_source_artifact(artifact, *, temp_root=None):
         if result.returncode or json.loads(result.stdout)!=["personal-pty","personal-rescue"]:
             raise ValueError("artifact personal journey failed: "+(result.stderr or result.stdout)[-2000:])
         checks.extend(["personal-pty","personal-rescue"])
+        paper_code=code.replace('print(json.dumps(run_personal_smoke()))','print(json.dumps(run_personal_smoke(profile="paper")))')
+        if paper_code == code:
+            raise ValueError('paper-profile smoke entry was not selected')
+        result=subprocess.run([sys.executable,"-E","-s","-B","-c",paper_code],cwd=destination,
+                              capture_output=True,text=True,encoding="utf-8",timeout=90,shell=False)
+        if result.returncode or json.loads(result.stdout)!=["personal-pty","personal-rescue"]:
+            raise ValueError("artifact paper-profile journey failed: "+(result.stderr or result.stdout)[-2000:])
+        checks.extend(["paper-profile-pty","paper-profile-rescue"])
     return {"kind": "personal-terminal-alpha", "checks": checks, "authorization_verified": False}
 
 

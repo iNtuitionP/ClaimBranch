@@ -2,6 +2,7 @@
 import unicodedata
 
 from claimbranch.core.canonical import ContractError, canonical_bytes, decode
+from .paper_storage_codec import decode as storage_decode
 from claimbranch.core.research_history import ResearchHistory
 from claimbranch.core.research_schema import ID, array, normalize, nullable, obj
 from .paper_authoring_snapshot import SOURCE, source_reference
@@ -54,7 +55,7 @@ def restore_explanations(history, value):
     value = normalize(value, UNDERSTANDING)
     sessions, sources, buffers, positions = {}, {}, {}, {}
     prefixes = {len(history.commands): history}
-    project = decode(history.seed)['project_id']
+    project = storage_decode(history.seed)['project_id']
     groups, seen = {}, set()
     for item in value['sessions']:
         draft, source = item['draft'], item['source']

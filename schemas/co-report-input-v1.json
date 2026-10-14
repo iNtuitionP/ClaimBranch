@@ -1,0 +1,176 @@
+{
+  "$id": "urn:claimbranch:co-report-input:v1",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "answers": {
+      "items": {
+        "maxLength": 16384,
+        "minLength": 1,
+        "type": "string",
+        "x-utf8-maxBytes": 16384
+      },
+      "maxItems": 3,
+      "minItems": 0,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "candidates": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "claim_id": {
+            "maxLength": 128,
+            "minLength": 1,
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$",
+            "type": "string"
+          },
+          "edge_id": {
+            "maxLength": 128,
+            "minLength": 1,
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$",
+            "type": "string"
+          },
+          "edge_type": {
+            "enum": [
+              "supports",
+              "challenges",
+              "qualifies"
+            ]
+          },
+          "id": {
+            "maxLength": 128,
+            "minLength": 1,
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$",
+            "type": "string"
+          },
+          "observation_ids": {
+            "items": {
+              "maxLength": 128,
+              "minLength": 1,
+              "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$",
+              "type": "string"
+            },
+            "maxItems": 256,
+            "minItems": 1,
+            "type": "array",
+            "uniqueItems": true
+          },
+          "origin": {
+            "enum": [
+              "human",
+              "ai",
+              "mixed",
+              "unknown"
+            ]
+          },
+          "scope": {
+            "maxLength": 16384,
+            "minLength": 1,
+            "type": "string",
+            "x-utf8-maxBytes": 16384
+          },
+          "source_id": {
+            "oneOf": [
+              {
+                "maxLength": 128,
+                "minLength": 1,
+                "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "statement": {
+            "maxLength": 16384,
+            "minLength": 1,
+            "type": "string",
+            "x-utf8-maxBytes": 16384
+          }
+        },
+        "required": [
+          "id",
+          "statement",
+          "scope",
+          "observation_ids",
+          "claim_id",
+          "edge_id",
+          "edge_type",
+          "source_id",
+          "origin"
+        ],
+        "type": "object"
+      },
+      "maxItems": 4,
+      "minItems": 2,
+      "type": "array",
+      "uniqueItems": false
+    },
+    "companion_ids": {
+      "items": {
+        "maxLength": 128,
+        "minLength": 1,
+        "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$",
+        "type": "string"
+      },
+      "maxItems": 256,
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "disposition": {
+      "enum": [
+        "not-required",
+        "answered",
+        "deferred"
+      ]
+    },
+    "id": {
+      "maxLength": 128,
+      "minLength": 1,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$",
+      "type": "string"
+    },
+    "judgment": {
+      "maxLength": 16384,
+      "minLength": 1,
+      "type": "string",
+      "x-utf8-maxBytes": 16384
+    },
+    "rationale": {
+      "maxLength": 16384,
+      "minLength": 1,
+      "type": "string",
+      "x-utf8-maxBytes": 16384
+    },
+    "schema": {
+      "const": "claimbranch.co-report/v1"
+    },
+    "selected_ids": {
+      "items": {
+        "maxLength": 128,
+        "minLength": 1,
+        "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$",
+        "type": "string"
+      },
+      "maxItems": 4,
+      "minItems": 2,
+      "type": "array",
+      "uniqueItems": true
+    }
+  },
+  "required": [
+    "schema",
+    "id",
+    "candidates",
+    "selected_ids",
+    "companion_ids",
+    "judgment",
+    "rationale",
+    "disposition",
+    "answers"
+  ],
+  "type": "object"
+}

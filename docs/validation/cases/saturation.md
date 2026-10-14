@@ -2,7 +2,7 @@
 kind: validation-case
 status: active
 owners: maintainers
-last_reviewed: 2026-10-12
+last_reviewed: 2026-10-14
 canonical_for: saturation workflow acceptance criteria
 ---
 
@@ -1282,6 +1282,226 @@ public PTY journey manually creates a claim and two distinct scientific uses
 from one observation before recording and reopening; it uses no internal JSON
 edits. These tests establish retained behavior, not unfamiliar-user usability.
 
+#### Co-reported reading acceptance
+
+On a personal paper profile, select primary and reversed sensitivity readings
+with separate definitions/basis and one human reason. Review mandatory companion
+closure and omitted candidates, then explicitly record one disposition: both
+Interpretations reach main; global evidence/value and claim status do not change.
+Group links cannot be mutual scientific support. Missing membership, inactive
+basis, changed context/source/input or omitted required companion refuses before
+append. A separate independent AI candidate can remain omitted without adopted
+influence. Known AI/unknown original influence cannot disappear through editing
+or a human-only merge judgment. A later revision uses new identities referring
+to originals; prior-episode reading edits refuse. Original scopes, reason,
+explanation choice and unfinished notes survive fresh process/backup. The episode
+outcome is co-reported, not a fabricated legacy merge. Check actual PTY record/
+open/quit, old-reader refusal and combined 128-reading replay/query/backup. No
+operation certifies understanding, closes debt or modifies the manuscript.
+
+#### Human reporting restriction acceptance
+
+For personal paper profiles, keep a supported claim while recording "direction
+only, appendix only" restrictions. Inspect the before/after, existing reason and
+AI/unknown source references, explicitly record, and verify that support and
+evidence remain unchanged. Reopen and backup/restore: policy, reporting companion
+and unfinished writing must survive without resumed consent.
+
+A registered abstract block with a prohibited phrase and missing declared
+companion must show independent lexical, placement and companion warnings.
+"Share" must not match "shares" or a TeX comment. An unclassified/stale source
+or paragraph cannot receive a clean semantic certification; re-registration or
+same-text relocation must invalidate earlier placement context. Declared
+paragraph companions must use registered associations. A changed policy must
+revoke a previous scientific comparison without losing its reason. Invalid
+endpoint/identity/schema or a 257th companion refuses before append; cancellation
+and older-reader refusal preserve the original. A historical view without a
+reporting endpoint discloses coverage and does not crash. Check actual terminal
+record/open/quit independently. No lint writes the manuscript, changes support,
+creates confirmed evidence or closes manuscript/understanding work.
+
+#### Personal paper migration and revision acceptance (planned)
+
+These are next-version acceptance oracles for the owner's issue planning and
+[ADR 0023](../../architecture/decisions/0023-personal-argument-import-and-sharing.md).
+The [prior-argument import](../../development/workflow.md#prior-argument-mapping-preview)
+now supplies exact-reviewed registration, source-aware personal reasoning and
+private read/save/backup return. Owned tests distinguish imported AI/mixed/unknown
+ancestry from new human Contributions, refuse altered source references, retain
+unknown authorship and exclude independent omitted candidates. These are
+behavior checks, not original-source fidelity or human-use evidence.
+Named read-only anchor registration/impact/private return now has owned CLI/PTY,
+origin-return, stale-source, capacity and old-reader checks. This certifies no
+private source fidelity or graphic correctness.
+Typed measurements now have owned exact-value, append-only correction, declared
+condition query and private-return checks. Registered-rule original/amended
+assessment paths, private sourced questions and selected canonical sharing now
+have owned checks; these checks do not revise F0 or count as V0
+evidence. The
+[issue implementation plan](../../plans/active/2026-08-04-claimbranch-v1-and-gpu-systems.md#real-paper-migration-implementation-plan)
+owns sequencing/tests; the
+[domain proposal](../../designs/2026-08-03-domain-model.md#personal-paper-lifecycle-extension-planned)
+owns engineering ceilings and versioning. Use separately identified synthetic
+fixtures until a person explicitly supplies and checks their private source.
+
+| Case | Observable pass condition |
+|---|---|
+| Whole-paper capacity | New profile accepts the declared combined fixture, reports actual per-type/byte capacity and meets measured host budgets; exact-overflow input refuses before publication. Legacy six histories/goldens remain byte-identical; actual old readers refuse small and large new frames without changing canonical data. |
+| Existing argument import | Dry-run changes nothing; exact confirmation registers only selected/dependency-closed mapped personal records once, retaining source dates/reasons/origins separately from local import. It invents no prior receipt or new experiment. Invalid/stale/import-interrupted cases leave source and destination science unchanged. |
+| Partial meaning | Unsupported fields remain retained with source pointers and visible unresolved markers after restart/backup. Complete independent records remain usable; an operation needing unimplemented typed meaning refuses while preserving work. Later mapping appends and never silently replaces current writing. |
+| Multiple manuscript uses | One changed claim or corrected observation reaches every explicitly associated text/figure/table/caption with deterministic before/after witness paths; unrelated and outside-coverage locations remain distinct. Source stays read-only and old single-anchor meaning is preserved. |
+| Wording and co-report | Supported yet direction-only/appendix-only status retains its limitation. Lint names a literal forbidden phrase and a missing declared companion without certifying semantic correctness. Two definition-specific readings remain separate, share the same reviewed reporting obligation and retain original reason/origin through return. |
+| Typed measurement and registered rules | Stable table cells/conditions can be queried and corrected append-only. A post-result rule/reference/tolerance amendment retains the original values, registered rule and failed result; confirmatory claims and unknown/source-claimed chronology are explicitly distinguished from app-observed ordering. Coverage never overwrites claim scope. |
+| Private critique | A raw original and human question survive private save/backup but are not empirical evidence. Known private originals/identities and direct quotes are excluded from default export/provider projections, including origin/label/diagnostic paths; neutral wording is human-reviewed and not automatically certified anonymous. |
+| Selected share projection | Only selected science plus disclosed allowed dependencies appears; reasons require their own selection. Private source references use redacted stable IDs. Identical source/policy/selection reproduces bytes; changed source/output/selection/policy fails verification. Existing edited destination is retained and export neither commits Git nor restores private history. |
+| Entry and manual continuity | Unsupported runtime has a concrete documented setup route. Supported source extraction provides actual terminal authoring/read/return without a provider, native key or internal JSON editing. Failed AI/new-schema compatibility leaves manual work and retained origin intact. |
+
+Judge the first useful checkpoint by whether a person can bring their existing
+argument and reasons, inspect what remains unresolved and return after exit.
+Do not require the whole future roadmap before showing that checkpoint or
+substitute synthetic/model checks for actual private-source fidelity or benefit.
+
+#### Metadata registration acceptance
+
+Declare new AI/mixed/unknown input separately from a human confirming actor and
+source-claimed authorship. An undeclared new input cannot become human because a
+protocol source claims human origin. Old commands/envelopes/goldens stay unchanged;
+new frames refuse old readers. Declared/source AI survives revisions, node read,
+sharing, save/reopen and private backup return. New co-report AI/unknown input
+cannot use a not-required explanation disposition.
+
+Batch independent wording/companion, structured measurement, protocol/gate,
+anchor and critique requests through existing validators. Complete selected/omitted
+scope and graph effects precede one confirmation/save. Invalid late entry, missing
+prerequisite, malformed selection, changed source/input/private project and cancelled
+review create no partial registered prefix. Retained raw input is exact and
+private; repeated identical input refuses. No original ledger or newer judgment
+is overwritten and unsupported pointers remain unresolved.
+
+Use the graph action, Unicode private path, resize, all-page reading, literal
+confirmation and Esc return with original selection/writing intact. Saved-source
+failure must retain live writing and prevent blind retry. Critique originals and
+omitted raw requests cannot enter default sharing/full-readable export or provider
+context. Verify candidate reconstruction and one saved-write boundary including
+interruptions. Focused synthetic tests and an actual Mac terminal rehearsal cover
+the implemented origin/batch/graph paths; the existing plan records release
+regression, review evidence and remaining unobserved cases.
+
+#### Selected canonical sharing acceptance
+
+Select owned science whose internal ID contains a confidential marker; repeated
+exports map it through saved opaque IDs and allocate/write no private state.
+Explicit reasons appear only when separately selected. Incoming scientific basis,
+mandatory companions, co-reported scopes and protocol failures/amendments remain
+in the disclosed required closure, including an experiment selected by itself.
+Registered anchors contain structure without manuscript bytes/path/digest. Typed
+tables retain exact cells/units/semantic condition labels with local coordinate
+joins. AI/unknown origin and unresolved counts remain honest about source coverage.
+Unmerged or omitted AI claim-status alternatives cannot alter main-claim origin;
+a separately recorded branch-context flag remains distinct.
+
+Known private critique text/identity/path copies in questions/reasons stay omitted
+in resolvable placeholders; known literals copied into selected science refuse.
+Source chunks/hashes, private IDs, origin payloads, notes and unselected writing
+never enter public bytes. Omission coverage and anonymity/source fidelity limits
+remain visible. Existing files/symlinks, stale selection/private source/reviewed
+parent and failed writes cannot overwrite or publish a partial projection. First
+file reads do not fail because access time changed; terminal control/bidi characters
+are shown as JSON escapes without losing the complete reviewed meaning.
+
+An actual owned PTY export into a paper Git directory and fresh-process
+`verify-export` preserve private saved bytes. Changed output, policy, selection or
+saved private revision fails verification. A large-paper projection reproduces
+bytes with resolved references; measured limits belong to the execution plan.
+Legacy private export/backup, old schemas/goldens and source extraction remain
+unchanged in meaning. No Git commit, research egress, restore authority,
+scientific correctness, anonymity or user understanding follows from these checks.
+
+#### Private critique acceptance
+
+Use owned private-original, identity and path markers with a separately authored
+question. Capture changes no observation or claim status. Questioning a claim,
+referencing a plan/completed record and linking an exact reviewed claim/wording
+consequence form an inspectable path; none is empirical support or resolution.
+An unchanged merge dependency cannot be labeled a claim change. A prior consequence
+may be explicitly referenced as recorded before app capture, with outside
+chronology unverified. Origin and every question revision/reason survive return.
+
+Exact raw capture bytes are retained privately; scientific history, graph, default
+TUI/neutral CLI and capture preview exclude originals, identities and private
+labels/hash/handles. Explicit local original reading restores them. Normalized
+reformatted duplicates refuse, source omission/tampering/orphans refuse and the
+128-question/32-revision/512-link budgets fail before append. Default reference
+projection excludes all question/reason/source prose, even deliberate known-secret
+copies, and maps all references to saved opaque IDs. Missing mapping refuses with
+a generic redacted error. This is not proof of anonymity or the full share export.
+
+Actual PTY capture/fresh open/quit and private backup/fresh restore preserve source
+bytes and writing; old shipped readers refuse new frames. Input/source changes and
+cancel cannot persist a partial original. Full JSON export refuses before file
+creation, while explicitly private backup retains originals. Provider attachment
+and context compilation refuse before credentials/egress. No automatic source
+interpretation, scientific approval, manuscript write or resolved critique is
+inferred from these owned checks.
+
+#### Protocol and gate acceptance
+
+Use five owned result shapes: failed prediction; consistent but non-discriminating
+result with required limitation; registered cross-run identity failure followed by
+an explicit changed reference; tolerance widened after the result; primary and
+reversed sensitivity readings retained together. Original rules/failures and human
+reasons remain beside later assessments, while measurement cells and claim status
+stay unchanged. Exact observation/event, association and per-gate rule versions
+bind each assessment; gate basis is set-like and order cannot change its identity.
+
+A commit/unseen claim is source-claimed or unknown, never verified outside timing.
+Preexisting app observations at association and contradictory before-result
+amendments remain visible. Prediction consistency cannot certify gate validity:
+failed/incomplete/unknown/no-declared-gate coverage is separately displayed.
+Changed source/input/plan/head/evidence refuses stale review before saving;
+correction/retraction leaves old assessments visible and marks their basis stale.
+Superseded rules cannot gain a fresh association/amendment; original registered
+assessments remain inspectable. Imported plan view annotations do not change the
+scientific digest, and AI/unknown origin cannot be erased by a human judgment.
+
+Dependent claim/observation/Interpretation/plan reading shows original/current
+protocols through scientific paths, excluding structural containment. Global
+registries in historical reasoning views are labeled as such; an absent plan is
+unavailable for comparison rather than changed. Exact prefix replay
+still omits later records. Actual PTY review/record/open/quit, origin/writing return,
+backup/fresh restoration and shipped old-reader refusal preserve saved bytes.
+Provider access still refuses for this profile before credentials/dispatch. Owned
+checks establish no outside chronology, scientific fidelity, understanding or
+real-user benefit.
+
+#### Structured measurement acceptance
+
+Use owned 18×3 decimal cells, declared leg/dose/model/seed conditions and explicit
+missingness. Exact integers/text/decimal precision replay without floats. A
+single-cell correction retains every other cell and prior revision; stale input,
+unknown cells/conditions/type, duplicated IDs and capacity refuse before saving.
+Changed units/estimand/conditions require an explicit new measurement identity,
+and altered cell meaning cannot reuse an ID from any retained table. Generic
+text corrections cannot erase a table. Invalidated/retracted observations keep
+history and are disclosed as inactive query basis.
+
+Transform an imported text observation: source digest, original origin, historical
+content and unresolved source remain unchanged. A supporting-evidence query through
+a direct edge or Interpretation returns one global observation identity, exact
+units and matching rows. `dose=max` uses the explicitly declared ascending group;
+no inferred scope/claim status or scientific strength is written. Local query
+graphs disclose unstructured, inactive and hidden basis.
+
+Explicit artifact checks match a claimed file hash and one JSON pointer/cell,
+report mismatch/unavailable/symlink/changed input, and change no source or science.
+A successful check is not unit/estimand/fidelity verification. Complete preview,
+cancel, exact input/source/project changes, literal recording and actual PTY
+fresh open preserve writing, original source, table and older cells. Backup/fresh
+return reproduces saved bytes; old checkpoint/frame readers refuse the new format.
+Existing legacy goldens remain unchanged. Paper profiles continue refusing
+provider use before credentials/dispatch. Synthetic verification does not establish
+actual private-source conversion fidelity or user benefit.
+
 #### Personal-alpha feedback tasks
 
 These tasks apply to the current AI-off personal workspace, not the deferred
@@ -1957,3 +2177,45 @@ save/reopen with no restored connection. Generic API/unsupported Codex profiles
 remain preview-only. Actual service validation uses separately consented input;
 unit peers do not establish account access. Record final alpha and extracted
 source checks, actual service outcome, human use and release status separately.
+
+### Personal runtime prerequisite guidance
+
+The source entry refuses non-3.13 Python with exit 3 before importing application
+or domain modules. Its JSON states replay not-run and provides version-matched
+manual setup alternatives. Python 3.8 bootstrap syntax parsing is not application
+support. Actual Mac Python 3.9.6 checks the refusal path; its target-runtime curses status
+is not checked (`null`). On supported Python,
+missing/broken curses or absent system Git yields exit 3 with guidance naming
+curses/_curses, `/usr/bin/git` and PATH; no installer runs. A simulated macOS
+Git shim without developer tools refuses readiness without invoking the shim.
+Fresh extracted subprocesses exercise unsupported-runtime and actual missing
+curses imports; malformed member paths are tested within the ZIP member budget. The supported fresh
+source artifact still passes doctor/help and its manual init/open/save/return
+journey. See [runtime setup](../../development/workflow.md#personal-terminal-alpha-source).
+
+### Personal paper capacity and return
+
+01 uses a combined synthetic lifecycle with 64 claims, 256 observations,
+256 experiments, 512 scientific edges, 64 plans, 32 episodes/Interpretations,
+1,024 events and 1,439 commands; a separate case reaches 2,048 commands.
+The same history replays deterministically, keeps corrections and reports exact
+headroom. Count/aggregate overflow refuses without append or truncation; unknown
+versions/profiles/caller caps refuse. Legacy six histories/goldens stay unchanged.
+Source bytes round-trip non-NFC and originals larger than a scientific text field,
+including encoded overhead and aggregate refusal. Tiny and near-budget frame-v2
+files/backups are rejected by the actual shipped old readers with canonical bytes
+intact and advisory locks released; an empty persistent `work.lock` sentinel may
+remain, as those readers normally retain it.
+
+Fresh-process and extracted real PTY journeys exercise manual authoring, notes,
+judgment/reason, correction, quit/reopen, backup and new-folder restore for both
+profiles. Save failures, external changes and conflicting sessions retain source
+bytes and live writing. Compatible conversion previews preserve science, original
+checkpoint bytes and known AI Contributions, require a fresh destination/exact
+confirmation, and cancel/refuse unsupported source-bound work without publication.
+Derived manifests are not duplicated in saved work. Scoped context remains narrow,
+excludes retained sources and grants no provider or protected merge authority.
+Measured performance and completed cross-review live in the
+[execution record](../../plans/active/2026-08-04-claimbranch-v1-and-gpu-systems.md#real-paper-migration-implementation-plan);
+[usage](../../development/workflow.md#personal-paper-lifecycle-capacity) declares
+which profile/operations are available. Later import/revision types remain planned.

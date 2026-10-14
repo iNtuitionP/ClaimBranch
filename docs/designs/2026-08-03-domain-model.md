@@ -2,7 +2,7 @@
 kind: design
 status: draft
 owners: maintainers
-last_reviewed: 2026-10-06
+last_reviewed: 2026-10-14
 canonical_for: proposed finite F0 domain records relationships operations states and resource bounds
 ---
 
@@ -661,6 +661,544 @@ establish actual device replacement or protected approval custody.
 The 256 KiB aggregate bound may reject combinations of otherwise valid inputs;
 no provenance is trimmed to fit. Protected accepted storage, trusted source
 loading, key custody and migrations remain separate unfinished integrations.
+
+#### Personal paper lifecycle extension (planned)
+
+The owner requests plans for the real-paper migration issues. The selected
+import/sharing policies are in [ADR 0023](../architecture/decisions/0023-personal-argument-import-and-sharing.md);
+per-issue work, dependencies and checks belong to the
+[existing implementation plan](../plans/active/2026-08-04-claimbranch-v1-and-gpu-systems.md#real-paper-migration-implementation-plan).
+The personal import/revision/sharing contracts implemented below do not supply
+a protected schema, replace F0 or complete live validation. Initial import retains
+unsupported new-type source fields; subsequent typed registration is separate.
+
+**01 contract frozen/implemented 2026-10-13; result and Opus cross-review passed.**
+The explicit `paper` profile uses research seed/commands v4, paper work v14,
+project work v10, workspace v13 and `CBPP`/`CBPB` frame version 2. V1–v3
+histories and legacy profile encoding remain separate. Storage uses registered
+4/8/16 MiB history/derived-manifest/project budgets and at most 2,048 JSON
+collection members; legacy canonical JSON remains 256 KiB/128 members. Graph
+depth remains 8. The count fixture covers 64 claims (one thesis), 256 observations,
+256 experiments, 512 scientific edges, 64 unrun plans, 32 episodes/Interpretations,
+1,024 evidence events and 1,439 commands together; a separate 2,048-command
+fixture covers operation headroom. These are synthetic capacity cases, not
+scientific fidelity or user-benefit evidence. Measured performance belongs to
+[the execution record](../plans/active/2026-08-04-claimbranch-v1-and-gpu-systems.md#real-paper-migration-implementation-plan).
+
+New personal projects opt in with `--profile paper`; the existing episode
+profile remains the public default while later import/provider contracts advance.
+The paper profile supports manual research and scoped AI-readable context, but
+public provider attachment refuses before dispatch because its larger-history
+origin/return integration is not yet qualified. Retained legacy AI Contribution
+chains are not relabeled during a supported conversion. This does not change
+current episode-profile AI behavior or widen any provider/native-review budget.
+
+Working-state limits are explicit: 32 judgment sessions/work links, 16 nodes
+per shared judgment, 64 locally selected draft amendments, three parents per
+claim, eight Contributions per judgment, 1,024 notes/draft buffers and 2,048
+unfinished editor entries; scientific/editor text remains 16/12 KiB respectively.
+New authoring/personal-cause source references may name 2,048 history commands;
+older source-reference contracts retain 64. Up to 1,024 retained byte sources
+have digest/length-bound 12 KiB raw chunks; each original is at most 4 MiB, and
+base64 overhead counts against the project budget. Up to 2,048 stable opaque
+public-ID mappings are allocated in the saved revision and retained on later
+saves; selected sharing below reuses these mappings without allocation. Store only seed/commands,
+writing, original sources and mappings; manifest/graphs are derived.
+
+Read-only registered anchors and descriptive wording/companion restrictions
+are implemented below. Typed observations are implemented below; protocol/gate records are implemented below; private critiques are implemented below; selected Git-share export is implemented below. Co-report
+decisions are implemented below.
+Historical source decisions and imported-origin personal reasoning are available
+under the v5 contract below. Their proposed counts are not supported types
+merely because the storage codec can hold their bytes. The base source association retains its single original marked anchor;
+additional named bindings are registered separately below. Conversion requires a fresh private
+destination, preserves the original checkpoint as an exact retained byte source
+and changes no scientific content. Source-bound unfinished scientific work,
+retained proposals and conditional work that cannot be losslessly rebound refuse
+conversion before publication; ordinary notes/judgments retain their Contribution
+chains and never restore prior consent. The source project remains usable.
+
+**04 implemented personal reporting contract (2026-10-14).** Commands v7
+`set-claim-wording`, `set-claim-companion`, `set-anchor-context` append to existing
+seed4/5 histories without rewriting prior bytes or changing scientific support
+status. Current-main human descriptive policies carry grade, limitation, allowed
+wording, required caveat text, banned phrases, allowed placements and reason.
+One canonical companion record carries target claim, companion claim/global
+observation, anchor/paragraph scope, active/retired disposition and reason;
+endpoints/scope are immutable, reviewed retirement/reactivation appends history.
+These reporting constraints are not branch-local evidence or scientific support.
+Unknown/AI imported source references remain separate from local confirmation.
+
+Anchor contexts bind explicit placement and blank-line paragraph declarations
+to the exact registered anchor/source commitment. Re-registration/relocation
+requires new classification; stale context does not retain a passing placement.
+The read-only literal lint and graph readers disclose incomplete source/TeX/
+paragraph coverage, and no result closes debt. Missing branch endpoints are
+reported without dangling reporting relations. Work17/project13 and personal
+frame5 preserve these commands; existing workspace13–15 fields remain unchanged.
+Budgets are 64 policies, 256 companions, 64 contexts; co-report decisions
+are implemented below. See the [authoring and lint workflow](../development/workflow.md#human-wording-limits-and-reporting-companions).
+
+**07 implemented personal co-report contract (2026-10-14).** Command8
+`record-co-report` directly records one explicit current-main personal disposition
+in an active episode without a staged alternative/earlier selected transaction.
+Two to four selected Interpretation identities carry scoped statements, active
+global observation basis, explicitly authored scientific relationships and
+original-reading references. One human judgment/reason and 04's canonical
+companion identities bind the whole selection; omitted candidates remain
+unadopted input with reserved identities. Relevant companion membership and
+current context are checked before append. Group links are non-scientific.
+
+A later edit creates new identities referencing the immutable earlier reading;
+original AI/unknown influence is retained from recorded source lineages and
+archived episode judgments. Main support status/evidence values remain unchanged.
+The outcome `co-reported` is distinct from legacy `merged`. The new extension
+admits 128 local Interpretations and 32 co-report decisions; old histories and
+single-reading rules remain unchanged. Work18/project14/frame6 retain exact
+commands while workspace13–15 fields stay unchanged. Graph readers disclose
+scope, shared reason, membership/origins, explanation choice and unresolved
+manuscript work. This neither certifies understanding nor supplies protected
+approval/provider capability. See the [co-report workflow](../development/workflow.md#co-reported-interpretations).
+
+**Version and budget approach.** Keep v1–v3 seed/command/manifest/golden bytes
+unchanged. Introduce a new explicit version with a registered personal paper
+profile; never add profile fields to an old frozen seed or accept a caller's
+arbitrary numeric limits. Use a purpose-bound bounded encoding/decoder with the
+same canonical text/key/number semantics, separate from the legacy encoder.
+Old operation/review/provider budgets do not grow merely because storage grows.
+New personal checkpoint and backup frames have distinct version prefixes from
+legacy `CBPP`/`CBPB` version 1 (implemented version 2), even for small files. The actual
+shipped old readers must reject minimal, large and backup new-format samples
+without changing source/canonical records; transient lock cleanup is checked.
+Normal newly created personal paper projects select the registered lifecycle
+profile after its release checks; synthetic commands and existing projects retain
+their frozen profiles. Unknown versions/profiles refuse before installation. Any old personal project
+conversion is previewed, create-only and retains its source; protected/encrypted
+stores are not converted by this path.
+
+Registered 01 ceilings and explicitly deferred type budgets (synthetic combined
+validation does not establish scientific fidelity or user benefit):
+
+| Resource | Initial personal-paper ceiling |
+|---|---:|
+| claims, including one thesis | 64 |
+| observations | 256 |
+| completed experiment records | 256 |
+| scientific edges | 512 |
+| unrun plans | 64 |
+| sequential local episodes | 32 |
+| retained local Interpretations before co-report extension | 32, still one per local episode |
+| historical source decisions | 256, separate from local merge commands |
+| manuscript anchors after anchor extension | 64 |
+| commands / evidence events | 2,048 / 1,024 |
+| reasoning changes | 1,024 |
+| scientific/structural graph path depth | 8 |
+| normalized history input / derived manifest | 4 MiB / 8 MiB |
+| total saved private project, including retained source and critique | 16 MiB |
+| individual normalized scientific text | 16 KiB; larger originals retained in bounded source storage |
+| generic new-profile collection/object members | 2,048; narrower per-field limits still apply |
+| canonical JSON nesting | retain 16 unless a concrete new wrapper proves a required change |
+
+Persist normalized seed/commands, retained source/origin registry and working
+state; compute the manifest/views from them and retain only their commitments,
+not a second full persisted manifest. Original source bytes are distinct
+from normalized science: digest-bound base64 chunks of at most 12 KiB raw bytes
+(16 KiB encoded ASCII) retain raw byte digests and exact reconstruction. Encoding
+overhead counts against total saved storage. A retained blob is stored once and
+referenced by source identity; unmapped pointers cannot duplicate its full bytes.
+The history-input budget covers normalized commands/seed, the derived-manifest
+budget covers its output, and the total-project budget covers every saved field,
+including encoded originals and editor/origin overhead.
+
+The combined 01 inventory is frozen above. Additional later-type
+ceilings are 1,024 retained source records, 8,192 unresolved pointers total with
+at most 128 per source record, 256 cells and 16 condition keys per observation,
+2,048 anchor associations, 256 companion records, four readings per co-report
+Decision, and 128 private critiques/questions. Partition pointer indexes into
+bounded source records so no individual 2,048-member collection is exceeded.
+Export selections cannot exceed the eligible saved profile and their declared
+closure. Parent/contribution/session limits are individually audited and frozen;
+unimplemented type counts remain proposed engineering bounds, not evidence of capacity.
+Each later type increment extends the same combined fixture and rechecks project
+bytes/time/RSS, save/fsync and backup/restore instead of relying on 01-only data.
+
+The implemented co-report extension admits up to four local Interpretation
+identities per reviewed decision and at most 128 per project. Raw source, corrections, origins,
+editor buffers, views and enclosing envelopes compete for the saved byte budget.
+A maximum record count does not guarantee all maxima fit together. Report each
+used/limit dimension and the first overflow before publishing. Count historical
+source groups, local episodes, experiments versus inventory IDs, structural
+parents versus scientific edges, and decisions versus judgments separately.
+Additional draft/parent/contribution/selection/reference limits are inventoried
+and frozen before implementing the new profile; no silent inheritance or
+truncation resolves a mismatch.
+
+**Import and origin.** A closed interchange envelope identifies its version,
+source bytes/digest, explicit ID/type/field mapping, mapped science, source
+chronology and complete retained/unmapped pointers. Unknown source fields can
+remain inert data inside bounded source retention; unknown scientific command
+fields, invalid endpoints, malformed values and impossible mappings cannot.
+Use a bounded JSON parser with duplicate-key/encoding/depth/count checks before
+normalization. Preserve original bytes independently of canonical NFC mapping.
+No model, executable converter, recursive scan or artifact read is triggered.
+
+The first 02 slice now implements `claimbranch.argument-import/v1` and its
+read-only preview. The [generated schema](../../schemas/argument-import-v1.json)
+and [operator procedure](../development/workflow.md#prior-argument-mapping-preview)
+own the executable input and command. Each mapped body leaf names an explicit
+source pointer and optional transformation; declared origins remain separate
+from imported transport and local authority. Original JSON admits inert finite
+numeric tables while mapped science stays under closed typed fields. All original
+bytes remain in the envelope's digest-bound source, and untouched source leaves
+are exposed in 128-pointer pages (maximum 8,192 leaves). A container summary does
+not resolve its children. Traversal checks 2,048 bytes per pointer and 1 MiB of
+total pointer text before collecting another leaf. Diagnostic storage retains
+512 errors with an exact total/truncation flag; any error refuses registration.
+The inspection digest binds exact envelope/source bytes and selection/counts,
+without duplicating a near-limit input into another saved-project envelope.
+Selected historical decisions disclose mapped referenced records as dependencies;
+they still create no historical app episode. Preview errors refuse registration, with no store,
+artifact or provider access. Current schema-v4 histories/checkpoints are unchanged;
+research v1–v4 bytes stay unchanged. The next 02 slice now adds research v5,
+work v15, project v11, workspace v14 and personal/backup frame version 3.
+V5 seeds a source-claimed current argument without synthesizing past commands,
+human Contributions, receipts or local episodes. Source decisions retain reasons,
+dates and known/unknown authorship separately. The foreground registration starts
+only one new local question. Project v11 retains the exact input (at most 4 MiB)
+as a digest-bound source; reopening compares seeded records with that input.
+The inner original remains exactly reconstructable. A two-entry process-local
+cache retains immutable source re-derivation, never consent or writable state.
+Only identity mappings count as covered; declared transformations stay unresolved.
+Views/nodes expose source-claimed status, origin, original body and paged unresolved
+pointers; graph/workspace budgets are checked before publication. Private save,
+writing, independent evidence/correction and backup return preserve these fields.
+V5 adds explicit create-imported-reasoning-branch, record-imported-interpretation
+and apply-imported-merge operations. Their exact source subject and dependency
+references (source digest, declared contributor and unresolved count) are
+recomputed during replay. Selected and required source ancestry survives human
+rewriting; omitted independent candidates add no origin. Foreign AI/mixed/unknown
+sources are separate from actual local human Contributions. Known AI influence
+and unknown authorship require an explicit personal explanation choice; this
+does not certify understanding. Up to 32 recorded explanation consequences and
+64 partial causal writings survive return. Legacy semantic operations remain
+refused on v5 so they cannot bypass this origin contract. Public provider/context
+and protected authority remain unavailable. Later revision/sharing types are
+planned. Immutable prefix/cause/branch calculations have bounded 16-entry caches;
+science results return detached copies, never consent. Private originals are
+read on demand at unresolved nodes, outside scientific/provider projections.
+
+The current human/AI-only Contribution schema is unchanged for old versions.
+New historical-source origin distinguishes declared human, AI, mixed and unknown
+contributors from transport (`imported`) and the present human's local import
+confirmation. A reviewed personal batch may register the selected mapped
+observations/reasoning without individual retyping. Retain original reasons and
+source-claimed dates/closed episode groups; do not synthesize former app commands,
+receipts, source checks, protected approval or a comprehension verdict. Missing
+historical snapshots stay missing. New local episodes start from the current
+imported argument under normal current-state checks.
+
+A selected mapped record failing its required typed/endpoint/consistency checks
+refuses the batch. The person can explicitly deselect it into retained source-only
+state; the next preview shows which dependent edges/statuses must also be omitted
+or repaired, then requires confirmation of that new closed selection. Unsupported
+fields outside the mapped scientific contract can remain inert retained fields;
+malformed selected science cannot silently downgrade itself during publication.
+Foreign AI declarations remain historical-source record types, not fabricated
+owned Proposal/ExecutionTrace records with absent IDs or invented digests.
+
+Partial migration retains the whole bounded input and unresolved field pointers
+through restart/backup. Review and node/source readers expose relevant unresolved
+meaning; supported status, protocol validity or scientific scope cannot be
+inferred from it. An operation requiring unsupported typed semantics refuses
+that operation without blocking independent complete records. Later typed mapping
+is an append-only, reviewed transformation of the retained source revision;
+re-import cannot overwrite later app edits. Ordinary import origins and private
+retained fields do not automatically become eligible AI context or share data.
+
+**03 source/replay contract (implemented subset, 2026-10-14).** Keep
+existing seed v4/v5 and every prior command byte. Registration uses the separate
+v6 command contract, admitted only in personal v4/v5 histories; it cannot carry
+scientific or protected operations. Retain stable anchor id/kind, exact private
+file/root/Git identity and revision, full file digest, exact bounded marked-block
+bytes/digest, explicit expresses/plots/caption-parent references and human reason.
+Only current main claims and globally recorded observations may be referenced;
+plots is a reference, never support. One caption may reference a registered
+figure/table. The legacy seed has no typed kind; its first explicit registration
+assigns one, and subsequent registrations preserve it. Registration revisions append; removal of all associations retains
+the earlier record and old impact reach. No scientific/evidence head is advanced.
+
+New workspace v15/work v16/project v12 and personal/backup frame v4 retain mixed
+old commands and v6 registration without rebasing prior reasons or origin source
+prefixes. Old readers reject the new envelope/frame before writing. Support both
+manual paper and imported paper histories. Legacy single-anchor projections
+remain identical until explicit registration. At most 64 anchors (including the
+initial one), 2,048 current associations, 2 MiB per selected TeX file and 64 KiB
+per marked block; existing history/manifest/project budgets still apply. Named
+source inspection traverses no includes and certifies no graphic fidelity.
+
+Scientific reach plus inverse expresses/plots/caption-parent uses supplies bounded
+deterministic witnesses across old/new views. Structural part-of never implies
+scientific impact. Freshness distinguishes unchanged file, unchanged block with
+changed file revision, changed block, identity substitution and unavailable
+source. Source status is separately inspected, not injected into deterministic
+replay. Foreground personal comparison binds registered-source status and rejects
+an intervening source change. Missing source remains unresolved with writing
+intact; no manuscript write or protected authorization is introduced.
+
+**Revision semantics to implement in later steps.** Anchor records have stable
+identities, explicit text/figure/table/caption kind and declared source location;
+marked-block digests determine block freshness, while file/root identity and file
+revision remain explicit path-substitution/coverage inputs. An unrelated text edit
+does not pretend every block's bytes changed. Source/selection changes still
+revoke dependent exact reviews, and no protected whole-file guarantee is relaxed.
+`expresses` and `plots` associations are references, not support strength.
+Impact uses scientific reach plus inverse anchor associations and both old/new
+paths. Structural containment alone cannot infer a scientific consequence.
+One companion-dependency record holds the target, referenced companion,
+anchor/paragraph scope and human reason; wording policies and co-report
+Decisions reference it instead of maintaining competing obligation stores.
+Grades remain descriptive human-authored limitations, distinct from status or
+understanding scores.
+
+**06 contract frozen/implemented 2026-10-14 — personal structured measurements.**
+Strict command9 appends `declare-condition` and `record-measurement` to seed4/5
+histories. Work19/project15/personal-checkpoint and backup frame7 preserve old
+seed/command bytes, workspace fields and ordinary private authority. The input
+is `claimbranch.measurement-input/v1`, generated from its closed owned schema.
+No arbitrary observation metadata, scheduler or provider mode is enabled.
+
+Up to 32 immutable condition keys declare 1–64 opaque values and up to 16 named
+ascending groups. Group order is human-declared protocol order, not lexical
+sorting or scientific verification. Tables have a new measurement ID, an
+estimand, flat declared condition tags, 1–32 typed columns with raw/display unit
+labels, 1–256 rows and at most 2,048 cells, at most 256 KiB per table. Every row
+contains exactly one stable-ID cell per column; explicit missingness includes
+its reason. Integer/decimal values use bounded exact strings (no floats or
+exponents); text and missing are separate variants. Decimal precision and sign
+are retained as written. Display units label intended presentation, without
+implicit numerical conversion. Table/row tags cannot conflict. Row and column
+IDs are local to the table; cell IDs retain their meaning within an observation's
+entire recorded measurement history. Changed estimand, column definition or
+combined conditions requires fresh cell IDs as well as a new measurement ID.
+No old cell can be reintroduced under a different meaning after retirement.
+
+An explicit personal confirmation creates a new observation. `transform` attaches
+a reviewed table to an existing active text/imported observation without inventing
+an experiment or resolving original unmapped fields. `correct-cells` appends
+only named value changes against the latest evidence-event revision and retains
+all other cells, conditions, units and statement. `transition` appends a new
+measurement identity and explicit changed meaning. Both retain the prior table,
+reason, source context and source-claimed origin. Generic text-only corrections
+refuse on structured observations; invalidation/retraction retains the last table
+and marks its basis inactive. Neither table editing nor transform revives inactive
+observations. Existing 1,024-event/4 MiB history and 8/16 MiB manifest/project
+limits also apply; not every independent table maximum fits simultaneously.
+
+Supporting-evidence queries follow declared support and Interpretation basis,
+return matching rows with exact units, estimand and source references, disclose
+unstructured/inactive/hidden basis, and preserve one observation identity. Their
+local graph and derived condition coverage never rewrite human claim scope.
+`dose=max` requires a named declared ascending group; no universal dose hierarchy
+or lexicographic maximum is inferred. Conditions do not become graph nodes.
+
+At most 16 artifact references retain declared path/hash/JSON pointer plus
+optional tool hash and commit. These remain source claims. An optional explicit
+check opens only one selected regular single-link file (at most 1 MiB), walking
+without symlinks, checks read/path revision and hash, then one declared JSON
+pointer against one named cell. JSON numbers compare exactly; bounded depth,
+duplicate-key and nonfinite checks fail visibly. It writes no file/evidence,
+follows no links, certifies no units/conditions/estimand/source fidelity and caches
+no scientific-verification verdict. Changed/missing/mismatching bytes stay visible.
+The existing TUI source reader exposes complete measurement/history; the public
+CLI owns exact paged table registration and condition/local-graph queries.
+**05 contract frozen/implemented 2026-10-14 — personal protocols and rule-bound assessments.**
+Strict command10 adds `register-protocol`, `associate-experiment`,
+`amend-gate-rule`, `record-gate-result`, `record-outcome`; work20/project16 and
+personal/backup frame8 preserve older bytes and unchanged workspace fields.
+The closed `claimbranch.protocol-input/v1` schema owns all input fields. A
+protocol freezes a current main plan's scientific digest/snapshot, prediction,
+falsifier, prewritten pass/fail wording, optional commitment reference/claimed
+time, seen/unseen/unknown disclosure, declared origin/source context and up to
+16 named gates (tolerance/reference text). Commit/chronology is source-claimed,
+never proof that outside results were unseen. Imported annotations do not alter
+its scientific plan digest; unsupported original fields are not marked resolved.
+
+Protocol versions explicitly supersede their plan's latest version. Prior
+versions remain inspectable; a superseded version cannot gain a fresh completed
+association or gate amendment. Existing associated original rules can still have
+explicitly version-bound historical assessments. One completed record is
+explicitly associated per protocol version, with exact current registered-plan
+digest. This executes no experiment. Metric mismatch, already-recorded results
+and an unseen claim beside preexisting app observations stay visible rather than
+becoming validated preregistration. App record order is not outside chronology.
+
+Gate amendments append against the exact latest gate-rule version with new
+reference/tolerance, one human reason/source and before/after/unknown disclosure.
+Their local operation is the decision ID, separate from any imported past decision
+or protected approval. Original registered failure/rule remains. App-recorded
+results preceding amendment are explicit, including a conflict discovered when
+a completed record is associated after the amendment; a conflicting before-result claim is
+flagged, never silently repaired. Gate results name one exact gate/rule revision,
+completed association and latest active observation-event revisions. Outcome
+assessments select exactly one version for every gate, retain the same exact
+observation basis, and optionally cite one matching assessment per gate.
+
+Prediction consistency (`consistent`, `not-consistent`, `inconclusive`,
+`stopped-at-gate`), discrimination and gate validity are independent. Stopped-at-
+gate requires a recorded failed gate on this basis; a non-discriminating outcome
+requires its limitation. Consistent prediction cannot certify a valid result:
+failed/incomplete/unknown/reported-pass/no-declared-gates status and unassessed
+IDs are separately visible, always with `validity_verified: false`. Partial gate
+reports and zero-declared-gate protocols disclose coverage instead of fabricating
+passes. No arbitrary evaluator or automatic claim status is introduced.
+
+Up to 128 protocols/associations, 256 gate amendments/outcomes and 512 gate
+results fit only within the existing aggregate 2,048 commands and 4/8/16 MiB
+history/manifest/project budgets. Independent maxima are not a simultaneous
+capacity promise. All record/gate identities are reserved. Metadata advances the
+main context head and invalidates old exact review without changing evidence,
+claim status or prior judgment. Corrected/retracted basis marks earlier assessment
+stale while retaining its snapshot; newer rules are shown beside original rules,
+not as an overwrite of their outcome. Current plan mutation is compared against main at the requested history prefix.
+The displayed branch separately reports plan visibility and its match to the
+registration, including an absent or older plan; neither becomes a false mutation. Plans and scientific-path/Interpretation
+basis expose original/current protocol context. Structural containment alone is
+excluded. Protocol registries remain global like evidence in closed reasoning
+views; `at_operation` selects an exact history prefix, not source-claimed time.
+
+Known AI/mixed/unknown declared protocol or imported-plan origin remains separate
+from local human Contributions and cannot become AI-free by writing a new human
+judgment. The current conservative branch-wide review policy may require a fresh
+explanation choice for later independent manual work; this is no understanding
+score or debt closure. Private save/open/backup retains context and unfinished
+writing. New-profile provider use remains refused before credentials/dispatch;
+this extends manual/AI-readable graph context, not a qualified provider field
+set or permission to transmit raw protocol/source content.
+
+**08-critique contract frozen/implemented 2026-10-14 — private sourced questions.**
+Command11 records private critique questions, bounded revisions and non-empirical
+associations in personal seed4/5 histories. Work21/project17/personal and backup
+frame9 preserve old bytes/authoring fields. Closed `claimbranch.critique-input/v1`
+capture includes one human-written question, review/colleague/self-audit source
+classification, separate question/source human/AI/mixed/unknown origin, raw
+original (up to 256 KiB UTF-8) and optional identity/private label. Retain the
+exact capture-input bytes only in project17 `critique_sources`, with the existing
+bounded digest/chunk format; raw original fields are never automatically copied into scientific commands,
+graph, TUI default source reader or provider fields. Owner-authored question
+prose is separate and remains uncertified for anonymity. This is ordinary unencrypted private
+storage, not a confidentiality/anonymity verdict. Opaque random critique/source
+IDs are not derived from text; opaque public mappings remain distinct.
+
+Up to 128 private questions, 32 revisions per question and 512 associations are
+bounded by existing 2,048-command/4 MiB history/8 MiB manifest/16 MiB project and
+2,048 public-mapping limits. Independently specified maxima need not fit together.
+Normalized-equivalent capture retries refuse despite different JSON formatting;
+exact original bytes remain preserved. Registry validation checks exact reference
+coverage, original hash/content association and normalized duplicate identity.
+Private originals cannot be dropped, replaced or added as unreferenced records.
+Question revisions append against the expected previous revision, retaining every
+question/origin/reason and original. Known/unknown source influence stays separate
+from local Contributions and follows the conservative branch-wide explanation
+policy without fake AI Proposals or any understanding/resolution claim.
+
+`questions` links reference current claims. `addressed-by` links reference a
+current unrun plan, a recorded experiment or an exact selected/required accepted
+claim/status amendment or current wording consequence. Unchanged dependencies
+in a merge are not claim changes. References remain non-scientific, never support,
+confirmed observations or automatic resolution. Explicit references to preexisting
+work are valid: association metadata separates change-before/after-app-capture,
+unknown and ordinary existing-record reference. App order cannot prove when a
+private critique existed outside the app or what motivated an experiment. Main
+context head changes revoke prior exact review without rewriting science.
+
+Only explicit `critique-original` reads the private capture input. Neutral listing
+and graph/preview omit private labels/identities/source hashes/source handles;
+owner-authored question/reason prose is not automatically certified anonymous.
+The default critique-reference projection emits only saved opaque public IDs,
+non-scientific relation kinds and omission markers; it excludes all questions,
+reasons, origins, private source handles/hashes, originals and identity/path text,
+even if the person pasted a known secret into a question or rationale. It is a
+small safe-reference projection, distinct from the selected canonical-share mode below.
+Full readable project JSON export refuses critique-containing histories before
+writing a file; explicitly private backup/restore still retains originals. Provider
+attachment already refuses paper profiles before lookup, and the context compiler
+independently refuses critique-bearing histories before preparing model content.
+These restrictions do not enable new egress or imply protected authority.
+
+**Personal origin/batch extension.** Command12 reuses the closed
+metadata payload set with a separate required `contribution_origin`. Prior command
+versions retain their old bytes/replay meaning. Work22/project18 and private frame10
+carry the new history; workspace13–15 fields remain unchanged. A derived bounded
+metadata-origin registry retains source-independent declared origin, subject IDs,
+operation/time and a separate, explicitly unverified personal confirming actor. AI/unknown influence enters
+later review without fabricated AI proposals or human Contributions. New co-report
+input checks that influence before admission. Public source summaries retain these
+origins while their raw input/operation source stays private.
+
+Metadata-batch/v1 prepares at most256 explicitly selected ordered entries through
+existing type validators. Prerequisites are explicit/current, no inference or
+silent promotion. Any invalid selected entry blocks the entire candidate save;
+unchanged base originals/unresolved pointers remain. Raw batch source stays in
+private retained storage, including omitted requests; readable complete exports
+refuse this new history, private backup and selected sharing stay distinct. The
+existing terminal action connects file entry and complete foreground review to
+one saved-write boundary; it is not automatic historical ingestion or a full
+per-type editor. No new runtime/provider/protected permission is introduced.
+The [registration workflow](../development/workflow.md#extended-metadata-registration)
+and existing ExecPlan own observed checks and remaining release limitations.
+
+**Implemented selected sharing contract.** `canonical-share/v1` projects seed4/5
+current-main records through saved public-ID mappings with strict per-kind field
+allowlists. Explicit selection plus disclosed dependency closure includes incoming
+science, parents, mandatory companions/co-report membership and linked protocol
+failures/amendments. Separate record-level reason IDs opt in; raw critique prose
+has no reason opt-in. Current cells/units/conditions and human scientific limitations
+stay readable. Table-local row/column joins are numeric coordinates; scientific
+condition labels remain selected prose, not public record-reference IDs. Registered
+anchors share structure only. Origin summaries retain adopted-record AI/unknown
+and unresolved
+counts. A separate branch-AI-context flag cannot change individual origins;
+unmerged or omitted alternatives confer no main-record influence. Omitted originals
+are not verified. The omission manifest excludes old
+value/decision history, source/payloads, private paths/artifacts, manuscript bytes,
+notes and unselected writing. Known private literals in allowed scientific prose
+refuse rather than silently redact its meaning.
+
+The pure projection allocates no mapping or private state. A keyed commitment over
+the exact public projection using the private saved-revision digest allows
+recomputation with that specific private source without publishing raw source
+hashes. Exact bytes, selection, policy or saved-source changes cannot verify under
+an older commitment. It is neither a signature nor standalone public verification.
+Create-only publication binds the reviewed destination parent, rechecks private
+saved state/selection and never replaces an existing file. Git is an allowed
+sharing destination, with no commit/upload/import-back authority. Private backups
+are separate. The [sharing workflow](../development/workflow.md#selected-canonical-git-sharing)
+owns commands, field coverage and operational limits.
+
+**Sharing and private critique.** Critique/source-question records are not
+empirical observations. The selected private-original policy retains raw content
+only within ordinary private saved-work storage/backup. Public and provider
+projections use explicit field allowlists, exclude originals/identities/private
+paths by default, and preserve redacted references with non-content-derived
+stable identifiers. An explicitly selected reason is allowed in share output;
+private source exclusion wins even through nested origin, derived text, labels
+or diagnostics. The export commitment binds schema, saved source revision,
+selection/dependency closure, redaction policy and output digest. Verification
+recomputes that projection, not a purported full restore from public data.
+Allocate opaque public record/reference IDs when a record is created or explicitly
+converted, and save the mapping in that revision. Export/verification allocate no
+IDs and mutate no private state. Every structured ID/reference is projected through
+that mapping, including selected records with content-bearing internal IDs.
+User-provided labels/prose remain explicitly reviewed content; the system cannot
+certify anonymization of unreported private wording. Selected AI context carries
+only safe opaque unresolved flags/counts, not raw source bytes, private pointer
+names or direct quotes. Eligible unmapped scientific content would require its own
+explicit selection and exact wire review; raw critique stays outside this planned
+provider field set.
+
+Freeze exact record/command/retention schemas and their generated resources at
+each implementation increment. These proposed records do not alter legacy
+meaning or receive protected authority through their existence.
 
 ## 1. Logical planes
 

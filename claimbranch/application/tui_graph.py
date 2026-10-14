@@ -38,6 +38,9 @@ class Route:
 def relation_phrase(edge, node_id, other_label):
     """Read the recorded edge from the card owner's perspective."""
     phrases = {
+        'revises-reading': ('revises reading', 'original of reading'),
+        'co-reported-with': ('co-reported with', 'co-reported with'),
+        'must-co-report': ('must be reported with', 'requires companion'),
         'supports': ('supports', 'supported by'),
         'challenges': ('challenges', 'challenged by'),
         'qualifies': ('qualifies', 'qualified by'),
@@ -46,6 +49,8 @@ def relation_phrase(edge, node_id, other_label):
         'interprets': ('interprets', 'interpreted by'),
         'tests': ('tests', 'tested by'),
         'expresses': ('expresses', 'expressed by'),
+        'plots': ('declares data from', 'declared in'),
+        'caption-of': ('caption for', 'has caption'),
     }
     active, passive = phrases[edge['type']]
     return f"{active if node_id == edge['source_id'] else passive} {other_label}" + (' · draft' if edge.get('draft') else '')
@@ -432,7 +437,7 @@ def graph(frame, app, x, y, width, height):
         selected = key == app.selected_id
         style = "selected_meta" if selected else "warning" if key in matches or app.marker(key) == "~ " else {
             "claim": "claim", "observation": "evidence", "experiment-record": "run", "experiment-plan": "plan",
-            "interpretation": "interpretation", "manuscript-anchor": "writing"}[app.nodes[key]["kind"]]
+            "interpretation": "interpretation", "manuscript-anchor": "writing","critique-question":"interpretation"}[app.nodes[key]["kind"]]
         body = "selected" if selected else "body"
         if key not in focused_nodes:
             style, body = "graph_dim_border", "graph_dim"

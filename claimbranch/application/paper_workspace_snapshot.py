@@ -1,5 +1,6 @@
 """Closed, unaccepted judgment-writing snapshot; no revived execution or consent."""
 from dataclasses import asdict
+from copy import deepcopy
 
 from claimbranch.core.canonical import ContractError, canonical_bytes, decode
 from claimbranch.core.research_schema import CONTRIBUTION, HASH, ID, TEXT, array, normalize, nullable, obj
@@ -67,7 +68,11 @@ def paper_snapshot(workspace):
 
 def restore_paper(history, value, *, frozen_response=None, clock=None):
     from .paper_workspace import PaperWorkspace
-    value = normalize(value, PAPER)
+    schema = deepcopy(PAPER)
+    if history.schema_version in (4, 5):
+        schema["properties"]["drafts"]["maxItems"] = 32
+        schema["properties"]["links"]["maxItems"] = 32
+    value = normalize(value, schema, profile="paper" if history.schema_version in (4, 5) else "episode")
     workspace = PaperWorkspace(history, frozen_response=frozen_response, clock=clock)
     seen, ids = set(), set()
     for item in value['drafts']:
@@ -109,7 +114,10 @@ def _check_owner(workspace, owner, contexts=None):
 
 
 def validate_workspace(history, value):
-    value = normalize(value, workspace_schema())
+    expected = 'claimbranch.paper-workspace/v15' if history.has_manuscript_anchors else {4: 'claimbranch.paper-workspace/v13', 5: 'claimbranch.paper-workspace/v14'}.get(history.schema_version)
+    if (value.get('schema') in ('claimbranch.paper-workspace/v13', 'claimbranch.paper-workspace/v14', 'claimbranch.paper-workspace/v15')) != bool(expected) or (expected and value.get('schema') != expected):
+        raise ContractError("writing workspace capacity/profile mismatch")
+    value = normalize(value, workspace_schema(), profile='paper' if history.schema_version in (4, 5) else 'episode')
     workspace = restore_paper(history, value['paper'])
     contexts = {}
     for name in ('notes', 'drafts', 'buffers', 'unfinished'):
@@ -200,5 +208,27 @@ def workspace_schema(version=None):
     edits['properties']['schema'] = {'const':'claimbranch.edit-workspace/v12'}
     edits['properties']['proposals'] = PROPOSALS_V6
     if version == 12: return edits
+    lifecycle = deepcopy(pooled)
+    lifecycle['properties']['schema'] = {'const':'claimbranch.paper-workspace/v13'}
+    lifecycle['properties']['paper']['properties']['drafts']['maxItems'] = 32
+    lifecycle['properties']['paper']['properties']['links']['maxItems'] = 32
+    from claimbranch.core.paper_capacity import lifecycle_schema
+    lifecycle = lifecycle_schema(lifecycle)
+    with_proposals = lifecycle_schema(edits)
+    with_proposals["properties"]["schema"] = {"const":"claimbranch.paper-workspace/v13"}
+    with_proposals["properties"]["paper"]["properties"]["drafts"]["maxItems"] = 32
+    with_proposals["properties"]["paper"]["properties"]["links"]["maxItems"] = 32
+    lifecycle = {"oneOf":[lifecycle, with_proposals]}
+    if version == 13: return lifecycle
+    imported = deepcopy(lifecycle)
+    for variant in imported['oneOf']:
+        variant['properties']['schema'] = {'const': 'claimbranch.paper-workspace/v14'}
+        if 'proposals' in variant['properties']:
+            from .paper_proposal_work import imported_proposals_schema
+            variant['properties']['proposals'] = imported_proposals_schema()
+    if version == 14: return imported
+    anchored = deepcopy(imported)
+    for variant in anchored['oneOf']: variant['properties']['schema']={'const':'claimbranch.paper-workspace/v15'}
+    if version == 15: return anchored
     if version is not None: raise ContractError('Unsupported writing workspace version')
-    return {'oneOf': [WORKSPACE, current, explanation, writing, wording, pooled, proposals, provider, codex, external, advisory, edits]}
+    return {'oneOf': [WORKSPACE, current, explanation, writing, wording, pooled, proposals, provider, codex, external, advisory, edits, lifecycle, imported, anchored]}

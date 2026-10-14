@@ -29,6 +29,8 @@ def excluded_work(app):
     return result
 
 
+from .paper_storage_codec import encode as canonical_bytes, decode
+
 def snapshot_value(app, active=None, *, proposals=True):
     unfinished = dict(app.unfinished)
     if active and active[0] not in ('note', 'edit', 'candidate', 'intake', 'understanding', 'review', 'manuscript'):
@@ -59,6 +61,8 @@ def snapshot_value(app, active=None, *, proposals=True):
             value['proposals'] = retained
             from .paper_proposal_work import fit_new_payloads
             value = fit_new_payloads(app, value)
+    if app.paper.history.schema_version in (4, 5):
+        value['schema'] = 'claimbranch.paper-workspace/v15' if app.paper.history.has_manuscript_anchors else 'claimbranch.paper-workspace/v14' if app.paper.history.schema_version == 5 else 'claimbranch.paper-workspace/v13'
     return value
 
 

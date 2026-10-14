@@ -68,7 +68,8 @@ def authoring_snapshot(app, active=None):
 
 def restore_authoring(workspace, value):
     """Install only in a detached fresh workspace; no review capabilities exist."""
-    value = normalize(value, AUTHORING)
+    from claimbranch.core.paper_capacity import lifecycle_schema
+    value = normalize(value, lifecycle_schema(AUTHORING) if workspace.history.schema_version in (4, 5) else AUTHORING, profile="paper" if workspace.history.schema_version in (4, 5) else "episode")
     from .paper_service import PaperService
     from .paper_candidates import PaperCandidates
     history = workspace.history

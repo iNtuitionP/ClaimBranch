@@ -4,6 +4,7 @@ import json
 import sys
 
 from claimbranch.core.canonical import ContractError, bounded_text, canonical_bytes, decode
+from .paper_storage_codec import encode as canonical_bytes, decode
 from .paper_work_store import PaperWork
 from .project_work import initialize_project, preview_association, ProjectWorkStore
 from .tui_model import TerminalWorkspace, clean
@@ -39,7 +40,7 @@ def prepare_first_episode(project, question):
         used.add(value)
         return value
     episode_id, command_id = unused('first-episode'), unused('open-first-episode')
-    history = history.append({'schema_version': 3, 'id': command_id,
+    history = history.append({'schema_version': history.schema_version, 'id': command_id,
         'project_id': project.project_id, 'episode_id': episode_id,
         'created_at': datetime.now(timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ'),
         'operation_type': 'open-episode', 'expected_heads': dict(history.heads),
@@ -96,10 +97,30 @@ def project_workspace(project):
     if not project.work.history.episodes():
         raise ContractError('Saved project has no research episode. Use demo project open to write and confirm its first question; retained work is unchanged.')
     app = TerminalWorkspace(project.work.history, ai_off=True)
-    if 'workspace' in decode(project.work.payload):
+    if decode(project.work.payload).get('workspace') is not None:
         restore(app, project.work)
     else:
         app.message = 'Press ";" for Add a claim or Draft a result. No evidence or judgment was supplied for you.'
+    if project.work.history.schema_version in (4, 5):
+        resources = project.work.history.capacity()["resources"]
+        app.message = app.message + " Paper capacity: " + ", ".join("%s %s/%s" % (key,resources[key]["used"],resources[key]["limit"]) for key in ("claims","observations","experiments","edges","episodes")) + ". Close TUI and use project status for complete headroom."
+    if project.work.history.schema_version == 5:
+        from claimbranch.core.argument_import import _original, _at
+        from claimbranch.core.paper_capacity import source_bytes, decode as paper_decode
+        value = decode(project.payload)
+        retained = next((item for item in value['sources'] if item['sha256'] == value['import_input_sha256']), None)
+        if retained is None:
+            raise ContractError('Imported original source is unavailable; retained work was not replaced.')
+        interchange = paper_decode(source_bytes(retained), purpose='project')
+        # Private, on-demand reading only. Raw originals never enter scientific
+        # graph/context projections or acquire a typed scientific meaning.
+        def original_source(record_id):
+            record = next((item for item in interchange['records'] if item['id'] == record_id), None)
+            if record is None: return None
+            original, _ = _original(source_bytes(interchange['source']))
+            return json.dumps(_at(original, record['source_pointer']), ensure_ascii=False, indent=2, default=str)
+        app.imported_original_source = original_source
+        app.message = 'Imported current argument. Source origins/dates and unresolved fields are inspectable at each node; historical decisions are on the thesis. ' + app.message
     app.project_source_status = project.source_status()
     app.project_source_notice = source_notice(app.project_source_status)
     if app.project_source_status not in ('unchanged', 'unchanged-content'):

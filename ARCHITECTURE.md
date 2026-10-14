@@ -2,7 +2,7 @@
 kind: target-architecture
 status: draft
 owners: maintainers
-last_reviewed: 2026-10-12
+last_reviewed: 2026-10-14
 canonical_for: target pre-implementation system boundaries and quality constraints
 ---
 
@@ -90,6 +90,24 @@ live and reopened workspaces. The origin reader reconstructs historical input
 from retained sources without I/O. Owned return/terminal/backup tests do not
 qualify an actual live response or establish connected usefulness.
 
+The planned personal-paper extension under
+[ADR 0023](docs/architecture/decisions/0023-personal-argument-import-and-sharing.md)
+separates reviewed prior-record registration and private raw-source retention
+from scientific validation, provider context and a selected Git-share projection.
+Its [domain contract and planned type extensions](docs/designs/2026-08-03-domain-model.md#personal-paper-lifecycle-extension-planned)
+uses new purpose-bound profile/encoding/retention versions, preserving legacy
+bytes and the protected authority boundary. Source originals and unknown origin
+remain explicit; the share output is a reproducible projection of a saved
+private revision, not a second writer or restore authority. The explicit manual paper-capacity subset now uses purpose-bound codecs and
+separate personal frames with raw-source/public-ID registries. Source-claimed import and explicit source-aware personal reasoning now preserve
+foreign origin independently of local Contributions. Replayable command-v6 source registrations now extend those same seed histories
+without rebasing historical judgment context. Source identity/block freshness
+is separate from scientific state and truth; private return uses distinct newer
+envelopes/frames. Later protected integrations remain planned; larger storage qualifies no provider or
+protected operation. The
+[per-issue execution plan](docs/plans/active/2026-08-04-claimbranch-v1-and-gpu-systems.md#real-paper-migration-implementation-plan)
+owns next-version sequencing and tests.
+
 In order:
 
 1. preserve accepted evidence and complete contribution provenance;
@@ -101,6 +119,64 @@ In order:
    recoverable; and
 6. keep the first daily workflow fast enough that the graph reduces rather than
    creates research bookkeeping.
+
+Personal command7 reporting revisions now use work17/project13/frame5 while
+retaining old seed/command bytes and existing workspace fields. Human policies,
+one companion record and source-bound placement/paragraph declarations remain
+separate from scientific support; derived lint cannot create authority or close
+debt. The [current workflow](docs/development/workflow.md#human-wording-limits-and-reporting-companions)
+owns usage and coverage.
+
+Personal command8 adds an exact co-report disposition with first-class scoped
+Interpretations, one shared reason and the existing companion dependency store.
+It advances the personal main head in one selected operation, without simulating
+a branch merge. Work18/project14/frame6 retain old bytes and source influence;
+[the current workflow](docs/development/workflow.md#co-reported-interpretations)
+owns admission, origins and continued-review boundaries.
+
+Personal command9 appends typed measurement revisions to the same global evidence
+stream, with work19/project15/frame7 and unchanged legacy history bytes. Condition
+queries/local graph coverage are disposable and cannot rewrite claim scope;
+explicit one-file artifact checks cannot confirm scientific fidelity. The
+[measurement workflow](docs/development/workflow.md#structured-measurements-and-condition-queries)
+owns usage and bounds. No new provider/native authority is enabled.
+
+Personal command10 adds immutable original protocol/rule versions, explicit
+completed-record association and observation-revision-bound assessments.
+Work20/project16/frame8 retains private return and older history bytes. Metadata
+changes revoke exact review by advancing context without changing measured values;
+chronology and consistency/validity stay separate, source-claimed and inspectable.
+The [protocol workflow](docs/development/workflow.md#registered-protocols-outcomes-and-gate-amendments)
+owns its current manual boundaries; no provider or protected authority is enabled.
+
+Personal command11 adds non-empirical private sourced questions and associations.
+Work21/project17/frame9 retains exact private capture inputs outside scientific
+history in a typed source registry, with neutral/revision content in the graph.
+Default reference projection is an opaque allowlist; full JSON export and provider
+context refuse critique-bearing histories. Private backup is separately explicit
+and retains originals. The [critique workflow](docs/development/workflow.md#private-critiques-and-sourced-questions)
+owns the current boundary; selected sharing is a separate read-only public projection.
+
+Canonical-share/v1 now projects explicitly selected seed4/5 science with disclosed
+dependency closure, separate reason selection and saved opaque record IDs.
+Per-kind allowlists exclude private source/critique/payload/path/manuscript state.
+Keyed private-revision commitment plus exact recomputation verifies a projection;
+it is not a signature, backup or standalone public-history proof. Reviewed
+create-only output may live in Git while the canonical private workspace remains
+outside it. No automatic commit, upload, provider request or import-back follows.
+The [sharing workflow](docs/development/workflow.md#selected-canonical-git-sharing)
+owns coverage and limitations.
+
+The metadata registration boundary uses command12/work22/project18/frame10 to
+separate new-input origin from human confirmation and preserve legacy command
+meaning. A selected ordered batch reuses type handlers in detached candidates,
+retains raw input privately and publishes once through existing saved-work storage.
+Its graph action supplies local foreground comparison. Focused owned checks and
+an actual Mac terminal rehearsal cover origin/authority separation, detached
+registration, source/input rechecks and private return; the existing plan records
+the broader release checks and their coverage. It grants no additional
+provider or manuscript capability; see the
+[registration workflow](docs/development/workflow.md#extended-metadata-registration).
 
 ## System context
 

@@ -8,4 +8,6 @@ machine-checkable.
 - [Native implementation harness](implementation-harness.md)
 - [UI/UX design harness](uiux-harness.md) — context, references, comparable
   prototypes, visual tuning and research-task verification.
+- [Demo-video authoring](../../tools/demo-video/README.md) — local HTML pilot,
+  actual terminal replay, preview and MP4 export; separate from the application.
 - [Notion coding journal](notion-coding-journal.md)

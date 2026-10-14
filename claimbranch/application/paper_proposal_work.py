@@ -6,6 +6,7 @@ The terminal's existing checkpoint supplies the aggregate storage boundary.
 """
 from copy import deepcopy
 from dataclasses import asdict, replace
+from functools import lru_cache
 import secrets
 
 from claimbranch.core.canonical import ContractError, canonical_bytes, decode, digest
@@ -93,6 +94,15 @@ PROPOSALS_V6 = deepcopy(PROPOSALS_V5)
 PROPOSALS_V6['properties']['attempts']['items']['oneOf'].append(EDIT_ATTEMPT)
 PROPOSALS_V6['properties']['origins']['items']['properties']['lineages']['items'] = LINEAGE_V3
 PROPOSALS_V6['properties']['recorded']['items']['properties']['lineages']['items'] = LINEAGE_V3
+
+
+def imported_proposals_schema():
+    from claimbranch.core.paper_capacity import lifecycle_schema
+    result = lifecycle_schema(PROPOSALS_V6)
+    result['properties']['recorded']['maxItems'] = 32
+    result['properties']['recorded']['items']['properties']['source_judgments']['maxItems'] = 32
+    result['properties']['explanations']['maxItems'] = 64
+    return result
 
 
 def _check_import_limits(entries):
@@ -229,9 +239,15 @@ def check_capacity(workspace, proposals, *, records=None, selected=None, unfinis
     if app is None:
         # Backend-only owners still obey the same bound; the real terminal uses
         # its complete workspace/project envelope below, including all writing.
-        normalize(proposals, PROPOSALS_V6)
-        canonical_bytes({'seed': decode(workspace.history.seed), 'commands': [decode(c) for c in workspace.history.commands],
-                         'proposals': proposals, 'candidates': list((records or {}).values()), 'unfinished':list((unfinished or {}).values())})
+        version = workspace.history.schema_version
+        from .paper_storage_codec import encode as storage_bytes, decode as storage_decode
+        from claimbranch.core.paper_capacity import lifecycle_schema
+        normalize(proposals, imported_proposals_schema() if version == 5 else lifecycle_schema(PROPOSALS_V6) if version == 4 else PROPOSALS_V6,
+                  profile='paper' if version in (4, 5) else 'episode')
+        value = {'seed': storage_decode(workspace.history.seed), 'commands': [storage_decode(c) for c in workspace.history.commands],
+                 'proposals': proposals, 'candidates': list((records or {}).values()), 'unfinished':list((unfinished or {}).values())}
+        if version in (4, 5): value['schema_version'] = version
+        storage_bytes(value)
         return
     from .tui_work_recovery import snapshot_value
     from .paper_work_store import PaperWork
@@ -322,9 +338,20 @@ def mark_saved(workspace, value):
 def _prefix(history, source, owner):
     if source['commands'] > len(history.commands):
         raise ContractError('Proposal source is outside retained history')
+    if history.schema_version == 5:
+        return _imported_prefix(history.seed, history.commands[:source['commands']], source['digest'], tuple(owner))
     original = ResearchHistory.replay(history.seed, history.commands[:source['commands']])
     view = PaperService(original).query(owner[1], episode_id=owner[0])
     if view['digest'] != source['digest'] or owner[2] not in {node['id'] for node in view['nodes']}:
+        raise ContractError('Proposal original owner/context differs from replayed source')
+    return original
+
+
+@lru_cache(maxsize=16)
+def _imported_prefix(seed, commands, source_digest, owner):
+    original = ResearchHistory.replay(seed, commands)
+    view = PaperService(original).query(owner[1], episode_id=owner[0])
+    if view['digest'] != source_digest or owner[2] not in {node['id'] for node in view['nodes']}:
         raise ContractError('Proposal original owner/context differs from replayed source')
     return original
 
@@ -342,7 +369,8 @@ def _bundle(history, entry):
 
 def _origin_check(history, origin, attempts):
     value = decode(origin.payload)
-    if value['project_id'] != decode(history.seed)['project_id']:
+    from .paper_storage_codec import decode as storage_decode
+    if value['project_id'] != storage_decode(history.seed)['project_id']:
         raise ContractError('Item origin belongs to another project')
     for revision in value['revisions']:
         advice = revision.get('advisory_origin')
@@ -395,7 +423,9 @@ def _origin_check(history, origin, attempts):
 
 def restore_proposals(workspace, value, *, unfinished=None):
     from .provider_profile import check_retained_provider_request, check_retained_codex_request
-    value = normalize(value, PROPOSALS_V6)
+    from claimbranch.core.paper_capacity import lifecycle_schema
+    schema = imported_proposals_schema() if workspace.history.schema_version==5 else lifecycle_schema(PROPOSALS_V6) if workspace.history.schema_version==4 else PROPOSALS_V6
+    value = normalize(value,schema, profile="paper" if workspace.history.schema_version in (4, 5) else "episode")
     _check_import_limits(value['attempts'])
     attempts = {}
     for entry in value['attempts']:
@@ -479,12 +509,13 @@ def restore_proposals(workspace, value, *, unfinished=None):
             _origin_check(workspace.history, origin, attempts)
             origins[key] = origin
         work._origins = origins
-    commands = [decode(c) for c in workspace.history.commands]
+    from .paper_storage_codec import decode as storage_decode
+    commands = [storage_decode(c) for c in workspace.history.commands]
     operations = {c['id']: c for c in commands}
     seen = set()
     for record in value['recorded']:
         key = record['operation_id']; command = operations.get(key)
-        if key in seen or command is None or command['operation_type'] != 'apply-selected-merge':
+        if key in seen or command is None or command['operation_type'] not in ('apply-selected-merge','apply-imported-merge'):
             raise ContractError('Recorded item origin requires its unique personal consequence')
         seen.add(key)
         science = cause_science(workspace.history, record['cause'])
@@ -497,13 +528,13 @@ def restore_proposals(workspace, value, *, unfinished=None):
         cause = record['cause']; original = _prefix(workspace.history, cause['source'], cause['owner'])
         index = commands.index(command)
         start = cause['source']['commands']
-        if index <= start or commands[index-1]['operation_type'] != 'record-interpretation':
+        if index <= start or commands[index-1]['operation_type'] not in ('record-interpretation','record-imported-interpretation'):
             raise ContractError('Recorded origin lacks its immediate reasoning command')
         branch_command = commands[index-1]
         from .paper_branch import judgment_value
         rebuilt, branch = PaperService(original).branch_candidate(cause['request'], judgment_value(cause['judgment']),
-            operation_id=branch_command['id'], created_at=branch_command['created_at'])
-        if ([decode(c) for c in rebuilt.commands[start:]] != commands[start:index]
+            operation_id=branch_command['id'], created_at=branch_command['created_at'], source_node_id=cause['owner'][2] if workspace.history.schema_version==5 else None)
+        if ([storage_decode(c) for c in rebuilt.commands[start:]] != commands[start:index]
                 or command['payload']['judgment'] != branch_command['payload']['judgment']
                 or record['source_judgments'] != science['provenance'].get('source_judgments', [])):
             raise ContractError('Recorded origin reason, changes or inherited judgments differ from history')
@@ -521,12 +552,14 @@ def restore_proposals(workspace, value, *, unfinished=None):
                 raise ContractError('Recorded item differs from its selected contribution')
         validate_explanation(record['cause'], science, record['explanation'])
         ai = (judgment_value(cause['judgment']).ai_influenced or science['provenance']['ai_influenced']
-              or any(o.ai_influenced for o in lineages))
+              or science['provenance'].get('origin_uncertain', False) or any(o.ai_influenced for o in lineages))
         explanation = record['explanation']
         if ai and explanation['state'] not in ('reviewed', 'leave-for-later'):
             raise ContractError('Recorded AI influence requires an explicit personal explanation choice')
         inherited = rebuilt.view('alternative', episode_id=cause['owner'][0])
         judgment_ai = any(c['contributor']=='ai' for j in inherited['judgments'] for c in j['history'])
+        if workspace.history.schema_version==5:
+            judgment_ai |= any(r['contributor'] in ('ai','mixed','unknown') for r in command['payload']['source_refs'])
         disposition = ('deferred' if explanation['state']=='leave-for-later' else 'answered') if judgment_ai else 'not-required'
         answers = [e['text'] if e['text'].strip() else cause['judgment']['rationale'] for e in explanation['entries']] if judgment_ai and explanation['state']=='reviewed' else []
         if command['payload']['disposition'] != disposition or command['payload']['answers'] != answers:
@@ -547,8 +580,20 @@ def restore_proposals(workspace, value, *, unfinished=None):
 
 def cause_science(history, cause):
     original = _prefix(history, cause['source'], cause['owner'])
+    if history.schema_version == 5:
+        from claimbranch.core.paper_capacity import encode, decode
+        return decode(_imported_cause_science(original, encode(cause, purpose='history')), purpose='manifest')
     from .paper_branch import judgment_value
-    return PaperService(original).preview_changes(cause['request'], judgment_value(cause['judgment']))
+    return PaperService(original).preview_changes(cause['request'], judgment_value(cause['judgment']), source_node_id=cause['owner'][2] if history.schema_version==5 else None)
+
+
+@lru_cache(maxsize=16)
+def _imported_cause_science(original, raw):
+    from claimbranch.core.paper_capacity import encode, decode
+    from .paper_branch import judgment_value
+    cause = decode(raw, purpose='history')
+    return encode(PaperService(original).preview_changes(cause['request'], judgment_value(cause['judgment']),
+                  source_node_id=cause['owner'][2]), purpose='manifest')
 
 
 def explanation_topics(cause, science):
@@ -588,8 +633,9 @@ def record_provenance(workspace, work, science, request, judgment):
     lineages = [decode(origin.payload) for _, origin in sorted(origins.items())]
     cause = {'owner': list(work.owner), 'source': {'commands': len(workspace.history.commands), 'digest': request['view_digest']},
              'request': deepcopy(request), 'judgment': asdict(judgment), 'origin_digests': sorted(o.digest for o in origins.values())}
-    ai = judgment.ai_influenced or science['provenance']['ai_influenced'] or any(o.ai_influenced for o in origins.values())
-    return normalize(cause, CAUSE), lineages, ai
+    ai = judgment.ai_influenced or science['provenance']['ai_influenced'] or science['provenance'].get('origin_uncertain', False) or any(o.ai_influenced for o in origins.values())
+    from claimbranch.core.paper_capacity import lifecycle_schema
+    return normalize(cause,lifecycle_schema(CAUSE) if workspace.history.schema_version in (4, 5) else CAUSE, profile="paper" if workspace.history.schema_version in (4, 5) else "episode"), lineages, ai
 
 
 class PaperProposalWork:

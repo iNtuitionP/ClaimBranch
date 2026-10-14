@@ -1,33 +1,30 @@
 """Personal terminal alpha and separate synthetic/protected development paths."""
 import argparse
-import importlib.util
 import json
 import os
-import shutil
 import sys
 import webbrowser
 
 from claimbranch.core.canonical import ContractError
 from claimbranch.fixtures import replay_example as replay_fixture
+from claimbranch.runtime import prerequisite_report, print_guidance
 
 
 def replay_paper(variant):
     return replay_fixture(variant, paper=True)
 
 
-def doctor():
-    # No native prompt, dependency installation, endpoint or private path probe.
+def doctor(directory=None):
+    # No native prompt, dependency installation or endpoint; project reads are explicit.
     replay_fixture("manual")
     replay_fixture("recorded")
     replay_paper("manual")
     replay_paper("recorded")
-    prerequisites={'python-3.13':sys.version_info[:2]==(3,13),
-        'unix-curses':os.name=='posix' and importlib.util.find_spec('curses') is not None,
-        'git':shutil.which('git') is not None and os.access('/usr/bin/git',os.X_OK)}
-    missing=[name for name,ready in prerequisites.items() if not ready]
-    return {"status": "personal-alpha-unavailable" if missing else "personal-alpha-ready",
+    runtime = prerequisite_report()
+    missing = runtime['missing_prerequisites']
+    result = {"status": "personal-alpha-unavailable" if missing else "personal-alpha-ready",
             "personal_workspace":"unavailable" if missing else "ready",
-            "prerequisites":prerequisites,"missing_prerequisites":missing,"host":sys.platform,
+            **runtime, "host":sys.platform,
             "storage":{"encrypted":False,"placement":"owner-private directory outside Git",
                 "authority":"personal history; no signed protected approval"},
             "synthetic_replay": "ready", "paper_replay": "ready",
@@ -36,7 +33,17 @@ def doctor():
             "authorization_verified": False,
             "reason": "Resolve declared prerequisites: "+', '.join(missing) if missing else
                       "Personal terminal work/save/recovery available; native custody, live AI and manuscript automation are deferred.",
-            "next_action": "python3.13 -m claimbranch project init --help"}
+            }
+    from claimbranch.core.paper_capacity import LIMITS, HISTORY_BYTES, MANIFEST_BYTES, PROJECT_BYTES
+    from claimbranch.core.research_schema import PAPER_SERIES_LIMITS
+    result['capacity_profiles'] = {'episode': dict(PAPER_SERIES_LIMITS),
+        'paper': {**LIMITS,'history_bytes':HISTORY_BYTES,'manifest_bytes':MANIFEST_BYTES,'project_bytes':PROJECT_BYTES}}
+    if directory is not None:
+        from .personal_project import PersonalProjectStore
+        from .project_commands import saved_summary
+        with PersonalProjectStore(directory) as store:
+            result['capacity'] = saved_summary(store.load(),'capacity')['capacity']
+    return result
 
 
 def main(argv=None):
@@ -49,7 +56,10 @@ def main(argv=None):
     add_provider_commands(commands)
     from .mac_runtime import add_runtime_commands
     add_runtime_commands(commands)
-    check = commands.add_parser("doctor", help="Read-only readiness; no native prompts or network")
+    check = commands.add_parser("doctor", help="Read-only readiness; no native prompts or network",
+        description="Check Python 3.13, importable Unix curses, Git on PATH and /usr/bin/git. "
+                    "Missing prerequisites include manual setup guidance; nothing is installed.")
+    check.add_argument("--directory", help="Explicit saved private personal project for used/limit/remaining; close its TUI first")
     check.add_argument("--json", action="store_true")
     demo = commands.add_parser("demo", help="Explore the committed synthetic example")
     demos = demo.add_subparsers(dest="demo", required=True)
@@ -108,7 +118,7 @@ def main(argv=None):
             from .paper_assistance_example import run
             return run(args)
         if args.command == "doctor":
-            result = doctor()
+            result = doctor(args.directory)
             if args.json:
                 print(json.dumps(result, ensure_ascii=False, sort_keys=True))
             else:
@@ -116,6 +126,9 @@ def main(argv=None):
                 print('저장·재개·백업·복원: 개인 로컬 파일, 암호화 없음. AI는 꺼져 있습니다.')
                 print('보호된 승인 / 원고 적용·컴파일 / 실시간 AI: 후속 기능')
                 if result['missing_prerequisites']: print('필요한 환경: '+', '.join(result['missing_prerequisites']))
+                print_guidance(result)
+                if "capacity" in result:
+                    print("Capacity: " + json.dumps(result["capacity"],ensure_ascii=False,sort_keys=True))
                 print("다음 동작: " + result["next_action"])
             return 0 if result['personal_workspace']=='ready' else 3
         if args.demo == "paper":

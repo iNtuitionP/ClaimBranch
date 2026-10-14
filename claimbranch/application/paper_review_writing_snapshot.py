@@ -122,6 +122,8 @@ def _validate_basis(original, view, owner, mode, basis, changes=None):
         # the same source again before the session's own independent query.
         session = PaperDraftSession(PaperService(original), ref=owner[1], episode_id=owner[0])
         restore_session(session, basis['session'])
+        if original.schema_version == 5:
+            session._imported_subject = owner[2]
     record, request = basis['record'], basis['request']
     if mode.startswith('change:'):
         key = mode.removeprefix('change:')
@@ -139,7 +141,7 @@ def _validate_basis(original, view, owner, mode, basis, changes=None):
     if mode != 'explanation' or record is not None or request is None or session is None:
         raise ContractError('Unfinished explanation requires its original selected scientific inputs.')
     session._check_changes_request(request)
-    PaperService(original).preview_changes(request, session._current_judgment())
+    PaperService(original).preview_changes(request, session._current_judgment(), source_node_id=owner[2] if original.schema_version==5 else None)
     return [basis['session']['rationale']]
 
 

@@ -36,7 +36,8 @@ class PaperReviewPolicy:
             raise ContractError('review policy requires cumulative candidate history')
         identifier(episode_id)
         self._history, self._episode = history, episode_id
-        self._project = decode(history.seed)['project_id']
+        from .paper_storage_codec import decode as storage_decode
+        self._project = storage_decode(history.seed)['project_id']
         self._service = PaperService(history)
         self._origins = {}
         self._prepared = None

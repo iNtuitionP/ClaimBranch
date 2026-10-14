@@ -1,3 +1,5 @@
+import ast
+import importlib
 from contextlib import redirect_stdout, redirect_stderr
 import io
 import json
@@ -12,6 +14,106 @@ from claimbranch.core.canonical import ContractError
 
 
 class CliTests(unittest.TestCase):
+    def test_bootstrap_remains_parseable_before_modern_application_imports(self):
+        root = Path(__file__).resolve().parents[2]
+        for name in ('__init__.py', '__main__.py', 'runtime.py'):
+            ast.parse((root / 'claimbranch' / name).read_text(), feature_version=(3, 8))
+
+    def test_old_runtime_refuses_before_application_import_or_research_access(self):
+        root = Path(__file__).resolve().parents[2]
+        program = """import runpy, sys
+sys.version_info = (3, 9, 6)
+class DenyApplication:
+    def find_spec(self, fullname, path=None, target=None):
+        if fullname.startswith('claimbranch.application') or fullname.startswith('claimbranch.core'):
+            raise AssertionError('application imported before version check')
+sys.meta_path.insert(0, DenyApplication())
+sys.argv = ['claimbranch', 'project', 'open', '--directory', '/never-open', '--json']
+runpy.run_module('claimbranch', run_name='__main__')
+"""
+        result = subprocess.run([sys.executable, '-c', program], cwd=root,
+                                capture_output=True, text=True, timeout=10)
+        self.assertEqual((3, ''), (result.returncode, result.stderr))
+        report = json.loads(result.stdout)
+        self.assertEqual('not-run', report['synthetic_replay'])
+        self.assertEqual('3.13', report['supported_python'])
+        self.assertIn('python-3.13', report['missing_prerequisites'])
+        self.assertEqual({'conda', 'uv'}, {x['tool'] for x in
+            report['prerequisite_guidance'][0]['alternatives']})
+
+    def test_broken_curses_extension_is_unavailable_with_guidance_and_no_install(self):
+        real_import = importlib.import_module
+        def broken(name, *args, **kwargs):
+            if name == 'curses':
+                raise ImportError('missing _curses')
+            return real_import(name, *args, **kwargs)
+        with patch('claimbranch.runtime.importlib.import_module', side_effect=broken), \
+             patch('subprocess.run', side_effect=AssertionError('installer launched')):
+            code, out, err = self.invoke(['doctor', '--json'])
+        self.assertEqual((3, ''), (code, err))
+        report = json.loads(out)
+        self.assertIn('unix-curses', report['missing_prerequisites'])
+        guide = next(x for x in report['prerequisite_guidance'] if x['prerequisite']=='unix-curses')
+        self.assertIn('_curses', guide['message'])
+        self.assertIn('conda/uv check command', report['next_action'])
+
+    def test_text_doctor_explains_fixed_git_path_instead_of_offering_project_init(self):
+        with patch('claimbranch.runtime.shutil.which', return_value='/conda/bin/git'), \
+             patch('claimbranch.runtime.os.access', return_value=False):
+            code, out, err = self.invoke(['doctor'])
+        self.assertEqual((3, ''), (code, err))
+        self.assertIn('/usr/bin/git', out)
+        self.assertIn('PATH', out)
+        self.assertNotIn('project init --help', out)
+
+    def test_mac_git_shim_without_developer_tools_is_not_ready(self):
+        with patch('claimbranch.runtime.sys.platform', 'darwin'), \
+             patch('claimbranch.runtime.shutil.which', return_value='/usr/bin/git'), \
+             patch('claimbranch.runtime.os.access', return_value=True), \
+             patch('claimbranch.runtime.os.path.isfile', return_value=False), \
+             patch('subprocess.run', side_effect=AssertionError('shim launched')):
+            code, out, err = self.invoke(['doctor', '--json'])
+        self.assertEqual((3, ''), (code, err))
+        report = json.loads(out)
+        self.assertIn('git', report['missing_prerequisites'])
+        self.assertIn('installer shims', report['prerequisite_guidance'][0]['message'])
+
+    def test_mac_git_uses_selected_developer_root_before_installed_fallback(self):
+        from claimbranch.runtime import _mac_developer_git
+        clt = '/Library/Developer/CommandLineTools/usr/bin/git'
+        with patch('claimbranch.runtime.os.path.lexists', return_value=True), \
+             patch('claimbranch.runtime.os.path.realpath', return_value='/missing-selected-tools'), \
+             patch('claimbranch.runtime.os.path.isfile', side_effect=lambda path: path == clt), \
+             patch('claimbranch.runtime.os.access', return_value=True):
+            self.assertFalse(_mac_developer_git())
+        with patch('claimbranch.runtime.os.path.lexists', return_value=False), \
+             patch('claimbranch.runtime.os.path.isfile', side_effect=lambda path: path == clt), \
+             patch('claimbranch.runtime.os.access', return_value=True):
+            self.assertTrue(_mac_developer_git())
+
+    def test_unsupported_python_does_not_probe_another_interpreters_curses(self):
+        from claimbranch.runtime import prerequisite_report
+        with patch('claimbranch.runtime.sys.version_info', (3, 9, 6)), \
+             patch('claimbranch.runtime.importlib.import_module', side_effect=AssertionError('old curses probed')):
+            report = prerequisite_report()
+        self.assertIsNone(report['prerequisites']['unix-curses'])
+        self.assertNotIn('unix-curses', report['missing_prerequisites'])
+
+    def test_doctor_handles_missing_curses_before_all_parser_imports(self):
+        program = """import runpy, sys
+class DenyCurses:
+    def find_spec(self, fullname, path=None, target=None):
+        if fullname in ('curses', '_curses'):
+            raise ImportError('curses missing')
+sys.meta_path.insert(0, DenyCurses())
+sys.argv = ['claimbranch', 'doctor', '--json']
+runpy.run_module('claimbranch', run_name='__main__')
+"""
+        result = subprocess.run([sys.executable, '-c', program],
+            cwd=Path(__file__).resolve().parents[2], capture_output=True, text=True, timeout=15)
+        self.assertEqual((3, ''), (result.returncode, result.stderr))
+        self.assertIn('unix-curses', json.loads(result.stdout)['missing_prerequisites'])
+
     def test_runtime_error_guidance_uses_commands_shipped_in_the_artifact(self):
         with patch('claimbranch.application.cli.replay_fixture',side_effect=ContractError('invalid resource')):
             code,_,errors=self.invoke(['doctor','--json'])
@@ -21,8 +123,8 @@ class CliTests(unittest.TestCase):
         self.assertNotIn('scripts/',next_action)
 
     def test_doctor_checks_the_git_binary_used_for_project_inspection(self):
-        with patch('claimbranch.application.cli.shutil.which',return_value='/custom/bin/git'), \
-             patch('claimbranch.application.cli.os.access',return_value=False):
+        with patch('claimbranch.runtime.shutil.which',return_value='/custom/bin/git'), \
+             patch('claimbranch.runtime.os.access',return_value=False):
             code,out,err=self.invoke(['doctor','--json'])
         self.assertEqual(3,code); self.assertEqual('',err)
         self.assertIn('git',json.loads(out)['missing_prerequisites'])
@@ -57,7 +159,7 @@ class CliTests(unittest.TestCase):
         self.assertFalse(value["authorization_verified"])
 
     def test_doctor_identifies_missing_alpha_prerequisite_without_native_work(self):
-        with patch('claimbranch.application.cli.shutil.which',return_value=None):
+        with patch('claimbranch.runtime.shutil.which',return_value=None):
             code,out,err=self.invoke(['doctor','--json'])
         self.assertEqual((3,''),(code,err))
         self.assertIn('git',json.loads(out)['missing_prerequisites'])

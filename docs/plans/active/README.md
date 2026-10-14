@@ -13,6 +13,15 @@ index and keep its progress current.
   the same L04 remains later work through the [AI-connected publication order](2026-08-04-claimbranch-v1-and-gpu-systems.md#ai-connected-github-publication-order).
   The [current candidate source synchronization](2026-08-04-claimbranch-v1-and-gpu-systems.md#2026-10-13-candidate-source-synchronization)
   records the separately authorized GitHub update and its remaining live-use limits.
+  The [real-paper migration issue review](2026-08-04-claimbranch-v1-and-gpu-systems.md#real-paper-migration-issue-review)
+  evaluates all eight reports against philosophy/code and recommends a bounded
+  personal-paper feedback order; this is not an implemented scope expansion.
+  The [per-issue migration implementation plan](2026-08-04-claimbranch-v1-and-gpu-systems.md#real-paper-migration-implementation-plan)
+  defines 10 planned outcomes and the owner-selected import/sharing choices
+  under ADR 0023, with an early import/save/return feedback checkpoint.
+  The [code-rendered launch demo proposal](2026-08-04-claimbranch-v1-and-gpu-systems.md#code-rendered-launch-demo-proposal)
+  records the local HTML/MP4 pilot and its actual terminal replay; three longer-film
+  production units remain and are not product-release prerequisites.
   The user's requested next LLM capability is organized in the
   [four-unit optional AI follow-up proposal](2026-08-04-claimbranch-v1-and-gpu-systems.md#optional-ai-follow-up-implementation-plan),
   with portable preparation and a separately reviewed live boundary.

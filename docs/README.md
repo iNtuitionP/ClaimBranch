@@ -12,6 +12,9 @@ in-progress material visibly different.
   [UI/UX harness](development/uiux-harness.md) for design exploration and review.
 - Current scope and sequencing: [active execution plans](plans/active/README.md)
   -> [alpha feedback and publication sequence](plans/active/2026-08-04-claimbranch-v1-and-gpu-systems.md#alpha-feedback-and-publication-sequence).
+  The [per-issue paper migration plan](plans/active/2026-08-04-claimbranch-v1-and-gpu-systems.md#real-paper-migration-implementation-plan)
+  owns the 2026-10-13 next-version import/capacity/revision planning and confirmed
+  personal import/sharing choices under ADR 0023.
   For the requested next LLM capability, read the
   [optional AI follow-up proposal](plans/active/2026-08-04-claimbranch-v1-and-gpu-systems.md#optional-ai-follow-up-implementation-plan);
   it preserves the completed manual alpha and separates portable preparation

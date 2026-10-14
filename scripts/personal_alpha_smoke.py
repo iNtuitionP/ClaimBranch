@@ -66,7 +66,7 @@ class Terminal:
         if self.termios.tcgetattr(self.slave)!=self.original: raise ValueError('Terminal modes changed')
 
 
-def run_personal_smoke():
+def run_personal_smoke(*, profile="episode"):
     import claimbranch
     from claimbranch.application.personal_project import PersonalProjectStore
     if not Path(claimbranch.__file__).resolve().is_relative_to(Path.cwd()):
@@ -85,7 +85,10 @@ def run_personal_smoke():
         init=['init','--directory',str(work),'--paper-root',str(paper),'--manuscript','paper.tex',
             '--title','Noise study','--thesis','입력 잡음은 지연에 영향을 준다.',
             '--question','어떤 입력 조건에서 지연이 바뀌는가?']
-        command(*init,'--dry-run')
+        if profile == 'paper': init += ['--profile','paper']
+        preview=json.loads(command(*init,'--dry-run').stdout)
+        if profile=='paper' and (preview.get('capacity',{}).get('profile')!='paper' or preview['capacity']['schema_version']!=4):
+            raise ValueError('Paper smoke did not preview the registered v4 profile')
         if list(work.iterdir()): raise ValueError('Dry run wrote personal work')
         with Terminal() as t:
             t.launch(*init); t.expect('Type create'); t.send('create\r','ARGUMENT GRAPH')
@@ -147,6 +150,9 @@ def run_personal_smoke():
         command('restore','--directory',str(restored),'--archive-directory',str(backup),'--json')
         with PersonalProjectStore(restored) as store:
             if store.load().payload!=saved: raise ValueError('Restored saved content differs')
+        with PersonalProjectStore(work) as saved:
+            if saved.load().work.history.schema_version != (4 if profile=='paper' else 3):
+                raise ValueError('Saved profile does not match the requested smoke profile')
         if original!=(work/'personal.cbp').read_bytes() or source!=manuscript.read_bytes(): raise ValueError('Original changed')
         with Terminal() as t:
             t.resize(80,24); t.launch('open','--directory',str(restored)); t.expect('PERSONAL'); t.close_app()

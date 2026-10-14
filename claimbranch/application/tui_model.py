@@ -89,7 +89,7 @@ class Link:
 
 
 KINDS = {"claim": "CLAIM", "observation": "EVIDENCE", "experiment-plan": "PLAN",
-         "experiment-record": "RUN", "interpretation": "READING", "manuscript-anchor": "WRITING"}
+         "experiment-record": "RUN", "interpretation": "READING", "manuscript-anchor": "WRITING", "critique-question":"QUESTION"}
 
 
 class TerminalWorkspace:
@@ -100,7 +100,7 @@ class TerminalWorkspace:
         from .paper_intake import PaperResultIntake
         self.intake = PaperResultIntake(self.paper)
         self.service = self.paper.service
-        self.series = history.schema_version == 3
+        self.series = history.schema_version >= 3
         self._contexts = {}
         self.ref = "main"
         self.layout = layout
@@ -161,7 +161,7 @@ class TerminalWorkspace:
         node = self.nodes[node_id]
         content = node["content"]
         if node["kind"] == "manuscript-anchor":
-            return "Manuscript connection to the paper thesis"
+            return node["content"].get("statement", "Manuscript connection to the paper thesis")
         return content.get("statement") or content.get("objective") or content.get("question") or node_id
 
     def kind(self, node_id):
@@ -180,7 +180,7 @@ class TerminalWorkspace:
         keys = sorted(key for key, node in self.nodes.items()
                       if node["kind"] == kind and self.kind(key) != "THESIS")
         prefix = {"claim": "C", "observation": "E", "experiment-plan": "P",
-                  "experiment-record": "R", "interpretation": "I", "manuscript-anchor": "W"}[kind]
+                  "experiment-record": "R", "interpretation": "I", "manuscript-anchor": "W","critique-question":"Q"}[kind]
         return prefix + str(keys.index(node_id) + 1)
 
     def caption(self, node_id):
@@ -259,7 +259,7 @@ class TerminalWorkspace:
             self._children[parent].append(child)
             self._edge_groups[(parent, child)] = tuple(groups[pair])
         order = {"claim": 0, "observation": 1, "experiment-record": 2,
-                 "experiment-plan": 3, "interpretation": 4, "manuscript-anchor": 5}
+                 "experiment-plan": 3, "interpretation": 4, "manuscript-anchor": 5,"critique-question":6}
 
         def priority(key):
             nested_claim = any(self.nodes[child]["kind"] == "claim" for child in self._children[key])
@@ -670,8 +670,17 @@ class TerminalWorkspace:
         link = links[max(0, min(self.link_index, len(links) - 1))]
         source = self.selected_id if link.outgoing else link.target_id
         target = link.target_id if link.outgoing else self.selected_id
-        return [(link.kind.upper() + (' / DRAFT' if link.draft else ''), "heading"),
-                ("Scientific relation" if link.scientific else "Structural reference · not scientific support", "muted"),
+        lines = []
+        record = next((edge for edge in self.view['relations'] if edge['key'] == link.key), {})
+        imported = record.get('imported_source')
+        if imported:
+            lines.extend([('IMPORTED RELATION / ' + imported['contributor'].upper(), 'heading'),
+                ('Source-claimed origin; no prior app approval. ' + (imported['recorded_at'] or 'Original date unknown.'), 'warning'),
+                ('ORIGINAL RELATION', 'heading'), (json.dumps(imported['original_body'], ensure_ascii=False), 'body')])
+            pointers = sum(imported['unresolved_pointer_pages'], [])
+            if pointers: lines.extend([('UNRESOLVED SOURCE FIELDS', 'heading'), ('\n'.join(pointers), 'warning')])
+        return lines + [(link.kind.upper() + (' / DRAFT' if link.draft else ''), "heading"),
+                ("Reporting obligation · not scientific support" if link.kind in ("must-co-report","co-reported-with") else "Scientific relation" if link.scientific else "Structural reference · not scientific support", "muted"),
                 ("", "body"), ("FROM / " + self.node_label(source), "heading"), (self.title(source), "body"),
                 ("", "body"), ("TO / " + self.node_label(target), "heading"), (self.title(target), "body"),
                 ("", "body"), ("RATIONALE", "heading"),
@@ -689,6 +698,54 @@ class TerminalWorkspace:
         def section(title, body, style="body"):
             lines.extend([(title, "heading"), (str(body), style), ("", "body")])
 
+        if node['kind']=='manuscript-anchor' and 'block' in content:
+            import base64
+            from .manuscript_anchors import inspect_anchor
+            section('REGISTERED MANUSCRIPT / READ ONLY', b''.join(base64.b64decode(part) for part in content['block']).decode('utf-8'))
+            section('SOURCE FRESHNESS / NOT SCIENTIFIC FIDELITY', json.dumps(inspect_anchor(content),ensure_ascii=False,indent=2), 'warning')
+            section('COVERAGE', 'Explicit associations only; no recursive includes or graphics verification.', 'muted')
+        if node['kind']=='critique-question':
+            section('SOURCED RESEARCH QUESTION / NOT EMPIRICAL EVIDENCE',content['statement'])
+            section('QUESTION REVISIONS / RETAINED REASONS',json.dumps(dict(current_reason=content.get('rationale'),earlier=content.get('revisions',[])),ensure_ascii=False,indent=2))
+            section('OWNER-ASSOCIATED WORK / NOT PROOF OF MOTIVATION',json.dumps(content.get('associations',[]),ensure_ascii=False,indent=2))
+            section('PRIVATE ORIGINAL', 'Excluded from this graph. Close TUI and use explicit project critique-original to read it locally.', 'muted')
+            section('COVERAGE', 'A question or addressed-by link proves no resolution, confidentiality or anonymity.', 'warning')
+        if content.get('protocol_context'):
+            section('REGISTERED RULES / ORIGINAL RESULTS AND AMENDMENTS',json.dumps(content['protocol_context'],ensure_ascii=False,indent=2),'warning')
+            section('CHRONOLOGY', 'Source-claimed or unknown; app record order cannot prove that external results were unseen.', 'muted')
+        if content.get('measurement'):
+            section('EXACT MEASUREMENT TABLE / APPEND-ONLY',json.dumps(content['measurement'],ensure_ascii=False,indent=2))
+            section('MEASUREMENT REVISION',content['measurement_revision'])
+            section('ARTIFACT REFERENCES', 'Declared hashes and paths; not automatically opened or scientifically verified.', 'warning')
+        if content.get('co_report'):
+            section('SCOPED READING',content['scope'])
+            section('CO-REPORTED / SHARED REASON AND ORIGINS',json.dumps(content['co_report'],ensure_ascii=False,indent=2),'warning')
+        if content.get('metadata_contributions'):
+            section('DECLARED CONTENT ORIGIN / CONFIRMING ACTOR IS SEPARATE',json.dumps(content['metadata_contributions'],ensure_ascii=False,indent=2),'warning')
+        if content.get('wording_policy'):
+            section('HUMAN WORDING LIMITS / SEPARATE FROM CLAIM STATUS',json.dumps(content['wording_policy'],ensure_ascii=False,indent=2),'warning')
+        if content.get('companion_dependencies'):
+            section('REPORTING COMPANIONS / NOT SCIENTIFIC SUPPORT',json.dumps(content['companion_dependencies'],ensure_ascii=False,indent=2),'warning')
+        if content.get('reporting_context'):
+            section('DECLARED MANUSCRIPT PLACEMENT / PARAGRAPHS',json.dumps(content['reporting_context'],ensure_ascii=False,indent=2))
+        imported = content.get('imported_source')
+        if imported:
+            section('IMPORTED SOURCE / ' + imported['contributor'].upper(),
+                'Source-claimed authorship/date; no prior app approval. ' + (imported['recorded_at'] or 'Original date unknown.'), 'warning')
+            section('ORIGINAL MAPPED CONTENT', json.dumps(imported['original_body'], ensure_ascii=False, indent=2))
+            unresolved = sum(imported['unresolved_pointer_pages'], [])
+            if unresolved:
+                section('UNRESOLVED SOURCE FIELDS', '\n'.join(unresolved) + '\nPreserved privately; not validated scientific fields.', 'warning')
+                reader = getattr(self, 'imported_original_source', None)
+                if reader:
+                    section('RETAINED ORIGINAL / UNINTERPRETED', reader(node['id']), 'warning')
+        if content.get('imported_dependencies'):
+            section('IMPORTED REASONING BASIS / ORIGIN RETAINED',
+                json.dumps(content['imported_dependencies'], ensure_ascii=False, indent=2), 'warning')
+        if content.get('historical_decisions'):
+            section('HISTORICAL SOURCE DECISIONS / NOT LOCAL EPISODES',
+                json.dumps(content['historical_decisions'], ensure_ascii=False, indent=2), 'muted')
+
         if mode == "impact":
             if not self.scenario:
                 section("WHAT IF?", "Press s to choose a hypothetical result for an unrun experiment.")
@@ -704,7 +761,7 @@ class TerminalWorkspace:
             return lines
         if mode == "provenance":
             judgment = self.view.get("judgment")
-            section("RECORDED EPISODE JUDGMENT", "Frozen example history; this is separate from your local node draft.", "muted")
+            section("RECORDED EPISODE JUDGMENT", "Local episode history is separate from imported source decisions and your unfinished writing." if self.paper.history.schema_version == 5 else "Frozen example history; this is separate from your local node draft.", "muted")
             if judgment:
                 for index, entry in enumerate(judgment["history"], 1):
                     section(f"{index} / {entry['contributor'].upper()}", entry["text"])
@@ -712,7 +769,7 @@ class TerminalWorkspace:
                     if entry.get("proposal_id"):
                         section("PROPOSAL", entry["proposal_id"], "accent")
             else:
-                section("No recorded judgment", "The example has no judgment on this branch.")
+                section("No recorded judgment", "Imported decisions remain source history; write your new judgment and review selected reasoning personally." if self.paper.history.schema_version == 5 else "The example has no judgment on this branch.")
             return lines
         if mode in ("draft", "writing"):
             if len(self.paper.work_nodes(self.full_context(self.work_key()))) > 1:
@@ -774,7 +831,7 @@ class TerminalWorkspace:
             section("NOT RUN", ("No measured result. Scenarios on this draft graph are unavailable."
                                if getattr(self, 'projection_only', False) else
                                "Press s to explore a possible result. This app does not execute experiments."), "warning")
-        if node["kind"] == "manuscript-anchor":
+        if node["kind"] == "manuscript-anchor" and "block" not in content:
             section("SOURCE UNAVAILABLE", "No manuscript source or file patch is included in this paper example. Press m to inspect the connection.", "muted")
         for link in self.links() if include_links else []:
             direction = "→" if link.outgoing else "←"

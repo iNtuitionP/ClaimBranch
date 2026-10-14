@@ -1,0 +1,626 @@
+{
+  "$id": "urn:claimbranch:measurement-input:v1",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "oneOf": [
+    {
+      "additionalProperties": false,
+      "properties": {
+        "operation_type": {
+          "const": "declare-condition"
+        },
+        "payload": {
+          "additionalProperties": false,
+          "properties": {
+            "groups": {
+              "items": {
+                "additionalProperties": false,
+                "properties": {
+                  "ascending_values": {
+                    "items": {
+                      "maxLength": 128,
+                      "minLength": 1,
+                      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$",
+                      "type": "string"
+                    },
+                    "maxItems": 64,
+                    "minItems": 1,
+                    "type": "array",
+                    "uniqueItems": true
+                  },
+                  "id": {
+                    "maxLength": 128,
+                    "minLength": 1,
+                    "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "id",
+                  "ascending_values"
+                ],
+                "type": "object"
+              },
+              "maxItems": 16,
+              "minItems": 0,
+              "type": "array",
+              "uniqueItems": false
+            },
+            "key": {
+              "maxLength": 128,
+              "minLength": 1,
+              "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$",
+              "type": "string"
+            },
+            "rationale": {
+              "maxLength": 16384,
+              "minLength": 1,
+              "type": "string",
+              "x-utf8-maxBytes": 16384
+            },
+            "values": {
+              "items": {
+                "maxLength": 128,
+                "minLength": 1,
+                "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$",
+                "type": "string"
+              },
+              "maxItems": 64,
+              "minItems": 1,
+              "type": "array",
+              "uniqueItems": true
+            }
+          },
+          "required": [
+            "key",
+            "values",
+            "groups",
+            "rationale"
+          ],
+          "type": "object"
+        },
+        "schema": {
+          "const": "claimbranch.measurement-input/v1"
+        }
+      },
+      "required": [
+        "schema",
+        "operation_type",
+        "payload"
+      ],
+      "type": "object"
+    },
+    {
+      "additionalProperties": false,
+      "properties": {
+        "operation_type": {
+          "const": "record-measurement"
+        },
+        "payload": {
+          "additionalProperties": false,
+          "properties": {
+            "action": {
+              "enum": [
+                "confirm",
+                "transform",
+                "correct-cells",
+                "transition"
+              ]
+            },
+            "corrections": {
+              "items": {
+                "additionalProperties": false,
+                "properties": {
+                  "cell_id": {
+                    "maxLength": 128,
+                    "minLength": 1,
+                    "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$",
+                    "type": "string"
+                  },
+                  "value": {
+                    "oneOf": [
+                      {
+                        "additionalProperties": false,
+                        "properties": {
+                          "type": {
+                            "const": "integer"
+                          },
+                          "value": {
+                            "maxLength": 128,
+                            "minLength": 1,
+                            "pattern": "^-?(0|[1-9][0-9]*)$",
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "type",
+                          "value"
+                        ],
+                        "type": "object"
+                      },
+                      {
+                        "additionalProperties": false,
+                        "properties": {
+                          "type": {
+                            "const": "decimal"
+                          },
+                          "value": {
+                            "maxLength": 128,
+                            "minLength": 1,
+                            "pattern": "^-?(0|[1-9][0-9]*)(\\.[0-9]+)?$",
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "type",
+                          "value"
+                        ],
+                        "type": "object"
+                      },
+                      {
+                        "additionalProperties": false,
+                        "properties": {
+                          "type": {
+                            "const": "text"
+                          },
+                          "value": {
+                            "maxLength": 16384,
+                            "minLength": 1,
+                            "type": "string",
+                            "x-utf8-maxBytes": 16384
+                          }
+                        },
+                        "required": [
+                          "type",
+                          "value"
+                        ],
+                        "type": "object"
+                      },
+                      {
+                        "additionalProperties": false,
+                        "properties": {
+                          "reason": {
+                            "maxLength": 16384,
+                            "minLength": 1,
+                            "type": "string",
+                            "x-utf8-maxBytes": 16384
+                          },
+                          "type": {
+                            "const": "missing"
+                          }
+                        },
+                        "required": [
+                          "type",
+                          "reason"
+                        ],
+                        "type": "object"
+                      }
+                    ]
+                  }
+                },
+                "required": [
+                  "cell_id",
+                  "value"
+                ],
+                "type": "object"
+              },
+              "maxItems": 2048,
+              "minItems": 0,
+              "type": "array",
+              "uniqueItems": false
+            },
+            "event_id": {
+              "maxLength": 128,
+              "minLength": 1,
+              "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$",
+              "type": "string"
+            },
+            "expected_revision": {
+              "oneOf": [
+                {
+                  "maxLength": 128,
+                  "minLength": 1,
+                  "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$",
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "rationale": {
+              "maxLength": 16384,
+              "minLength": 1,
+              "type": "string",
+              "x-utf8-maxBytes": 16384
+            },
+            "run_id": {
+              "maxLength": 128,
+              "minLength": 1,
+              "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$",
+              "type": "string"
+            },
+            "source_context": {
+              "maxLength": 16384,
+              "minLength": 1,
+              "type": "string",
+              "x-utf8-maxBytes": 16384
+            },
+            "statement": {
+              "maxLength": 16384,
+              "minLength": 1,
+              "type": "string",
+              "x-utf8-maxBytes": 16384
+            },
+            "table": {
+              "oneOf": [
+                {
+                  "additionalProperties": false,
+                  "properties": {
+                    "artifact_refs": {
+                      "items": {
+                        "additionalProperties": false,
+                        "properties": {
+                          "commit": {
+                            "oneOf": [
+                              {
+                                "maxLength": 16384,
+                                "minLength": 1,
+                                "type": "string",
+                                "x-utf8-maxBytes": 16384
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
+                          "id": {
+                            "maxLength": 128,
+                            "minLength": 1,
+                            "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$",
+                            "type": "string"
+                          },
+                          "json_pointer": {
+                            "maxLength": 4096,
+                            "type": "string"
+                          },
+                          "path": {
+                            "maxLength": 16384,
+                            "minLength": 1,
+                            "type": "string",
+                            "x-utf8-maxBytes": 16384
+                          },
+                          "sha256": {
+                            "maxLength": 64,
+                            "minLength": 64,
+                            "pattern": "^[0-9a-f]{64}$",
+                            "type": "string"
+                          },
+                          "tool_sha256": {
+                            "oneOf": [
+                              {
+                                "maxLength": 64,
+                                "minLength": 64,
+                                "pattern": "^[0-9a-f]{64}$",
+                                "type": "string"
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "path",
+                          "sha256",
+                          "json_pointer",
+                          "tool_sha256",
+                          "commit"
+                        ],
+                        "type": "object"
+                      },
+                      "maxItems": 16,
+                      "minItems": 0,
+                      "type": "array",
+                      "uniqueItems": false
+                    },
+                    "columns": {
+                      "items": {
+                        "additionalProperties": false,
+                        "properties": {
+                          "display_unit": {
+                            "maxLength": 16384,
+                            "minLength": 1,
+                            "type": "string",
+                            "x-utf8-maxBytes": 16384
+                          },
+                          "id": {
+                            "maxLength": 128,
+                            "minLength": 1,
+                            "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$",
+                            "type": "string"
+                          },
+                          "name": {
+                            "maxLength": 16384,
+                            "minLength": 1,
+                            "type": "string",
+                            "x-utf8-maxBytes": 16384
+                          },
+                          "raw_unit": {
+                            "maxLength": 16384,
+                            "minLength": 1,
+                            "type": "string",
+                            "x-utf8-maxBytes": 16384
+                          },
+                          "type": {
+                            "enum": [
+                              "integer",
+                              "decimal",
+                              "text"
+                            ]
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "name",
+                          "type",
+                          "raw_unit",
+                          "display_unit"
+                        ],
+                        "type": "object"
+                      },
+                      "maxItems": 32,
+                      "minItems": 1,
+                      "type": "array",
+                      "uniqueItems": false
+                    },
+                    "conditions": {
+                      "items": {
+                        "additionalProperties": false,
+                        "properties": {
+                          "key": {
+                            "maxLength": 128,
+                            "minLength": 1,
+                            "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$",
+                            "type": "string"
+                          },
+                          "value": {
+                            "maxLength": 128,
+                            "minLength": 1,
+                            "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$",
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "key",
+                          "value"
+                        ],
+                        "type": "object"
+                      },
+                      "maxItems": 32,
+                      "minItems": 0,
+                      "type": "array",
+                      "uniqueItems": true
+                    },
+                    "estimand": {
+                      "maxLength": 16384,
+                      "minLength": 1,
+                      "type": "string",
+                      "x-utf8-maxBytes": 16384
+                    },
+                    "id": {
+                      "maxLength": 128,
+                      "minLength": 1,
+                      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$",
+                      "type": "string"
+                    },
+                    "rows": {
+                      "items": {
+                        "additionalProperties": false,
+                        "properties": {
+                          "cells": {
+                            "items": {
+                              "additionalProperties": false,
+                              "properties": {
+                                "column_id": {
+                                  "maxLength": 128,
+                                  "minLength": 1,
+                                  "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$",
+                                  "type": "string"
+                                },
+                                "id": {
+                                  "maxLength": 128,
+                                  "minLength": 1,
+                                  "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$",
+                                  "type": "string"
+                                },
+                                "value": {
+                                  "oneOf": [
+                                    {
+                                      "additionalProperties": false,
+                                      "properties": {
+                                        "type": {
+                                          "const": "integer"
+                                        },
+                                        "value": {
+                                          "maxLength": 128,
+                                          "minLength": 1,
+                                          "pattern": "^-?(0|[1-9][0-9]*)$",
+                                          "type": "string"
+                                        }
+                                      },
+                                      "required": [
+                                        "type",
+                                        "value"
+                                      ],
+                                      "type": "object"
+                                    },
+                                    {
+                                      "additionalProperties": false,
+                                      "properties": {
+                                        "type": {
+                                          "const": "decimal"
+                                        },
+                                        "value": {
+                                          "maxLength": 128,
+                                          "minLength": 1,
+                                          "pattern": "^-?(0|[1-9][0-9]*)(\\.[0-9]+)?$",
+                                          "type": "string"
+                                        }
+                                      },
+                                      "required": [
+                                        "type",
+                                        "value"
+                                      ],
+                                      "type": "object"
+                                    },
+                                    {
+                                      "additionalProperties": false,
+                                      "properties": {
+                                        "type": {
+                                          "const": "text"
+                                        },
+                                        "value": {
+                                          "maxLength": 16384,
+                                          "minLength": 1,
+                                          "type": "string",
+                                          "x-utf8-maxBytes": 16384
+                                        }
+                                      },
+                                      "required": [
+                                        "type",
+                                        "value"
+                                      ],
+                                      "type": "object"
+                                    },
+                                    {
+                                      "additionalProperties": false,
+                                      "properties": {
+                                        "reason": {
+                                          "maxLength": 16384,
+                                          "minLength": 1,
+                                          "type": "string",
+                                          "x-utf8-maxBytes": 16384
+                                        },
+                                        "type": {
+                                          "const": "missing"
+                                        }
+                                      },
+                                      "required": [
+                                        "type",
+                                        "reason"
+                                      ],
+                                      "type": "object"
+                                    }
+                                  ]
+                                }
+                              },
+                              "required": [
+                                "id",
+                                "column_id",
+                                "value"
+                              ],
+                              "type": "object"
+                            },
+                            "maxItems": 32,
+                            "minItems": 1,
+                            "type": "array",
+                            "uniqueItems": false
+                          },
+                          "conditions": {
+                            "items": {
+                              "additionalProperties": false,
+                              "properties": {
+                                "key": {
+                                  "maxLength": 128,
+                                  "minLength": 1,
+                                  "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$",
+                                  "type": "string"
+                                },
+                                "value": {
+                                  "maxLength": 128,
+                                  "minLength": 1,
+                                  "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$",
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "key",
+                                "value"
+                              ],
+                              "type": "object"
+                            },
+                            "maxItems": 32,
+                            "minItems": 0,
+                            "type": "array",
+                            "uniqueItems": true
+                          },
+                          "id": {
+                            "maxLength": 128,
+                            "minLength": 1,
+                            "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$",
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "conditions",
+                          "cells"
+                        ],
+                        "type": "object"
+                      },
+                      "maxItems": 256,
+                      "minItems": 1,
+                      "type": "array",
+                      "uniqueItems": false
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "estimand",
+                    "conditions",
+                    "columns",
+                    "rows",
+                    "artifact_refs"
+                  ],
+                  "type": "object"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "target_id": {
+              "maxLength": 128,
+              "minLength": 1,
+              "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$",
+              "type": "string"
+            }
+          },
+          "required": [
+            "event_id",
+            "target_id",
+            "run_id",
+            "expected_revision",
+            "action",
+            "statement",
+            "rationale",
+            "source_context",
+            "table",
+            "corrections"
+          ],
+          "type": "object"
+        },
+        "schema": {
+          "const": "claimbranch.measurement-input/v1"
+        }
+      },
+      "required": [
+        "schema",
+        "operation_type",
+        "payload"
+      ],
+      "type": "object"
+    }
+  ]
+}

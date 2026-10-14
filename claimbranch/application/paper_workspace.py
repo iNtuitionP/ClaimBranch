@@ -57,11 +57,14 @@ class PaperWorkspace:
                 raise ContractError("draft context requires an existing paper node")
             key = (view["episode_id"], ref, node_id)
             if key not in self._drafts:
-                if len(self._drafts) >= DRAFT_LIMIT:
+                if len(self._drafts) >= (32 if self._history.schema_version in (4, 5) else DRAFT_LIMIT):
                     raise ContractError("volatile workspace draft limit reached; existing drafts are retained")
                 self._drafts[key] = PaperDraftSession(self._service, ref=ref, episode_id=view["episode_id"],
                     frozen_response=self._response, clock=self._clock)
-            return self._drafts[key]
+            session = self._drafts[key]
+            if self._history.schema_version == 5:
+                session._imported_subject = node_id
+            return session
 
     def work_owner(self, episode_id, ref, node_id):
         key = (episode_id, ref, node_id)

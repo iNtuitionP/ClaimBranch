@@ -47,7 +47,7 @@ def integer(value, low=0, high=2**53 - 1):
     return value
 
 
-def _normalize(value, depth=0):
+def _normalize(value, depth=0, *, collection_limit=128):
     if depth > 16:
         raise ContractError("JSON nesting limit exceeded")
     if value is None or type(value) is bool:
@@ -63,20 +63,20 @@ def _normalize(value, depth=0):
             raise ContractError("invalid Unicode") from error
         return unicodedata.normalize("NFC", value)
     if type(value) in (list, tuple):
-        if len(value) > 128:
+        if len(value) > collection_limit:
             raise ContractError("JSON collection limit exceeded")
-        return [_normalize(item, depth + 1) for item in value]
+        return [_normalize(item, depth + 1, collection_limit=collection_limit) for item in value]
     if type(value) is dict:
-        if len(value) > 128:
+        if len(value) > collection_limit:
             raise ContractError("JSON object limit exceeded")
         result = {}
         for key, item in value.items():
             if not isinstance(key, str):
                 raise ContractError("object keys must be text")
-            normalized = _normalize(key, depth + 1)
+            normalized = _normalize(key, depth + 1, collection_limit=collection_limit)
             if normalized in result:
                 raise ContractError("normalized object keys collide")
-            result[normalized] = _normalize(item, depth + 1)
+            result[normalized] = _normalize(item, depth + 1, collection_limit=collection_limit)
         return result
     raise ContractError("unsupported JSON value")
 

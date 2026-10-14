@@ -8,6 +8,7 @@ filesystem bytes so canonical Unicode normalization cannot redirect them.
 from contextlib import ExitStack
 from copy import deepcopy
 from dataclasses import dataclass
+from functools import cached_property
 import hashlib
 import os
 from pathlib import Path
@@ -26,10 +27,8 @@ HEX_PATH = {'type': 'string', 'minLength': 2, 'maxLength': 8192, 'pattern': '^(?
 NUMBER = {'type': 'string', 'minLength': 1, 'maxLength': 24, 'pattern': '^(0|[1-9][0-9]*)$'}
 ASSOCIATION_LIMIT = 16
 IDENTITY = obj(device=NUMBER, inode=NUMBER)
-SOURCE = obj(root=HEX_PATH, root_identity=IDENTITY, git_dir=HEX_PATH, git_identity=IDENTITY,
-             git_common_dir=HEX_PATH, git_common_identity=IDENTITY,
-             manuscript=HEX_PATH, anchor_id=ID, file_identity=IDENTITY,
-             size=NUMBER, mtime_ns=NUMBER, ctime_ns=NUMBER, source_digest=HASH)
+from claimbranch.core.research_schema import MANUSCRIPT_SOURCE as SOURCE
+
 PROJECT = obj(schema={'const': 'claimbranch.project-work/v1'}, project_id=ID,
               associations=array(SOURCE, ASSOCIATION_LIMIT, 1), work={'oneOf': [WORK, WORK_V2, WORK_V3, WORK_V4, WORK_V5, WORK_V6]},
               authority={'const': 'unaccepted-work'}, authorization_verified={'const': False})
@@ -57,6 +56,65 @@ PROJECT_V8['properties']['work'] = WORK_V12
 PROJECT_V9 = deepcopy(PROJECT_V8)
 PROJECT_V9['properties']['schema'] = {'const':'claimbranch.project-work/v9'}
 PROJECT_V9['properties']['work'] = WORK_V13
+PROJECT_V10 = deepcopy(PROJECT_V9)
+from .paper_work_store import WORK_V14
+PROJECT_V10['properties']['schema'] = {'const':'claimbranch.project-work/v10'}
+PROJECT_V10['properties']['work'] = WORK_V14
+from claimbranch.core.research_schema import TEXT
+PROJECT_V10['properties']['sources'] = array(obj(sha256=HASH, bytes={'type':'integer','minimum':0,'maximum':4194304}, chunks=array({'type':'string','minLength':1,'maxLength':16384,'x-utf8-maxBytes':16384,'pattern':'^[A-Za-z0-9+/]+={0,2}$'},342)),1024)
+PROJECT_V10['properties']['public_ids'] = array(obj(private_id=ID,public_id={'type':'string','minLength':39,'maxLength':39,'pattern':'^record-[0-9a-f]{32}$'}),2048)
+PROJECT_V10['required'] += ['sources','public_ids']
+
+PROJECT_V11 = deepcopy(PROJECT_V10)
+from .paper_work_store import WORK_V15
+from claimbranch.core.argument_import import import_schema
+PROJECT_V11['properties']['schema'] = {'const':'claimbranch.project-work/v11'}
+PROJECT_V11['properties']['work'] = WORK_V15
+PROJECT_V11['properties']['import_input_sha256'] = HASH
+PROJECT_V11['required'].append('import_input_sha256')
+
+from .paper_work_store import WORK_V16
+from claimbranch.core.research_schema import nullable
+PROJECT_V12 = deepcopy(PROJECT_V11)
+PROJECT_V12['properties']['schema']={'const':'claimbranch.project-work/v12'}
+PROJECT_V12['properties']['work']=WORK_V16
+PROJECT_V12['properties']['import_input_sha256']=nullable(HASH)
+
+from .paper_work_store import WORK_V17
+PROJECT_V13 = deepcopy(PROJECT_V12)
+PROJECT_V13['properties']['schema']={'const':'claimbranch.project-work/v13'}
+PROJECT_V13['properties']['work']=WORK_V17
+
+from .paper_work_store import WORK_V18
+PROJECT_V14=deepcopy(PROJECT_V13)
+PROJECT_V14['properties']['schema']={'const':'claimbranch.project-work/v14'}
+PROJECT_V14['properties']['work']=WORK_V18
+
+from .paper_work_store import WORK_V19
+PROJECT_V15=deepcopy(PROJECT_V14)
+PROJECT_V15['properties']['schema']={'const':'claimbranch.project-work/v15'}
+PROJECT_V15['properties']['work']=WORK_V19
+
+from .paper_work_store import WORK_V20
+PROJECT_V16=deepcopy(PROJECT_V15)
+PROJECT_V16['properties']['schema']={'const':'claimbranch.project-work/v16'}
+PROJECT_V16['properties']['work']=WORK_V20
+
+from .paper_work_store import WORK_V21
+from claimbranch.core.critiques import SOURCE_ID
+PROJECT_V17=deepcopy(PROJECT_V16)
+PROJECT_V17['properties']['schema']={'const':'claimbranch.project-work/v17'}
+PROJECT_V17['properties']['work']=WORK_V21
+PROJECT_V17['properties']['critique_sources']=array(obj(id=SOURCE_ID,source=PROJECT_V10['properties']['sources']['items']),128)
+PROJECT_V17['required'].append('critique_sources')
+
+from .paper_work_store import WORK_V22
+PROJECT_V18=deepcopy(PROJECT_V17)
+PROJECT_V18['properties']['schema']={'const':'claimbranch.project-work/v18'}
+PROJECT_V18['properties']['work']=WORK_V22
+
+from .paper_storage_codec import encode as canonical_bytes, decode, normalize
+
 PREVIEW = obj(schema={'const': 'claimbranch.project-association-preview/v1'}, source=SOURCE,
               workspace=HEX_PATH, workspace_identity=IDENTITY)
 REFRESH = obj(schema={'const': 'claimbranch.source-refresh-review/v1'}, project_digest=HASH,
@@ -64,14 +122,14 @@ REFRESH = obj(schema={'const': 'claimbranch.source-refresh-review/v1'}, project_
 
 
 def project_work_schema(version=1):
-    if type(version) is not int or version not in (1, 2, 3, 4, 5, 6, 7, 8, 9):
+    if type(version) is not int or version not in (1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18):
         raise ContractError('unsupported project work schema version')
     return {'$schema': 'https://json-schema.org/draft/2020-12/schema',
             '$id': f'urn:claimbranch:project-work:v{version}',
             '$comment': 'Generated by scripts/export_research_schema.py. Runtime additionally checks '
-                        'canonical bytes, 256 KiB aggregate size, exact paths, source/project/anchor '
-                        'bindings and retained work replay. No accepted or resumed authority.',
-            **deepcopy({1: PROJECT, 2: PROJECT_V2, 3: PROJECT_V3, 4: PROJECT_V4, 5: PROJECT_V5, 6: PROJECT_V6, 7: PROJECT_V7, 8: PROJECT_V8, 9: PROJECT_V9}[version])}
+                        + ('canonical bytes, '+('16 MiB' if version in (10,11,12,13,14,15,16,17,18) else '256 KiB')+' aggregate size, exact paths, source/project/anchor ')
+                        + 'bindings and retained work replay. No accepted or resumed authority.',
+            **deepcopy({1: PROJECT, 2: PROJECT_V2, 3: PROJECT_V3, 4: PROJECT_V4, 5: PROJECT_V5, 6: PROJECT_V6, 7: PROJECT_V7, 8: PROJECT_V8, 9: PROJECT_V9, 10: PROJECT_V10, 11:PROJECT_V11,12:PROJECT_V12,13:PROJECT_V13,14:PROJECT_V14,15:PROJECT_V15,16:PROJECT_V16,17:PROJECT_V17,18:PROJECT_V18}[version])}
 
 
 def _identity(info):
@@ -123,7 +181,7 @@ def _git_directory(root):
         raise ContractError('selected paper must be an available Git working-tree root') from None
 
 
-def _source(root, manuscript, anchor_id):
+def _source(root, manuscript, anchor_id, *, maximum=65536):
     """Bounded descriptor-relative read; no final/intermediate manuscript links."""
     try:
         root = Path(root).resolve(strict=True)
@@ -156,17 +214,20 @@ def _source(root, manuscript, anchor_id):
             fd = opened(relative.name, parent=parent)
             entries.append((parent, relative.name, fd))
             before = os.fstat(fd)
-            if not stat.S_ISREG(before.st_mode) or before.st_nlink != 1 or before.st_size > 65536:
+            if not stat.S_ISREG(before.st_mode) or before.st_nlink != 1 or before.st_size > maximum:
                 raise ContractError('manuscript must be a single-link bounded regular file')
             with os.fdopen(os.dup(fd), 'rb') as stream:
-                raw = stream.read(65537)
+                raw = stream.read(maximum+1)
             after = os.fstat(fd)
             stamp = lambda info: (_identity(info), info.st_size, info.st_mtime_ns, info.st_ctime_ns)
-            if len(raw) > 65536 or stamp(before) != stamp(after):
+            if len(raw) > maximum or stamp(before) != stamp(after):
                 raise ContractError('manuscript changed during preview')
             raw.decode('utf-8')
             source_digest = hashlib.sha256(raw).hexdigest()
-            preview_marked_text(raw, anchor_id, 'marker validation', source_digest)
+            if maximum == 65536: preview_marked_text(raw, anchor_id, 'marker validation', source_digest)
+            else:
+                from claimbranch.core.marked_text import marked_block
+                marked_block(raw,anchor_id)
             for owner, name, held in entries:
                 current = os.stat(name, dir_fd=owner, follow_symlinks=False)
                 if _identity(current) != _identity(os.fstat(held)) or stat.S_ISLNK(current.st_mode):
@@ -255,15 +316,46 @@ def preview_association(paper_root, manuscript, anchor_id, workspace):
         'source': source, 'workspace': directory, 'workspace_identity': identity}))
 
 
+def _scientific_ids(history):
+    ids = {decode(history.seed)['claim_id'], decode(history.seed)['anchor_id']}
+    for ref, _ in history.heads:
+        view = history.view(ref)
+        ids.update(x['id'] for x in view['evidence'])
+        ids.update(x['id'] for x in view['experiments'])
+        ids.update(x['id'] for x in view['changes'])
+        ids.update(view.get('manuscript_anchors',{}))
+        ids.update(view.get('companion_dependencies',{}))
+        ids.update(view.get('co_reports',{}))
+        ids.update(view.get('critiques',{}));ids.update(view.get('critique_links',{}))
+        for name in ('protocols','experiment_associations','gate_amendments','gate_results','outcome_assessments'):ids.update(view.get(name,{}))
+        for protocol in view.get('protocols',{}).values():ids.update(g['id'] for g in protocol['gates'])
+        ids.update(e['measurement']['id'] for o in view['evidence'] for e in o['history'] if 'measurement' in e)
+    return ids
+
+
+def _public_ids(history, retained):
+    import secrets
+    result = list(retained)
+    known = {x['private_id'] for x in retained}
+    for key in sorted(_scientific_ids(history)-known):
+        result.append({'private_id':key,'public_id':'record-'+secrets.token_hex(16)})
+    if len(result)>2048:
+        raise ContractError('capacity public-identities: %s / 2048' % len(result))
+    return sorted(result,key=lambda x:x['private_id'])
+
+
 @dataclass(frozen=True)
 class ProjectWork:
     payload: bytes
 
     def __post_init__(self):
-        value = normalize(decode(self.payload), {'oneOf': [PROJECT, PROJECT_V2, PROJECT_V3, PROJECT_V4, PROJECT_V5, PROJECT_V6, PROJECT_V7, PROJECT_V8, PROJECT_V9]})
+        value = normalize(decode(self.payload), {'oneOf': [PROJECT, PROJECT_V2, PROJECT_V3, PROJECT_V4, PROJECT_V5, PROJECT_V6, PROJECT_V7, PROJECT_V8, PROJECT_V9, PROJECT_V10, PROJECT_V11, PROJECT_V12, PROJECT_V13, PROJECT_V14, PROJECT_V15, PROJECT_V16, PROJECT_V17, PROJECT_V18]})
         if canonical_bytes(value) != self.payload:
             raise ContractError('canonical project work required')
         work = self.work
+        if work.history.has_critiques or 'critique_sources' in value:
+            from .critiques import validate_private_sources
+            validate_private_sources(work.history,value.get('critique_sources',[]))
         seed = decode(work.history.seed)
         if work.project_id != value['project_id']:
             raise ContractError('project work belongs to another project')
@@ -272,20 +364,52 @@ class ProjectWork:
             if source['anchor_id'] != seed['anchor_id']:
                 raise ContractError('paper association belongs to another anchor')
         _transitions(value)
+        if work.history.schema_version in (4, 5):
+            from claimbranch.core.paper_capacity import source_bytes
+            for source in value['sources']: source_bytes(source)
+            if len({s['sha256'] for s in value['sources']}) != len(value['sources']):
+                raise ContractError('duplicate retained source')
+            if work.history.schema_version == 5:
+                from claimbranch.core.argument_import import history_from_import
+                match = [item for item in value['sources'] if item['sha256'] == value['import_input_sha256']]
+                if len(match) != 1: raise ContractError('imported work lost its exact input source')
+                initial = seed['initial_argument']
+                expected = history_from_import(source_bytes(match[0]), anchor_id=seed['anchor_id'], registered_at=initial['registered_at'])
+                if expected.seed != work.history.seed:
+                    raise ContractError('imported argument does not match its retained source and selection')
+            if work.history.has_manuscript_anchors:
+                from claimbranch.core.paper_capacity import decode as paper_decode
+                roots={item['root'] for item in value['associations']}
+                for command in work.history.commands:
+                    cmd=paper_decode(command,purpose='history')
+                    if cmd['operation_type']=='register-manuscript-anchor':
+                        source=cmd['payload']['source']; _validate_source(source)
+                        if source['root'] not in roots: raise ContractError('anchor source is outside associated paper roots')
+            mappings = value['public_ids']
+            if len({m['private_id'] for m in mappings})!=len(mappings) or len({m['public_id'] for m in mappings})!=len(mappings):
+                raise ContractError('duplicate public identity mapping')
+            if not _scientific_ids(work.history) <= {m['private_id'] for m in mappings}:
+                raise ContractError('saved revision is missing scientific public identity mappings')
 
     @classmethod
-    def create(cls, work, preview):
+    def create(cls, work, preview, *, import_input=None):
         if type(work) is not PaperWork or type(preview) is not AssociationPreview:
             raise ContractError('typed work and association preview required')
         value = preview.recheck()
+        if work.history.schema_version == 5:
+            from claimbranch.core.paper_capacity import source_record
+            retained_import = source_record(import_input)
         retained = decode(work.payload)
-        pooled = retained['schema'] in ('claimbranch.paper-work/v7', 'claimbranch.paper-work/v8', 'claimbranch.paper-work/v9', 'claimbranch.paper-work/v10', 'claimbranch.paper-work/v11', 'claimbranch.paper-work/v12', 'claimbranch.paper-work/v13')
+        pooled = retained['schema'] in ('claimbranch.paper-work/v7', 'claimbranch.paper-work/v8', 'claimbranch.paper-work/v9', 'claimbranch.paper-work/v10', 'claimbranch.paper-work/v11', 'claimbranch.paper-work/v12', 'claimbranch.paper-work/v13', 'claimbranch.paper-work/v14', 'claimbranch.paper-work/v15', 'claimbranch.paper-work/v16', 'claimbranch.paper-work/v17','claimbranch.paper-work/v18','claimbranch.paper-work/v19','claimbranch.paper-work/v20','claimbranch.paper-work/v21','claimbranch.paper-work/v22')
         return cls(canonical_bytes({'schema': ('claimbranch.project-work/v'+str(int(retained['schema'].rsplit('/v',1)[1])-4)) if pooled else 'claimbranch.project-work/v1',
-            **({'transitions': []} if pooled else {}), 'project_id': work.project_id,
+            **({'transitions': []} if pooled else {}),
+            **({'sources':([retained_import] if work.history.schema_version==5 else []), 'public_ids':_public_ids(work.history,[])} if work.history.schema_version in (4, 5) else {}),
+            **({'import_input_sha256':hashlib.sha256(import_input).hexdigest()} if work.history.schema_version==5 else {'import_input_sha256':None} if work.history.has_manuscript_anchors or work.history.has_wording_policies or work.history.has_co_reports or work.history.has_measurements or work.history.has_protocols or work.history.has_critiques else {}), 'project_id': work.project_id,
             'associations': [value['source']], 'work': retained,
+            **({'critique_sources':[]} if work.history.has_critiques or work.history.has_metadata_origins else {}),
             'authority': 'unaccepted-work', 'authorization_verified': False}))
 
-    @property
+    @cached_property
     def work(self):
         return PaperWork(canonical_bytes(decode(self.payload)['work']))
 
@@ -293,13 +417,21 @@ class ProjectWork:
     def project_id(self):
         return decode(self.payload)['project_id']
 
-    def with_work(self, work):
+    def with_work(self, work, *, critique_source=None):
         _check_history_extension(self.work, work)
         value = decode(self.payload)
         value['work'] = decode(work.payload)
-        if value['work']['schema'] in ('claimbranch.paper-work/v7', 'claimbranch.paper-work/v8', 'claimbranch.paper-work/v9', 'claimbranch.paper-work/v10', 'claimbranch.paper-work/v11', 'claimbranch.paper-work/v12', 'claimbranch.paper-work/v13'):
+        if work.history.has_metadata_origins:value.setdefault('critique_sources',[])
+        if work.history.has_critiques:
+            value.setdefault('critique_sources',[])
+            if critique_source is not None:value['critique_sources'].append(critique_source)
+        elif critique_source is not None:raise ContractError('Private critique source requires its exact recorded question')
+        if work.history.schema_version in (4, 5):
+            value['public_ids'] = _public_ids(work.history,value.get('public_ids',[]))
+        if value['work']['schema'] in ('claimbranch.paper-work/v7', 'claimbranch.paper-work/v8', 'claimbranch.paper-work/v9', 'claimbranch.paper-work/v10', 'claimbranch.paper-work/v11', 'claimbranch.paper-work/v12', 'claimbranch.paper-work/v13', 'claimbranch.paper-work/v14', 'claimbranch.paper-work/v15', 'claimbranch.paper-work/v16', 'claimbranch.paper-work/v17','claimbranch.paper-work/v18','claimbranch.paper-work/v19','claimbranch.paper-work/v20','claimbranch.paper-work/v21','claimbranch.paper-work/v22'):
             value['transitions'] = _transitions(value)
             value['schema'] = 'claimbranch.project-work/v'+str(int(value['work']['schema'].rsplit('/v',1)[1])-4)
+            if value['schema'] in ('claimbranch.project-work/v12','claimbranch.project-work/v13','claimbranch.project-work/v14','claimbranch.project-work/v15','claimbranch.project-work/v16','claimbranch.project-work/v17','claimbranch.project-work/v18'): value.setdefault('import_input_sha256',None)
         return ProjectWork(canonical_bytes(value))
 
     def relocate(self, preview):
@@ -326,7 +458,7 @@ class ProjectWork:
         value = decode(self.payload)
         transitions = _transitions(value)
         before = value['associations'][-1]
-        value['schema'] = value['schema'] if value['schema'] in ('claimbranch.project-work/v3', 'claimbranch.project-work/v4', 'claimbranch.project-work/v5', 'claimbranch.project-work/v6', 'claimbranch.project-work/v7', 'claimbranch.project-work/v8', 'claimbranch.project-work/v9') else 'claimbranch.project-work/v2'
+        value['schema'] = value['schema'] if value['schema'] in ('claimbranch.project-work/v3', 'claimbranch.project-work/v4', 'claimbranch.project-work/v5', 'claimbranch.project-work/v6', 'claimbranch.project-work/v7', 'claimbranch.project-work/v8', 'claimbranch.project-work/v9', 'claimbranch.project-work/v10', 'claimbranch.project-work/v11', 'claimbranch.project-work/v12', 'claimbranch.project-work/v13','claimbranch.project-work/v14','claimbranch.project-work/v15','claimbranch.project-work/v16','claimbranch.project-work/v17','claimbranch.project-work/v18') else 'claimbranch.project-work/v2'
         value['associations'].append(preview['source'])
         value['transitions'] = transitions + [_transition('source-refresh', before, preview['source'])]
         # Nested writing/reviews retain their exact original context. A refreshed
@@ -396,7 +528,7 @@ class SourceRefreshReview:
                 'before_source_digest': before['source_digest'],
                 'after_source_digest': after['source_digest'],
                 'current_work_schema': decode(project.payload)['schema'],
-                'result_work_schema': (decode(project.payload)['schema'] if decode(project.payload)['schema'] in ('claimbranch.project-work/v3', 'claimbranch.project-work/v4', 'claimbranch.project-work/v5', 'claimbranch.project-work/v6', 'claimbranch.project-work/v7', 'claimbranch.project-work/v8', 'claimbranch.project-work/v9') else 'claimbranch.project-work/v2'),
+                'result_work_schema': (decode(project.payload)['schema'] if decode(project.payload)['schema'] in ('claimbranch.project-work/v3', 'claimbranch.project-work/v4', 'claimbranch.project-work/v5', 'claimbranch.project-work/v6', 'claimbranch.project-work/v7', 'claimbranch.project-work/v8', 'claimbranch.project-work/v9', 'claimbranch.project-work/v10', 'claimbranch.project-work/v11', 'claimbranch.project-work/v12', 'claimbranch.project-work/v13','claimbranch.project-work/v14','claimbranch.project-work/v15','claimbranch.project-work/v16','claimbranch.project-work/v17','claimbranch.project-work/v18') else 'claimbranch.project-work/v2'),
                 'v1_readers_can_open_result': False,
                 'remaining_source_snapshots': ASSOCIATION_LIMIT - len(decode(project.payload)['associations']) - 1,
                 'writing_preserved': True, 'source_fidelity_verified': False,
@@ -472,6 +604,13 @@ class ProjectAssociationStore:
         else:
             previous = self.load()
         after = decode(work.payload)
+        if previous is not None and previous.work.history.schema_version in (4, 5):
+            before_value = decode(previous.payload)
+            if after.get('sources',[])[:len(before_value['sources'])] != before_value['sources']:
+                raise ContractError('retained source cannot be erased or rewritten')
+            later_ids = {m['private_id']:m['public_id'] for m in after.get('public_ids',[])}
+            if any(later_ids.get(m['private_id'])!=m['public_id'] for m in before_value['public_ids']):
+                raise ContractError('public identity mappings cannot be erased or rebound')
         association_changed = previous is None
         if previous is None and (len(after['associations']) != 1 or after.get('transitions')):
             raise ContractError('new work requires one checked association; use backup restore for prior history')
@@ -482,6 +621,8 @@ class ProjectAssociationStore:
                     or next_events[:len(prior_events)] != prior_events):
                 raise ContractError('save cannot replace prior source transitions')
             _check_history_extension(previous.work, work.work)
+            old_private=decode(previous.payload).get('critique_sources',[])
+            if decode(work.payload).get('critique_sources',[])[:len(old_private)]!=old_private:raise ContractError('Retained private critique originals cannot be replaced or dropped')
             if after['associations'][:len(before['associations'])] != before['associations']:
                 raise ContractError('save cannot replace project identity or prior associations')
             association_changed = after['associations'] != before['associations']
@@ -494,7 +635,7 @@ class ProjectAssociationStore:
                     raise ContractError('source refresh requires the exact prior work and reviewed source')
                 preview = AssociationPreview(canonical_bytes(decode(source_review.payload)['preview']))
             elif source_review is not None or ('transitions' in after and 'transitions' not in before
-                                              and after['schema'] not in ('claimbranch.project-work/v3', 'claimbranch.project-work/v4', 'claimbranch.project-work/v5', 'claimbranch.project-work/v6', 'claimbranch.project-work/v7', 'claimbranch.project-work/v8', 'claimbranch.project-work/v9')):
+                                              and after['schema'] not in ('claimbranch.project-work/v3', 'claimbranch.project-work/v4', 'claimbranch.project-work/v5', 'claimbranch.project-work/v6', 'claimbranch.project-work/v7', 'claimbranch.project-work/v8', 'claimbranch.project-work/v9', 'claimbranch.project-work/v10', 'claimbranch.project-work/v11', 'claimbranch.project-work/v12', 'claimbranch.project-work/v13','claimbranch.project-work/v14','claimbranch.project-work/v15','claimbranch.project-work/v16','claimbranch.project-work/v17','claimbranch.project-work/v18')):
                 raise ContractError('source review is only valid for an explicit refresh')
             elif association_changed and _same_association(before['associations'][-1], after['associations'][-1]):
                 raise ContractError('relocation must change the paper association')
@@ -530,8 +671,8 @@ def _check_history_extension(previous, current):
     before, after = previous.history, current.history
     if before.seed != after.seed or after.commands[:len(before.commands)] != before.commands:
         raise ContractError('retained source history cannot be replaced or truncated')
-    retained = decode(previous.payload).get('workspace', {}).get('proposals')
-    proposed = decode(current.payload).get('workspace', {}).get('proposals')
+    retained = (decode(previous.payload).get('workspace') or {}).get('proposals')
+    proposed = (decode(current.payload).get('workspace') or {}).get('proposals')
     if retained is not None:
         if proposed is None or proposed['recorded'][:len(retained['recorded'])] != retained['recorded']:
             raise ContractError('Saved personal contribution history cannot be dropped or replaced')

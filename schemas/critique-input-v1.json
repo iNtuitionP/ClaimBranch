@@ -1,0 +1,235 @@
+{
+  "$id": "urn:claimbranch:critique-input:v1",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "oneOf": [
+    {
+      "additionalProperties": false,
+      "properties": {
+        "operation_type": {
+          "const": "capture-critique"
+        },
+        "payload": {
+          "additionalProperties": false,
+          "properties": {
+            "private_identity": {
+              "oneOf": [
+                {
+                  "maxLength": 16384,
+                  "minLength": 1,
+                  "type": "string",
+                  "x-utf8-maxBytes": 16384
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "private_label": {
+              "oneOf": [
+                {
+                  "maxLength": 16384,
+                  "minLength": 1,
+                  "type": "string",
+                  "x-utf8-maxBytes": 16384
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "private_original": {
+              "maxLength": 262144,
+              "minLength": 1,
+              "type": "string",
+              "x-utf8-maxBytes": 262144
+            },
+            "question": {
+              "maxLength": 16384,
+              "minLength": 1,
+              "type": "string",
+              "x-utf8-maxBytes": 16384
+            },
+            "question_origin": {
+              "enum": [
+                "human",
+                "ai",
+                "mixed",
+                "unknown"
+              ]
+            },
+            "source_kind": {
+              "enum": [
+                "review",
+                "colleague",
+                "self-audit"
+              ]
+            },
+            "source_origin": {
+              "enum": [
+                "human",
+                "ai",
+                "mixed",
+                "unknown"
+              ]
+            }
+          },
+          "required": [
+            "source_kind",
+            "question",
+            "question_origin",
+            "source_origin",
+            "private_original",
+            "private_identity",
+            "private_label"
+          ],
+          "type": "object"
+        },
+        "schema": {
+          "const": "claimbranch.critique-input/v1"
+        }
+      },
+      "required": [
+        "schema",
+        "operation_type",
+        "payload"
+      ],
+      "type": "object"
+    },
+    {
+      "additionalProperties": false,
+      "properties": {
+        "operation_type": {
+          "const": "revise-critique-question"
+        },
+        "payload": {
+          "additionalProperties": false,
+          "properties": {
+            "critique_id": {
+              "maxLength": 41,
+              "minLength": 41,
+              "pattern": "^critique-[0-9a-f]{32}$",
+              "type": "string"
+            },
+            "expected_revision_id": {
+              "maxLength": 128,
+              "minLength": 1,
+              "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$",
+              "type": "string"
+            },
+            "question": {
+              "maxLength": 16384,
+              "minLength": 1,
+              "type": "string",
+              "x-utf8-maxBytes": 16384
+            },
+            "question_origin": {
+              "enum": [
+                "human",
+                "ai",
+                "mixed",
+                "unknown"
+              ]
+            },
+            "rationale": {
+              "maxLength": 16384,
+              "minLength": 1,
+              "type": "string",
+              "x-utf8-maxBytes": 16384
+            }
+          },
+          "required": [
+            "critique_id",
+            "expected_revision_id",
+            "question",
+            "question_origin",
+            "rationale"
+          ],
+          "type": "object"
+        },
+        "schema": {
+          "const": "claimbranch.critique-input/v1"
+        }
+      },
+      "required": [
+        "schema",
+        "operation_type",
+        "payload"
+      ],
+      "type": "object"
+    },
+    {
+      "additionalProperties": false,
+      "properties": {
+        "operation_type": {
+          "const": "link-critique"
+        },
+        "payload": {
+          "additionalProperties": false,
+          "properties": {
+            "consequence_operation_id": {
+              "oneOf": [
+                {
+                  "maxLength": 128,
+                  "minLength": 1,
+                  "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$",
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "critique_id": {
+              "maxLength": 41,
+              "minLength": 41,
+              "pattern": "^critique-[0-9a-f]{32}$",
+              "type": "string"
+            },
+            "id": {
+              "maxLength": 128,
+              "minLength": 1,
+              "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$",
+              "type": "string"
+            },
+            "rationale": {
+              "maxLength": 16384,
+              "minLength": 1,
+              "type": "string",
+              "x-utf8-maxBytes": 16384
+            },
+            "relation": {
+              "enum": [
+                "questions",
+                "addressed-by"
+              ]
+            },
+            "target_id": {
+              "maxLength": 128,
+              "minLength": 1,
+              "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$",
+              "type": "string"
+            }
+          },
+          "required": [
+            "id",
+            "critique_id",
+            "relation",
+            "target_id",
+            "consequence_operation_id",
+            "rationale"
+          ],
+          "type": "object"
+        },
+        "schema": {
+          "const": "claimbranch.critique-input/v1"
+        }
+      },
+      "required": [
+        "schema",
+        "operation_type",
+        "payload"
+      ],
+      "type": "object"
+    }
+  ]
+}

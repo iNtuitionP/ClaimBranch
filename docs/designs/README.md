@@ -12,7 +12,9 @@ refactor.
   compares scoped selective suggestions with existing whole-judgment replacement.
 - [Finite F0 domain and versioning model](2026-08-03-domain-model.md) — draft
   closed records, relationships, operations, authority, states, cardinalities,
-  and resource bounds for the first contract spike.
+  and resource bounds for the first contract spike. Its
+  [planned personal lifecycle extension](2026-08-03-domain-model.md#personal-paper-lifecycle-extension-planned)
+  separates larger paper/import/revision proposals from unchanged F0 profiles.
 - [Notion MCP coding-journal automation](2026-08-15-notion-coding-journal-automation.md)
   — superseded automatic task-level capture; retained for the original MCP
   safety boundary and rollout history.
