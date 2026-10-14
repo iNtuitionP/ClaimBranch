@@ -648,7 +648,8 @@ class TerminalProcessTests(unittest.TestCase):
         self.send('\t\x0c', 'ORIGINAL SUBJECT')
         self.resize(80, 24)
         self.send('\x0c', 'UNCONFIRMED')
-        self.send('\x1b')
+        # Wait for the editor mode, not a fixed Escape delay under host load.
+        self.send('\x1b', 'Ctrl+S keep')
         self.send('\x0c', '해석은 아직 진행 중이다.')
         self.send('\x1b', 'UNFINISHED')
         self.send('\x1b', 'RESULT DRAFTS')

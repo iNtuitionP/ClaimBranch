@@ -8953,6 +8953,16 @@ only the portable job timeout to45 minutes; keep every test, platform and artifa
 check. Application source and the final ZIP remain byte-identical. Re-run the
 complete hosted gate before merge rather than weaken assertions or infer success.
 
+On final application source, Ubuntu CI completes all checks. macOS runs all1360
+application tests and fails one existing PTY result-capture case: the test sends
+Ctrl+L after a fixed0.2-second Escape drain and, under hosted load, can combine it
+with the still-pending Escape. The unchanged case passes10 local repetitions.
+Synchronize this specific transition on the editor's visible Ctrl+S footer before
+sending Ctrl+L, keeping the Korean-text retention assertion and all later steps.
+The synchronized case also passes10 local repetitions. Application source/ZIP
+stay unchanged; rerun hosted checks on the fixed test rather than claim the failed
+run passed. The exact-commit publication script stops on any failed CI result.
+
 Publish experimental source after final checks, observed PR CI and merge. Keep
 local promotional video tooling and its ignore edits outside this change. No
 new provider inference, native keys or manuscript writes are performed. This
