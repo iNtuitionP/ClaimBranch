@@ -8910,6 +8910,12 @@ persistence. Branch creation copies main uncertainty; broader per-branch scope,
 parent-cap diagnostic consistency and general source reconciliation are follow-ups,
 not grounds to infer absent authorship or relax the present admission rule.
 
+Release preparation found six old-reader tests loading `git show HEAD` as their
+legacy implementation. That changes meaning after committing and cannot establish
+old-reader refusal in CI. Replace it with the exact published baseline reader
+from commit `db5adc6` in a test-only fixture; no Git-history fetch or moving HEAD
+is required. Its runtime frame refusal remains the asserted behavior.
+
 Publish experimental source after final checks, observed PR CI and merge. Keep
 local promotional video tooling and its ignore edits outside this change. No
 new provider inference, native keys or manuscript writes are performed. This

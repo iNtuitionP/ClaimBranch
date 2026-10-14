@@ -252,7 +252,7 @@ class CoReportTests(unittest.TestCase):
         terminal(['project','co-report','--directory',str(self.work),'--input',str(path)],True)
         terminal(['project','open','--directory',str(self.work)])
         raw=(self.work/'personal.cbp').read_bytes()
-        old=subprocess.run(['/usr/bin/git','show','HEAD:claimbranch/application/personal_project.py'],capture_output=True,text=True,check=True).stdout
+        old=__import__('pathlib').Path(__file__).with_name('legacy_personal_project.py').read_text()
         module=ModuleType('claimbranch.application.co_report_old');module.__package__='claimbranch.application';exec(compile(old,'old-reader','exec'),module.__dict__)
         with self.assertRaises(ContractError):module._PersonalCodec().open(raw)
         self.assertEqual(raw,(self.work/'personal.cbp').read_bytes())

@@ -232,7 +232,7 @@ class ManuscriptAnchorTests(unittest.TestCase):
         anchored,_=self.register('abstract')
         with PersonalProjectStore.create(self.work,project_id=anchored.project_id) as store:store.save(anchored,preview=self.preview)
         raw=(self.work/'personal.cbp').read_bytes()
-        old=subprocess.run(['/usr/bin/git','show','HEAD:claimbranch/application/personal_project.py'],capture_output=True,text=True,check=True).stdout
+        old=__import__('pathlib').Path(__file__).with_name('legacy_personal_project.py').read_text()
         module=ModuleType('claimbranch.application.anchor_old_reader');module.__package__='claimbranch.application'
         exec(compile(old,'legacy-personal-project','exec'),module.__dict__)
         with self.assertRaises(ContractError):module._PersonalCodec().open(raw)
