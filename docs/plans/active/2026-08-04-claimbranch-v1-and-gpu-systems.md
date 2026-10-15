@@ -177,6 +177,27 @@ its corrected affected checks. This is local work, not a new publication.
 
 ### G04–G06 editing/integration batch evidence
 
+Release verification: the clean candidate runtime passes the complete selected
+alpha/harness command locally: 209 contracts (13.608 s), 1,419 application cases
+(1,235.502 s), 22 harness cases (1.070 s), documentation, fixtures, generated
+schemas/resources and whitespace. Independent ZIP execution passes all 12 declared
+checks; 22 portable security tests pass. The Ubuntu run of
+[PR #12](https://github.com/iNtuitionP/ClaimBranch/pull/12) executes all 1,419
+application cases but fails one PTY assertion: PageDown retained/scrolled an already
+visible heading instead of re-emitting its bytes. Its transcript shows successful
+screen movement, not an application exception. This is not a clean Ubuntu pass;
+harness/whitespace and later job steps are not run there. The test-only repair
+forces the existing Ctrl+L full repaint before checking the heading and separately
+asserts first displayed line 11 after PageDown. The affected actual-terminal case
+passes locally (1.001 s); no runtime or release ZIP bytes change. Re-run hosted
+verification before merge/publication.
+Test repair is cross-reviewed by actual first-party `claude-opus-5-5` with the
+same tooling/persistence restrictions (6,046-byte bounded public packet, SHA-256
+`a48f5bd327dec441881638ffcc26df77facb4a72b0cabc6c37a060eb03575fc5`): PASS with
+limitations. Source inspection confirms Ctrl+L is the existing full-redraw event
+and PageDown adds ten lines; the literal line-11 expectation is independent of
+implementation calculation. Hosted confirmation remains required, not assumed.
+
 Release-boundary review on 2026-10-15 uses actual first-party `claude-opus-5-5`
 with tools/hooks/plugins/MCP and persistence disabled (55,564-byte fixed public
 packet; SHA-256 `a2e6cccc57dfe1cbffe24ba3c20ef8d96aefd8f415692a1786056ad077e67520`).

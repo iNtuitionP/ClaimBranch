@@ -1199,7 +1199,12 @@ class TerminalProcessTests(unittest.TestCase):
         self.send("n")
         self.send("s", "HYPOTHETICAL")
         self.send("2", "HYPOTHETICAL / CHALLENGES")
-        self.send("\x1b[6~", "POSSIBLE REVIEW PATH")
+        # ncurses can scroll/reuse an already visible heading rather than emit
+        # its bytes again. Repaint before inspecting the resulting screen, and
+        # independently verify PageDown advanced the first displayed line.
+        position = len(self.output)
+        self.send("\x1b[6~\x0c", "POSSIBLE REVIEW PATH")
+        self.expect("11–", after=position)
         self.resize(132, 38)
         self.send("q", "UNSAVED DRAFTS")
         self.send("y")
