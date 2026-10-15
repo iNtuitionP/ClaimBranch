@@ -10,10 +10,11 @@ last_reviewed: 2026-10-15
 This is a living plan. Keep `Progress`, `Surprises & Discoveries`, `Decision
 Log`, and `Outcomes & Retrospective` current as work proceeds.
 
-After alpha.3 publication, the current owner-requested follow-up is the
-[foldable two-entry graph implementation plan](#foldable-two-entry-graph-implementation-plan).
-Its six outcomes cover thesis/experiment entry and direct node/edge editing;
-historical publication and migration sections below retain their original scope.
+The [foldable two-entry graph implementation plan](#foldable-two-entry-graph-implementation-plan)
+is now published as alpha.4: all six G01–G06 outcomes are merged and released.
+See [publication evidence](#alpha4-publication-evidence); the next action is user
+feedback on the released graph/authoring workflow. Historical publication and
+migration sections below retain their original scope.
 
 The filename is retained for link stability. The 2026-08-14 scope review
 removed GPU systems mastery and a full v1.0 build as co-equal outcomes. The
@@ -173,7 +174,43 @@ owns presentation details and the
 owns observable success. All six G01–G06 outcomes are implemented and cross-reviewed locally. G04–G06
 complete direct revisions, checked-item prefill and private graph return. The
 verification ledger below distinguishes the initial failed broad invocation from
-its corrected affected checks. This is local work, not a new publication.
+its corrected affected checks. The later alpha.4 publication is recorded below.
+
+### Alpha.4 publication evidence
+
+2026-10-15 KST: the owner explicitly authorizes merge and publication. All six
+G01–G06 outcomes are delivered through
+[PR #12](https://github.com/iNtuitionP/ClaimBranch/pull/12), merged into `main`
+as `3d6217f13bc58395d956c514c0cbb5aebd6101e9`. The
+[alpha.4 prerelease](https://github.com/iNtuitionP/ClaimBranch/releases/tag/v0.1.0-alpha.4)
+is public at 05:03:02 UTC with the source ZIP and companion SHA-256 file.
+Independent demo-video changes remain outside the commit and release.
+
+The [final hosted run](https://github.com/iNtuitionP/ClaimBranch/actions/runs/38681531745)
+on candidate `18d7f96a2dd139ebab41d0e381aca1f6f23650cb` passes all five jobs:
+documentation/source/skills, Windows contract validation, Mac owned relay and
+complete portable runtime on Ubuntu/macOS. Each portable host passes 209
+contracts, 1,419 application cases, 22 harness cases, 22 security cases,
+docs/fixtures/schemas/resources/whitespace and all 12 independent ZIP checks.
+Application duration: Ubuntu 1,917.038 s; macOS 1,574.007 s. The corrected resize
+PTY case also passes the early gate on both hosts. The initial failed Ubuntu
+run and its actual Opus-reviewed test-only repair below remain in the record;
+they are superseded by this clean final invocation, not relabeled as passing.
+
+The clean merged-commit rebuild and both hosted builds reproduce the same
+160-member, 2,366,355-byte runtime ZIP:
+SHA-256 `e86d8bb52a33dd899ed385164247d8a59084587ce0b35d0a6d7632dc8420ac47`.
+The public release is downloaded again: its checksum passes and its bytes equal
+the clean merged-commit build and locally verified artifact. No untracked demo,
+private research or machine configuration is included. README/workflow point to
+alpha.4; documentation checks cover the final publication record.
+
+This closes the requested G01–G06 delivery, not the broader protected product or
+live-AI milestone. Personal files remain unencrypted, manuscript text read-only,
+and AI proposal-only. Larger paper-profile provider attachment remains refused;
+complete live connected-use qualification, unfamiliar-user comprehension,
+SSH/tmux/physical IME and Windows TUI are not claimed by this release. No fresh
+provider request, key operation or manuscript write is performed.
 
 ### G04–G06 editing/integration batch evidence
 
@@ -596,11 +633,11 @@ on research data, implementation or publication claim.
 
 ## Progress
 
-- [ ] 2026-10-15 KST — Owner authorizes merge and publication of G01–G06 as
-  `v0.1.0-alpha.4`. Release candidate excludes the separate demo-video work.
-  Complete clean-candidate alpha/harness CI, independent source ZIP validation,
-  then merge and publish with checksums; record actual results here. Existing
-  live-provider and protected-product limits remain unchanged.
+- [x] 2026-10-15 KST — Merge G01–G06 through PR #12 and publish
+  `v0.1.0-alpha.4` with source ZIP/checksum after clean final Ubuntu/macOS CI.
+  Public download matches the verified merged-commit build. See
+  [publication evidence](#alpha4-publication-evidence); independent demo-video
+  work and existing live-provider/protected-product limits remain unchanged.
 
 - [x] 2026-10-15 KST — Complete G04–G06 editing/integration batch (6/6 local outcomes):
   durable direct revisions, optional same-editor AI prefill, dependency review

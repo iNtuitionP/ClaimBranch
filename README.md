@@ -214,10 +214,9 @@ The intended flow: select context, inspect what will be sent, request critique,
 compare and edit suggestions, then record **your** judgment. AI stays optional
 and proposal-only.
 
-The current checkout connects **Mac + Codex CLI 0.158.0 + gpt-6-sol** through
-an exact-request review. Final public-route live verification is pending; the
-alpha.4 includes this experimental route, with AI off by default. Other
-API/model profiles are preview-only.
+Alpha.4 includes an experimental **Mac + Codex CLI 0.158.0 + gpt-6-sol**
+connection through exact-request review, with AI off by default. Complete live
+connected-use qualification remains pending. Other API/model profiles are preview-only.
 An actual public-route discussion now returns readable advice and retains it
 after reopening. Direct edit and complete connected-use/release checks remain
 pending; this is not yet a qualified AI release. The earlier typed-response
