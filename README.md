@@ -216,7 +216,8 @@ and proposal-only.
 
 The current checkout connects **Mac + Codex CLI 0.158.0 + gpt-6-sol** through
 an exact-request review. Final public-route live verification is pending; the
-published alpha.2 remains AI-off. Other API/model profiles are preview-only.
+alpha.4 includes this experimental route, with AI off by default. Other
+API/model profiles are preview-only.
 An actual public-route discussion now returns readable advice and retains it
 after reopening. Direct edit and complete connected-use/release checks remain
 pending; this is not yet a qualified AI release. The earlier typed-response

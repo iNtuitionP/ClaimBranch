@@ -1367,7 +1367,7 @@ for the preserved failures and dependent stop. Public launch remains unavailable
 The current checkout adds the first discussion slice under
 [ADR 0022](../architecture/decisions/0022-contextual-advice-and-explicit-edits.md).
 It uses the existing [Mac Codex candidate connection](#mac-codex-connection-release-candidate).
-The published alpha does not include it. On 2026-10-13, one exact-approved
+Alpha.4 includes this experimental discussion route. On 2026-10-13, one exact-approved
 synthetic RLVR question returns readable advice through the public Mac connection
 and survives a fresh open. Selected passages now form saved, unrecorded claim/
 plan/connection drafts with retained origin. These agent-operated checks do not
@@ -1461,13 +1461,13 @@ atomic saving. Opening legacy files does not destructively convert them.
 
 #### Mac Codex connection release candidate
 
-The current checkout connects the existing Codex relay through the public
-personal project entry. Release verification is in progress; the published
-alpha.2 still has its older AI-off behavior. Actual request approval and the
-remaining release evidence are tracked in the
+Alpha.4 includes the existing Codex relay through the public personal project
+entry, with AI off by default. Complete live connected-use qualification remains
+pending. Actual request approval and the remaining AI release evidence are tracked in the
 [publication order](../plans/active/2026-08-04-claimbranch-v1-and-gpu-systems.md#ai-connected-github-publication-order).
-The latest public-path check reached HTTP 200 but its response failed typed
-proposal validation. This candidate is not yet qualified as a working AI release;
+An earlier public-path check reached HTTP 200 but failed typed proposal
+validation; the later readable discussion check above returned and retained advice.
+This candidate is not yet qualified as a working AI release;
 do not mistake successful HTTP transport for usable suggestions.
 
 Use Python 3.13 on the verified Mac with Codex CLI **0.158.0**, an existing

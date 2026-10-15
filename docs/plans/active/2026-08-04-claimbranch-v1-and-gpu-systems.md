@@ -177,6 +177,17 @@ its corrected affected checks. This is local work, not a new publication.
 
 ### G04–G06 editing/integration batch evidence
 
+Release-boundary review on 2026-10-15 uses actual first-party `claude-opus-5-5`
+with tools/hooks/plugins/MCP and persistence disabled (55,564-byte fixed public
+packet; SHA-256 `a2e6cccc57dfe1cbffe24ba3c20ef8d96aefd8f415692a1786056ad077e67520`).
+Verdict: PASS with limitations. Stale README/workflow alpha.2 availability copy
+is corrected to distinguish shipped experimental Mac code from pending complete
+live connected-use qualification. Exact 160-member packaging capacity is deliberate;
+archive integrity does not independently attest a release tag. Case-fold archive
+collision hardening is a future checker improvement, not a defect in this trusted,
+verified builder output. No new runtime behavior or live provider request follows.
+
+
 2026-10-15 KST: G04–G06 implementation and cross-review are complete; 6/6
 folding/editing outcomes are implemented locally. Final source packaging and
 actual terminal revision/reopen checks pass against the last code revision. The researcher can edit

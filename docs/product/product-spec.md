@@ -113,8 +113,8 @@ with exactly reviewed bytes, retaining manual work and existing save formats.
 The current checkout now connects that fixed route through public personal
 init/open for Mac, CLI 0.158.0 and explicit gpt-6-sol; each send checks runtime
 conditions and exact foreground consent. Other routes remain preview-only.
-The published alpha remains AI-off until connected-use and release validation
-complete; current candidate instructions are in the
+Alpha.4 includes this experimental route with AI off by default; complete
+live connected-use qualification remains pending. Candidate instructions are in the
 [workflow](../development/workflow.md#mac-codex-connection-release-candidate).
 
 The next contextual-assistance change is selected under
