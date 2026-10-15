@@ -28,6 +28,9 @@ TEST_ROOTS = ("tests", "tests/contract", "tests/probes", "tests/validation",
 # the named native methods below remain in core/all; exclusions are not skips.
 # Selected tests still report unexpected skips as incomplete (exit 3).
 ALPHA_APPLICATION_TARGETS = (
+    'application.test_graph_edits',
+    'application.test_graph_edit_proposals',
+    'application.test_tui_view_state',
     'application.test_metadata_batch',
     'application.test_canonical_share',
     'application.test_critiques',
@@ -75,6 +78,8 @@ ALPHA_APPLICATION_TARGETS = (
     'application.test_tui_candidates',
     'application.test_tui_context',
     'application.test_tui_explanation_recovery',
+    'application.test_graph_vocabulary',
+    'application.test_tui_folding',
     'application.test_tui_graph',
     'application.test_tui_intake',
     'application.test_tui_integrated_recovery',

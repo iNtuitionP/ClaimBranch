@@ -10,6 +10,11 @@ last_reviewed: 2026-10-15
 This is a living plan. Keep `Progress`, `Surprises & Discoveries`, `Decision
 Log`, and `Outcomes & Retrospective` current as work proceeds.
 
+After alpha.3 publication, the current owner-requested follow-up is the
+[foldable two-entry graph implementation plan](#foldable-two-entry-graph-implementation-plan).
+Its six outcomes cover thesis/experiment entry and direct node/edge editing;
+historical publication and migration sections below retain their original scope.
+
 The filename is retained for link stability. The 2026-08-14 scope review
 removed GPU systems mastery and a full v1.0 build as co-equal outcomes. The
 pre-review plan remains recoverable from Git history. GPU learning may
@@ -155,7 +160,466 @@ This plan is complete when:
 Passing the retrospective fixture means `foundation validated`, not product
 success. Do not call the product v1.0 before the live-paper gate passes.
 
+## Foldable two-entry graph implementation plan
+
+Planned 2026-10-15 after alpha.3 publication. This is the next owner-requested
+UI/authoring follow-up, not a reopening of completed migration implementation.
+Outcome: a researcher reads a large graph from either thesis or experiment/result,
+unfolds relevant records without missing counterevidence, and edits nodes/edges
+directly while retaining history and authorship. The
+[living design](../../designs/2026-09-22-episode-review.md#foldable-two-entry-graph-and-direct-editing)
+owns presentation details and the
+[acceptance case](../../validation/cases/saturation.md#folded-two-entry-graph-oracles-planned)
+owns observable success. All six G01–G06 outcomes are implemented and cross-reviewed locally. G04–G06
+complete direct revisions, checked-item prefill and private graph return. The
+verification ledger below distinguishes the initial failed broad invocation from
+its corrected affected checks. This is local work, not a new publication.
+
+### G04–G06 editing/integration batch evidence
+
+Release verification: the clean candidate runtime passes the complete selected
+alpha/harness command locally: 209 contracts (13.608 s), 1,419 application cases
+(1,235.502 s), 22 harness cases (1.070 s), documentation, fixtures, generated
+schemas/resources and whitespace. Independent ZIP execution passes all 12 declared
+checks; 22 portable security tests pass. The Ubuntu run of
+[PR #12](https://github.com/iNtuitionP/ClaimBranch/pull/12) executes all 1,419
+application cases but fails one PTY assertion: PageDown retained/scrolled an already
+visible heading instead of re-emitting its bytes. Its transcript shows successful
+screen movement, not an application exception. This is not a clean Ubuntu pass;
+harness/whitespace and later job steps are not run there. The test-only repair
+forces the existing Ctrl+L full repaint before checking the heading and separately
+asserts first displayed line 11 after PageDown. The affected actual-terminal case
+passes locally (1.001 s); no runtime or release ZIP bytes change. Re-run hosted
+verification before merge/publication.
+Test repair is cross-reviewed by actual first-party `claude-opus-5-5` with the
+same tooling/persistence restrictions (6,046-byte bounded public packet, SHA-256
+`a48f5bd327dec441881638ffcc26df77facb4a72b0cabc6c37a060eb03575fc5`): PASS with
+limitations. Source inspection confirms Ctrl+L is the existing full-redraw event
+and PageDown adds ten lines; the literal line-11 expectation is independent of
+implementation calculation. Hosted confirmation remains required, not assumed.
+The same PTY case now runs in the existing early publication gate, so this
+failure is caught before the lengthy whole application suite. The whole suite
+is retained. Bounded actual first-party Opus review of that CI change and repair
+also reports PASS with limitations (9,823 bytes, SHA-256
+`4e576c7ebb3d4c1387a0dcbae34f3d43c664c28ee6c9cb7bad81281839cb7435`).
+
+Release-boundary review on 2026-10-15 uses actual first-party `claude-opus-5-5`
+with tools/hooks/plugins/MCP and persistence disabled (55,564-byte fixed public
+packet; SHA-256 `a2e6cccc57dfe1cbffe24ba3c20ef8d96aefd8f415692a1786056ad077e67520`).
+Verdict: PASS with limitations. Stale README/workflow alpha.2 availability copy
+is corrected to distinguish shipped experimental Mac code from pending complete
+live connected-use qualification. Exact 160-member packaging capacity is deliberate;
+archive integrity does not independently attest a release tag. Case-fold archive
+collision hardening is a future checker improvement, not a defect in this trusted,
+verified builder output. No new runtime behavior or live provider request follows.
+
+
+2026-10-15 KST: G04–G06 implementation and cross-review are complete; 6/6
+folding/editing outcomes are implemented locally. Final source packaging and
+actual terminal revision/reopen checks pass against the last code revision. The researcher can edit
+recorded science in either lens, compare the entire consequence and record once,
+then reopen the revision and validated graph view. Manual work remains AI-off.
+The [workflow](../../development/workflow.md#terminal-paper-prototype) owns exact
+controls, profile and field limits; the [coverage table](../../designs/2026-09-22-episode-review.md#g01-edit-coverage-and-durable-field-contract)
+records which immutable evidence/protocol paths remain separate.
+
+G04 adds command v13, paper-work v23, project-work v19, selected canonical-share v2 and private/backup frame
+`0b`; old generated schemas/goldens are unchanged. Original commands/source,
+measurement correction chains and AI/imported origins remain retained. Title-only
+observation edits do not invent corrections. Measured units/conditions are fixed
+once results exist. Kind changes create fresh reasoning identities, never new
+confirmed evidence; original records and unselected links stay present. Edits to
+main refuse an unfinished alternative, but a retained already-merged alternative
+is not an unnecessary blocker. Every recorded edit, including title-only, compares
+before/after and carries an explicit fresh-review flag. Manuscript stays read-only.
+
+G05 reuses existing scoped checked v2 items: `v` opens a single existing-record
+edit in the same editable comparison, retaining request ID/response hash/original
+item. Human content edits are mixed contributions. Create/item-local-dependent
+items retain their existing selected authoring path; natural-language advice
+remains readable without graph conversion. No new live transmission was made or
+authorized. Legacy outbound selection is not widened to new private metadata.
+
+G06 uses private atomic `ui-view.json`, bounded to 128 contexts/128 KiB; it contains
+only validated IDs, occurrences, fold ownership, revision and viewport. Missing,
+corrupt, foreign or linked settings reset presentation only. They are excluded
+from research history/backup/sharing; scientific writing retains the existing
+checkpoint. Unrecorded new direct-editor fields currently survive cancellation
+in the same session, not restart; this limitation is visible in workflow copy.
+
+Observed checks (overlapping runs are not summed):
+
+- New graph revision, proposal and presentation checks: 24 tests pass (5.756 s),
+  including atomic invalid endpoint/kind refusal, title-only evidence stability,
+  imported origin preservation, explicit re-links, selected AI origins, source
+  freshness, backup/reopen and exact impact before/after removed associations.
+- Actual PTY direct title edit/closed kind chooser, resize to 80x24, full comparison,
+  literal recording and fresh persisted read pass. A final affected integration
+  run passes 347 tests in 353.919 s, including complete actual PTY and independent
+  source extraction journeys, with no failures/errors/skips. Later closure runs
+  cover the additional review-propagation, vocabulary and preference-budget fixes
+  plus every stale full-map/reader expectation: 63 tests pass in 9.545 s.
+  After the last code revision, six complete independent source-artifact cases
+  plus the actual-terminal direct title edit/reopen case pass again: 7 tests in
+  44.468 s. The explicit source-member budget is 160 (four new runtime modules
+  after the G01 156-member checkpoint); no artifact was published.
+- Full first maximum-paper benchmark failed its declared 20 s scene/frame bound:
+  25.201 s for first expanded argument. The old router rescanned all track segments
+  for each candidate. Indexed per-axis overlap integration preserves identical
+  inclusive/multiplicity scores; 44 graph/overview/folding checks pass (1.762 s).
+  Scoped fold-work reads now reconstruct only their episode, preserving the full
+  read-only result instead of replaying every unrelated episode for one badge.
+- Reproducible command: `PYTHONPATH=tests:. python3.13 tests/application/paper_capacity_fixture.py --graph`.
+  On macOS 26.5.1 arm64, maximum fixture (673 nodes/928 recorded relations, including
+  64 claims/256 observations/256 runs/512 scientific edges/32 episodes): replay
+  2.843 s, initialization 0.069 s; first folded argument frame 3.510 s (cold conditional
+  review projection), subsequent folded experiment/observation frames 0.013/0.015 s;
+  expanded frames 0.329–0.335 s, peak RSS 194,592,768 bytes. Predeclared limits:
+  replay/init <30 s each, every frame <20 s, peak RSS <2 GiB. Passed on this host,
+  not a latency guarantee for other machines or evidence of human comprehension.
+
+Actual cross-reviews used first-party `claude-opus-5-5`, tools/hooks/plugins/MCP
+and persistence disabled. G04 packet 119,603 bytes SHA-256
+`4ca9e93fc06a2e9fab76f2d79155d4d9b7852c6e21f6d181be7038ac15e6991c`
+found a duplicated chooser draw branch; fixed and checked at all three terminal
+sizes. Follow-up (53,459 bytes, `cd8dc132f102a1e8d837b2d8c971584a2f2e36e236af44df0b92f238e46b290e`)
+found a spurious title-only observation event; fixed with a watermark regression.
+Alleged arbitrary run `claim_id`/`status` mutation is refused by the closed schema;
+imported provenance is projected from the retained seed and is explicitly tested.
+G05 review (93,368 bytes, `1036025a92323d62837344d6638ed1a84c1ece86a285a15892408da9110a8082`)
+confirmed proposal-only flow and found invisible refusal feedback; fixed. G06
+review (150,631 bytes, `a757a30dffc27d2ea544978b769daa14675f309a42af5c003dafc7fb71327f2a`)
+reported PASS with limitations; its named-fold search/reference guard, bounded pan,
+canonical argument root and failed-editor-key findings are resolved. Routing-close
+review (`1aa7b29beb4b37835487d96ff33599102537b0bdda22e141873a7f8b8591de99`)
+found the kind chooser using a raw-history key in a query view; it now uses
+`thesis_id`, with an actual chooser-acceptance regression. Sharing/kind-close
+review (97,093 bytes, `b3715bdd580d5c0f534c0c0e9a01dc9c7caed82b5809eeb28ad0b5b9e5fcfbd4`)
+reports PASS with limitations. Title Enter feedback and v2 sharing/replacement-ID
+verification are checked. The final dependency/return packet (128,594 bytes,
+`60babc2acfc6fdf2ccb9be4d10522d6d6141ccfb2621a3622882cbfb7be0f2db`)
+reports no confirmed blockers. Its same-episode interpretation-replacement concern
+is the intentional one-reading rule: same-kind edits use the existing identity;
+the UI excludes that replacement choice and co-reporting remains explicit. Its
+hypothetical restore exception was not reproduced with the validated navigation
+paths. Maximum valid IDs leave the active root/selection below the sidecar bound;
+older preferences/folds may be discarded, never writing or science.
+
+The first explicit `verify.py --scope alpha` completed 209 contracts cleanly and
+executed 1,401 application cases (1,244.851 s), but ended with 9 failures and
+3 errors. It is **not a clean alpha invocation**. These exposed a wall-clock-fixed
+anchor fixture, a copy-only recovery stub with no filesystem, and full-map/reader
+assertions that still assumed unfurled source routes and immediate reading on
+first activation. Fixtures now use the prior recorded clock, mock only their
+nonexistent sidecar, explicitly unfold for route assertions, force a narrow lane
+independently of the readable header floor, and test expand-then-read. Original
+route/direction/source-capacity assertions remain. The affected 347-case run and
+63-case closure above cover the corrected failures; the entire alpha command was
+not repeated. The skipped trailing whitespace step is supplied by the later clean
+docs/harness scopes. Harness: 22 tests pass (1.010 s); docs: 77 files and whitespace
+pass; generated schemas are current, with all old generated bytes unchanged.
+
+Review-required reach now follows declared dependencies to affected claims and
+anchors, including old edge endpoints and removed anchor uses. It preserves
+historical claim status and does not claim scientific truth or debt closure.
+Selected sharing v2 carries these flags/titles/origins, omits raw revisions and
+private critique captions, and verifies against the saved private revision. Default
+edge/anchor captions never copy internal IDs or opt-in reasons. Existing critique
+`questions`/`addressed-by` links now also have fixed non-scientific registry labels.
+Direct recorded AI sources appear in the origin reader with AI disabled; an
+unavailable request remains explicitly unavailable instead of being invented.
+
+### Baseline and scope review
+
+Planning baseline before G01 (retained for comparison): `claimbranch/application/tui_model.py` currently derives titles from statement,
+objective or question; `tui_cards.py` supplies bounded overview text. The outline
+has folds but `graph_rows()` returns all outline rows, so spatial folding cannot
+be claimed from outline folding. `switch_lens()` accepts observations for `2
+Evidence uses`; experiment roots need a new projection. `tui_graph.py` has a
+local relation-phrase table, not yet one registry shared with all editors.
+`tui.py`/personal project commands already provide authoring, comparison and
+retention paths; audit and reuse those before introducing new commands.
+
+Keep the curses TUI, public personal-workspace boundary, accepted scientific
+types, append-only evidence and proposal-only AI. Do not replace the stack,
+require native keys or a new provider, or rename the existing `2` shortcut to
+a different number. Node and edge kind editing must respect semantic conversion
+rules; it cannot manufacture confirmed evidence. No arbitrary free-text edge
+type or background AI summary becomes accepted science.
+
+### Six implementation outcomes
+
+| Unit | Review and implement | Completion evidence |
+|---|---|---|
+| G01 — Shared vocabulary and editable-record contract | Audit current schema/editor coverage; centralize type IDs, labels, definitions, endpoint rules and directional phrases. Define persisted title versus original content, group descriptions, semantic edit/correction/conversion operations, legacy fallback and provenance. Reuse existing operations; version new durable fields/operations explicitly. | Same valid types/labels in creation, graph, legend and editing; invalid endpoints refused; legacy histories unchanged/readable; evidence cannot be retagged into fresh truth. A concrete command/field coverage table identifies what G04 must add. |
+| G02 — Two folded projections | Implement canonical-identity display groups, one-level expansion, shared references/cycle handling and exact internal/boundary counts. `1` roots at thesis; `2` has an experiment/observation chooser, including empty experiment results and existing observation-only projects. | One experiment -> multiple observations -> shared claim uses in `2`; thesis-first in `1`; shared/cyclic/parallel relations remain finite and exact; plans never show invented results. Both projections use the same source IDs. |
+| G03 — Navigable folded TUI | Render content-first cards, typed connections, disclosure actions, fixed-origin expansion, cross-boundary references and independent lens/root state. Connect hidden challenge/companion/status indicators and dependency-impact inspection. Retain outline, local scope, search, pan and full readers. | Actual PTY at 144x42, 120x32 and 80x24 covers `1`/`2`, expand/collapse, offscreen/folded/filter distinction, hidden negative evidence, cross-lens return, resize and Korean writing retention. Keep a lightweight usable feedback point here. |
+| G04 — Direct node and edge editing | Connect named TUI create/edit actions for titles/content/kind-specific fields and valid kind conversions; edge type/endpoints/rationale. Compare before/after, validate dependencies and record through existing authority/history paths. Add missing commands from G01 without overwriting originals. | Edit from either lens; fresh reopen, backup/restore and AI-readable projection show the same revision; cancel/stale/failure do not append or lose writing. Observation corrections retain old values; incompatible conversions remain editable with an explanation or explicit safe replacement. Anchor edits never write manuscript text. |
+| G05 — Optional AI through the same editor | Reuse user-requested advice and bounded proposals for titles, content, kinds and links. Add only missing versioned proposal fields. Selected proposals open the same editable preview as manual work, with contribution origin preserved. | Owned-response tests cover invalid type/endpoints, partial selection, human revision, rejection, stale input and reopen. AI-off completes the same tasks. No live service call is needed to implement/verify this unit; actual send remains separately consented and profile-qualified. |
+| G06 — Integrated large-paper return and release readiness | Complete cross-lens editing/return, retained view-state validation, impact across folded/filtered groups, compatibility and source-archive checks. Update user commands and availability only for implemented behavior. | One end-to-end synthetic paper journey in both lenses, old goldens, selected verification scopes and actual Opus cross-review. Record measured rendering/toggle cost and host. Human feedback tests comprehension separately; a synthetic pass is not live-paper validation or authority to publish. |
+
+Execute G01 -> G02 -> G03 as the first coherent feedback batch, then G04 -> G05
+-> G06 as the editing/integration batch. These are six observable outcomes,
+not six mandatory chat turns. Continue authorized work across unit boundaries;
+report remaining counts and recap the researcher action improved. At each unit:
+plan review -> implementation -> result review/appropriate checks -> actual
+Claude Opus cross-review -> resolve concrete findings. Batch related checks and
+avoid repeating unchanged full suites. Opus reviews receive only fixed public
+source/design and synthetic cases, with tooling/hooks/persistence disabled;
+record actual model/result, never label an unavailable review as passed.
+
+### G01 implementation evidence
+
+2026-10-15: implemented the immutable shared graph vocabulary and connected
+history/import/context/proposal enum sources, graph relation labels, node kind
+ordering and candidate scientific-type selection. The
+[edit coverage table](../../designs/2026-09-22-episode-review.md#g01-edit-coverage-and-durable-field-contract)
+separates existing fields from G04 gaps and defines versioned titles without
+pretending they are persisted already. Focused vocabulary/candidate/review/graph
+checks pass 52 tests; schema generator `--check` confirms byte-identical schemas.
+A first actual Opus packet (43,747 bytes; SHA-256
+`39d93c4e3e52f55f8d7e625b3c69bf4d4e790793083de1ba8e56ffddf1698b0e`)
+incorrectly inferred graphability of invalid drafts without the domain projector.
+New regressions verify self-edge, wrong-role parent and cyclic parents fail at
+projection while exact input and history survive. A follow-up actual first-party
+`claude-opus-5-5` packet (6,993 bytes; SHA-256
+`d079c688ef025c451e931ab884b6d9de3c3fb8ca0c8161edef0fe36d5f0ac4fe`)
+reports PASS with no concrete blocker. Its test precision comments are adopted:
+assert specific domain errors, existing thesis identity and exact retained input.
+G01 is complete; G02–G06 remain, and no new durable title schema is claimed.
+
+### G02–G03 implementation evidence and remaining work
+
+2026-10-15 KST first-batch checkpoint: G01–G03 were implemented locally, 3/6 outcomes
+complete at that point. Do not confuse this with completing the full authoring plan or a new
+GitHub release. G04 was the next implementation then; the completed G04–G06
+batch and current verification are recorded above.
+
+- [x] G01: shared closed vocabulary and explicit existing/missing edit contract.
+- [x] G02: finite experiment/observation/plan-root projection, canonical references,
+  exact owned internal/boundary counts and revision-checked navigation.
+- [x] G03: spatial folds, activation/collapse/all-unfold controls, searchable root
+  chooser, typed/status inspector and legend, full selected-entry reading,
+  search empty states and actual-terminal in-session writing return.
+- [x] G04: recorded direct title/content/edge revisions, safe reasoning replacement
+  and explicit re-links, original/origin preservation, actual terminal save/reopen.
+- [x] G05: checked retained AI edits prefill the same editor; mixed contribution
+  and exact original item survive local confirmation/backup without another send.
+- [x] G06: versioned private view return, bounded cache eviction, integrated
+  maximum-paper performance/impact and source/terminal checks. Human comprehension
+  and a new publication remain separate; the broad invocation caveat is above.
+
+Both lenses share canonical records and original edge directions. `2` can open
+an experiment without observations; unrun plans remain distinct. BFS display
+ownership is finite across cycles and retains cross-links as references. The first batch kept view
+state in-session only; G06 adds the private sidecar below, independent per episode/ref/lens/root;
+rebuilds validate old selection/occurrence/fold ownership and retain drafts.
+The last selected result root is remembered when returning from `1` without an
+explicit root. Sessions and descriptions do not acquire scientific authority.
+
+Graph rendering now follows folds, but includes every original edge between
+visible endpoints rather than only the display tree edges. Counters distinguish
+owned records/reference positions, folded/search-filtered/local-scope/offscreen
+records. Badges keep complete type tokens or disclose omitted detail with an
+ellipsis; the exact inspector remains scrollable. Corrected/invalidated/retracted
+observations, unresolved source/unknown origin, recorded reporting dependencies,
+existing conditional work and hypothetical hidden reach remain separately
+inspectable. Neither counts nor reach determine scientific truth. Compact captions now prefer explicitly recorded titles; missing titles retain
+source excerpts or frozen example copy. Full statements remain readable.
+
+Use `python3.13 -m claimbranch demo tui --ai-off` or the existing personal open
+command. `1` opens Argument, `2` Experiments, repeated `2` opens the root chooser,
+`[`/`]` cycle roots, Enter unfolds one level or reads, Space folds/unfolds,
+`*` unfolds the current view, and `;` names graph inspection/legend actions.
+The [workflow](../../development/workflow.md#terminal-paper-prototype) owns the
+complete current controls and limits.
+
+Observed verification, without summing overlapping runs:
+
+- 209 contract tests pass (14.392 s), retaining legacy histories/goldens; research
+  schema generator `--check` reports unchanged generated schemas.
+- 234 selected graph/review/branch/provider-return/personal-project application
+  tests pass (132.915 s). After integration fixes, 80 focused graph/vocabulary/
+  candidate/view/action tests pass (8.715 s); the later precise fold/compact-note
+  regression set passes 16 tests (0.935 s).
+- All 48 actual PTY cases pass, zero failures/errors/skips, in the final complete
+  run. The new case exercises root selection, folding, complete-text reading,
+  Korean judgment retention and 144x42/120x32/80x24 terminal sizes. These are
+  automated terminal checks, not unfamiliar-user comprehension certification.
+- Independent source-artifact inventory/extraction/execution tests pass 6 cases
+  (43.059 s); the single new runtime registry raises the explicit member budget
+  from 155 to 156 with an updated over-limit refusal test. No artifact is published.
+- Verification harness tests pass 22 cases (1.007 s). New vocabulary/folding tests
+  are registered in explicit alpha scope. Documentation/whitespace checks pass.
+  The full alpha/core suites and final large-paper/G06 release gate are not claimed.
+
+Review and failures retained honestly: the G02 actual Opus review (21,743 bytes,
+SHA-256 `5289b13fec4441a203c27225ae9e22b9b4a0beb85c4a8ed609e3e0f7141f2bef`)
+finds cached-root selection overwritten by root cycling. Fix it and add exact
+selection/path restoration tests. G03 actual review packets (101,301 bytes,
+SHA-256 `0bfdfea880dc642e3bb69d1708ee2f65b489d8fd4a17bb0c39b84f2ed6633f67`;
+59,121 bytes, SHA-256
+`70d051b2e2f32bd0aeedf10510cf14f30e8337def2f46fe55e4fae7fe4c98ce5`)
+raise search and cache concerns. A folded matching search already works; the
+new no-match regression exposes an actual empty-scene crash, now fixed in
+rendering and navigation. Cache reset already occurs in `_finish_outline`;
+add explicit lens/root/revision keys and before/after regression evidence.
+Also separate filtered from folded counts and ignore root-query typing during
+full-text reading. Final first-party canonical `claude-opus-5-5` review of
+35,357 bytes (SHA-256
+`16bc087fceee1b3c7b0016bb38fb3819a5c79d975141d405545ce801576f4544`)
+returns PASS, with no unresolved blocker. Its pending-work limitation is bounded
+by the existing immutable history/service projection and required rebuild on a
+new history; G06 still owns whole return/impact validation.
+
+The first two full 48-PTY attempts each have six failures, not clean passes.
+Integration reveals that `*` was implemented in the handler but omitted from
+actual terminal key allowlisting, new graph menu items displaced an old
+positional test, and authored-candidate graphs could hide the selected draft or
+clip its type label. Add the key to the real loop, preserve Paper connection's
+menu placement, reveal/focus the selected candidate, and reserve the selection
+mark plus complete metadata header width. The six targeted cases pass
+(14.141 s), followed by the complete 48-case pass. One earlier targeted command
+also selected a nonexistent test method; correct selection is used for actual
+PTY evidence. Source/reading tests with superseded whole-map expectations now
+explicitly unfold maps or assert the expanded experiment-context relations.
+
+A final actual first-party canonical `claude-opus-5-5` integration review of
+31,939 bytes (SHA-256
+`1ce1d1f63970f2289ec89a1dd425d1034a20c273ec75df39155bf6991710fdf9`)
+returns PASS with limitations and one nonblocking compact-note overlap. Reserve
+note cells in the fold badge and add a regression preserving both overflow and
+note markers. The current result improves finding/inspecting a judgment's basis,
+not deciding truth or proving understanding. Existing promotional edits stay
+untouched; no native-key exercise, real research inference, manuscript write,
+commit or publication occurs in this batch.
+
+### Plan cross-review corrections
+
+Actual first-party `claude-opus-5-5` reviewed the fixed 34,479-byte public
+plan/design/code packet (SHA-256
+`0562babc52173bd999b159e1839fe497ff9432cad6da9415155e255f14b10b80`).
+Its conditional approval identifies planning omissions, not reproduced runtime
+failures of unimplemented features. Incorporate the following before coding:
+
+- G01 replaces both `relation_phrase` and outline kind-order tables. Unknown
+  authored categories remain schema errors; test rejection and unresolved-source
+  retention instead of the review's suggested invalid accepted-history fixture.
+  Titles on reviewed records always use content-edit review/revalidation. Kind
+  replacement retains old edges and offers explicit validated per-edge re-links.
+- G02 replaces the observation-only evidence orientation rather than patching its
+  direct-claim filter. Audit `_build_outline`, `switch_lens`, `cycle_evidence`,
+  `evidence_ids`, select/follow behavior and root-keyed caches together. The
+  deterministic root chooser supports completed experiments and observations,
+  including experiment-only/no-observation branches; plans remain distinctly
+  inspectable as unrun. Observation roots expose source experiments and declared
+  anchors; account for filtered relations instead of silently omitting them.
+- G02/G03 use canonical IDs for identity/counts and key folds to validated context
+  and owning occurrence. Session E-labels are not durable IDs. Opposite-direction
+  parallel arrows come from individual stored edges. Type every indirect hop,
+  including challenges, rather than implying transitive support.
+- G04/G06 stamp cached and persisted navigation with graph revision; rebuild and
+  validate selected paths, roots and fold ownership after edits. Missing paths
+  fall back to the same canonical record or root with an explanation; no draft
+  is discarded. Explicitly test edit-in-2 -> 1 -> 2 -> fresh reopen.
+- G03 requires keyboard interaction; hover is optional. G06 stores only view
+  preferences/IDs in an atomic private UI sidecar, excluded from scientific
+  history, canonical sharing and research backup payloads. Sidecar loss resets
+  presentation only. Actual writing remains in its existing durable store.
+- Benchmark `_build_outline`/its repeated `reachable()` attachment traversal and
+  context rebuild cost, not just drawing. Keep the requested per-unit Opus
+  cadence; the review's optional reduction to batch-only review is not adopted.
+
+Follow-up actual first-party `claude-opus-5-5` review of the amended 26,620-byte
+packet (SHA-256
+`9aba80f50e5eb7a21d1cc88cc0e79812a7fb0b6d300f2256c6c48857d4714558`)
+reports all four planning gaps closed, no remaining blockers and approval to
+start G01. Resolve its wording nits explicitly: focus/hover only emphasizes;
+activation expands; the sidecar lists its finite fields and concurrent
+presentation writes are last-writer-wins with revision/context validation.
+This is plan review only, not implementation verification. Final
+`python scripts/check_docs.py` and `python scripts/verify.py --scope docs` pass
+for 77 Markdown files plus whitespace; application/core suites are not run for
+this documentation-only change. Existing `.gitignore`, development-index demo
+link and untracked `tools/` edits are preserved.
+
+### Concrete execution and checks
+
+Work from repository root. Start G01 with `git status --short` and inspect
+`claimbranch/core/research_schema.py`, `research*.py`, relevant paper extension
+modules, `application/tui_model.py`, `tui_cards.py`, `tui_graph.py`, `tui.py`,
+personal project adapters and corresponding `tests/application/`/`tests/core/`.
+Inventory all projected relation types, including structural/manuscript/companion
+types; not every projected relation is a freely authorable scientific edge.
+Record existing versus missing edit operations before defining new serialization.
+Update the domain design and an ADR only if actual durable semantic decisions
+require them; do not mutate accepted ADRs or call a proposal implemented.
+
+Use synthetic fixtures with approximately 40 claims, 100 observations, 41
+experiments, 150 typed scientific edges and 30 anchors; include multiple results
+per experiment, shared evidence, cycles, parallel types, companion obligations,
+corrected observations, unknown/AI origins, disconnected records and unrun plans.
+Exercise near-capacity projections under the selected profile as well. Benchmark
+full projection versus visible rendering: a small drawn view must not hide an
+unbounded traversal. First measure the baseline and choose explicit time/memory
+bounds for the fixed host; record them before claiming performance acceptance.
+Visible captions must stay legible; capacity checks do not prove usability.
+
+Run focused new regression tests during each change, then at relevant batch
+boundaries `/opt/homebrew/bin/python3.13 scripts/verify.py --scope alpha` and,
+when domain/schema code changes, `--scope core` for its actual selected coverage.
+Run `python -m scripts.export_research_schema --check` after generated-schema
+changes and `python scripts/check_docs.py` for docs. Explicit-scope incomplete
+coverage is not a clean pass. Use existing source-artifact execution and clean
+checkout checks for the eventual release candidate, not on every presentation
+edit. No dependency installation or new native probe is implied.
+
+### Compatibility, failure and decisions
+
+Keep original project/history bytes intact during versioned conversion; missing
+new titles fall back to source excerpts with no invented authorship. UI fold
+state has no scientific authority and must be keyed to validated context;
+restore no reviews/consents. New node kind or edge edits revalidate linked
+records, revoke stale review applicability and expose impact, without silently
+retargeting dependent edges. Imported raw sources remain immutable. Backup,
+selected canonical sharing and AI-readable output must explicitly handle new
+fields and origin rather than silently dropping them. A displayed fold is not
+an export selection or an AI request scope; outbound preview remains exact.
+
+Routine key bindings, chooser wording and card spacing are implementation
+choices tested in the TUI. Pause only for a real unresolved semantic decision
+that would change evidence/identity, authority or privacy, a reproducible risk
+of data loss, or unavailable required external capability. Missing optional AI
+does not block manual folding/editing. No new product choice is currently
+required from the owner. This planning task makes no commit, provider inference
+on research data, implementation or publication claim.
+
 ## Progress
+
+- [ ] 2026-10-15 KST — Owner authorizes merge and publication of G01–G06 as
+  `v0.1.0-alpha.4`. Release candidate excludes the separate demo-video work.
+  Complete clean-candidate alpha/harness CI, independent source ZIP validation,
+  then merge and publish with checksums; record actual results here. Existing
+  live-provider and protected-product limits remain unchanged.
+
+- [x] 2026-10-15 KST — Complete G04–G06 editing/integration batch (6/6 local outcomes):
+  durable direct revisions, optional same-editor AI prefill, dependency review
+  flags, private view return and measured maximum-paper rendering. See the
+  [complete evidence and verification caveat](#g04g06-editingintegration-batch-evidence).
+  No new publish/merge or protected authority was exercised.
+
+- [x] 2026-10-15 KST — Complete G01–G03 first feedback batch: shared vocabulary,
+  two folded entry views and TUI controls/inspection. Actual Opus reviews,
+  48-case PTY pass and bounded regressions are recorded in
+  [implementation evidence](#g02g03-implementation-evidence-and-remaining-work).
+  G04–G06 were pending at that checkpoint; their completion is recorded above.
+
+- [x] 2026-10-15 KST — Plan the owner-selected foldable thesis and experiment/result
+  views, content-first captions, closed relation vocabulary and direct TUI
+  editing. Establish G01–G06 and linked design/oracles; implementation 0/6.
+  Actual first-party Opus plan review and follow-up close planning gaps; final
+  documentation-only scope checks pass. See the evidence below; no runtime
+  implementation or UX acceptance is claimed.
 
 - [x] 2026-10-13 KST - Prepare a per-issue migration implementation order with
   10 observable outcomes; owner confirms batch registration, retained-source
@@ -4544,6 +5008,16 @@ The executable milestone names used throughout this plan are:
 
 ## Surprises & Discoveries
 
+- 2026-10-15: Maximum-paper routing initially exceeded the declared 20 s bound.
+  Per-axis overlap integration preserves route scores while reducing expanded
+  frames to about 0.33 s; cold episode-scoped folded review is about 3.51 s.
+  The first broad alpha invocation also exposed stale test setup assumptions,
+  retained honestly in the batch evidence rather than reported as a clean pass.
+
+- 2026-10-15: `2 Evidence uses` currently roots at an observation, not an
+  experiment; spatial `graph_rows()` ignores outline folds. Both require actual
+  implementation in G02/G03, not just relabeling existing controls.
+
 - 2026-10-13: The migration report exposes limits below the shared paper budget:
   32 lifetime evidence events, 64 changes, 128 generic collection items and
   shared 256 KiB checkpoint/manifest encoding. The seventeenth observation
@@ -5563,6 +6037,11 @@ The executable milestone names used throughout this plan are:
 
 ## Decision Log
 
+- 2026-10-15: Owner selects folding in both `1` and `2`, semantic one-line
+  titles with secondary IDs, predefined editable node/edge kinds and direct
+  title/content editing. Use two projections over one source graph; accepted
+  evidence and AI origin retain their existing history/authority rules.
+
 - 2026-10-13: Owner selects reviewed batch registration and partial import with
   source preservation, selected scientific sharing/reasons opt-in and private
   critique originals. [ADR 0023](../../architecture/decisions/0023-personal-argument-import-and-sharing.md)
@@ -6499,6 +6978,10 @@ The executable milestone names used throughout this plan are:
   AI and graph machinery remain visibly attributable but visually secondary.
 
 ## Outcomes & Retrospective
+
+- 2026-10-15: The next graph UX/authoring work is planned as six outcomes,
+  [G01–G06](#foldable-two-entry-graph-implementation-plan). Neither spatial
+  folding nor experiment-root/direct-edit completeness is claimed by planning.
 
 - 2026-10-13: [Migration issue analysis](#real-paper-migration-issue-review)
   distinguishes verified code blockers from the supplied unverified inventory

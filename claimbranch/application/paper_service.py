@@ -61,11 +61,16 @@ def _graph(seed, view):
             content['imported_dependencies'] = deepcopy(dependencies)
         if initial and record_id == seed['claim_id']:
             content['historical_decisions'] = [deepcopy(r) for r in initial['records'] if r['kind'] == 'historical-decision']
+        if record_id in view.get('titles',{}):content['title']=view['titles'][record_id]
+        edits=[r for r in view.get('graph_revisions',[]) if any(e['id']==record_id or e['replaces']==record_id for e in r['edits'])]
+        if edits:content['graph_revisions']=deepcopy(edits);content['review_required']=True
         nodes.append({'id': record_id, 'kind': kind, 'content': content})
 
     def relation(source, target, kind, *, record_id=None, rationale=None, scientific=False):
         value = {"source_id": source, "target_id": target, "type": kind,
                  "record_id": record_id, "rationale": rationale, "scientific": scientific}
+        revisions=[r for r in view.get('graph_revisions',[]) if any(e['id']==record_id for e in r['edits'])]
+        if revisions:value['graph_revisions']=deepcopy(revisions);value['review_required']=True
         relation_key = "relation-" + digest(value)
         if record_id in imported: value["imported_source"] = source_mark(imported[record_id])
         dependencies = view.get('imported_dependencies', {}).get(record_id, [])
@@ -135,6 +140,21 @@ def _graph(seed, view):
         for target in anchor['expresses']: relation(key,target,'expresses',rationale=anchor['rationale'])
         for target in anchor['plots']: relation(key,target,'plots',rationale=anchor['rationale'])
         for target in anchor['parents']: relation(key,target,'caption-of',rationale=anchor['rationale'])
+    # Changed dependency meaning invalidates prior review even if a dependent
+    # claim keeps its historical supported label. This is reach, never truth.
+    review_subjects={key for revision in view.get('graph_revisions',[]) for key in revision.get('review_subject_ids',[])}
+    outgoing={}
+    for edge in relations:
+        source,target=edge['source_id'],edge['target_id']
+        if edge['type'] in ('interprets','expresses','plots','caption-of'):source,target=target,source
+        outgoing.setdefault(source,set()).add(target)
+        if edge['type']=='co-reported-with':outgoing.setdefault(target,set()).add(source)
+    pending=deque(review_subjects)
+    while pending:
+        for target in outgoing.get(pending.popleft(),()):
+            if target not in review_subjects:review_subjects.add(target);pending.append(target)
+    for item in nodes:
+        if item['id'] in review_subjects:item['content']['review_required']=True
     for item in nodes:
         declared=[r for r in view.get('metadata_origins',{}).values() if item['id'] in r['subject_ids']]
         if declared:item['content']['metadata_contributions']=deepcopy(declared)
@@ -259,9 +279,16 @@ class PaperService:
             identifier(episode_id)
             if episode_id not in {item["id"] for item in history.episodes()}:
                 raise ContractError("unknown paper episode")
-        if self._pending_work is None:
-            self._pending_work = self._bytes(self._all_pending_work())
-        value = self._decode(self._pending_work)
+        if self._pending_work is not None:
+            value=self._decode(self._pending_work)
+        elif episode_id is None:
+            self._pending_work=self._bytes(self._all_pending_work())
+            value=self._decode(self._pending_work)
+        else:
+            cache=getattr(self,'_pending_by_episode',{})
+            if episode_id not in cache:cache[episode_id]=self._bytes(self._all_pending_work(episode_id=episode_id))
+            self._pending_by_episode=cache
+            value=self._decode(cache[episode_id])
         if episode_id is not None:
             value.pop("digest")
             value["episode_id"] = episode_id
@@ -310,7 +337,7 @@ class PaperService:
                    "current": current["digest"]}
         return {**value, "digest": self._digest(binding)}
 
-    def _all_pending_work(self):
+    def _all_pending_work(self,*,episode_id=None):
         # The owned history is immutable. Cache only canonical derived bytes;
         # every public read decodes a detached value and refresh uses a new service.
         history = self._history
@@ -321,6 +348,7 @@ class PaperService:
             command = self._decode(raw)
             if command["operation_type"] not in ("apply-selected-merge", "apply-imported-merge"):
                 continue
+            if episode_id is not None and command['episode_id']!=episode_id:continue
             payload = command["payload"]
             # Reconstruct the whole before/after graph. The older finite merge
             # path list alone can omit reach through unchanged inherited edges.

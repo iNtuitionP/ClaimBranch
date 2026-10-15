@@ -3,6 +3,7 @@
 Source references are descriptions, not retrieved artifacts or fidelity proof.
 Structural parent IDs never imply a supports/challenges/qualifies relation.
 """
+from .graph_vocabulary import SCIENTIFIC_EDGE_TYPES
 from copy import deepcopy
 
 from .canonical import ContractError
@@ -29,7 +30,7 @@ FIELDS = {
     "draft": {"statement": nullable(TEXT), "rationale": nullable(TEXT),
               "origin": obj(ai_influenced={"enum": [True, False]}, contributions_digest=HASH)},
     "scientific-relation": {"source_id": ID, "target_id": ID,
-                            "edge_type": {"enum": ["supports", "challenges", "qualifies"]}, "rationale": TEXT},
+                            "edge_type": {"enum": list(SCIENTIFIC_EDGE_TYPES)}, "rationale": TEXT},
 }
 # A selected measurement must not hide its invalidation/retraction; a plan
 # must remain visibly unrun. Required fields are requested, never silently added.

@@ -2,7 +2,7 @@
 kind: product-spec
 status: draft
 owners: maintainers
-last_reviewed: 2026-10-14
+last_reviewed: 2026-10-15
 canonical_for: intended product behavior and boundaries
 ---
 
@@ -113,8 +113,8 @@ with exactly reviewed bytes, retaining manual work and existing save formats.
 The current checkout now connects that fixed route through public personal
 init/open for Mac, CLI 0.158.0 and explicit gpt-6-sol; each send checks runtime
 conditions and exact foreground consent. Other routes remain preview-only.
-The published alpha remains AI-off until connected-use and release validation
-complete; current candidate instructions are in the
+Alpha.4 includes this experimental route with AI off by default; complete
+live connected-use qualification remains pending. Candidate instructions are in the
 [workflow](../development/workflow.md#mac-codex-connection-release-candidate).
 
 The next contextual-assistance change is selected under
@@ -701,6 +701,25 @@ selection adapts their presentation while preserving scientific meaning:
 | PG-3 | Represent the paper's argument from its thesis, beyond the current single-claim episode. Keep distinct claims and their basis identifiable, including evidence shared by several claims. The graph should support understanding the paper, not only inspecting internal records. |
 | PG-4 | Focusing a node reveals its typed connections and related content, with keyboard access to those nodes and a return path. Emphasis must preserve readable scientific content and orientation. A graphical view may additionally provide hover/touch behavior. |
 | PG-5 | Show the possible reach of a follow-up experiment and the affected/outside-path parts of a judgment alongside the argument structure. Marks and relationship paths must remain inspectable without relying only on a separate prose report, and must not imply that reach determines scientific truth. |
+
+The owner-selected 2026-10-15 follow-up requires foldable spatial graphs in both
+entry views: `1` starts from the paper thesis; `2` starts from a selected
+experiment or observation and exposes its recorded result-to-claim uses.
+Both are projections of the same records, not separate scientific graphs.
+Content-bearing one-line titles lead; stable IDs and kinds are secondary.
+Node titles/content and valid node/edge categories must be editable in the TUI,
+with AI suggestions optional and proposal-only. Existing accepted records retain
+their history, contribution origin and evidence-correction rules. Folded regions
+must expose typed internal/boundary connections and outstanding obligations,
+without interpreting counts as evidence strength. Detailed interaction and
+compatibility choices are in the [foldable two-entry graph design](../designs/2026-09-22-episode-review.md#foldable-two-entry-graph-and-direct-editing),
+with implementation tracked in the [six-outcome plan](../plans/active/2026-08-04-claimbranch-v1-and-gpu-systems.md#foldable-two-entry-graph-implementation-plan).
+The current checkout implements both folded reading entries, recorded direct
+node/edge revisions with durable titles, optional checked-item prefill and private
+presentation return, packaged for the alpha.4 release. The
+[terminal workflow](../development/workflow.md#terminal-paper-prototype) states
+profile/field limits and exact controls; automated synthetic evidence does not
+prove unfamiliar-user comprehension or authorize a new release.
 
 Scientific support, challenge and qualification remain distinct from structural
 references. Actual observations, interpretations, unrun plans, hypothetical

@@ -8,6 +8,10 @@ index and keep its progress current.
   — active execution from canonical scope lock through finite H0/H1 evidence
   and preregistered V0 live-paper validation. Next resume at the
   [alpha feedback and publication sequence](2026-08-04-claimbranch-v1-and-gpu-systems.md#alpha-feedback-and-publication-sequence).
+  The next [foldable two-entry graph plan](2026-08-04-claimbranch-v1-and-gpu-systems.md#foldable-two-entry-graph-implementation-plan)
+  records six locally implemented outcomes for thesis/experiment entry, typed
+  folding, durable titles, direct editing, optional AI prefill and view return,
+  with verification limits distinct from publication.
   The owner-authorized [manual source alpha](https://github.com/iNtuitionP/ClaimBranch/releases/tag/v0.1.0-alpha.2)
   is published under MIT, with live AI unavailable;
   the same L04 remains later work through the [AI-connected publication order](2026-08-04-claimbranch-v1-and-gpu-systems.md#ai-connected-github-publication-order).

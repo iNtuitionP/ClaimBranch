@@ -57,10 +57,11 @@ class TerminalWorkspaceTests(unittest.TestCase):
         self.app.switch_lens("evidence")
         rows = self.app.rows()
         self.assertEqual(["obs-1"], [row.node_id for row in rows if row.depth == 0])
-        self.assertEqual({"claim-comparison", "claim-pruning-detail"},
+        self.assertEqual({"claim-comparison", "claim-pruning-detail", "run-accuracy", "interpretation"},
                          {row.node_id for row in rows if row.depth == 1})
         self.assertNotIn("thesis", [row.node_id for row in rows])
-        self.assertTrue(all(edge_segments(row)[0][0] == "↓ supports" for row in rows if row.depth == 1))
+        self.assertTrue(all(edge_segments(row)[0][0] == "↓ supports" for row in rows
+                            if row.depth == 1 and self.app.nodes[row.node_id]['kind'] == 'claim'))
         self.app.collapsed.clear()
         self.assertIn("thesis", [row.node_id for row in self.app.rows()])
         for row in self.app.rows():
@@ -102,7 +103,7 @@ class TerminalWorkspaceTests(unittest.TestCase):
         self.assertEqual("evidence", self.app.lens)
         source = next(link for link in self.app.links() if link.target_id == "run-accuracy")
         self.app.follow(source)
-        self.assertEqual(("argument", "run-accuracy"), (self.app.lens, self.app.selected_id))
+        self.assertEqual(("evidence", "run-accuracy"), (self.app.lens, self.app.selected_id))
         self.app.back()
         self.assertEqual(("evidence", "obs-1"), (self.app.lens, self.app.selected_id))
         self.assertEqual(scenario, self.app.scenario)
@@ -148,8 +149,8 @@ class TerminalWorkspaceTests(unittest.TestCase):
 
     def test_evidence_entry_from_thesis_focuses_evidence_and_escape_restores_thesis(self):
         self.app.switch_lens("evidence")
-        self.assertEqual("obs-1", self.app.selected_id)
-        self.assertEqual(("obs-1",), self.app.selected_path)
+        self.assertEqual("run-accuracy", self.app.selected_id)
+        self.assertEqual(("run-accuracy",), self.app.selected_path)
         self.app.back()
         self.assertEqual(("argument", "thesis"), (self.app.lens, self.app.selected_id))
         self.app.nodes = {key: node for key, node in self.app.nodes.items() if node["kind"] != "observation"}
@@ -157,8 +158,9 @@ class TerminalWorkspaceTests(unittest.TestCase):
                                       if edge["source_id"] in self.app.nodes and edge["target_id"] in self.app.nodes]
         self.app._build_outline()
         self.app.switch_lens("evidence")
-        self.assertEqual("argument", self.app.lens)
-        self.assertIn("No observations", self.app.message)
+        self.assertEqual("evidence", self.app.lens)
+        self.assertEqual("run-accuracy", self.app.evidence_root)
+        self.assertNotIn('observation', {self.app.nodes[key]['kind'] for key in self.app.graph_ids()})
 
     def test_evidence_labels_survive_new_earlier_ids_and_both_views_fit_small_terminals(self):
         self.assertEqual("E1 · 2 claims", self.app.evidence_label("obs-1"))
@@ -179,7 +181,7 @@ class TerminalWorkspaceTests(unittest.TestCase):
                 rendered = render_snapshot(self.app, width, height)
                 self.assertEqual(height, len(rendered.splitlines()))
                 self.assertTrue(all(cell_width(line) <= width for line in rendered.splitlines()))
-                self.assertIn("Evidence uses", rendered)
+                self.assertIn("Experiments", rendered)
         self.assertEqual(self.original, self.history.manifest())
 
     def test_hypothetical_impact_uses_service_without_accepting_state(self):

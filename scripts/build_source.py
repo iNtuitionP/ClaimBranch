@@ -8,7 +8,7 @@ import zipfile
 
 from scripts.export_runtime_resources import ROOT, check_resources, require_unlinked
 
-MAX_SOURCE_MEMBERS = 155
+MAX_SOURCE_MEMBERS = 160
 
 README = """ClaimBranch experimental personal terminal alpha
 
@@ -129,6 +129,14 @@ Use --dry-run to inspect without registration. In the graph, ; -> Register
 extended records together opens the same private-file review. Each batch entry
 declares human/ai/mixed/unknown content origin; an absent declaration is unknown.
 New-input AI influence survives later human edits and save/backup return.
+Both argument and experiment views fold explicitly. In personal paper profiles,
+; -> Edit this node title and content opens recorded fields; Ctrl+S compares,
+End reads the whole preview, r and literal record confirm. Ctrl+K prepares a
+fresh reasoning-kind replacement; Ctrl+R explicitly selects scientific re-links.
+Original evidence stays append-only. Private ui-view.json remembers graph views
+and is excluded from research backups. Unrecorded direct-editor input is retained
+only in this session. Existing checked AI edit items open the same editor with v;
+new AI transmissions still require their separate exact consent.
 Multiple text/figure/table/caption anchors remain read-only. Wording restrictions,
 co-reported interpretations, typed measurement tables, protocol/outcome/gate events
 and private critiques have bounded explicit input formats. See repository schemas

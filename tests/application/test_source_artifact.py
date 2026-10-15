@@ -27,7 +27,7 @@ class SourceArtifactTests(unittest.TestCase):
             self.assertEqual(first.read_bytes(), second.read_bytes())
             with zipfile.ZipFile(first) as archive:
                 names = archive.namelist()
-                self.assertEqual(155, len(names))
+                self.assertEqual(160, len(names))
                 self.assertEqual((ROOT / "LICENSE").read_bytes(), archive.read("LICENSE"))
                 self.assertEqual(len(names), len(set(names)))
                 self.assertFalse(any(name.startswith(("scripts/", "tests/", ".git/")) or "__pycache__" in name for name in names))
@@ -54,9 +54,9 @@ class SourceArtifactTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as directory:
             root=Path(directory); package=root/'claimbranch'; package.mkdir()
             (root / 'LICENSE').write_bytes((ROOT / 'LICENSE').read_bytes())
-            # 153 runtime modules plus START-HERE, LICENSE and manifest exceed
-            # the explicitly supported 155-member artifact by one.
-            for index in range(153):
+            # 158 runtime modules plus START-HERE, LICENSE and manifest exceed
+            # the explicitly supported 160-member artifact by one.
+            for index in range(158):
                 (package/f'module_{index}.py').write_text('# bounded source\n',encoding='utf-8')
             target=root/'oversized-inventory.zip'
             with patch('scripts.build_source.check_resources'), self.assertRaisesRegex(ValueError,'inventory'):

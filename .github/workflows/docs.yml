@@ -65,6 +65,7 @@ jobs:
         run: >-
           python -m unittest
           tests.application.test_tui.EscapeSuffixTests
+          tests.application.test_tui_terminal.TerminalProcessTests.test_resize_bracketed_unicode_draft_and_return_to_shell
           tests.application.test_tui_terminal.TerminalProcessTests.test_modified_keys_and_pasted_control_bytes_never_become_commands
           tests.application.test_source_artifact.SourceArtifactTests.test_reproducible_runtime_inventory_and_isolated_launch
       - name: Verify personal alpha including portable contracts, PTY and source extraction

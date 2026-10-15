@@ -30,6 +30,7 @@ CAPTIONS = {
 def overview_copy(app, node_id):
     node = app.nodes[node_id]
     content = node['content']
+    if content.get('title'):return None
     if node['kind'] == 'manuscript-anchor':
         target = content.get('claim_id')
         return (f'To {app.node_label(target)} · paper' if target in app.nodes else 'Manuscript link',

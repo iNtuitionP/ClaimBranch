@@ -50,7 +50,32 @@ def combined(*, corrections=True, counts=256, episodes=32, edges=512, claims=63,
         if ep!=episodes-1:add('close-episode',{})
     return seed,tuple(commands)
 
+def graph_benchmark():
+    """Explicit host-specific measurement, never run on every unit test."""
+    import platform
+    from claimbranch.application.tui_model import TerminalWorkspace
+    from claimbranch.application.tui_graph import graph_scene,graph
+    from claimbranch.application.tui import Frame
+    began=time.monotonic();history=ResearchHistory(*combined());replay=time.monotonic()-began
+    began=time.monotonic();app=TerminalWorkspace(history,ai_off=True);initial=time.monotonic()-began
+    results=[]
+    for lens,root in [('argument',None),('evidence','run-0'),('evidence','observation-0')]:
+        began=time.monotonic();app.switch_lens(lens,evidence_id=root)
+        app.collapsed={root or app.view['thesis_id']}
+        graph(Frame(144,42),app,0,0,144,40);folded=time.monotonic()-began
+        began=time.monotonic();app.collapsed.clear();graph(Frame(144,42),app,0,0,144,40);scene=graph_scene(app);expanded=time.monotonic()-began
+        results.append(dict(lens=lens,root=root,folded_frame_seconds=folded,expanded_frame_seconds=expanded,nodes=len(scene.boxes),relations=len(scene.routes)))
+    rss=resource.getrusage(resource.RUSAGE_SELF).ru_maxrss
+    if platform.system()!='Darwin':rss*=1024
+    result=dict(host=platform.platform(),bounds=dict(replay_seconds=30,initial_seconds=30,each_frame_seconds=20,max_rss_bytes=2147483648),replay_seconds=replay,initial_seconds=initial,results=results,max_rss_bytes=rss)
+    result['within_bounds']=replay<30 and initial<30 and rss<2147483648 and all(max(r['folded_frame_seconds'],r['expanded_frame_seconds'])<20 for r in results)
+    return result
+
+
 if __name__=='__main__':
+    import sys
+    if '--graph' in sys.argv:
+        result=graph_benchmark();print(json.dumps(result));raise SystemExit(0 if result['within_bounds'] else 1)
     seed,commands=combined()
     began=time.monotonic(); h=ResearchHistory(seed,commands);elapsed=time.monotonic()-began
     print(json.dumps(dict(replay_seconds=elapsed,commands=len(commands),input_bytes=len(seed)+sum(map(len,commands)),manifest_bytes=len(h.manifest()),rss=resource.getrusage(resource.RUSAGE_SELF).ru_maxrss,capacity=h.capacity())))

@@ -11,6 +11,7 @@ class TerminalGraphTests(unittest.TestCase):
         self.history = replay_example("manual", paper=True)
         self.original = self.history.manifest()
         self.app = TerminalWorkspace(self.history)
+        self.app.collapsed.clear()
 
     def scene(self):
         from claimbranch.application.tui_graph import graph_scene
@@ -100,8 +101,9 @@ class TerminalGraphTests(unittest.TestCase):
         self.app.select("obs-1")
         self.app.switch_lens("evidence")
         scene = self.scene()
-        self.assertEqual({"obs-1", "claim-comparison", "claim-pruning-detail", "claim-pruning", "thesis"},
-                         set(scene.boxes))
+        self.app.collapsed.clear()
+        scene = self.scene()
+        self.assertEqual(set(self.app.nodes), set(scene.boxes))
         for route in scene.routes:
             self.assertIn(route.edge, self.app.view["relations"])
         self.assertEqual(self.original, self.history.manifest())
@@ -132,11 +134,10 @@ class TerminalGraphTests(unittest.TestCase):
         self.app.switch_lens("evidence")
         scene = self.scene()
         outside = next(link for link in self.app.links() if link.kind == "produced")
-        # An inspected relation outside this lens cannot leave the selection dark
-        # or invent a visible edge. Show its visible endpoint only.
-        self.assertEqual(({"obs-1"}, set()), scene.focus("obs-1", outside.key))
-        self.assertEqual(({"obs-1", "claim-pruning-detail", "claim-comparison"},
-                          {link.key for link in self.app.claim_uses("obs-1")}), scene.focus("obs-1"))
+        # Producing experiments are now first-class context in this lens.
+        self.assertEqual(({"obs-1", "run-accuracy"}, {outside.key}), scene.focus("obs-1", outside.key))
+        self.assertEqual(({"obs-1"} | {link.target_id for link in self.app.links() if link.target_id in scene.boxes},
+                          {link.key for link in self.app.links() if link.target_id in scene.boxes}), scene.focus("obs-1"))
 
     def test_unrelated_cards_dim_without_hiding_content_or_changing_geometry(self):
         from claimbranch.application.tui_graph import graph
@@ -206,3 +207,14 @@ class TerminalGraphTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class TrackOverlapTests(unittest.TestCase):
+    def test_inclusive_overlap_keeps_parallel_multiplicity_and_refreshes_one_axis(self):
+        from claimbranch.application.tui_graph import _track_overlap
+        index={2:[(0,4),(2,6)],7:[(1,10)]};cache={}
+        self.assertEqual(7,_track_overlap(index,cache,2,1,4))
+        self.assertEqual(1,_track_overlap(index,cache,2,6,9))
+        self.assertEqual(0,_track_overlap(index,cache,3,0,100))
+        self.assertEqual(0,_track_overlap(index,cache,2,7,9))
+        index[2].append((1,1));self.assertEqual(8,_track_overlap(index,cache,2,1,4))

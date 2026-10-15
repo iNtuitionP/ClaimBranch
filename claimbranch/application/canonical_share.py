@@ -40,6 +40,10 @@ def _catalog(project):
     if history.schema_version not in (4, 5):
         raise ContractError('Canonical sharing requires a saved paper profile with public ID mappings; legacy work is unchanged.')
     view = history.view('main')
+    reviewed_dependencies=set()
+    if history.has_graph_edits:
+        from .paper_service import PaperService
+        reviewed_dependencies={n['id'] for n in PaperService(history).query('main')['nodes'] if n['content'].get('review_required')}
     mappings = {m['private_id']: m['public_id'] for m in decode(project.payload, purpose='project')['public_ids']}
     records, dependencies, reasons = {}, {}, {}
     record_origins = {}
@@ -76,6 +80,8 @@ def _catalog(project):
         origins.update(record_origins.get(key,set()))
         for declared in view.get('metadata_origins',{}).values():
             if key in declared['subject_ids']:origins.add(declared['origin'])
+        if kind not in ('private-critique','critique-reference') and key in view.get('titles',{}):content['title']=view['titles'][key]
+        if kind not in ('private-critique','critique-reference') and (key in reviewed_dependencies or any(any(e['id']==key for e in r['edits']) for r in view.get('graph_revisions',[]))):content['review_required']=True
         content['branch_ai_context_present'] = branch_ai
         content['origins'] = sorted(origins or {'unknown'})
         content['source_fidelity_verified'] = False
@@ -230,14 +236,15 @@ def prepare_share(project, requested, *, public_selection=False):
         if key in reason_ids: record = {**record, 'reason': reasons[key]}
         output.append(record)
     policy_selection = dict(schema=SELECTION_SCHEMA, record_ids=sorted(mappings[k] for k in selected), reason_ids=sorted(mappings[k] for k in reason_ids))
-    base = dict(schema=SCHEMA, policy=POLICY, selection=policy_selection,
+    version=2 if project.work.history.has_graph_edits else 1
+    base = dict(schema='claimbranch.canonical-share/v'+str(version), policy=POLICY, selection=policy_selection,
                 required_record_ids=sorted(mappings[k] for k in included-selected), records=output,
                 omissions=OMISSIONS, anonymity_verified=False, authority='read-only personal projection; not a backup or scientific verification')
     # Keyed private-revision commitment publishes neither source hashes nor paths.
     # It is a reproducibility check with the private source, not authentication.
     base['private_revision_commitment'] = hmac.new(hashlib.sha256(project.payload).digest(), encode(base, purpose='project'), hashlib.sha256).hexdigest()
     from claimbranch.core.research_schema import normalize
-    normalize(base, share_schema(), profile='paper')
+    normalize(base, share_schema(version), profile='paper')
     raw = encode(base, purpose='project')
     _check_known_private(project, base)
     return raw
@@ -293,7 +300,7 @@ def _check_known_private(project, value):
 def verify_share(project, raw):
     try:
         value = decode(raw, purpose='project')
-        if type(value) is not dict or value.get('schema') != SCHEMA or value.get('policy') != POLICY:
+        if type(value) is not dict or value.get('schema') not in (SCHEMA,'claimbranch.canonical-share/v2') or value.get('policy') != POLICY:
             raise ContractError('Unsupported sharing policy.')
         expected = prepare_share(project, value['selection'], public_selection=True)
         if not hmac.compare_digest(raw, expected): raise ContractError('Shared bytes or saved private revision differ.')
@@ -441,7 +448,8 @@ def run_share_command(args):
     return 0
 
 
-def share_schema():
+def share_schema(version=1):
+    if version not in (1,2):raise ContractError('Unsupported sharing format')
     """Closed public field vocabulary; generated with the other owned schemas."""
     from claimbranch.core.research_schema import obj, array, nullable, TEXT, HASH, METRIC
     from claimbranch.core.typed_observations import VALUE
@@ -460,11 +468,15 @@ def share_schema():
     basis = array(obj(observation_id=public, revision_number=integer, current_revision=boolean),256,1)
     def variant(kind, fields, optional=(), private=False):
         from itertools import combinations
+        if version==2 and not private:
+            fields={**fields,'title':{'type':'string','minLength':1,'maxLength':240,'pattern':r'^[^\r\n]+$'},'review_required':{'const':True}}
+            optional=(*optional,'title','review_required')
         contents = []
         for count in range(len(optional)+1):
             for included in combinations(optional,count):
                 content_fields = {k:v for k,v in fields.items() if k not in optional or k in included}
-                contents.append(obj(**({} if private else common),**content_fields))
+                content=obj(**({} if private else common),**content_fields)
+                contents.append(content)
         result = obj(id=public, kind={'const':kind}, content={'oneOf':contents})
         if private: return result
         return {'oneOf':[result,obj(**result['properties'],reason=TEXT)]}
@@ -486,7 +498,7 @@ def share_schema():
         variant('outcome',dict(association_id=public,classification={'enum':['consistent','not-consistent','inconclusive','stopped-at-gate']},discrimination={'enum':['discriminating','non-discriminating','unknown']},limitations=array(TEXT,16),gate_validity={'enum':['failed-gate','incomplete-gate-assessment','unknown-gate-result','reported-gates-passed','no-gates-declared']},validity_verified={'const':False},rule_ids=ids,gate_result_ids=ids,observation_basis=basis)),
         variant('private-critique',dict(content={'const':'omitted'},scientific={'const':False},resolved={'const':False}),private=True),
         variant('critique-reference',dict(source_id=public,target_id=public,relation={'enum':['questions','addressed-by']},scientific={'const':False},resolved={'const':False}),private=True)]
-    result = obj(schema={'const':SCHEMA},policy={'const':POLICY},selection=obj(schema={'const':SELECTION_SCHEMA},record_ids=ids,reason_ids=ids),required_record_ids=ids,
+    result = obj(schema={'const':'claimbranch.canonical-share/v'+str(version)},policy={'const':POLICY},selection=obj(schema={'const':SELECTION_SCHEMA},record_ids=ids,reason_ids=ids),required_record_ids=ids,
                  records=array({'oneOf':variants},2048,1),omissions={'const':OMISSIONS},anonymity_verified={'const':False},
                  authority={'const':'read-only personal projection; not a backup or scientific verification'},private_revision_commitment=HASH)
-    return {'$schema':'https://json-schema.org/draft/2020-12/schema','$id':'urn:claimbranch:canonical-share:v1',**result}
+    return {'$schema':'https://json-schema.org/draft/2020-12/schema','$id':'urn:claimbranch:canonical-share:v'+str(version),**result}

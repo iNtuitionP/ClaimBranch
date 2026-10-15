@@ -246,7 +246,7 @@ class ManuscriptAnchorTests(unittest.TestCase):
             payload=deepcopy(preview['registration']);payload[field]=value
             with self.assertRaises(ContractError):_register_anchor(deepcopy(_reduce(project.work.history.seed,project.work.history.commands)),payload)
         h=project.work.history;event=h.view('main')['evidence'][0]['history'][-1]['event_id']
-        h=h.append(dict(schema_version=5,id='invalidate-o',project_id='synthetic-paper',episode_id='local',created_at='2026-10-14T23:59:59Z',operation_type='record-evidence-event',expected_heads=dict(h.heads),evidence_watermark=h.watermark,payload=dict(event_id='invalid-o',target_id='O',run_id='X',action='invalidate',statement=None,value=None,rationale='Synthetic source invalidation.',supersedes_id=event)))
+        h=h.append(dict(schema_version=5,id='invalidate-o',project_id='synthetic-paper',episode_id='local',created_at=decode(h.commands[-1],purpose='history')['created_at'],operation_type='record-evidence-event',expected_heads=dict(h.heads),evidence_watermark=h.watermark,payload=dict(event_id='invalid-o',target_id='O',run_id='X',action='invalidate',statement=None,value=None,rationale='Synthetic source invalidation.',supersedes_id=event)))
         view=PaperService(h).query('main');self.assertIn('O',{n['id'] for n in view['nodes']})
         self.assertIn('figure',PaperService(h).anchor_impact(['O'])['potentially_affected_anchor_ids'])
         with self.assertRaises(ContractError):PaperService(h).anchor_impact(['missing'])

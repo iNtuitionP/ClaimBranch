@@ -3,6 +3,7 @@
 Declared transformations and authorship are source claims, not verified facts.
 Publication/retention uses separate personal storage; protected authority stays unavailable.
 """
+from .graph_vocabulary import SCIENTIFIC_EDGE_TYPES
 from copy import deepcopy
 from decimal import Decimal
 from functools import lru_cache
@@ -28,7 +29,7 @@ BODIES = {
     "experiment": obj(question=TEXT, method=TEXT, conditions=TEXT, metric=METRIC, source_ref=TEXT),
     "observation": obj(experiment_id=ID, statement=TEXT, value=nullable(TEXT),
                        status={"enum": ["confirmed", "corrected", "invalidated", "retracted"]}),
-    "scientific-edge": obj(edge_type={"enum": ["supports", "challenges", "qualifies"]},
+    "scientific-edge": obj(edge_type={"enum": list(SCIENTIFIC_EDGE_TYPES)},
                            source_id=ID, target_id=ID, rationale=TEXT),
     "experiment-plan": obj(claim_id=ID, objective=TEXT, status={"const": "planned"}, conditions=TEXT, metric=METRIC),
     "historical-decision": obj(group_id=nullable(ID), rationale=nullable(TEXT), record_ids=array(ID, 1024, unique=True)),

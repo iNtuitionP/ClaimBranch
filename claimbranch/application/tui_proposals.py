@@ -364,6 +364,16 @@ class ProposalsUI:
                     self.worker, self.outbound = worker, outbound
                     self.open('outbound')
             elif mode == 'items':
+                if event=='v' and values:
+                    if self.owner!=self.app.work_key():raise ContractError('Return to the response owner before editing')
+                    item=values[self.index]
+                    self.worker.compare([item['id']]) # Existing freshness/scope check; no staging or write.
+                    from .graph_edits import proposal_edit
+                    from .tui_graph_edit import graph_edit_ui
+                    self.app.recovery.save(self.app)
+                    record,source=proposal_edit(self.app.recovery.project,self.entry,item['id'])
+                    graph_edit_ui(self.terminal).open(record['id'],proposal=record,proposal_source=source)
+                    return
                 if event == ' ' and values: self.chosen.symmetric_difference_update({values[self.index]['id']})
                 elif event == 'enter' and values: self.open('item')
                 elif event == 'c':
@@ -613,6 +623,13 @@ class ProposalsUI:
                         for child in item: visit(child)
                 visit(value)
                 return passages+[line for key in sorted(ids) for line in source_details(key)]
+            for revision in app.paper.history.view('main').get('graph_revisions',[]):
+                source=revision.get('proposal_source')
+                if source:
+                    rows += ['DIRECT GRAPH REVISION / personal recorded contribution',
+                        *source_details(source['request_id']),rendered(revision)]
+                elif revision['origin'] in ('ai','mixed','unknown'):
+                    rows += ['DIRECT GRAPH REVISION / declared origin, no inferred provider request',rendered(revision)]
             for owner,work in sorted(app.paper._candidates.items()):
                 for lineage in work.origins.values():
                     value=decode(lineage.payload)
@@ -725,7 +742,7 @@ class ProposalsUI:
                 frame.put(7+3*i,6,text,'body',width-10)
             if not values: frame.put(6,3,'No retained items. Manual work remains available.','body',width-6)
             hints = ('Space select · r read · d draft · p task · Enter preview' if mode=='context' else
-                     'Space select · Enter read · c compare · e edit drafts · x decline' if mode=='items' else
+                     'Space select · Enter read · c compare · v edit recorded item · e drafts · x decline' if mode=='items' else
                      '↑↓ choose · Enter read historical response · Esc graph')
             if mode=='context' and self.discussion_mode:
                 hints='Space select · r read · d draft · q question · h history · Enter preview'

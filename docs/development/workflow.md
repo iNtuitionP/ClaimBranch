@@ -2,7 +2,7 @@
 kind: development
 status: active
 owners: maintainers
-last_reviewed: 2026-10-14
+last_reviewed: 2026-10-15
 canonical_for: repository-local validation commands and documentation enforcement
 ---
 
@@ -1367,7 +1367,7 @@ for the preserved failures and dependent stop. Public launch remains unavailable
 The current checkout adds the first discussion slice under
 [ADR 0022](../architecture/decisions/0022-contextual-advice-and-explicit-edits.md).
 It uses the existing [Mac Codex candidate connection](#mac-codex-connection-release-candidate).
-The published alpha does not include it. On 2026-10-13, one exact-approved
+Alpha.4 includes this experimental discussion route. On 2026-10-13, one exact-approved
 synthetic RLVR question returns readable advice through the public Mac connection
 and survives a fresh open. Selected passages now form saved, unrecorded claim/
 plan/connection drafts with retained origin. These agent-operated checks do not
@@ -1461,13 +1461,13 @@ atomic saving. Opening legacy files does not destructively convert them.
 
 #### Mac Codex connection release candidate
 
-The current checkout connects the existing Codex relay through the public
-personal project entry. Release verification is in progress; the published
-alpha.2 still has its older AI-off behavior. Actual request approval and the
-remaining release evidence are tracked in the
+Alpha.4 includes the existing Codex relay through the public personal project
+entry, with AI off by default. Complete live connected-use qualification remains
+pending. Actual request approval and the remaining AI release evidence are tracked in the
 [publication order](../plans/active/2026-08-04-claimbranch-v1-and-gpu-systems.md#ai-connected-github-publication-order).
-The latest public-path check reached HTTP 200 but its response failed typed
-proposal validation. This candidate is not yet qualified as a working AI release;
+An earlier public-path check reached HTTP 200 but failed typed proposal
+validation; the later readable discussion check above returned and retained advice.
+This candidate is not yet qualified as a working AI release;
 do not mistake successful HTTP transport for usable suggestions.
 
 Use Python 3.13 on the verified Mac with Codex CLI **0.158.0**, an existing
@@ -4917,25 +4917,98 @@ If a record lacks a path to the thesis, it is marked `UNLINKED` without a
 fabricated connection. Search preserves matching ancestry and automatically
 opens those paths; `Esc` clears it before ordinary folding resumes.
 
-The top view selector uses `1` for Argument and `2` for Evidence uses. The latter
-starts at the selected observation, or chooses an observation connected to the
-selected claim when possible; otherwise it opens the first observation. Its
-graph displays the recorded claim paths together; the outline initially shows
-direct claim destinations and unfolds their further paths on demand. `[` and
-`]` switch observations. Search applies to the
-current view. Following a source/experiment connection outside the evidence
-projection opens its argument location; `Esc` restores the evidence context.
-The views retain one source identity, draft and hypothetical state.
+Alpha.4 adds foldable spatial graphs in both views. `1 Argument` starts at the thesis. `2
+Experiments` starts at the selected experiment, observation or unrun plan,
+restores the last result root for the current episode/ref when available, or
+chooses a recorded experiment. It retains experiment -> observations -> claim
+paths, including source and manuscript context, with each recorded edge's actual
+type and direction. An empty experiment remains selectable. A plan is visibly
+unrun and expansion cannot invent a result.
 
-These are keyboard shortcuts on the graph, not use-case numbers or clickable
-tabs. Close a menu/editor with Esc before using them; digits in a text editor
-remain text. Pressing the already selected view key makes no navigation change.
-An empty personal project has no observations, so `2` leaves Argument open and
-reports **No observations in this branch. Argument view stays open.** Keeping a
-provisional result does not enable Evidence uses. Explicitly confirm that result
-through its personal preview first; `2` can then open the recorded observation.
-It may initially have zero claim uses. Draft scientific connections appear in
-their candidate graph; Evidence uses shows those connections only after the
+Enter expands a folded graph card one level; on an open card it reads the record.
+Space toggles the selected branch; `*` explicitly unfolds all records in this
+view. Selecting/moving/hovering does not automatically expand everything. `f`
+fits the current folded scope within its readability floor; it does not unfold
+all records. Counters distinguish folded, search-filtered and offscreen records
+from an explicit local scope. A shared record remains one identity, with
+references and original cross-links rather than duplicated evidence.
+
+Press `2` again, or `;` -> **Choose an experiment or observation**, for a
+searchable content-first root chooser. Type or paste a search, use arrows,
+Enter to follow, Tab to read the complete entry, and Esc to cancel. `[`/`]`
+cycles experiment/result/plan roots. Each root retains its selection, folds and viewport; switching `1`/`2` preserves
+writing. Personal reopen validates these presentation preferences from private
+`ui-view.json`. Missing, corrupt or incompatible preferences reset the view only.
+This sidecar contains IDs/positions, not prose, reviews or consent, and is excluded
+from scientific history, research backup and selected sharing. Old view caches and
+fold preferences may be discarded to retain the current root/selection within
+128 KiB; no research writing is discarded.
+
+`;` also offers **Expand selected branch**, **Collapse selected branch**,
+**Unfold all records in this view**, **Inspect folded records and connections**,
+and **Read defined edge types**. The inspector separates exact internal and
+boundary edge counts from record status, preserves source/target direction and
+lets Enter follow an original edge. Tab reads complete selected text, with
+arrows/pages to scroll. Folded badges disclose challenges, qualifications,
+mandatory reporting companions and corrected/unresolved records when present;
+the complete typed counts remain in inspection. Existing conditional work keeps
+its `pending-if-accepted` label, not protected accepted debt. Hypothetical reach
+through a fold is not a truth judgment. These are view operations only.
+
+Close menus/editors with Esc before graph shortcuts; digits inside a text editor
+remain text. `2` on an already open evidence view opens the chooser. If no
+experiments, observations or plans exist, Argument stays open and explains why.
+An unconfirmed provisional result does not become graph evidence; confirm it
+through the existing exact personal preview first. A recorded observation can
+have zero claim uses. Recorded titles override example captions; missing titles retain source excerpts.
+Full original/current source and revision origin remain available in reading.
+
+
+For a saved personal **paper** profile, `;` -> **Edit this node title and content**
+opens recorded fields directly in either reading lens. Use active `main`; an
+unfinished alternative must be completed before revising main. The existing
+legacy episode profile stays readable and retains its original formats; use
+`project init --profile paper` for this editor, or the separately reviewed
+create-only `project convert-profile` workflow for eligible old projects.
+
+- Tab/Shift+Tab selects a field. Enter chooses defined roles/types/endpoints;
+  Ctrl+O opens full multiline prose; Esc returns with input retained in this
+  session. Ordinary notes are separate. Unrecorded new-editor fields are not
+  currently a restart checkpoint; record before quitting to retain the revision.
+- Ctrl+S compares the complete before/after graph, reason, origin and affected
+  declared manuscript locations. PgDn/End reads the comparison; `e` returns to
+  editing, `r` opens confirmation, and literal `record` saves exactly one revision.
+  Stale/save failures retain input. Ctrl+F explicitly selects a newer basis for
+  another complete comparison; old consent is never reused.
+- **Edit a recorded scientific connection** opens its type, endpoints and reason.
+  Ctrl+N cycles incident scientific edges. Fixed `supports`/`challenges`/`qualifies`
+  choices retain their registry definitions. Invalid dependencies refuse recording.
+- Ctrl+K chooses a different reasoning kind using a fresh replacement ID. Original
+  records remain present. It cannot make evidence or a completed experiment;
+  result confirmation remains separate. Ctrl+R explicitly chooses incident
+  scientific re-links (Space toggles; Enter returns). Unselected and structural
+  links stay on the original; incompatible re-links refuse the entire revision.
+- Observation statement/value changes append corrections. Title-only changes do
+  not fabricate an evidence event. Structured measurement changes still use their
+  typed correction/transition path. Once results exist, experiment units/metric
+  and conditions cannot be silently reinterpreted. Earlier experiments and imported
+  originals remain in history. Anchor editing changes metadata, never manuscript text.
+- In a current checked AI item list, `v` opens one existing-record edit in this
+  same editor. The response controller checks scope/freshness first. Human edits
+  mark the contribution mixed and retain request ID, response digest and original
+  item. New nodes/item-local dependencies retain the existing explicit selected
+  staging path; ordinary advice is never parsed into graph edits automatically.
+  No new provider request occurs. These fields do not widen legacy outbound context.
+
+The new operation/storage contracts are research command v13, paper-work v23,
+project-work v19, selected canonical-share v2 and explicit personal/backup frame `0b`. Older readers refuse
+this frame instead of dropping revision fields. Existing history/golden bytes
+remain unchanged. Titles and disclosed origins appear in read-only graph queries,
+private backup/reopen and explicitly selected canonical sharing. Revision flags
+request fresh dependency review; they are not a scientific verdict or debt closure.
+
+Draft scientific connections appear in
+their candidate graph; the experiment/evidence view shows those connections only after the
 selected reasoning is recorded. Return with `1` or Esc to continue construction.
 
 Selecting evidence shows its named claim uses in READ. `u` focuses that list,
@@ -4948,11 +5021,12 @@ use lists are explicit and do not hide those other connections.
 |---|---|
 | Arrow keys; `j`/`k`; `Tab`/`Shift+Tab` | Graph: spatial selection or visit all nodes; lists: move selection; change panes |
 | `o`; `f`; `H`/`J`/`K`/`L` | Compare graph/outline; full graph with selection in view; pan the graph |
+| `Space`, `*` in graph | Toggle this branch; explicitly unfold all records in this view |
 | `←`, `→`, `Space` in outline | Fold or move to parent, unfold or enter child, toggle the current branch |
 | `/`, `Esc` | Search content with ancestry, clear search or return along navigation history |
-| `Enter` | Graph: read the node; outline: inspect its parent edge; relation list/reader: follow the linked node |
+| `Enter` | Graph: expand a folded branch or read the node; outline: inspect its parent edge; relation list/reader: follow the linked node |
 | `u`, `r`, `Tab`, `d` | Select evidence's claim uses or all incident relations, read full direction/rationale, return to node detail |
-| `1`, `2`; `[`, `]` | Switch Argument/Evidence uses views; previous/next observation in Evidence uses |
+| `1`, `2`; `[`, `]` | Switch Argument/Experiments views; repeat `2` opens chooser; previous/next result root |
 | `g` | Jump from a shared reference to its primary occurrence; `Esc` returns |
 | `v`, `b` | Switch two/three layouts or main/alternative reasoning views |
 | `z` | Switch comfortable/compact spacing, retaining research context |
