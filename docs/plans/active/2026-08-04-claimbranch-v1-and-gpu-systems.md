@@ -197,6 +197,11 @@ same tooling/persistence restrictions (6,046-byte bounded public packet, SHA-256
 limitations. Source inspection confirms Ctrl+L is the existing full-redraw event
 and PageDown adds ten lines; the literal line-11 expectation is independent of
 implementation calculation. Hosted confirmation remains required, not assumed.
+The same PTY case now runs in the existing early publication gate, so this
+failure is caught before the lengthy whole application suite. The whole suite
+is retained. Bounded actual first-party Opus review of that CI change and repair
+also reports PASS with limitations (9,823 bytes, SHA-256
+`4e576c7ebb3d4c1387a0dcbae34f3d43c664c28ee6c9cb7bad81281839cb7435`).
 
 Release-boundary review on 2026-10-15 uses actual first-party `claude-opus-5-5`
 with tools/hooks/plugins/MCP and persistence disabled (55,564-byte fixed public
