@@ -104,7 +104,7 @@ def panes(app, width, height):
 def node_style(app, node_id):
     return {"claim": "claim", "observation": "evidence", "experiment-plan": "plan",
             "experiment-record": "run", "interpretation": "interpretation",
-            "manuscript-anchor": "writing"}[app.nodes[node_id]["kind"]]
+            "manuscript-anchor": "writing", "critique-question": "interpretation"}[app.nodes[node_id]["kind"]]
 
 
 def excerpt(text, width, count):
@@ -316,16 +316,16 @@ def compose(app, width, height):
         return frame
     context = " › ".join(app.kind(key) for key in app.selected_path) if len(app.selected_path) > 1 else app.view["title"]
     if app.lens == "evidence":
-        context = app.evidence_label(app.evidence_root) + " / " + context
+        context = app.entry_label(app.evidence_root) + " / " + context
     if height >= 36:
         frame.put(2, 2, "Search: " + app.search if app.search else context, "top_muted", width - 4)
     tabs_y = 3 if height >= 36 else 2
     frame.put(tabs_y, 2, "[1 Argument]" if app.lens == "argument" else " 1 Argument ",
               "top_accent" if app.lens == "argument" else "top_muted", width - 4)
-    frame.put(tabs_y, 17, "[2 Evidence uses]" if app.lens == "evidence" else " 2 Evidence uses ",
+    frame.put(tabs_y, 17, "[2 Experiments]" if app.lens == "evidence" else " 2 Experiments ",
               "top_accent" if app.lens == "evidence" else "top_muted", width - 19)
     if app.lens == "evidence" and (62 <= width < 80 or width >= 104):
-        frame.put(tabs_y, 38, "[ / ] change evidence", "top_muted", width - 40)
+        frame.put(tabs_y, 38, "[ / ] root · 2 chooser", "top_muted", width - 40)
     if width >= 80 and app.series:
         frame.put(tabs_y, width - 32, "t Episodes   W Pending work", "top_accent", 30)
     for kind, x, y, w, h in panes(app, width, height):
@@ -477,12 +477,13 @@ HELP = [
     ("NAVIGATE", "Arrow keys or j/k move. Tab changes pane; Shift-Tab goes back."),
     ("OUTLINE", "← folds or moves to parent; → unfolds. Space toggles a branch. Enter reads its edge. / searches with ancestry."),
     ("OUTLINE EDGES", "↑ means this node → its parent; ↓ means parent → this node. Each type is recorded, including parallel structural links."),
-    ("VIEWS", "1 Argument starts at the thesis. 2 Evidence uses starts at an observation; [ / ] changes evidence. Esc returns with your context."),
+    ("VIEWS", "1 Argument starts at the thesis. 2 Experiments starts at an observation; [ / ] changes evidence. Esc returns with your context."),
     ("SHARED", "E1/E2 labels identify the same evidence across views; counts mean distinct directly linked claims. ↪ is a reference; ↔ marks another visible occurrence of the selected evidence. g jumps to its primary occurrence."),
     ("CLAIM USES", "Select evidence to read its named claim uses. u chooses a use; Enter follows it, Tab reads the rationale, Esc returns. r includes source/experiment connections too."),
     ("RELATIONS", "Enter follows a connection. Esc returns to the previous node."),
     ("READ", "d reads; PgUp/PgDn scroll. r focuses relationships."),
     ("LAYOUT", "Start with the full map. Enter opens reading beside it at 140+ columns, or a full reader on smaller screens. Esc restores the map. P pins/unpins the reader; the preference survives resizing. f fits the current scope using compact cards and restores the full pane. z switches compact/source cards. v changes outline layouts."),
+    ("FOLDING", "Enter expands a folded branch one level, otherwise reads. Space folds/unfolds; * unfolds all in this view. 2 starts from an experiment/result; press 2 again for the searchable chooser. [ ] changes root. ; offers exact folded-record inspection and the edge legend. Counts and references never imply evidence strength."),
     ("GRAPH SCOPE", "l roots a local neighborhood at the selected node; +/- changes its depth (1–3 hops). Selecting within it does not re-root it. a restores all nodes in the current Argument/Evidence lens. Counts distinguish offscreen cards from nodes/edges hidden by scope. r lists every recorded connection; following outside the scope reveals the target. Esc returns to the previous scope/position."),
     ("VIEW SETTINGS", ", opens spacing, card detail and reading-panel preferences. Arrows choose/change; Enter keeps the live preview, Esc restores the previous view. r previews defaults. Settings remain session-only. Vertical connectors retain at least three cells; use local scope or pan when a short screen cannot show all cards."),
     ("DENSITY", "z switches compact map cards and comfortable source cards. Short captions identify the subject; Enter reads the full statement and conditions. pp means percentage points. ! marks an unlinked record. Color and text identify node/relation types."),
@@ -651,6 +652,13 @@ class Terminal:
         return None if received_suffix else "escape"
 
     def draw_modal(self, frame):
+        if self.modal.startswith('graph-edit-'):
+            from .tui_graph_edit import graph_edit_ui
+            return graph_edit_ui(self).draw(frame)
+        if self.modal == 'graph-browse':
+            from .tui_view_ui import graph_browse_ui
+            return graph_browse_ui(self).draw(frame)
+
         if self.modal.startswith('proposal-'):
             from .tui_proposals import proposals_ui
             return proposals_ui(self).draw(frame)
@@ -852,6 +860,10 @@ class Terminal:
         self.screen.refresh()
 
     def modal_key(self, event):
+        if self.modal.startswith('graph-edit-'):
+            from .tui_graph_edit import graph_edit_ui
+            graph_edit_ui(self).dispatch(event)
+            return None
         if self.modal.startswith('proposal-'):
             from .tui_proposals import proposals_ui
             proposals_ui(self).dispatch(event)
@@ -898,6 +910,10 @@ class Terminal:
                 return None
         if self.modal == 'recovery' and getattr(self, 'recovery_discard', False) and event == 'escape':
             self.recovery_discard = False
+            return None
+        if self.modal == 'graph-browse':
+            from .tui_view_ui import graph_browse_ui
+            graph_browse_ui(self).key(event)
             return None
         if self.modal == 'view-settings':
             from .tui_view_ui import view_ui
@@ -1119,7 +1135,8 @@ class Terminal:
                 if app.navigation == "graph":
                     if event in ("j", "k"):
                         keys = list(graph_scene(app).boxes)
-                        app.select(keys[max(0, min(len(keys) - 1, keys.index(app.selected_id) + amount))])
+                        if app.selected_id in keys:
+                            app.select(keys[max(0, min(len(keys) - 1, keys.index(app.selected_id) + amount))])
                     else:
                         move_graph(app, event)
                 else:
@@ -1144,13 +1161,23 @@ class Terminal:
                 app.follow(app.display_links()[app.link_index])
             elif app.focus == "outline":
                 if app.navigation == "graph":
-                    app.open_view()
-                    app.reading_relation = False
+                    if not app.search and app.selected_id in app.collapsed and app.children(app.selected_id):
+                        app.collapsed.remove(app.selected_id)
+                        app.graph_follow = True
+                        app.message = 'Branch expanded one level. Enter reads; Space folds; ; inspects hidden connections.'
+                    else:
+                        app.open_view()
+                        app.reading_relation = False
                 else:
                     app.inspect_parent_edge()
         elif event == " " and app.focus == "outline":
-            if app.navigation == "outline":
-                app.toggle_collapsed()
+            app.toggle_collapsed()
+            app.graph_follow = True
+            app.message = 'Branch fold changed. Enter expands or reads; ; inspects folded records.'
+        elif event == '*' and app.focus == 'outline':
+            app.collapsed.clear()
+            app.graph_follow = True
+            app.message = 'All records unfolded in this view. Space folds one branch.'
         elif event == "left" and app.focus == "outline":
             move_graph(app, event) if app.navigation == "graph" else app.left()
         elif event == "right" and app.focus == "outline":
@@ -1179,7 +1206,11 @@ class Terminal:
         elif event == "g":
             app.jump_to_original()
         elif event in ("1", "2"):
-            app.switch_lens("argument" if event == "1" else "evidence")
+            if event == '2' and app.lens == 'evidence':
+                from .tui_view_ui import graph_browse_ui
+                graph_browse_ui(self).open('roots')
+            else:
+                app.switch_lens("argument" if event == "1" else "evidence")
         elif event in ("[", "]"):
             app.cycle_evidence(-1 if event == "[" else 1)
         elif event == "escape":
@@ -1317,7 +1348,7 @@ class Terminal:
                     continue
                 if (not self.modal and isinstance(event, str) and event not in
                         {"interrupt", "suspend", "redraw", "resize", "tab", "backtab", "up", "down", "left", "right",
-                         "page-up", "page-down", "home", "end", "enter", "escape", *"q?jk ofHJKLg12[]vzbru dimpsenNEU/Pla+-=wAcRyxGBtWCM,;"}):
+                         "page-up", "page-down", "home", "end", "enter", "escape", *"q?jk ofHJKLg12[]vzbru dimpsenNEU/Pla+-=wAcRyxGBtWCM,;*"}):
                     continue
                 code = self.key(event)
                 if code is not None:

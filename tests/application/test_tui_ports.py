@@ -11,6 +11,8 @@ class PortTests(unittest.TestCase):
     def setUp(self):
         self.history = replay_example('manual', paper=True)
         self.app = TerminalWorkspace(self.history)
+        # These assertions inspect every source route; fold behavior is covered separately.
+        self.app.collapsed.clear()
 
     def test_relationship_phrases_state_both_directions(self):
         from claimbranch.application.tui_graph import relation_phrase
@@ -79,6 +81,7 @@ class PortTests(unittest.TestCase):
 
     def test_corrected_evidence_names_its_challenge_in_full(self):
         app = TerminalWorkspace(replay_example('recorded', series=True))
+        app.collapsed.clear()
         app.select('obs-1')
         self.assertIn('challenged by E1', compose(app, 144, 42).plain())
 
@@ -87,6 +90,7 @@ class PortTests(unittest.TestCase):
             for series in (False, True):
                 with self.subTest(size=size, series=series):
                     app = TerminalWorkspace(replay_example('recorded', series=series, paper=not series))
+                    app.collapsed.clear()
                     app.select('obs-1')
                     if local:
                         app.scope_graph('obs-1')
@@ -143,7 +147,8 @@ class PortTests(unittest.TestCase):
         _, focused = scene.focus('obs-1')
         rows = relation_lines(self.app, scene, 'claim-comparison', focused)
         self.assertEqual('supportedbyE112345678901234567890', ''.join(text.replace(' ', '') for text, _ in rows))
-        positions = header_relations(node_heading(self.app, 'claim-comparison'), rows, scene.boxes['claim-comparison'].width - 2)
+        # Force a narrow phrase lane independently of the new readable header floor.
+        positions = header_relations(node_heading(self.app, 'claim-comparison'), rows, 24)
         self.assertGreater(len(positions), 1)
         for key, box in scene.boxes.items():
             self.assertLessEqual(max((dy for _, dy, _, _ in header_relations(node_heading(self.app, key), relation_lines(self.app, scene, key, focused), box.width - 2)), default=0), box.relation_rows)
@@ -153,6 +158,7 @@ class PortTests(unittest.TestCase):
         compose(self.app, 120, 32)
         compose(self.app, 120, 30)
         fresh = TerminalWorkspace(self.history)
+        fresh.collapsed.clear()
         compose(fresh, 120, 30)
         self.assertEqual(graph_scene(fresh).boxes, graph_scene(self.app).boxes)
 

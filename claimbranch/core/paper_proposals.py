@@ -4,6 +4,7 @@ Only explicitly selected context and response-local item references are legal.
 Validation proves a bounded proposal, not source fidelity or a complete graph:
 the eventual selected staging batch must still pass the existing domain checks.
 """
+from .graph_vocabulary import SCIENTIFIC_EDGE_TYPES
 from copy import deepcopy
 from dataclasses import dataclass
 
@@ -23,7 +24,7 @@ BODIES = {
                  parent_ids=array(REFERENCE, 3, 1, True)),
     'interpretation': obj(statement=TEXT, observation_ids=array(REFERENCE, 16, unique=True)),
     'scientific-edge': obj(source_id=REFERENCE, target_id=REFERENCE,
-        edge_type={'enum': ['supports', 'challenges', 'qualifies']}, rationale=TEXT),
+        edge_type={'enum': list(SCIENTIFIC_EDGE_TYPES)}, rationale=TEXT),
     'experiment-plan': obj(claim_id=REFERENCE, objective=TEXT, status={'const': 'planned'},
                            conditions=TEXT, metric=METRIC),
 }

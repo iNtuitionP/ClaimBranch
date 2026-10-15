@@ -2,7 +2,7 @@
 kind: design
 status: in-review
 owners: maintainers
-last_reviewed: 2026-10-12
+last_reviewed: 2026-10-15
 ---
 
 # Design: a research judgment that remains understandable
@@ -22,6 +22,198 @@ and its unfinished consequences. The graph is the primary workspace under
 The product's [PG-1 through PG-5](../product/product-spec.md#7-interaction-and-visual-character)
 are user requirements; the interaction mechanisms proposed below remain in
 review. A rendered screen does not establish understanding or live product value.
+
+## Foldable two-entry graph and direct editing
+
+Owner-selected requirements, 2026-10-15. G01 vocabulary and G02/G03 folded
+projection/terminal controls and G04–G06 direct revisions, optional proposal
+prefill and private view return are implemented in the current checkout. The
+existing plan records final verification and publication status separately.
+The researcher should recognize a large paper's argument, enter through either
+its thesis or an experiment/result, inspect omitted qualifications, and edit
+the actual records without relying on node IDs or editing personal notes alone.
+The [product graph requirements](../product/product-spec.md#7-interaction-and-visual-character)
+own the behavior; the [six-outcome implementation plan](../plans/active/2026-08-04-claimbranch-v1-and-gpu-systems.md#foldable-two-entry-graph-implementation-plan)
+owns sequencing and evidence.
+
+### Two entry views over one graph
+
+| Entry | Initially visible | Expand one level | Retain while navigating |
+|---|---|---|---|
+| `1 Argument` | Thesis and principal claims; deeper arguments folded | Subclaims and direct recorded basis; then observations and experiment/source context | Thesis path, cross-branch uses and scientific directions |
+| `2 Experiments` | Searchable experiment/result chooser and selected root's immediate recorded context | Experiment -> produced observations -> claims using them; for an observation root, direct claim uses plus experiment/source access; higher claims/thesis can expand afterwards | Selected experiment/result, conditions, actual relation types and return path |
+
+The planning baseline `2 Evidence uses` accepted observation roots only. G02
+now supports recorded experiments, observations and distinctly unrun plans; G03
+connects the chooser and fold controls. G04 adds direct recorded revisions and
+G06 adds validated private presentation return. Completed experiments
+with no observations remain selectable, with an explicit empty result state.
+Unrun plans may be inspected but must remain visibly planned and cannot acquire
+produced observations by being expanded. Multiple observations from one
+experiment retain separate identities; one may serve several claims or experiments
+only where the stored relationships actually say so.
+
+Keep fold/root/viewport state independently per project, episode/ref, lens and
+root. Switching `1`/`2` restores the prior view without losing writing, selection
+or undo. Following a link outside the projection reveals the destination with a
+return path, without silently switching to the thesis view. Persist supported
+presentation state across reopen with identity/context validation; never restore
+an authorization or review merely because a view was restored.
+
+Stamp cached/persisted navigation with the graph revision. After edits, rebuild
+and validate root, selected occurrence/path and fold ownership against canonical
+IDs before restoring. A missing path falls back to the same record's current
+occurrence, then the root with an explanation; never discard its draft. Ownership
+changes invalidate the old occurrence fold rather than moving it elsewhere.
+Persist only view preferences/IDs in an atomically written private workspace UI
+sidecar, separate from scientific history, canonical sharing and research backup
+payloads. A missing/invalid sidecar resets presentation, not writing or science.
+The finite sidecar fields are its format version, project/episode/ref, lens,
+canonical root ID, selected canonical ID/occurrence, fold ownership keys, viewport
+and graph revision. Concurrent windows may use last-writer-wins for these
+presentation fields only; every load validates revision/context, and this policy
+never governs scientific history or writing checkpoints.
+
+### Folding and exact connections
+
+Activation (an explicit expand key or click) of a folded card reveals one level;
+keyboard and pointer equivalents must be visible. Moving focus or hovering alone emphasizes
+connections without unfolding, resizing or moving cards. An explicit collapse
+action folds an open group; repeated selection does not unexpectedly close it.
+Keyboard focus/activation is mandatory; hover is optional where the terminal
+already supports it and must not introduce a platform-capability prerequisite.
+Keep unaffected positions stable where possible and reveal expansion near its
+origin. Preserve the existing pan, explicit neighborhood and outline alternatives.
+
+Folding is a disposable reading projection, not a new parent/child scientific
+relationship. Deterministic finite ownership of display groups handles DAGs,
+cycles and shared evidence with references to canonical identities. A reference
+must not look like another observation or increment a scientific record count.
+If all endpoints are visible, their actual links stay inspectable even across
+display groups. Collapsed group boundary bundles are marked as bundles with
+underlying edge counts and source/target access, never drawn as one new support.
+
+Separate exact counts of hidden internal edges from boundary edges, by canonical
+type/direction; distinguish unique records from references and viewport clipping
+from deliberate folding/filtering. Define membership and deduplication before
+rendering so nested folds cannot double-count a shared record. Do not infer
+transitive support. Preserve parallel edges and rationale. Search reveals the
+path to a match temporarily and can return to the prior folds.
+Canonical IDs, not session aliases such as E1 or outline occurrence counts,
+identify edits, proposals and unique records. Render every arrow from its own
+stored endpoints, including opposite-direction parallel edges; placement cannot
+choose one direction for the pair. A result -> claim -> challenge -> claim path
+must show the challenge hop, never imply that the result supports the last claim.
+
+Qualifications/challenges, mandatory companions, evidence corrections or
+retractions, unresolved imported content and explanation-review obligations
+remain discoverable on folded boundaries. Relation types and record/work status
+use separate visual sections. Inspecting an indicator reveals its exact source
+and path. An impact lens propagates recorded dependencies beyond folds and
+filters, marks affected anchors, and distinguishes structural reach from a
+scientific truth judgment. No all-clear indicator is inferred from hidden data.
+
+### Content and relationship vocabulary
+
+A node's editable one-line title communicates its scientific content; kind and
+stable ID are secondary. A folded group's optional one-line description says
+what it contains. Keep original statements, conditions and measurement definitions
+accessible. Missing captions use a visibly abbreviated source excerpt, not
+invented facts. AI caption/group-description suggestions require explicit
+adoption and retained origin; no background provider call is needed to browse.
+
+One shared registry supplies node kinds, permitted endpoint pairs, canonical edge
+types, fixed display labels, directional rendering and definitions to creation,
+editing, graph, legend and readers. Scientific `supports`/`challenges`/`qualifies`
+must not drift into arbitrary generated phrases. Other recorded structural,
+experiment, manuscript and companion relations remain separately classified.
+The editor lists only valid choices for its context and explains unavailable
+ones. A reading-order reversal changes layout, not the stored edge direction.
+Replace the local relation phrase and outline kind-order tables together. Closed
+schema validation still refuses unknown authored kinds/types before scientific
+state changes. Do not invent an accepted unknown-kind history fixture. Preserve
+unsupported imported source as explicitly unresolved source, inspectable outside
+the accepted graph; a defensive renderer diagnostic must not silently admit it.
+
+### Direct TUI editing and history
+
+Provide named create/edit actions for node kind, title, content and kind-specific
+fields, plus edge type, endpoints and rationale. Free text is editable; kinds
+and edge types come from the closed registry. Personal notes remain separate.
+Draft input can be incomplete and freely revised. Compare the entire resulting
+change, affected dependencies and origin before recording it. Cancel, stale
+context and save failure preserve writing and accepted state.
+
+Published evidence is not overwritten: observation content/value changes use
+append-only corrections; historical experiment records retain prior versions.
+Changing a kind may require explicit conversion/replacement with a new identity
+and historical link, rather than retagging an observation as a claim or a plan
+as a completed experiment. Retargeting/retyping a recorded edge retains the old
+relationship in history and requires revalidation of dependent reviews and
+companion rules. Every title edit on a reviewed record follows its content-edit
+review/revalidation path; do not rely on an AI or heuristic meaning-change detector.
+Replacement leaves original edges on the original identity; the comparison offers
+explicit, validated per-edge re-link choices, with historical/superseded state
+and impact visible. It never silently clones or moves links to the new record.
+Manuscript-anchor metadata may be edited, but manuscript blocks stay read-only.
+Imported originals and AI contribution remain visible after human edits.
+
+Reuse optional AI discussion and bounded edit proposals for user-requested
+titles, content, kind and connections. Preview exact selected changes, validate
+them through the same manual path, and permit editing/rejection before adoption.
+Do not require free-form replies to parse into graphs. Add unsupported proposal
+fields only through a reviewed versioned contract, preserving legacy replies.
+New transmissions still require their existing exact consent; this plan does
+not authorize a live request or make providers available to unsupported profiles.
+
+### G01 edit coverage and durable-field contract
+
+The shared registry is implemented in `claimbranch/core/graph_vocabulary.py`.
+It supplies closed scientific enums to history/context/import/proposal schemas,
+labels/order to the graph and kind picker, and endpoint choices to candidate
+creation. Schema bytes remain unchanged. This is not the completed editor.
+
+| Record/field | Existing path verified during G01 | Implemented G04 path / limit |
+|---|---|---|
+| Claim statement/scope | Candidate/review amendments | Direct title/content editor; validated role/parent revision |
+| Interpretation statement | Candidate/review amendments | Direct title/statement and explicit observation membership revision; earlier/co-reported readings require replacement |
+| Unrun plan objective | Existing edit; full conditions/metric on creation | Complete objective/conditions/metric/claim/title revision; status remains planned |
+| Scientific edge type/rationale | Existing edit; endpoints on creation | Direct incident-edge entry; closed type/endpoints/rationale revision with dependent-basis validation |
+| Observation statement/value | Append-only evidence events | Direct append-only text/value correction; title-only leaves evidence watermark unchanged; typed tables retain their existing correction path |
+| Completed experiment question/method/conditions/metric/source | Create-only `record-experiment` | Versioned descriptive revision; measured metric/conditions stay fixed after results; previous commands remain immutable |
+| Manuscript anchor associations/source registration | Existing reviewed metadata paths | Direct registered metadata/title editor; no manuscript file writes |
+| Node kind | Fixed identity/kind checks | Fresh reasoning replacement, originals retained; explicit scientific re-link selection with complete validation |
+
+The implemented durable title is a separate bounded text field, not an alias or a replacement
+for full source content. Keep group descriptions in presentation data only;
+if they assert new science, use the reviewed content path. Missing titles use
+source excerpts. G04 records title/revision fields through command v13 and new explicit personal
+work/frame versions; imported original bodies remain unchanged. Title/origin
+survive private backup, readable queries and selected sharing. G05 uses existing
+checked typed proposals to prefill the same direct editor; legacy provider
+context fields stay explicitly bounded and do not automatically acquire titles. Old records are not rewritten or assigned human
+origin on read. Every recorded title edit follows content review; invalid
+unfinished writing can be retained but is excluded from valid graph/review.
+
+### Reference applicability and validation
+
+The inspected official references support different mechanisms:
+[Kialo navigation](https://support.kialo-edu.com/en/hc/discussion-minimap/) retains
+the thesis path; [Obsidian local graphs](https://obsidian.md/help/plugins/graph)
+vary neighborhood depth; [Kumu views](https://docs.kumu.io/guides/views) separate
+views from records; [yFiles folding](https://live.yworks.com/demos/application-features/folding/)
+demonstrates explicit group expansion; [GraphMaps](https://arxiv.org/abs/1506.06745)
+motivates stable geometry. These are reference mechanisms, not evidence that
+this composition works for ClaimBranch or an adoption of their dependency stacks.
+
+Compare the same large synthetic argument in both entry views: find a shared
+observation, a hidden challenge and mandatory companion, follow a correction to
+all declared manuscript uses, edit a claim/edge and return after reopen.
+The [folded graph oracles](../validation/cases/saturation.md#folded-two-entry-graph-oracles-planned)
+define observable acceptance. Terminal screenshots and test passes alone do not
+prove human comprehension. Prefer one-level explicit folding over a full
+shrink-to-fit map or auto-reflow on hover; retain whole-map inspection as an
+alternative. Presentation values and chooser wording remain prototype choices.
 
 ## Context and current state
 

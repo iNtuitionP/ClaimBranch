@@ -37,23 +37,9 @@ class Route:
 
 def relation_phrase(edge, node_id, other_label):
     """Read the recorded edge from the card owner's perspective."""
-    phrases = {
-        'revises-reading': ('revises reading', 'original of reading'),
-        'co-reported-with': ('co-reported with', 'co-reported with'),
-        'must-co-report': ('must be reported with', 'requires companion'),
-        'supports': ('supports', 'supported by'),
-        'challenges': ('challenges', 'challenged by'),
-        'qualifies': ('qualifies', 'qualified by'),
-        'part-of': ('part of', 'contains'),
-        'produced': ('produced', 'produced by'),
-        'interprets': ('interprets', 'interpreted by'),
-        'tests': ('tests', 'tested by'),
-        'expresses': ('expresses', 'expressed by'),
-        'plots': ('declares data from', 'declared in'),
-        'caption-of': ('caption for', 'has caption'),
-    }
-    active, passive = phrases[edge['type']]
-    return f"{active if node_id == edge['source_id'] else passive} {other_label}" + (' · draft' if edge.get('draft') else '')
+    from claimbranch.core.graph_vocabulary import relation_label
+    active = relation_label(edge['type'], node_id == edge['source_id'])
+    return f"{active} {other_label}" + (' · draft' if edge.get('draft') else '')
 
 
 def node_heading(app, key):
@@ -64,7 +50,8 @@ def node_heading(app, key):
         label = app.node_label(key) + ' DRAFT ' + ('UNRUN PLAN' if app.nodes[key]['kind'] == 'experiment-plan' else app.kind(key))
     if app._row_by_path[app._paths[key]].unlinked:
         label = ('! ' if app.density == 'compact' else 'UNLINKED / ') + label
-    return ' ' + app.marker(key) + label
+    fold = '▸ ' if key in app.collapsed and app.children(key) and not app.search else ''
+    return ' ' + app.marker(key) + fold + label
 
 
 def header_relations(heading, phrases, width):
@@ -157,6 +144,31 @@ class Scene:
         return min(candidates)[1] if candidates else node_id
 
 
+def _track_overlap(index,cache,fixed,low,high):
+    """Sum inclusive overlap lengths with earlier tracks on this one axis.
+
+    Piecewise coverage integration preserves the prior routing score without
+    rescanning every unrelated route for each candidate bend.
+    """
+    from bisect import bisect_right
+    intervals=index.get(fixed,())
+    if not intervals:return 0
+    cached=cache.get(fixed)
+    if cached is None or cached[0]!=len(intervals):
+        events={}
+        for start,end in intervals:
+            events[start]=events.get(start,0)+1;events[end+1]=events.get(end+1,0)-1
+        positions=sorted(events);areas=[];levels=[];area=level=0;last=positions[0]
+        for pos in positions:
+            area+=(pos-last)*level;areas.append(area);level+=events[pos];levels.append(level);last=pos
+        cached=(len(intervals),positions,areas,levels);cache[fixed]=cached
+    _,positions,areas,levels=cached
+    def integral(point):
+        i=bisect_right(positions,point)-1
+        return 0 if i<0 else areas[i]+levels[i]*(point-positions[i])
+    return integral(high+1)-integral(low)
+
+
 def graph_scene(app):
     rows = app.graph_rows()
     allowed = app.graph_ids()
@@ -166,9 +178,9 @@ def graph_scene(app):
         if row.node_id not in allowed:
             continue
         ranks[row.node_id] = min(ranks.get(row.node_id, row.depth), row.depth)
-        for edge in row.edges:
-            if edge['source_id'] in allowed and edge['target_id'] in allowed:
-                records[edge["key"]] = edge
+    # Display ownership cannot suppress a cross-link between visible endpoints.
+    records = {edge['key']: edge for edge in app.view['relations']
+               if edge['source_id'] in ranks and edge['target_id'] in ranks}
     levels = {rank: index for index, rank in enumerate(sorted(set(ranks.values())))}
     ranks = {key: levels[rank] for key, rank in ranks.items()}
     columns = {}
@@ -187,6 +199,9 @@ def graph_scene(app):
         card_w, card_h, gap_x = 26, 6, 12
     labels = {key: app.node_label(key) for key in ranks}
     headings = {key: node_heading(app, key) for key in ranks}
+    # Canonical type/draft labels are never clipped to force a nominal fit.
+    # The readability floor depends on content, never on selected/focused state.
+    card_w = max(card_w, max((cell_width(text) + 3 for text in headings.values()), default=0))
     scene_key = (tuple(ranks.items()), card_w, card_h, gap_x, available_h, app.graph_spacing, tuple(labels.items()), tuple(headings.items()),
                  tuple((key, id(edge), edge['source_id'], edge['target_id'], edge['type'], edge['scientific'])
                        for key, edge in records.items()))
@@ -270,7 +285,8 @@ def graph_scene(app):
                     'left': (box.x - 1, box.y + offset), 'right': (box.x + box.width, box.y + offset),
                     'top': (box.x + offset, box.y - 1), 'bottom': (box.x + offset, box.y + box.height),
                 }[side]
-    pairs, routes, tracks = {}, [], []
+    pairs, routes = {}, []
+    horizontal_tracks,vertical_tracks,h_cache,v_cache={},{},{},{}
     for edge in sorted(records.values(), key=lambda edge: (not edge["scientific"], edge["key"])):
         source, target = boxes[edge["source_id"]], boxes[edge["target_id"]]
         pair = tuple(sorted((edge["source_id"], edge["target_id"])))
@@ -298,13 +314,10 @@ def graph_scene(app):
                 for first, last in zip(candidate, candidate[1:]):
                     if first == last:
                         continue
-                    for a, b in tracks:
-                        if first[1] == last[1] == a[1] == b[1]:
-                            horizontal += max(0, min(max(first[0], last[0]), max(a[0], b[0])) -
-                                              max(min(first[0], last[0]), min(a[0], b[0])) + 1)
-                        elif first[0] == last[0] == a[0] == b[0]:
-                            vertical_overlap += max(0, min(max(first[1], last[1]), max(a[1], b[1])) -
-                                                    max(min(first[1], last[1]), min(a[1], b[1])) + 1)
+                    if first[1]==last[1]:
+                        low,high=sorted((first[0],last[0]));horizontal+=_track_overlap(horizontal_tracks,h_cache,first[1],low,high)
+                    else:
+                        low,high=sorted((first[1],last[1]));vertical_overlap+=_track_overlap(vertical_tracks,v_cache,first[0],low,high)
                 return horizontal, vertical_overlap, len(candidate), sum(abs(x - middle) for x, _ in candidate[1:-1])
             choices = [(start, (column, start[1]), (column, end[1]), end)
                        for column in range(low + 1, high)]
@@ -325,11 +338,15 @@ def graph_scene(app):
             path = (start, (sx, start[1]), (sx, lower), (tx, lower), (tx, end[1]), end)
             label_x, label_width = min(sx, tx), max(2, abs(tx - sx))
         routes.append(Route(edge, path, label_x, label_width))
-        tracks.extend((a, b) for a, b in zip(path, path[1:]) if a != b)
+        for a,b in zip(path,path[1:]):
+            if a==b:continue
+            horizontal=a[1]==b[1];index=horizontal_tracks if horizontal else vertical_tracks
+            fixed=a[1] if horizontal else a[0];start,end=sorted((a[0],b[0]) if horizontal else (a[1],b[1]))
+            index.setdefault(fixed,[]).append((start,end))
     width = max([box.x + box.width + 1 for box in boxes.values()] +
-                [x + 2 for route in routes for x, _ in route.points])
+                [x + 2 for route in routes for x, _ in route.points], default=1)
     height = max([box.y + box.height + 1 for box in boxes.values()] +
-                 [y + 2 for route in routes for _, y in route.points])
+                 [y + 2 for route in routes for _, y in route.points], default=1)
     app._scene_key = scene_key
     app._scene = Scene(boxes, tuple(routes), width, height)
     return app._scene
@@ -337,7 +354,8 @@ def graph_scene(app):
 
 def move_graph(app, direction):
     scene = graph_scene(app)
-    app.select(scene.neighbor(app.selected_id, direction))
+    if app.selected_id in scene.boxes:
+        app.select(scene.neighbor(app.selected_id, direction))
 
 
 def stroke_glyph(bits):
@@ -365,6 +383,9 @@ def graph(frame, app, x, y, width, height):
     left, top, visible_w, visible_h = x + 2, y + 2, width - 4, height - 5
     app.graph_size = (visible_w, visible_h)
     scene = graph_scene(app)
+    if app.selected_id not in scene.boxes:
+        frame.put(y + 2, x + 2, 'No matching records in this scope. Esc returns; / changes search.', 'muted', width - 4)
+        return
     chosen = scene.boxes[app.selected_id]
     px, py = app.graph_pan
     if app.graph_follow:
@@ -453,6 +474,35 @@ def graph(frame, app, x, y, width, height):
         heading = node_heading(app, key)
         header = '›' + heading if selected else heading
         put(box.x + 1, box.y, clip(header + (' ' if cell_width(header) < box.width - 2 else ''), box.width - 2), style)
+        if key in app.collapsed and app.children(key) and not app.search:
+            inventory = app.fold_inventory(key)
+            flags = []
+            for kind in ('challenges', 'qualifies', 'must-co-report'):
+                count = sum(count for group in ('internal', 'boundary')
+                            for (edge_type, _), count in inventory[group].items() if edge_type == kind)
+                if count:
+                    flags.append(kind + ' ' + str(count))
+            statuses = ' · '.join(status + ' ' + str(len(keys)) for status, keys in inventory['statuses'].items())
+            if app.scenario:
+                reached = set(inventory['records']) & set(app.scenario['potentially_affected_claim_ids'])
+                if reached:
+                    statuses = '~' + str(len(reached)) + ' hypothetical reach' + (' · ' + statuses if statuses else '')
+            parts = ['▸ ' + str(len(inventory['records']))]
+            parts += flags + ([statuses] if statuses else [])
+            if inventory['reference_positions']:
+                parts.append(str(inventory['reference_positions']) + ' refs')
+            if not flags and not statuses and not inventory['reference_positions']:
+                parts.append('records')
+            badge_width = box.width - 2 - (2 if compact and note else 0)
+            badge = parts[0]
+            for index, part in enumerate(parts[1:], 1):
+                candidate = badge + ' / ' + part
+                reserve = 2 if index < len(parts) - 1 else 0
+                if cell_width(candidate) + reserve > badge_width:
+                    badge += ' …'
+                    break
+                badge = candidate
+            put(box.x + 1, box.y + box.height - 1, badge, 'warning' if flags or statuses else style)
         if compact and note:
             put(box.x + box.width - 3, box.y + box.height - 1, '✎', style)
         copy = overview_copy(app, key) if compact else None
@@ -494,13 +544,21 @@ def graph(frame, app, x, y, width, height):
         grouped.setdefault((link.kind, link.outgoing), []).append(app.node_label(link.target_id))
     summary = " · ".join(f"{kind} {'→' if outgoing else '←'} {','.join(targets)}"
                          for (kind, outgoing), targets in grouped.items())
+    if app.selected_id in app.collapsed and not app.search:
+        inventory = app.fold_inventory()
+        hidden_types = ' · '.join(f'{kind} {direction} {count}'
+                                  for (kind, direction), count in inventory['boundary'].items())
+        summary = 'Owned boundary / ' + hidden_types + ' | Direct / ' + summary
     frame.put(y + height - 2, x + 2, ("Connection outside this view · r follows" if selected_edge and not focused_edges else summary) or "No recorded connections.", "muted", width - 4)
     more = (" ←" if px else "") + (" →" if px + visible_w < scene.width else "") + (
         " ↑" if py else "") + (" ↓" if py + visible_h < scene.height else "")
-    all_ids = {row.node_id for row in app.graph_rows()}
-    all_edges = {edge['key'] for row in app.graph_rows() for edge in row.edges}
+    all_ids = set(app._paths)
+    all_edges = {edge['key'] for edge in app.view['relations']
+                 if edge['source_id'] in all_ids and edge['target_id'] in all_ids}
+    folded_count = len(all_ids - {row.node_id for row in app.graph_rows()})
+    lens_count = len(app.nodes) - len(all_ids)
     scope = f'Local {app.node_label(app.graph_root)} / {app.graph_depth} hop' if app.graph_root else 'All'
-    hidden_count = len(all_ids) - len(scene.boxes)
+    hidden_count = len({row.node_id for row in app.graph_rows()}) - len(scene.boxes)
     counts = f'{len(complete)}/{len(scene.boxes)} visible'
     if hidden_count:
         counts += f' · {hidden_count} hidden by scope / {len(all_edges) - len(scene.routes)} edges'
@@ -513,4 +571,7 @@ def graph(frame, app, x, y, width, height):
             unavailable += (' · ' if unavailable else '') + 'Outside scope: ' + ' '.join(app.node_label(key) for key in sorted(outside))
         visibility = f'{len(complete)}/{len(scene.boxes)} visible' + (f' · {hidden_count} hidden' if hidden_count else '')
         footer = visibility + more + ' · r follows · ' + unavailable + ' · ' + counts.split(' · ', 1)[-1]
+    footer = f"{folded_count} {'filtered' if app.search else 'folded'} · " + footer
+    if lens_count:
+        footer += f' · {lens_count} outside lens'
     frame.put(y + height - 1, x + 2, footer, 'muted', width - 4)

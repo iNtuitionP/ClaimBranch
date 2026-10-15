@@ -21,11 +21,15 @@ from claimbranch.core.paper_capacity import PROJECT_BYTES
 from .paper_storage_codec import decode as storage_decode
 
 
+EDIT_PERSONAL_MAGIC=b'CBPP\x00\x0b'
+
+
 class _PersonalCodec:
     max_bytes = PROJECT_BYTES + len(PERSONAL_MAGIC)
 
     def seal(self, raw):
         value = storage_decode(raw)
+        edited = value.get('schema') == 'claimbranch.project-work/v19'
         metadata = value.get('schema') == 'claimbranch.project-work/v18'
         critique = value.get('schema') == 'claimbranch.project-work/v17'
         protocol = value.get('schema') == 'claimbranch.project-work/v16'
@@ -34,16 +38,18 @@ class _PersonalCodec:
         wording = value.get('schema') == 'claimbranch.project-work/v13'
         anchored = value.get('schema') == 'claimbranch.project-work/v12'
         imported = value.get('schema') == 'claimbranch.project-work/v11'
-        paper = value.get('schema') in ('claimbranch.project-work/v10', 'claimbranch.project-work/v11', 'claimbranch.project-work/v12','claimbranch.project-work/v13','claimbranch.project-work/v14','claimbranch.project-work/v15','claimbranch.project-work/v16','claimbranch.project-work/v17','claimbranch.project-work/v18')
+        paper = value.get('schema') in ('claimbranch.project-work/v10', 'claimbranch.project-work/v11', 'claimbranch.project-work/v12','claimbranch.project-work/v13','claimbranch.project-work/v14','claimbranch.project-work/v15','claimbranch.project-work/v16','claimbranch.project-work/v17','claimbranch.project-work/v18','claimbranch.project-work/v19')
         maximum = PROJECT_BYTES if paper else MAX_BYTES
         if len(raw) > maximum:
             raise ContractError('personal work exceeds its limit')
-        return (METADATA_PERSONAL_MAGIC if metadata else CRITIQUE_PERSONAL_MAGIC if critique else PROTOCOL_PERSONAL_MAGIC if protocol else MEASUREMENT_PERSONAL_MAGIC if measurement else CO_REPORT_PERSONAL_MAGIC if co_report else WORDING_PERSONAL_MAGIC if wording else ANCHOR_PERSONAL_MAGIC if anchored else IMPORT_PERSONAL_MAGIC if imported else PAPER_PERSONAL_MAGIC if paper else PERSONAL_MAGIC) + raw
+        return (EDIT_PERSONAL_MAGIC if edited else METADATA_PERSONAL_MAGIC if metadata else CRITIQUE_PERSONAL_MAGIC if critique else PROTOCOL_PERSONAL_MAGIC if protocol else MEASUREMENT_PERSONAL_MAGIC if measurement else CO_REPORT_PERSONAL_MAGIC if co_report else WORDING_PERSONAL_MAGIC if wording else ANCHOR_PERSONAL_MAGIC if anchored else IMPORT_PERSONAL_MAGIC if imported else PAPER_PERSONAL_MAGIC if paper else PERSONAL_MAGIC) + raw
 
     def open(self, raw):
         if type(raw) is not bytes:
             raise ContractError('personal checkpoint requires bytes')
-        if raw.startswith(METADATA_PERSONAL_MAGIC):
+        if raw.startswith(EDIT_PERSONAL_MAGIC):
+            maximum, prefix = PROJECT_BYTES, EDIT_PERSONAL_MAGIC
+        elif raw.startswith(METADATA_PERSONAL_MAGIC):
             maximum, prefix = PROJECT_BYTES, METADATA_PERSONAL_MAGIC
         elif raw.startswith(CRITIQUE_PERSONAL_MAGIC):
             maximum, prefix = PROJECT_BYTES, CRITIQUE_PERSONAL_MAGIC
@@ -69,7 +75,7 @@ class _PersonalCodec:
             raise ContractError('personal checkpoint exceeds its versioned limit')
         payload = raw[len(prefix):]
         value = storage_decode(payload)
-        expected = {'claimbranch.project-work/v10': PAPER_PERSONAL_MAGIC, 'claimbranch.project-work/v11': IMPORT_PERSONAL_MAGIC,'claimbranch.project-work/v12':ANCHOR_PERSONAL_MAGIC,'claimbranch.project-work/v13':WORDING_PERSONAL_MAGIC,'claimbranch.project-work/v14':CO_REPORT_PERSONAL_MAGIC,'claimbranch.project-work/v15':MEASUREMENT_PERSONAL_MAGIC,'claimbranch.project-work/v16':PROTOCOL_PERSONAL_MAGIC,'claimbranch.project-work/v17':CRITIQUE_PERSONAL_MAGIC,'claimbranch.project-work/v18':METADATA_PERSONAL_MAGIC}.get(value.get('schema'), PERSONAL_MAGIC)
+        expected = {'claimbranch.project-work/v19':EDIT_PERSONAL_MAGIC,'claimbranch.project-work/v10': PAPER_PERSONAL_MAGIC, 'claimbranch.project-work/v11': IMPORT_PERSONAL_MAGIC,'claimbranch.project-work/v12':ANCHOR_PERSONAL_MAGIC,'claimbranch.project-work/v13':WORDING_PERSONAL_MAGIC,'claimbranch.project-work/v14':CO_REPORT_PERSONAL_MAGIC,'claimbranch.project-work/v15':MEASUREMENT_PERSONAL_MAGIC,'claimbranch.project-work/v16':PROTOCOL_PERSONAL_MAGIC,'claimbranch.project-work/v17':CRITIQUE_PERSONAL_MAGIC,'claimbranch.project-work/v18':METADATA_PERSONAL_MAGIC}.get(value.get('schema'), PERSONAL_MAGIC)
         if prefix != expected:
             raise ContractError('personal checkpoint frame/profile mismatch')
         return payload
@@ -184,3 +190,16 @@ class PersonalProjectRecovery(ProjectRecovery):
     """Use the existing full writing checkpoint with honest personal labeling."""
     personal_project = True
     encrypted_judgments = False
+
+
+    def __init__(self,store,app,project):
+        super().__init__(store,app,project)
+        from .tui_view_state import load
+        self._previous_view=load(store,app)
+
+    def save(self,app,active=None):
+        super().save(app,active)
+        from .tui_view_state import save
+        try:self._previous_view=save(self.store,app,self._previous_view)
+        except (OSError,ContractError):
+            app.view_save_notice='Graph view could not be saved; research writing checkpoint is unaffected.'

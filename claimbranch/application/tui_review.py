@@ -4,6 +4,7 @@ from copy import deepcopy
 import time
 
 from claimbranch.core.canonical import ContractError, bounded_text
+from claimbranch.core.graph_vocabulary import SCIENTIFIC_EDGE_TYPES
 from claimbranch.core.paper_context import FIELDS
 
 
@@ -147,7 +148,7 @@ class TerminalReview:
             if field == 'scope' and value is None:
                 continue
             bounded_text(value)
-        if source['kind'] == 'scientific-edge' and values['edge_type'] not in ('supports', 'challenges', 'qualifies'):
+        if source['kind'] == 'scientific-edge' and values['edge_type'] not in SCIENTIFIC_EDGE_TYPES:
             raise ContractError('Choose supports, challenges or qualifies; relation strength is not inferred.')
         record = deepcopy(self.amendments.get(self.key, {}).get(record_id) or source)
         record['body'].update(values)

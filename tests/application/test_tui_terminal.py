@@ -63,6 +63,31 @@ class TerminalProcessTests(unittest.TestCase):
                                         cwd=ROOT, env=env, stdin=self.slave, stdout=self.slave, stderr=self.slave,
                                         **({'start_new_session': True} if no_job_control else {'process_group': 0}))
 
+    def test_direct_title_revision_kind_chooser_and_restart_in_actual_terminal(self):
+        from application import test_graph_edits as prior
+        from claimbranch.application.personal_project import PersonalProjectStore
+        from claimbranch.application.tui_project import project_workspace
+        from claimbranch.application.tui_actions import ActionsUI
+        from types import SimpleNamespace
+        helper=prior.GraphEditTests();helper.setUp();self.addCleanup(helper.doCleanups)
+        with PersonalProjectStore.create(helper.work,project_id=helper.project.project_id) as store:store.save(helper.project,preview=helper.preview)
+        app=project_workspace(helper.project);app.recovery=SimpleNamespace(personal_project=True)
+        actions=ActionsUI(SimpleNamespace(app=app));items=actions.items();index=next(i for i,a in enumerate(items) if a.key=='graph-edit-node')
+        self.launch(personal_arguments=['open','--directory',str(helper.work)])
+        self.expect('ARGUMENT GRAPH');self.send(';'+('\x1b[B'*index)+'\r','EDIT RECORDED GRAPH')
+        self.send('\x0b\x0c','PLAN')
+        self.resize(80,24);self.send('\x0c','EDIT RECORDED GRAPH');self.send('\x1b')
+        original=helper.project.work.history.view('main')['claim']['statement']
+        self.send('\x1b[H'+('\x1b[3~'*min(len(original),240))+'\x1b[200~제목은 직접 고친다\x1b[201~\t\t')
+        self.send('\x1b[200~Keep the original scientific statement.\x1b[201~\x13\x0c','"after"')
+        self.send('\x1b[F\x0c','"writes": false');self.send('r','Type record')
+        self.send('record\r','Graph revision recorded')
+        self.send('q');self.assert_restored(0)
+        with PersonalProjectStore(helper.work) as store:
+            p=store.load();app=project_workspace(p);self.assertEqual('제목은 직접 고친다',app.title('T'))
+            self.assertEqual(original,p.work.history.view('main')['claim']['statement'])
+            self.assertEqual(helper.project.work.history.commands,p.work.history.commands[:-1])
+
     def test_personal_init_writing_resize_restart_without_device_keys(self):
         from claimbranch.application.personal_project import PersonalProjectStore
         from claimbranch.application.tui_project import project_workspace
@@ -1242,7 +1267,7 @@ class TerminalProcessTests(unittest.TestCase):
         self.expect("Argument")
         self.send("/obs-1\n", "2 claims")
         self.send("\x1b")
-        self.send("2", "Evidence uses · direct claims first")
+        self.send("2", "Experiments / evidence · recorded paths")
         self.send("u", "CONNECTION")
         self.expect("SUPPORTS")
         self.send("\t\n", "Followed the same node")
@@ -1252,7 +1277,7 @@ class TerminalProcessTests(unittest.TestCase):
         self.send("1", "Argument view · same records and drafts")
         self.resize(62, 24)
         self.send("d", "0.4 percentage points")
-        self.send("2", "Evidence uses · direct claims first")
+        self.send("2", "Experiments / evidence · recorded paths")
         self.send("]", "Quantizing Model A weights")
         self.send("[\x0c", "0.4 percentage points")
         self.send("e", "같은 근거의 판단")
@@ -1262,10 +1287,32 @@ class TerminalProcessTests(unittest.TestCase):
         self.send("y")
         self.assert_restored(0)
 
+    def test_folded_experiment_entry_chooser_and_korean_writing_in_real_terminal(self):
+        self.launch(navigation='graph', ai_off=True, monochrome=True)
+        self.expect('ARGUMENT GRAPH'); self.expect('folded')
+        self.send('2', 'Experiments / evidence')
+        self.send(' ', 'Branch fold changed')
+        self.send('\r\x0c', 'Branch expanded one level')
+        self.send('2', 'CHOOSE EXPERIMENT')
+        self.send('\x1b[200~Quantizing\x1b[201~\x0c', 'Search: Quantizing')
+        self.send('\t', 'Full text')
+        for width, height in ((80, 24), (120, 32), (144, 42)):
+            self.resize(width, height); self.send('\x0c', 'Full text')
+        self.send('\r', 'Quantizing')
+        self.send('e', 'YOUR JUDGMENT')
+        self.send('\x1b[200~접힌 실험에서 이어 쓰는 판단\x1b[201~\t관찰의 조건을 확인한다.\x13', 'Draft kept')
+        self.send('1', 'Argument view')
+        self.send('2', 'Experiments / evidence')
+        self.send('e\x0c', '접힌 실험에서 이어 쓰는 판단')
+        self.send('\x1b', 'Editing cancelled')
+        self.send('q', 'UNSAVED DRAFTS'); self.send('y')
+        self.assert_restored(0)
+
     def test_visual_graph_navigation_edge_reading_resize_and_draft(self):
         self.launch(navigation="graph", monochrome=True)
         self.expect("ARGUMENT GRAPH")
-        self.expect("10/10 visible · 15 edges")
+        self.expect('ARGUMENT GRAPH')
+        self.send('*', '10/10 visible · 15 edges')
         self.send("/obs-1\n", "obs-1")
         self.send("\x1b")
         self.send("\n", "CLAIM USES")
@@ -1276,8 +1323,8 @@ class TerminalProcessTests(unittest.TestCase):
         self.send("\x1b")
         self.send("f", "Fit current scope")
         position = len(self.output)
-        self.send("2\x0c", "5/5 visible")
-        self.expect("8 edges", after=position)
+        self.send("2\x0c", "Experiments / evidence")
+        self.expect("4 edges", after=position)
         self.resize(62, 24)
         self.expect("E1 · 2 claims")
         self.send("HJKLf")
@@ -1293,7 +1340,8 @@ class TerminalProcessTests(unittest.TestCase):
 
     def test_overview_local_scope_pin_fit_and_return_in_real_terminal(self):
         self.launch(navigation='graph')
-        self.expect('10/10 visible')
+        self.expect('ARGUMENT GRAPH')
+        self.send('*', '10/10 visible')
         self.send('/obs-1\n', 'obs-1')
         self.send('\x1b')
         self.send('l\x0c', '5/5 visible')
@@ -1315,7 +1363,8 @@ class TerminalProcessTests(unittest.TestCase):
     def test_terminal_uses_actual_size_even_with_stale_size_environment(self):
         with patch.dict(os.environ, {"LINES": "60", "COLUMNS": "200"}):
             self.launch(navigation="graph")
-        self.expect("10/10 visible · 15 edges")
+        self.expect('ARGUMENT GRAPH')
+        self.send('*', '10/10 visible · 15 edges')
         addresses = [(int(y), int(x)) for y, x in re.findall(rb"\x1b\[(\d+);(\d+)H", self.output)]
         self.assertTrue(addresses)
         self.assertTrue(all(y <= 38 and x <= 132 for y, x in addresses), addresses)
@@ -1327,7 +1376,8 @@ class TerminalProcessTests(unittest.TestCase):
 
     def test_unknown_terminal_sequences_do_not_run_shortcuts_and_redraw_recovers(self):
         self.launch(navigation="graph")
-        self.expect("10/10 visible · 15 edges")
+        self.expect('ARGUMENT GRAPH')
+        self.send('*', '10/10 visible · 15 edges')
         self.send("\x1b[" + "9" * 80 + "q")
         self.send("\x1b[999q\x1b[999s\x1b[9992~\r\n\r!@#$%")
         self.expect("READ")

@@ -3,6 +3,7 @@ from .tui_retention import recovery_copy
 from copy import deepcopy
 
 from .tui_work_recovery import enabled as encrypted_writing
+from claimbranch.core.graph_vocabulary import EDGE_KINDS, scientific_choices
 from claimbranch.core.canonical import ContractError
 from .tui_model import TerminalWorkspace, wrap
 from .tui_review import EDIT_FIELDS, FIELD_LABELS as LABELS
@@ -164,7 +165,10 @@ class CandidatesUI:
         if field == 'role':
             self.choices = [('main', 'Main claim under the thesis'), ('subclaim', 'Subclaim under another claim')]
         elif field == 'edge_type':
-            self.choices = [(value, value.capitalize() + ' the target claim') for value in ('supports', 'challenges', 'qualifies')]
+            self.choices = [(value, EDGE_KINDS[value].label + ' / ' + EDGE_KINDS[value].definition)
+                            for value in scientific_choices(
+                                nodes.get(body.get('source_id'), {}).get('kind'),
+                                nodes.get(body.get('target_id'), {}).get('kind'))]
         elif field == 'observation_ids':
             self.choices = [(key, self.node_text(key) + ' / ' + node['content']['status'])
                             for key, node in nodes.items() if node['kind'] == 'observation']
@@ -178,7 +182,7 @@ class CandidatesUI:
                 if field == 'parent_ids':
                     return node['kind'] == 'claim' and ((node['content']['role'] == 'thesis') == (body['role'] == 'main'))
                 if field == 'source_id':
-                    return node['kind'] in ('claim', 'interpretation', 'observation')
+                    return node['kind'] in EDGE_KINDS['supports'].sources and node['id'] != body.get('target_id')
                 return node['kind'] == 'claim' and node['id'] != body.get('source_id')
             self.choices = [(key, self.node_text(key)) for key, node in nodes.items() if eligible(node)]
         else:
@@ -208,7 +212,13 @@ class CandidatesUI:
                 graph._label_overrides[key] = self.work.alias(key)
         graph.graph_spacing, graph.density = self.app.graph_spacing, self.app.density
         graph._build_outline()
-        graph.selected_id, graph.selected_path = node, graph._paths[node]
+        # Opening an authored draft graph reveals that candidate's actual path,
+        # while the source workspace keeps its independent folds and writing.
+        items = list(self.items().values())
+        chosen = items[min(self.index, len(items) - 1)] if items else None
+        target = (chosen['id'] if chosen and chosen['id'] in graph.nodes else
+                  chosen['body'].get('source_id', node) if chosen else node)
+        graph.select(target if target in graph.nodes else node, remember=False)
         self.graph = graph
         self.open('graph')
 

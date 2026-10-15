@@ -537,7 +537,10 @@ def _apply(state, cmd):
     if imported_operation:
         kind = {'create-imported-reasoning-branch':'create-reasoning-branch', 'record-imported-interpretation':'record-interpretation', 'apply-imported-merge':'apply-selected-merge'}[kind]
     paper = state["seed"]["schema_version"] >= 2
-    if kind in ('record-critique','revise-critique-question','link-critique'):
+    if kind == 'revise-graph':
+        from .graph_edits import apply_edits
+        apply_edits(state,cmd)
+    elif kind in ('record-critique','revise-critique-question','link-critique'):
         from .critiques import apply_critique
         apply_critique(state,cmd)
     elif kind in ('register-protocol','associate-experiment','amend-gate-rule','record-gate-result','record-outcome'):
@@ -696,7 +699,7 @@ def _reduce_uncached(seed, commands):
     for position,raw in enumerate(commands):
         value = _read(raw, seed["schema_version"])
         command_version = value.get("schema_version")
-        if command_version != seed["schema_version"] and not (command_version in (6,7,8,9,10,11,12) and seed["schema_version"] in (4,5)):
+        if command_version != seed["schema_version"] and not (command_version in (6,7,8,9,10,11,12,13) and seed["schema_version"] in (4,5)):
             raise ContractError("command version does not belong to this history")
         cmd = _norm(value, command_schema(command_version), seed["schema_version"])
         if _bytes(cmd, seed["schema_version"]) != raw:
@@ -729,7 +732,7 @@ def _view(state, ref, episode_id=None):
     if type(ref) is not str or ref not in branches:
         raise ContractError("unknown reasoning ref")
     branch = branches[ref]
-    claim = {"id": state["seed"]["claim_id"], "statement": state["seed"]["claim_statement"], "status": "supported"}
+    claim = {"id": state["seed"]["claim_id"], "statement": branch.get("thesis_statement",state["seed"]["claim_statement"]), "status": "supported"}
     items = [branch["changes"][key] for key in sorted(branch["changes"])]
     for item in items:
         if item["kind"] == "claim-status":
@@ -787,6 +790,8 @@ def _view(state, ref, episode_id=None):
                       unresolved_source_pointers=deepcopy(state["seed"]["initial_argument"]["unresolved_source_pointers"]))
     for name in ('wording_policies','companion_dependencies','anchor_contexts','co_reports','condition_vocabulary','protocols','experiment_associations','gate_amendments','gate_results','outcome_assessments','critiques','critique_links','metadata_origins'):
         if state.get(name): result[name]=deepcopy(state[name])
+    if state.get('graph_revisions'):
+        result.update(graph_revisions=deepcopy(state['graph_revisions']),titles=deepcopy(branch.get('titles',{})),graph_review_required=branch.get('graph_review_required',False))
     if state.get('protocols'):
         from .protocols import plan_digest
         current_main=state['branches']['main']['changes']
@@ -908,6 +913,10 @@ class ResearchHistory:
         return cls(seed, commands)
 
     @property
+    def has_graph_edits(self):
+        return any(_read(raw,self.schema_version).get('schema_version')==13 for raw in self.commands)
+
+    @property
     def has_metadata_origins(self):
         return any(_read(raw,self.schema_version).get('schema_version')==12 for raw in self.commands)
 
@@ -948,7 +957,7 @@ class ResearchHistory:
             changes=command["payload"].get("changes")
             if type(changes) is list and len(changes)>LIFECYCLE_LIMITS["changes"]:
                 raise ContractError("capacity changes: %s / %s" % (len(changes),LIFECYCLE_LIMITS["changes"]))
-        cmd = _norm(command, command_schema(command["schema_version"] if command.get("schema_version") in (6,7,8,9,10,11,12) and self.schema_version in (4,5) else self.schema_version), self.schema_version)
+        cmd = _norm(command, command_schema(command["schema_version"] if command.get("schema_version") in (6,7,8,9,10,11,12,13) and self.schema_version in (4,5) else self.schema_version), self.schema_version)
         raw = _bytes(cmd, self.schema_version)
         for previous in self.commands:
             if _read(previous, self.schema_version)["id"] == cmd["id"]:

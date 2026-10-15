@@ -2,7 +2,7 @@
 kind: validation-case
 status: active
 owners: maintainers
-last_reviewed: 2026-10-14
+last_reviewed: 2026-10-15
 canonical_for: saturation workflow acceptance criteria
 ---
 
@@ -699,6 +699,60 @@ contracts. The views are not real refs; interpretation-to-observation paths
 are references, not new scientific inference. Passing this suite does not
 implement SelectedMerge, validate the original private research, establish
 user comprehension, or meet the full demo's time and onboarding gates.
+
+### Folded two-entry graph oracles (planned)
+
+Owner-selected 2026-10-15 follow-up. Owned checks now cover folded projection,
+root/control navigation, typed/status inspection and in-session writing return.
+Owned checks also cover direct revision/source preservation, selected AI prefill,
+validated private presentation return and large-paper rendering. Final suite
+evidence belongs to the existing plan; unfamiliar-user comprehension remains
+unverified, and no synthetic check establishes live scientific usefulness.
+Use the large synthetic fixture specified by the
+[implementation plan](../../plans/active/2026-08-04-claimbranch-v1-and-gpu-systems.md#foldable-two-entry-graph-implementation-plan).
+
+1. Open `1`: recognize thesis and major claims from content-first titles. Expand
+   a claim one level, inspect original wording/conditions and collapse explicitly.
+   Focus/hover emphasis alone does not change group state or scientific links;
+   explicit activation expands.
+2. Open `2`: choose a completed experiment with multiple observations. Expand
+   observations and their direct claim uses, then higher argument paths. Select
+   an observation directly as another entry. An empty experiment and unrun plan
+   honestly show no recorded results; neither blocks the chooser or invents data.
+3. Switch `1`/`2` and back: restore root, folds, viewport and unfinished Korean
+   writing in their owning context. Follow an outside connection and return to
+   the original lens, not an unexplained thesis reset. Reopen retains validated
+   saved presentation/writing without restoring reviews or consent.
+4. A shared observation retains one source identity across groups. Distinct
+   record counts, internal/boundary typed edge counts and parallel relationships
+   match the source; cycles terminate. Indirect reach never appears as direct
+   support. All edge labels/directions agree with the same closed vocabulary.
+5. With a challenge and mandatory companion folded or filtered away, their
+   indicators still lead to exact sources. Correct an observation and inspect
+   all reached claims/declared anchors across folds. Structural reach never
+   presents a truth score. Status and scientific relation labels stay distinct.
+6. From each lens edit node title/content/kind-specific data and valid edge
+   type/endpoints/rationale in the TUI. Invalid endpoints or unsafe kind changes
+   preserve input and refuse acceptance. Exact comparison precedes recording;
+   cancellation/stale context leaves state unchanged. Evidence corrections and
+   accepted edits preserve originals and origin; notes are a separate feature.
+7. Repeat with AI disabled and with an owned synthetic AI proposal. Selected
+   fields remain editable, rejected changes never apply, and human revision
+   retains AI origin. Fresh open/backup/restore/readable export preserve the
+   recorded semantics. Folding never changes the exact AI outbound scope.
+8. At 144x42, 120x32 and 80x24, controls, full titles and relation definitions
+   remain reachable without color. Record large/near-capacity timings and memory
+   against predeclared host-specific bounds; measure task comprehension separately.
+
+Additional regression cases from plan cross-review: open `2` on an
+experiment-only branch; inspect an observation's producing experiment and
+registered anchors; edit in `2`, switch `1` -> `2` and reopen after a path/root
+changes; inspect opposite-direction parallel edges and an indirect challenge
+hop; convert a kind with attached edges and explicitly choose valid re-links.
+Unknown authored kinds/types must fail before any append, while unsupported
+imported source remains inspectable as unresolved. Corrupt/missing UI sidecars
+reset only presentation. Review every recorded title edit through the same
+content-edit path; no semantic-change detector is assumed.
 
 ### 10.2 Paper argument workspace oracles
 

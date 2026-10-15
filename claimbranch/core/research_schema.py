@@ -3,6 +3,7 @@
 The local validator supports only the vocabulary used by these owned schemas.
 It is not a general JSON Schema engine; no remote schema is loaded.
 """
+from .graph_vocabulary import SCIENTIFIC_EDGE_TYPES
 from copy import deepcopy
 from datetime import datetime
 import re
@@ -35,7 +36,7 @@ JUDGMENT = obj(project_id=ID, episode_id=ID, text=TEXT, rationale=TEXT,
                history=array(CONTRIBUTION, 8, 1))
 BODIES = {
     "interpretation": obj(statement=TEXT, observation_ids=array(ID, 3, 1, True)),
-    "scientific-edge": obj(edge_type={"enum": ["supports", "challenges", "qualifies"]},
+    "scientific-edge": obj(edge_type={"enum": list(SCIENTIFIC_EDGE_TYPES)},
                            source_id=ID, target_id=ID, rationale=TEXT),
     "claim-status": obj(claim_id=ID, status={"enum": ["supported", "contested"]},
                         basis_ids=array(ID, 6, 1, True)),
@@ -127,14 +128,14 @@ ANCHOR_CONTEXT = obj(anchor_id=ID, placement={'enum':['main','appendix','abstrac
 REVISION_PAYLOADS = {'set-claim-wording':WORDING_POLICY,'set-claim-companion':COMPANION,'set-anchor-context':ANCHOR_CONTEXT}
 
 CO_READING = obj(id=ID, statement=TEXT, scope=TEXT, observation_ids=array(ID,256,1,True),
-    claim_id=ID, edge_id=ID, edge_type={'enum':['supports','challenges','qualifies']},
+    claim_id=ID, edge_id=ID, edge_type={'enum':list(SCIENTIFIC_EDGE_TYPES)},
     source_id=nullable(ID), origin={'enum':['human','ai','mixed','unknown']})
 CO_REPORT = obj(id=ID,candidates=array(CO_READING,4,2),selected_ids=array(ID,4,2,True),
     companion_ids=array(ID,256,1,True),context_digest=HASH,judgment=JUDGMENT,
     disposition={'enum':['not-required','answered','deferred']},answers=array(TEXT,3,unique=True))
 
 def command_schema(version=1):
-    if version not in (6,7,8,9,10,11,12): seed_schema(version)
+    if version not in (6,7,8,9,10,11,12,13): seed_schema(version)
     if version == 11:
         from .critiques import PAYLOADS as CRITIQUE_PAYLOADS
     if version == 10:
@@ -147,6 +148,9 @@ def command_schema(version=1):
         from .protocols import PAYLOADS as P
         from .typed_observations import PAYLOADS as M
         payloads={**C,**P,**M,**REVISION_PAYLOADS,'register-manuscript-anchor':ANCHOR,'record-co-report':CO_REPORT}
+    if version == 13:
+        from .graph_edits import payload_schema
+        payloads={'revise-graph':payload_schema()}
     if 3 <= version <= 5:
         payloads.update({"open-episode": obj(title=TEXT, question=TEXT), "close-episode": obj()})
     return deepcopy({
@@ -160,7 +164,7 @@ def command_schema(version=1):
                         "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$"},
             operation_type={"const": kind}, expected_heads=HEADS,
             **({"contribution_origin":{"enum":["human","ai","mixed","unknown"]}} if version==12 else {}),
-            evidence_watermark={"type": "integer", "minimum": 0, "maximum": 6 if version == 1 else (1024 if version in (4, 5, 6, 7, 8, 9, 10, 11, 12) else PAPER_LIMITS["events"])}, payload=payload)
+            evidence_watermark={"type": "integer", "minimum": 0, "maximum": 6 if version == 1 else (1024 if version in (4, 5, 6, 7, 8, 9, 10, 11, 12, 13) else PAPER_LIMITS["events"])}, payload=payload)
             for kind, payload in payloads.items()]})
 
 

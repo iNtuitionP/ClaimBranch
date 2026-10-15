@@ -1,4 +1,5 @@
 """Disposable terminal projection of the synthetic paper, never a scientific writer."""
+from claimbranch.core.graph_vocabulary import CLAIM_ROLES, NODE_KINDS, node_order
 from .tui_retention import recovery_copy
 from collections import deque
 from dataclasses import dataclass
@@ -88,8 +89,7 @@ class Link:
     draft: bool = False
 
 
-KINDS = {"claim": "CLAIM", "observation": "EVIDENCE", "experiment-plan": "PLAN",
-         "experiment-record": "RUN", "interpretation": "READING", "manuscript-anchor": "WRITING", "critique-question":"QUESTION"}
+KINDS = {key: value.label for key, value in NODE_KINDS.items()}
 
 
 class TerminalWorkspace:
@@ -119,6 +119,7 @@ class TerminalWorkspace:
         self.evidence_root = None
         self._evidence_labels = {}
         self._lens_contexts = {}
+        self._last_entry_roots = {}
         self.view = self.service.query(self.ref)
         self.nodes = {node["id"]: node for node in self.view["nodes"]}
         self.selected_id = self.view["thesis_id"]
@@ -160,6 +161,7 @@ class TerminalWorkspace:
     def title(self, node_id):
         node = self.nodes[node_id]
         content = node["content"]
+        if content.get("title"):return content["title"]
         if node["kind"] == "manuscript-anchor":
             return node["content"].get("statement", "Manuscript connection to the paper thesis")
         return content.get("statement") or content.get("objective") or content.get("question") or node_id
@@ -167,7 +169,7 @@ class TerminalWorkspace:
     def kind(self, node_id):
         node = self.nodes[node_id]
         if node["kind"] == "claim":
-            return node["content"].get("role", "claim").upper()
+            return CLAIM_ROLES.get(node["content"].get("role"), "CLAIM")
         return KINDS[node["kind"]]
 
     def node_label(self, node_id):
@@ -179,13 +181,13 @@ class TerminalWorkspace:
             return "T"
         keys = sorted(key for key, node in self.nodes.items()
                       if node["kind"] == kind and self.kind(key) != "THESIS")
-        prefix = {"claim": "C", "observation": "E", "experiment-plan": "P",
-                  "experiment-record": "R", "interpretation": "I", "manuscript-anchor": "W","critique-question":"Q"}[kind]
+        prefix = NODE_KINDS[kind].alias
         return prefix + str(keys.index(node_id) + 1)
 
     def caption(self, node_id):
         """A visibly abbreviated source excerpt, never an inferred proposition."""
         title = self.title(node_id)
+        if self.nodes[node_id]["content"].get("title"):return title
         if title.startswith(("On ", "With ")) and ", " in title:
             return "…" + title.split(", ", 1)[1]
         return title
@@ -207,12 +209,140 @@ class TerminalWorkspace:
         return [link for link in self.links(key) if link.scientific and link.outgoing
                 and self.nodes[link.target_id]["kind"] == "claim"]
 
+    def entry_ids(self):
+        """Canonical roots; display aliases never identify a chosen record."""
+        return sorted((key for key, node in self.nodes.items()
+                       if node['kind'] in ('experiment-record', 'observation', 'experiment-plan')),
+                      key=lambda key: (node_order(self.nodes[key]['kind']), key))
+
+    def entry_label(self, node_id):
+        return (self.evidence_label(node_id) if self.nodes[node_id]['kind'] == 'observation'
+                else self.node_label(node_id) + ' / ' + self.kind(node_id))
+
+    def _finish_outline(self):
+        self._fold_inventory_cache = {}
+        self._row_by_path = {row.path: row for row in self._outline_rows}
+        self.occurrences = {key: 0 for key in self.nodes}
+        for row in self._outline_rows:
+            self.occurrences[row.node_id] += 1
+        # Recompute only when the projection is rebuilt, not on every keypress.
+        self.graph_revision = hashlib.sha256(json.dumps(self.view, sort_keys=True,
+                                                        ensure_ascii=False).encode()).hexdigest()
+
+    def _build_result_outline(self):
+        """Shortest recorded paths from a result/run; references cannot recurse.
+
+        Every relation remains in the source graph with its own direction.
+        Orientation here is only finite display ownership, never scientific support.
+        """
+        root = self.evidence_root
+        neighbors = {key: {} for key in self.nodes}
+        for edge in self.view['relations']:
+            source, target = edge['source_id'], edge['target_id']
+            if source not in neighbors or target not in neighbors:
+                continue
+            neighbors[source].setdefault(target, []).append(edge)
+            neighbors[target].setdefault(source, []).append(edge)
+        paths, queue = {root: (root,)}, deque([root])
+        while queue:
+            key = queue.popleft()
+            for child in sorted(neighbors[key], key=lambda key: (node_order(self.nodes[key]['kind']), key)):
+                if child not in paths:
+                    paths[child] = paths[key] + (child,)
+                    queue.append(child)
+        self._children = {key: [] for key in self.nodes}
+        self._edge_groups = {}
+        handled = set()
+        for key in paths:
+            for other, edges in neighbors[key].items():
+                pair = frozenset((key, other))
+                if pair in handled or key == other:
+                    continue
+                handled.add(pair)
+                if paths[other][:-1] == paths[key]:
+                    parent, child = key, other
+                elif paths[key][:-1] == paths[other]:
+                    parent, child = other, key
+                else:
+                    parent, child = sorted((key, other), key=lambda key: (len(paths[key]), paths[key]))
+                self._children[parent].append(child)
+                self._edge_groups[(parent, child)] = tuple(sorted(edges, key=lambda edge: (not edge['scientific'], edge['type'], edge['key'])))
+        for children in self._children.values():
+            children.sort(key=lambda key: (node_order(self.nodes[key]['kind']), key))
+        self._outline_rows, self._paths = [], paths
+        pending = [(root, (root,))]
+        while pending:
+            key, path = pending.pop()
+            parent = path[-2] if len(path) > 1 else None
+            reference = path != paths[key]
+            self._outline_rows.append(Row(key, len(path) - 1, path, parent,
+                self._edge_groups.get((parent, key), ()), reference))
+            if not reference:
+                pending.extend((child, path + (child,)) for child in reversed(self._children[key]))
+        self._finish_outline()
+
+    def folded_rows(self):
+        """Visible occurrences; an active search is a temporary reveal only."""
+        return self.rows()
+
+    def fold_inventory(self, node_id=None):
+        """Unique owned descendants, reference positions and exact typed edges."""
+        root = node_id or self.selected_id
+        cache = getattr(self, '_fold_inventory_cache', {})
+        cache_key = (self.lens, self.evidence_root, self.graph_revision, root)
+        if cache_key in cache:
+            return cache[cache_key]
+        path = self._paths.get(root, ())
+        owned = {key for key, candidate in self._paths.items()
+                 if path and candidate[:len(path)] == path and key != root}
+        internal, boundary = {}, {}
+        for edge in self.view['relations']:
+            source, target = edge['source_id'], edge['target_id']
+            if source not in owned and target not in owned:
+                continue
+            bucket = internal if source in owned and target in owned else boundary
+            direction = 'out' if source in owned else 'in'
+            kind = (edge['type'], direction)
+            bucket.setdefault(kind, set()).add(edge['key'])
+        statuses = {}
+        for key in sorted(owned | {root}):
+            content = self.nodes[key]['content']
+            status = content.get('status')
+            if status in ('corrected', 'invalidated', 'retracted'):
+                statuses.setdefault(status, []).append(key)
+            if content.get('review_required'):statuses.setdefault('review-required',[]).append(key)
+            imported = content.get('imported_source', {})
+            if any(imported.get('unresolved_pointer_pages', [])):
+                statuses.setdefault('unresolved-source', []).append(key)
+            if imported.get('contributor') == 'unknown':
+                statuses.setdefault('unknown-origin', []).append(key)
+        if self.series:
+            # Existing read-only work projection distinguishes conditional
+            # obligations from protected accepted debt. It creates no reviews.
+            pending = self.service.pending_work(episode_id=self.episode_id)
+            for item in pending['items']:
+                affected = set(item.get('potentially_affected_claim_ids', ())) | set(item.get('potentially_affected_anchor_ids', ()))
+                if affected & (owned | {root}):
+                    statuses.setdefault(item['kind'] + '/' + item['status'], []).append(item['id'])
+        references = sum(row.reference and row.path[:len(path)] == path
+                         for row in self._outline_rows)
+        result = {'records': tuple(sorted(owned)), 'reference_positions': references,
+                  'internal': {key: len(values) for key, values in sorted(internal.items())},
+                  'boundary': {key: len(values) for key, values in sorted(boundary.items())},
+                  'statuses': {key: tuple(values) for key, values in statuses.items()}}
+        cache[cache_key] = result
+        self._fold_inventory_cache = cache
+        return result
+
     def _build_outline(self):
         """Unfold recorded links, retaining cross-links as finite references.
 
         Placement is a reading projection: relation dictionaries and their
         source/target direction are never changed to fit the outline.
         """
+        if self.lens == 'evidence':
+            self._build_result_outline()
+            return
         groups = {}
         for edge in self.view["relations"]:
             pair = tuple(sorted((edge["source_id"], edge["target_id"])))
@@ -258,12 +388,10 @@ class TerminalWorkspace:
         for pair, (parent, child) in oriented.items():
             self._children[parent].append(child)
             self._edge_groups[(parent, child)] = tuple(groups[pair])
-        order = {"claim": 0, "observation": 1, "experiment-record": 2,
-                 "experiment-plan": 3, "interpretation": 4, "manuscript-anchor": 5,"critique-question":6}
 
         def priority(key):
             nested_claim = any(self.nodes[child]["kind"] == "claim" for child in self._children[key])
-            return (order[self.nodes[key]["kind"]], not nested_claim, key)
+            return (node_order(self.nodes[key]["kind"]), not nested_claim, key)
 
         for children in self._children.values():
             children.sort(key=priority)
@@ -297,8 +425,7 @@ class TerminalWorkspace:
             for key in sorted(self.nodes):
                 if key not in self._paths:
                     add(key, (key,), unlinked=True)
-        self._row_by_path = {row.path: row for row in self._outline_rows}
-        self.occurrences = {key: sum(row.node_id == key for row in self._outline_rows) for key in self.nodes}
+        self._finish_outline()
 
     def children(self, node_id):
         return self._children[node_id]
@@ -323,7 +450,7 @@ class TerminalWorkspace:
         return self._row_by_path[self.selected_path]
 
     def graph_rows(self):
-        return self._outline_rows
+        return self.folded_rows()
 
     def graph_ids(self):
         """Explicit neighborhood; moving selection never moves its root."""
@@ -362,30 +489,62 @@ class TerminalWorkspace:
         names = ("navigation", "lens", "evidence_root", "selected_id", "selected_path", "search", "focus",
                  "mode", "reading_relation", "link_scope", "link_index", "scroll", "nav_scroll",
                  "graph_pan", "graph_follow", "graph_view", "graph_fullscreen", "graph_root", "graph_depth", "density")
-        return {**{name: getattr(self, name) for name in names}, "collapsed": set(self.collapsed)}
+        return {**{name: getattr(self, name) for name in names}, "collapsed": set(self.collapsed),
+                '_revision': self.graph_revision,
+                '_fold_paths': {key: self._paths.get(key) for key in self.collapsed}}
 
     def _restore_navigation(self, context):
+        revision = context.get('_revision')
         for name, value in context.items():
+            if name.startswith('_'):
+                continue
             setattr(self, name, set(value) if name == "collapsed" else value)
+        if self.lens == 'evidence' and self.evidence_root not in self.entry_ids():
+            self.evidence_root = next(iter(self.entry_ids()), None)
+            if self.evidence_root is None:
+                self.lens = 'argument'
         self._build_outline()
+        if revision != self.graph_revision:
+            self.collapsed = {key for key in self.collapsed
+                              if context.get('_fold_paths', {}).get(key) == self._paths.get(key)
+                              and key in self._paths and self.children(key)}
+        else:
+            self.collapsed.intersection_update(self._paths)
+        fallback = self.evidence_root if self.lens == 'evidence' else self.view['thesis_id']
+        if self.selected_id not in self._paths:
+            self.selected_id = fallback
+        if self.selected_path not in self._row_by_path or self.selected_path[-1] != self.selected_id:
+            self.selected_path = self._paths[self.selected_id]
+            self.message = 'Graph changed; restored the same record or current root. Writing retained.'
+        self.collapsed.difference_update(self.selected_path[:-1])
+        if self.graph_root not in self._paths:
+            self.graph_root = None
+
 
     def switch_lens(self, lens, *, evidence_id=None):
         if lens not in ("argument", "evidence"):
             raise ValueError("Unknown reading view")
+        context_key = (self.episode_id, self.ref)
+        if self.lens == 'evidence' and self.evidence_root in self.entry_ids():
+            self._last_entry_roots[context_key] = self.evidence_root
         root = None
         if lens == "evidence":
-            evidence = self.evidence_ids()
+            evidence = self.entry_ids()
             if not evidence:
-                self.message = "No observations in this branch. Argument view stays open."
+                self.message = "No experiments or observations yet. Argument view stays open."
                 return
             root = evidence_id
             if root is None:
-                root = self.selected_id if self.selected_id in evidence else self.evidence_root
+                root = (self.selected_id if self.selected_id in evidence else
+                        self._last_entry_roots.get(context_key, self.evidence_root))
                 if root not in evidence:
-                    root = next((key for key in evidence if any(link.target_id == self.selected_id
-                                for link in self.claim_uses(key))), evidence[0])
+                    root = next((key for key in evidence if self.nodes[key]['kind'] == 'experiment-record'),
+                                next((key for key in evidence if any(link.target_id == self.selected_id
+                                     for link in self.claim_uses(key))), evidence[0]))
             if root not in evidence:
-                raise ValueError("Evidence view needs an observation")
+                raise ValueError("Choose a recorded experiment, observation or unrun plan")
+        if lens == 'evidence':
+            self._last_entry_roots[context_key] = root
         if (lens, root) == (self.lens, self.evidence_root):
             return
         previous = self._navigation()
@@ -400,8 +559,9 @@ class TerminalWorkspace:
             self.collapsed = {key for key in self.nodes if self.children(key) and key != root}
         # Keep the same node wherever the destination view represents it.
         # Cached occurrence paths distinguish repeated evidence on return.
-        target = (root if evidence_id or lens == "evidence" and
-                  self.nodes[previous["selected_id"]]["kind"] != "observation" else previous["selected_id"])
+        target = (self.selected_id if cached else
+                  root if evidence_id or lens == "evidence" and
+                  previous["selected_id"] not in self.entry_ids() else previous["selected_id"])
         if target not in self._paths:
             target = root or self.view["thesis_id"]
         path = self.selected_path if cached and self.selected_id == target else None
@@ -409,16 +569,18 @@ class TerminalWorkspace:
         self.focus, self.mode = previous["focus"], previous["mode"]
         self.nav_scroll = 0 if not cached else self.nav_scroll
         self.trail.append(previous)
-        self.message = ("Evidence uses · direct claims first; expand for further argument paths."
+        self.message = ("Experiments / evidence · recorded paths only. [ ] chooses a root; Space unfolds."
                         if lens == "evidence" else "Argument view · same records and drafts. Esc returns.")
         if lens == "evidence" and self.navigation == "graph":
-            self.message = "Evidence graph · one observation and its recorded claim paths. Enter reads; r inspects edges."
+            self.message = "Experiments / evidence · Space unfolds; [ ] chooses a root; r inspects typed links."
+        if cached and cached.get('_revision') != self.graph_revision:
+            self.message = 'Graph changed; navigation revalidated. Writing retained. ' + self.message
 
     def cycle_evidence(self, amount):
-        evidence = self.evidence_ids()
+        evidence = self.entry_ids()
         if self.lens != "evidence" or not evidence:
             return
-        index = evidence.index(self.evidence_root)
+        index = evidence.index(self.evidence_root) if self.evidence_root in evidence else -1
         self.switch_lens("evidence", evidence_id=evidence[(index + amount) % len(evidence)])
 
     def select(self, node_id, *, path=None, remember=True, reveal=True):
@@ -436,6 +598,8 @@ class TerminalWorkspace:
         if remember and (previous["lens"], previous["selected_path"]) != (self.lens, path):
             previous["search"] = ""  # Following a result leaves its temporary search.
             self.trail.append(previous)
+        if reveal:
+            self.collapsed.difference_update(path[:-1])
         if node_id not in self.graph_ids():
             self.graph_root, self.graph_depth, self.graph_pan = None, 1, (0, 0)
         self.selected_id = node_id
@@ -586,7 +750,7 @@ class TerminalWorkspace:
         self.ref, self.view = ref, view
         self.nodes = {node["id"]: node for node in self.view["nodes"]}
         self._lens_contexts = {}
-        if self.lens == "evidence" and self.evidence_root not in self.evidence_ids():
+        if self.lens == "evidence" and self.evidence_root not in self.entry_ids():
             self.lens, self.evidence_root = "argument", None
         self._build_outline()
         if self.graph_root not in self.nodes:
@@ -672,6 +836,8 @@ class TerminalWorkspace:
         target = link.target_id if link.outgoing else self.selected_id
         lines = []
         record = next((edge for edge in self.view['relations'] if edge['key'] == link.key), {})
+        if record.get('graph_revisions'):
+            lines.extend([('RELATION REVISIONS / FRESH REVIEW REQUIRED','heading'),(json.dumps(record['graph_revisions'],ensure_ascii=False,indent=2),'warning')])
         imported = record.get('imported_source')
         if imported:
             lines.extend([('IMPORTED RELATION / ' + imported['contributor'].upper(), 'heading'),
@@ -720,6 +886,10 @@ class TerminalWorkspace:
         if content.get('co_report'):
             section('SCOPED READING',content['scope'])
             section('CO-REPORTED / SHARED REASON AND ORIGINS',json.dumps(content['co_report'],ensure_ascii=False,indent=2),'warning')
+        if content.get('graph_revisions'):
+            section('RECORDED REVISIONS / FRESH REVIEW REQUIRED',json.dumps(content['graph_revisions'],ensure_ascii=False,indent=2),'warning')
+        if content.get('title'):
+            section('FULL SOURCE CONTENT',json.dumps({k:v for k,v in content.items() if k in ('statement','objective','question','conditions','metric','value')},ensure_ascii=False,indent=2))
         if content.get('metadata_contributions'):
             section('DECLARED CONTENT ORIGIN / CONFIRMING ACTOR IS SEPARATE',json.dumps(content['metadata_contributions'],ensure_ascii=False,indent=2),'warning')
         if content.get('wording_policy'):

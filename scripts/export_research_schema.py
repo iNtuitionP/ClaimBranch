@@ -40,7 +40,7 @@ def main():
     parser.add_argument("--check", action="store_true")
     args = parser.parse_args()
     root = Path(__file__).resolve().parents[1] / "schemas"
-    schemas = {"metadata-batch-v1.json": batch_schema(),"canonical-share-v1.json": share_schema(),"critique-input-v1.json": {"$schema":"https://json-schema.org/draft/2020-12/schema", "$id":"urn:claimbranch:critique-input:v1", **CRITIQUE_INPUT},"protocol-input-v1.json": {"$schema":"https://json-schema.org/draft/2020-12/schema", "$id":"urn:claimbranch:protocol-input:v1", **PROTOCOL_INPUT},"measurement-input-v1.json": {"$schema":"https://json-schema.org/draft/2020-12/schema", "$id":"urn:claimbranch:measurement-input:v1", **MEASUREMENT_INPUT}, "co-report-input-v1.json": {"$schema":"https://json-schema.org/draft/2020-12/schema", "$id":"urn:claimbranch:co-report-input:v1", **CO_REPORT_INPUT}, "argument-import-v1.json": import_schema(), "research-command-v1.json": command_schema(), "research-command-v2.json": command_schema(2),
+    schemas = {"metadata-batch-v1.json": batch_schema(),"canonical-share-v1.json": share_schema(),"canonical-share-v2.json": share_schema(2),"critique-input-v1.json": {"$schema":"https://json-schema.org/draft/2020-12/schema", "$id":"urn:claimbranch:critique-input:v1", **CRITIQUE_INPUT},"protocol-input-v1.json": {"$schema":"https://json-schema.org/draft/2020-12/schema", "$id":"urn:claimbranch:protocol-input:v1", **PROTOCOL_INPUT},"measurement-input-v1.json": {"$schema":"https://json-schema.org/draft/2020-12/schema", "$id":"urn:claimbranch:measurement-input:v1", **MEASUREMENT_INPUT}, "co-report-input-v1.json": {"$schema":"https://json-schema.org/draft/2020-12/schema", "$id":"urn:claimbranch:co-report-input:v1", **CO_REPORT_INPUT}, "argument-import-v1.json": import_schema(), "research-command-v1.json": command_schema(), "research-command-v2.json": command_schema(2),
                "research-command-v3.json": command_schema(3),
                "research-command-v4.json": command_schema(4),
                "research-command-v5.json": command_schema(5),
@@ -51,6 +51,7 @@ def main():
                "research-command-v10.json": command_schema(10),
                "research-command-v11.json": command_schema(11),
                "research-command-v12.json": command_schema(12),
+               "research-command-v13.json": command_schema(13),
                "paper-seed-v5.json": {"$schema":"https://json-schema.org/draft/2020-12/schema", **seed_schema(5)},
                "paper-seed-v4.json": {"$schema":"https://json-schema.org/draft/2020-12/schema", **seed_schema(4)},
                "paper-seed-v2.json": {"$schema": "https://json-schema.org/draft/2020-12/schema",
@@ -95,6 +96,7 @@ def main():
                "paper-work-v20.json": work_schema(20),
                "paper-work-v21.json": work_schema(21),
                "paper-work-v22.json": work_schema(22),
+               "paper-work-v23.json": work_schema(23),
                "project-work-v1.json": project_work_schema(),
                "project-work-v2.json": project_work_schema(2),
                "project-work-v3.json": project_work_schema(3),
@@ -113,6 +115,7 @@ def main():
                "project-work-v16.json": project_work_schema(16),
                "project-work-v17.json": project_work_schema(17),
                "project-work-v18.json": project_work_schema(18),
+               "project-work-v19.json": project_work_schema(19),
                "mac-runtime-build-v1.json": runtime_schema(),
                "key-registration-v1.json": key_registration_schema(),
                "review-signing-request-v1.json": signing_request_schema(),

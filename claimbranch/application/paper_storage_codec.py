@@ -3,12 +3,12 @@ from claimbranch.core import canonical
 from claimbranch.core.paper_capacity import encode as paper_encode, decode as paper_decode
 from claimbranch.core.research_schema import normalize as schema_normalize
 
-SCHEMAS = {'claimbranch.paper-work/v22','claimbranch.project-work/v18','claimbranch.paper-work/v21','claimbranch.project-work/v17','claimbranch.paper-work/v20','claimbranch.project-work/v16','claimbranch.paper-work/v19','claimbranch.project-work/v15','claimbranch.paper-work/v18','claimbranch.project-work/v14','claimbranch.paper-work/v17','claimbranch.project-work/v13','claimbranch.paper-work/v14', 'claimbranch.project-work/v10',
+SCHEMAS = {'claimbranch.paper-work/v23','claimbranch.project-work/v19','claimbranch.paper-work/v22','claimbranch.project-work/v18','claimbranch.paper-work/v21','claimbranch.project-work/v17','claimbranch.paper-work/v20','claimbranch.project-work/v16','claimbranch.paper-work/v19','claimbranch.project-work/v15','claimbranch.paper-work/v18','claimbranch.project-work/v14','claimbranch.paper-work/v17','claimbranch.project-work/v13','claimbranch.paper-work/v14', 'claimbranch.project-work/v10',
            'claimbranch.paper-workspace/v13', 'claimbranch.paper-work/v15', 'claimbranch.project-work/v11', 'claimbranch.paper-workspace/v14','claimbranch.paper-work/v16','claimbranch.project-work/v12','claimbranch.paper-workspace/v15'}
 
 
 def is_paper(value):
-    return type(value) is dict and (value.get('schema') in SCHEMAS or value.get('schema_version') in (4, 5, 6, 7, 8, 9, 10, 11, 12))
+    return type(value) is dict and (value.get('schema') in SCHEMAS or value.get('schema_version') in (4, 5, 6, 7, 8, 9, 10, 11, 12, 13))
 
 
 def encode(value):

@@ -285,7 +285,9 @@ with PersonalProjectStore(sys.argv[1]) as store:
         from claimbranch.application.tui import Terminal, Frame
         from claimbranch.application.tui_intake_ui import intake_ui
         app = project_workspace(self.project)
-        app.recovery = PersonalProjectRecovery(SimpleNamespace(), app, self.project)
+        # This is a copy/rendering test; the stub owns no filesystem sidecar.
+        with patch('claimbranch.application.tui_view_state.load',return_value=None):
+            app.recovery = PersonalProjectRecovery(SimpleNamespace(), app, self.project)
         app.keep_note('encrypted samples are a scientific condition')
         terminal = Terminal.__new__(Terminal)
         terminal.app, terminal.modal, terminal.buffers = app, None, []

@@ -76,9 +76,17 @@ class ActionsUI:
                    '' if prepared else 'Prepare and inspect the selected-change review first.'),
             Action('Prepare branch candidate', 'C', 'Preview authored reasoning on the active alternative. A candidate does not install or merge it.', 'REVIEW', True, candidate_reason),
             Action('Review merge selection', 'M', 'Choose reasoning from the active alternative; exact review needs a supplied manuscript source.', 'REVIEW', False, branch_reason),
+            Action('Expand selected branch', 'fold:expand', 'Reveal one level of recorded content; no research changes.', 'GRAPH'),
+            Action('Collapse selected branch', 'fold:collapse', 'Hide owned detail while retaining typed boundary connections.', 'GRAPH'),
+            Action('Inspect folded records and connections', 'browse:inventory', 'Inspect exact internal/boundary types, records and original links.', 'GRAPH'),
+            Action('Choose an experiment or observation', 'browse:roots', 'Search content-first titles; experiments with no results stay selectable.', 'GRAPH'),
+            Action('Read defined edge types', 'browse:legend', 'Canonical relation names, directions and definitions.', 'GRAPH'),
+            Action('Unfold all records in this view', 'fold:all', 'Explicit full inspection; large maps may need panning.', 'GRAPH'),
             Action('Paper connection', 'project-source', 'Inspect the saved paper; preview relocation or source refresh while retaining earlier writing.',
                    unavailable='' if hasattr(app, 'project_source_status') else 'Open a selected project with demo project open first.'),
         ] + ([
+            Action('Edit this node title and content', 'graph-edit-node', 'Revise recorded fields and reason; compare exact history before recording. Esc keeps input.', 'PERSONAL HISTORY'),
+            Action('Edit a recorded scientific connection', 'graph-edit-edge', 'Choose an incident scientific edge; edit its type, endpoints and rationale with history.', 'PERSONAL HISTORY'),
             Action('Register extended records together', 'metadata-batch', 'Choose a private extended-record file here; compare graph effects and declared origins, then record the selected batch once.', 'PERSONAL HISTORY', unavailable='' if app.paper.history.schema_version in (4,5) else 'Use a paper-profile personal project.'),
             Action('Record selected reasoning personally', 'personal:reasoning', 'Review chosen claims/relations and reuse this judgment/reason. Record main and retain the alternative; manuscript stays read-only.', 'PERSONAL HISTORY',
                    unavailable=personal_reason or ('' if all(draft.values()) else 'Write your judgment and reason first.')),
@@ -101,7 +109,7 @@ class ActionsUI:
              if typed else []) + ([
             Action('Read AI response history', 'proposal:history', 'Read saved input, original items, disposition and payload availability. No request or incorporation capability restores.', 'ORIGIN AND RETURN'),
             Action('Inspect AI item origins', 'proposal:origins', 'Original items, human edits and recorded judgments/reasons remain visible with AI disabled.', 'ORIGIN AND RETURN'),
-        ] if app.paper.proposal_history() or app.paper.recorded_origins() else []) + ([
+        ] if app.paper.proposal_history() or app.paper.recorded_origins() or app.paper.history.has_graph_edits else []) + ([
             Action('Return to personal explanations', 'personal:explanations', 'Read original/current science, partial writing and explicit review choice. No debt closure.', 'ORIGIN AND RETURN'),
         ] if personal(app) and (app.paper._personal_explanations or app.paper._recorded_origins) else [])
 
@@ -152,6 +160,18 @@ class ActionsUI:
                 from .tui_manuscript_ui import manuscript_ui
                 manuscript_ui(terminal).open_saved()
                 return
+            if action.key in ('graph-edit-node','graph-edit-edge'):
+                from .tui_graph_edit import graph_edit_ui
+                try:
+                    editor=graph_edit_ui(terminal)
+                    if action.key=='graph-edit-node':editor.open()
+                    else:
+                        choices=[r['record_id'] for r in terminal.app.view['relations'] if r['scientific'] and terminal.app.selected_id in (r['source_id'],r['target_id'])]
+                        if not choices:raise ContractError('No recorded scientific edge touches this node; create a connection first')
+                        editor.open(choices[0])
+                        editor.edge_ids=choices;editor.edge_index=0
+                except (ContractError,OSError) as error:self.notice=str(error)
+                return
             if action.key == 'metadata-batch':
                 from .tui_metadata import metadata_ui
                 try:metadata_ui(terminal).open()
@@ -184,6 +204,25 @@ class ActionsUI:
                     candidates_ui(terminal).enter(action.key.split(':', 1)[1])
                 except ContractError as error:
                     self.notice = str(error)
+                return
+            if action.key and action.key.startswith('browse:'):
+                from .tui_view_ui import graph_browse_ui
+                graph_browse_ui(terminal).open(action.key.split(':', 1)[1])
+                return
+            if action.key and action.key.startswith('fold:'):
+                mode = action.key.split(':', 1)[1]
+                if terminal.app.search or terminal.app.selected_row().reference:
+                    self.notice='Clear search or choose the primary occurrence before changing folds.'
+                    return
+                if mode == 'all':
+                    terminal.app.collapsed.clear()
+                elif mode == 'expand':
+                    terminal.app.collapsed.discard(terminal.app.selected_id)
+                elif terminal.app.children(terminal.app.selected_id):
+                    terminal.app.collapsed.add(terminal.app.selected_id)
+                terminal.app.graph_follow = True
+                terminal.app.message = 'Graph presentation changed; scientific records unchanged.'
+                terminal.modal = None
                 return
             terminal.modal = None
             if action.work:
@@ -218,7 +257,7 @@ class ActionsUI:
             frame.fill(6 + row, x, measure, 'selected' if active else 'body')
             label = ('› ' if active else '  ') + ('× ' if action.unavailable else '  ') + action.title
             frame.put(6 + row, x, label, 'selected' if active else 'muted' if action.unavailable else 'body', measure - 8)
-            shortcut = ('' if (action.key or '').startswith(('proposal:', 'candidate:', 'work-links:', 'intake:', 'personal:', 'manuscript:', 'project-source', 'metadata-batch', 'save-status')) else
+            shortcut = ('' if (action.key or '').startswith(('fold:', 'browse:', 'proposal:', 'candidate:', 'work-links:', 'intake:', 'personal:', 'manuscript:', 'project-source', 'metadata-batch', 'save-status')) else
                         ('w ' if action.work and action.key != 'e' else '') + (action.key or ''))
             frame.put(6 + row, x + measure - 7, '--' if action.unavailable else shortcut,
                       'selected_meta' if active else 'muted', 7)

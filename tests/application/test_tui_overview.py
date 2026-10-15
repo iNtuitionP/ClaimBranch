@@ -13,10 +13,11 @@ class OverviewTests(unittest.TestCase):
         self.history = replay_example('manual', paper=True)
         self.original = self.history.manifest()
         self.app = TerminalWorkspace(self.history)
+        self.app.collapsed.clear()  # explicit whole-map geometry fixture
         self.terminal = Terminal.__new__(Terminal)
         self.terminal.app, self.terminal.modal = self.app, None
 
-    def test_full_map_initially_shows_all_ten_nodes_at_research_terminal_sizes(self):
+    def test_explicit_full_map_shows_all_ten_nodes_at_research_terminal_sizes(self):
         for width, height in ((144, 42), (120, 32)):
             for selected in ('thesis', 'obs-1'):
                 with self.subTest(size=(width, height), selected=selected):

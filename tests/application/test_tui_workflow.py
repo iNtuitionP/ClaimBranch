@@ -39,7 +39,9 @@ class ReadingWorkflowTests(unittest.TestCase):
 
     def test_small_evidence_reader_exposes_result_and_both_named_uses_before_scrolling(self):
         self.app.select('obs-1')
-        self.terminal.key('enter')
+        self.terminal.key('enter')  # First activation opens the folded result branch.
+        self.assertNotIn('obs-1',self.app.collapsed)
+        self.terminal.key('enter')  # An open card enters its full reader.
         frame = render_snapshot(self.app, 80, 24)
         self.assertIn('0.4 percentage points', frame)
         for link in self.app.claim_uses():

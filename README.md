@@ -18,7 +18,7 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/iNtuitionP/ClaimBranch/releases/tag/v0.1.0-alpha.3">Download alpha</a> ·
+  <a href="https://github.com/iNtuitionP/ClaimBranch/releases/tag/v0.1.0-alpha.4">Download alpha</a> ·
   <a href="#quick-start">Quick start</a> ·
   <a href="#your-own-paper">Your own paper</a> ·
   <a href="#what-works-today">Features</a> ·
@@ -171,6 +171,8 @@ unrestricted process running as the same user.
 | Capability | Current availability |
 |---|---|
 | Thesis, main/subclaims, shared evidence and typed relationships | Manual personal workspace |
+| Foldable thesis/experiment views and validated view return | Included in alpha.4 |
+| Direct node titles/content and typed edge editing | Personal paper profile; exact reviewed revisions |
 | Result capture, explicit confirmation and append-only correction | Available |
 | Exact value tables, condition queries and cell corrections | Opt-in personal paper profile |
 | Original predictions, gate failures and reviewed rule amendments | Opt-in personal paper profile |
