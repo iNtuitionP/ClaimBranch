@@ -133,7 +133,7 @@ class ClaimWordingTests(unittest.TestCase):
         with patch('sys.stdin.isatty',return_value=True),patch('sys.stdout.isatty',return_value=True),patch('builtins.input',return_value=''),patch('builtins.print'):
             self.assertEqual(0,main(args))
         self.assertEqual(before,(self.work/'personal.cbp').read_bytes())
-        def answer(prompt):return 'record' if prompt.startswith('Type record') else ''
+        def answer(prompt):return 'record' if prompt.startswith('Type record') else 'continue'
         with patch('sys.stdin.isatty',return_value=True),patch('sys.stdout.isatty',return_value=True),patch('builtins.input',side_effect=answer),patch('builtins.print'):
             self.assertEqual(0,main(args))
         with patch('sys.stdout',new_callable=io.StringIO) as output:self.assertEqual(0,main(['project','wording-lint','--directory',str(self.work)]))
@@ -205,7 +205,8 @@ class ClaimWordingTests(unittest.TestCase):
                         except OSError:break
                         output+=chunk;pending+=chunk
                         if record:
-                            if b'Enter: next page' in pending:os.write(master,b'\n');pending=b''
+                            if b'Review: details / continue' in pending:os.write(master,b'continue\n');pending=b''
+                            elif b'Enter: next page' in pending:os.write(master,b'\n');pending=b''
                             elif b'Type record to save' in pending:os.write(master,b'record\n');pending=b''
                         elif b'ClaimBranch' in output and not quit_sent:os.write(master,b'q');quit_sent=True
                 self.assertEqual(0,process.wait(timeout=5),output[-3000:].decode(errors='replace'))
@@ -302,3 +303,34 @@ class ClaimWordingTests(unittest.TestCase):
                 self.assertEqual(1,paragraph_count('A %c'+separator+'\nB'))
                 self.assertFalse(literal_present(visible_text('definitely %x'+separator+'proven'),'definitely proven'))
         self.assertEqual(1,paragraph_count('A %c\n\u00a0\nB'))
+
+
+class WordingAcknowledgementTests(unittest.TestCase):
+    setUp=ClaimWordingTests.setUp
+    register=ClaimWordingTests.register
+    policy=ClaimWordingTests.policy
+
+    def prepared(self):
+        base,_=self.register('passage');base,_=self.policy(base,banned_phrases=['Synthetic'])
+        report=lint(base.work.history);binding=next(b for b in report['review_bindings'] if b['anchor_id']=='passage')
+        payload=dict(id='ack',claim_id='C',anchor_id='passage',expected_policy_digest=binding['policy_digest'],expected_anchor_digest=binding['anchor_digest'],rule='banned-phrase',phrase='Synthetic',rationale='This literal occurs in the example label, not the scientific assertion.')
+        return base,payload
+
+    def test_exact_acknowledgement_keeps_warning_and_does_not_authorize_science(self):
+        from claimbranch.application.metadata_batch import prepare_batch
+        from claimbranch.application.personal_archive import personal_backup,split_personal_backup
+        from claimbranch.application.personal_project import _PersonalCodec,ITERATION_PERSONAL_MAGIC
+        from claimbranch.core.paper_capacity import encode
+        base,payload=self.prepared();request=dict(schema='claimbranch.metadata-batch/v4',entries=[dict(id='acknowledge',kind='acknowledge-wording-warning',origin='human',request=payload)],selected_ids=['acknowledge'])
+        project,review=prepare_batch(base,encode(request,purpose='project'));self.assertTrue(review['valid'],review)
+        report=lint(project.work.history);warning=next(w for w in report['warnings'] if w['code']=='banned-phrase')
+        self.assertEqual(['ack'],warning['acknowledgement_ids']);self.assertTrue(report['acknowledgements'][0]['current'])
+        self.assertEqual(base.work.history.view('main')['claims'],project.work.history.view('main')['claims']);self.assertEqual(base.work.history.view('main')['evidence'],project.work.history.view('main')['evidence'])
+        self.assertTrue(_PersonalCodec().seal(project.payload).startswith(ITERATION_PERSONAL_MAGIC));self.assertEqual(project.payload,split_personal_backup(personal_backup(project)).payload)
+        changed,_=self.policy(project,banned_phrases=['Synthetic']);self.assertFalse(lint(changed.work.history)['acknowledgements'][0]['current'])
+        self.assertNotIn('acknowledgement_ids',next(w for w in lint(changed.work.history)['warnings'] if w['code']=='banned-phrase'))
+
+    def test_acknowledgement_rejects_stale_binding_and_unmatched_rule(self):
+        base,payload=self.prepared()
+        with self.assertRaises(ContractError):prepare_revision(base,'acknowledge-wording-warning',{**payload,'expected_policy_digest':'0'*64},contribution_origin='human')
+        with self.assertRaises(ContractError):prepare_revision(base,'acknowledge-wording-warning',{**payload,'phrase':'does not appear'},contribution_origin='human')

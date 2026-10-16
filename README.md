@@ -18,7 +18,7 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/iNtuitionP/ClaimBranch/releases/tag/v0.1.0-alpha.5">Download alpha</a> ·
+  <a href="https://github.com/iNtuitionP/ClaimBranch/releases/tag/v0.1.0-alpha.6">Download alpha</a> ·
   <a href="#quick-start">Quick start</a> ·
   <a href="#your-own-paper">Your own paper</a> ·
   <a href="#what-works-today">Features</a> ·
@@ -38,9 +38,14 @@ same evidence and unfinished work later.
 > work. The Mac Codex connection is a release candidate undergoing final live validation.
 > Manuscript files stay read-only.
 
-> **alpha.5 known performance limit:** hosted macOS CI registered the large synthetic
-> project in77.35s against the unchanged60s target. This experimental feedback
-> release ships with that CI failure disclosed. [Release details](https://github.com/iNtuitionP/ClaimBranch/releases/tag/v0.1.0-alpha.5).
+> **Paper migration in alpha.6:** review a summary, inspect records or originals
+> on demand, then explicitly register. Keep partial historical records without
+> inventing methods, measurements or dates. [Import guide](docs/development/workflow.md#original-ledger-text-preview-v2).
+>
+> Large-paper operations pass locally at45–48s against the unchanged60s target.
+> Hosted CI and actual private-paper fidelity are separate checks; see the
+> [qualification record](docs/plans/active/2026-08-04-claimbranch-v1-and-gpu-systems.md#im06-backup-performance-correction-and-qualification).
+> The [alpha.5 hosted failure](https://github.com/iNtuitionP/ClaimBranch/releases/tag/v0.1.0-alpha.5) remains recorded.
 
 <p align="center">
   <img src="docs/assets/terminal-preview.svg" alt="Actual synthetic terminal snapshot: thesis, main claims, shared evidence, a run and an unrun experiment plan. AI is off." width="100%">

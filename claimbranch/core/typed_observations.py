@@ -2,7 +2,7 @@
 from copy import deepcopy
 from .canonical import ContractError
 from .paper_capacity import encode
-from .research_schema import ID, TEXT, HASH, array, obj, nullable, normalize
+from .research_schema import ID, TEXT, HASH, array, obj, nullable, normalize, ROOT_JSON_POINTER
 
 EXACT = {'type':'string','minLength':1,'maxLength':128}
 VALUE = {'oneOf':[
@@ -11,7 +11,7 @@ VALUE = {'oneOf':[
     obj(type={'const':'text'},value=TEXT),obj(type={'const':'missing'},reason=TEXT)]}
 TAG = obj(key=ID,value=ID)
 VOCABULARY = obj(key=ID,values=array(ID,64,1,True),groups=array(obj(id=ID,ascending_values=array(ID,64,1,True)),16),rationale=TEXT)
-ARTIFACT = obj(id=ID,path=TEXT,sha256=HASH,json_pointer={'type':'string','maxLength':4096},tool_sha256=nullable(HASH),commit=nullable(TEXT))
+ARTIFACT = obj(id=ID,path=TEXT,sha256=HASH,json_pointer=ROOT_JSON_POINTER,tool_sha256=nullable(HASH),commit=nullable(TEXT))
 TABLE = obj(id=ID,estimand=TEXT,conditions=array(TAG,32,unique=True),
     columns=array(obj(id=ID,name=TEXT,type={'enum':['integer','decimal','text']},raw_unit=TEXT,display_unit=TEXT),32,1),
     rows=array(obj(id=ID,conditions=array(TAG,32,unique=True),cells=array(obj(id=ID,column_id=ID,value=VALUE),32,1)),256,1),
@@ -56,7 +56,7 @@ def validate_table(table,vocabulary):
 
 def apply_measurement(state,command):
     from .research_history import _record_ids,_append_evidence,_evidence
-    if state['seed']['schema_version'] not in (4, 5, 14) or state['active_episode'] is None:raise ContractError('Measurements require an active personal paper episode')
+    if state['seed']['schema_version'] not in (4, 5, 14, 18) or state['active_episode'] is None:raise ContractError('Measurements require an active personal paper episode')
     payload=command['payload'];vocabulary=state.setdefault('condition_vocabulary',{})
     if command['operation_type']=='declare-condition':
         key=payload['key']

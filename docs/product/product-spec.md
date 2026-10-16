@@ -210,6 +210,36 @@ and private return are available under the import boundary above. The
 [issue implementation plan](../plans/active/2026-08-04-claimbranch-v1-and-gpu-systems.md#real-paper-migration-implementation-plan)
 owns their sequence and verification.
 
+Prior-argument registration now begins with a bounded summary and on-demand
+record, source, graph and complete unresolved-address readers. Returning from
+details does not cancel registration, and reading is not inferred from scrolling.
+A separate fresh typed confirmation registers the exact prepared selection;
+queued navigation/paste cannot supply it. Optional write-free full preflight uses
+the same project/graph/archive preparation as registration, with no destination
+reservation. Old complete machine-readable previews and historical commitments
+remain unchanged. The [import workflow](../development/workflow.md#original-ledger-text-preview-v2)
+owns commands and boundaries.
+
+Opt-in v4 historical import reduces bookkeeping without inventing science.
+Missing experiment methods/metrics remain explicitly not recorded in the import;
+original labels, calendar-date precision and decision titles survive return.
+Independent new writing retains its own H/A/U instead of borrowing a dummy file's
+origin. Checked structural defaults never assert scientific coverage, and new
+source-free writing cannot manufacture prior observations or inherit supported
+wording. One current judgment still reuses its original reason; partial metadata
+stays visible without requiring a second record-by-record narrative. The
+[historical-record workflow](../development/workflow.md#low-burden-historical-records-v4)
+owns formats, allowed declarations and private/share boundaries.
+
+The opt-in v3 original-source comparison also recognizes faithful JSON decimal
+cells, declared sign/grouping and line-ending differences, and exact Markdown
+sections with duplicate-heading occurrences. Precision loss and rewritten meaning
+remain unresolved transformations; neither extraction equality nor import grants
+scientific validity or understanding. Original bytes and H/A/U influence survive
+private return, while earlier formats keep their old rules. The
+[comparison workflow](../development/workflow.md#precise-source-comparison-and-markdown-sections)
+owns the explicit policies and version boundary.
+
 The original-ledger v2 subset now prepares exact multi-file text/Markdown/LaTeX/
 JSON snapshots and previews source spans/cells, origin defaults/overrides and
 scalar-or-table mappings. It distinguishes extraction equality from unresolved
@@ -227,7 +257,14 @@ standard LaTeX sections and figures/tables with captions without manuscript edit
 ambiguous or unsupported structure remains unresolved. Internal graph identities,
 source freshness and declared scientific uses stay separate. The
 [label workflow](../development/workflow.md#existing-latex-labels-without-manuscript-edits)
-states the supported literal subset and private return. Explicit optional
+states the supported literal subset and private return. Conditional-aware v2
+connections now permit provably disjoint labels while refusing selected overlap,
+unknown branches and ambiguous token masking with a source line. Existing v1
+bindings keep their original interpretation until an explicit reviewed upgrade.
+Multiple versioned label registrations can be selected in one metadata batch;
+file-level lint coverage notices do not hide unsupported selected-span commands.
+[ADR0028](../architecture/decisions/0028-conditional-aware-manuscript-selectors.md)
+owns compatibility and the read-only boundary. Explicit optional
 [shared-audit encoding](../development/workflow.md#opt-in-shared-audit-representation)
 preserves full logical audit content and older prefixes within unchanged stored
 bounds. It requires reviewed import opt-in or explicit conversion; current
@@ -281,6 +318,23 @@ are not empirical evidence or automatic resolution. Default reference output
 omits private text; selected sharing now uses the separately reviewed public projection. The
 [critique workflow](../development/workflow.md#private-critiques-and-sourced-questions)
 owns local original access and export/provider restrictions.
+
+The current personal checkout also supports explicitly chosen preparation-file
+overwrite/save-as/cancel and summary-first metadata review with complete details
+on demand. One batch can capture and connect a private critique. Optional exact
+lexical-warning acknowledgements preserve the warning and reason, becoming stale
+after policy/source changes; they never authorize wording or imply understanding.
+The [iteration workflow](../development/workflow.md#iterating-preparation-and-metadata-review)
+owns commands and compatibility.
+
+Completed historical experiments can now retain source-claimed protocols without
+creating unrun plans. Explicit observation replacements preserve both results and
+show their relationship on dependent paths; linking never changes value, status
+or eligibility. Link origin remains separate from the numbers, and dependent
+judgment retains both. Original failed gates, after-result amendments and claimed
+commitments remain inspectable and unverified. The
+[completed-history workflow](../development/workflow.md#completed-experiments-and-explicit-replacement-history)
+owns the opt-in formats, exact review and private/shared return boundaries.
 
 ## 2. Target user and support setting
 

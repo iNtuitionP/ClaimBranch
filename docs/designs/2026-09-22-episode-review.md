@@ -25,7 +25,16 @@ review. A rendered screen does not establish understanding or live product value
 
 ## Imported-source judgment review
 
-The current seed14 personal review presents one dependency summary/list inside
+Metadata registration now uses bounded summaries and on-demand detail, with a
+separate typed confirmation. The TUI `d` reader returns to summary with Escape/q;
+`r` opens confirmation without requiring the end of a large JSON preview. Drawing
+a summary does not assert reading or comprehension. Exact lexical acknowledgements
+remain visible warnings, not scientific approval. The
+[iteration workflow](../development/workflow.md#iterating-preparation-and-metadata-review)
+owns commands, source changes and retention.
+
+
+The current seed14/18 personal review presents one dependency summary/list inside
 the selected judgment, with separate known AI and unknown-authorship indicators.
 Unknown-only sources expose the same explanation/later keys as known AI. Read
 all pages before choosing, and read the newly prepared comparison before
@@ -36,14 +45,34 @@ neither reading nor return restores approval. The
 [operator contract](../development/workflow.md#original-ledger-text-preview-v2)
 owns retention, format and rollback details.
 
+V4 historical records show original labels and explicit fields not recorded in
+this import. An observation's value remains readable when its original metric
+has not been mapped; missing experiment context stays visible beside its result.
+This does not claim the retained ledger lacks that context or certify a historical
+observation. The [partial-history workflow](../development/workflow.md#low-burden-historical-records-v4)
+owns origin, date precision, refusal and saved-return behavior.
+
+Completed-experiment protocol context and explicit observation replacement history
+now remain in node details. Replacement has a predefined non-scientific relation;
+it does not invalidate the prior result. The declaration's origin is separate from
+measured-value origin, with both retained in consequential review. The
+[completed-history workflow](../development/workflow.md#completed-experiments-and-explicit-replacement-history)
+owns exact inputs and retention.
+
 Read-only paper connections can now use an existing literal LaTeX label at
 initial setup and explicit registration. The source-connection action preserves
 that selector during refresh/relocation; freshness and original writing remain
 separate. Figure/table spans include captions but create no scientific support
 implicitly. Unsupported structure stays unresolved. The
 [label workflow](../development/workflow.md#existing-latex-labels-without-manuscript-edits)
-owns the supported subset. Full-paper continuation remains subject to the
-[combined-workload blocker](../plans/active/2026-08-04-claimbranch-v1-and-gpu-systems.md#i04-result-review-and-i05-capacity-stop).
+owns the supported subset. Conditional-aware v2 permits disjoint labels with an
+explicit legacy upgrade and selected metadata-batch path under
+[ADR0028](../architecture/decisions/0028-conditional-aware-manuscript-selectors.md).
+File-coverage notices remain distinct from unsupported selected spans. The
+[explicit shared-audit local qualification](../plans/active/2026-08-04-claimbranch-v1-and-gpu-systems.md#i05-isolated-connected-qualification)
+and [known hosted-CI limit](../plans/active/2026-08-04-claimbranch-v1-and-gpu-systems.md#alpha5-publication-order)
+remain distinct from the subsequently reported
+[actual registration-review barrier](../plans/active/2026-08-04-claimbranch-v1-and-gpu-systems.md#alpha5-actual-dry-run-feedback-assessment).
 
 ## Foldable two-entry graph and direct editing
 
@@ -2655,3 +2684,36 @@ also permits explicitly unverified external typed responses in this same local
 review. History, comparison and saved-origin reading retain that distinction;
 local import context cannot imply original application dispatch. Reading is
 untimed and each staging comparison is refreshed explicitly after expiration.
+
+### Actual-paper import review brief
+
+The alpha.5 report exposes a CLI review barrier before this graph workspace can
+be used: the person must page every mapping and original before registration.
+The [six-outcome import usability plan](../plans/active/2026-08-04-claimbranch-v1-and-gpu-systems.md#actual-paper-import-usability-implementation-plan)
+owns sequencing and acceptance. IM01 implements the summary/detail/confirmation
+flow; IM02 adds versioned conditional-aware label connections. Source comparison,
+partial historical records and completed-work history extend that same path.
+The [iteration workflow](../development/workflow.md#iterating-preparation-and-metadata-review)
+owns preparation choices and metadata review; the plan records qualification
+separately from this interaction brief.
+
+The task begins with an exact private envelope, selected records and a target
+paper connection. The person should orient from a concise summary, inspect any
+record/unresolved address/original, return without losing context, then explicitly
+confirm only the displayed operation. Full originals remain available; hidden
+content is not labelled read or understood. Drill-down back and operation cancel
+are different controls. Whole preview/source/destination bindings and current
+capacity remain inspectable; no digest or keystroke stream authorizes science.
+Use the actual terminal in wide/narrow PTY checks and owner feedback at the first
+registration checkpoint. Keep manuscript read-only, source/AI/unknown labels and
+unresolved semantics visible. This work changes import review, not the released
+graph's visual system or the separate promotional demo.
+
+The owner-selected preparation-output collision flow offers overwrite, save to a
+new file, or cancel. Show the existing/new path and identity, keep blank/Escape
+as cancel, and return to selection on a second filename collision. Overwrite is
+explicit and checked against concurrent changes; save-as keeps the earlier output.
+No automatic backup choice is imposed. These planned file controls never modify
+original research sources or register science. Observation replacement separately
+records only a link; changing its earlier observation's status requires its own
+review, as recorded in the linked plan.

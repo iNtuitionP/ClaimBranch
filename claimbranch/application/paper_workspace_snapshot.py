@@ -69,10 +69,10 @@ def paper_snapshot(workspace):
 def restore_paper(history, value, *, frozen_response=None, clock=None):
     from .paper_workspace import PaperWorkspace
     schema = deepcopy(PAPER)
-    if history.schema_version in (4, 5, 14):
+    if history.schema_version in (4, 5, 14, 18):
         schema["properties"]["drafts"]["maxItems"] = 32
         schema["properties"]["links"]["maxItems"] = 32
-    value = normalize(value, schema, profile="paper" if history.schema_version in (4, 5, 14) else "episode")
+    value = normalize(value, schema, profile="paper" if history.schema_version in (4, 5, 14, 18) else "episode")
     workspace = PaperWorkspace(history, frozen_response=frozen_response, clock=clock)
     seen, ids = set(), set()
     for item in value['drafts']:
@@ -114,10 +114,10 @@ def _check_owner(workspace, owner, contexts=None):
 
 
 def validate_workspace(history, value):
-    expected = {'claimbranch.paper-workspace/v16','claimbranch.paper-workspace/v17'} if history.schema_version == 14 else {'claimbranch.paper-workspace/v15'} if history.has_manuscript_anchors else {4: {'claimbranch.paper-workspace/v13'}, 5: {'claimbranch.paper-workspace/v14'}}.get(history.schema_version,set())
+    expected = {'claimbranch.paper-workspace/v16','claimbranch.paper-workspace/v17'} if history.schema_version in (14,18) else {'claimbranch.paper-workspace/v15'} if history.has_manuscript_anchors else {4: {'claimbranch.paper-workspace/v13'}, 5: {'claimbranch.paper-workspace/v14'}}.get(history.schema_version,set())
     if (value.get('schema') in tuple('claimbranch.paper-workspace/v'+str(v) for v in range(13,18))) != bool(expected) or (expected and value.get('schema') not in expected):
         raise ContractError("writing workspace capacity/profile mismatch")
-    value = normalize(value, workspace_schema(), profile='paper' if history.schema_version in (4, 5, 14) else 'episode')
+    value = normalize(value, workspace_schema(), profile='paper' if history.schema_version in (4, 5, 14, 18) else 'episode')
     workspace = restore_paper(history, value['paper'])
     contexts = {}
     for name in ('notes', 'drafts', 'buffers', 'unfinished'):

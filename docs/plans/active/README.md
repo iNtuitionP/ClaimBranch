@@ -17,6 +17,13 @@ index and keep its progress current.
   The [original-ledger follow-up assessment](2026-08-04-claimbranch-v1-and-gpu-systems.md#markdown-migration-follow-up-assessment)
   owns A–D/#13–#16 analysis and the next proposed feedback order, with code-confirmed
   gaps separate from an unrun private migration.
+  The [actual-paper import usability plan](2026-08-04-claimbranch-v1-and-gpu-systems.md#actual-paper-import-usability-implementation-plan)
+  tracks six follow-up outcomes for #18–#24, an early registration checkpoint and the
+  confirmed link-only/overwrite-or-save-as policies; its linked TODO owns the current
+  completed and remaining count.
+  The [alpha.5 actual dry-run assessment](2026-08-04-claimbranch-v1-and-gpu-systems.md#alpha5-actual-dry-run-feedback-assessment)
+  owns A–G/#18–#24 source assessment and the registration-review blocker;
+  the private dry-run is reported by the researcher, not maintainer replay.
   The historical owner-authorized [manual source alpha](https://github.com/iNtuitionP/ClaimBranch/releases/tag/v0.1.0-alpha.2)
   is published under MIT, with live AI unavailable;
   the same L04 remains later work through the [AI-connected publication order](2026-08-04-claimbranch-v1-and-gpu-systems.md#ai-connected-github-publication-order).

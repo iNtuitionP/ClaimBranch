@@ -878,6 +878,17 @@ Command15 retains explicit anchor uses and origin in work26/project22/frame14,
 without changing legacy markers, scientific capacities or protected replacement.
 Figure/table kind matches the literal environment; section boundaries preserve
 hierarchy. Missing, duplicate and unsupported structure remains unresolved.
+The conditional-aware source binding v3/command17 and work28/project24/frame16
+subset is separately versioned under
+[ADR0028](../architecture/decisions/0028-conditional-aware-manuscript-selectors.md).
+New selectors may resolve disjoint literal structure; old bindings retain v1
+semantics until explicit source refresh with the same label/kind. Metadata-batch/v2
+admits selected versioned label requests without widening v1. Read-only lint
+separates a shared file-coverage notice from unsupported span-local commands.
+Generated new work/project schemas use self-contained absolute-root `$defs`
+references to avoid repeating tens of MiB; expanding them reproduces the same
+closed runtime contract. Old exported schemas remain byte-identical.
+
 
 V5 adds explicit create-imported-reasoning-branch, record-imported-interpretation
 and apply-imported-merge operations. Their exact source subject and dependency
@@ -1086,6 +1097,36 @@ score or debt closure. Private save/open/backup retains context and unfinished
 writing. New-profile provider use remains refused before credentials/dispatch;
 this extends manual/AI-readable graph context, not a qualified provider field
 set or permission to transmit raw protocol/source content.
+
+**IM06 extension — scoped lexical acknowledgements.**
+[ADR0032](../architecture/decisions/0032-iterative-preparation-and-proportional-metadata-review.md)
+defines command20/work32/project28/frame20 for at most128 exact claim-policy/anchor/
+literal-rule acknowledgements with original reason. They annotate current warnings
+and become stale after bindings change. They authorize no scientific change or
+debt closure and remain private. Metadata-batch4 adds ordered critique-entry
+references without changing existing scientific command bytes.
+
+**IM05 extension — completed-work protocols and explicit replacement context.**
+[ADR0031](../architecture/decisions/0031-completed-experiment-protocols-and-result-replacements.md)
+defines command19/protocol-input2/metadata-batch3, completed-target scientific
+snapshot/digest and atomic explicit association, without a carrier plan. Legacy
+plan-target revisions remain unchanged. Direct associations disclose already-known
+results and use null for comparison to a nonexistent plan. Original gate failures
+and subsequent before/after/unknown amendments remain distinct from measured values.
+
+Argument-import5/source-manifest4 optionally declares a prior observation beside
+its replacement. Seed18 keeps its shape; exact snapshot replay derives at most512
+link records. Initial links retain source dates/reasons, not fake app operations.
+Current links pin both current observation events. A previous observation has at
+most one explicit successor; chains are allowed, cycles/self/missing endpoints and
+provably reversed comparable dates refuse. Missing or mixed precision stays unknown.
+The `replaces` graph relation is non-scientific and changes no status, value,
+eligibility or scientific edge. Source-aware review retains link influence apart
+from the numbers; the original unresolved declaration remains inspectable.
+Work31/project27/frame19 and canonical-share4 carry these semantics without changing
+old prefixes, raw sources or existing shared-audit versions. The
+[workflow](../development/workflow.md#completed-experiments-and-explicit-replacement-history)
+owns commands and privacy boundaries.
 
 **08-critique contract frozen/implemented 2026-10-14 — private sourced questions.**
 Command11 records private critique questions, bounded revisions and non-empirical
@@ -1657,6 +1698,28 @@ source-checked compact record design is specified by
 [ADR 0024](../architecture/decisions/0024-bounded-original-ledger-retention.md). Shared graph consistency validation is independent of both
 source formats; neither source bytes nor generated validation data confer authority.
 
+
+The opt-in source envelope v3/manifest v2 adds precise numeric/line policies and
+whole Markdown heading/occurrence spans under
+[ADR0029](../architecture/decisions/0029-versioned-original-source-comparisons.md).
+Exact nested envelope replay selects the resolver; compact seed14/command14 and
+source-reference/v2 science remain unchanged. New work29/project25/private frame17
+is required, including alongside shared-audit and conditional-label records.
+Extraction-only equality never manufactures evidence confirmation or comprehension.
+The [operator reference](../development/workflow.md#precise-source-comparison-and-markdown-sections)
+owns locator boundaries, precise policies and finite limits.
+
+The v4 historical-import subset under
+[ADR0030](../architecture/decisions/0030-source-faithful-partial-historical-records.md)
+uses new seed18/command18, work30/project26/frame18, shared-auditv2 and selected
+canonical-sharev3. Explicit partial experiment fields retain null/not-recorded,
+original one-line labels map to collision-checked internal identities, calendar
+dates keep day precision and historical titles remain distinct from reasons.
+Narrow per-kind structural defaults are not scientific extraction. Source-free
+writing retains independent H/A/U and cannot invent prior empirical values or
+supported wording. Exact source replay and old schema/golden meaning remain
+unchanged. The [operator reference](../development/workflow.md#low-burden-historical-records-v4)
+owns input spelling and continuation/refusal behavior.
 
 Current, historical, search, context, and UI projections rebuild from canonical
 operations plus retained non-authoritative trace references. Rebuild writes

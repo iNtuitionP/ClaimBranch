@@ -1,6 +1,6 @@
 ---
 kind: adr
-status: accepted
+status: superseded
 owners: maintainers
 last_reviewed: 2026-10-16
 ---
@@ -82,5 +82,8 @@ remaining connected release checks belong to the existing ExecPlan.
 
 ## Supersession
 
-None. Adds a separate read-only source selector to ADRs0017/0023/0024; protected
+Partially superseded by [ADR0028](0028-conditional-aware-manuscript-selectors.md)
+for new conditional-aware v2 selectors and explicit legacy-binding upgrade;
+v1 semantics remain unchanged. Adds a separate read-only source selector to
+ADRs0017/0023/0024; protected
 marker-writing and personal origin/retention contracts remain in force.

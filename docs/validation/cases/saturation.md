@@ -1376,6 +1376,60 @@ creates confirmed evidence or closes manuscript/understanding work.
 
 #### Personal paper migration and revision acceptance (planned)
 
+IM06 additionally exercises preparation overwrite/save-as/cancel against exact
+private output identities. Original sources, aliases, unknown formats, nonprivate
+files, another save-as collision and concurrent edits must refuse without
+overwriting research. Failed flush/replacement preserves the old output;
+post-publication durability or cleanup failure reports uncertainty and closes
+descriptors. CLI/TUI metadata starts with a bounded summary, offers complete
+entry/graph/lint details and returns from details without cancelling. A separate
+fresh typed word remains necessary; queued/pasted input, Escape, cancellation,
+stale sources and resize never gain authority from scrolling or rendering.
+
+A selected capture and its following critique-link entry resolve in one batch;
+missing/unselected captures refuse the whole save. Private originals stay outside
+reviews and selected sharing. Exact claim-policy/anchor/rule acknowledgements
+retain lexical warnings and reasons, become stale on changed bindings, and cannot
+change science or resolve debt. Distinct interpretation-to-claim edges must remain
+distinct from observation-to-claim edges. Verify work32/project28/frame20 replay,
+fresh backup/restore and selected-share verification from an extracted source
+artifact, together with the existing full-paper regression and old golden bytes.
+These checks do not establish private-paper fidelity, user comprehension, hosted
+timing or publication readiness.
+
+An imported-history eligibility projection must match the full evidence reader's
+latest statuses and sorted identities for interleaved targets, corrections,
+invalidation, retraction and imported statuses. Missing observation statement or
+experiment identity must fail source replay before eligibility is used. Optimized
+causal validation must match full-evidence previews, expose no mutable cached
+graph and refuse changed project/ref/episode/digest or a changed history with the
+same heads. Cold timing still includes source replay and every retained cause;
+successful validation in another process cannot substitute for it.
+
+IM04 additionally requires v4 import of a question-only historical experiment
+without a fabricated method/metric, with not-recorded fields visible in graph,
+source reading and later judgment. Checked structural defaults must not cover
+units/scope/conditions/value/type or reassigned column bindings. Source-free new
+writing keeps independent/unknown influence, refuses historical observations and
+non-null invented provenance, and cannot inherit supported wording. File defaults
+remain explicitly overridable; independent and source-specific assertions cannot
+be erased. Check original-token/reference mapping, cross-namespace collisions,
+real calendar dates/day precision, separate decision titles, new-frame mismatch,
+selected null-preserving sharing, grouped review/original reason and private
+save/open/backup/fresh restore. Old schemas/goldens remain byte-identical.
+
+The IM03 source-comparison boundary additionally requires a v3 JSON-number table
+import with exact precision/signed-zero checks, separate boolean text, narrow
+Unicode-sign/grouping and one-terminal-line-ending normalization. Rounding and
+scale loss must remain transformed. Markdown heading/occurrence sections must
+retain exact Unicode/CRLF bytes and descendants, refuse ambiguous/missing headings,
+ignore code/comments and enforce bounded extraction/indexing. Old v2 policies and
+schemas stay closed. Public manifest-v2 preparation, exact review/registration,
+source-policy inspection, fresh save/open/backup/restore and composition with
+shared-audit/new labels must preserve raw input and H/A/U origins; all older
+work/project/frame mismatches refuse. These synthetic checks do not establish
+private-source fidelity or scientific validity.
+
 The original-ledger follow-up currently adds an executable I01 preview boundary:
 four exact maintained Markdown originals totaling 1,468,006 bytes, 430 records,
 100 tables/5,400 cells, mixed defaults and ten human overrides. Required checks
@@ -1449,6 +1503,38 @@ fixtures until a person explicitly supplies and checks their private source.
 | Private critique | A raw original and human question survive private save/backup but are not empirical evidence. Known private originals/identities and direct quotes are excluded from default export/provider projections, including origin/label/diagnostic paths; neutral wording is human-reviewed and not automatically certified anonymous. |
 | Selected share projection | Only selected science plus disclosed allowed dependencies appears; reasons require their own selection. Private source references use redacted stable IDs. Identical source/policy/selection reproduces bytes; changed source/output/selection/policy fails verification. Existing edited destination is retained and export neither commits Git nor restores private history. |
 | Entry and manual continuity | Unsupported runtime has a concrete documented setup route. Supported source extraction provides actual terminal authoring/read/return without a provider, native key or internal JSON editing. Failed AI/new-schema compatibility leaves manual work and retained origin intact. |
+
+Import usability checks additionally require a 200-plus-record overview within
+120 logical lines, independent of complete original length; indexed access to
+every unresolved address; one rendering of mapping coverage per record; and
+bounded pages for minified single-line originals. In actual wide/narrow PTYs,
+detail `q` returns to summary, summary `q` does not cancel registration, blank
+confirmation returns, and queued/held Enter or pasted commands never register.
+A fresh `continue` followed by separately typed `import` registers once; terminal
+settings and a usable shell return on success, cancellation and interruption.
+Full `--dry-run --preflight` snapshots source/destination/parent entries and
+identities/mtime/ctime unchanged, including shared-audit and failed-destination
+paths. It reuses actual project/graph/archive preparation; cheap JSON preview stays
+identical. Missing table fields/bad typed cells name their nested pointers; an
+empty artifact-root pointer normalizes and verifies the named root cell while
+other required/implicit nonblank scientific text still refuses empty input.
+These checks certify no private ledger fidelity or human comprehension.
+
+Conditional-aware label acceptance additionally checks disjoint declared switches
+and literal false archives, comments/CRLF/inline and literal code, nested branches,
+selected overlap/enclosure/inside ambiguity, unknown switches, malformed endings,
+cross-branch group/environment state and masked conditional terminators. Definition
+argument parsing must ignore commented braces in v2; ordinary math `\iff` is not
+a conditional, while redefining it remains unsupported. Old v1 refusal/replay and
+exported schemas remain unchanged. Actual terminal legacy upgrade cancellation
+keeps saved bytes; confirmation appends the same-label source transition without
+rewriting work. Check metadata-batch/v2 multi-label success and all-or-nothing
+failure, command/selector/frame mismatches, shared-audit23-to24 save/backup return,
+source movement/deletion/caption drift and public source-ZIP registration/restore.
+One v2 file notice must not suppress an unsupported span-local command. New compact
+export schemas must reference only schema positions, preserve literal keyword
+values and expand exactly to the runtime closed schemas; older exports stay inline.
+
 
 Judge the first useful checkpoint by whether a person can bring their existing
 argument and reasons, inspect what remains unresolved and return after exit.
@@ -1539,6 +1625,29 @@ interpretation, scientific approval, manuscript write or resolved critique is
 inferred from these owned checks.
 
 #### Protocol and gate acceptance
+
+IM05 additionally registers six completed-experiment protocols in one batch with
+no added unrun plans, including an incomplete imported metric without an invented
+plan comparison. Exact experiment digest and observation-event bindings must
+refuse stale input. Failed gates and after-result amendments remain inspectable
+on experiments and scientific dependent paths, with chronology still unverified.
+
+Import/v5 replacement declarations and new current command19 links must retain both
+observations' values, statuses and event histories unchanged. Check required prior
+endpoint closure, duplicate successor/self/cycle/missing endpoint and known reverse
+date refusal, while unknown/mixed date precision stays unknown. Correcting either
+endpoint later marks the recorded link's basis changed without removing it. The
+predefined non-scientific graph relation must expose the original result and
+related claim paths without certifying scientific support or invalidating evidence.
+
+Verify that link AI origin does not relabel human measurement values: both influences
+remain separately inspectable and reach consequential source review. The link's
+unresolved declaration must appear on its own shared record. Completed protocol and
+association origins retain both declared source and independent new-input influence;
+confirmation remains a separate unverified personal actor. Exercise exact source
+reading, share verification/redaction, workspace return and byte-identical backup,
+including work31/project27/frame19 mismatches. Old contracts/goldens stay unchanged.
+
 
 Use five owned result shapes: failed prediction; consistent but non-discriminating
 result with required limitation; registered cross-run identity failure followed by

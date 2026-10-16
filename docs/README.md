@@ -24,6 +24,21 @@ in-progress material visibly different.
   The [Markdown migration follow-up assessment](plans/active/2026-08-04-claimbranch-v1-and-gpu-systems.md#markdown-migration-follow-up-assessment)
   checks the later A–D source/origin/table/LaTeX reports, including corrected
   assumptions and dependencies; the actual private import remains unrun.
+  The [actual-paper import usability plan](plans/active/2026-08-04-claimbranch-v1-and-gpu-systems.md#actual-paper-import-usability-implementation-plan)
+  tracks six follow-up outcomes, starting with usable exact registration;
+  [precise source comparison](development/workflow.md#precise-source-comparison-and-markdown-sections)
+  documents opt-in numeric/line normalization and Markdown sections;
+  [partial historical records](development/workflow.md#low-burden-historical-records-v4)
+  covers checked bookkeeping defaults, honest missing fields and original identities;
+  [completed-work history](development/workflow.md#completed-experiments-and-explicit-replacement-history)
+  connects historical protocols and explicit result replacements;
+  observation status changes stay separate;
+  [iteration and metadata review](development/workflow.md#iterating-preparation-and-metadata-review)
+  covers overwrite/save-as/cancel, summary/details, same-batch critique links and
+  exact lexical-warning acknowledgements.
+  The [alpha.5 actual dry-run assessment](plans/active/2026-08-04-claimbranch-v1-and-gpu-systems.md#alpha5-actual-dry-run-feedback-assessment)
+  tracks A–G/#18–#24, including the blocking registration-review burden;
+  reported seed validation is distinct from registration and source fidelity.
   For the requested next LLM capability, read the
   [optional AI follow-up proposal](plans/active/2026-08-04-claimbranch-v1-and-gpu-systems.md#optional-ai-follow-up-implementation-plan);
   it preserves the completed manual alpha and separates portable preparation

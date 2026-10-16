@@ -15,7 +15,7 @@ def context_digest(state):
 
 def apply_co_report(state,command):
     from .research_history import _record_ids,_judgment,_context,_changes,_select,_branch_ai,_branch_uncertain,_evidence
-    if state['seed']['schema_version'] not in (4, 5, 14) or state['active_episode'] is None:
+    if state['seed']['schema_version'] not in (4, 5, 14, 18) or state['active_episode'] is None:
         raise ContractError('Co-report requires an active personal paper episode')
     if 'alternative' in state['branches'] or any(m['episode_id']==state['active_episode'] for m in state['merges']) or any(d['episode_id']==state['active_episode'] for d in state.get('co_reports',{}).values()):
         raise ContractError('Co-report needs an episode without a staged alternative or previous selected transaction')
@@ -41,7 +41,7 @@ def apply_co_report(state,command):
         edge=dict(id=reading['edge_id'],kind='scientific-edge',body=dict(source_id=reading['id'],target_id=reading['claim_id'],edge_type=reading['edge_type'],rationale=payload['judgment']['rationale']))
         changes.extend((interpretation,edge))
         refs=[]
-        if state['seed']['schema_version'] in (5, 14):
+        if state['seed']['schema_version'] in (5, 14, 18):
             from .argument_import import source_references
             refs=source_references(state,main,[interpretation,edge],reading['source_id'] or reading['claim_id'])
         inherited=main.get('co_report_origins',{}).get(reading['source_id'],[])
@@ -96,7 +96,7 @@ def apply_co_report(state,command):
     for reading in chosen:state['interpretation_owners'][reading['id']]=state['active_episode']
     _select(state,_changes(target,state),tuple(c['id'] for c in changes),tuple(sorted(active)))
     target.setdefault('co_report_origins',{}).update(origins)
-    if state['seed']['schema_version'] in (5, 14):
+    if state['seed']['schema_version'] in (5, 14, 18):
         for reading in chosen:
             for key in (reading['id'],reading['edge_id']):target.setdefault('source_lineages',{})[key]=deepcopy(source_refs[reading['id']])
     target.update(head=command['id'],watermark=len(state['events']),judgment=deepcopy(payload['judgment']))

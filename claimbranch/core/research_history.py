@@ -16,19 +16,19 @@ from .paper_capacity import LIMITS as LIFECYCLE_LIMITS, HISTORY_BYTES, MANIFEST_
 
 
 def _select(state, changes, selected, evidence):
-    return (select_paper_changes if state["seed"]["schema_version"] in (4, 5, 14) else select_changes)(changes, selected, evidence)
+    return (select_paper_changes if state["seed"]["schema_version"] in (4, 5, 14, 18) else select_changes)(changes, selected, evidence)
 
 
 def _limits(state):
-    return {**LIFECYCLE_LIMITS,"interpretations":128} if state.get("co_reports") else LIFECYCLE_LIMITS if state["seed"]["schema_version"] in (4, 5, 14) else PAPER_SERIES_LIMITS
+    return {**LIFECYCLE_LIMITS,"interpretations":128} if state.get("co_reports") else LIFECYCLE_LIMITS if state["seed"]["schema_version"] in (4, 5, 14, 18) else PAPER_SERIES_LIMITS
 
 
 def _bytes(value, version):
-    return paper_encode(value, purpose="manifest") if version in (4, 5, 14) else canonical_bytes(value)
+    return paper_encode(value, purpose="manifest") if version in (4, 5, 14, 18) else canonical_bytes(value)
 
 
 def _read(raw, version):
-    return paper_decode(raw, purpose="manifest") if version in (4, 5, 14) else decode(raw)
+    return paper_decode(raw, purpose="manifest") if version in (4, 5, 14, 18) else decode(raw)
 
 
 @lru_cache(maxsize=2)
@@ -43,7 +43,7 @@ def _seed_version(seed):
 
 
 def _norm(value, schema, version):
-    return normalize(value, schema, profile="paper" if version in (4, 5, 14) else "episode")
+    return normalize(value, schema, profile="paper" if version in (4, 5, 14, 18) else "episode")
 
 
 def _hash(value, version):
@@ -192,9 +192,16 @@ def _evidence(events):
     return [result[key] for key in sorted(result)]
 
 
+def _evidence_statuses(events):
+    """Latest eligibility only; retained measurements/history stay in _evidence."""
+    return {event['target_id']: event['imported_status'] if event['action']=='import'
+            else {'confirm':'confirmed','correct':'corrected','invalidate':'invalidated','retract':'retracted'}[event['action']]
+            for event in events}
+
+
 def _append_evidence(state, event):
     events = state["events"]
-    if state["seed"]["schema_version"] in (4, 5, 14):
+    if state["seed"]["schema_version"] in (4, 5, 14, 18):
         _capacity(state, "events", len(events)+1)
         if event["action"] == "confirm":
             _capacity(state, "observations", len({old["target_id"] for old in events})+1)
@@ -280,11 +287,11 @@ def _record_ids(state):
     ids.update(state.get("co_reports", {}))
     ids.update(state.get("critiques",{}));ids.update(state.get("critique_links",{}))
     ids.update(c["source_id"] for c in state.get("critiques",{}).values())
-    for name in ("protocols","experiment_associations","gate_amendments","gate_results","outcome_assessments"):ids.update(state.get(name,{}))
+    for name in ("protocols","experiment_associations","gate_amendments","gate_results","outcome_assessments","wording_acknowledgements","observation_replacements"):ids.update(state.get(name,{}))
     for protocol in state.get("protocols",{}).values():ids.update(g["id"] for g in protocol["gates"])
     for decision in state.get("co_reports",{}).values():
         ids.update(decision["candidate_ids"]);ids.update(decision["candidate_edge_ids"])
-    if state['seed']['schema_version'] in (5, 14):
+    if state['seed']['schema_version'] in (5, 14, 18):
         ids.update(record['id'] for record in state['seed']['initial_argument']['records'])
     for event in state["events"]:
         ids.update((event["event_id"], event["target_id"]))
@@ -323,12 +330,13 @@ def _acyclic(outgoing):
 
 def _paper_changes(branch, state):
     changes = branch["changes"]
-    if state["seed"]["schema_version"] in (4, 5, 14):
+    if state["seed"]["schema_version"] in (4, 5, 14, 18):
         _capacity(state, "changes", len(changes))
         for kind, resource in (("claim", "claims"), ("scientific-edge", "edges"), ("experiment-plan", "plans"), ("interpretation", "interpretations")):
             _capacity(state, resource, sum(x["kind"] == kind for x in changes.values()) + (kind == "claim"))
     root = state["seed"]["claim_id"]
-    evidence = {item["id"] for item in _evidence(state["events"])}
+    evidence = (set(_evidence_statuses(state['events'])) if state['seed']['schema_version'] in (14,18)
+                else {item["id"] for item in _evidence(state["events"])})
     globals_ = {root, state["seed"]["anchor_id"], *state["experiments"], *evidence,
                 *(event["event_id"] for event in state["events"])}
     if set(changes) & globals_ or len(changes) > _limits(state)["changes"]:
@@ -379,7 +387,7 @@ def _paper_changes(branch, state):
                         raise ContractError("claim status requires scientific basis")
                     if changes[basis]["kind"] == "scientific-edge" and changes[basis]["body"]["target_id"] != target:
                         raise ContractError("status basis targets a different claim")
-        result.append((PaperChange if state["seed"]["schema_version"] in (4, 5, 14) else Change)(key, kind, tuple(sorted(dependencies))))
+        result.append((PaperChange if state["seed"]["schema_version"] in (4, 5, 14, 18) else Change)(key, kind, tuple(sorted(dependencies))))
     _acyclic(structural)
     _acyclic(scientific)
     return tuple(result)
@@ -393,14 +401,15 @@ class MergePreview:
 
 
 def _select_paper_amendments(state, original, full, proposed_ids, selected):
-    evidence = _evidence(state["events"])
-    active = tuple(item["id"] for item in evidence if item["status"] in ("confirmed", "corrected"))
+    statuses=(_evidence_statuses(state['events']) if state['seed']['schema_version'] in (14,18)
+              else {item['id']:item['status'] for item in _evidence(state['events'])})
+    active = tuple(key for key in sorted(statuses) if statuses[key] in ('confirmed','corrected'))
     closure = _select(state, _paper_changes(full, state), tuple(selected), active)
     included = set(closure.closure) & set(proposed_ids)
     selected_branch = deepcopy(original)
     selected_branch["changes"].update({key: deepcopy(full["changes"][key]) for key in included})
     after_changes = _paper_changes(selected_branch, state)
-    all_evidence = tuple(item["id"] for item in evidence)
+    all_evidence = tuple(sorted(statuses))
     for item in selected_branch["changes"].values():
         if item["kind"] != "claim-status":
             continue
@@ -510,8 +519,8 @@ def _heads(state):
 def _register_anchor(state, payload):
     import base64
     import hashlib
-    from .research_schema import ANCHOR,ANCHOR_V2
-    payload=normalize(payload,ANCHOR_V2 if 'selector' in payload['source'] else ANCHOR,profile='paper')
+    from .research_schema import ANCHOR,ANCHOR_V2,ANCHOR_V3
+    payload=normalize(payload,ANCHOR_V3 if payload['source'].get('selector',{}).get('schema')=='claimbranch.tex-selector/v2' else ANCHOR_V2 if 'selector' in payload['source'] else ANCHOR,profile='paper')
     anchor=payload['id']; current=state.setdefault('manuscript_anchors',{})
     if anchor not in current and anchor != state['seed']['anchor_id'] and anchor in _record_ids(state):
         raise ContractError('manuscript anchor aliases a scientific identity')
@@ -535,8 +544,8 @@ def _register_anchor(state, payload):
     observations={e['target_id'] for e in state['events']}
     if not set(payload['expresses'])<=claims or not set(payload['plots'])<=observations:
         raise ContractError('anchor references unavailable main claims or observations')
-    if payload['kind']=='text' and (payload['plots'] or payload['parents']):
-        raise ContractError('text anchors express claims; only captions have parent figures/tables')
+    if payload['kind']=='text' and payload['plots']:raise ContractError('plots: text anchors cannot plot observations; use a figure, table or caption')
+    if payload['kind']=='text' and payload['parents']:raise ContractError('parents: only captions have parent figures/tables')
     if payload['parents'] and (payload['kind']!='caption' or any(parent not in current or current[parent]['kind'] not in ('figure','table') for parent in payload['parents'])):
         raise ContractError('caption parent must be a registered figure or table')
     if anchor in payload['parents']:
@@ -553,7 +562,7 @@ def _register_anchor(state, payload):
 
 
 def _apply(state, cmd):
-    if state['seed']['schema_version'] in (5, 14) and cmd['operation_type'] in ('create-reasoning-branch', 'record-interpretation', 'apply-selected-merge'):
+    if state['seed']['schema_version'] in (5, 14, 18) and cmd['operation_type'] in ('create-reasoning-branch', 'record-interpretation', 'apply-selected-merge'):
         raise ContractError('Imported-source reasoning origin propagation is not yet qualified for legacy operations; use the imported-source review path. No reasoning was changed.')
     series = state["seed"]["schema_version"] >= 3
     opening = series and cmd["operation_type"] == "open-episode"
@@ -571,7 +580,7 @@ def _apply(state, cmd):
     paper = state["seed"]["schema_version"] >= 2
     if (kind=='set-audit-encoding') != (cmd['schema_version']==16):raise ContractError('audit encoding operation/version mismatch')
     if kind == 'set-audit-encoding':
-        if state['seed']['schema_version']!=14 or state.get('audit_encoding'):
+        if state['seed']['schema_version'] not in (14,18) or state.get('audit_encoding'):
             raise ContractError('Shared audit opt-in requires an unconverted original-ledger history')
         state['audit_encoding']=payload['encoding']
     elif kind == 'revise-graph':
@@ -580,9 +589,15 @@ def _apply(state, cmd):
     elif kind in ('record-critique','revise-critique-question','link-critique'):
         from .critiques import apply_critique
         apply_critique(state,cmd)
-    elif kind in ('register-protocol','associate-experiment','amend-gate-rule','record-gate-result','record-outcome'):
+    elif kind in ('register-experiment-protocol','register-protocol','associate-experiment','amend-gate-rule','record-gate-result','record-outcome'):
         from .protocols import apply_protocol
         apply_protocol(state,cmd)
+    elif kind=='acknowledge-wording-warning':
+        from .wording_policy import apply_acknowledgement
+        apply_acknowledgement(state,cmd)
+    elif kind=='record-observation-replacement':
+        from .observation_lineage import apply_replacement
+        apply_replacement(state,cmd)
     elif kind in ('declare-condition','record-measurement'):
         from .typed_observations import apply_measurement
         apply_measurement(state,cmd)
@@ -593,10 +608,13 @@ def _apply(state, cmd):
         from .wording_policy import apply_revision
         apply_revision(state,cmd)
     elif kind == "register-manuscript-anchor":
-        if state["seed"]["schema_version"] not in (4, 5, 14): raise ContractError("anchors require a personal paper profile")
+        selector_version=payload['source'].get('selector',{}).get('schema')
+        if (cmd['schema_version']==17)!=(selector_version=='claimbranch.tex-selector/v2') or (cmd['schema_version']==15)!=(selector_version=='claimbranch.tex-selector/v1'):
+            raise ContractError('anchor command and selector version differ')
+        if state["seed"]["schema_version"] not in (4, 5, 14, 18): raise ContractError("anchors require a personal paper profile")
         _register_anchor(state,payload)
     elif kind == "open-episode":
-        if state["seed"]["schema_version"] in (4, 5, 14):
+        if state["seed"]["schema_version"] in (4, 5, 14, 18):
             _capacity(state, "episodes", len(state["episodes"])+1)
         if (state["active_episode"] is not None or len(state["episodes"]) >= _limits(state)["episodes"]
                 or cmd["episode_id"] in _record_ids(state) or cmd["episode_id"] == cmd["id"]):
@@ -618,7 +636,7 @@ def _apply(state, cmd):
                        branches=deepcopy(state["branches"]))
         state["active_episode"] = None
     elif kind == "record-experiment":
-        if state["seed"]["schema_version"] in (4, 5, 14):
+        if state["seed"]["schema_version"] in (4, 5, 14, 18):
             _capacity(state, "experiments", len(state["experiments"])+1)
         if len(state["experiments"]) >= _limits(state)["experiments"] or payload["id"] in _record_ids(state):
             raise ContractError("experiment identity reused or finite limit exceeded")
@@ -717,11 +735,11 @@ def _reduce_uncached(seed, commands):
         raise ContractError("research seed must be an object")
     seed = _norm(value, seed_schema(value.get("schema_version")), value.get("schema_version"))
     paper = seed["schema_version"] >= 2
-    if len(commands) > ((LIFECYCLE_LIMITS if seed["schema_version"] in (4, 5, 14) else PAPER_LIMITS)["commands"] if paper else 32):
+    if len(commands) > ((LIFECYCLE_LIMITS if seed["schema_version"] in (4, 5, 14, 18) else PAPER_LIMITS)["commands"] if paper else 32):
         raise ContractError("history operation limit exceeded")
     if len({seed["claim_id"], seed["anchor_id"]}) != 2:
         raise ContractError("base identities must be distinct")
-    root = "root-" + (_hash(seed, 5) if seed["schema_version"] in (5, 14) else digest(seed))
+    root = "root-" + (_hash(seed, 5) if seed["schema_version"] in (5, 14, 18) else digest(seed))
     state = {"seed": seed, "events": [], "merges": [], "time": None,
              "branches": {"main": {"head": root, "base_head": root, "watermark": 0, "changes": {}, "judgment": None}}}
     if paper:
@@ -729,14 +747,14 @@ def _reduce_uncached(seed, commands):
     if seed["schema_version"] >= 3:
         state.update(active_episode=None, episodes={}, interpretation_owners={}, operation_ids={root})
         state["branches"]["main"]["judgments"] = {}
-    if seed["schema_version"] in (5, 14):
+    if seed["schema_version"] in (5, 14, 18):
         from .argument_import import initialize_imported_state
         initialize_imported_state(state)
     seen = set()
     for position,raw in enumerate(commands):
         value = _read(raw, seed["schema_version"])
         command_version = value.get("schema_version")
-        if command_version != seed["schema_version"] and not (command_version in (6,7,8,9,10,11,12,13,15,16) and seed["schema_version"] in (4, 5, 14)):
+        if command_version != seed["schema_version"] and not (command_version in (6,7,8,9,10,11,12,13,15,16,17,19,20) and seed["schema_version"] in (4, 5, 14, 18)):
             raise ContractError("command version does not belong to this history")
         cmd = _norm(value, command_schema(command_version), seed["schema_version"])
         if _bytes(cmd, seed["schema_version"]) != raw:
@@ -748,7 +766,7 @@ def _reduce_uncached(seed, commands):
             state["operation_ids"].add(cmd["id"])
             state.setdefault("operation_positions",{})[cmd["id"]]=position
         _apply(state, cmd)
-        if command_version in (12,15):
+        if command_version in (12,15,17,19,20):
             from .metadata_origin import retain_origin
             retain_origin(state,cmd)
     return state
@@ -768,7 +786,7 @@ def _paper_preview_basis(seed,commands,ref,episode_id):
 
 def _reduce(seed, commands):
     # Cached scientific calculations are immutable internal inputs, not authority.
-    return _paper_reduce(seed, commands) if _seed_version(seed) in (4, 5, 14) else _reduce_uncached(seed, commands)
+    return _paper_reduce(seed, commands) if _seed_version(seed) in (4, 5, 14, 18) else _reduce_uncached(seed, commands)
 
 
 def _view(state, ref, episode_id=None, *, _same_globals=None):
@@ -806,19 +824,20 @@ def _view(state, ref, episode_id=None, *, _same_globals=None):
         result.update(episode_id=episode_id, episode=_episode_info(state["episodes"][episode_id]) if episode_id else None,
                       judgments=_branch_judgments(branch, state),
                       interpretation_episode_ids={item["id"]: state["interpretation_owners"][item["id"]] for item in result["interpretations"]})
-    if state["seed"]["schema_version"] in (5, 14):
+    if state["seed"]["schema_version"] in (5, 14, 18):
         imported = _same_globals['imported_records'] if _same_globals is not None else deepcopy(state["seed"]["initial_argument"]["records"])
         originals = {record['id']: record for record in imported}
         unresolved = sum(state['seed']['initial_argument']['unresolved_source_pointers'], [])
+        replacement_pointers={link['source_pointer'] for link in state.get('observation_replacements',{}).values() if link.get('origin_kind')=='imported-declaration'}
         pointer_size_used = 0
         def source_mark(record):
             nonlocal pointer_size_used
             pointer = record['source_pointer']
-            pointers = [p for p in unresolved if not pointer or p == pointer or p.startswith(pointer + '/')]
+            pointers = [p for p in unresolved if (not pointer or p == pointer or p.startswith(pointer + '/')) and p not in replacement_pointers]
             pointer_size_used += sum(len(p.encode('utf-8')) + 4 for p in pointers)
             if pointer_size_used > MANIFEST_BYTES:
                 raise ContractError('capacity import-source-view-bytes: %s / %s; narrow source record pointers' % (pointer_size_used, MANIFEST_BYTES))
-            return dict(**({'origin_flags': deepcopy(record['origin_flags']), 'source_digest_scope':'argument-envelope/v2'} if state['seed']['schema_version'] == 14 else {}), authority='imported-source-claim', contributor=record['origin']['contributor'],
+            return dict(**({'origin_flags': deepcopy(record['origin_flags']), 'source_digest_scope':'argument-envelope/v2'} if state['seed']['schema_version'] in (14,18) else {}), authority='imported-source-claim', contributor=record['origin']['contributor'],
                 recorded_at=record['recorded_at'], source_pointer=pointer,
                 unresolved_pointer_pages=[pointers[i:i+128] for i in range(0, len(pointers), 128)],
                 unresolved_leaf_count=len(pointers))
@@ -834,14 +853,18 @@ def _view(state, ref, episode_id=None, *, _same_globals=None):
                       imported_dependencies=deepcopy(branch.get('source_lineages', {})),
                       import_source_digest=state["seed"]["initial_argument"]["source_sha256"],
                       unresolved_source_pointers=deepcopy(state["seed"]["initial_argument"]["unresolved_source_pointers"]))
-    for name in ('wording_policies','companion_dependencies','anchor_contexts','co_reports','condition_vocabulary','protocols','experiment_associations','gate_amendments','gate_results','outcome_assessments','critiques','critique_links','metadata_origins'):
+    for name in ('wording_policies','companion_dependencies','anchor_contexts','co_reports','condition_vocabulary','protocols','experiment_associations','gate_amendments','gate_results','outcome_assessments','wording_acknowledgements','observation_replacements','critiques','critique_links','metadata_origins'):
         if state.get(name): result[name]=deepcopy(state[name])
     if state.get('graph_revisions'):
         result.update(graph_revisions=deepcopy(state['graph_revisions']),titles=deepcopy(branch.get('titles',{})),graph_review_required=branch.get('graph_review_required',False))
     if state.get('protocols'):
         from .protocols import plan_digest
         current_main=state['branches']['main']['changes']
-        result['protocol_plan_digests']={p['plan_id']:plan_digest(current_main[p['plan_id']]) if p['plan_id'] in current_main else None for p in state['protocols'].values()}
+        result['protocol_plan_digests']={p['plan_id']:plan_digest(current_main[p['plan_id']]) if p['plan_id'] in current_main else None for p in state['protocols'].values() if 'plan_id' in p}
+        completed=[p for p in state['protocols'].values() if 'experiment_id' in p]
+        if completed:
+            from .protocols import experiment_digest
+            result['protocol_experiment_digests']={p['experiment_id']:experiment_digest(state['experiments'][p['experiment_id']]) for p in completed}
     if state.get('manuscript_anchors'):
         result['manuscript_anchors'] = deepcopy(state['manuscript_anchors'])
     return result
@@ -878,17 +901,17 @@ class ResearchHistory:
         if type(self.seed) is not bytes or type(self.commands) is not tuple:
             raise ContractError("bounded immutable history required")
         version = self.schema_version
-        maximum = LIFECYCLE_LIMITS['commands'] if version in (4, 5, 14) else PAPER_LIMITS['commands']
+        maximum = LIFECYCLE_LIMITS['commands'] if version in (4, 5, 14, 18) else PAPER_LIMITS['commands']
         if len(self.commands) > maximum:
             raise ContractError('capacity commands: %s / %s' % (len(self.commands), maximum))
         if any(type(raw) is not bytes for raw in self.commands):
             raise ContractError("bounded immutable command bytes required")
         used = sum(map(len, self.commands)) + len(self.seed)
-        byte_limit = HISTORY_BYTES if version in (4, 5, 14) else 262144
+        byte_limit = HISTORY_BYTES if version in (4, 5, 14, 18) else 262144
         if used > byte_limit:
             raise ContractError('capacity history-bytes: %s / %s' % (used, byte_limit))
         state = _reduce(self.seed, self.commands)
-        if (paper_encode(state['seed'], purpose='history') if version in (5,14) else canonical_bytes(state['seed'])) != self.seed:
+        if (paper_encode(state['seed'], purpose='history') if version in (5,14,18) else canonical_bytes(state['seed'])) != self.seed:
             raise ContractError('history seed is not canonical')
         self.manifest()
 
@@ -932,20 +955,20 @@ class ResearchHistory:
             plans=sum(x['kind']=='experiment-plan' for x in changes.values()), changes=len(changes),
             episodes=len(state.get('episodes', {})),
             interpretations=len(state.get('interpretation_owners', {})))
-        for name in ('wording_policies','companion_dependencies','anchor_contexts','co_reports','condition_vocabulary','protocols','experiment_associations','gate_amendments','gate_results','outcome_assessments','critiques','critique_links','metadata_origins'):
+        for name in ('wording_policies','companion_dependencies','anchor_contexts','co_reports','condition_vocabulary','protocols','experiment_associations','gate_amendments','gate_results','outcome_assessments','wording_acknowledgements','observation_replacements','critiques','critique_links','metadata_origins'):
             if state.get(name): counts[name]=len(state[name])
         if state.get('manuscript_anchors'):
             counts['anchors']=1+len(set(state['manuscript_anchors'])-{state['seed']['anchor_id']})
             counts['anchor-associations']=sum(len(a['expresses'])+len(a['plots'])+len(a['parents']) for a in state['manuscript_anchors'].values())
         counts['history-bytes'] = len(self.seed)+sum(map(len,self.commands))
         counts['manifest-bytes'] = len(self.manifest())
-        if self.schema_version in (5, 14):
+        if self.schema_version in (5, 14, 18):
             counts['historical-decisions'] = sum(record['kind'] == 'historical-decision' for record in state['seed']['initial_argument']['records'])
-        maxima = {**limits, 'wording_policies':64,'companion_dependencies':256,'anchor_contexts':64,'co_reports':32,'condition_vocabulary':32,'protocols':128,'experiment_associations':128,'gate_amendments':256,'gate_results':512,'outcome_assessments':256,'critiques':128,'critique_links':512,'metadata_origins':2048, 'history-bytes': HISTORY_BYTES if self.schema_version in (4, 5, 14) else 262144,
-                  'manifest-bytes': MANIFEST_BYTES if self.schema_version in (4, 5, 14) else 262144}
+        maxima = {**limits, 'wording_policies':64,'companion_dependencies':256,'anchor_contexts':64,'co_reports':32,'condition_vocabulary':32,'protocols':128,'experiment_associations':128,'gate_amendments':256,'gate_results':512,'outcome_assessments':256,'wording_acknowledgements':128,'observation_replacements':512,'critiques':128,'critique_links':512,'metadata_origins':2048, 'history-bytes': HISTORY_BYTES if self.schema_version in (4, 5, 14, 18) else 262144,
+                  'manifest-bytes': MANIFEST_BYTES if self.schema_version in (4, 5, 14, 18) else 262144}
         maxima.update(anchors=64, **{'anchor-associations':2048})
-        if self.schema_version in (5, 14): maxima['historical-decisions'] = 256
-        return {'profile': 'paper' if self.schema_version in (4, 5, 14) else 'episode', 'schema_version': self.schema_version,
+        if self.schema_version in (5, 14, 18): maxima['historical-decisions'] = 256
+        return {'profile': 'paper' if self.schema_version in (4, 5, 14, 18) else 'episode', 'schema_version': self.schema_version,
             'resources': {key: {'used': count, 'limit': maxima[key], 'remaining': maxima[key]-count}
                           for key,count in counts.items()}}
 
@@ -968,7 +991,7 @@ class ResearchHistory:
 
     @property
     def has_metadata_origins(self):
-        return any(_read(raw,self.schema_version).get('schema_version') in (12,15) for raw in self.commands)
+        return any(_read(raw,self.schema_version).get('schema_version') in (12,15,17,19,20) for raw in self.commands)
 
     @property
     def has_critiques(self):
@@ -976,7 +999,7 @@ class ResearchHistory:
 
     @property
     def has_protocols(self):
-        return any(_read(raw,self.schema_version).get("operation_type") in ('register-protocol','associate-experiment','amend-gate-rule','record-gate-result','record-outcome') for raw in self.commands)
+        return any(_read(raw,self.schema_version).get("operation_type") in ('register-experiment-protocol','register-protocol','associate-experiment','amend-gate-rule','record-gate-result','record-outcome') for raw in self.commands)
 
     @property
     def has_measurements(self):
@@ -1003,11 +1026,11 @@ class ResearchHistory:
         return len(_reduce(self.seed, self.commands)["events"])
 
     def append(self, command):
-        if self.schema_version in (4, 5, 14) and type(command) is dict and type(command.get("payload")) is dict:
+        if self.schema_version in (4, 5, 14, 18) and type(command) is dict and type(command.get("payload")) is dict:
             changes=command["payload"].get("changes")
             if type(changes) is list and len(changes)>LIFECYCLE_LIMITS["changes"]:
                 raise ContractError("capacity changes: %s / %s" % (len(changes),LIFECYCLE_LIMITS["changes"]))
-        cmd = _norm(command, command_schema(command["schema_version"] if command.get("schema_version") in (6,7,8,9,10,11,12,13,15,16) and self.schema_version in (4, 5, 14) else self.schema_version), self.schema_version)
+        cmd = _norm(command, command_schema(command["schema_version"] if command.get("schema_version") in (6,7,8,9,10,11,12,13,15,16,17,19,20) and self.schema_version in (4, 5, 14, 18) else self.schema_version), self.schema_version)
         raw = _bytes(cmd, self.schema_version)
         for previous in self.commands:
             if _read(previous, self.schema_version)["id"] == cmd["id"]:
@@ -1049,7 +1072,7 @@ class ResearchHistory:
         """
         if self.schema_version < 3:
             raise ContractError("cumulative merge projection requires v3")
-        selected = _norm(selected, array(ID, (LIFECYCLE_LIMITS if self.schema_version in (4, 5, 14) else PAPER_LIMITS)["changes"], 1, True), self.schema_version)
+        selected = _norm(selected, array(ID, (LIFECYCLE_LIMITS if self.schema_version in (4, 5, 14, 18) else PAPER_LIMITS)["changes"], 1, True), self.schema_version)
         state = deepcopy(_reduce(self.seed, self.commands))
         preview = _preview(state, selected)
         source, target = state["branches"]["alternative"], state["branches"]["main"]
@@ -1064,17 +1087,17 @@ class ResearchHistory:
                        "required" if key in required else "omitted"}
                       for key, item in sorted(source["changes"].items()) if target["changes"].get(key) != item]
         target["changes"].update({key: deepcopy(source["changes"][key]) for key in preview.selection.closure})
-        if self.schema_version in (5, 14):
+        if self.schema_version in (5, 14, 18):
             target.setdefault('source_lineages', {}).update({key:deepcopy(source.get('source_lineages', {}).get(key, [])) for key in preview.selection.closure})
         target["judgment"] = deepcopy(source["judgment"])
         target["judgments"][_episode_id(state)] = deepcopy(source["judgment"])
         value = {"schema_version": 1, "project_id": state["seed"]["project_id"], "episode_id": _episode_id(state),
                  "ref": "main", "source_ref": "alternative", "selection": selection, "amendments": amendments,
-                 "before": before, "after": _view(state, "main",_same_globals=before if self.schema_version==14 else None),
+                 "before": before, "after": _view(state, "main",_same_globals=before if self.schema_version in (14,18) else None),
                  "source_judgment": deepcopy(source["judgment"]), "judgment": deepcopy(source["judgment"]),
                  "source_judgments": _branch_judgments(source, state), "ai_influenced": _branch_ai(source, state),
                  "authority": "unaccepted-preview", "authorization_verified": False}
-        if self.schema_version in (5, 14):
+        if self.schema_version in (5, 14, 18):
             from .argument_import import source_references
             refs = source_references(state, source, [source['changes'][key] for key in preview.selection.closure], source['source_node_id'])
             value.update(imported_sources=refs, source_node_id=source['source_node_id'],
@@ -1088,7 +1111,7 @@ class ResearchHistory:
         This is a disposable graph projection, not a selected review or a command.
         Incomplete editor values must remain with their caller on validation error.
         """
-        if self.schema_version not in (2, 3, 4, 5, 14):
+        if self.schema_version not in (2, 3, 4, 5, 14, 18):
             raise ContractError('draft projection requires a paper history')
         state = deepcopy(_reduce(self.seed, self.commands))
         before = _view(state, ref, episode_id)
@@ -1123,18 +1146,18 @@ class ResearchHistory:
         It does not append a command, start an episode, rewrite a seed or supply
         a persistent/multi-episode transition. Both provenance chains survive.
         """
-        if self.schema_version not in (2, 3, 4, 5, 14) or not isinstance(judgment, Judgment):
+        if self.schema_version not in (2, 3, 4, 5, 14, 18) or not isinstance(judgment, Judgment):
             raise ContractError("paper amendments require a paper history and typed complete judgment")
         # No source mutation: amended/selected branches are owned copies, and
         # the hypothetical state below forks only its modified branch path.
         state = _reduce(self.seed, self.commands)
-        before = _paper_preview_basis(self.seed,self.commands,ref,episode_id) if self.schema_version==14 else _view(state, ref, episode_id)
+        before = _paper_preview_basis(self.seed,self.commands,ref,episode_id) if self.schema_version in (14,18) else _view(state, ref, episode_id)
         branches, episode_id = _episode_branches(state, episode_id)
         if episode_id is None:
             raise ContractError("open a paper episode before drafting")
         judgment = _judgment(normalize(asdict(judgment), JUDGMENT), _context(state, episode_id))
         request = _norm({"amendments": amendments, "selected_ids": selected},
-                            obj(amendments=paper_payloads(self.schema_version)["record-interpretation"]["properties"]["changes"], selected_ids=array(ID, (LIFECYCLE_LIMITS if self.schema_version in (4, 5, 14) else PAPER_LIMITS)["changes"], 1, True)), self.schema_version)
+                            obj(amendments=paper_payloads(self.schema_version)["record-interpretation"]["properties"]["changes"], selected_ids=array(ID, (LIFECYCLE_LIMITS if self.schema_version in (4, 5, 14, 18) else PAPER_LIMITS)["changes"], 1, True)), self.schema_version)
         proposed = {item["id"]: item for item in request["amendments"]}
         if len(proposed) != len(request["amendments"]) or not set(request["selected_ids"]).issubset(proposed):
             raise ContractError("select unique proposed amendments only")
@@ -1160,7 +1183,7 @@ class ResearchHistory:
         source_ai = _branch_ai(original, state)
         selected_ids = set(request["selected_ids"])
         imported_sources = []
-        if self.schema_version in (5, 14):
+        if self.schema_version in (5, 14, 18):
             from .argument_import import source_references
             source_node_id = source_node_id or state['seed']['claim_id']
             imported_sources = source_references(state, selected_branch, [proposed[key] for key in included], source_node_id)
@@ -1176,10 +1199,10 @@ class ResearchHistory:
                      "before": deepcopy(original["changes"].get(key)), "after": deepcopy(item),
                      "disposition": "selected" if key in selected_ids else "required" if key in included else "omitted"}
                      for key, item in sorted(proposed.items())],
-                 "before": before, "after": _view(after_state, ref, episode_id,_same_globals=before if self.schema_version==14 else None),
+                 "before": before, "after": _view(after_state, ref, episode_id,_same_globals=before if self.schema_version in (14,18) else None),
                  "source_judgment": deepcopy(source_judgment), "judgment": asdict(judgment),
                  "ai_influenced": source_ai or judgment.ai_influenced}
-        if self.schema_version in (5, 14):
+        if self.schema_version in (5, 14, 18):
             value.update(imported_sources=imported_sources, source_node_id=source_node_id,
                 origin_uncertain=any('unknown' in reference_origins(r) for r in imported_sources))
             value['ai_influenced'] |= any(bool(reference_origins(r) & {'ai','mixed'}) for r in imported_sources)
@@ -1188,7 +1211,7 @@ class ResearchHistory:
         return value
 
     def prepare_merge_review(self, command, *, manuscript_digest, session_nonce, sealed_at, expires_at):
-        if self.schema_version in (4, 5, 14):
+        if self.schema_version in (4, 5, 14, 18):
             raise ContractError("personal-paper history has no protected merge authority")
         cmd = _norm(command, command_schema(self.schema_version), self.schema_version)
         if cmd["operation_type"] != "apply-selected-merge":
@@ -1221,4 +1244,4 @@ class ResearchHistory:
         return self.append(command), acceptance_candidate(review, decision="accept")
 
     def manifest(self):
-        return _paper_manifest(self.seed,self.commands) if self.schema_version in (4, 5, 14) else _manifest(_reduce(self.seed,self.commands),self.commands)
+        return _paper_manifest(self.seed,self.commands) if self.schema_version in (4, 5, 14, 18) else _manifest(_reduce(self.seed,self.commands),self.commands)

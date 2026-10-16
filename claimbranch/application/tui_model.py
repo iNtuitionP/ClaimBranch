@@ -164,7 +164,7 @@ class TerminalWorkspace:
         if content.get("title"):return content["title"]
         if node["kind"] == "manuscript-anchor":
             return node["content"].get("statement", "Manuscript connection to the paper thesis")
-        return content.get("statement") or content.get("objective") or content.get("question") or node_id
+        return content.get("statement") or content.get("objective") or content.get("question") or content.get("display_label") or node_id
 
     def kind(self, node_id):
         node = self.nodes[node_id]
@@ -876,6 +876,8 @@ class TerminalWorkspace:
             section('OWNER-ASSOCIATED WORK / NOT PROOF OF MOTIVATION',json.dumps(content.get('associations',[]),ensure_ascii=False,indent=2))
             section('PRIVATE ORIGINAL', 'Excluded from this graph. Close TUI and use explicit project critique-original to read it locally.', 'muted')
             section('COVERAGE', 'A question or addressed-by link proves no resolution, confidentiality or anonymity.', 'warning')
+        if content.get('replacement_context'):
+            section('RESULT REPLACEMENTS / STATUS UNCHANGED',json.dumps(content['replacement_context'],ensure_ascii=False,indent=2),'warning')
         if content.get('protocol_context'):
             section('REGISTERED RULES / ORIGINAL RESULTS AND AMENDMENTS',json.dumps(content['protocol_context'],ensure_ascii=False,indent=2),'warning')
             section('CHRONOLOGY', 'Source-claimed or unknown; app record order cannot prove that external results were unseen.', 'muted')
@@ -933,7 +935,7 @@ class TerminalWorkspace:
             return lines
         if mode == "provenance":
             judgment = self.view.get("judgment")
-            section("RECORDED EPISODE JUDGMENT", "Local episode history is separate from imported source decisions and your unfinished writing." if self.paper.history.schema_version in (5, 14) else "Frozen example history; this is separate from your local node draft.", "muted")
+            section("RECORDED EPISODE JUDGMENT", "Local episode history is separate from imported source decisions and your unfinished writing." if self.paper.history.schema_version in (5, 14, 18) else "Frozen example history; this is separate from your local node draft.", "muted")
             if judgment:
                 for index, entry in enumerate(judgment["history"], 1):
                     section(f"{index} / {entry['contributor'].upper()}", entry["text"])
@@ -941,7 +943,7 @@ class TerminalWorkspace:
                     if entry.get("proposal_id"):
                         section("PROPOSAL", entry["proposal_id"], "accent")
             else:
-                section("No recorded judgment", "Imported decisions remain source history; write your new judgment and review selected reasoning personally." if self.paper.history.schema_version in (5, 14) else "The example has no judgment on this branch.")
+                section("No recorded judgment", "Imported decisions remain source history; write your new judgment and review selected reasoning personally." if self.paper.history.schema_version in (5, 14, 18) else "The example has no judgment on this branch.")
             return lines
         if mode in ("draft", "writing"):
             if len(self.paper.work_nodes(self.full_context(self.work_key()))) > 1:
@@ -967,8 +969,11 @@ class TerminalWorkspace:
                     fromfile="selected-argument", tofile="your-session-draft", lineterm="")))
             return lines
         lines.append((self.node_label(self.selected_id) + " / " + self.kind(self.selected_id), "heading"))
-        if node["kind"] == "observation" and "value" in content:
+        if node["kind"] == "observation" and content.get("value") is not None and content.get("metric") and content["metric"].get("unit") and content["metric"].get("name"):
             lines.append((content["value"] + " " + content["metric"]["unit"] + " · " + content["metric"]["name"], "accent"))
+        elif node["kind"]=="observation" and content.get("value") is not None:
+            lines.append((content["value"]+" · metric not recorded in this import","accent"))
+        if content.get("experiment_not_recorded"):section("EXPERIMENT FIELDS NOT RECORDED",", ".join(content["experiment_not_recorded"]),"warning")
         if content.get("conditions"):
             label = 'Run conditions: ' if node['kind'] == 'observation' else 'Conditions: '
             lines.append((label + content["conditions"], "muted"))
@@ -988,15 +993,17 @@ class TerminalWorkspace:
             section("MY NOTE · n edit", self.note())
         elif not getattr(self, 'projection_only', False):
             lines.extend([("n writes a personal note for this node.", "muted"), ("", "body")])
+        if content.get("display_label"):section("ORIGINAL LABEL",content["display_label"])
+        if content.get("not_recorded"):section("NOT RECORDED IN THIS IMPORT",", ".join(content["not_recorded"]),"warning")
         if content.get("scope"):
             section("SCOPE", content["scope"])
         if content.get("method"):
             section("METHOD", content["method"])
         if content.get("metric"):
             metric = content["metric"]
-            section("MEASUREMENT / " + metric["name"], metric["definition"])
-            section("UNIT", metric["unit"])
-            section("COMPARISON", metric["comparison"])
+            section("MEASUREMENT / " + (metric["name"] or "not recorded"), metric["definition"] or "not recorded")
+            section("UNIT", metric["unit"] or "not recorded")
+            section("COMPARISON", metric["comparison"] or "not recorded")
         if content.get("source_ref"):
             section("SOURCE REFERENCE", content["source_ref"] + " (example reference; no artifact opened)", "muted")
         if node["kind"] == "experiment-plan":

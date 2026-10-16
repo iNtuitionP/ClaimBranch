@@ -24,18 +24,22 @@ def add_personal_project_commands(commands):
     extended.add_argument('--input',required=True)
     extended.add_argument('--dry-run',action='store_true')
     preparation=actions.add_parser('prepare-import',help='Retain exact original ledger files and mappings in a new private preview envelope; no project registration')
-    preparation.add_argument('--manifest',required=True,help='Owner-private argument-source-manifest/v1 JSON')
+    preparation.add_argument('--manifest',required=True,help='Owner-private argument-source-manifest/v1, v2, v3 or v4 JSON')
     preparation.add_argument('--source-root',required=True,help='Explicit local source directory; only manifest paths are read')
-    preparation.add_argument('--output',help='Create-only file in an existing private directory outside Git')
+    preparation.add_argument('--output',help='Private prepared output; a collision offers overwrite/save-as/cancel')
+    preparation.add_argument('--overwrite','--replace',action='store_true',help='Replace only a recognized preparation with the supplied exact old digest')
+    preparation.add_argument('--expected-output-sha256',help='Exact old output digest required with --overwrite')
     preparation.add_argument('--dry-run',action='store_true',help='Validate sources/mappings without creating a file')
     argument = actions.add_parser('import-argument', help='Review and register a prior argument in a fresh private project; source origins retained')
-    argument.add_argument('--input', required=True, help='Owner-private regular argument-import/v1 or v2 JSON envelope; maximum 16 MiB')
+    argument.add_argument('--input', required=True, help='Owner-private regular argument-import/v1, v2, v3, v4 or v5 JSON envelope; maximum 16 MiB')
     argument.add_argument('--dry-run', action='store_true', help='Read-only mapping/graph preview; creates no project')
     argument.add_argument('--json', action='store_true', help='Complete private preview including original source chunks; not a share export')
+    argument.add_argument('--preflight', action='store_true', help='With --dry-run, prepare actual project/graph/archive without writes; requires project options')
     argument.add_argument('--directory', help='Fresh owner-private destination outside Git; required to register')
     argument.add_argument('--paper-root', help='Existing paper Git root, read-only')
     argument.add_argument('--manuscript', help='Relative marked TeX source, read-only')
     argument.add_argument('--anchor', default='anchor')
+    argument.add_argument('--label-version',type=int,choices=(1,2),default=2,help='New read-only label scanner; v1 retains legacy refusal rules')
     argument.add_argument('--label',help='Existing literal LaTeX label for the initial read-only connection')
     argument.add_argument('--shared-audit',action='store_true',help='Review opt-in lossless shared audit encoding for v2 original ledgers')
     argument.add_argument('--question', help='New unresolved question after migration; not a historical decision')
@@ -94,7 +98,9 @@ def add_personal_project_commands(commands):
             action.add_argument('--retire',action='store_true')
         else:
             action.add_argument('--anchor',required=True)
-            if name=='anchor-register':action.add_argument('--label',help='Existing literal LaTeX label; source stays read-only')
+            if name=='anchor-register':
+                action.add_argument('--label',help='Existing literal LaTeX label; source stays read-only')
+                action.add_argument('--label-version',type=int,choices=(1,2),default=2)
             action.add_argument('--placement',choices=('main','appendix','abstract','unknown'),required=True)
             action.add_argument('--paragraphs',help='Private JSON list of index/expresses/plots declarations; original registered block indices')
     for name in ('anchor-register','anchors','anchor-impact'):
@@ -103,7 +109,9 @@ def add_personal_project_commands(commands):
         if name=='anchor-register':
             action.add_argument('--manuscript',required=True)
             action.add_argument('--anchor',required=True)
-            if name=='anchor-register':action.add_argument('--label',help='Existing literal LaTeX label; source stays read-only')
+            if name=='anchor-register':
+                action.add_argument('--label',help='Existing literal LaTeX label; source stays read-only')
+                action.add_argument('--label-version',type=int,choices=(1,2),default=2)
             action.add_argument('--kind',choices=('text','figure','table','caption'),required=True)
             action.add_argument('--expresses',nargs='*',default=[])
             action.add_argument('--plots',nargs='*',default=[])
@@ -119,6 +127,9 @@ def add_personal_project_commands(commands):
     imported.add_argument('--project-id')
     imported.add_argument('--input', required=True, help='Private regular JSON file containing the explicit external proposal envelope')
     imported.add_argument('--dry-run', action='store_true')
+    upgrade=actions.add_parser('upgrade-label-selector',help='Explicitly review v1 to conditional-aware v2 paper connection; manuscript stays read-only')
+    upgrade.add_argument('--directory',required=True)
+    upgrade.add_argument('--dry-run',action='store_true')
     audit=actions.add_parser('enable-shared-audit',help='Review lossless shared audit encoding; preserve originals and scientific state')
     audit.add_argument('--directory',required=True)
     audit.add_argument('--dry-run',action='store_true')
@@ -138,6 +149,7 @@ def add_personal_project_commands(commands):
             action.add_argument('--manuscript', required=True, help='Relative marked .tex source')
             action.add_argument('--anchor', default='anchor')
             action.add_argument('--label',help='Existing literal LaTeX label; requires --profile paper')
+            action.add_argument('--label-version',type=int,choices=(1,2),default=2)
             action.add_argument('--title', help='Paper title; prompts when omitted')
             action.add_argument('--thesis', help='Human working thesis; prompts when omitted')
             action.add_argument('--question', help='First unresolved question; prompts when omitted')
@@ -170,7 +182,7 @@ def add_personal_project_commands(commands):
 def saved_summary(project,kind):
     return {'kind':kind,'project_id':project.project_id,
         'saved_digest':hashlib.sha256(project.payload).hexdigest(),
-        'capacity': {**project.work.history.capacity(), 'project_bytes': {'used':len(project.payload), 'limit':16777216 if project.work.history.schema_version in (4, 5, 14) else 262144, 'remaining':(16777216 if project.work.history.schema_version in (4, 5, 14) else 262144)-len(project.payload)}},
+        'capacity': {**project.work.history.capacity(), 'project_bytes': {'used':len(project.payload), 'limit':16777216 if project.work.history.schema_version in (4, 5, 14, 18) else 262144, 'remaining':(16777216 if project.work.history.schema_version in (4, 5, 14, 18) else 262144)-len(project.payload)}},
         'episodes':len(project.work.history.episodes()),'evidence_events':project.work.history.watermark,
         'source_status':project.source_status(),'source_fidelity_verified':False,
         'encrypted':False,'authorization_verified':False,'ai':'off',
@@ -313,55 +325,46 @@ def _read_argument_input(path):
     return raw
 
 
-def _preview_argument(args, *, raw=None, require_complete=False):
-    from claimbranch.core.argument_import import preview_import
-    from claimbranch.core.paper_capacity import PROJECT_BYTES, source_bytes
-    if not args.dry_run:
-        raise ContractError('Argument registration is not yet available. Use import-argument --dry-run; no project was created.')
-    raw = _read_argument_input(args.input) if raw is None else raw
-    result = preview_import(raw)
-    if args.json:
-        print(json.dumps(result, ensure_ascii=False, sort_keys=True))
-    else:
-        display = {key: child for key, child in result.items() if key not in ('source','files')}
-        text = 'PRIOR ARGUMENT / private read-only preview; no records registered.\n' + json.dumps(display, ensure_ascii=False, indent=2)
-        if 'source' in result:
-            text += '\nCOMPLETE ORIGINAL JSON / retained source claims, not verified science\n' + source_bytes(result['source']).decode('utf-8')
-        if 'files' in result:
-            for file in result['files']:
-                text += '\nCOMPLETE ORIGINAL TEXT / '+file['id']+' / '+file['source']['sha256']+'\n'+source_bytes(file['source']).decode('utf-8')
-        lines = clean(text).splitlines()
-        for index in range(0, len(lines), 40):
-            print('\n'.join(lines[index:index+40]), flush=True)
-            if index + 40 < len(lines) and sys.stdin.isatty() and sys.stdout.isatty():
-                try:
-                    answer = input('Enter: next page / q: leave preview (no writes): ').strip().lower()
-                except (EOFError, KeyboardInterrupt) as error:
-                    print('Preview interrupted; no records registered.')
-                    return 130 if isinstance(error, KeyboardInterrupt) else 1
-                if answer == 'q':
-                    print('Preview left before all pages; no records registered.')
-                    return 2 if require_complete else 0 if result['valid'] else 1
-    return 0 if result['valid'] else 1
+def _argument_destination(directory):
+    """Read-only freshness check; actual create still takes its exclusive lock."""
+    from .project_work import _workspace
+    identity = _workspace(directory)[1]
+    fd = os.open(directory, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW)
+    try:
+        names = set(os.listdir(fd))
+        if names & {'personal.cbp', 'work.cbw', 'backup.cbp', 'project.json', 'provider.json'} or any(name.startswith(('.personal-', '.work-')) for name in names):
+            raise ContractError('Import destination must be fresh; existing project/archive/staging files retained.')
+        if 'work.lock' in names:
+            import fcntl
+            lock = os.open('work.lock', os.O_RDONLY | os.O_NOFOLLOW | os.O_NONBLOCK, dir_fd=fd)
+            try:
+                info = os.fstat(lock)
+                if not stat.S_ISREG(info.st_mode) or info.st_uid != os.getuid() or info.st_mode & 0o077:
+                    raise ContractError('Import destination has an unsupported session lock.')
+                fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
+                fcntl.flock(lock, fcntl.LOCK_UN)
+            finally:
+                os.close(lock)
+    except OSError:
+        raise ContractError('Import destination unavailable or open in another session; no project registered.') from None
+    finally:
+        os.close(fd)
+    return identity
 
 
-def _register_argument(args):
+def _prepare_argument(args, raw, inspected):
+    """Same pure candidate/backup/graph preparation for preview and publication."""
     from datetime import datetime, timezone
-    from claimbranch.core.argument_import import history_from_import, preview_import
-    from .project_work import ProjectWork, preview_association, _workspace, _identity
+    from claimbranch.core.argument_import import history_from_import
+    from .project_work import ProjectWork, preview_association, _workspace
+    from .personal_archive import MAX_BACKUP_BYTES
     if not all((args.directory, args.paper_root, args.manuscript, args.question)):
-        raise ContractError('Argument registration is not yet available without --directory, --paper-root, --manuscript and --question; use --dry-run to inspect.')
-    if not sys.stdin.isatty() or not sys.stdout.isatty():
-        raise ContractError('Registration requires an interactive terminal; use --dry-run to inspect.')
-    raw = _read_argument_input(args.input)
-    inspected = preview_import(raw)
+        raise ContractError('Full preflight/registration requires --directory, --paper-root, --manuscript and --question.')
     if inspected['schema'] == 'claimbranch.argument-import-preview/v1' and len(raw) > 4194304:
-        raise ContractError('capacity import-input-bytes: %s / 4194304; no project registered. Preview remains available with --dry-run.' % len(raw))
-    if not inspected['valid']:
-        preview_args = type('PreviewArgs', (), dict(dry_run=True, json=args.json, input=args.input))()
-        _preview_argument(preview_args, raw=raw)
-        return 1
-    preview = preview_association(args.paper_root, args.manuscript, args.anchor, args.directory,selector=dict(schema='claimbranch.tex-selector/v1',kind='label',value=args.label) if args.label else None)
+        raise ContractError('capacity import-input-bytes: %s / 4194304; no project registered.' % len(raw))
+    _argument_destination(args.directory)
+    audit_preview = None
+    preview = preview_association(args.paper_root, args.manuscript, args.anchor, args.directory,selector=dict(schema='claimbranch.tex-selector/v'+str(getattr(args,'label_version',2)),kind='label',value=args.label) if args.label else None)
     identity = _workspace(args.directory)[1]
     now = datetime.now(timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ')
     history = history_from_import(raw, anchor_id=args.anchor, registered_at=now)
@@ -374,33 +377,78 @@ def _register_argument(args):
     candidate = ProjectWork.create(PaperWork.create(history), preview, import_input=raw)
     if args.shared_audit:
         candidate,audit_preview=prepare_shared_audit(candidate)
-        print(clean(json.dumps(dict(audit_encoding_review=audit_preview),ensure_ascii=False,indent=2)),flush=True)
+
     from .personal_archive import personal_backup, split_personal_backup
     archive = personal_backup(candidate)
     if split_personal_backup(archive).payload != candidate.payload:
         raise ContractError('Import backup/restore preflight differs; no project registered')
     # A saved candidate must also open under the actual graph/workspace budgets.
     project_workspace(candidate)
-    preview_args = type('PreviewArgs', (), dict(dry_run=True, json=args.json, input=args.input))()
-    preview_code = _preview_argument(preview_args, raw=raw, require_complete=True)
-    if preview_code != 0:
-        print('Registration review stopped; no project registered.')
-        return 0 if preview_code == 2 else preview_code
-    print(clean(json.dumps(dict(destination=str(args.directory), registered_at=now,
+    preview.recheck()
+    _argument_destination(args.directory)
+    details = dict(destination=str(args.directory), prepared_at=now,
         first_local_question=args.question, saved_bytes=len(candidate.payload), capacity=candidate.work.history.capacity(),
         result_sha256=hashlib.sha256(candidate.payload).hexdigest(), source_status=candidate.source_status(),
-        archive_bytes=len(archive), history_version=history.schema_version, encrypted=False, authorization_verified=False), ensure_ascii=False, indent=2)), flush=True)
+        archive_bytes=len(archive), archive_limit=MAX_BACKUP_BYTES, history_version=candidate.work.history.schema_version,
+        representation='shared-values/v1' if args.shared_audit else 'existing flat audit', audit_encoding_review=audit_preview,
+        encrypted=False, authorization_verified=False, writes=False, passed=True)
+    return candidate, preview, identity, details
+
+
+def _preview_argument(args, *, raw=None):
+    from claimbranch.core.argument_import import preview_import
+    from .import_review import ReviewInput, review, summary_lines
+    raw = _read_argument_input(args.input) if raw is None else raw
+    result = preview_import(raw)
+    preflight = None
+    if getattr(args, 'preflight', False) and result['valid']:
+        _, _, _, preflight = _prepare_argument(args, raw, result)
+    if args.json:
+        display = result if not getattr(args, 'preflight', False) else {**result, 'full_preflight':preflight or dict(passed=False, writes=False)}
+        print(json.dumps(display, ensure_ascii=False, sort_keys=True))
+    elif sys.stdin.isatty() and sys.stdout.isatty():
+        try:
+            with ReviewInput() as read:
+                review(result, preflight, read=read)
+        except (EOFError, KeyboardInterrupt) as error:
+            print('Preview interrupted; no records registered.')
+            return 130 if isinstance(error, KeyboardInterrupt) else 1
+    else:
+        print('\n'.join(summary_lines(result, preflight)))
+        for error in result.get('errors', [])[:10]:
+            print(clean(json.dumps(error, ensure_ascii=False)))
+        if result.get('error_count', 0) > 10:
+            print('More errors: use --json for the complete bounded diagnostic report.')
+    return 0 if result['valid'] else 1
+
+
+def _register_argument(args):
+    from claimbranch.core.argument_import import preview_import
+    from .project_work import _identity
+    from .import_review import ReviewInput, review
+    if not all((args.directory, args.paper_root, args.manuscript, args.question)):
+        raise ContractError('Full preflight/registration requires --directory, --paper-root, --manuscript and --question.')
+    if not sys.stdin.isatty() or not sys.stdout.isatty():
+        raise ContractError('Registration requires an interactive terminal; use --dry-run to inspect.')
+    raw = _read_argument_input(args.input)
+    inspected = preview_import(raw)
+    if not inspected['valid']:
+        preview_args = type('PreviewArgs', (), dict(dry_run=True, json=args.json, input=args.input))()
+        _preview_argument(preview_args, raw=raw)
+        return 1
+    candidate, preview, identity, details = _prepare_argument(args, raw, inspected)
     try:
-        answer = input('Type import to register this exact selection in the fresh personal project; Enter cancels: ')
+        with ReviewInput() as read:
+            confirmed = review(inspected, details, read=read, registration=True)
     except (EOFError, KeyboardInterrupt) as error:
         print('Registration interrupted; no project registered.')
         return 130 if isinstance(error, KeyboardInterrupt) else 1
-    if answer != 'import':
+    if not confirmed:
         print('Cancelled; no project registered.'); return 0
     if _read_argument_input(args.input) != raw:
         raise ContractError('Import input changed after review; no project registered.')
     preview.recheck()
-    if _workspace(args.directory)[1] != identity:
+    if _argument_destination(args.directory) != identity:
         raise ContractError('Import destination changed after review; no project registered.')
     with PersonalProjectStore.create(args.directory, project_id=candidate.project_id) as store:
         if _identity(os.fstat(store._dir)) != identity:
@@ -441,7 +489,10 @@ def run_personal_project_command(args):
             return run_anchor_command(args)
         if args.project_action == 'import-argument':
             saving = not args.dry_run
+            if getattr(args, 'preflight', False) and not args.dry_run:
+                raise ContractError('--preflight requires --dry-run; no project registered.')
             return _preview_argument(args) if args.dry_run else _register_argument(args)
+        if args.project_action == 'upgrade-label-selector':return _upgrade_label_selector(args)
         if args.project_action == 'enable-shared-audit':return _enable_shared_audit(args)
         if args.project_action == 'convert-profile': return _convert_profile(args)
         if args.project_action == 'import-proposal': return _import_external(args)
@@ -498,12 +549,12 @@ def run_personal_project_command(args):
                 return run_terminal(app.paper.history, workspace=app)
         with PersonalProjectStore(args.directory, project_id=args.project_id) as store:
             project = store.load()
-            if project.work.history.schema_version in (4, 5, 14) and getattr(args,'provider_directory',None):
+            if project.work.history.schema_version in (4, 5, 14, 18) and getattr(args,'provider_directory',None):
                 raise ContractError("Personal-paper provider context is not qualified; reopen without a provider profile.")
             if getattr(args,'provider_directory',None):
                 from .provider_commands import PersonalProviderConnection
                 connection = PersonalProviderConnection(args.provider_directory).__enter__()
-            if project.work.history.schema_version in (4, 5, 14):
+            if project.work.history.schema_version in (4, 5, 14, 18):
                 print("Capacity: "+json.dumps(project.work.history.capacity(),sort_keys=True),flush=True)
             if not project.work.history.episodes():
                 project = first_episode_prompt(project, personal=True)
@@ -538,7 +589,9 @@ def run_personal_project_command(args):
         guidance=('Inspect restore destination '+str(args.directory)+' with project open; preserve the backup and do not overwrite this destination.'
                   if uncertain and args.project_action=='restore' else 'Reopen to inspect saved work; no manuscript was written.')
         if args.project_action=='prepare-import':guidance='Inspect any prepared output; originals and project history are unchanged. Retry with a new output filename.'
-        print('Project unavailable: ' + clean(error) + '\n' + status +
+        diagnostic = ('Import file or destination unavailable; verify private regular input and a fresh destination.'
+                      if args.project_action == 'import-argument' and isinstance(error, OSError) else clean(error))
+        print('Project unavailable: ' + diagnostic + '\n' + status +
               clean(guidance), file=sys.stderr)
         return 1
     finally:
@@ -552,7 +605,7 @@ def prepare_shared_audit(project):
     from datetime import datetime,timezone
     from .paper_storage_codec import decode
     history=project.work.history
-    if history.schema_version!=14:raise ContractError('Shared audit requires an original-ledger v2 imported project.')
+    if history.schema_version not in (14,18):raise ContractError('Shared audit requires an original-ledger v2/v3 imported project.')
     before=history.manifest()
     candidate=history.append(dict(schema_version=16,id='audit-encoding-'+secrets.token_hex(12),
         project_id=project.project_id,episode_id=history.view('main')['episode_id'],
@@ -571,7 +624,7 @@ def prepare_shared_audit(project):
         before_manifest_bytes=len(before),after_manifest_bytes=len(candidate.manifest()),
         manifest_limit=8388608,added_commands=1,command_limit=2048,source_seed_unchanged=history.seed==candidate.seed,
         prior_commands_unchanged=history.commands==candidate.commands[:-1],science_changed=False,
-        authority='personal unprotected history',format='shared-values/v1',result_schema='claimbranch.project-work/v23',
+        authority='personal unprotected history',format='shared-values/v1',result_schema=decode(result.payload)['schema'],
         rollback='Keep a private backup before conversion; older builds refuse the new format.')
 
 
@@ -586,3 +639,29 @@ def _enable_shared_audit(args):
         store.verify_unchanged()
         if hashlib.sha256(store.load().payload).hexdigest()!=display['before_project_sha256']:raise ContractError('Project changed; preview conversion again')
         store.save(candidate);print('Shared audit format saved. Science, originals and earlier writing retained.');return 0
+
+
+def _upgrade_label_selector(args):
+    from .paper_storage_codec import decode
+    from .project_work import preview_association, preview_source_refresh
+    from .import_review import ReviewInput
+    with PersonalProjectStore(args.directory) as store:
+        project=store.load();location=project.source_location()
+        old=location.get('selector')
+        if not old or old['schema']!='claimbranch.tex-selector/v1':
+            raise ContractError('Upgrade requires an existing v1 label/abstract connection; no connection changed.')
+        selector={**old,'schema':'claimbranch.tex-selector/v2'}
+        preview=preview_association(location['paper_root'],location['manuscript'],location['anchor_id'],args.directory,selector=selector)
+        review=preview_source_refresh(project,preview);candidate=project.refresh_source(review)
+        shown=review.display(project)
+        shown.update(before_selector=old,after_selector=selector,result_project_schema='claimbranch.project-work/v28' if decode(project.work.payload)['schema']=='claimbranch.paper-work/v32' else 'claimbranch.project-work/v27' if decode(project.work.payload)['schema']=='claimbranch.paper-work/v31' else 'claimbranch.project-work/v26' if project.work.history.schema_version==18 else 'claimbranch.project-work/v25' if decode(project.payload)['schema']=='claimbranch.project-work/v25' else 'claimbranch.project-work/v24',
+            warning='New lexer and private frame; retain a backup for older builds. No science or manuscript changes.')
+        print(clean(json.dumps(shown,ensure_ascii=False,indent=2)),flush=True)
+        if args.dry_run:return 0
+        if not sys.stdin.isatty() or not sys.stdout.isatty():raise ContractError('Selector upgrade requires a terminal; use --dry-run.')
+        with ReviewInput() as read:
+            if read('Type upgrade to save this exact connection, or Enter to cancel: ')!='upgrade':return 0
+        review.recheck(store.load());store.verify_unchanged()
+        store.save(candidate,source_review=review)
+        print('Label selector upgraded explicitly; prior association and writing retained. Manuscript unchanged.')
+    return 0

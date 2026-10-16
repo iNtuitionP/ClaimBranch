@@ -125,7 +125,7 @@ class AuditConversionTests(unittest.TestCase):
                 try:chunk=os.read(master,65536)
                 except OSError:break
                 pending+=chunk;tail=(tail+chunk)[-16384:]
-                if b'next page / q' in pending:os.write(master,b'\n');pending=b''
+                if b'Review: details / continue to confirmation / cancel:' in pending:os.write(master,b'continue\n');pending=b''
                 elif b'Type import to register' in pending:os.write(master,b'import\n');pending=b''
             self.assertEqual(0,process.wait(timeout=5),tail.decode(errors='replace'))
             self.assertIn(b'Imported personal argument saved',tail)

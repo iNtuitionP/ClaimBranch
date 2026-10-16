@@ -62,7 +62,7 @@ def source_statuses(history):
 
 def prepare_registration(project, *, manuscript, anchor_id, kind, expresses=(), plots=(), parents=(), rationale, contribution_origin=None, selector=None):
     history=project.work.history
-    if history.schema_version not in (4, 5, 14):
+    if history.schema_version not in (4, 5, 14, 18):
         raise ContractError('Multiple anchors require a paper profile; convert into a fresh paper-profile destination first.')
     source=decode(project.payload,purpose='project')['associations'][-1]
     provisional={k:v for k,v in source.items() if k not in ('selector','span_digest')}
@@ -73,7 +73,7 @@ def prepare_registration(project, *, manuscript, anchor_id, kind, expresses=(), 
         block=[base64.b64encode(block[i:i+8192]).decode() for i in range(0,len(block),8192)],
         expresses=sorted(expresses),plots=sorted(plots),parents=sorted(parents),rationale=rationale)
     import secrets
-    cmd=dict(schema_version=15 if selector is not None else 6,id='anchor-register-'+secrets.token_hex(12),project_id=project.project_id,
+    cmd=dict(schema_version=17 if selector is not None and selector.get('schema')=='claimbranch.tex-selector/v2' else 15 if selector is not None else 6,id='anchor-register-'+secrets.token_hex(12),project_id=project.project_id,
         episode_id=history.view('main')['episode_id'],created_at=datetime.now(timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ'),
         operation_type='register-manuscript-anchor',expected_heads=dict(history.heads),evidence_watermark=history.watermark,payload=payload)
     from .metadata_batch import origin_command
@@ -90,7 +90,7 @@ def prepare_registration(project, *, manuscript, anchor_id, kind, expresses=(), 
         _install(app,candidate,app.episode_id,app.ref,app.selected_id)
         workspace=snapshot_value(app)
     result=project.with_work(PaperWork.create(candidate,workspace=workspace))
-    return result,dict(project_digest=hashlib.sha256(project.payload).hexdigest(),registration=payload,
+    return result,dict(project_digest=hashlib.sha256(project.payload).hexdigest(),operation=cmd,registration=payload,after=payload,
         before=history.view('main').get('manuscript_anchors',{}).get(anchor_id),
         marked_text=block.decode('utf-8'),write_available=False,source_fidelity_verified=False,
         result_project_schema=decode(result.payload,purpose='project')['schema'],older_build_rollback='Keep a private backup before registration; label formats require this build or newer.',
@@ -118,15 +118,11 @@ def run_anchor_command(args):
             value=PaperService(project.work.history).anchor_impact(args.nodes,at_operation=args.before)
         else:
             result,value=prepare_registration(project,manuscript=args.manuscript,anchor_id=args.anchor,
-                kind=args.kind,expresses=args.expresses or (),plots=args.plots or (),parents=args.parents or (),rationale=args.reason,contribution_origin=args.origin,selector=(dict(schema='claimbranch.tex-selector/v1',kind='label',value=args.label) if args.label else None))
+                kind=args.kind,expresses=args.expresses or (),plots=args.plots or (),parents=args.parents or (),rationale=args.reason,contribution_origin=args.origin,selector=(dict(schema='claimbranch.tex-selector/v'+str(getattr(args,'label_version',2)),kind='label',value=args.label) if args.label else None))
             if not args.dry_run:
                 if not sys.stdin.isatty() or not sys.stdout.isatty(): raise ContractError('Anchor registration requires an interactive terminal; use --dry-run.')
-                from .tui_model import clean
-                lines=clean(json.dumps(value,ensure_ascii=False,indent=2)).splitlines()
-                for start in range(0,len(lines),60):
-                    print('\n'.join(lines[start:start+60]),flush=True)
-                    if start+60<len(lines) and input('Enter: next page / q: cancel: ').strip().lower()=='q': return 0
-                if input('Type register to save these read-only associations, or Enter to cancel: ').strip()!='register': return 0
+                from .import_review import confirm_operation
+                if not confirm_operation(value,'register'):return 0
                 recheck_registration(store.load(),value)
                 store.verify_unchanged()
                 recheck_registration(project,value)

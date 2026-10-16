@@ -6,7 +6,7 @@ import re
 from .canonical import ContractError
 from .paper_capacity import encode, decode, source_bytes, source_record, HISTORY_BYTES
 from .research_schema import ID, TEXT, obj, array, nullable, _check
-from .argument_sources import LOCATOR, NORMALIZATIONS, SourceResolver, normalized, text
+from .argument_sources import LOCATOR, NORMALIZATIONS, LOCATOR_V2, NORMALIZATIONS_V2, SourceResolver, normalized, text
 
 MAX_FILES = 32
 MAX_EXPANDED_MAPPINGS = 65536
@@ -21,12 +21,13 @@ def optional(schema, *names):
     return result
 
 
-def import_schema():
+def import_schema(version=2):
+    if version not in (2,3,4,5):raise ContractError("Unknown original-ledger import version")
     from .argument_import import ORIGIN, SOURCE, POINTER, DATE, BODIES
     from .typed_observations import TABLE, VOCABULARY
     mapping={'oneOf':[
         obj(target=POINTER,derived={'const':'structure-v1'}),
-        optional(obj(target=POINTER,file_id=ID,locator=LOCATOR,normalization={'enum':NORMALIZATIONS},transformation=nullable(TEXT),source_silent={'const':True}),'source_silent')]}
+        optional(obj(target=POINTER,file_id=ID,locator=LOCATOR if version==2 else LOCATOR_V2,normalization={'enum':NORMALIZATIONS if version==2 else NORMALIZATIONS_V2},transformation=nullable(TEXT),source_silent={'const':True}),'source_silent')]}
     bodies=deepcopy(BODIES)
     bodies['observation']={'oneOf':[bodies['observation'],obj(experiment_id=ID,statement=TEXT,
         measurement=TABLE,status={'enum':['confirmed','corrected','invalidated','retracted']})]}
@@ -35,16 +36,26 @@ def import_schema():
         source_origins=array(obj(file_id=ID,origin=ORIGIN),MAX_FILES)),
         'origin','joint_origin','source_origins') for kind,body in bodies.items()]}
     file=optional(obj(id=ID,name=TEXT,media={'enum':['markdown','text','latex','json']},source=SOURCE,origin_default=ORIGIN),'origin_default')
-    return {'$schema':'https://json-schema.org/draft/2020-12/schema','$id':'urn:claimbranch:argument-import:v2',
-        **optional(obj(schema={'const':'claimbranch.argument-import/v2'},profile={'const':'paper'},project_id=ID,
+    result={'$schema':'https://json-schema.org/draft/2020-12/schema','$id':f'urn:claimbranch:argument-import:v{version}',
+        **optional(obj(schema={'const':f'claimbranch.argument-import/v{version}'},profile={'const':'paper'},project_id=ID,
             title=TEXT,files=array(file,MAX_FILES,1),origin_default=ORIGIN,
             condition_vocabulary=array(VOCABULARY,32),records=array(records,2048,1),selected_ids=array(ID,2048,1,True)), 'origin_default')}
+    if version>=4:
+        from .historical_argument import extend_schema
+        result=extend_schema(result)
+    if version==5:
+        from .historical_argument import TOKEN
+        for variant in result['properties']['records']['items']['oneOf']:
+            if variant['properties']['kind']['const']=='observation':
+                variant['properties']['replacement']=obj(previous_id=TOKEN,origin={'enum':['human','ai','mixed','unknown']},source_context=TEXT,rationale=TEXT)
+    return result
 
 
-def manifest_schema():
-    result=import_schema()
-    result['$id']='urn:claimbranch:argument-source-manifest:v1'
-    result['properties']['schema']={'const':'claimbranch.argument-source-manifest/v1'}
+def manifest_schema(version=1):
+    if version not in (1,2,3,4):raise ContractError("Unknown source manifest version")
+    result=import_schema(version+1)
+    result['$id']=f'urn:claimbranch:argument-source-manifest:v{version}'
+    result['properties']['schema']={'const':f'claimbranch.argument-source-manifest/v{version}'}
     file=result['properties']['files']['items']
     del file['properties']['source'];file['required'].remove('source')
     file['properties']['path']=TEXT;file['required'].append('path')
@@ -106,10 +117,12 @@ def _display(value):
 def preview_import(raw):
     from .argument_import import _Diagnostics,_errors,_leaves,graph_consistency
     from .typed_observations import validate_table
-    value=decode(raw,purpose='project');errors=_Diagnostics();schema=import_schema()
+    value=decode(raw,purpose='project');errors=_Diagnostics()
+    version={'claimbranch.argument-import/v3':3,'claimbranch.argument-import/v4':4,'claimbranch.argument-import/v5':5}.get(value.get('schema'),2) if type(value) is dict else 2
+    schema=import_schema(version)
     skeleton=deepcopy(schema);skeleton['properties']['records']['items']={}
     _errors(value,skeleton,'',errors)
-    result=dict(schema='claimbranch.argument-import-preview/v2',valid=False,writes=False,
+    result=dict(schema=f'claimbranch.argument-import-preview/v{version}',valid=False,writes=False,
         registration_available=False,source_fidelity_verified=False)
     if errors:return {**result,**errors.fields()}
     file_map={};total=0;originals={};resolvers={};reports=[];projected=[];expanded=0;vocabulary={};index_budget={}
@@ -119,7 +132,7 @@ def preview_import(raw):
             raw_source=source_bytes(file['source']);text(raw_source);total+=len(raw_source)
             if total>HISTORY_BYTES:raise ContractError(f'capacity original-source-bytes: {total} / {HISTORY_BYTES}')
             file_map[file['id']]=file;originals[file['id']]=raw_source
-            resolvers[file['id']]=SourceResolver(raw_source,file['media'],index_budget)
+            resolvers[file['id']]=SourceResolver(raw_source,file['media'],index_budget,version=min(version-1,2))
         except ContractError as error:errors.append(dict(pointer=f'/files/{index}',error=str(error)))
     for item in value['condition_vocabulary']:
         if item['key'] in vocabulary: errors.append(dict(pointer='/condition_vocabulary',error='Duplicate condition key'))
@@ -135,10 +148,15 @@ def preview_import(raw):
         if variant is None:errors.append(dict(pointer=path,error='Unknown record kind'));continue
         _errors(record,variant,path,errors)
         if len(errors)!=before:continue
+        if version>=4 and record['recorded_at'] is not None and len(record['recorded_at'])==10:
+            from datetime import date
+            try:date.fromisoformat(record['recorded_at'])
+            except ValueError:
+                errors.append(dict(pointer=path+'/recorded_at',error='recorded_at must be a real calendar date'));continue
         try:expected=dict(_leaves(record['body']))
         except ContractError as error:
             errors.append(dict(pointer=path+'/body',error=str(error)));continue
-        seen=set();coverage=[];used=set()
+        seen=set();coverage=[];used=set();independent=[]
         count=sum(map(len,record['mappings']));expanded+=count
         if count>MAX_RECORD_MAPPINGS or expanded>MAX_EXPANDED_MAPPINGS:
             errors.append(dict(pointer=path+'/mappings',error=f'capacity expanded-mappings: {expanded} / {MAX_EXPANDED_MAPPINGS}'));break
@@ -156,11 +174,25 @@ def preview_import(raw):
                         if binding and expected[target] != record['body']['measurement']['columns'][int(binding[1])]['id']:
                             raise ContractError('Derived cell-column binding must preserve declared column order; otherwise map the binding to source')
                         coverage.append(dict(target=target,state='derived-structure'));continue
+                    if version>=4 and mapping.get('source_silent') and 'file_id' not in mapping:
+                        if target=='/status' and expected[target] not in ('proposed','planned'):
+                            raise ContractError('A source-silent assertion cannot manufacture historical evidence/claim status')
+                        declaration=mapping.get('origin',dict(contributor='unknown',detail=None))
+                        from .historical_argument import validate_source_free
+                        validate_source_free(record,target,declaration,expected[target]);independent.append(declaration)
+                        coverage.append(dict(target=target,state='declared-without-source',origin=declaration,
+                            transformation=mapping['transformation'],original=None,normalized=_display(expected[target])))
+                        continue
                     key=mapping['file_id'];used.add(key)
                     if key not in originals:raise ContractError('Missing or invalid retained source file')
                     original,span=resolvers[key].resolve(mapping['locator'])
-                    normal=normalized(original,mapping['normalization'],mapping['locator'])
+                    normal=normalized(original,mapping['normalization'],mapping['locator'],version=min(version-1,2))
                     if mapping.get('source_silent'):
+                        if version>=4:
+                            from .historical_argument import validate_source_free
+                            overrides={entry['file_id']:entry['origin'] for entry in record.get('source_origins',[])}
+                            label=overrides.get(key,record.get('origin',file_map[key].get('origin_default',value.get('origin_default',dict(contributor='unknown',detail=None)))))
+                            validate_source_free(record,target,label,expected[target])
                         if mapping['transformation'] is None:raise ContractError('Source-silent assertions need an explicit rationale')
                         if target=='/status' and expected[target] not in ('proposed','planned'):
                             raise ContractError('A source-silent assertion cannot manufacture historical evidence/claim status')
@@ -168,14 +200,33 @@ def preview_import(raw):
                     elif mapping['transformation'] is not None:state='transformed'
                     elif type(normal)!=type(expected[target]) or normal!=expected[target]:
                         raise ContractError('Changed value requires a declared transformation')
-                    else:state='exact' if original==normal else 'normalized-exact'
+                    else:state='exact' if type(original)==type(normal) and original==normal else 'normalized-exact'
                     coverage.append(dict(target=target,state=state,file_id=key,source_sha256=file_map[key]['source']['sha256'],
                         locator=mapping['locator'],resolved=span,normalization=mapping['normalization'],
                         transformation=mapping['transformation'],original=_display(original),normalized=_display(normal)))
                 except ContractError as error:errors.append(dict(pointer=where,target=target,file_id=mapping.get('file_id'),locator=mapping.get('locator'),error=str(error)))
+        if version>=4:
+            from .historical_argument import bookkeeping,absent_fields
+            for target in absent_fields(record):
+                if target in seen:
+                    errors.append(dict(pointer=path+'/body'+target,error='Not-recorded fields cannot claim a source mapping'));continue
+                coverage.append(dict(target=target,state='not-recorded'));seen.add(target)
+            if record['kind'] in value.get('structural_defaults',[]):
+                for target in sorted(set(expected)-seen):
+                    if bookkeeping(record,target,expected[target]):
+                        coverage.append(dict(target=target,state='structural-default'));seen.add(target)
         missing=set(expected)-seen
         for target in sorted(missing):errors.append(dict(pointer=path+'/body'+target,error='Unmapped scientific or structural leaf'))
-        try:origin=effective_origin(record,file_map,value.get('origin_default'),used)
+        try:
+            if version>=4 and not used and independent:
+                if record.get('source_origins'):raise ContractError('Source-origin assertions must name contributing files; source-free records have none')
+                origin=dict(contributor='unknown',human=False,ai=False,unknown=False,declaration='joint' if record.get('joint_origin') else 'independent',declared=record.get('joint_origin',record.get('origin')),sources=[])
+            else:origin=effective_origin(record,file_map,value.get('origin_default'),used)
+            if version>=4:
+                from .historical_argument import augmented_origin
+                origin=augmented_origin(origin,independent+([record['origin']] if not used and 'origin' in record else [])+([record['joint_origin']] if not used and 'joint_origin' in record else []))
+                if origin['ai'] and record.get('joint_origin',{}).get('contributor') in ('human','unknown'):
+                    raise ContractError('Joint origin cannot clear retained AI influence')
         except (ContractError,KeyError) as error:
             errors.append(dict(pointer=path+'/origin',error=str(error)));origin=None
         body=record['body']
@@ -189,13 +240,32 @@ def preview_import(raw):
     for index,record in enumerate(projected):
         if record['id'] in by_id:errors.append(dict(pointer=f'/records/{index}/id',error='Duplicate record identity'))
         by_id[record['id']]=record;indexes[record['id']]=f'/records/{index}'
-    selected,closure,included,counts,limits=graph_consistency(value['selected_ids'],by_id,indexes,errors)
+    if version>=4:
+        from .historical_argument import identities,translated_body
+        try:aliases=identities(value['records'])
+        except ContractError as error:
+            errors.append(dict(pointer='/records',error=str(error)));return {**result,**errors.fields()}
+        by_id={aliases[r['id']]:dict(id=aliases[r['id']],kind=r['kind'],body=translated_body(r,aliases)) for r in projected}
+        indexes={aliases[key]:pointer for key,pointer in indexes.items()}
+        requested=[aliases.get(key,key) for key in value['selected_ids']]
+    else:aliases={key:key for key in by_id};requested=value['selected_ids']
+    selected,closure,included,counts,limits=graph_consistency(requested,by_id,indexes,errors)
+    if version==5 and not errors:
+        from .observation_lineage import imported_links
+        try:
+            links=imported_links(value,aliases)
+            while True:
+                needed={r['previous_id'] for r in links.values() if r['replacement_id'] in closure}-closure
+                if not needed:break
+                _,closure,included,counts,limits=graph_consistency(sorted(closure|needed),by_id,indexes,errors)
+                if errors:break
+        except ContractError as error:errors.append(dict(pointer='/records',error=str(error)))
     if errors:return {**result,**errors.fields(),'files':value['files'],'records':reports}
-    reports=[record for record in reports if record['id'] in closure]
+    reports=[({**record,'internal_id':aliases[record['id']]} if version>=4 else record) for record in reports if aliases[record['id']] in closure]
     states={name:sum(item['state']==name for record in reports for item in record['coverage'])
-        for name in ('exact','normalized-exact','transformed','declared-without-source','derived-structure')}
+        for name in (('exact','normalized-exact','transformed','declared-without-source','derived-structure','structural-default','not-recorded') if version>=4 else ('exact','normalized-exact','transformed','declared-without-source','derived-structure'))}
     # No percent of source meaning: unchanged matched spans cannot certify omitted text.
-    commitment=dict(schema=result['schema'],resolver='original-source/v1',envelope_schema=value['schema'],envelope_sha256=hashlib.sha256(raw).hexdigest(),selected=sorted(selected),required=sorted(closure-selected))
+    commitment=dict(schema=result['schema'],resolver=f'original-source/v{min(version-1,2)}',envelope_schema=value['schema'],envelope_sha256=hashlib.sha256(raw).hexdigest(),selected=sorted(selected),required=sorted(closure-selected))
     answer = dict(**{**result,'valid':True,**errors.fields()},project_id=value['project_id'],title=value['title'],
         files=value['files'],records=reports,condition_vocabulary=value['condition_vocabulary'],
         origin_default=value.get('origin_default'),selected=sorted(selected),required=sorted(closure-selected),omitted=sorted(set(by_id)-closure),
@@ -204,6 +274,7 @@ def preview_import(raw):
             envelope_bytes=dict(used=len(raw),limit=16777216)),
         envelope_sha256=commitment['envelope_sha256'],preview_digest=hashlib.sha256(encode(commitment,purpose='project')).hexdigest(),
         boundary='Private original-ledger preview; mapped history is source-claimed, never historical app approval. Extraction equality does not establish scientific validity.')
+    if version==5:answer['replacement_links']=[link for link in links.values() if link['replacement_id'] in closure]
     try:
         candidate = _seed_value(raw, _compact_result(answer,value), 'a'*128, '2000-01-01T00:00:00Z')
         seed_bytes = len(encode(candidate,purpose='history'))
@@ -275,13 +346,20 @@ def selected_state(raw):
 
 def _compact_result(result,value):
     positions={record['id']:i for i,record in enumerate(value['records'])}
+    v4=value['schema'] in ('claimbranch.argument-import/v4','claimbranch.argument-import/v5')
+    if v4:
+        from .historical_argument import identities,translated_body,absent_fields
+        aliases=identities(value['records'])
     records=[];unresolved=[]
     for record in result['records']:
-        pointer='/records/'+str(positions[record['id']]);effective=record['effective_origin']
-        records.append(dict(id=record['id'],kind=record['kind'],body=record['body'],recorded_at=record['recorded_at'],
+        pointer='/records/'+str(positions[record['id']]);effective=deepcopy(record['effective_origin'])
+        declaration=record.get('replacement')
+        if declaration is not None:unresolved.append(pointer+'/replacement')
+        records.append(dict(id=aliases[record['id']] if v4 else record['id'],kind=record['kind'],body=translated_body(record,aliases) if v4 else record['body'],recorded_at=record['recorded_at'],
+            **(dict(display_label=record.get('display_label',record['id']),external_id=record['id'],not_recorded=absent_fields(record)) if v4 else {}),
             origin=dict(contributor=effective['contributor'],detail=None),source_pointer=pointer,
             origin_flags={key:effective[key] for key in ('human','ai','unknown')}))
-        unresolved.extend(pointer+'/body'+item['target'] for item in record['coverage'] if item['state'] in ('transformed','declared-without-source'))
+        unresolved.extend(pointer+'/body'+item['target'] for item in record['coverage'] if item['state'] in ('transformed','declared-without-source','not-recorded'))
     return dict(records=records,unresolved_source_pointers=[unresolved[i:i+128] for i in range(0,len(unresolved),128)],
         condition_vocabulary=deepcopy(value['condition_vocabulary']),preview_digest=result['preview_digest'],
         project_id=result['project_id'],title=result['title'])
@@ -293,7 +371,7 @@ def _seed_value(raw,state,anchor_id,registered_at):
     digest=hashlib.sha256(raw).hexdigest()
     initial=dict(source_sha256=digest,envelope_sha256=digest,preview_digest=state['preview_digest'],registered_at=registered_at,
         records=state['records'],unresolved_source_pointers=state['unresolved_source_pointers'],snapshot=pack_snapshot(raw))
-    seed=dict(schema_version=14,profile='paper',project_id=state['project_id'],paper_title=state['title'],
+    seed=dict(schema_version=18 if decode(raw,purpose='project')['schema'] in ('claimbranch.argument-import/v4','claimbranch.argument-import/v5') else 14,profile='paper',project_id=state['project_id'],paper_title=state['title'],
         claim_id=thesis['id'],claim_statement=thesis['body']['statement'],anchor_id=anchor_id,initial_argument=initial)
     return seed
 
@@ -311,3 +389,24 @@ def validate_initial(seed):
     if seed['project_id']!=state['project_id'] or seed['paper_title']!=state['title']:
         raise ContractError('Imported project differs from retained source')
     return deepcopy(state['condition_vocabulary'])
+
+
+def needs_v3_work_frame(history):
+    """Nested source semantics are selected by the exact retained envelope."""
+    if history.schema_version!=14:return False
+    return _source_version(history.seed)==3
+
+
+@lru_cache(maxsize=2)
+def _source_version(seed_raw):
+    seed=decode(seed_raw,purpose='history')
+    raw=unpack_snapshot(seed['initial_argument']['snapshot'])
+    return {'claimbranch.argument-import/v2':2,'claimbranch.argument-import/v3':3,'claimbranch.argument-import/v4':4,'claimbranch.argument-import/v5':5}[decode(raw,purpose='project')['schema']]
+
+
+def needs_history_work_frame(history):
+    return any(decode(c,purpose='history')['schema_version']==19 for c in history.commands) or (history.schema_version==18 and _source_version(history.seed)==5)
+
+
+def needs_iteration_work_frame(history):
+    return any(decode(c,purpose='history')['schema_version']==20 for c in history.commands)

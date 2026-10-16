@@ -140,7 +140,7 @@ class TypedObservationTests(unittest.TestCase):
         self.assertIn('raw_unit',output.getvalue());self.assertEqual(before,(self.work/'personal.cbp').read_bytes())
         with patch('sys.stdin.isatty',return_value=True),patch('sys.stdout.isatty',return_value=True),patch('builtins.input',return_value='q'),patch('builtins.print'):self.assertEqual(0,main(args))
         self.assertEqual(before,(self.work/'personal.cbp').read_bytes())
-        def answer(prompt):return 'record' if prompt.startswith('Type record') else ''
+        def answer(prompt):return 'record' if prompt.startswith('Type record') else 'continue'
         with patch('sys.stdin.isatty',return_value=True),patch('sys.stdout.isatty',return_value=True),patch('builtins.input',side_effect=answer),patch('builtins.print'):self.assertEqual(0,main(args))
         with patch('sys.stdout',new_callable=io.StringIO) as output:self.assertEqual(0,main(['project','observations','--directory',str(self.work),'--claim','C','--condition','dose=max','--group','dose=protocol-dose']))
         self.assertIn('high',output.getvalue())
@@ -195,7 +195,7 @@ class TypedObservationTests(unittest.TestCase):
         def answer(prompt):
             if prompt.startswith('Type record'):
                 path.write_bytes(encode(self.request(base,event_id='changed'),purpose='project'));return 'record'
-            return ''
+            return 'continue'
         with patch('sys.stdin.isatty',return_value=True),patch('sys.stdout.isatty',return_value=True),patch('builtins.input',side_effect=answer),patch('builtins.print'),patch('sys.stderr',new_callable=io.StringIO):self.assertEqual(1,main(['project','measurement','--directory',str(self.work),'--input',str(path)]))
         self.assertEqual(before,(self.work/'personal.cbp').read_bytes())
         (self.paper/'paper.tex').write_bytes(self.manuscript+b'% changed')
@@ -223,6 +223,7 @@ class TypedObservationTests(unittest.TestCase):
                         except OSError:break
                         output+=chunk
                         if record:
+                            if b'Review: details / continue' in output and sent==0:os.write(master,b'continue\n');sent=1
                             pages=output.count(b'Enter: next page / q: cancel: ')
                             while sent<pages:os.write(master,b'\n');sent+=1
                             if b'Type record' in output and sent<10000:os.write(master,b'record\n');sent=10000

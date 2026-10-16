@@ -177,6 +177,64 @@ class ColdReturnReaderTests(unittest.TestCase):
         from .test_original_registration import OriginalProjectTests
         OriginalProjectTests.setUp(self)
 
+    def test_eligibility_index_matches_full_evidence_without_copying_measurements(self):
+        from unittest.mock import patch
+        from claimbranch.core import research_history as module
+        state=module._reduce(self.project.work.history.seed,self.project.work.history.commands)
+        events=deepcopy(state['events']);original=deepcopy(events)
+        for action in ('correct','invalidate','retract'):
+            event=deepcopy(events[0]);event['action']=action;events.append(event)
+            expected={item['id']:item['status'] for item in module._evidence(events)}
+            with patch.object(module,'deepcopy',side_effect=AssertionError('Eligibility copied scientific content')):
+                self.assertEqual(expected,module._evidence_statuses(events))
+        for status in ('confirmed','corrected','invalidated','retracted'):
+            event=deepcopy(events[0]);event.update(action='import',imported_status=status);events.append(event)
+            expected={item['id']:item['status'] for item in module._evidence(events)}
+            with patch.object(module,'deepcopy',side_effect=AssertionError('Eligibility copied scientific content')):
+                self.assertEqual(expected,module._evidence_statuses(events))
+        for target,action in (('other-observation','confirm'),(events[0]['target_id'],'retract'),('other-observation','invalidate'),(events[0]['target_id'],'import')):
+            event=deepcopy(events[0]);event.update(target_id=target,action=action,imported_status='corrected');events.append(event)
+            self.assertEqual({item['id']:item['status'] for item in module._evidence(events)},module._evidence_statuses(events))
+        self.assertEqual(original,state['events'])
+
+    def test_malformed_imported_event_sources_fail_before_eligibility(self):
+        from application.test_original_registration import HistoricalV4ProjectTests
+        from claimbranch.core.research_history import ResearchHistory
+        from claimbranch.core.canonical import ContractError
+        for h in (self.project.work.history,HistoricalV4ProjectTests.v4(self).work.history):
+            for field in ('statement','experiment_id'):
+                seed=json.loads(h.seed);record=next(r for r in seed['initial_argument']['records'] if r['kind']=='observation');record['body'].pop(field)
+                with self.subTest(version=h.schema_version,field=field),self.assertRaises(ContractError):
+                    ResearchHistory.replay(encode(seed,purpose='history'),h.commands)
+
+    def test_causal_validation_matches_full_evidence_oracle_and_detached_query(self):
+        from types import SimpleNamespace
+        from unittest.mock import patch
+        from claimbranch.core import research_history as module
+        from claimbranch.application.personal_research import PersonalResearch
+        from claimbranch.application.tui_project import project_workspace
+        from claimbranch.application.paper_service import PaperService
+        app=project_workspace(self.project);app.recovery=SimpleNamespace(personal_project=True,project=self.project);app.select('C')
+        app.keep_draft('The proxy still needs an independent blind test.','Keep the original uncertainty.')
+        service=PersonalResearch(app,clock=lambda:2000000000);pending=service.prepare('reasoning');cause=deepcopy(pending.origin_record['cause']);service.cancel()
+        reader=PaperService(app.paper.history)
+        def full(events):return {item['id']:item['status'] for item in module._evidence(events)}
+        with patch.object(module,'_evidence_statuses',side_effect=full):expected=reader._causal_validation(cause)
+        reader.query('main',episode_id='local')['nodes'].clear()
+        actual=reader._causal_validation(cause);self.assertEqual(expected,actual)
+        actual['topics'].clear();self.assertEqual(expected,reader._causal_validation(cause))
+        from claimbranch.core.canonical import ContractError
+        for field,value in (('view_digest','0'*64),('project_id','different-project'),('episode_id','missing-episode'),('ref','alternative')):
+            bad=deepcopy(cause);bad['request'][field]=value
+            with self.subTest(field=field),self.assertRaises(ContractError):reader._causal_validation(bad)
+        direct=PaperService(app.paper.history);direct._query('main',episode_id='local')
+        self.assertEqual(expected,direct._causal_validation(cause))
+        h=app.paper.history;run=h.view('main')['experiments'][0]
+        experiment={key:deepcopy(run[key]) for key in ('id','question','method','conditions','metric','source_ref')};experiment['id']='new-run'
+        later=h.append(dict(schema_version=14,id='record-new-run',project_id=self.project.project_id,episode_id='local',created_at='2033-05-18T03:33:20Z',operation_type='record-experiment',expected_heads=dict(h.heads),evidence_watermark=h.watermark,payload=experiment))
+        self.assertEqual(h.heads,later.heads);self.assertEqual(h.watermark,later.watermark)
+        with self.assertRaises(ContractError):PaperService(later)._causal_validation(cause)
+
     def test_distinct_causes_match_full_previews_and_cannot_poison_shared_source(self):
         from types import SimpleNamespace
         from claimbranch.application.personal_research import PersonalResearch

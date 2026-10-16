@@ -8,7 +8,7 @@ import zipfile
 
 from scripts.export_runtime_resources import ROOT, check_resources, require_unlinked
 
-MAX_SOURCE_MEMBERS = 163
+MAX_SOURCE_MEMBERS = 166
 
 README = """ClaimBranch experimental personal terminal alpha
 

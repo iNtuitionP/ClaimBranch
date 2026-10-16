@@ -20,7 +20,7 @@ INPUT=obj(schema={'const':'claimbranch.co-report/v1'},id=ID,candidates=array(CO_
 def prepare_co_report(project,request,*,contribution_origin=None):
     from .paper_service import PaperService
     history=project.work.history
-    if history.schema_version not in (4, 5, 14):raise ContractError('Co-report requires a personal paper profile')
+    if history.schema_version not in (4, 5, 14, 18):raise ContractError('Co-report requires a personal paper profile')
     request=normalize(request,INPUT,profile='paper');view=history.view('main')
     if view['episode_id'] is None:raise ContractError('Open a question before co-report review')
     selected=[r for r in request['candidates'] if r['id'] in request['selected_ids']]
@@ -42,6 +42,7 @@ def prepare_co_report(project,request,*,contribution_origin=None):
     result=project.with_work(PaperWork.create(candidate,workspace=workspace))
     roots=[r['claim_id'] for r in selected]+[o for r in selected for o in r['observation_ids']]
     return result,dict(project_digest=hashlib.sha256(project.payload).hexdigest(),operation=command,before=before,after=after,
+        connection_semantics='Each new edge starts at a distinct selected interpretation; an observation-to-claim edge or earlier interpretation edge is not equivalent. Existing IDs are never silently reused and original reasons/origin remain.',
         decision=candidate.view('main')['co_reports'][request['id']],impact=PaperService(candidate).anchor_impact(roots),
         freshness=source_statuses(history),write_available=False,protected_approval=False)
 
@@ -61,10 +62,8 @@ def run_co_report(args):
         lines=clean(json.dumps(preview,ensure_ascii=False,indent=2)).splitlines()
         if args.dry_run:print('\n'.join(lines));return 0
         if not sys.stdin.isatty() or not sys.stdout.isatty():raise ContractError('Co-report requires an interactive terminal; use --dry-run')
-        for start in range(0,len(lines),60):
-            print('\n'.join(lines[start:start+60]),flush=True)
-            if start+60<len(lines) and input('Enter: next page / q: cancel: ').strip().lower()=='q':return 0
-        if input('Type record to keep these co-reported readings, or Enter to cancel: ').strip()!='record':return 0
+        from .import_review import confirm_operation
+        if not confirm_operation(preview,'record'):return 0
         if _read_argument_input(args.input)!=raw:raise ContractError('Co-report input changed; preview again')
         recheck_co_report(store.load(),preview);store.verify_unchanged();recheck_co_report(project,preview);store.save(result)
         print('Co-reported readings saved. Manuscript and understanding work remain unresolved.')

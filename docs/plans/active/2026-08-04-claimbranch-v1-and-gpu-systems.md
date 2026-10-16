@@ -167,6 +167,9 @@ This plan is complete when:
 Passing the retrospective fixture means `foundation validated`, not product
 success. Do not call the product v1.0 before the live-paper gate passes.
 
+Current follow-up: [actual-paper import usability](#actual-paper-import-usability-implementation-plan),
+2/6 outcomes complete; four remain, next precise normalization/Markdown sections.
+
 ## Original-ledger migration implementation plan
 
 Planned 2026-10-15 KST for [A/#13](https://github.com/iNtuitionP/ClaimBranch/issues/13),
@@ -1367,6 +1370,32 @@ the actual anonymized import and inspect uncovered/changed fields, not build mor
 synthetic capacity or return to device-key work. No additional AI send, native
 presence or manuscript editing is necessary for that local preview.
 
+### Alpha.6 publication order
+
+2026-10-16 KST: the owner explicitly requests merge and distribution of the
+completed IM01–IM06 import-usability work. This authorizes the reviewed source,
+PR/main integration, versioned prerelease ZIP and checksum publication. It does
+not authorize private research ingestion, a live model request, unrelated demo
+publication or reuse of alpha.5's known-failure release exception.
+
+1. Snapshot the reviewed runtime/schema/test/canonical-document changes and
+   release introduction into `codex/import-usability-alpha6`; preserve unrelated
+   `.gitignore`, development-index and `tools/demo-video` work outside the commit.
+2. Check the exact clean commit's docs, schemas/resources, fixture and security,
+   plus the already recorded applicable regression/Opus evidence. Build the
+   reproducible166-member ZIP, run its independent checker and public dry-run,
+   and retain its hash. Observe PR CI; pending/failed coverage is not green.
+3. Merge after applicable checks, tag that main commit as `v0.1.0-alpha.6` and
+   publish the exact checked runtime ZIP with SHA-256 sidecar. No performance
+   target or CI test is weakened for this delivery.
+4. Download the published asset, compare its digest and smoke-test the extracted
+   doctor/import entry; record actual PR/commit/tag/asset/CI results here. The
+   person's own private-paper dry-run remains theirs.
+
+Publication is in progress; no merged commit, public asset or green hosted-CI
+claim is recorded yet. The local qualification and prior failed broad run remain
+in [IM06 evidence](#im06-backup-performance-correction-and-qualification).
+
 ### Alpha.5 publication order
 
 2026-10-16 KST: owner explicitly authorizes merge and distribution so they can
@@ -1419,6 +1448,1064 @@ Remote performance remains open for follow-up; next is the owner's actual-paper
 prepare/import dry-run. Main README/workflow distinguish the named local pass
 from hosted failure. The original dirty checkout and unrelated demo work are
 preserved; only already-delivered owned changes may be synchronized to main.
+
+## Actual-paper import usability implementation plan
+
+Planned2026-10-16 KST at the owner's request for [#18](https://github.com/iNtuitionP/ClaimBranch/issues/18)–[#24](https://github.com/iNtuitionP/ClaimBranch/issues/24).
+**2/6 implementation outcomes complete; four remain. IM01 supplies the first
+usable synthetic registration checkpoint. The owner authorizes execution, not
+publication; actual private-paper registration/fidelity remains unverified.** Prior I01–I05 remain the completed named-local
+synthetic increment; actual registration is still blocked. The
+[actual dry-run assessment](#alpha5-actual-dry-run-feedback-assessment) owns intake
+facts and qualifications. Do not add earlier10 migration or6 graph outcomes to
+this new remaining count. The existing known hosted performance failure stays
+open and is not turned into an extra feature prerequisite for fixing review UX.
+
+### Outcome, boundaries and choices
+
+The person prepares their maintained records, quickly identifies what was
+faithfully extracted and what still needs judgment, inspects any original on
+request, explicitly registers the selected batch, and resumes the same research.
+This serves the original Dream and the product's minimum-useful-review principle:
+mechanical scrolling is not understanding, a digest is not consent, and entering
+made-up methods, midnight timestamps or fake unrun plans is not source fidelity.
+
+Preserve settled ADR0017/0023 policies: ordinary private files outside Git,
+reviewed personal batch registration, honest partial migration, exact retained
+originals, independent H/A/U origin, no import-wide comprehension waiver, no
+AI/native key prerequisite and no manuscript writes. Do not ask for those again.
+Old schemas, golden histories, source snapshots and prefix digests stay unchanged.
+Add versioned contracts only where persisted meaning changes; UI summaries and
+new diagnostics must not rewrite the scientific preview or historical commitments.
+
+The owner resolves both product policies on2026-10-16 KST. No policy answer
+remains pending. All six IM outcomes are implemented; the later
+[backup performance qualification](#im06-backup-performance-correction-and-qualification)
+resolves IM06's initial local timing failure.
+
+| Policy | Confirmed behavior | Consequence |
+|---|---|---|
+| Observation replacement | Record the typed replacement link only. Existing observation status and eligibility change only through a separate explicit review. | Preserve both results/conditions and show replacement context wherever the earlier result is used; neither the link nor AI can invalidate evidence or change a claim automatically. |
+| Preparation-output collision | Ask the person at the time of saving: overwrite the existing preparation file, save to a different new file, or cancel. | No global automatic-backup policy is imposed. An explicit overwrite replaces only the exact reviewed preparation output; save-as preserves it and publishes a fresh path. Blank/Escape/EOF cancels without writing. |
+
+This replaces the earlier choice between mandatory automatic backup and no
+backup. The owner instead selects per-save file behavior. Show the existing and
+proposed path/content identity before choosing. Saving under a new filename must
+refuse another collision or return to selection, never silently overwrite it.
+For noninteractive use, keep no-overwrite refusal unless an explicit overwrite
+mode and expected existing-output identity are supplied; an unused explicit
+output path remains create-only. These are file-preparation controls, not research
+approval. Original ledgers/manifests and registered project/history/backup files
+are never overwrite targets. No extra policy questionnaire is required before
+implementation; IM01's first feedback checkpoint remains independent.
+
+Routine implementation choices are settled conservatively in this plan rather
+than sent back as questionnaires: normalization is explicit and versioned;
+precision loss stays transformed; missing means not recorded, never zero/none;
+internal IDs remain safe while original labels stay separate; date precision
+stays honest; lexical warnings never certify scientific validity. A later
+contradiction with these semantics is a scoped decision checkpoint, not permission
+to infer a scientific claim or stop unrelated work.
+
+### Six implementation outcomes
+
+| Unit | Researcher action and issue coverage | Main code ownership | Observable completion |
+|---|---|---|---|
+| IM01 — usable exact registration review | Read a bounded summary, inspect a selected record/source/unresolved field, return and type `import`. A/#18 + import/pointer diagnostics from F/#23 + full-preflight part of G/#24. | `application/project_commands.py`, existing CLI argument definitions, `metadata_batch.py`, `core/argument_import.py`, shared validation and pointer handling; existing CLI/PTY tests. | Default output contains no complete originals or duplicated mapping arrays. All unresolved addresses remain reachable with totals, not silently truncated. Drill-down `q` returns to summary; cancel is separate. Typed confirmation is never consumed from page navigation. Exact stale/tamper/destination checks and atomic no-prefix save remain. Full dry-run preflight matches the registration candidate and reports actual storage/graph/archive failure before any save. **First real-user feedback checkpoint; do not wait for IM02–IM06.** |
+| IM02 — practical read-only manuscript labels | Register existing labels in a file with disjoint conditionals, also through a metadata batch. B/#19. | `core/marked_text.py`, `application/manuscript_anchors.py`, `metadata_batch.py`, source binding/schema generation, wording-lint coverage notices. | Outside-condition section/figure/table resolves without editing TeX; overlapping/uncertain selection refuses with its conditional location. Literal false archives, nested tokens, comments/code and switches are tested. Figure captions remain in exact fingerprints. Move/delete/duplicate/refresh and old marker behavior remain intact. |
+| IM03 — faithful routine extraction | Map JSON numeric cells, signed ledger values, line fields and complete Markdown sections without invented transformations. C/#20 + section-selector part of G/#24. | `core/argument_sources.py`, `argument_import_v2.py` or its next versioned dispatcher, `application/argument_preparation.py`, import schemas/resources/tests. | Exact Decimal/string bridge, declared sign/line normalization and digest-bound heading/occurrence resolution yield normalized-exact only under their declared rules. Rounding, precision loss, ambiguous headings, stale spans and unsupported syntax remain visible/refused. Original bytes and source influence survive replay. |
+| IM04 — honest low-burden historical records | Import existing claims and incomplete historical experiments without bookkeeping maps or fabricated scientific fields. D/#21. | Versioned import/seed/replay schema and readers; source/coverage/origin/query/share/workspace/project/archive paths; core/application fixtures. | Application defaults are separate from scientific coverage; genuinely missing methods/metrics/conditions are not-recorded, not made-up values. Source-free authored fields have explicit independent origin; no dummy locator. Original labels, day precision and historical decision titles survive private return. Operations requiring missing meaning disclose/refuse without rejecting unrelated valid work. |
+| IM05 — completed-experiment history | Attach historical preregistration to completed work, follow a result's explicit replacement and inspect the old record. E/#22. | `core/protocols.py`, imported-state model, evidence lineage and validation, application protocol/review/impact/graph/history/share adapters. | Six completed-experiment protocols need no carrier plans; the actual unrun plan count is unchanged. Original failed gates, before/after-result changes and source-claimed commitments remain visible. Replacement endpoints and chronology/cycles are checked; no number is overwritten and the replacement link never changes observation status/eligibility; that requires a separate explicit review. |
+| IM06 — iterate and qualify connected use | Reprepare safely, reference new critiques within a batch, inspect lint and co-report connections, then register/reopen/restore/share from a clean artifact. Remaining G/#24, metadata review/diagnostics from F/#23 and all seven reports' integration. | `argument_preparation.py`, metadata batch/critique/co-report/wording readers, existing build/verify/source/PTY coverage and canonical docs. | Per-save overwrite/save-as/cancel choice preserves original sources and detects concurrent output changes. Declared IDs or in-batch aliases avoid a second critique batch. Truly identical connections may be reused without erasing reasons/origin; distinct interpretation edges stay distinct. Lint states lexical coverage and permits explicit scoped exceptions. Full connected regression passes within its declared scope; actual Opus findings are investigated and concrete defects resolved, with nonblocking deferrals justified; private scientific fidelity is still owner-checked. |
+
+- [x] IM01 — summary/drill-down, exact preflight and actionable import/pointer diagnostics.
+- [x] IM02 — bounded conditional-aware labels, explicit upgrade and batch selectors.
+- [x] IM03 — precise normalization and Markdown sections.
+- [x] IM04 — source-faithful low-burden historical import.
+- [x] IM05 — completed protocols and explicit result replacement.
+- [x] IM06 — iterative preparation/metadata and connected qualification. The
+  [performance correction](#im06-backup-performance-correction-and-qualification)
+  passes cold backup48.179s/60s with the full retained fixture.
+
+Count is **6/6**, no implementation outcomes remaining in this six-outcome import-usability sequence. The initial
+63.235s backup failure is retained below; the corrected independent source-runtime
+qualification passes without changing the60s target. Next is explicitly authorized
+delivery and the researcher's actual-paper dry-run/feedback, not a seventh unit.
+The dependency order was IM01, then IM02/IM03, IM04, IM05 and IM06 integration.
+Both policy choices above are settled. A later request to infer observation
+invalidity or overwrite a different class of file changes the boundary and must
+not be smuggled into these operations.
+
+### IM01 review and preflight contract
+
+Keep the current full machine-readable preview compatible; make the plain
+interactive default a summary projection rather than dumping its raw JSON.
+Include the scientific selection and omissions, counts by kind, effective origin,
+coverage classes, every unresolved category/count, declared versus defaulted
+unknown-origin counts, source identifiers/digests,
+representation version and exact destination/capacity when supplied. An indexed
+unresolved reader must enumerate every retained address, show totals and let a
+person inspect original/normalized/target values and reasons. Full record/file
+views remain available, but are not prerequisites for returning to the summary.
+Nothing in the summary says that uninspected content was read or understood.
+
+IM01 keeps review and foreground confirmation in the same process. A fresh,
+explicit transition from summary to the confirmation prompt clears/rejects queued
+navigation and pasted input, including terminal and Python/readline read-ahead;
+`tcflush` alone is not assumed to clear every userspace buffer. A blank Enter
+never confirms or arms a later import; back/cancel remain explicit. Prove held/
+pasted input isolation in PTY tests before relying on it. This is personal TTY
+confirmation, not OS-backed protected user-presence proof.
+
+The proposed cross-process `--confirm-preview-digest` is an **optional IM06
+convenience**, not an IM01 or final source-registration requirement. If added,
+it checks deterministic content equality only and still requires a fresh exact
+operation summary plus typed `import`. Existing `result_sha256` contains random
+first-episode IDs/timestamps and is never reused as a comparison digest. Freeze a
+canonical content/context key from exact input/selection/options/selector/question,
+source snapshot and destination identity, compare it before generating fresh
+recording IDs, then show fresh local metadata and the final result commitment.
+An extraction-only digest cannot certify destination effects. Changed applicable
+bindings invalidate review. Legacy `registered_at` is preparation time under
+ADR0024; label it prepared-at in review, not measured publication time, and do not
+silently re-stamp old semantics. No digest becomes consent or a saved receipt.
+
+Extract the existing registration candidate/archive/workspace preflight into a
+shared preparation path for registration and a proposed `--dry-run --preflight`.
+The latter requires directory/paper root/manuscript/selector/question, writes no
+project/lock/staging file and reserves no destination. Include shared-audit effects,
+all stored-byte/per-type bounds and graph/archive roundtrip. First audit `preview_association`, `_workspace`, audit conversion, backup and
+workspace construction for writes; do not assume helper purity. Test destination,
+source and parent-directory entries/identities/mtimes before and after successful
+and failed preflight (use `-B` to separate interpreter caches). Split a mutating
+helper if needed. Report the existing v2 bounds from their actual enforcement:
+`_read_argument_input` and snapshot packing allow16MiB envelopes; retained source,
+compressed snapshot and complete seed each retain their separate4MiB constraints.
+Do not accidentally apply v1's4MiB envelope check to v2. Existing cheap seed
+preview remains available and explicitly says full preflight not run. Registration
+rechecks exact input and filesystem identity before create-only publication;
+a dry-run cannot reserve future state or authorize a write.
+
+Report nested discriminator/field/rule errors without widening `oneOf` or hiding
+an invalid field behind a chosen permissive variant. v2 outer-kind selection
+already exists: retain it and improve scalar/table/cell variants. Align empty
+artifact-root pointers across schema, normalization, table validation and verifier;
+keep text-anchor plots/type/parent errors with IM06 metadata diagnostics. Batch diagnostics carry bounded
+structured rule/reason codes and prerequisite IDs from affected validation sites,
+not exception-string parsing or a required global error-framework rewrite. Unknown
+errors keep a safe generic fallback; `OSError.filename`/strerror and private
+payloads, critique originals, credentials or arbitrary paths never leak. Duplicate
+or unavailable selected-entry errors also use the structured diagnostic surface. Failed batch/preflight remains
+all-or-nothing. Apply the same summary/drill-down pattern and remaining batch diagnostics to
+metadata registration in IM06, reusing the IM01 reader. Do not wait for that
+second surface before the IM01 actual-registration feedback checkpoint.
+
+### Source, history and versioning detail
+
+IM02 keeps TeX read-only and non-executing. Compute bounded lexical conditional
+regions after comment/code masking; do not evaluate arbitrary macros or includes.
+Treat literal false content as excluded only when nesting/terminators are provable;
+malformed or dynamically ambiguous structure refuses. A span enclosing a conditional
+is also affected, even if its label precedes it. `newif` declarations do not grant
+permission to evaluate subsequent switches. Preserve exact file/span fingerprints,
+caption inclusion and visible drift. This changes ADR0026's whole-file refusal:
+record a narrowly superseding ADR when implementing, without editing the old
+accepted decision. Introduce a new selector/lexer contract for both single and
+batch registration (working version `tex-selector/v2`). Existing v1 resolution,
+refresh and fingerprints keep their old rules; moving an old binding to the new
+lexer requires an explicit reviewed refresh. Batch additions also use new closed
+versions, not a silent expansion of the old anchor schema. Deduplicate file-level lint notices
+without suppressing a span-local unsupported condition.
+
+IM03 adds opt-in named policies with precise target contracts. Parse JSON numbers
+as Decimal/int without binary float, retaining the current v2 Decimal parser.
+Numeric-to-text normalized-exact requires equal Decimal sign/digits/exponent
+(`as_tuple()`), not value equality alone: `1e-3`→`0.001` preserves it, whereas
+`1.0e3`→`1000` and `1.230`→`1.23` remain transformed. A separately declared sign
+policy may translate glyphs, never change the numeric sign. Rounding and any
+scale/precision loss stay transformed. Boolean-to-text uses a separate explicit policy and never numeric
+coercion. Preserve negative zero under the declared lexical contract. Numeric
+sign rules may map U+2212/leading plus and a narrowly specified grouping convention;
+never strip arbitrary spaces or accept a partial unsigned extraction as fidelity.
+Line normalization removes only the declared one terminal LF/CRLF for line locators.
+Retain raw original and normalized value/version beside each classification.
+Markdown sections use exact heading path plus explicit occurrence, a precise
+boundary rule and digest-bound resolved byte span; repeated headings without an
+occurrence remain ambiguous and external edits require a fresh snapshot.
+
+IM04 applies defaults only to declared application bookkeeping or known empty
+structure, counts them separately and retains their derivation. Units, conditions,
+claim role/parents/scope and measured value/type are scientifically meaningful:
+no broad empty/null allowlist may claim they were sourced. Absence is visibly
+not-recorded rather than observed-none/zero. A source-free field retains its own
+explicit H/A/U declaration and original reason; absent origin remains unknown,
+and an override cannot clear known inherited AI influence. Source-silent input
+still cannot fabricate historical evidence confirmation or supported status.
+
+Preserve original human-facing IDs as display labels/aliases, with a stable
+collision-checked safe internal identity map. Preserve day-only date precision
+without invented UTC midnight, while full recorded timestamps keep their precision.
+Decision titles are display content separate from the historical rationale.
+Imported incomplete experiments stay source-claimed historical records, with
+missing method/metric visible; they do not become new completed-run confirmation.
+Relevant dependent operations must identify missing semantics instead of demanding
+templates that make the import look more complete. Reuse the already selected
+partial-migration policy, not a new import-wide waiver or per-record quiz.
+
+IM05 must distinguish protocol target identity from its content commitment,
+retaining expected-source digests and before/after-result disclosures for both
+legacy plan-bound and new completed-experiment paths. All gate/outcome and
+claim-impact readers must follow that target without creating an unrun plan.
+Observation replacement is a typed relation distinct from event-ID supersession;
+validate both endpoint existence, self/cycle/chronology consistency and source
+origin. Missing chronology stays unknown. Preserve old result values and reasons;
+only a separate explicit state-change review may change current eligibility.
+
+IM06 also applies the existing bounded summary/detail/fresh typed-confirmation
+reader to direct protocol/metadata and batch review; full before/after JSON stays
+on demand. IM05 measured126 pages in the older direct protocol reader, not a
+usable reading requirement. No seventh unit is added.
+
+IM06 starts from create-only output. On an existing preparation-output collision,
+show overwrite / save to a new file / cancel, following the owner-confirmed policy
+above. Overwrite displays the old/new identity and replaces only the unchanged
+reviewed preparation file atomically; it does not silently create an extra backup.
+Save-as obtains a new user-selected path and publishes create-only, preserving the
+old output; another collision returns to selection/refusal. Cancel, blank, Escape
+and EOF write nothing. Use owner/private/non-Git/no-link checks, exact expected
+old digest/identity and interruption-safe replacement, preserving the old output
+if replacement fails before commit. Show uncertain state honestly if durability
+cannot be established. Never delete the old file first. Only recognized prepared
+envelopes may be overwritten; source ledgers, manifests, saved projects and
+backups are excluded even if located outside Git. Test all three choices, a
+second collision, source/path aliases, noninteractive refusal, concurrent change,
+write/flush failure and interruption. No mandatory archive-retention subsystem
+is part of this policy.
+In-batch critique refs resolve in order to stable identities without reading
+private originals into previews/exports. Equivalent co-report edge reuse requires
+matching semantic endpoints/type/basis and preserved contributions/reasons;
+67→69 alone is not proof of duplication. Lexical lint remains a match warning,
+with negation/hyphen/inflection limits disclosed; explicit reviewed exceptions
+are scoped to a claim/anchor rule and cannot silently authorize wording or close
+debt. Do not add AI language judgment to silence a warning.
+
+Preserve legacy JSON schemas, fixtures, old input/replay and provider-refusal
+profiles. Choose the next unused versions from the actual schema inventory before
+persisted import/selector/protocol changes; keep historical normalization behavior
+and original preview digests stable. Preflight complete history/manifest/project/
+archive bounds before confirmation, with count/limit failure and no pruning.
+Avoid repeating entire input/schema unions for a new field: estimate generated
+schema/resource size and reuse existing bounded representation patterns. No new
+store, database, provider or generic parser framework is needed by default.
+
+### Review, checks and evidence order
+
+For each unit: review the scoped plan and relevant canonical goal; establish the
+reported failure with an owned fixture; implement the smallest complete journey;
+review its result; obtain one bounded actual first-party `claude-opus-5-5`
+cross-review with tools/hooks/plugins/MCP/persistence disabled; reproduce concrete
+findings, fix them and rerun affected checks. Record actual model, scope, findings,
+changed files and evidence here, not raw transcripts. Revisit philosophy at these
+milestones and after every compaction using the harness resumption reading path.
+
+IM01 requires actual TTY/PTY summary→drill-down→back→typed-confirm/cancel tests,
+held/pasted Enter, non-TTY/digest-only denial, input/selector/destination/options
+changes, exact preflight/save equivalence, interrupted no-prefix publication and
+the import/pointer F diagnostics; IM06 covers remaining metadata diagnostics.
+Use a maintained-source fixture of at least200 records
+with1750+ numeric cells and both resolved/unresolved fields; do not import private
+files without the person's separate selection. For the representative200+record fixture, target at most120 logical overview
+lines, with bounded field previews and full details on demand. Overview length
+does not grow with raw original-file length; unresolved totals/addresses never disappear.
+Demonstrate a usable first feedback checkpoint after IM01, keeping other omissions
+visible. Use an already compatible paper connection (including the reporter's
+existing fragment workaround if they select it); conditional main-file label
+support remains incomplete until IM02, not silently bypassed for that checkpoint.
+A timed human few-minutes review is an observed owner task, not a unit-test
+assertion that scrolling proves comprehension.
+
+IM02–IM05 require targeted lexer/normalization/coverage/origin/chronology/old-format
+positive and tamper/refusal cases, explicit old-commitment preservation, graph
+meaning and global append-only evidence checks. IM06 adds full iterative preparation,
+real terminal registration, source reading, next judgment, correction, fresh-process
+reopen, backup/restore, both graph entries, selected sharing/privacy and clean
+source-artifact execution. Synthetic scope includes9 anchors,6 completed-protocol
+records and only the genuinely unrun plans; no private-paper benefit is invented.
+Keep the earlier430-record/5400-cell fixture as a regression, not a smaller substitute.
+
+Use affected `PYTHONPATH=tests:. python3.13 -m unittest ...` selection at each unit;
+`python3.13 scripts/verify.py --scope docs` for this planning change; schema/resource
+checks after contract changes; full alpha/harness plus independent source/terminal
+and relevant security checks at the connected delivery milestone. Run broad suites
+once per material milestone and rerun changed/failing coverage proportionally.
+Do not co-run host timing qualification with other heavy checks. Keep the fixed
+named-local60s/30s/20s/2GiB targets and report hosted-machine timing separately;
+changing performance-test applicability or a later release's failure disposition
+requires an explicit documented decision. Alpha.5's known-failure publication
+choice is not a blanket authorization for every future release.
+
+Initial affected test modules, extended in place with each unit's new cases:
+
+| Unit | Existing application suites to start with |
+|---|---|
+| IM01 | `test_original_registration`, `test_metadata_batch`, `test_typed_observations` |
+| IM02 | `test_label_anchors`, `test_metadata_batch`, `test_claim_wording` |
+| IM03 | `test_original_ledger`, `test_original_registration` |
+| IM04 | `test_original_ledger`, `test_original_registration`, `test_origin_retention`, `test_canonical_share` |
+| IM05 | `test_protocols`, `test_typed_observations`, `test_co_report`, `test_canonical_share` |
+| IM06 | `test_original_ledger`, `test_metadata_batch`, `test_critiques`, `test_co_report`, `test_claim_wording`, `test_migration_journey`, source-artifact and actual-PTY coverage |
+
+For example, IM01's affected command is
+`PYTHONPATH=tests:. python3.13 -m unittest application.test_original_registration application.test_metadata_batch application.test_typed_observations`.
+Add changed dependent suites when implementation reveals a concrete dependency;
+this table is a starting selection, not a claim of complete coverage. Final
+connected scope remains the explicit alpha/harness gate above.
+
+### IM01 implementation and result review
+
+2026-10-16 KST. Implement summary/detail review and shared write-free preparation
+in the existing personal registration route, with a small private presentation
+module. Default text no longer duplicates mapping arrays or prints complete
+originals. `selection`, records/graph, sources, capacity and the complete indexed
+unresolved inventory remain available on demand. Record coverage appears once;
+legacy record mappings remain available. Detail `q` returns, summary `q` does not
+cancel registration, blank confirmation returns, and only a fresh exact `import`
+after `continue` registers. No comprehension/read acknowledgement is inferred.
+
+All review prompts use direct bounded TTY input without Python/readline
+read-ahead, discard queued input, reject emitted bracketed-paste markers and
+restore terminal modes/input on exit. A real PTY exposed a macOS output-drain
+hang when restoring with TCSAFLUSH while the parent waited without reading;
+TCSANOW plus input flush repairs it. Earlier pager-oriented tests failed against
+the new controls and were updated to exercise the actual summary transition.
+Unbracketed single-line paste is not distinguishable from typing by this personal
+TTY gate; it creates no OS-backed user-presence claim.
+
+`--dry-run --preflight` uses the actual candidate, optional audit conversion,
+project/graph construction, archive roundtrip and current source/destination
+checks, without entering a store session. Source/work/destination and parent
+entry/identity/mtime/ctime snapshots cover default, shared-audit and refused-used
+paths with `-B`. No lock/staging cleanup or destination reservation is performed;
+an existing session lock is probed briefly and nonblocking. Registration still
+rechecks exact input/association/directory, acquires the real exclusive session
+and publishes once. Prepared-at remains candidate time. The candidate hash shown
+in review matches the saved payload in the owned test.
+
+Nested observation/table/value discriminators now report actual missing/bad
+fields. The published artifact-root JSON-pointer schema is named and its exact
+schema value alone admits empty, retaining old schema bytes and other implicit
+nonblank fields. This is necessary for copied nested schemas; object identity
+would break their existing contract. Artifact root verification is tested, and
+import OS failures use a safe scoped diagnostic instead of raw OS filenames.
+No blanket schema-validator rewrite or metadata expansion is included.
+
+Actual first-party `claude-opus-5-5` reviews of fixed public synthetic snapshots
+(36,306 bytes / SHA-256
+`89552c3c70b4b37bdc56df0a9c2cb5ff6ce370695cb95b81e998698e634c29e2`
+and55,878 bytes / SHA-256
+`3ff0061f2527f9d46d9edf4c91213bcaaf59d78304e5d4028c47160c49174664`)
+ran with tools/hooks/plugins/MCP/session persistence disabled. Reproduce/fix
+implicit-empty widening, summary/back cancellation, minified-source pagination
+and unknown cell discriminators; add shared-audit no-write and exact-candidate
+checks. Closure feedback adds whole-summary terminal sanitization, consistent
+`passed` and clearer emitted-marker limits. Hypotheses about arbitrary contributor
+names/files are bounded by the closed origin enum/ASCII identity and32-file
+contract before reporting; valid preview output is not arbitrary reviewer input.
+The generic oneOf/object/array concerns did not identify an admitted current
+schema counterexample; these pre-existing validation branches are not widened.
+Private JSON source parsing precedes source review, and retained originals remain
+exact. Non-ASCII commands/IDs are outside this reader's fixed ASCII command/ID
+contract; scientific prose is read here and authored in the existing editors.
+
+A fresh164-member source ZIP runs outside this checkout: full shared-audit
+preflight writes nothing, the54-cell review shows28 summary lines, actual terminal
+record-detail/back/continue/import succeeds, fresh status works, backup/fresh
+restore reproduce personal bytes, and manuscript bytes stay identical. This is a
+synthetic usability checkpoint, not the reporter's private-paper registration,
+source fidelity or a new release. The source member bound advances by exactly the
+one added runtime module; byte budgets and inventory refusal remain enforced.
+Final result:115 affected application/source-artifact tests pass (232.837s);
+19 final focused tests pass (15.274s), covering the last reader/safety additions;
+all209 portable contract tests pass (15.639s), the original truth packet remains
+valid, generated schemas/runtime resources are current, and81-document/whitespace
+checks pass. These are explicit affected/contract scopes, not a full alpha/native
+or new hosted CI qualification. The earlier obsolete-control and PTY-drain failures
+are repaired; no skipped coverage is described as a clean full-suite pass.
+The final separately extracted ZIP SHA-256 is
+`6a3404156092495a8c60e05e88ef5a879581d85d95cddafc007db7a81431227d`.
+**IM01 complete; IM02 is next, five remain.** Text-anchor/batch-specific diagnostics
+remain in IM06. Conditional main-manuscript labels still need IM02; do not claim
+the private case registered or require the other five outcomes before user feedback.
+No commit, push, release, private-source access or provider inference occurred.
+
+### IM02 implementation and result review
+
+2026-10-16 KST. The researcher can connect an existing main-text label despite
+provably disjoint conditionals, register several label uses together, and inspect
+saved source drift without editing the manuscript. Recheck the product's primary
+workspace/understanding principles at this milestone: source interpretation is a
+mechanism for revisiting the original judgment, never new evidence or comprehension.
+The narrower versioned decision is [ADR0028](../../architecture/decisions/0028-conditional-aware-manuscript-selectors.md),
+partially superseding ADR0026 only for new/explicitly upgraded selectors.
+
+Implement tex-selector/v2 with bounded conditional regions, comment/literal-code/
+definition handling and32/2,048 nesting/region bounds. Known primitives and literal
+newif declarations are recognized without execution; false archives are excluded
+only when their boundaries are provable. Selected inside/overlapping/enclosing
+regions, unknown switches, malformed/cross-branch structure and masks that could
+hide a branch terminator refuse with a line. Commented definition braces cannot
+hide live labels. Ordinary math iff is not counted as a conditional; redefinition
+still refuses. Source/caption bytes and kind/freshness checks remain exact.
+V1 behavior and existing exported schema/golden bytes remain unchanged.
+
+Source binding/association preview/refresh v3 and command17/work28/project24/
+personal+backup frame16 preserve the new interpretation. New CLI labels default
+v2 with explicit label-version1 available; reopening keeps saved versions.
+`project upgrade-label-selector` previews and explicitly confirms a same-label
+v1-to-v2 source transition, preserving earlier associations and exact work bytes.
+Source refresh remains outside scientific work, so the reviewed suggestion to
+change the work payload on upgrade was rejected: tests instead assert project24,
+last v2 association, source-refresh transition, original association prefix and
+unchanged work/writing. Shared-audit23-to24 backup return passes too.
+Metadata-batch/v2 adds closed versioned label requests; v1 rejects them. Selected
+entry failure refuses the whole detached batch. Explicit mixed/unknown origins,
+command/selector binding and frame mismatch checks remain enforced. V2 lint emits
+one file-coverage notice while retaining unsupported span-local warnings.
+
+Actual first-party claude-opus-5-5 reviews used fixed public synthetic snapshots:
+102,697bytes SHA-256
+`9d83facb4fb08255278e4f527d87092b8d1cc38871323ccd622f92e0dfda5327`
+and28,535bytes SHA-256
+`c7119a8fce295a73c743cfb31623062e70043682bbf3ea09897b78ba32c2cfb3`.
+Tools/hooks/plugins/MCP/session persistence were disabled. Reproduce and fix
+unknown conditional tokens in false archives, code/macro masking of terminators,
+commented braces and iff false positives. Command/selector mismatch already
+refused under closed command normalization; add explicit reducer checks and
+forged-version tests. Project23 adds no top-level fields beyond22, but derive24
+from23 and explicitly check shared-audit upgrade/backup. Initial result-check
+failures exposed an old shared-audit PTY driver expecting the removed import
+pager and a CLI test incorrectly waiting for the curses-only closed banner;
+repair drivers and verify actual process exit plus terminal modes.
+
+New exported work/project inline schema expansion initially repeated78MiB. Keep
+runtime schemas and all older exports unchanged, and use self-contained absolute
+root $defs references only in the two new exports. Reference only schema positions,
+not properties maps or literal keyword values. Expansion tests reproduce every
+original closed validation keyword; the resulting two files total1,084,561bytes.
+No dependency or schema-registry service is added. A failed early expansion check
+was repaired before final generated-schema validation.
+
+Verification:86 affected label/metadata/wording/anchor/shared-audit tests pass
+(78.468s); all209 portable contract tests pass (16.614s); final28 label/export
+checks pass (14.959s), followed by8 scanner checks after the line-index memory
+refinement (0.007s). Original truth packet and generated schema/resources pass.
+No existing schema file is modified; four new closed exports are added. Actual
+PTYs check upgrade cancel/confirm, new label initialization and saved return.
+A clean164-member source ZIP SHA-256
+`de6dc6d525fb5a0de60ac4b15cfc951dadd817b1606ebde355aaafde196079c5`
+connects an actual synthetic conditional-containing TeX file, completes write-free
+shared-audit import preflight, detail/back/import, command17 figure registration,
+fresh status and byte-identical backup/restore; the manuscript is unchanged.
+
+**IM02 complete;2/6, four remain. IM03 normalization/Markdown sections is next.**
+These are affected/contract/source checks, not a new full alpha/native/hosted CI
+qualification, actual private-paper fidelity or large-project timing guarantee.
+The known alpha.5 hosted performance failure remains open. No commit, push,
+release, private-source access or research-provider request occurred.
+
+### IM03 implementation and result review
+
+2026-10-16 KST. Review the original Dream and primary-workspace contract before
+this outcome: retained source is useful context for forming/revisiting judgment,
+not another required narrative, proof of scientific correctness or comprehension.
+The researcher can map routine numeric cells/ledger lines/whole sections without
+invented transformation explanations, while rewritten or rounded meaning remains
+visible. [ADR0029](../../architecture/decisions/0029-versioned-original-source-comparisons.md)
+owns the durable interpretation/storage decision.
+
+Implement opt-in argument-import/v3, source-manifest/v2 and original-source/v2
+with separate named JSON-number, boolean-text, numeric-sign/grouping and one-LF/
+CRLF policies. No binary float or value-only equality: preserve Decimal sign,
+digits and exponent, including integer negative zero. Exponent case/sign rendering
+is normalized-exact, never raw exact; scale-losing expansion/rounding still needs
+a declared unresolved transformation. Positive exponent output remains exponent
+text; existing typed-cell decimal rules remain unchanged. Bound expansion before
+allocation; unsupported exponent overflow becomes a bounded diagnostic.
+
+Markdown sections use exact heading paths, explicit duplicate occurrence, original
+UTF-8/CRLF span including descendants, same/higher-rank boundary and16KiB extraction.
+Share the cell/section index whichever lookup comes first; cap sections at65,536
+across the input. New parsing refuses ambiguous multiline/container/pipe setext
+and unsupported HTML blocks instead of inventing a path. Empty/hash-only ATX and
+thematic breaks cannot invent named sections. Older resolver behavior stays fixed.
+
+Keep unchanged scientific seed14/ordinary command14/source-reference/v2 and exact
+zlib snapshot shapes. Nested retained envelope version chooses source semantics;
+require work29/project25/private+backup frame17 in both mismatch directions.
+Reference scope argument-envelope/v2 continues to identify the whole exact
+envelope, not an individual original file or nested schema number. Shared-audit,
+conditional command17, workspace notes, source upgrades and backup return preserve
+this new frame. No implicit source migration, origin waiver, confirmation or
+manuscript write is added. Four new exports use the existing generator; new work/
+project exports use the already checked compact presentation. All prior exported
+schema files remain byte-identical.
+
+Actual first-party claude-opus-5-5 reviews use public synthetic snapshots only,
+with tools/hooks/plugins/MCP/persistence disabled:78,970bytes SHA-256
+`70bbd171535f79f7f0aac9f86edddd0e6b320667ce3696b84c7506c3c2e7b8db`,
+then34,680bytes SHA-256
+`84f58a597c832ebf84124c7b470eb3cd1d63050a2db80a88d8d252569d12a9dd`;
+both is_error=false. Reproduce and fix multiline setext, pipe/indent/list/quote
+continuations, empty/hash-only headings and thematic-break boundaries, with old
+cell behavior pinned separately. Extend explicit-span recovery guidance. The
+workspace warning was conditional: its helper is exactly a successful-only cache
+of the same validator, with no shared-audit assumption; check no-command16,
+command17 and command17+16 retained-note/backup cases. Resolver/envelope commitment
+keys already existed at HEAD; freeze the old v2 literal preview digest. Reject the
+suggestion to ban tuple-preserving exponent notation: the named normalization
+permits canonical representation and retains raw bytes, without claiming raw
+identity or permitting rounded/scale-losing values.
+
+Initial affected checks found a missing local decode import in the new upgrade
+summary; fix it and rerun the actual upgrade PTY. A stale old preview-pager test
+was updated to the implemented summary cancel control. Final affected152 tests
+pass (188.471s), portable contract209 pass (17.358s). After the final Markdown
+repairs,43 source/return tests pass (13.427s), then21 final normalization/mismatch
+checks pass (1.640s). Generated schema/resources and original truth packet pass;
+explicit docs scope checks83 documents and whitespace. No skips are reported.
+
+The independent164-member source ZIP SHA-256
+`7e2bdc65e897858cfc18a7b9c44a9fe4c8462a65a7f90eecf38bacec8f0fac62`
+runs public manifest-v2 preparation against exact JSON/Markdown originals, v3
+numeric54-cell/duplicate-heading extraction, write-free shared-audit preflight,
+actual summary/detail/back/import, command17 figure registration, fresh status
+and byte-identical backup/fresh-directory restore. The29-line summary preserves
+access to originals; manuscript bytes stay unchanged. This is source/contract/
+affected scope, not a new full alpha/native/hosted performance qualification or
+private-paper fidelity claim. Alpha.5's known hosted timing failure remains open.
+
+**IM03 complete;3/6, three remain. IM04 low-burden faithful historical import is
+next.** IM05 completed-protocol/replacement and IM06 preparation/metadata integration
+remain separately open. No commit, push, release, private-source access or research
+provider request occurred; Opus reviewed only the bounded public-code packets.
+
+### IM04 implementation and result review
+
+2026-10-16 KST. Recheck the product/Dream outcome at this milestone: the person
+should form a judgment once, keep useful source/reason context and honestly resume
+partial work. Requiring invented methods/metrics, renamed original tokens or UTC
+midnight does not improve understanding. This outcome reduces that migration
+burden while retaining unresolved meaning and the same current grouped review.
+[ADR0030](../../architecture/decisions/0030-source-faithful-partial-historical-records.md)
+owns the versioned decision; no new product-policy question was necessary.
+
+Implement opt-in argument-import/v4/source-manifest/v3 and seed18/ordinary command18.
+Historical experiment fields and individual metric fields may remain null/absent,
+with explicit not-recorded pointers; this describes the import, not proven absence
+in retained originals. No template scientific values, completed-run confirmation
+or carrier plans are generated. Preserve historical decision titles separately
+from rationale and calendar-day precision separately from app preparation time.
+Map original tokens deterministically to safe internal IDs; check original,
+display and internal names across owners for collisions. Graph/source readers
+retain both identities and honest missing context; scalar values remain readable
+without an imported metric. Required unavailable protocol metric comparison refuses
+explicitly, while graph reading and unrelated current judgment remain available.
+
+Per-kind opt-in structural defaults cover only checked app IDs/order bindings and
+specified empty/null bookkeeping. Units, conditions, role/parents/scope and numeric
+value/type never gain scientific coverage this way. A swapped column requires a
+source mapping; its old acceptance was reproduced by patch and the actual path
+now refuses. Locator-free declarations retain independent H/A/U/reason instead of
+an unrelated file. Unspecified authorship stays unknown. Explicit source_origins,
+independent AI and joint declarations cannot be laundered by a record human label.
+File/bundle defaults remain explicitly replaceable by honest record exceptions,
+as the owner selected; do not turn fallback into a non-overridable assertion.
+
+New source-free observation science/non-null provenance cannot invent a historical
+result. Changed source-free claim statement/scope cannot inherit supported status.
+AI/mixed/unknown source-free text cannot create completed-experiment information or
+a past decision reason; use a proposed claim/planned experiment or map the real
+source. Human reconstructions remain declared-without-source and unverified. These
+checks cover both new locator-free and old dummy-file spellings in v4. Earlier
+formats keep their old semantics. No import-wide explanation waiver or per-record
+comprehension quiz is added.
+
+Require work30/project26 and personal/backup frame18 for seed18, composing shared
+audit and command17 labels without downgrade. Shared-audit/v2 carries seed18 under
+unchanged8/16MiB stored/expanded bounds. Canonical-share/v3 permits explicit null
+historical experiment fields, preserving selected redaction/reason opt-in and opaque
+public identities; private labels/source paths do not become public IDs. Existing
+seed/command/work/project/frame/schema/golden files remain byte-identical. Eight
+new generated exports are added; compact new work/project exports retain the exact
+runtime contract. The source member budget increases164→165 only for the one new
+pure historical_argument module, with checker/over-limit tests updated together.
+No new dependency, provider or manuscript write is introduced.
+
+Actual first-party claude-opus-5-5 reviews use fixed public synthetic packets with
+tools/hooks/plugins/MCP/persistence disabled:72,210bytes SHA-256
+`9c0ff3eec9eb7a063c496f7d766a729480f58b1665a25d694b52f05f98867765`
+and43,164bytes SHA-256
+`6ae225eaa009020589e84db7edd7df3b1f2f530f0e33078504db6c7e8cc716f8`;
+both is_error=false. Reproduce/fix column-binding defaults, cross-namespace aliases,
+dangling pure-declaration source assertions, inconsistent joint labels, dummy-file
+per-source-origin bypass and invented non-null artifact metadata. The latter two
+first fail their literal counterexample tests, then pass after using the effective
+origin precedence and actual leaf value. Strengthen unknown-origin historical
+source-free refusal. The suggested file-default union was rejected because it
+reverses the already approved fallback/record-exception contract. Rename the
+seed14/v3 frame predicate so it cannot be mistaken for resolver generation; actual
+v4 extraction independently uses the precise source resolver. Preserve old v2
+preview commitment and raw snapshots.
+
+Verification:175 affected import/origin/share/audit/registration tests pass
+(309.232s); all209 portable contract checks pass (18.276s).60 source/registration/
+artifact checks pass (87.987s); after final review repairs,17 v4 focused checks pass
+(4.472s), then2 compact-schema/decision-date-return checks pass (3.704s). Generated
+schema/resources and original truth packet pass; explicit docs scope checks84
+Markdown files and whitespace. No skips reported. These are affected/contract
+checks, not a new full alpha/native/hosted timing qualification.
+
+The independent165-member source ZIP SHA-256
+`a7e75e0296a35ebc3648a1b8c115e6b1b03fb0a17574de9540d1f5b09aaa8054`
+runs public manifest-v3 preparation with raw original tokens (`expA ModelB`,
+`E16/E16b`), an incomplete experiment/day date,54 exact cells and duplicate-heading
+selection. Full shared-audit preflight is write-free. Actual terminal detail/back/
+import, command17 figure association, fresh status and byte-identical backup/fresh
+restore pass with original manuscript unchanged and a29-line summary. A separate
+current judgment retains its original reason/explicit later-explanation choice and
+missing experiment context through saved return. Private-paper source fidelity,
+real-user benefit and alpha.5's known hosted performance failure remain open.
+
+**IM04 complete;4/6, two remain. IM05 completed protocols and replacement links is
+next; IM06 iterative preparation/metadata and connected qualification remains.**
+No commit, push, release, private-source access or research-provider request occurred;
+Opus reviewed only the bounded public-code/synthetic packets.
+
+### IM05 implementation and result review
+
+2026-10-16 KST. Recheck the Dream/product outcome: a researcher should inspect why
+a completed experiment changed a claim without inventing unrun work or erasing the
+old result. [ADR0031](../../architecture/decisions/0031-completed-experiment-protocols-and-result-replacements.md)
+owns the target/digest, explicit replacement, origin and compatibility decision.
+No human-owned product choice remains pending.
+
+Protocol-input2/command19 and metadata-batch3 register a completed experiment's
+protocol and explicit association together. Preserve original prediction/falsifier,
+pass/fail wording, source-claimed commit/time and seen/unseen/unknown disclosure.
+Pin the exact scientific experiment digest; missing imported metrics remain missing
+and comparison to a nonexistent plan is null. Six registrations add no planned
+work. Existing gate/outcome assessments and before/after-result amendments use the
+same association, retaining original failure, contradictions and source origins.
+Legacy plan-target schemas/interpretation remain unchanged.
+
+Import5/source-manifest4 optionally declares a replacement beside an observation.
+Exact snapshot replay derives the typed link registry without manufacturing past
+commands or app timestamps; seed18/ordinary command18 keep their shape. Selection
+brings the previous observation as a required dependency. New current links pin
+both latest evidence events. Validate missing/self/duplicate successor/cycle and
+provably reversed like-precision source dates. Unknown/mixed date precision stays
+unknown; app ingestion order proves no outside experimental chronology. Preserve
+both values/statuses/event histories: only a separate evidence review can change
+eligibility. The predefined non-scientific graph relation and dependent contexts
+keep original reason and stale-basis state available.
+
+Link origin and unresolved declaration belong to the relationship, independently
+from the observation's numbers. Consequential source review follows both endpoints
+and an exact imported-link reference, whose private reader opens the declaration.
+Work31/project27/personal+backup frame19 are mandatory for import5/command19;
+canonical-share4 uses opaque endpoints and keeps reasons opt-in, source context
+and commit references omitted. Existing stored schemas and golden inputs do not
+change. New source inventory is166 members, with unchanged byte bound/dependencies.
+
+Plan/result review and Opus findings:
+
+- Actual first-party `claude-opus-5-5`, `is_error=false`, reviews the139,602-byte
+  public-code/synthetic packet, SHA-256
+  `eba40153583b285175081f39eee59e95848c9456e04f04b8af15dffbd84b0ac1`.
+  Reproduce and repair conflation of relation versus numerical origin, missing
+  relation coverage in sharing and missing completed-association influence.
+  Source origin/new-input origin and confirming actor remain separate: the
+  review's initial description of contribution_origin as the confirmer is false;
+  existing metadata already labels the unverified personal confirming actor.
+- A second actual first-party `claude-opus-5-5`, `is_error=false`, reviews50,397
+  bytes, SHA-256`56d33477e8be4eace00285401d92acbd710207d67eae15ca3945987c214d01ba`.
+  Reproduce a legacy unmapped source field named replacement losing coverage
+  after a personal link; exclude only the exact installed imported declaration
+  pointer, with its separate link reference. Preserve inherited endpoint influence
+  in new-link review and known gate origin in completed-protocol sharing.
+  Closed schemas require recorded_at (nullable); the schema5 source reader cannot
+  receive source5/seed18. Those proposed missing-field/reader failures are not
+  reachable under validated input, so do not widen formats or add fake dates.
+  Both reviews disable tools/hooks/plugins/MCP/session persistence. Added origin,
+  source-reader, old-prefix, workspace/backup and opaque-share assertions pass.
+- The new project schema initially misses the existing fivefold export-size
+  target. Inline single-use definitions only in new work31/project27 exports,
+  traversing schema positions and preserving metadata/ref siblings. Exact expanded
+  schemas, old exports and literal data stay unchanged; no scientific capacity
+  or old test threshold is relaxed.
+- Initial source-artifact execution exposes124–126 pages in the older direct
+  protocol-operation reader. Registration works in synthetic PTY, but this is
+  not usable manual review at scale. IM06 must apply the existing bounded
+  summary/details/fresh-confirmation reader to direct protocol/metadata review,
+  as well as batch registration; this is part of the existing final outcome,
+  not a seventh implementation unit or evidence of human understanding.
+
+Final affected protocol/import/source/share/metadata/graph/shared-audit/measurement/
+co-report suite passes252 tests in251.598s, without skips. The final15 focused
+new-path/source/origin checks pass in10.235s; portable contract209 passes in19.881s.
+New work/project export compaction is independently checked by expansion against
+the exact closed schemas; old tracked exports remain unchanged. Generated schema,
+runtime-resource and truth-packet checks pass. The selected-share verifier now
+admits the writer's existing v3 and new v4 while keeping selection/HMAC checks;
+explicit v3 return verification is included in the final artifact/check closure.
+
+The final166-member source ZIP SHA-256
+`de659d304b9ad68c302aafa6ee47e932cd69287c994a2da61464cc84a1c3cdc8`
+runs public manifest4 preparation, import5 exact54-cell/partial-experiment/original-
+alias/replacement preview, write-free shared-audit preflight, actual terminal
+summary/detail/back/import, command17 figure registration and completed-protocol
+registration without a plan, then fresh status and byte-identical fresh-folder
+backup restore. The31-line import summary retains all details; the manuscript
+is byte-identical. Its135 runtime Python members match the final checkout.
+This is a synthetic source/affected-scope check, not complete alpha qualification.
+Final source/artifact/schema-expansion and explicit v3 share verification pass9
+checks in77.671s. Explicit docs/whitespace scope passes85 Markdown files; generated
+schemas/resources and truth packet are current, with no skips.
+
+Private-paper fidelity/user benefit, complete alpha/native/hosted performance
+qualification and publication remain separate; alpha.5's reported77.35s/60s hosted
+failure is still open. No commit, push, release, research-provider request,
+private research access or manuscript write occurred.
+
+**IM05 complete;5/6, one remains. IM06 owns safe preparation-file collision choices,
+usable direct/batch metadata review, critique/co-report/lint iteration and the
+final connected qualification.**
+
+### IM06 implementation and result review
+
+2026-10-16 KST. Recheck the original Dream, primary-workspace and independent
+origin/understanding contracts: the person should inspect the smallest useful
+change, retain their original reason and continue existing work. Mechanical
+scrolling and rendering are not comprehension. This implements the final selected
+import-usability outcome, not the complete protected product or private-paper
+validation. No new policy choice, native enrollment or research-provider call is
+needed.
+
+Implementation now connects the following researcher actions:
+
+- Preparation collision offers overwrite/save-as/cancel in an actual terminal.
+  Noninteractive overwrite requires the expected existing SHA-256. Only validated
+  private prepared envelopes qualify; original inputs/manifests, project/backup
+  paths, aliases, nonprivate/Git files and concurrent changes refuse. Recognition
+  is a closed-format check, not producer attestation. Exclusive temporary writing,
+  flush and exact identity checks precede publication. Old bytes survive failures
+  before publication; failures after publication disclose uncertainty. Cleanup
+  failures name the temporary alias; failed initial identity reads close the file
+  but leave the unidentified temporary path for inspection, never delete an
+  unverified inode. A cleanup error cannot hide the primary pre-publication error.
+- Direct anchor, wording, protocol, measurement, critique, co-report and metadata
+  batch registration now starts with bounded summary/details. Complete operations,
+  per-entry graphs/context, impact and lint remain reachable. Detail exit returns
+  to summary; a separate fresh literal confirmation precedes existing exact-state
+  rechecks and save. TUI `d`/Escape/q and `r` separate inspection from confirmation;
+  neither drawing nor reading to the end is an authority gate. Dry-run JSON stays
+  available. Missing fields and prerequisite failures name their actual rule.
+- Metadata-batch/v4 resolves a following `critique-link` to an earlier selected
+  capture by entry ID. Missing/failed/unselected references refuse the entire save.
+  The actual capture is retained once privately; no fabricated original is added
+  for a link, and previews/share exclude the private original.
+- An exact claim-policy/anchor/rule/phrase acknowledgement records the person's
+  lexical exception reason while retaining the warning. Changed bindings make it
+  stale. Command20/work32/project28/personal+backup frame20 preserve this bounded
+  metadata without changing evidence, claim status, manuscript bytes or debt.
+  New exports use the existing bounded schema-compaction pattern; old exports
+  remain unchanged.
+
+Result review and cross-review distinguish actual defects from hypotheses:
+
+- Three actual first-party `claude-opus-5-5` reviews completed with
+  `is_error=false`, tools/hooks/plugins/MCP/session persistence disabled. The first
+  packet is75,290 bytes, SHA-256
+  `180e3c82abb7ac343bb1ef0a8f97420f75a961acaca2f2ca5dc5b951e4462144`;
+  follow-up packets are54,717 bytes/SHA-256
+  `99d46134e7d51a663677335b57422f869eb41143789b446eddb392f5d3c858e4`
+  and58,644 bytes/SHA-256
+  `3255fc56b4d191de3dfcdcf9140c43c481ce87c06ad3196604854d15fe65d90b`.
+  Concrete fixes include final batch-warning counts/details, anchor None-before
+  summary handling, last-page/Escape return, removal of a fake TUI drawing gate,
+  uncertain post-publication cleanup, descriptor closure and preserving a primary
+  refusal. Fault-injection and reader tests cover those changes.
+- Missing file-privacy validation and fabricated link-original hypotheses were
+  not reachable as claimed: existing input loading checked privacy and only
+  capture persisted an original. Explicit local guards/call clarity and a
+  one-private-blob assertion make those boundaries easier to inspect.
+- Closed-schema validation now checks ordinary constant discriminators before
+  walking large incompatible payloads. Preserve legacy `oneOf` precedence; its
+  dedicated regression prevents a semantic change for combined `oneOf`/`const`.
+  This does not lower a capacity/timing threshold or alter canonical bytes.
+- Co-report67→69 alone is not duplicate science: the selected primary/sensitivity
+  interpretations have distinct source endpoints from existing observation edges.
+  Tests verify those distinct triplets and refusal to alias an existing ID.
+  Arbitrary cross-interpretation semantic deduplication remains deliberately
+  absent because equal count/type/target does not establish equal basis/origin.
+  A private example demonstrating truly equal endpoints/basis/reasons would be
+  assessed as feedback, not silently merged now. Optional cross-process digest
+  confirmation convenience is not needed for the completed interactive path.
+
+Initial qualification evidence and stopping point (resolved by the later
+[performance correction](#im06-backup-performance-correction-and-qualification)):
+
+- `python3.13 scripts/verify.py --scope alpha` passes the original fixture,
+  generated schema/resources and209 portable contracts in18.393s. Its application
+  selection runs1597 tests in1864.015s:1596 pass, one fails, no skips. Overall
+  exit1 is **not** a clean alpha pass; its subsequent whitespace step does not run.
+- The failure is the unchanged full-paper migration benchmark at
+  `tests/application/test_migration_journey.py:155`: fresh-process **backup takes
+  63.234758s against60s**, peak RSS570,523,648 bytes (below2GiB), project1,745,685
+  bytes. Project SHA-256
+  `f254cfdc2a8c2ffeb83bd6dda3a6ed54d62736674a31d100aa77ba206ac6bce2`;
+  manifest SHA-256
+  `fdd210d2d05492672d3e138f3201aa7dc314224ee522ca1613dba0d640531120`.
+  The test stops at backup; large-fixture restore/replay and later graph/share
+  checks in that case are not reached. This is a local qualification failure,
+  separate from the historical hosted alpha.5 registration failure. Do not weaken
+  the assertion, prune the430-record/5400-cell fixture or reuse alpha.5's release
+  exception. Stop further implementation under the owner's blocking instruction.
+- The broad run began before the final small cleanup/Escape/validator-guard fixes.
+  Final affected15 tests cover preparation fault injection, exact output safety,
+  summary/detail/Escape, batch references/diagnostics, TUI confirmation,
+  acknowledgement/staleness and distinct co-report edges in3.134s, all passing.
+  Two corrected anchor-path tests separately pass in4.797s. These closure checks
+  do not turn the failed broad run into a clean pass.
+- The final166-member extracted source ZIP SHA-256
+  `9c68358b808bcd2d68af516e81606cea31ec7bfac24eeb07eee8e8982b3f8d7b`
+  runs actual terminal cancel/save-as/overwrite, summary/detail/back/import,
+  existing conditional-aware figure registration, completed protocol without a
+  carrier plan, one-batch private critique capture/link, visible acknowledged
+  warning, selected canonical sharing/verification, fresh status and byte-identical
+  backup/restore. It retains54 exact cells, a partial experiment, original aliases
+  and explicit replacement; manuscript bytes stay unchanged. Import summary31
+  lines; protocol mandatory pages0 (previously126). All135 runtime Python members
+  match final checkout bytes. This smaller connected journey is a pass, not a
+  substitute for the failed large-paper bound.
+- Explicit harness scope passes22 tests in2.181s. Generated schemas remain current;
+  old tracked schema exports are unchanged. Explicit docs/whitespace scope passes
+  86 Markdown files and tracked-diff whitespace. No native/encrypted-product
+  coverage or hosted performance pass is inferred from the selected alpha scope.
+
+**Initial IM06 stop:5/6 complete, qualification blocked.** The owner subsequently
+requests continuation; the [performance correction below](#im06-backup-performance-correction-and-qualification)
+resolves this local failure with the same thresholds and retained workload. The
+original failed run stays failed. No additional implementation unit or publication
+authority follows from the correction.
+
+Private-paper fidelity and timed researcher benefit, hosted alpha.5's77.35s/60s
+failure, protected native coverage and publication remain separate. No commit,
+push, merge, release, private-paper access or research inference occurred.
+
+### IM06 backup performance correction and qualification
+
+2026-10-16 KST, after the owner requests continuation. Resume the same remaining
+IM06 outcome; do not add a seventh unit or reuse the alpha.5 publication exception.
+The researcher action remains returning to their own argument, original reasons
+and unfinished work without losing evidence or source influence. This is a
+performance repair, with no schema, authority, scientific or manuscript behavior
+change; documentation impact is this execution evidence and the affected
+validation oracle, not a new product policy or ADR.
+
+Preparation retains the original430-record/5400-cell/30-anchor/40-partial-cause
+fixture plus one new personal judgment in a private synthetic temporary workspace.
+Reuse only these prepared bytes for profiling and qualification; every cold
+operation still starts a fresh interpreter and validates the source, scientific
+history and all causes. This avoids repeating fixture assembly, not validation.
+The candidate is1,751,079 bytes; path/identity differences from the earlier
+1,745,685-byte preparation are retained, not replaced with a smaller workload.
+
+A fresh process reproduces total63.223s: first enter/load49.733s, explicit
+load1.676s, backup3.225s and workspace reconstruction7.147s. Coarse profiling
+attributes33.834s to41 causal validations and44.290s to workspace validation.
+A warm-cause profile identifies full evidence/measurement copying for eligibility
+and full cached graph copying when only scalar query bindings are needed.
+
+The repair is limited to imported seeds14/18:
+
+- `_evidence_statuses` derives the same last-event status per identity, and
+  closure uses explicitly sorted identities/eligible statuses. It avoids full
+  measurement/history copies for cardinality and membership. The full evidence
+  reader, source replay, typed-value checks and public historical views remain.
+- Causal validation uses only five immutable scalar bindings from the existing
+  service-owned history/ref/episode query cache on a hit. A miss still uses the
+  full ordinary query; public reads remain detached. Full domain calculation,
+  preview byte bounds, provenance, topics and exact source comparison remain.
+  No new persisted cache, trust flag, authority, pruning or relaxed target exists.
+
+An intermediate partial repair measures53.994s on the same saved project; it is
+not the final extracted-runtime qualification. The final event-index change is
+subsequently covered by13 focused checks in6.424s and138 related import/measurement/
+service/co-report/protocol/shared-audit checks in97.758s, all passing.209 contract
+checks pass18.621s. Original truth packet, generated schemas and runtime resources
+remain current; old tracked generated schemas have no changes.
+
+Actual first-party `claude-opus-5-5` reviews the21,913-byte bounded public-code/
+synthetic-test packet, SHA-256
+`5cc394f755efa1014fd1978e62c060fcbba4fffc588434918e70bdf1f631ea2e`,
+`is_error=false`, tools/hooks/plugins/MCP/persistence disabled. It finds no blocking
+invariant defect. Check its conditional lost-field-access hypothesis against
+`initialize_imported_state` and closed source/command schemas: run identity and
+statement are required before events exist. Add missing-field replay refusal for
+both seeds14/18, interleaved-target/import status comparison against the old full
+evidence oracle, direct/cached query equality, changed project/ref/episode/digest
+refusal and a changed-history/same-head stale-cause test. All pass. Only query
+methods populate the private cache; scalar extraction exposes no mutable graph.
+No code change or new authority policy follows from the review's conditional
+private-cache-writer hypothesis.
+
+The final isolated qualification uses the same assertions from
+`MigrationJourneyTests.test_clean_runtime_full_paper_sources_reviews_labels_return_and_selected_share`,
+starting from its already assembled synthetic candidate. Scientific identity
+inventory, every cold operation, replay, both graph compositions, selected-share
+verification/privacy and manuscript-byte checks all pass. Fixture construction is
+not repeated or counted as cold-operation validation; no validated process state
+is transferred to an operation process.
+
+| Fresh extracted-runtime operation | Seconds | Peak RSS bytes | Bound |
+|---|---:|---:|---|
+| Register | 44.951700 | 569,245,696 | <=60s /2GiB |
+| Open | 45.346448 | 565,624,832 | <=60s /2GiB |
+| Backup | 48.179299 | 569,278,464 | <=60s /2GiB |
+| Restore | 45.976165 | 584,007,680 | <=60s /2GiB |
+| Scientific replay | 3.170839 | 193,429,504 | <=30s /2GiB |
+
+All four returned project payloads retain1,751,079 bytes/SHA-256
+`36563a2bbe1e421a5e37acd4047af740792a28688c3ddcb55848df34a6a80caf`;
+all operation manifests and cold replay match SHA-256
+`7f6295aacd10b5dc03df6b6ce9d5d7a1e09cf6bbe1977b60d6defcba3bdc73ff`.
+Backup's complete measured path falls from63.223s to48.179s without pruning the
+source, partial causes, scientific records or validation. The166-member source
+ZIP SHA-256 is
+`4e1d6ce4330a197a9c898d3e9c5f89c3ba137f6bb4a7a44d5faa7b424eaf4eb6`;
+all135 runtime Python members match final checkout bytes. Both graph entries
+meet20s and retain100 shared observations. Selected sharing verifies, excludes
+original sources/unfinished explanations and leaves manuscript bytes unchanged.
+
+Final source/terminal closure passes21 checks in76.775s, including source inventory,
+closed-schema expansion, exact preparation publication, metadata reader/diagnostics,
+same-batch critique and stale acknowledgement boundaries. The same ZIP digest also
+passes the independent public CLI/actual-PTY iteration/import/protocol/critique/
+warning/share/backup/restore journey:31-line summary,54 exact cells, no invented
+carrier plan, and zero mandatory protocol-detail pages. Original manuscript bytes
+remain unchanged. Explicit documentation/whitespace checks pass86 Markdown files.
+
+**IM06 complete;6/6 implementation outcomes complete.** The earlier failed full-alpha run stays failed;
+its1596 other passes, the corrected isolated connected case and the new affected
+checks compose the regression evidence. No new all-green whole-alpha invocation
+is claimed. Hosted alpha.5 performance, actual private-paper fidelity/researcher
+benefit and publication remain separate.
+
+
+### Planning cross-review and result
+
+Actual first-party `claude-opus-5-5` reviews the45,500-byte bounded plan/public-code
+packet, SHA-256`4d01485ea7d2fefa177de2b3d35ba7c0a97a4265371abdf0535fc3714e0d79ad`,
+`is_error=false`, tools/hooks/plugins/MCP/persistence disabled. Material changes:
+
+- Remove cross-process digest convenience and metadata summary from the first
+  feedback dependency; reuse the same reader later, without adding a seventh unit.
+- Distinguish randomized result identity, deterministic comparison scope and
+  prepared-at time; add queued/read-ahead/paste isolation and write-free-preflight
+  side-effect tests rather than relying on scrolling or an unproven flush.
+- Version the single-selector lexer as well as batch bindings, preserving old
+  re-resolution and explicit upgrade semantics.
+- Define precision preservation by Decimal tuple, structured safe diagnostics,
+  visible defaulted-unknown counts and completion rules for unanswered choices.
+
+Two hypotheses are checked locally rather than adopted as defects: v2 already
+parses JSON floats with Decimal in `SourceResolver.resolve`; do not change it
+or claim existing literal replay uses binary float. Input bounds also already
+exist:16MiB reader/envelope/snapshot cap,4MiB originals/compressed snapshot/seed.
+Expose all respective bounds in preflight; do not add the obsolete v1 input bound
+to v2. The review's proposed error-class change is scoped to affected diagnostics
+rather than made a universal framework rewrite. Adopt its distinction between
+cross-review evidence and approval: investigate findings, preserve justified
+nonblocking deferrals, and never make an Opus label scientific authority.
+
+The review is static, not implemented behavior or actual private-case validation.
+Final planning verification is the explicit docs scope. Product code, schemas,
+source originals, private project and public release remain unchanged this turn.
+
+Documentation impact is planning/design only now: this ExecPlan, indexes and the
+existing design brief. Product behavior, CLI usage, domain/schema/validation and
+any necessary ADR are updated in the same implementation that changes them.
+Planning cannot close #18–#24 or #10. No code, schema, new release, actual research
+registration or research-to-AI transmission is part of this planning turn.
+
+## Alpha.5 actual dry-run feedback assessment
+
+2026-10-16 KST. The owner supplies an anonymized actual-case dry-run report and
+explicitly requests seven GitHub issues plus a #10 update. This is issue intake
+and source-level assessment, **not authorization or completion of the proposed
+behavior changes**. I01–I05's earlier local synthetic qualification remains
+historical evidence; it did not measure the real-case reading burden. Publication
+and its known hosted-CI performance failure remain recorded above.
+
+The researcher reports20 claims/52 observations/52 experiments/67 edges/18
+historical decisions/2 plans: preparation and seed preview are valid with zero
+errors, registration available and approximately0.9MB/4MiB seed. They also report
+in-memory validity for9 wording policies, companions,6 protocols with3 after-result
+gate amendments, a co-report,8 private critiques with23 links and9 label anchors.
+These are supplied observations, not a maintainer replay of private files or a
+successful registration/full preflight. The report's198,222 full-table preview
+lines and58,915 lean lines are not independently counted here. Registration is
+still waiting on A; source fidelity/scientific truth and benefit remain unverified.
+
+### Filed issues and source assessment
+
+| Report / issue | Checked current behavior | Recommended bounded direction; unimplemented |
+|---|---|---|
+| A / [#18](https://github.com/iNtuitionP/ClaimBranch/issues/18), reported P0 | `application/project_commands.py::_register_argument` calls `_preview_argument(require_complete=True)` after candidate/archive/workspace preflight. Plain preview serializes record mappings and coverage, appends full original files and pages40 lines. Early `q` returns2 and stops registration. Final blank confirmation cancels. Thus the reported barrier follows the implemented path; private line counts remain reported. | Summary-first interactive review with distinct drill-down/back/cancel. Show selected/omitted counts, source identity, per-type/byte capacities and every unresolved item's address without forcing all originals into the default view. Keep originals fully inspectable. A previously printed digest can identify content, never prove it was read or authorize registration. Recompute exact input/selection/options/destination/source bindings and require fresh typed `import`; no held-Enter or digest-only acceptance. |
+| B / [#19](https://github.com/iNtuitionP/ClaimBranch/issues/19), reported P1 | `core/marked_text.py` rejects conditional tokens during whole-file scanning, before choosing a span. A synthetic outside-conditional figure reproduces the exact refusal. Metadata anchor schema has no selector. Lint's unsupported-TeX notice is a separate coverage diagnostic. | Bounded lexical conditional intervals with comment/code masking and nesting validation; literal false blocks may be excluded only when unambiguous. Do not evaluate arbitrary switches/macros or select an uncertain branch. Permit a provably outside span, refuse overlap/uncertainty with location. New versioned batch selectors must retain old schemas. Per-file notice deduplication must not hide unsupported syntax inside a selected span. |
+| C / [#20](https://github.com/iNtuitionP/ClaimBranch/issues/20), reported P1 | JSON pointers use exact Decimal/int types; mapping equality requires the same type as the target. Existing normalization policies are literal, Markdown-cell trim and prose NFC. Probe0.0108 remains Decimal, line extraction retains CRLF, and typed decimals reject Unicode minus, leading plus and thin-space forms. | Explicit versioned, target-aware normalization with original bytes/values retained. Use Decimal rather than binary float; preserve signs, magnitude and precision. JSON exponent expansion is normalized numeric equivalence, not literal byte equality; rounding remains transformed. Handle boolean text separately, never as an integer. Strip only the declared line terminator for line locators. Removing arbitrary spaces or selecting unsigned digits must not erase scientific meaning. |
+| D / [#21](https://github.com/iNtuitionP/ClaimBranch/issues/21), reported P1 | v2 traverses empty/null leaves; the structure allowlist is measurement/row/cell IDs and column bindings. `source_silent` still needs a file/locator and adds that file to origin resolution. Completed-experiment bodies require method/metric/source fields; IDs/date fields have closed formats and historical decisions no title. | Distinguish application-derived structure, genuinely absent/not-recorded information and a new scientific assertion. Empty scope, missing units, claim role/parent and no evidence basis cannot all be silently defaulted as harmless structure. A source-free assertion needs its own explicit origin and cannot manufacture past status. Preserve original display tokens separately from safe stable IDs, and date precision without inventing midnight. Model missing historical methods/metrics honestly; operations needing them must disclose/refuse, not invent templates. This is a versioned domain decision, not just hiding coverage rows. |
+| E / [#22](https://github.com/iNtuitionP/ClaimBranch/issues/22), reported P2 | Protocol registration requires a current-main experiment-plan. Initial imported evidence sets `supersedes_id=None`. The carrier-plan and indirect-replacement frictions therefore have a model basis. | Bind source-claimed historical protocols to completed experiments without fake unrun work, preserving original commitments and before/after-result disclosure. Design typed observation replacement/lineage with explicit endpoints, chronology and cycle checks; observation identity and evidence-event supersession are different concepts. Never overwrite old numbers or imply a past local app confirmation. |
+| F / [#23](https://github.com/iNtuitionP/ClaimBranch/issues/23), reported P2 | v2 already picks the outer record variant by `kind`, so that proposal is partly present. Nested scalar/table/value `oneOf` still loses detail. Metadata deliberately catches ContractError/OSError into one generic message. Empty artifact pointer is allowed by its schema and table validator but rejected by shared text normalization; a direct probe reproduces it. The text-anchor message conflates plots and parent errors. | Retain closed validation and emit field/discriminator/rule diagnostics through nested variants. Resolve the empty-root pointer inconsistency end to end. Carry a bounded safe underlying reason/code through batch errors without exposing raw private payloads, paths or critique originals. Separate anchor type, plots and parent messages. |
+| G / [#24](https://github.com/iNtuitionP/ClaimBranch/issues/24), reported P3 | No Markdown-section locator or explicit private-output replacement is present. Critique creation chooses random identities; co-report creates explicitly named reading/edge identities. Current dry-run stops at import preview while registration performs complete project/archive/workspace preflight. The67→69 count alone cannot establish equivalent duplicated edges; compare actual endpoints/types/origins/reasons. | Pull full prospective preflight into A's review flow first. Later add digest-bound section selectors and explicit collision-safe private-output replacement. Use reviewed in-batch references or declared IDs without weakening source/origin links. Improve lexical lint with visible coverage limits; negation or morphology cannot become automatic scientific approval. Reuse an edge only after semantic identity and provenance are established, not because labels look alike. |
+
+All seven issue titles/bodies preserve the supplied report, with reporter
+attribution and #10 linkage; their severities/proposals remain intake assessments,
+not new implemented contracts. The
+[tracker update](https://github.com/iNtuitionP/ClaimBranch/issues/10#issuecomment-6208794300)
+records the reported dry-run and actual issue numbers. Its URL is checked against
+the returned GitHub comment before finishing. Older issue checkboxes are not
+closed on the strength of a valid seed or in-memory metadata candidate.
+
+### Philosophy and next review boundary
+
+The failure is actionable feedback against the product's primary-workspace
+promise: form a judgment once, keep the smallest useful context, and return to
+existing research without a second narrative. Requiring thousands of mechanical
+page acknowledgements does not demonstrate informed review or understanding.
+ADR0023 permits one exact reviewed batch; ADR0005 keeps origin, authorization
+and understanding independent. Progressive disclosure must expose unresolved
+meaning and preserve an exact human confirmation, rather than turn a digest or
+scroll position into a comprehension certificate.
+
+Recommended order for a later authorized implementation: A plus G's full
+preflight and F's precise diagnostics; then B's bounded read-only resolution;
+then C/D together to reduce fabricated transformations without weakening scientific
+coverage; then E and the remaining G subitems. These are dependencies, not a new
+count of completed/authorized implementation units. Before implementation, settle
+versioned normalization/default/missing-history/replacement semantics and any
+change to existing create-only output policy. B changes ADR0026's accepted
+whole-file conditional refusal; if adopted, record a narrowly superseding ADR
+rather than silently rewriting that accepted decision. Do not restart native keys, AI
+provider qualification, manuscript writes or unrelated performance work to fix
+this import-review blocker.
+
+Validation in this intake: seven small read-only synthetic checks confirm JSON
+Decimal/string mismatch, CRLF retention, three signed/spaced decimal refusals,
+outside-conditional label refusal and empty artifact-pointer refusal. No product
+code/tests/schemas are changed; run the explicit docs verification scope. Private
+counts, timings, exact source coverage and full metadata effects are unverified.
 
 ## Markdown migration follow-up assessment
 
@@ -2050,6 +3137,97 @@ required from the owner. This planning task makes no commit, provider inference
 on research data, implementation or publication claim.
 
 ## Progress
+
+- [x] 2026-10-16 KST — IM06 backup performance correction and qualification complete.
+  Remove full measurement copies used only for eligibility and full graph copies
+  used only for scalar causal bindings; keep exact source/meaning/byte limits.
+  Final extracted-runtime cold register44.952s, open45.346s, backup48.179s and
+  restore45.976s meet60s; replay3.171s meets30s. All project/manifest hashes match;
+  both graph entries, private-source exclusion and selected sharing pass.13 focused,
+  138 related,209 contract and21 source/closure checks pass; actual pinned Opus
+  review completed, conditional findings checked and tests strengthened. The same
+  166-member ZIP passes the independent public CLI/PTY/restore/share journey.
+  **6/6, no remaining implementation outcomes in this six-outcome import-usability sequence.** See
+  [qualification evidence and remaining release/private-use limits](#im06-backup-performance-correction-and-qualification).
+  No commit, merge, publication, private-paper access or research inference.
+
+
+- [x] 2026-10-16 KST — Initial IM06 functionality implemented and cross-reviewed:
+  preparation overwrite/save-as/cancel, summary/details/fresh metadata consent,
+  same-batch critique links, precise diagnostics and scoped lexical acknowledgements.
+  Final15 focused checks, clean166-member source/PTY/restore/share journey,
+  22 harness checks and docs pass. Full alpha:209 contracts pass;1597 application
+  tests run, one large-backup timing failure63.235s/60s. Stop further implementation;
+  initially **5/6, IM06 qualification remaining**. That stop is later resolved by
+  [performance qualification](#im06-backup-performance-correction-and-qualification);
+  the failed run is preserved in the [initial result review](#im06-implementation-and-result-review).
+
+
+- [x] 2026-10-16 KST — IM05 completed-experiment protocols and explicit result
+  replacement complete. Six protocol registrations add no unrun plans; original
+  failures/after-result changes, both result values/statuses and independent
+  relationship origin remain.252 affected/209 contract checks pass, final15 focused
+  and9 artifact/schema/return checks pass. Actual166-member ZIP preparation,
+  summary import, label/protocol registration and exact fresh backup restore pass;
+  manuscript stays unchanged. Two pinned first-party Opus reviews completed and
+  reproduced defects fixed. **5/6, one remains: IM06.** Its direct metadata review
+  must replace the observed126-page protocol reader with existing summary/details.
+  See [result review](#im05-implementation-and-result-review). No publication or
+  research-provider request.
+
+
+- [x] 2026-10-16 KST — IM04 honest low-burden historical records complete.
+  New importv4/manifestv3/seed18/command18/work30/project26/frame18 retain partial
+  science, independent declarations, checked structural defaults, original labels,
+  day precision and decision titles.175 affected/209 contract checks pass;
+  final60 source/artifact,17 focused and2 schema/return checks pass after review
+  fixes. Actual source165-member ZIP preparation/import/label/status/restore passes.
+  Two pinned first-party Opus reviews completed; concrete defects reproduced/fixed.
+  **4/6, two remain; IM05 next.** See [result review](#im04-implementation-and-result-review).
+  No commit, push, release or private-paper access.
+
+- [x] 2026-10-16 KST — IM03 precise source comparison and Markdown sections complete.
+  Opt-in importv3/manifestv2 retain originals through mandatory work29/project25/
+  frame17.152 affected and209 contract checks pass;43 final source/return and21
+  final normalization/mismatch checks pass after review repairs. Actual clean
+  source ZIP preparation/import/label/save/restore passes. Two first-party pinned
+  Opus reviews completed; concrete Markdown boundary defects reproduced/fixed.
+  **3/6, three remain; IM04 next.** See [result review](#im03-implementation-and-result-review).
+  No commit, push or release.
+
+- [x] 2026-10-16 KST — IM02 conditional-aware labels, explicit legacy upgrade,
+  metadata-batch/v2 and scoped lint notices complete.86 affected/209 contract/
+  final28 label-export checks pass; actual PTYs/source ZIP register and restore
+  without manuscript writes. Pinned Opus findings reproduced and concrete defects
+  fixed; old schemas remain unchanged. **2/6, four remain; IM03 next.** See
+  [result review](#im02-implementation-and-result-review). No release/push.
+
+- [x] 2026-10-16 KST — IM01 summary/detail/confirmation, same-path write-free
+  preflight and nested import diagnostics complete:115 affected tests,19 final
+  focused tests,209 contract tests, generated schema/resources, truth packet,
+  source ZIP and wide/narrow queued-input PTYs pass. Pinned Opus findings reviewed
+  and concrete defects fixed. **1/6; five remain, IM02 next.** See
+  [result review](#im01-implementation-and-result-review). No release/push.
+
+- [x] 2026-10-16 KST — Owner settles import follow-up policies: observation
+  replacement adds a link only, with status change reviewed separately; preparation
+  output collisions offer overwrite/save-as/cancel per save, not mandatory backups.
+  Update IM05/IM06 and planned interaction tests; no policy answer remains pending.
+  Implementation remains0/6. See
+  [confirmed policies](#outcome-boundaries-and-choices).
+
+- [x] 2026-10-16 KST — Write the six-outcome actual-paper import-usability
+  plan for #18–#24 (implementation0/6), preserve early IM01 feedback and two
+  scoped pending owner choices. Actual pinned Opus cross-review findings narrow
+  the first slice, version old selector behavior and sharpen review/input/precision
+  invariants; unsupported hypotheses are checked against source. See
+  [implementation plan](#actual-paper-import-usability-implementation-plan).
+
+- [x] 2026-10-16 KST — File actual alpha.5 dry-run feedback A–G as #18–#24
+  and link the reporter's counts/status in #10. Source assessment and seven small
+  probes confirm concrete review/conditional/normalization/diagnostic gaps;
+  registration remains blocked by #18. No fixes or private replay are claimed.
+  See [actual dry-run assessment](#alpha5-actual-dry-run-feedback-assessment).
 
 - [x] 2026-10-16 KST — Owner explicitly approves publication with hosted CI
   performance failure disclosed. Merge #17 and publish alpha.5 at the exact
@@ -6528,6 +7706,20 @@ The executable milestone names used throughout this plan are:
 
 ## Surprises & Discoveries
 
+- 2026-10-16 KST — Initial backup's63.223s path spends49.733s in opening validation,
+  while actual backup construction takes3.225s.41 retained-cause validations copy
+  complete measurements and cached graphs even when only eligibility/scalar
+  bindings are read. Pure projections remove that waste; final independent
+  backup48.179s passes without a validation waiver. See
+  [measured correction](#im06-backup-performance-correction-and-qualification).
+
+
+- 2026-10-16 KST — The final connected alpha run passes1596/1597 application
+  checks but large-paper backup takes63.235s against the unchanged60s bound.
+  Smaller extracted-source backup/restore passing is insufficient. Preserve the
+  failure and stop IM06 qualification; see its [result review](#im06-implementation-and-result-review).
+
+
 - 2026-10-16: The combined430-record/30-anchor workload cannot yet form its first
   new reasoning branch: duplicated audit views exceed the8MiB manifest bound.
   Separate import/retention checks missed this connected limit. I05 remains red;
@@ -7579,6 +8771,23 @@ The executable milestone names used throughout this plan are:
   provider, a real paper, or a compiler.
 
 ## Decision Log
+
+- 2026-10-16 KST — On owner-authorized continuation, repair the measured IM06
+  backup bottleneck inside the existing eligibility/causal readers. No new schema,
+  source reduction, authority boundary or relaxed time target. Reuse prepared
+  synthetic bytes but fully revalidate in fresh operation processes. Compose the
+  earlier1596 other application passes with corrected isolated qualification and new
+  affected checks; do not relabel the failed broad run or claim a new whole-alpha
+  pass. Actual-paper fidelity, hosted performance and publication remain separate.
+
+
+- 2026-10-16 KST — Retain IM06 within the same six outcomes. ADR0032 records
+  chosen preparation-file iteration and proportional metadata review; literal
+  acknowledgements cannot certify science, and distinct interpretation edges
+  cannot be silently deduplicated. The later63.235s/60s backup failure blocks
+  qualification; preserve thresholds and the owner's stop-on-block instruction.
+  Alpha.5's one-off known-failure publication authorization is not reused.
+
 
 - 2026-10-16 KST — I04 adds source2/command15/work26/project22/frame14 under
   ADR0026, preserving old marker/protected contracts. Stop I05 on the measured

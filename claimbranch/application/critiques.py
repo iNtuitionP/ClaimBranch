@@ -42,7 +42,7 @@ def read_original(project,critique_id):
 def prepare_critique(project,request,*,original_input=None,contribution_origin=None):
     from .paper_service import PaperService
     h=project.work.history
-    if h.schema_version not in (4, 5, 14):raise ContractError('Critiques require a personal paper profile')
+    if h.schema_version not in (4, 5, 14, 18):raise ContractError('Critiques require a personal paper profile')
     request=normalize(request,INPUT,profile='paper');view=h.view('main')
     if view['episode_id'] is None:raise ContractError('Open a question before recording a critique')
     source=None;kind=request['operation_type'];payload=request['payload']
@@ -93,11 +93,8 @@ def run_critique_command(args):
             raw=_read_argument_input(args.input);candidate,result=prepare_critique(project,decode(raw,purpose='project'),original_input=raw,contribution_origin=args.origin)
             if not args.dry_run:
                 if not sys.stdin.isatty() or not sys.stdout.isatty():raise ContractError('Critique recording requires an interactive terminal; use --dry-run')
-                lines=clean(json.dumps({k:v for k,v in result.items() if k!='project_digest'},ensure_ascii=False,indent=2)).splitlines()
-                for start in range(0,len(lines),60):
-                    print('\n'.join(lines[start:start+60]),flush=True)
-                    if start+60<len(lines) and input('Enter: next page / q: cancel: ').strip().lower()=='q':return 0
-                if input('Type record to keep this private critique operation, or Enter to cancel: ').strip()!='record':return 0
+                from .import_review import confirm_operation
+                if not confirm_operation(result,'record'):return 0
                 if _read_argument_input(args.input)!=raw:raise ContractError('Critique input changed; preview again')
                 recheck_critique(store.load(),result);store.verify_unchanged();recheck_critique(project,result);store.save(candidate)
                 print('Private critique operation saved. Associations are not empirical evidence or resolution.');return 0
