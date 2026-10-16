@@ -75,22 +75,65 @@ def encode(value, *, purpose):
     return _encoding(value,purpose=purpose)[1]
 
 
-def encoding_value(value, *, purpose):
-    """Owned, canonically ordered projection input under all encoding checks.
+def encoding_value(value, *, purpose, _checked=None, _memo=None):
+    """Detached canonical tree, with exact bounds, in one traversal.
 
-    Shared subvalues belong only to this detached validation tree. Its caller
-    treats nested values as read-only and serializes any externally returned data.
+    Optional sizing facts belong only to the synchronous private projection
+    using this tree. Keep its containers read-only until that projection ends;
+    no caller-owned mutable input may inherit their validation. A private memo
+    may be retained only for an immutable exact-history basis; its entries hold
+    the original container alive and are never returned through public readers.
     """
-    normalized,_=_encoding(value,purpose=purpose);seen=set()
-    def order(item):
-        if type(item) not in (dict,list) or id(item) in seen:return
-        seen.add(id(item))
+    from .canonical import integer
+    memo={} if _memo is None else _memo;strings={}
+    def walk(item,depth):
+        if depth>16:raise ContractError('JSON nesting limit exceeded')
+        if item is None:return None,4,0,True
+        if type(item) is bool:return item,4 if item else 5,0,True
+        if type(item) is int:
+            integer(item,-(2**53-1));return item,len(str(item)),0,True
+        if isinstance(item,str):
+            if type(item) is str and item in strings:return strings[item]
+            if len(item.encode('utf-8'))>16384:raise ContractError('JSON string limit exceeded')
+            text=unicodedata.normalize('NFC',item)
+            length=len(json.dumps(text,ensure_ascii=False).encode('utf-8'))
+            safe=len(text.encode('utf-8'))<=16384
+            result=(text,length,0,safe)
+            if type(item) is str and len(item)<=256 and len(strings)<2048:strings[item]=result
+            return result
+        if type(item) not in (dict,list,tuple):raise ContractError('unsupported JSON value')
+        key=id(item)
+        if key in memo:
+            original,result,length,height,safe=memo[key]
+            if original is item:
+                if depth+height>16:raise ContractError('JSON nesting limit exceeded')
+                return result,length,height,safe
+        if len(item)>2048:raise ContractError('JSON collection limit exceeded')
+        length=2+max(0,len(item)-1);height=0;safe=True
         if type(item) is dict:
-            pairs=sorted(item.items());item.clear();item.update(pairs)
-            children=item.values()
-        else:children=item
-        for child in children:order(child)
-    order(normalized)
+            result={}
+            for name,child in item.items():
+                if not isinstance(name,str):raise ContractError('object keys must be text')
+                name,name_size,_,name_safe=walk(name,depth+1)
+                if name in result:raise ContractError('normalized object keys collide')
+                child,child_size,child_height,child_safe=walk(child,depth+1)
+                result[name]=child;length+=name_size+1+child_size
+                height=max(height,1+child_height);safe=safe and name_safe and child_safe
+            result=dict(sorted(result.items()))
+        else:
+            result=[]
+            for child in item:
+                child,child_size,child_height,child_safe=walk(child,depth+1)
+                result.append(child);length+=child_size;height=max(height,1+child_height);safe=safe and child_safe
+        memo[key]=(item,result,length,height,safe)
+        # NFC can expand a string past the next encoder's input limit.
+        # Such normalized subtrees must be checked again, never bypassed.
+        if _checked is not None and safe:_checked[id(result)]=(result,length,height)
+        return result,length,height,safe
+    try:normalized,length,_,_=walk(value,0)
+    except UnicodeError as error:raise ContractError('invalid Unicode') from error
+    maximum={'history':HISTORY_BYTES,'manifest':MANIFEST_BYTES,'project':PROJECT_BYTES}[purpose]
+    if length>maximum:raise ContractError('capacity %s-bytes: %s / %s'%(purpose,length,maximum))
     return normalized
 
 
@@ -125,7 +168,7 @@ def decode(raw, *, purpose):
         raise ContractError('invalid personal-paper JSON') from error
 
 
-def encoded_size(value, *, purpose):
+def encoded_size(value, *, purpose, _checked=None):
     """Exact canonical size/bounds without allocating repeated JSON payloads.
 
     The memo belongs to this synchronous traversal only. It retains no trust or
@@ -147,6 +190,11 @@ def encoded_size(value, *, purpose):
             if type(item) is str and len(item)<=256 and len(strings)<2048:strings[item]=total
             return total
         if type(item) not in (dict,list,tuple):raise ContractError('unsupported JSON value')
+        if _checked is not None:
+            known=_checked.get(id(item))
+            if known is not None and known[0] is item:
+                if depth+known[2]>16:raise ContractError('JSON nesting limit exceeded')
+                return known[1]
         key=(id(item),depth)
         if key in memo:return memo[key]
         if len(item)>2048:raise ContractError('JSON collection limit exceeded')
@@ -194,6 +242,7 @@ def source_bytes(record):
 
 
 SHARED_AUDIT = 'claimbranch.shared-audit-manifest/v1'
+HISTORICAL_SHARED_AUDIT = 'claimbranch.shared-audit-manifest/v2'
 _AUDIT_KEYS = {'schema_version','authority','seed','commands','evidence_events','views',
                'selected_merges','active_episode_id','episodes'}
 
@@ -204,7 +253,7 @@ def pack_shared_audit(value):
     Expanded logical JSON is independently bounded at 16 MiB. Only view fields
     are shared; seed/commands remain readable and replayable without a decoder.
     """
-    if type(value) is not dict or set(value)!=_AUDIT_KEYS or value['schema_version']!=14:
+    if type(value) is not dict or set(value)!=_AUDIT_KEYS or value['schema_version'] not in (14,18):
         raise ContractError('shared audit requires the complete imported logical manifest')
     expanded=encode(value,purpose='project')
     result={key:val for key,val in value.items() if key!='views'};pool={};views={}
@@ -219,7 +268,7 @@ def pack_shared_audit(value):
                 pool[key]=item;fields[field]={'ref':key}
             else:fields[field]={'inline':item}
         views[ref]=fields
-    result.update(schema=SHARED_AUDIT,views=views,shared_values=pool,
+    result.update(schema=HISTORICAL_SHARED_AUDIT if value['schema_version']==18 else SHARED_AUDIT,views=views,shared_values=pool,
         expanded_bytes=len(expanded),expanded_sha256=hashlib.sha256(expanded).hexdigest())
     return encode(result,purpose='manifest')
 
@@ -229,7 +278,7 @@ def expand_shared_audit(raw):
     value=decode(raw,purpose='manifest')
     extras={'schema','shared_values','expanded_bytes','expanded_sha256'}
     if (type(value) is not dict or set(value)!=_AUDIT_KEYS|extras
-            or value['schema']!=SHARED_AUDIT or value['schema_version']!=14
+            or value['schema']!=({14:SHARED_AUDIT,18:HISTORICAL_SHARED_AUDIT}.get(value['schema_version'])) or value['schema_version'] not in (14,18)
             or type(value['expanded_bytes']) is not int or not 0<=value['expanded_bytes']<=PROJECT_BYTES
             or type(value['views']) is not dict or type(value['shared_values']) is not dict):
         raise ContractError('invalid shared audit envelope')
@@ -281,17 +330,18 @@ def verify_shared_audit(raw):
     return value
 
 
-def shared_audit_schema():
+def shared_audit_schema(version=1):
+    if version not in (1,2):raise ContractError("Unknown shared audit schema")
     """Generated wire shape; runtime additionally verifies references and replay."""
     from .research_schema import HASH
     wrapper={'oneOf':[dict(type='object',properties={'ref':HASH},required=['ref'],additionalProperties=False),
         dict(type='object',properties={'inline':{}},required=['inline'],additionalProperties=False)]}
     properties={key:{} for key in _AUDIT_KEYS}
-    properties.update(schema={'const':SHARED_AUDIT},schema_version={'const':14},
+    properties.update(schema={'const':SHARED_AUDIT if version==1 else HISTORICAL_SHARED_AUDIT},schema_version={'const':14 if version==1 else 18},
         expanded_bytes={'type':'integer','minimum':0,'maximum':PROJECT_BYTES},expanded_sha256=HASH,
         views={'type':'object','maxProperties':2048,'additionalProperties':{'type':'object','maxProperties':2048,'additionalProperties':wrapper}},
         shared_values={'type':'object','maxProperties':2048,'propertyNames':HASH,'additionalProperties':{}})
     return {'$schema':'https://json-schema.org/draft/2020-12/schema',
-        '$id':'urn:claimbranch:shared-audit-manifest:v1',
+        '$id':f'urn:claimbranch:shared-audit-manifest:v{version}',
         '$comment':'Generated by scripts/export_research_schema.py. Runtime checks canonical bytes, 8 MiB wire/16 MiB expanded bounds, field/value references and fresh source-checked replay. Private audit, no authority.',
         'type':'object','properties':properties,'required':sorted(properties),'additionalProperties':False}

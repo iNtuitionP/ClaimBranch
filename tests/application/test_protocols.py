@@ -149,7 +149,7 @@ class ProtocolTests(unittest.TestCase):
         self.assertIn('falsifier',output.getvalue());self.assertEqual(before,(self.work/'personal.cbp').read_bytes())
         with patch('sys.stdin.isatty',return_value=True),patch('sys.stdout.isatty',return_value=True),patch('builtins.input',return_value='q'),patch('builtins.print'):self.assertEqual(0,main(args))
         self.assertEqual(before,(self.work/'personal.cbp').read_bytes())
-        def answer(prompt):return 'record' if prompt.startswith('Type record') else ''
+        def answer(prompt):return 'record' if prompt.startswith('Type record') else 'continue'
         with patch('sys.stdin.isatty',return_value=True),patch('sys.stdout.isatty',return_value=True),patch('builtins.input',side_effect=answer),patch('builtins.print'):self.assertEqual(0,main(args))
         with patch('sys.stdout',new_callable=io.StringIO) as output:self.assertEqual(0,main(['project','protocols','--directory',str(self.work),'--node','P']))
         self.assertIn('prediction',output.getvalue())
@@ -232,7 +232,7 @@ class ProtocolTests(unittest.TestCase):
         def answer(prompt):
             if prompt.startswith('Type record'):
                 request['payload']['prediction']='Different prediction';path.write_bytes(encode(request,purpose='project'));return 'record'
-            return ''
+            return 'continue'
         with patch('sys.stdin.isatty',return_value=True),patch('sys.stdout.isatty',return_value=True),patch('builtins.input',side_effect=answer),patch('builtins.print'),patch('sys.stderr',new_callable=io.StringIO):self.assertEqual(1,main(['project','protocol','--directory',str(self.work),'--input',str(path)]))
         self.assertEqual(before,(self.work/'personal.cbp').read_bytes())
         (self.paper/'paper.tex').write_bytes(self.manuscript+b'% changed')
@@ -253,7 +253,8 @@ class ProtocolTests(unittest.TestCase):
                         except OSError:break
                         output+=chunk;pending+=chunk
                         if record:
-                            if b'Enter: next page' in pending:os.write(master,b'\n');pending=b''
+                            if b'Review: details / continue' in pending:os.write(master,b'continue\n');pending=b''
+                            elif b'Enter: next page' in pending:os.write(master,b'\n');pending=b''
                             elif b'Type record to save' in pending:os.write(master,b'record\n');pending=b''
                         elif b'ClaimBranch' in output and not quit_sent:os.write(master,b'q');quit_sent=True
                 self.assertEqual(0,process.wait(timeout=5),output[-3000:].decode(errors='replace'))
@@ -394,3 +395,87 @@ class ProtocolTests(unittest.TestCase):
         older=project.work.history.view('main',episode_id='local');context=protocol_context(older)['O'][0]
         self.assertEqual('not-in-this-reasoning-view',context['plan_visibility']);self.assertFalse(context['plan_changed_since_registration']);self.assertIsNone(context['view_plan_matches_registration']);self.assertTrue(context['global_registry'])
         current=protocol_context(project.work.history.view('main'))['O'][0];self.assertEqual('available',current['plan_visibility']);self.assertFalse(current['plan_changed_since_registration'])
+
+
+class CompletedProtocolTests(unittest.TestCase):
+    setUp=ProtocolTests.setUp
+    request=ProtocolTests.request
+    basis=ProtocolTests.basis
+    gate=ProtocolTests.gate
+    amendment=ProtocolTests.amendment
+    def completed(self,project=None,**changes):
+        from claimbranch.core.protocols import experiment_digest
+        project=project or co.CoReportTests.manual_base(self)
+        experiment=project.work.history.view('main')['experiments'][0]
+        payload=dict(id='completed-protocol',experiment_id=experiment['id'],expected_experiment_digest=experiment_digest(experiment),association_id='association',supersedes_id=None,
+            prediction='A exceeds B.',falsifier='A does not exceed B.',prewritten_wording=dict(pass_wording='Direction retained.',fail_wording='Prediction failed.'),
+            committed_ref=dict(reference='git:original-commit',claimed_at='2026-10-01'),inspected_before_registration='unseen',origin='mixed',source_context='Historical protocol; commit not verified.',
+            gates=[dict(id='identity',name='Identity',tolerance='exact',reference='original')],rationale='Retain the original protocol without inventing planned work.')
+        payload.update(changes)
+        return prepare_protocol(project,dict(schema='claimbranch.protocol-input/v2',operation_type='register-experiment-protocol',payload=payload))
+
+    def test_completed_protocol_has_no_carrier_plan_and_preserves_evidence(self):
+        base=co.CoReportTests.manual_base(self);project,_=self.completed(base);view=project.work.history.view('main')
+        self.assertEqual([],view['experiment_plans']);self.assertEqual(base.work.history.view('main')['evidence'],view['evidence'])
+        self.assertEqual('X',view['protocols']['completed-protocol']['experiment_id'])
+        self.assertIsNone(view['experiment_associations']['association']['metric_differs_from_registered_plan'])
+        self.assertTrue(view['experiment_associations']['association']['preinspection_disclosure_conflict'])
+        self.assertIn('X',protocol_context(view));self.assertFalse(view['protocols']['completed-protocol']['chronology_verified'])
+
+    def test_completed_gate_failure_and_after_result_amendment_remain_inspectable(self):
+        project,_=self.completed();failed,_=self.gate(project)
+        changed,_=self.amendment(failed,protocol_id='completed-protocol');context=protocol_context(changed.work.history.view('main'))['O'][0]
+        self.assertEqual('failed',context['gate_results'][0]['status']);self.assertTrue(context['amendments'][0]['app_result_precedes_amendment'])
+        self.assertEqual('after',context['current_rules']['identity']['decided_after_result'])
+
+    def test_six_completed_protocols_in_one_batch_add_no_unrun_work(self):
+        from claimbranch.application.metadata_batch import prepare_batch
+        from claimbranch.core.protocols import experiment_digest
+        from unittest.mock import patch
+        project=co.CoReportTests.manual_base(self);h=project.work.history;run=h.view('main')['experiments'][0]
+        for index in range(1,6):
+            payload={key:deepcopy(value) for key,value in run.items() if key in ('id','question','method','conditions','metric','source_ref')};payload['id']='X'+str(index)
+            h=h.append(dict(schema_version=4,id='record-run-'+str(index),project_id=project.project_id,episode_id='local',created_at=decode(h.commands[-1],purpose='history')['created_at'],operation_type='record-experiment',expected_heads=dict(h.heads),evidence_watermark=h.watermark,payload=payload))
+        project=project.with_work(PaperWork.create(h));captured=[]
+        with patch('application.test_protocols.prepare_protocol',side_effect=lambda p,r:(captured.append(r) or p,{})):self.completed(project)
+        entries=[]
+        for index,run in enumerate(h.view('main')['experiments']):
+            request=deepcopy(captured[0]);request['payload'].update(id='protocol-'+str(index),association_id='association-'+str(index),experiment_id=run['id'],expected_experiment_digest=experiment_digest(run))
+            request['payload']['gates'][0]['id']='gate-'+str(index)
+            entries.append(dict(id='entry-'+str(index),kind='protocol',origin='human',request=request))
+        candidate,review=prepare_batch(project,encode(dict(schema='claimbranch.metadata-batch/v3',entries=entries,selected_ids=[e['id'] for e in entries]),purpose='project'))
+        self.assertTrue(review['valid'],review.get('errors'));view=candidate.work.history.view('main')
+        self.assertEqual(6,len(view['protocols']));self.assertEqual(6,len(view['experiment_associations']));self.assertEqual([],view['experiment_plans'])
+        self.assertEqual(project.work.history.view('main')['evidence'],view['evidence'])
+
+    def test_completed_target_hash_and_old_request_version_refuse_without_append(self):
+        base=co.CoReportTests.manual_base(self);original=base.payload
+        with self.assertRaises(ContractError):self.completed(base,expected_experiment_digest='0'*64)
+        captured=[]
+        with patch('application.test_protocols.prepare_protocol',side_effect=lambda p,r:(captured.append(r) or p,{})):self.completed(base)
+        request=captured[0];request['schema']='claimbranch.protocol-input/v1'
+        with self.assertRaises(ContractError):prepare_protocol(base,request)
+        self.assertEqual(original,base.payload)
+
+
+    def test_completed_protocol_and_association_origins_survive_share_workspace_backup(self):
+        from claimbranch.application.canonical_share import prepare_share,verify_share
+        from claimbranch.application.tui_work_recovery import snapshot_value
+        from claimbranch.application.personal_project import _PersonalCodec,HISTORY_PERSONAL_MAGIC
+        for declared,new_input in [('ai','human'),('human','ai')]:
+            base=co.CoReportTests.manual_base(self);captured=[]
+            with patch('application.test_protocols.prepare_protocol',side_effect=lambda p,r:(captured.append(r) or p,{})):self.completed(base,origin=declared)
+            project,_=prepare_protocol(base,captured[0],contribution_origin=new_input)
+            app=project_workspace(project);project=project.with_work(PaperWork.create(app.paper.history,workspace=snapshot_value(app)))
+            frame=_PersonalCodec().seal(project.payload);self.assertTrue(frame.startswith(HISTORY_PERSONAL_MAGIC));self.assertEqual(project.payload,_PersonalCodec().open(frame))
+            returned=split_personal_backup(personal_backup(project));self.assertEqual(project.payload,returned.payload)
+            raw=prepare_share(returned,dict(schema='claimbranch.share-selection/v1',record_ids=['X'],reason_ids=[]));self.assertTrue(verify_share(returned,raw))
+            shared=decode(raw,purpose='project');self.assertEqual('claimbranch.canonical-share/v4',shared['schema'])
+            for kind in ('protocol','protocol-experiment','registered-gate'):
+                record=next(r for r in shared['records'] if r['kind']==kind)
+                self.assertIn('ai',record['content']['origins']);self.assertIn('human',record['content']['origins'])
+            view=returned.work.history.view('main');protocol=view['protocols']['completed-protocol']
+            self.assertEqual(declared,protocol['origin']);self.assertEqual(new_input,protocol['new_input_origin'])
+            operation=view['metadata_origins'][protocol['operation_id']]
+            self.assertEqual('human-personal-confirmation',operation['confirming_actor']);self.assertFalse(operation['confirming_actor_verified'])
+            self.assertNotIn('git:original-commit',raw.decode());self.assertNotIn('Historical protocol; commit not verified.',raw.decode())

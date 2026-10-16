@@ -22,7 +22,7 @@ def literal_present(text,phrase):
 
 
 def lint(history):
-    view=history.view('main');warnings=[];freshness=source_statuses(history)
+    view=history.view('main');warnings=[];notices={};freshness=source_statuses(history)
     anchors=view.get('manuscript_anchors',{});policies=view.get('wording_policies',{})
     dependencies=view.get('companion_dependencies',{});contexts=view.get('anchor_contexts',{})
     def warn(code,anchor,claim=None,**detail): warnings.append(dict(code=code,anchor_id=anchor,claim_id=claim,**detail))
@@ -32,7 +32,16 @@ def lint(history):
         block=b''.join(base64.b64decode(part) for part in anchor['block']).decode('utf-8')
         # Comments are outside lexical checks; escaped percent remains literal.
         text=visible_text(block)
-        if '\\' in text: warn('unsupported-tex-semantics',key)
+        if anchor['source'].get('selector',{}).get('schema')=='claimbranch.tex-selector/v2':
+            source=anchor['source'];file_key=(source['root'],source['manuscript'],source['source_digest'])
+            notice=notices.setdefault(file_key,dict(code='literal-tex-file-coverage',source_digest=source['source_digest'],anchor_ids=[],
+                message='Literal source inspection only; macros, includes and rendered semantics are not certified.'))
+            notice['anchor_ids'].append(key)
+            # Known wrappers do not become an unsupported warning on each table.
+            # Any remaining command stays a local warning, never hidden by dedup.
+            inspected=re.sub(r'\\(?:begin|end)\s*\{(?:figure\*?|table\*?|tabular\*?|abstract)\}|\\label\s*\{[^{}]+\}|\\(?:part|chapter|section|subsection|subsubsection|paragraph|subparagraph|caption)(?![A-Za-z@])\*?|\\[%&_#$\{\}]|\\\\','',text)
+            if '\\' in inspected:warn('unsupported-tex-semantics',key)
+        elif '\\' in text: warn('unsupported-tex-semantics',key)
         context=contexts.get(key,{})
         if context and context.get('anchor_commitment')!=anchor_commitment(anchor):
             warn('anchor-context-stale',key);context={}
@@ -59,14 +68,27 @@ def lint(history):
                     for paragraph in uses:
                         if companion not in paragraph['expresses']+paragraph['plots']:
                             warn('missing-paragraph-companion',key,claim,dependency_id=did,index=paragraph['index'],companion_id=companion)
-    return dict(warnings=warnings,freshness=freshness,registered_anchor_count=len(anchors),policy_count=len(policies),paragraph_completeness_verified=False,write_available=False,scientific_validity_verified=False,
-        coverage='Registered current blocks and explicit declarations only. Case-insensitive literal word boundaries; no semantic, macro, include, graphics or complete-paragraph certification. No debt or status changes.')
+    acknowledgements=[]
+    from claimbranch.core.wording_policy import policy_digest
+    for acknowledgement in view.get('wording_acknowledgements',{}).values():
+        anchor=anchors.get(acknowledgement['anchor_id']);policy=policies.get(acknowledgement['claim_id'])
+        current=bool(anchor and policy and anchor_commitment(anchor)==acknowledgement['expected_anchor_digest'] and policy_digest(policy)==acknowledgement['expected_policy_digest'])
+        acknowledgements.append({**acknowledgement,'current':current})
+        if current:
+            for warning in warnings:
+                if all(warning.get(key)==acknowledgement[field] for key,field in (('anchor_id','anchor_id'),('claim_id','claim_id'),('code','rule'),('phrase','phrase'))):warning.setdefault('acknowledgement_ids',[]).append(acknowledgement['id'])
+    bindings=[dict(anchor_id=anchor_id,anchor_digest=anchor_commitment(anchor),claim_id=claim_id,policy_digest=policy_digest(policies[claim_id])) for anchor_id,anchor in anchors.items() for claim_id in anchor['expresses'] if claim_id in policies]
+    return dict(acknowledgements=acknowledgements,review_bindings=bindings,warnings=warnings,notices=list(notices.values()),freshness=freshness,registered_anchor_count=len(anchors),policy_count=len(policies),paragraph_completeness_verified=False,write_available=False,scientific_validity_verified=False,
+        coverage='Registered current blocks and explicit declarations only. Case-insensitive literal word boundaries; negation, hyphen compounds and inflections are not interpreted. Acknowledgements keep warnings visible. No semantic, macro, include, graphics or complete-paragraph certification. No debt or status changes.')
 
 
 def prepare_revision(project,kind,payload,*,contribution_origin=None):
     history=project.work.history
-    if history.schema_version not in (4, 5, 14):raise ContractError('Wording restrictions require a paper profile.')
-    command=dict(schema_version=7,id='wording-'+secrets.token_hex(12),project_id=project.project_id,
+    if history.schema_version not in (4, 5, 14, 18):raise ContractError('Wording restrictions require a paper profile.')
+    if kind=='acknowledge-wording-warning':
+        matches=[w for w in lint(history)['warnings'] if all(w.get(k)==payload[field] for k,field in (('anchor_id','anchor_id'),('claim_id','claim_id'),('code','rule'),('phrase','phrase')))]
+        if not matches:raise ContractError('No current literal warning matches this acknowledgement')
+    command=dict(schema_version=20 if kind=='acknowledge-wording-warning' else 7,id='wording-'+secrets.token_hex(12),project_id=project.project_id,
         episode_id=history.view('main')['episode_id'],created_at=datetime.now(timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ'),
         operation_type=kind,expected_heads=dict(history.heads),evidence_watermark=history.watermark,payload=payload)
     from .metadata_batch import origin_command
@@ -119,10 +141,8 @@ def run_wording_command(args):
         lines=clean(json.dumps(preview,ensure_ascii=False,indent=2)).splitlines()
         if args.dry_run:print('\n'.join(lines));return 0
         if not sys.stdin.isatty() or not sys.stdout.isatty():raise ContractError('Wording changes require an interactive terminal; use --dry-run.')
-        for start in range(0,len(lines),60):
-            print('\n'.join(lines[start:start+60]),flush=True)
-            if start+60<len(lines) and input('Enter: next page / q: cancel: ').strip().lower()=='q':return 0
-        if input('Type record to save this reporting restriction, or Enter to cancel: ').strip()!='record':return 0
+        from .import_review import confirm_operation
+        if not confirm_operation(preview,'record'):return 0
         recheck_revision(store.load(),preview);store.verify_unchanged();recheck_revision(project,preview);store.save(result)
         print('Reporting restriction saved; manuscript, evidence status and understanding work unchanged.')
     return 0

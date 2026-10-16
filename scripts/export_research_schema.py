@@ -30,10 +30,69 @@ from claimbranch.application.project_initialization import initialization_schema
 from claimbranch.core.argument_import import import_schema, imported_reference_schema
 from claimbranch.application.co_report import INPUT as CO_REPORT_INPUT
 from claimbranch.core.typed_observations import INPUT as MEASUREMENT_INPUT
-from claimbranch.core.protocols import INPUT as PROTOCOL_INPUT
+from claimbranch.core.protocols import INPUT as PROTOCOL_INPUT,input_schema as protocol_input_schema
 from claimbranch.core.critiques import INPUT as CRITIQUE_INPUT
 from claimbranch.application.canonical_share import share_schema
 from claimbranch.application.metadata_batch import batch_schema
+
+
+def compact_schema(value, *, inline_single_use=False):
+    """Self-contained $defs for new exports; runtime/legacy schemas stay inline.
+
+    Absolute root references retain meaning even inside nested schema $id scopes.
+    This changes presentation only, avoiding tens of MiB of repeated contracts.
+    """
+    import hashlib
+    root_id=value['$id'];definitions={}
+    def visit(node):
+        if isinstance(node,list):return [visit(child) for child in node]
+        if not isinstance(node,dict):return node
+        result={}
+        for key,child in node.items():
+            if key in ('properties','patternProperties','$defs','definitions','dependentSchemas'):
+                result[key]={name:visit(schema) for name,schema in child.items()}
+            elif key in ('oneOf','anyOf','allOf','prefixItems'):
+                result[key]=[visit(schema) for schema in child]
+            elif key in ('items','additionalProperties','unevaluatedProperties','not','if','then','else','contains','propertyNames'):
+                result[key]=visit(child)
+            else:result[key]=child
+        encoded=json.dumps(result,sort_keys=True,separators=(',',':')).encode()
+        if len(encoded)<256:return result
+        key='s'+hashlib.sha256(encoded).hexdigest()
+        if key in definitions and definitions[key]!=result:raise ValueError('Schema definition hash collision')
+        definitions[key]=result
+        return {'$ref':root_id+'#/$defs/'+key}
+    metadata={key:value[key] for key in ('$schema','$id','$comment') if key in value}
+    body=visit({key:child for key,child in value.items() if key not in metadata})
+    result={**metadata,**body,'$defs':definitions}
+    if not inline_single_use:return result
+    # New exports can inline one-use definitions; older wire files stay fixed.
+    # Traverse schema positions only: literal const/enum user data is untouched.
+    from collections import Counter
+    counts=Counter();prefix=root_id+'#/$defs/'
+    def walk(node, transform):
+        if not isinstance(node,dict):return node
+        output={}
+        for key,child in node.items():
+            if key in ('properties','patternProperties','$defs','definitions','dependentSchemas'):
+                output[key]={name:walk(schema,transform) for name,schema in child.items()}
+            elif key in ('oneOf','anyOf','allOf','prefixItems'):
+                output[key]=[walk(schema,transform) for schema in child]
+            elif key in ('items','additionalProperties','unevaluatedProperties','not','if','then','else','contains','propertyNames'):
+                output[key]=walk(child,transform)
+            else:output[key]=child
+        return transform(output)
+    def count(node):
+        if node.get('$ref','').startswith(prefix):counts[node['$ref'][len(prefix):]]+=1
+        return node
+    walk(result,count)
+    def inline(node):
+        reference=node.get('$ref','')
+        if reference.startswith(prefix) and counts[reference[len(prefix):]]==1:
+            return {**walk(definitions[reference[len(prefix):]],inline),**{key:child for key,child in node.items() if key!='$ref'}}
+        return node
+    return {**walk({key:child for key,child in result.items() if key!='$defs'},inline),
+        '$defs':{key:walk(schema,inline) for key,schema in definitions.items() if counts[key]>1}}
 
 
 def main():
@@ -42,7 +101,7 @@ def main():
     args = parser.parse_args()
     root = Path(__file__).resolve().parents[1] / "schemas"
     from claimbranch.core.argument_import_v2 import import_schema as ledger_schema, manifest_schema
-    schemas = {"shared-audit-manifest-v1.json":shared_audit_schema(),"research-command-v16.json":command_schema(16), "paper-work-v27.json":work_schema(27), "project-work-v23.json":project_work_schema(23),"research-command-v15.json":command_schema(15), "paper-work-v26.json":work_schema(26), "project-work-v22.json":project_work_schema(22),"paper-work-v25.json":work_schema(25), "project-work-v21.json":project_work_schema(21),"imported-source-reference-v2.json": {"$schema":"https://json-schema.org/draft/2020-12/schema", **imported_reference_schema(2)},"paper-seed-v14.json": {"$schema":"https://json-schema.org/draft/2020-12/schema", **seed_schema(14)}, "research-command-v14.json":command_schema(14), "paper-work-v24.json":work_schema(24), "project-work-v20.json":project_work_schema(20),"argument-import-v2.json":ledger_schema(),"argument-source-manifest-v1.json":manifest_schema(),"metadata-batch-v1.json": batch_schema(),"canonical-share-v1.json": share_schema(),"canonical-share-v2.json": share_schema(2),"critique-input-v1.json": {"$schema":"https://json-schema.org/draft/2020-12/schema", "$id":"urn:claimbranch:critique-input:v1", **CRITIQUE_INPUT},"protocol-input-v1.json": {"$schema":"https://json-schema.org/draft/2020-12/schema", "$id":"urn:claimbranch:protocol-input:v1", **PROTOCOL_INPUT},"measurement-input-v1.json": {"$schema":"https://json-schema.org/draft/2020-12/schema", "$id":"urn:claimbranch:measurement-input:v1", **MEASUREMENT_INPUT}, "co-report-input-v1.json": {"$schema":"https://json-schema.org/draft/2020-12/schema", "$id":"urn:claimbranch:co-report-input:v1", **CO_REPORT_INPUT}, "argument-import-v1.json": import_schema(), "research-command-v1.json": command_schema(), "research-command-v2.json": command_schema(2),
+    schemas = {"research-command-v20.json":command_schema(20),"paper-work-v32.json":work_schema(32),"project-work-v28.json":project_work_schema(28),"metadata-batch-v4.json":batch_schema(4),"argument-import-v5.json":ledger_schema(5),"argument-source-manifest-v4.json":manifest_schema(4),"research-command-v19.json":command_schema(19),"protocol-input-v2.json":{"$schema":"https://json-schema.org/draft/2020-12/schema","$id":"urn:claimbranch:protocol-input:v2",**protocol_input_schema(2)},"metadata-batch-v3.json":batch_schema(3),"paper-work-v31.json":work_schema(31),"project-work-v27.json":project_work_schema(27),"canonical-share-v4.json":share_schema(4),"argument-import-v4.json":ledger_schema(4),"argument-source-manifest-v3.json":manifest_schema(3),"paper-seed-v18.json":{"$schema":"https://json-schema.org/draft/2020-12/schema",**seed_schema(18)},"research-command-v18.json":command_schema(18),"paper-work-v30.json":work_schema(30),"project-work-v26.json":project_work_schema(26),"shared-audit-manifest-v2.json":shared_audit_schema(2),"canonical-share-v3.json":share_schema(3),"argument-import-v3.json":ledger_schema(3),"argument-source-manifest-v2.json":manifest_schema(2),"paper-work-v29.json":work_schema(29),"project-work-v25.json":project_work_schema(25),"metadata-batch-v2.json":batch_schema(2),"research-command-v17.json":command_schema(17),"paper-work-v28.json":work_schema(28),"project-work-v24.json":project_work_schema(24),"shared-audit-manifest-v1.json":shared_audit_schema(),"research-command-v16.json":command_schema(16), "paper-work-v27.json":work_schema(27), "project-work-v23.json":project_work_schema(23),"research-command-v15.json":command_schema(15), "paper-work-v26.json":work_schema(26), "project-work-v22.json":project_work_schema(22),"paper-work-v25.json":work_schema(25), "project-work-v21.json":project_work_schema(21),"imported-source-reference-v2.json": {"$schema":"https://json-schema.org/draft/2020-12/schema", **imported_reference_schema(2)},"paper-seed-v14.json": {"$schema":"https://json-schema.org/draft/2020-12/schema", **seed_schema(14)}, "research-command-v14.json":command_schema(14), "paper-work-v24.json":work_schema(24), "project-work-v20.json":project_work_schema(20),"argument-import-v2.json":ledger_schema(),"argument-source-manifest-v1.json":manifest_schema(),"metadata-batch-v1.json": batch_schema(),"canonical-share-v1.json": share_schema(),"canonical-share-v2.json": share_schema(2),"critique-input-v1.json": {"$schema":"https://json-schema.org/draft/2020-12/schema", "$id":"urn:claimbranch:critique-input:v1", **CRITIQUE_INPUT},"protocol-input-v1.json": {"$schema":"https://json-schema.org/draft/2020-12/schema", "$id":"urn:claimbranch:protocol-input:v1", **PROTOCOL_INPUT},"measurement-input-v1.json": {"$schema":"https://json-schema.org/draft/2020-12/schema", "$id":"urn:claimbranch:measurement-input:v1", **MEASUREMENT_INPUT}, "co-report-input-v1.json": {"$schema":"https://json-schema.org/draft/2020-12/schema", "$id":"urn:claimbranch:co-report-input:v1", **CO_REPORT_INPUT}, "argument-import-v1.json": import_schema(), "research-command-v1.json": command_schema(), "research-command-v2.json": command_schema(2),
                "research-command-v3.json": command_schema(3),
                "research-command-v4.json": command_schema(4),
                "research-command-v5.json": command_schema(5),
@@ -126,6 +185,7 @@ def main():
                "paper-understanding-draft-v1.json": understanding_draft_schema(),
                "understanding-closure-review-v1.json": understanding_closure_schema()}
     for name, value in schemas.items():
+        if name in ('paper-work-v28.json','project-work-v24.json','paper-work-v29.json','project-work-v25.json','paper-work-v30.json','project-work-v26.json','paper-work-v31.json','project-work-v27.json','paper-work-v32.json','project-work-v28.json'):value=compact_schema(value,inline_single_use=name in ('paper-work-v31.json','project-work-v27.json','paper-work-v32.json','project-work-v28.json'))
         path = root / name
         expected = json.dumps(value, ensure_ascii=False, sort_keys=True, indent=2) + "\n"
         if args.check:

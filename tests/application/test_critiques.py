@@ -136,7 +136,7 @@ class CritiqueTests(unittest.TestCase):
         self.assertNotIn(SECRET,output.getvalue());self.assertNotIn(ORIGINAL,output.getvalue());self.assertEqual(before,(self.work/'personal.cbp').read_bytes())
         with patch('sys.stdin.isatty',return_value=True),patch('sys.stdout.isatty',return_value=True),patch('builtins.input',return_value='q'),patch('builtins.print'):self.assertEqual(0,main(args))
         self.assertEqual(before,(self.work/'personal.cbp').read_bytes())
-        def answer(prompt):return 'record' if prompt.startswith('Type record') else ''
+        def answer(prompt):return 'record' if prompt.startswith('Type record') else 'continue'
         with patch('sys.stdin.isatty',return_value=True),patch('sys.stdout.isatty',return_value=True),patch('builtins.input',side_effect=answer),patch('builtins.print'):self.assertEqual(0,main(args))
         with PersonalProjectStore(self.work) as store:key=self.key(store.load())
         with patch('sys.stdout',new_callable=io.StringIO) as output:self.assertEqual(0,main(['project','critique-original','--directory',str(self.work),'--id',key]))
@@ -179,7 +179,7 @@ class CritiqueTests(unittest.TestCase):
         def answer(prompt):
             if prompt.startswith('Type record'):
                 request['payload']['private_identity']='Changed identity';path.write_text(json.dumps(request));return 'record'
-            return ''
+            return 'continue'
         with patch('sys.stdin.isatty',return_value=True),patch('sys.stdout.isatty',return_value=True),patch('builtins.input',side_effect=answer),patch('builtins.print'),patch('sys.stderr',new_callable=io.StringIO) as output:self.assertEqual(1,main(['project','critique','--directory',str(self.work),'--input',str(path)]))
         self.assertEqual(before,(self.work/'personal.cbp').read_bytes());self.assertNotIn(SECRET,output.getvalue())
         (self.paper/'paper.tex').write_bytes(self.manuscript+b'% changed')
@@ -206,8 +206,9 @@ class CritiqueTests(unittest.TestCase):
                         except OSError:break
                         output+=chunk;pending+=chunk
                         if record:
-                            if b'Enter: next page' in pending:os.write(master,b'\n');pending=b''
-                            elif b'Type record to keep' in pending:os.write(master,b'record\n');pending=b''
+                            if b'Review: details / continue' in pending:os.write(master,b'continue\n');pending=b''
+                            elif b'Enter: next page' in pending:os.write(master,b'\n');pending=b''
+                            elif b'Type record to save' in pending:os.write(master,b'record\n');pending=b''
                         elif b'ClaimBranch' in output and not quit_sent:os.write(master,b'q');quit_sent=True
                 self.assertEqual(0,process.wait(timeout=5),output[-3000:].decode(errors='replace'));self.assertNotIn(SECRET.encode(),output);self.assertNotIn(ORIGINAL.encode(),output)
                 if record:self.assertIn(b'Private critique operation saved',output)

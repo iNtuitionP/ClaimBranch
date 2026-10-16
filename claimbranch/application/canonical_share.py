@@ -37,7 +37,7 @@ def selection(value):
 
 def _catalog(project):
     history = project.work.history
-    if history.schema_version not in (4, 5, 14):
+    if history.schema_version not in (4, 5, 14, 18):
         raise ContractError('Canonical sharing requires a saved paper profile with public ID mappings; legacy work is unchanged.')
     view = history.view('main')
     reviewed_dependencies=set()
@@ -77,6 +77,7 @@ def _catalog(project):
         if mark.get('contributor'): origins.add(mark['contributor'])
         origins.update(key for key, present in mark.get('origin_flags',{}).items() if present)
         if raw.get('origin'): origins.add(raw['origin'])
+        if raw.get('new_input_origin'):origins.add(raw['new_input_origin'])
         # No missing origin becomes human. Conservative current judgment influence
         # is disclosed without exposing retained provider/source payloads.
         origins.update(record_origins.get(key,set()))
@@ -87,13 +88,13 @@ def _catalog(project):
         content['branch_ai_context_present'] = branch_ai
         content['origins'] = sorted(origins or {'unknown'})
         content['source_fidelity_verified'] = False
-        content['unresolved_source_fields'] = mark.get('unresolved_leaf_count', 0) + sum(r.get('unresolved_count', 0) for r in raw.get('source_refs', []) + view.get('imported_dependencies', {}).get(key, []))
+        content['unresolved_source_fields'] = raw.get('unresolved_source_fields',0) + mark.get('unresolved_leaf_count', 0) + sum(r.get('unresolved_count', 0) for r in raw.get('source_refs', []) + view.get('imported_dependencies', {}).get(key, []))
         records[key] = {'id': public(key), 'kind': kind, 'content': content}
         dependencies[key] = set(refs)
         if reason is not None: reasons[key] = reason
     def mapped(values): return [public(k) for k in values]
     def fields(raw, names): return {k: raw[k] for k in names if k in raw}
-    def metric(raw): return fields(raw, ('name', 'definition', 'unit', 'comparison'))
+    def metric(raw): return None if raw is None else fields(raw, ('name', 'definition', 'unit', 'comparison'))
     for claim in view['claims']:
         c = fields(claim, ('statement', 'status', 'role', 'scope'))
         c['parent_ids'] = mapped(claim['parent_ids'])
@@ -168,15 +169,20 @@ def _catalog(project):
         add(key, 'co-report', c, refs, decision['judgment']['rationale'])
         for reading in decision['selected_ids']: dependencies[reading].add(key)
     for key, protocol in view.get('protocols', {}).items():
-        refs = [protocol['plan_id']] + ([protocol['supersedes_id']] if protocol['supersedes_id'] else [])
+        from claimbranch.core.protocols import target_id
+        target=target_id(protocol);completed='experiment_id' in protocol
+        refs = [target] + ([protocol['supersedes_id']] if protocol['supersedes_id'] else [])
         c = fields(protocol, ('prediction', 'falsifier', 'prewritten_wording', 'inspected_before_registration'))
-        c.update(plan_id=public(protocol['plan_id']), supersedes_id=public(protocol['supersedes_id']) if protocol['supersedes_id'] else None,
-                 committed_reference='omitted', chronology_verified=False, plan_changed_since_registration=view.get('protocol_plan_digests',{}).get(protocol['plan_id']) != protocol['expected_plan_digest'], gates=[dict(id=public(g['id']), **fields(g, ('name', 'tolerance', 'reference'))) for g in protocol['gates']])
+        c.update(supersedes_id=public(protocol['supersedes_id']) if protocol['supersedes_id'] else None,
+                 committed_reference='omitted', chronology_verified=False, gates=[dict(id=public(g['id']), **fields(g, ('name', 'tolerance', 'reference'))) for g in protocol['gates']])
+        if completed:
+            c.update(experiment_id=public(target),experiment_changed_since_registration=view.get('protocol_experiment_digests',{}).get(target)!=protocol['expected_experiment_digest'])
+        else:c.update(plan_id=public(target),plan_changed_since_registration=view.get('protocol_plan_digests',{}).get(target)!=protocol['expected_plan_digest'])
         add(key, 'protocol', c, refs, protocol['rationale'], protocol)
         for gate in protocol['gates']:
-            add(gate['id'], 'registered-gate', dict(protocol_id=public(key), **fields(gate, ('name', 'tolerance', 'reference'))), [key])
+            add(gate['id'], 'registered-gate', dict(protocol_id=public(key), **fields(gate, ('name', 'tolerance', 'reference'))), [key],original=protocol if completed else None)
         dependencies[key].update(g['id'] for g in protocol['gates'])
-        if protocol['plan_id'] in dependencies: dependencies[protocol['plan_id']].add(key)
+        if target in dependencies: dependencies[target].add(key)
     for bucket, kind, reference_fields, scalar_fields in (
         ('experiment_associations', 'protocol-experiment', ('protocol_id', 'experiment_id'), ('metric_differs_from_registered_plan', 'preinspection_disclosure_conflict')),
         ('gate_amendments', 'gate-amendment', ('protocol_id', 'gate_id', 'expected_rule_id'), ('new_tolerance', 'new_reference', 'decided_after_result', 'app_result_precedes_amendment', 'chronology_conflict')),
@@ -201,6 +207,10 @@ def _catalog(project):
             if owner: dependencies[owner].add(key)
             if kind=='protocol-experiment': dependencies[raw['experiment_id']].add(key)
             for basis in raw.get('observation_revisions', []): dependencies[basis['observation_id']].add(key)
+    for key, link in view.get('observation_replacements',{}).items():
+        refs=[link['previous_id'],link['replacement_id']]
+        add(key,'observation-replacement',dict(previous_id=public(refs[0]),replacement_id=public(refs[1]),chronology=link['chronology'],chronology_verified=False,status_effect='none'),refs,link['rationale'],link)
+        for endpoint in refs:dependencies[endpoint].add(key)
     for key, q in view.get('critiques', {}).items():
         # Known-private prose is never selected, even with reason opt-in.
         records[key] = dict(id=public(key), kind='private-critique', content=dict(content='omitted', scientific=False, resolved=False))
@@ -241,7 +251,8 @@ def prepare_share(project, requested, *, public_selection=False):
         if key in reason_ids: record = {**record, 'reason': reasons[key]}
         output.append(record)
     policy_selection = dict(schema=SELECTION_SCHEMA, record_ids=sorted(mappings[k] for k in selected), reason_ids=sorted(mappings[k] for k in reason_ids))
-    version=2 if project.work.history.has_graph_edits else 1
+    from claimbranch.core.argument_import_v2 import needs_history_work_frame
+    version=4 if needs_history_work_frame(project.work.history) else 3 if project.work.history.schema_version==18 else 2 if project.work.history.has_graph_edits else 1
     base = dict(schema='claimbranch.canonical-share/v'+str(version), policy=POLICY, selection=policy_selection,
                 required_record_ids=sorted(mappings[k] for k in included-selected), records=output,
                 omissions=OMISSIONS, anonymity_verified=False, authority='read-only personal projection; not a backup or scientific verification')
@@ -260,7 +271,7 @@ def _check_known_private(project, value):
     from claimbranch.core.paper_capacity import source_bytes
     saved = decode(project.payload, purpose='project')
     protected = set()
-    if project.work.history.schema_version == 14:
+    if project.work.history.schema_version in (14,18):
         from claimbranch.core.argument_import_v2 import unpack_snapshot
         seed=decode(project.work.history.seed,purpose='history')
         retained=decode(unpack_snapshot(seed['initial_argument']['snapshot']),purpose='project')
@@ -311,7 +322,7 @@ def _check_known_private(project, value):
 def verify_share(project, raw):
     try:
         value = decode(raw, purpose='project')
-        if type(value) is not dict or value.get('schema') not in (SCHEMA,'claimbranch.canonical-share/v2') or value.get('policy') != POLICY:
+        if type(value) is not dict or value.get('schema') not in (SCHEMA,'claimbranch.canonical-share/v2','claimbranch.canonical-share/v3','claimbranch.canonical-share/v4') or value.get('policy') != POLICY:
             raise ContractError('Unsupported sharing policy.')
         expected = prepare_share(project, value['selection'], public_selection=True)
         if not hmac.compare_digest(raw, expected): raise ContractError('Shared bytes or saved private revision differ.')
@@ -460,7 +471,7 @@ def run_share_command(args):
 
 
 def share_schema(version=1):
-    if version not in (1,2):raise ContractError('Unsupported sharing format')
+    if version not in (1,2,3,4):raise ContractError('Unsupported sharing format')
     """Closed public field vocabulary; generated with the other owned schemas."""
     from claimbranch.core.research_schema import obj, array, nullable, TEXT, HASH, METRIC
     from claimbranch.core.typed_observations import VALUE
@@ -479,7 +490,7 @@ def share_schema(version=1):
     basis = array(obj(observation_id=public, revision_number=integer, current_revision=boolean),256,1)
     def variant(kind, fields, optional=(), private=False):
         from itertools import combinations
-        if version==2 and not private:
+        if version in (2,3,4) and not private:
             fields={**fields,'title':{'type':'string','minLength':1,'maxLength':240,'pattern':r'^[^\r\n]+$'},'review_required':{'const':True}}
             optional=(*optional,'title','review_required')
         contents = []
@@ -493,7 +504,7 @@ def share_schema(version=1):
         return {'oneOf':[result,obj(**result['properties'],reason=TEXT)]}
     variants = [
         variant('claim',dict(statement=TEXT,status={'enum':['proposed','supported','contested']},role={'enum':['thesis','main','subclaim']},scope=TEXT,parent_ids=ids,wording=wording,status_basis_ids=ids),('scope','wording','status_basis_ids')),
-        variant('experiment',dict(question=TEXT,method=TEXT,conditions=TEXT,metric=METRIC)),
+        variant('experiment',dict(question=nullable(TEXT) if version>=3 else TEXT,method=nullable(TEXT) if version>=3 else TEXT,conditions=nullable(TEXT) if version>=3 else TEXT,metric=nullable(obj(**{key:nullable(field) for key,field in METRIC['properties'].items()})) if version>=3 else METRIC)),
         variant('observation',dict(statement=TEXT,value=nullable(TEXT),status={'enum':['confirmed','corrected','invalidated','retracted']},experiment_id=public,revision_number=integer,measurement=table),('measurement',)),
         variant('interpretation',dict(statement=TEXT,observation_ids=ids,scope=TEXT),('scope',)),
         variant('scientific-edge',dict(source_id=public,target_id=public,edge_type={'enum':['supports','challenges','qualifies']})),
@@ -503,12 +514,16 @@ def share_schema(version=1):
         variant('co-report',dict(disposition={'const':'co-reported'},interpretation_ids=ids,companion_ids=ids,edge_ids=ids,reading_origins=array(obj(id=public,origins=origins),4),understanding_verified={'const':False})),
         variant('protocol',dict(prediction=TEXT,falsifier=TEXT,prewritten_wording=obj(pass_wording=TEXT,fail_wording=TEXT),inspected_before_registration={'enum':['seen','unseen','unknown']},plan_id=public,supersedes_id=nullable(public),committed_reference={'const':'omitted'},chronology_verified={'const':False},plan_changed_since_registration=boolean,gates=array(obj(id=public,name=TEXT,tolerance=TEXT,reference=TEXT),16))),
         variant('registered-gate',dict(protocol_id=public,name=TEXT,tolerance=TEXT,reference=TEXT)),
-        variant('protocol-experiment',dict(protocol_id=public,experiment_id=public,metric_differs_from_registered_plan=boolean,preinspection_disclosure_conflict=boolean)),
+        variant('protocol-experiment',dict(protocol_id=public,experiment_id=public,metric_differs_from_registered_plan=nullable(boolean) if version==4 else boolean,preinspection_disclosure_conflict=boolean)),
         variant('gate-amendment',dict(protocol_id=public,gate_id=public,expected_rule_id=public,new_tolerance=TEXT,new_reference=TEXT,decided_after_result={'enum':['before','after','unknown']},app_result_precedes_amendment=boolean,chronology_conflict=boolean)),
         variant('gate-result',dict(association_id=public,gate_id=public,rule_id=public,status={'enum':['passed','failed','unknown']},observation_basis=basis)),
         variant('outcome',dict(association_id=public,classification={'enum':['consistent','not-consistent','inconclusive','stopped-at-gate']},discrimination={'enum':['discriminating','non-discriminating','unknown']},limitations=array(TEXT,16),gate_validity={'enum':['failed-gate','incomplete-gate-assessment','unknown-gate-result','reported-gates-passed','no-gates-declared']},validity_verified={'const':False},rule_ids=ids,gate_result_ids=ids,observation_basis=basis)),
         variant('private-critique',dict(content={'const':'omitted'},scientific={'const':False},resolved={'const':False}),private=True),
         variant('critique-reference',dict(source_id=public,target_id=public,relation={'enum':['questions','addressed-by']},scientific={'const':False},resolved={'const':False}),private=True)]
+    if version==4:
+        variants.extend([
+            variant('protocol',dict(prediction=TEXT,falsifier=TEXT,prewritten_wording=obj(pass_wording=TEXT,fail_wording=TEXT),inspected_before_registration={'enum':['seen','unseen','unknown']},experiment_id=public,supersedes_id=nullable(public),committed_reference={'const':'omitted'},chronology_verified={'const':False},experiment_changed_since_registration=boolean,gates=array(obj(id=public,name=TEXT,tolerance=TEXT,reference=TEXT),16))),
+            variant('observation-replacement',dict(previous_id=public,replacement_id=public,chronology={'enum':['unknown','same-recorded-time','source-claimed-order']},chronology_verified={'const':False},status_effect={'const':'none'}))])
     result = obj(schema={'const':'claimbranch.canonical-share/v'+str(version)},policy={'const':POLICY},selection=obj(schema={'const':SELECTION_SCHEMA},record_ids=ids,reason_ids=ids),required_record_ids=ids,
                  records=array({'oneOf':variants},2048,1),omissions={'const':OMISSIONS},anonymity_verified={'const':False},
                  authority={'const':'read-only personal projection; not a backup or scientific verification'},private_revision_commitment=HASH)

@@ -26,6 +26,11 @@ ORIGINAL_PERSONAL_MAGIC=b'CBPP\x00\x0c'
 RETAINED_PERSONAL_MAGIC=b'CBPP\x00\x0d'
 LABEL_PERSONAL_MAGIC=b'CBPP\x00\x0e'
 SHARED_PERSONAL_MAGIC=b'CBPP\x00\x0f'
+CONDITIONAL_PERSONAL_MAGIC=b'CBPP\x00\x10'
+SOURCE_PERSONAL_MAGIC=b'CBPP\x00\x11'
+HISTORICAL_PERSONAL_MAGIC=b'CBPP\x00\x12'
+HISTORY_PERSONAL_MAGIC=b'CBPP\x00\x13'
+ITERATION_PERSONAL_MAGIC=b'CBPP\x00\x14'
 
 
 class _PersonalCodec:
@@ -33,6 +38,11 @@ class _PersonalCodec:
 
     def seal(self, raw):
         value = storage_decode(raw)
+        iteration = value.get('schema') == 'claimbranch.project-work/v28'
+        new_history = value.get('schema') == 'claimbranch.project-work/v27'
+        historical = value.get('schema') == 'claimbranch.project-work/v26'
+        source_v3 = value.get('schema') == 'claimbranch.project-work/v25'
+        conditional = value.get('schema') == 'claimbranch.project-work/v24'
         shared = value.get('schema') == 'claimbranch.project-work/v23'
         labeled = value.get('schema') == 'claimbranch.project-work/v22'
         retained = value.get('schema') == 'claimbranch.project-work/v21'
@@ -46,16 +56,26 @@ class _PersonalCodec:
         wording = value.get('schema') == 'claimbranch.project-work/v13'
         anchored = value.get('schema') == 'claimbranch.project-work/v12'
         imported = value.get('schema') == 'claimbranch.project-work/v11'
-        paper = value.get('schema') in ('claimbranch.project-work/v10', 'claimbranch.project-work/v11', 'claimbranch.project-work/v12','claimbranch.project-work/v13','claimbranch.project-work/v14','claimbranch.project-work/v15','claimbranch.project-work/v16','claimbranch.project-work/v17','claimbranch.project-work/v18','claimbranch.project-work/v19','claimbranch.project-work/v20','claimbranch.project-work/v21','claimbranch.project-work/v22','claimbranch.project-work/v23')
+        paper = value.get('schema') in ('claimbranch.project-work/v10', 'claimbranch.project-work/v11', 'claimbranch.project-work/v12','claimbranch.project-work/v13','claimbranch.project-work/v14','claimbranch.project-work/v15','claimbranch.project-work/v16','claimbranch.project-work/v17','claimbranch.project-work/v18','claimbranch.project-work/v19','claimbranch.project-work/v20','claimbranch.project-work/v21','claimbranch.project-work/v22','claimbranch.project-work/v23','claimbranch.project-work/v24','claimbranch.project-work/v25','claimbranch.project-work/v26','claimbranch.project-work/v27','claimbranch.project-work/v28')
         maximum = PROJECT_BYTES if paper else MAX_BYTES
         if len(raw) > maximum:
             raise ContractError('personal work exceeds its limit')
-        return (SHARED_PERSONAL_MAGIC if shared else LABEL_PERSONAL_MAGIC if labeled else RETAINED_PERSONAL_MAGIC if retained else ORIGINAL_PERSONAL_MAGIC if original else EDIT_PERSONAL_MAGIC if edited else METADATA_PERSONAL_MAGIC if metadata else CRITIQUE_PERSONAL_MAGIC if critique else PROTOCOL_PERSONAL_MAGIC if protocol else MEASUREMENT_PERSONAL_MAGIC if measurement else CO_REPORT_PERSONAL_MAGIC if co_report else WORDING_PERSONAL_MAGIC if wording else ANCHOR_PERSONAL_MAGIC if anchored else IMPORT_PERSONAL_MAGIC if imported else PAPER_PERSONAL_MAGIC if paper else PERSONAL_MAGIC) + raw
+        return (ITERATION_PERSONAL_MAGIC if iteration else HISTORY_PERSONAL_MAGIC if new_history else HISTORICAL_PERSONAL_MAGIC if historical else SOURCE_PERSONAL_MAGIC if source_v3 else CONDITIONAL_PERSONAL_MAGIC if conditional else SHARED_PERSONAL_MAGIC if shared else LABEL_PERSONAL_MAGIC if labeled else RETAINED_PERSONAL_MAGIC if retained else ORIGINAL_PERSONAL_MAGIC if original else EDIT_PERSONAL_MAGIC if edited else METADATA_PERSONAL_MAGIC if metadata else CRITIQUE_PERSONAL_MAGIC if critique else PROTOCOL_PERSONAL_MAGIC if protocol else MEASUREMENT_PERSONAL_MAGIC if measurement else CO_REPORT_PERSONAL_MAGIC if co_report else WORDING_PERSONAL_MAGIC if wording else ANCHOR_PERSONAL_MAGIC if anchored else IMPORT_PERSONAL_MAGIC if imported else PAPER_PERSONAL_MAGIC if paper else PERSONAL_MAGIC) + raw
 
     def open(self, raw):
         if type(raw) is not bytes:
             raise ContractError('personal checkpoint requires bytes')
-        if raw.startswith(SHARED_PERSONAL_MAGIC):
+        if raw.startswith(ITERATION_PERSONAL_MAGIC):
+            maximum, prefix = PROJECT_BYTES, ITERATION_PERSONAL_MAGIC
+        elif raw.startswith(HISTORY_PERSONAL_MAGIC):
+            maximum, prefix = PROJECT_BYTES, HISTORY_PERSONAL_MAGIC
+        elif raw.startswith(HISTORICAL_PERSONAL_MAGIC):
+            maximum, prefix = PROJECT_BYTES, HISTORICAL_PERSONAL_MAGIC
+        elif raw.startswith(SOURCE_PERSONAL_MAGIC):
+            maximum, prefix = PROJECT_BYTES, SOURCE_PERSONAL_MAGIC
+        elif raw.startswith(CONDITIONAL_PERSONAL_MAGIC):
+            maximum, prefix = PROJECT_BYTES, CONDITIONAL_PERSONAL_MAGIC
+        elif raw.startswith(SHARED_PERSONAL_MAGIC):
             maximum, prefix = PROJECT_BYTES, SHARED_PERSONAL_MAGIC
         elif raw.startswith(LABEL_PERSONAL_MAGIC):
             maximum, prefix = PROJECT_BYTES, LABEL_PERSONAL_MAGIC
@@ -91,7 +111,7 @@ class _PersonalCodec:
             raise ContractError('personal checkpoint exceeds its versioned limit')
         payload = raw[len(prefix):]
         value = storage_decode(payload)
-        expected = {'claimbranch.project-work/v23':SHARED_PERSONAL_MAGIC,'claimbranch.project-work/v22':LABEL_PERSONAL_MAGIC,'claimbranch.project-work/v21':RETAINED_PERSONAL_MAGIC,'claimbranch.project-work/v20':ORIGINAL_PERSONAL_MAGIC,'claimbranch.project-work/v19':EDIT_PERSONAL_MAGIC,'claimbranch.project-work/v10': PAPER_PERSONAL_MAGIC, 'claimbranch.project-work/v11': IMPORT_PERSONAL_MAGIC,'claimbranch.project-work/v12':ANCHOR_PERSONAL_MAGIC,'claimbranch.project-work/v13':WORDING_PERSONAL_MAGIC,'claimbranch.project-work/v14':CO_REPORT_PERSONAL_MAGIC,'claimbranch.project-work/v15':MEASUREMENT_PERSONAL_MAGIC,'claimbranch.project-work/v16':PROTOCOL_PERSONAL_MAGIC,'claimbranch.project-work/v17':CRITIQUE_PERSONAL_MAGIC,'claimbranch.project-work/v18':METADATA_PERSONAL_MAGIC}.get(value.get('schema'), PERSONAL_MAGIC)
+        expected = {'claimbranch.project-work/v28':ITERATION_PERSONAL_MAGIC,'claimbranch.project-work/v27':HISTORY_PERSONAL_MAGIC,'claimbranch.project-work/v26':HISTORICAL_PERSONAL_MAGIC,'claimbranch.project-work/v25':SOURCE_PERSONAL_MAGIC,'claimbranch.project-work/v24':CONDITIONAL_PERSONAL_MAGIC,'claimbranch.project-work/v23':SHARED_PERSONAL_MAGIC,'claimbranch.project-work/v22':LABEL_PERSONAL_MAGIC,'claimbranch.project-work/v21':RETAINED_PERSONAL_MAGIC,'claimbranch.project-work/v20':ORIGINAL_PERSONAL_MAGIC,'claimbranch.project-work/v19':EDIT_PERSONAL_MAGIC,'claimbranch.project-work/v10': PAPER_PERSONAL_MAGIC, 'claimbranch.project-work/v11': IMPORT_PERSONAL_MAGIC,'claimbranch.project-work/v12':ANCHOR_PERSONAL_MAGIC,'claimbranch.project-work/v13':WORDING_PERSONAL_MAGIC,'claimbranch.project-work/v14':CO_REPORT_PERSONAL_MAGIC,'claimbranch.project-work/v15':MEASUREMENT_PERSONAL_MAGIC,'claimbranch.project-work/v16':PROTOCOL_PERSONAL_MAGIC,'claimbranch.project-work/v17':CRITIQUE_PERSONAL_MAGIC,'claimbranch.project-work/v18':METADATA_PERSONAL_MAGIC}.get(value.get('schema'), PERSONAL_MAGIC)
         if prefix != expected:
             raise ContractError('personal checkpoint frame/profile mismatch')
         return payload

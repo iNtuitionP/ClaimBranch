@@ -136,15 +136,20 @@ class ImportedProjectTests(unittest.TestCase):
         path = self.root / 'input.json'; path.write_bytes(self.raw); path.chmod(0o600)
         class TTY(io.StringIO):
             def isatty(self): return True
+        final_seen = False
         def respond(prompt):
+            nonlocal final_seen
             if interrupt and (('final' if prompt.startswith('Type import') else 'page') == interrupt[0]):
                 raise interrupt[1]
             if prompt.startswith('Type import'):
+                final_seen = True
                 if mutate: mutate(path)
                 return answer
-            return ''
+            return 'cancel' if final_seen else 'continue'
         output, errors = TTY(), io.StringIO()
-        with patch('sys.stdin.isatty', return_value=True), patch('sys.stdout', output), patch('sys.stderr', errors), patch('builtins.input', side_effect=respond):
+        with patch('sys.stdin.isatty', return_value=True), patch('sys.stdout', output), patch('sys.stderr', errors), patch('claimbranch.application.import_review.ReviewInput') as reader:
+            from contextlib import nullcontext
+            reader.return_value = nullcontext(respond)
             code = main(['project','import-argument','--input',str(path),'--directory',str(self.work),
                 '--paper-root',str(self.paper),'--manuscript','paper.tex','--question','What should we test next?'])
         return code, output.getvalue(), errors.getvalue()
@@ -366,8 +371,8 @@ class ImportedProjectTests(unittest.TestCase):
                         except OSError: break
                         output += chunk; pending += chunk
                         if publish:
-                            if b'next page / q' in pending:
-                                os.write(master, b'\n'); pending = b''
+                            if b'Review: details / continue to confirmation / cancel:' in pending:
+                                os.write(master, b'continue\n'); pending = b''
                             elif b'Type import to register' in pending:
                                 os.write(master, b'import\n'); pending = b''
                         elif not sent_quit and (b'ClaimBranch' in output or b'New work' in output or b'Imported current argument' in output):
@@ -385,3 +390,225 @@ class ImportedProjectTests(unittest.TestCase):
         self.assertEqual(0, checked.returncode, checked.stderr)
         import json
         self.assertEqual(5, json.loads(checked.stdout)['capacity']['schema_version'])
+
+
+class ImportReviewTests(unittest.TestCase):
+    """Usable review and write-free preflight, independent of source fidelity."""
+    setUp = ImportedProjectTests.setUp
+
+    def test_summary_scales_with_kinds_not_original_lines_or_mapping_count(self):
+        from copy import deepcopy
+        from claimbranch.core.argument_import import _leaves
+        from claimbranch.core.paper_capacity import source_record
+        from claimbranch.application.import_review import summary_lines, unresolved_items
+        value = fixture(); templates = {r['kind']:r for r in value['records']}
+        records = [deepcopy(value['records'][0])]
+        for kind, count, prefix in [('claim',20,'C'),('experiment',52,'X'),('observation',52,'O'),('scientific-edge',67,'E'),('historical-decision',18,'D')]:
+            for i in range(count):
+                record = deepcopy(templates[kind]);record['id'] = f'{prefix}-{i}'
+                body = record['body']
+                if kind == 'claim': body.update(status='proposed',basis_ids=[])
+                if kind == 'observation': body['experiment_id'] = f'X-{i}'
+                if kind == 'scientific-edge': body.update(source_id=f'O-{i%52}',target_id=f'C-{i%20}')
+                if kind == 'historical-decision': body['record_ids'] = ['C-0','O-0']
+                records.append(record)
+        original = dict(entries=[r['body'] for r in records], archive='NOT-IN-SUMMARY\n'*16072)
+        for i, record in enumerate(records):
+            record['source_pointer'] = f'/entries/{i}'
+            record['mappings'] = [dict(target=p,source=f'/entries/{i}'+p,transformation=None) for p,_ in _leaves(record['body'])]
+        value.update(records=records, selected_ids=[r['id'] for r in records],source=source_record(__import__('json').dumps(original).encode()))
+        result = argument_import.preview_import(encode(value,purpose='project'))
+        self.assertTrue(result['valid'],result['errors']);self.assertGreater(len(records),200)
+        summary = '\n'.join(summary_lines(result))
+        self.assertLessEqual(len(summary.splitlines()),120)
+        self.assertNotIn('NOT-IN-SUMMARY',summary);self.assertNotIn('mappings',summary)
+        self.assertEqual(1,len(list(unresolved_items(result))))
+        with patch('sys.stdout',new=io.StringIO()) as out:
+            from claimbranch.application.import_review import review
+            answers = iter(['unresolved','item 1','q'])
+            self.assertFalse(review(result,read=lambda _:next(answers)))
+        self.assertIn('/archive',out.getvalue())
+
+    def test_detail_back_blank_confirmation_and_distinct_cancel(self):
+        from claimbranch.application.import_review import review
+        result=argument_import.preview_import(self.raw)
+        answers=iter(['source original','q','continue','','cancel'])
+        with patch('sys.stdout',new=io.StringIO()):
+            self.assertFalse(review(result,read=lambda _:next(answers),registration=True))
+        answers=iter(['continue','import'])
+        with patch('sys.stdout',new=io.StringIO()):
+            self.assertTrue(review(result,read=lambda _:next(answers),registration=True))
+        self.assertEqual([],list(self.work.iterdir()))
+
+    def preflight(self,extra=()):
+        path=self.root/'input.json';path.write_bytes(self.raw);path.chmod(0o600)
+        with patch('sys.stdout',new=io.StringIO()) as out,patch('sys.stderr',new=io.StringIO()) as err:
+            code=main(['project','import-argument','--input',str(path),'--dry-run','--preflight','--json',
+                '--directory',str(self.work),'--paper-root',str(self.paper),'--manuscript','paper.tex',
+                '--question','What should we test next?',*extra])
+        return code,out.getvalue(),err.getvalue()
+
+    def test_full_preflight_is_write_free_and_rejects_used_destination_without_cleanup(self):
+        def snapshot():
+            paths=[self.root,*self.root.rglob('*')]
+            return {str(p.relative_to(self.root)):(p.lstat().st_ino,p.lstat().st_mode,p.lstat().st_size,p.lstat().st_mtime_ns,p.lstat().st_ctime_ns) for p in paths}
+        path=self.root/'input.json';path.write_bytes(self.raw);path.chmod(0o600)
+        # Launch the public path with -B so interpreter caches are not confused with preflight writes.
+        before=snapshot()
+        argv=[sys.executable,'-B','-m','claimbranch','project','import-argument','--input',str(path),'--dry-run','--preflight','--json',
+            '--directory',str(self.work),'--paper-root',str(self.paper),'--manuscript','paper.tex','--question','Next question?']
+        r=subprocess.run(argv,capture_output=True,timeout=30)
+        self.assertEqual(0,r.returncode,r.stderr);self.assertEqual(before,snapshot())
+        report=__import__('json').loads(r.stdout)['full_preflight']
+        self.assertFalse(report['writes']);self.assertGreater(report['archive_bytes'],report['saved_bytes'])
+        self.assertEqual(64, len(report['result_sha256']))
+        self.assertIn('prepared_at',report);self.assertNotIn('registered_at',report)
+        from application.test_original_registration import fixture as table_fixture
+        path.write_bytes(encode(table_fixture(),purpose='project'));before=snapshot()
+        r=subprocess.run([*argv,'--shared-audit'],capture_output=True,timeout=30)
+        self.assertEqual(0,r.returncode,r.stderr);self.assertEqual(before,snapshot())
+        shared=__import__('json').loads(r.stdout)['full_preflight']
+        self.assertEqual('shared-values/v1',shared['representation'])
+        self.assertTrue(shared['audit_encoding_review']['source_seed_unchanged'])
+        (self.work/'backup.cbp').write_bytes(b'existing backup');before=snapshot()
+        r=subprocess.run(argv,capture_output=True,timeout=30)
+        self.assertEqual(1,r.returncode);self.assertIn(b'fresh',r.stderr);self.assertEqual(before,snapshot())
+
+    def test_cheap_json_preview_unchanged_and_preflight_requires_options(self):
+        path=self.root/'input.json';path.write_bytes(self.raw);path.chmod(0o600)
+        with patch('sys.stdout',new=io.StringIO()) as out:
+            self.assertEqual(0,main(['project','import-argument','--input',str(path),'--dry-run','--json']))
+        self.assertEqual(argument_import.preview_import(self.raw),__import__('json').loads(out.getvalue()))
+        with patch('sys.stdout',new=io.StringIO()),patch('sys.stderr',new=io.StringIO()) as err:
+            self.assertEqual(1,main(['project','import-argument','--input',str(path),'--dry-run','--preflight']))
+        self.assertIn('--directory',err.getvalue());self.assertEqual([],list(self.work.iterdir()))
+
+    def test_nested_table_errors_name_missing_field_and_bad_cell(self):
+        from application.test_original_registration import fixture as table_fixture
+        value=table_fixture();table=value['records'][3]['body']['measurement']
+        del table['conditions'];table['rows'][0]['cells'][0]['value']['value']='NaN'
+        result=argument_import.preview_import(encode(value,purpose='project'))
+        self.assertFalse(result['valid'])
+        errors={e['pointer']:e['error'] for e in result['errors']}
+        self.assertEqual('missing field',errors['/records/3/body/measurement/conditions'])
+        self.assertIn('format',errors['/records/3/body/measurement/rows/0/cells/0/value/value'])
+
+    def test_empty_artifact_pointer_normalizes_and_verifies_root_value(self):
+        from application.test_typed_observations import TypedObservationTests
+        from claimbranch.core.typed_observations import TABLE,validate_table
+        from claimbranch.core.research_schema import normalize
+        from claimbranch.application.typed_observations import check_artifact
+        raw=b'0.123456789012345678901234567890';path=self.root/'root.json';path.write_bytes(raw)
+        table=TypedObservationTests().table()
+        table['artifact_refs']=[dict(id='root',path='root.json',sha256=hashlib.sha256(raw).hexdigest(),json_pointer='',tool_sha256=None,commit=None)]
+        table=normalize(table,TABLE,profile='paper');validate_table(table,{k:{'values':v} for k,v in [('model',['M1']),('leg',['primary','sensitivity']),('dose',['low','mid','high']),('seed',['s1','s2','s3'])]})
+        h=type('History',(),{'view':lambda _,ref:dict(evidence=[dict(id='O',measurement=table,measurement_revision='import-event')])})()
+        result=check_artifact(h,'O','root',path,table['rows'][0]['cells'][0]['id'])
+        self.assertEqual('hash-and-cell-match',result['status']);self.assertFalse(result['scientific_validity_verified'])
+
+
+    @unittest.skipUnless(os.name == 'posix', 'real Unix PTY input boundary')
+    def test_actual_tty_queued_pasted_input_back_and_fresh_confirmation(self):
+        import pty
+        for width in (100, 34):
+            work=self.root/f'pty-{width}';work.mkdir(mode=0o700)
+            path=self.root/'pty-input.json';path.write_bytes(self.raw);path.chmod(0o600)
+            master,slave=pty.openpty()
+            fcntl.ioctl(slave,termios.TIOCSWINSZ,struct.pack('HHHH',24,width,0,0))
+            original=termios.tcgetattr(slave)
+            process=subprocess.Popen([sys.executable,'-B','-m','claimbranch','project','import-argument',
+                '--input',str(path),'--directory',str(work),'--paper-root',str(self.paper),
+                '--manuscript','paper.tex','--question','What should change next?'],stdin=slave,stdout=slave,stderr=slave)
+            pending=b''
+            def wait_for(marker):
+                nonlocal pending
+                deadline=time.monotonic()+20
+                while marker not in pending and time.monotonic()<deadline:
+                    if select.select([master],[],[],0.1)[0]:
+                        try:pending+=os.read(master,65536)
+                        except OSError:break
+                    if process.poll() is not None and marker not in pending:break
+                self.assertIn(marker,pending,pending[-3000:])
+                before,pending=pending.split(marker,1)
+                return before
+            prompt=b'Review: details / continue to confirmation / cancel: '
+            final=b'Type import to register this exact selection; Enter: back to summary / cancel: '
+            try:
+                wait_for(prompt)
+                for data in (b'\n'*40+b'import\n',b'continue\nimport\n'):
+                    os.write(master,data);wait_for(prompt)
+                    self.assertFalse((work/'personal.cbp').exists())
+                os.write(master,b'continue\n');wait_for(final)
+                os.write(master,b'\x1b[200~import\n\x1b[201~');wait_for(prompt)
+                self.assertFalse((work/'personal.cbp').exists())
+                os.write(master,b'continue\n');wait_for(final)
+                os.write(master,b'\n'*40+b'import\n');wait_for(prompt)
+                self.assertFalse((work/'personal.cbp').exists())
+                os.write(master,b'source original\n');wait_for(b'Enter: next detail page / q: back to summary: ')
+                os.write(master,b'q\n');wait_for(prompt)
+                os.write(master,b'continue\n');wait_for(final)
+                os.write(master,b'import\n');wait_for(b'Imported personal argument saved.')
+                self.assertEqual(0,process.wait(timeout=10))
+                self.assertEqual(original,termios.tcgetattr(slave))
+                with PersonalProjectStore(work) as store:
+                    self.assertEqual(1,len(store.load().work.history.commands))
+            finally:
+                if process.poll() is None:process.kill();process.wait()
+                os.close(master);os.close(slave)
+
+
+    def test_review_back_is_not_cancel_and_long_single_line_source_is_paged(self):
+        from claimbranch.application.import_review import review
+        from claimbranch.core.paper_capacity import source_record
+        result=argument_import.preview_import(self.raw)
+        result['source']=source_record(b'{"long":"'+b'x'*20000+b'"}')
+        answers=iter(['source original','q','q','continue','import'])
+        with patch('sys.stdout',new=io.StringIO()) as output:
+            self.assertTrue(review(result,read=lambda _:next(answers),registration=True))
+        self.assertNotIn('x'*1000,output.getvalue())
+        self.assertIn('Unknown command',output.getvalue())
+
+    def test_empty_root_exception_does_not_relax_other_nonblank_text(self):
+        from claimbranch.core.research_schema import normalize,TEXT
+        for schema in (TEXT,{'type':'string','maxLength':160}):
+            with self.assertRaisesRegex(ContractError,'nonblank'):
+                normalize('',schema)
+        from claimbranch.core.argument_import import _errors
+        from claimbranch.core.typed_observations import VALUE
+        errors=[];_errors(dict(type='mystery',value='0'),VALUE,'/cell',errors)
+        self.assertEqual('/cell/type',errors[0]['pointer'])
+        self.assertIn('integer',errors[0]['error'])
+
+
+    def test_post_review_manuscript_or_destination_change_prevents_publication(self):
+        def manuscript_changed(_):
+            (self.paper/'paper.tex').write_bytes(self.manuscript.replace(b'Synthetic paper only.',b'Changed source.'))
+        code,_,_=ImportedProjectTests.run_import(self,mutate=manuscript_changed)
+        self.assertEqual(1,code);self.assertEqual([],list(self.work.iterdir()))
+        (self.paper/'paper.tex').write_bytes(self.manuscript)
+        def destination_changed(_):
+            (self.work/'backup.cbp').write_bytes(b'preserve this concurrent file')
+        code,_,_=ImportedProjectTests.run_import(self,mutate=destination_changed)
+        self.assertEqual(1,code)
+        self.assertEqual(['backup.cbp'],[p.name for p in self.work.iterdir()])
+        self.assertEqual(b'preserve this concurrent file',(self.work/'backup.cbp').read_bytes())
+
+    def test_published_candidate_matches_the_exact_reviewed_preflight_commitment(self):
+        reviewed=[]
+        def confirm(result,details,**kwargs):
+            reviewed.append(details)
+            return True
+        with patch('claimbranch.application.import_review.review',side_effect=confirm):
+            code,_,error=ImportedProjectTests.run_import(self)
+        self.assertEqual(0,code,error)
+        self.assertEqual(1,len(reviewed));self.assertTrue(reviewed[0]['passed'])
+        with PersonalProjectStore(self.work) as store:
+            loaded=store.load()
+        self.assertEqual(reviewed[0]['result_sha256'],hashlib.sha256(loaded.payload).hexdigest())
+
+    def test_import_os_failure_does_not_echo_internal_os_filename(self):
+        with patch('claimbranch.application.project_commands._read_argument_input',side_effect=OSError(13,'private OS detail','hidden-private-path')):
+            with patch('sys.stdout',new=io.StringIO()),patch('sys.stderr',new=io.StringIO()) as errors:
+                self.assertEqual(1,main(['project','import-argument','--input','missing','--dry-run']))
+        self.assertIn('private regular input',errors.getvalue())
+        self.assertNotIn('hidden-private-path',errors.getvalue());self.assertNotIn('private OS detail',errors.getvalue())

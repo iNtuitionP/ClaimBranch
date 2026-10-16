@@ -177,6 +177,64 @@ class ColdReturnReaderTests(unittest.TestCase):
         from .test_original_registration import OriginalProjectTests
         OriginalProjectTests.setUp(self)
 
+    def test_eligibility_index_matches_full_evidence_without_copying_measurements(self):
+        from unittest.mock import patch
+        from claimbranch.core import research_history as module
+        state=module._reduce(self.project.work.history.seed,self.project.work.history.commands)
+        events=deepcopy(state['events']);original=deepcopy(events)
+        for action in ('correct','invalidate','retract'):
+            event=deepcopy(events[0]);event['action']=action;events.append(event)
+            expected={item['id']:item['status'] for item in module._evidence(events)}
+            with patch.object(module,'deepcopy',side_effect=AssertionError('Eligibility copied scientific content')):
+                self.assertEqual(expected,module._evidence_statuses(events))
+        for status in ('confirmed','corrected','invalidated','retracted'):
+            event=deepcopy(events[0]);event.update(action='import',imported_status=status);events.append(event)
+            expected={item['id']:item['status'] for item in module._evidence(events)}
+            with patch.object(module,'deepcopy',side_effect=AssertionError('Eligibility copied scientific content')):
+                self.assertEqual(expected,module._evidence_statuses(events))
+        for target,action in (('other-observation','confirm'),(events[0]['target_id'],'retract'),('other-observation','invalidate'),(events[0]['target_id'],'import')):
+            event=deepcopy(events[0]);event.update(target_id=target,action=action,imported_status='corrected');events.append(event)
+            self.assertEqual({item['id']:item['status'] for item in module._evidence(events)},module._evidence_statuses(events))
+        self.assertEqual(original,state['events'])
+
+    def test_malformed_imported_event_sources_fail_before_eligibility(self):
+        from application.test_original_registration import HistoricalV4ProjectTests
+        from claimbranch.core.research_history import ResearchHistory
+        from claimbranch.core.canonical import ContractError
+        for h in (self.project.work.history,HistoricalV4ProjectTests.v4(self).work.history):
+            for field in ('statement','experiment_id'):
+                seed=json.loads(h.seed);record=next(r for r in seed['initial_argument']['records'] if r['kind']=='observation');record['body'].pop(field)
+                with self.subTest(version=h.schema_version,field=field),self.assertRaises(ContractError):
+                    ResearchHistory.replay(encode(seed,purpose='history'),h.commands)
+
+    def test_causal_validation_matches_full_evidence_oracle_and_detached_query(self):
+        from types import SimpleNamespace
+        from unittest.mock import patch
+        from claimbranch.core import research_history as module
+        from claimbranch.application.personal_research import PersonalResearch
+        from claimbranch.application.tui_project import project_workspace
+        from claimbranch.application.paper_service import PaperService
+        app=project_workspace(self.project);app.recovery=SimpleNamespace(personal_project=True,project=self.project);app.select('C')
+        app.keep_draft('The proxy still needs an independent blind test.','Keep the original uncertainty.')
+        service=PersonalResearch(app,clock=lambda:2000000000);pending=service.prepare('reasoning');cause=deepcopy(pending.origin_record['cause']);service.cancel()
+        reader=PaperService(app.paper.history)
+        def full(events):return {item['id']:item['status'] for item in module._evidence(events)}
+        with patch.object(module,'_evidence_statuses',side_effect=full):expected=reader._causal_validation(cause)
+        reader.query('main',episode_id='local')['nodes'].clear()
+        actual=reader._causal_validation(cause);self.assertEqual(expected,actual)
+        actual['topics'].clear();self.assertEqual(expected,reader._causal_validation(cause))
+        from claimbranch.core.canonical import ContractError
+        for field,value in (('view_digest','0'*64),('project_id','different-project'),('episode_id','missing-episode'),('ref','alternative')):
+            bad=deepcopy(cause);bad['request'][field]=value
+            with self.subTest(field=field),self.assertRaises(ContractError):reader._causal_validation(bad)
+        direct=PaperService(app.paper.history);direct._query('main',episode_id='local')
+        self.assertEqual(expected,direct._causal_validation(cause))
+        h=app.paper.history;run=h.view('main')['experiments'][0]
+        experiment={key:deepcopy(run[key]) for key in ('id','question','method','conditions','metric','source_ref')};experiment['id']='new-run'
+        later=h.append(dict(schema_version=14,id='record-new-run',project_id=self.project.project_id,episode_id='local',created_at='2033-05-18T03:33:20Z',operation_type='record-experiment',expected_heads=dict(h.heads),evidence_watermark=h.watermark,payload=experiment))
+        self.assertEqual(h.heads,later.heads);self.assertEqual(h.watermark,later.watermark)
+        with self.assertRaises(ContractError):PaperService(later)._causal_validation(cause)
+
     def test_distinct_causes_match_full_previews_and_cannot_poison_shared_source(self):
         from types import SimpleNamespace
         from claimbranch.application.personal_research import PersonalResearch
@@ -363,6 +421,59 @@ class ColdReturnReaderTests(unittest.TestCase):
                 self.assertEqual(explanation_topics(cause,full),compact['topics'])
                 for key in ('selection','amendments','provenance'):self.assertEqual(full[key],compact[key])
 
+    def test_private_projection_sizes_match_actual_bytes_and_keep_fact_tree_readonly(self):
+        from dataclasses import asdict
+        from unittest.mock import patch
+        from claimbranch.application.paper_service import PaperService
+        from claimbranch.application.paper_proposal_work import explanation_topics
+        from claimbranch.core.review import Judgment
+        from claimbranch.core import paper_capacity as capacity
+        from .test_original_registration import HistoricalV4ProjectTests
+        for project in (self.project,HistoricalV4ProjectTests.v4(self)):
+            h=project.work.history;service=PaperService(h);view=service.query('main')
+            episode=view['episode_id'];judgment=Judgment.start(view['project_id'],episode).edit('A bounded reading.','Keep prior limitations visible.')
+            request=dict(schema_version=1,project_id=view['project_id'],episode_id=episode,ref='main',view_digest=view['digest'],draft_id='sizing-oracle',draft_revision=0,
+                         amendments=[dict(id='new-reading',kind='interpretation',body=dict(statement=judgment.text,observation_ids=[]))],selected_ids=['new-reading'])
+            cause=dict(owner=[episode,'main','C'],source=dict(commands=len(h.commands),digest=view['digest']),request=request,judgment=asdict(judgment),origin_digests=[])
+            full=service.preview_changes(request,judgment,source_node_id='C')
+            self.assertEqual(json.loads(h.seed)['initial_argument']['records'],h.view('main')['imported_records'])
+            ordinary_value=capacity.encoding_value;ordinary_size=capacity.encoded_size;captured=[];sizes=[]
+            def normalize_once(*args,**kwargs):
+                value=ordinary_value(*args,**kwargs);captured.append((value,deepcopy(value)));return value
+            def size_oracle(value,**kwargs):
+                for actual,prior in captured:self.assertEqual(prior,actual)
+                expected=len(service._bytes(value));actual=ordinary_size(value,**kwargs)
+                self.assertEqual(expected,actual);sizes.append(actual);return actual
+            with patch.object(capacity,'encoding_value',side_effect=normalize_once),patch.object(capacity,'encoded_size',side_effect=size_oracle):
+                compact=service._causal_validation(cause);expected=deepcopy(compact)
+                pool=service._causal_basis;before=deepcopy(pool[1]);normalizations=len(captured)
+                containers=[];seen=set()
+                def collect(item):
+                    if type(item) not in (dict,list) or id(item) in seen:return
+                    seen.add(id(item));containers.append(item)
+                    for child in (item.values() if type(item) is dict else item):collect(child)
+                collect(compact)
+                for item in containers:
+                    if type(item) is dict:item['mutation-probe']='changed'
+                    else:item.append('changed')
+                compact=service._causal_validation(cause)
+                self.assertEqual(expected,compact);self.assertIs(pool,service._causal_basis)
+                self.assertEqual(before,pool[1]);self.assertEqual(normalizations+1,len(captured))
+            self.assertEqual(2,len(sizes));self.assertEqual(explanation_topics(cause,full),compact['topics'])
+            for key in ('selection','amendments','provenance'):self.assertEqual(full[key],compact[key])
+            # A future view which changes source-record membership/order must
+            # fall back to the original seed annotations, preserving full bytes.
+            original_domain=h._paper_changes_value
+            def reordered(*args,**kwargs):
+                value=original_domain(*args,**kwargs);value=deepcopy(value)
+                value['before']['imported_records'].reverse();return value
+            with patch.object(type(h),'_paper_changes_value',side_effect=reordered):
+                expected=service.preview_changes(request,judgment,source_node_id='C')
+                with patch.object(capacity,'encoded_size',side_effect=size_oracle):
+                    actual=service._causal_validation(cause)
+            self.assertEqual(explanation_topics(cause,expected),actual['topics'])
+            for key in ('selection','amendments','provenance'):self.assertEqual(expected[key],actual[key])
+
     def test_co_report_and_companion_reach_matches_full_graph(self):
         from .test_co_report import CoReportTests
         from claimbranch.application.co_report import prepare_co_report
@@ -438,6 +549,73 @@ class CanonicalSizeTests(unittest.TestCase):
                 self.assertEqual(json.dumps(decode(raw,purpose='manifest'),ensure_ascii=False),
                     json.dumps(encoding_value(value,purpose='manifest'),ensure_ascii=False))
 
+    def test_projection_sizing_facts_keep_exact_bytes_depth_and_input_isolation(self):
+        from claimbranch.core.paper_capacity import encoding_value,encoded_size
+        from claimbranch.core.canonical import ContractError
+        shared={'e\u0301':['−0.01',None,True,'line\n"\\']}
+        original={'z':shared,'a':[shared]};facts={}
+        normalized=encoding_value(original,purpose='manifest',_checked=facts)
+        wrapped={'before':normalized,'after':{'payload':normalized['a']}}
+        self.assertEqual(len(encode(wrapped,purpose='manifest')),
+                         encoded_size(wrapped,purpose='manifest',_checked=facts))
+        shared['e\u0301'].append('later source edit')
+        self.assertNotIn('later source edit',normalized['z']['é'])
+        self.assertNotEqual(encoding_value(original,purpose='manifest'),normalized)
+        for bad in ({'unknown':1.5},{'e\u0301':1,'é':2},{'new':[0]*2049}):
+            with self.subTest(bad=type(bad)),self.assertRaises(ContractError):
+                encoded_size({'retained':normalized,**bad},purpose='manifest',_checked=facts)
+        deep=normalized
+        for _ in range(16):deep=[deep]
+        for operation in (lambda:encoding_value(deep,purpose='manifest'),
+                          lambda:encoded_size(deep,purpose='manifest',_checked=facts)):
+            with self.assertRaisesRegex(ContractError,'nesting'):operation()
+        empty=encoding_value({},purpose='manifest',_checked=facts);at_limit=empty
+        for _ in range(16):at_limit=[at_limit]
+        self.assertEqual(len(encode(at_limit,purpose='manifest')),
+                         encoded_size(at_limit,purpose='manifest',_checked=facts))
+        self.assertEqual(json.loads(encode(at_limit,purpose='manifest')),
+                         encoding_value(at_limit,purpose='manifest'))
+        for operation in (lambda:encoding_value([at_limit],purpose='manifest'),
+                          lambda:encoded_size([at_limit],purpose='manifest',_checked=facts)):
+            with self.assertRaisesRegex(ContractError,'nesting'):operation()
+        for reverse in (False,True):
+            repeated=[normalized,deep] if not reverse else [deep,normalized]
+            with self.assertRaisesRegex(ContractError,'nesting'):
+                encoding_value(repeated,purpose='manifest')
+
+    def test_projection_normalization_matches_canonical_oracle_on_seeded_trees(self):
+        import random
+        from claimbranch.core.paper_capacity import encoding_value,encoded_size,decode
+        from claimbranch.core.canonical import ContractError
+        rng=random.Random(671903)
+        atoms=[None,True,False,0,1,-1,2**53-1,'','é','e\u0301','한글','\n"\\','😀']
+        def tree(depth):
+            if depth==0 or rng.randrange(3)==0:return rng.choice(atoms)
+            if rng.randrange(2):return [tree(depth-1) for _ in range(rng.randrange(5))]
+            return {rng.choice(['a','z','é','e\u0301','한글']):tree(depth-1) for _ in range(rng.randrange(5))}
+        for _ in range(300):
+            source=tree(4)
+            try:raw=encode(source,purpose='manifest')
+            except ContractError:
+                with self.assertRaises(ContractError):encoding_value(source,purpose='manifest')
+                continue
+            facts={};value=encoding_value(source,purpose='manifest',_checked=facts)
+            self.assertEqual(decode(raw,purpose='manifest'),value)
+            self.assertEqual(raw,json.dumps(value,ensure_ascii=False,separators=(',',':')).encode())
+            wrapped={'copy':[value,value]}
+            self.assertEqual(len(encode(wrapped,purpose='manifest')),
+                             encoded_size(wrapped,purpose='manifest',_checked=facts))
+
+    def test_normalized_utf8_expansion_cannot_bypass_second_projection_check(self):
+        from claimbranch.core.paper_capacity import encoding_value,encoded_size,decode
+        from claimbranch.core.canonical import ContractError
+        source={'text':'\u0958'*5461};facts={}
+        normalized=encoding_value(source,purpose='manifest',_checked=facts)
+        self.assertEqual(json.loads(encode(source,purpose='manifest')),normalized)
+        for operation in (lambda:encode({'wrapped':normalized},purpose='manifest'),
+                          lambda:encoded_size({'wrapped':normalized},purpose='manifest',_checked=facts)):
+            with self.assertRaisesRegex(ContractError,'string limit'):operation()
+
     def test_hypothetical_branch_fork_matches_eager_copy_for_archived_and_active_episodes(self):
         from claimbranch.core.research_history import _fork_preview_state,_episode_branches
         for version in (2,5,14):
@@ -454,10 +632,10 @@ class CanonicalSizeTests(unittest.TestCase):
                     self.assertEqual(expected,actual);self.assertEqual(before,source)
 
     def test_same_type_unicode_depth_collection_and_byte_overflow_refusals(self):
-        from claimbranch.core.paper_capacity import encoded_size
+        from claimbranch.core.paper_capacity import encoded_size,encoding_value
         from claimbranch.core.canonical import ContractError
         deep=None
         for i in range(18):deep=[deep]
         for value in (1.5,2**53,'x'*16385,'\ud800',{'e\u0301':1,'é':2},{1:'bad key'},[0]*2049,deep,['x'*16384]*513):
-            for operation in (encode,encoded_size):
+            for operation in (encode,encoded_size,encoding_value):
                 with self.subTest(operation=operation.__name__),self.assertRaises(ContractError):operation(value,purpose='manifest')

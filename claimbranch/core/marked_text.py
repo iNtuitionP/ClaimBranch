@@ -43,9 +43,10 @@ def marked_block(source, marker):
     return raw
 
 
-def selector_schema():
+def selector_schema(version=1):
     """Separate read-only selector version; old marker contracts are unchanged."""
-    return {'type':'object','properties':{'schema':{'const':'claimbranch.tex-selector/v1'},
+    if version not in (1,2): raise ContractError('Unknown TeX selector version')
+    return {'type':'object','properties':{'schema':{'const':f'claimbranch.tex-selector/v{version}'},
         'kind':{'enum':['label','abstract']},'value':{'type':'string','minLength':1,'maxLength':160,'pattern':r'^[A-Za-z0-9:._/-]+$'}},
         'required':['schema','kind','value'],'additionalProperties':False}
 
@@ -63,18 +64,32 @@ def latex_span(source, selector):
     """
     import re
     from .research_schema import normalize
-    selector=normalize(selector,selector_schema())
+    version = 2 if type(selector) is dict and selector.get('schema') == 'claimbranch.tex-selector/v2' else 1
+    selector=normalize(selector,selector_schema(version))
     if type(source) is not bytes or len(source)>2097152:raise ContractError('TeX source exceeds 2 MiB')
     try:text=source.decode('utf-8')
 
     except UnicodeError:raise ContractError('TeX source must be UTF-8') from None
     if re.search(r'\r(?!\n)',text):raise ContractError('TeX label sources require LF or CRLF lines')
     masked=list(text);i=0
+    condition_stack=[]; regions=[]; declared=set()
+    primitives={'if','ifcat','ifnum','ifdim','ifodd','ifvmode','ifhmode','ifmmode','ifinner','ifvoid','ifhbox','ifvbox','ifx','ifeof','iftrue','iffalse','ifcase','ifdefined','ifcsname','iffontchar'}
+    from bisect import bisect_right
+    from array import array
+    newlines=array('I',(j for j,char in enumerate(text) if char=='\n')) if version==2 else ()
+    def at_line(pos): return bisect_right(newlines,pos)+1
+    def conditional_error(pos, reason):
+        raise ContractError('TeX conditional at line %s: %s' % (at_line(pos),reason))
     def blank(a,b):masked[a:b]=' '*(b-a)
+    def check_mask(a,b):
+        if version==2 and condition_stack and any(m[1]!='iff' for m in re.finditer(r'\\(if[A-Za-z@]*|else|or|fi)(?![A-Za-z@])',text[a:b])):
+            conditional_error(condition_stack[0]['start'],'literal code or macro masks a possible branch terminator')
     def group(start,left='{',right='}'):
         if start>=len(text) or text[start]!=left:raise ContractError('unsupported TeX argument')
         depth=1;j=start+1
         while j<len(text):
+            if version==2 and text[j]=='%':
+                newline=text.find('\n',j);j=len(text) if newline<0 else newline+1;continue
             if text[j]=='\\':j+=2;continue
             if text[j]==left:depth+=1
             elif text[j]==right:
@@ -87,6 +102,39 @@ def latex_span(source, selector):
             end=text.find('\n',i);end=len(text) if end<0 else end
             blank(i,end);i=end;continue
         if text[i]=='\\':
+            if version == 2:
+                declaration=re.match(r'\\newif(?![A-Za-z@])\s*(\\if[A-Za-z@]+)(?![A-Za-z@])',text[i:])
+                if declaration and not any(frame['false'] for frame in condition_stack):
+                    name=declaration[1][1:]
+                    if name in primitives|{'iff'} or name in declared:conditional_error(i,'ambiguous switch declaration')
+                    if condition_stack:conditional_error(i,'switch declaration in an uncertain branch')
+                    declared.add(name);end=i+declaration.end();blank(i,end);i=end;continue
+                conditional=re.match(r'\\(if[A-Za-z@]*|else|or|fi)(?![A-Za-z@])',text[i:])
+                if conditional and conditional[1]!='iff':
+                    name=conditional[1]
+                    if name.startswith('if'):
+                        if name not in primitives|declared:
+                            conditional_error(i,'unknown switch; a literal newif declaration is required')
+                        if len(condition_stack)>=32:conditional_error(i,'nesting exceeds 32')
+                        condition_stack.append(dict(start=i,false=name=='iffalse',else_seen=False,name=name))
+                    elif not condition_stack:conditional_error(i,'unmatched '+name)
+                    elif name in ('else','or'):
+                        frame=condition_stack[-1]
+                        if frame['else_seen'] or (name=='or' and frame['name']!='ifcase'):conditional_error(i,'ambiguous '+name)
+                        if name=='else':frame['else_seen']=True
+                        # A false condition with else has an active alternative;
+                        # never treat that whole region as an inert comment.
+                        if name=='else':frame['false']=False
+                    else:
+                        frame=condition_stack.pop()
+                        inert=frame['name']=='iffalse' and not frame['else_seen']
+                        if not condition_stack:
+                            if len(regions)>=2048:conditional_error(i,'region count exceeds 2048')
+                            regions.append((frame['start'],i+conditional.end(),inert))
+                        elif inert:blank(frame['start'],i+conditional.end())
+                    i+=conditional.end();continue
+                if any(frame['false'] for frame in condition_stack):
+                    i+=2;continue
             verb=re.match(r'\\(?:verb|lstinline)\*?([^A-Za-z\s{])',text[i:])
             env=re.match(r'\\begin\s*\{(verbatim\*?|Verbatim|lstlisting|minted|comment)\}',text[i:])
             definition=re.match(r'\\(?:newcommand|renewcommand|providecommand|DeclareRobustCommand)\*?',text[i:])
@@ -97,7 +145,7 @@ def latex_span(source, selector):
             if verb:
                 a=i+verb.end();end=text.find(verb[1],a);newline=text.find('\n',a)
                 if end<0 or 0<=newline<end:raise ContractError('unterminated inline verbatim')
-                blank(i,end+1);i=end+1;continue
+                check_mask(i,end+1);blank(i,end+1);i=end+1;continue
             if env:
                 # Begin-line tails are not literal-environment body lines.
                 # Support only ordinary options/language followed by whitespace.
@@ -118,7 +166,8 @@ def latex_span(source, selector):
                 first=re.search(r'\\end\s*\{'+re.escape(env[1])+r'\}',text[body_start:])
                 token_start=closing.start()+len(closing.group())-len(closing.group().lstrip(' \t'))
                 if first is None or first.start()!=token_start or first.group()!='\\end{'+env[1]+'}':raise ContractError('ambiguous literal environment closer')
-                end=body_start+closing.end();blank(i,end);i=end;continue
+                end=body_start+closing.end();check_mask(i,end);blank(i,end);i=end;continue
+            if version==2 and re.match(r'\\(?:def|gdef|edef|newcommand|renewcommand|providecommand)\*?\s*\{?\\(?:if[A-Za-z@]*|else|fi|or|newif)(?![A-Za-z@])',text[i:]):raise ContractError('conditional TeX command redefinition is unsupported')
             if definition:
                 j=i+definition.end()
                 while j<len(text) and text[j].isspace():j+=1
@@ -131,13 +180,23 @@ def latex_span(source, selector):
                     while j<len(text) and text[j].isspace():j+=1
                     if j<len(text) and text[j]=='[':j=group(j,'[',']')
                     else:break
-                end=group(j);blank(i,end);i=end;continue
+                end=group(j);check_mask(i,end);blank(i,end);i=end;continue
             if re.match(r'\\(?:def|gdef|edef)(?![A-Za-z@])',text[i:]):
                 j=text.find('{',i)
                 if j<0:raise ContractError('unsupported macro definition')
-                end=group(j);blank(i,end);i=end;continue
+                end=group(j);check_mask(i,end);blank(i,end);i=end;continue
             i+=2;continue
         i+=1
+    if condition_stack:conditional_error(condition_stack[0]['start'],'unterminated region')
+    conditional_labels=[]
+    if version == 2:
+        for start,end,inert in regions:
+            region=''.join(masked[start:end])
+            if not inert:
+                _validate_conditional_region(region,at_line(start))
+                if selector['kind']=='label' and re.search(r'\\label(?![A-Za-z@])\s*\{'+re.escape(selector['value'])+r'\}',region):
+                    conditional_labels.append(start)
+            blank(start,end)
     clean=''.join(masked)
     tokens=re.compile(r'\\(?:begin|end)\s*\{([A-Za-z*]+)\}|\\(part|chapter|section|subsection|subsubsection|paragraph|subparagraph)(?![A-Za-z])\*?|\\label(?![A-Za-z])\s*\{([^{}]+)\}|\\[A-Za-z@]+|\\.|[{}]')
     stack=[];sections=[];matches=[];labels={};depth=0;skip=0;document_end=len(text)
@@ -172,7 +231,7 @@ def latex_span(source, selector):
                 if stack[-1]['name'] in ('figure','figure*','table','table*') and not any(e['name'] in ('figure','figure*','table','table*') for e in stack[:-1]):stack[-1]['labels'].append(label)
             elif sections and not clean[sections[-1]['title_end']:pos].strip():sections[-1]['labels'].append(label)
         elif value in ('\\label','\\begin','\\end'):raise ContractError('unsupported literal structural command argument')
-        elif re.match(r'\\(?:if[A-Za-z@]*|else|fi|csname|catcode)(?![A-Za-z@])',value):raise ContractError('conditional or dynamic TeX structure is unsupported')
+        elif (version==1 or value!='\\iff') and re.match(r'\\(?:if[A-Za-z@]*|else|fi|csname|catcode)(?![A-Za-z@])',value):raise ContractError('conditional or dynamic TeX structure is unsupported')
         elif value=='{':depth+=1
         elif value=='}':
             depth-=1
@@ -183,9 +242,12 @@ def latex_span(source, selector):
         for label in section['labels']:matches.append((label,section['start'],end,'section'))
     key=selector['value']
     if selector['kind']=='abstract' and key!='abstract':raise ContractError('abstract selector must name abstract')
+    if conditional_labels:conditional_error(conditional_labels[0],'selected label may lie in a conditional branch')
     if selector['kind']=='label' and labels.get(key)!=1:raise ContractError('exact unique literal LaTeX label required')
     chosen=[m for m in matches if m[0]==key and (selector['kind']=='abstract')==(m[3]=='abstract')]
     if len(chosen)!=1:raise ContractError('label is missing, ambiguous or outside supported structure')
+    for start,end,inert in regions:
+        if start < chosen[0][2] and end > chosen[0][1]:conditional_error(start,'conditional overlaps or is enclosed by the selected span')
     raw=text[chosen[0][1]:chosen[0][2]].encode('utf-8')
     if len(raw)>65536:raise ContractError('resolved TeX span exceeds 64 KiB')
     return raw
@@ -198,3 +260,28 @@ def validate_span_kind(raw, kind):
     match=re.match(rb'\\begin\s*\{(figure\*?|table\*?)\}',raw)
     actual=match[1].rstrip(b'*').decode() if match else 'text'
     if kind!=actual:raise ContractError('Anchor kind differs from the literal label structure')
+
+
+def _validate_conditional_region(text, first_line):
+    """Each possible branch must be structurally self-contained, never executed."""
+    import re
+    structural=[];frames=[]
+    token=re.compile(r'\\(?:begin|end)\s*\{([A-Za-z*]+)\}|\\(if[A-Za-z@]*|else|or|fi)(?![A-Za-z@])|\\[A-Za-z@]+|\\.|[{}]')
+    for match in token.finditer(text):
+        value=match.group()
+        def refuse():
+            raise ContractError('TeX conditional at line %s: branch structure crosses conditional boundaries' % (first_line+text.count('\n',0,match.start())))
+        if match[2] and match[2]!='iff':
+            name=match[2]
+            if name.startswith('if'):frames.append(tuple(structural))
+            elif name in ('else','or'):
+                if not frames or tuple(structural)!=frames[-1]:refuse()
+            else:
+                if not frames or tuple(structural)!=frames.pop():refuse()
+        elif match[1]:
+            if value.startswith('\\begin'):structural.append(('env',match[1]))
+            elif not structural or structural.pop()!=('env',match[1]):refuse()
+        elif value=='{':structural.append(('group',None))
+        elif value=='}':
+            if not structural or structural.pop()!=('group',None):refuse()
+    if structural or frames:raise ContractError('TeX conditional at line %s: incomplete branch structure' % first_line)

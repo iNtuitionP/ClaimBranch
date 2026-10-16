@@ -47,6 +47,7 @@ EDGE_KINDS = MappingProxyType({
     'challenges': _edge('challenges', 'challenged by', 'Raises a recorded objection to the target claim; does not prove it false.', _SOURCES, ('claim',), True),
     'qualifies': _edge('qualifies', 'qualified by', 'Limits the scope, conditions or strength of the target claim.', _SOURCES, ('claim',), True),
     'part-of': _edge('part of', 'contains', 'Claim hierarchy; not scientific support.', ('claim',), ('claim',)),
+    'replaces': _edge('replaces record', 'replacement record', 'Explicit observation replacement context; neither status nor evidence eligibility changes.', ('observation',), ('observation',)),
     'produced': _edge('produced', 'produced by', 'A recorded experiment produced this observation; not a planned result.', ('experiment-record',), ('observation',)),
     'interprets': _edge('interprets', 'interpreted by', 'An interpretation reads these recorded observations.', ('interpretation',), ('observation',)),
     'tests': _edge('tests', 'tested by', 'An unrun experiment plan tests a claim.', ('experiment-plan',), ('claim',)),

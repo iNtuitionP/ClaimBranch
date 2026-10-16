@@ -32,9 +32,19 @@ alternatives, and consequences. Use the [ADR template](../../_meta/templates/adr
 
 | [0025](0025-scoped-import-review-retention.md) | accepted | Retain bounded scoped import reviews with independent AI/unknown influence and no blanket deferral |
 
-| [0026](0026-literal-label-manuscript-associations.md) | accepted | Connect read-only labeled LaTeX spans through versioned private bindings while preserving marker contracts |
+| [0026](0026-literal-label-manuscript-associations.md) | superseded | Connect read-only labeled LaTeX spans through versioned private bindings while preserving marker contracts |
 
 | [0027](0027-opt-in-shared-audit-manifests.md) | accepted | Explicitly opt into lossless shared audit values without changing old prefixes or stored limits |
+
+| [0028](0028-conditional-aware-manuscript-selectors.md) | accepted | Add conditional-aware literal selectors with explicit legacy upgrade and closed batch/private versions |
+
+| [0029](0029-versioned-original-source-comparisons.md) | accepted | Version precise source normalization and Markdown sections with closed outer retention formats |
+
+| [0030](0030-source-faithful-partial-historical-records.md) | accepted | Retain explicit partial historical meaning, independent declarations, original labels and honest date precision |
+
+| [0031](0031-completed-experiment-protocols-and-result-replacements.md) | accepted | Attach source-claimed protocols to completed work and record explicit result replacements without status changes |
+
+| [0032](0032-iterative-preparation-and-proportional-metadata-review.md) | accepted | Iterate private preparations, review metadata proportionally and retain scoped lexical acknowledgements |
 
 Numbers are never reused. A proposed ADR may change during review. After
 acceptance, repair only wording, links, metadata, or explicit supersession;

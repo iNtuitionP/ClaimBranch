@@ -27,6 +27,39 @@ INPUT={'oneOf':[obj(schema={'const':'claimbranch.protocol-input/v1'},operation_t
 LIMITS={'protocols':128,'experiment_associations':128,'gate_amendments':256,'gate_results':512,'outcome_assessments':256}
 
 
+# New targets are purpose-bound; the v1 request and command10/12 stay closed.
+COMPLETED_PROTOCOL=deepcopy(PROTOCOL)
+for _key in ('plan_id','expected_plan_digest'):
+    del COMPLETED_PROTOCOL['properties'][_key];COMPLETED_PROTOCOL['required'].remove(_key)
+for _key,_schema in dict(experiment_id=ID,expected_experiment_digest=HASH,association_id=ID).items():
+    COMPLETED_PROTOCOL['properties'][_key]=_schema;COMPLETED_PROTOCOL['required'].append(_key)
+
+
+def input_schema(version=1):
+    if version==1:return deepcopy(INPUT)
+    if version!=2:raise ContractError('Unknown protocol input version')
+    from .observation_lineage import REPLACEMENT
+    payloads={**PAYLOADS,'register-experiment-protocol':COMPLETED_PROTOCOL,'record-observation-replacement':REPLACEMENT}
+    return {'oneOf':[obj(schema={'const':'claimbranch.protocol-input/v2'},operation_type={'const':kind},payload=payload) for kind,payload in payloads.items()]}
+
+
+def experiment_digest(experiment):
+    scientific={key:experiment[key] for key in ('id','question','method','conditions','metric','source_ref')}
+    return hashlib.sha256(encode(scientific,purpose='history')).hexdigest()
+
+
+def target_id(protocol):
+    return protocol.get('experiment_id',protocol.get('plan_id'))
+
+
+def target_matches(state,protocol):
+    if 'experiment_id' in protocol:
+        target=state['experiments'].get(protocol['experiment_id'])
+        return target is not None and experiment_digest(target)==protocol['expected_experiment_digest']
+    target=state['branches']['main']['changes'].get(protocol['plan_id'])
+    return target is not None and plan_digest(target)==protocol['expected_plan_digest']
+
+
 def plan_digest(plan):
     scientific={key:plan[key] for key in ('id','kind','body')}
     return hashlib.sha256(encode(scientific,purpose='history')).hexdigest()
@@ -38,34 +71,50 @@ def basis_identity(references):
 
 def apply_protocol(state,command):
     from .research_history import _record_ids,_evidence
-    if state['seed']['schema_version'] not in (4, 5, 14) or state['active_episode'] is None:raise ContractError('Protocol work requires an active personal paper episode')
+    if state['seed']['schema_version'] not in (4, 5, 14, 18) or state['active_episode'] is None:raise ContractError('Protocol work requires an active personal paper episode')
     kind=command['operation_type'];payload=command['payload'];key=payload['id'];main=state['branches']['main']
-    bucket={'register-protocol':'protocols','associate-experiment':'experiment_associations','amend-gate-rule':'gate_amendments','record-gate-result':'gate_results','record-outcome':'outcome_assessments'}[kind]
+    bucket={'register-protocol':'protocols','register-experiment-protocol':'protocols','associate-experiment':'experiment_associations','amend-gate-rule':'gate_amendments','record-gate-result':'gate_results','record-outcome':'outcome_assessments'}[kind]
     records=state.setdefault(bucket,{})
     if key in _record_ids(state):raise ContractError('Protocol record identity reused or aliases a record')
     if len(records)>=LIMITS[bucket]:raise ContractError(f'capacity {bucket}: {len(records)+1} / {LIMITS[bucket]}')
     record=deepcopy(payload);record.update(operation_id=command['id'],recorded_at=command['created_at'],chronology_verified=False,source_fidelity_verified=False)
-    if kind=='register-protocol':
-        plan=main['changes'].get(payload['plan_id'])
-        if not plan or plan['kind']!='experiment-plan':raise ContractError('Protocol requires a current main experiment plan')
-        if payload['expected_plan_digest']!=plan_digest(plan):raise ContractError('Plan changed; preview the exact registered plan again')
-        previous=[p for p in state.get('protocols',{}).values() if p['plan_id']==payload['plan_id']]
+    if kind in ('register-protocol','register-experiment-protocol'):
+        completed=kind=='register-experiment-protocol'
+        plan=state['experiments'].get(payload['experiment_id']) if completed else main['changes'].get(payload['plan_id'])
+        if not completed and (not plan or plan['kind']!='experiment-plan'):raise ContractError('Protocol requires a current main experiment plan')
+        if completed and not plan:raise ContractError('Protocol requires a recorded completed experiment')
+        if not target_matches(state,payload):raise ContractError('Protocol target changed; preview its exact scientific content again' if completed else 'Plan changed; preview the exact registered plan again')
+        previous=[p for p in state.get('protocols',{}).values() if target_id(p)==target_id(payload) and ('experiment_id' in p)==completed]
         if payload['supersedes_id']!=(previous[-1]['id'] if previous else None):raise ContractError('Protocol revision must name the latest protocol for this plan')
         ids=[g['id'] for g in payload['gates']]
-        if len(set(ids))!=len(ids) or any(g in _record_ids(state) or g==key for g in ids):raise ContractError('Gate identities must be fresh and unique')
-        record['plan_snapshot']=deepcopy(plan)
+        if len(set(ids))!=len(ids) or any(g in _record_ids(state) or g==key or (completed and g==payload['association_id']) for g in ids):raise ContractError('Gate identities must be fresh and unique')
+        record['experiment_snapshot' if completed else 'plan_snapshot']=deepcopy(plan)
+        if completed:
+            association_id=payload['association_id']
+            if association_id in _record_ids(state) or association_id==key:raise ContractError('Completed association identity must be fresh')
+            associations=state.setdefault('experiment_associations',{})
+            if len(associations)>=LIMITS['experiment_associations']:raise ContractError('capacity experiment_associations exceeded')
+            observations=[e['id'] for e in _evidence(state['events']) if e['run_id']==plan['id']]
+            associations[association_id]=dict(id=association_id,protocol_id=key,experiment_id=plan['id'],expected_experiment_digest=payload['expected_experiment_digest'],
+                experiment_snapshot=deepcopy(plan),metric_differs_from_registered_plan=None,app_observations_already_recorded=observations,
+                app_observations_known_before_registration=observations,preinspection_disclosure_conflict=payload['inspected_before_registration']=='unseen' and bool(observations),
+                amendment_disclosure_conflicts=[],rationale=payload['rationale'],operation_id=command['id'],recorded_at=command['created_at'],chronology_verified=False,source_fidelity_verified=False)
         record['observations_known_at_registration']={e['id']:e['run_id'] for e in _evidence(state['events'])}
         associations=state.get('experiment_associations',{})
-        prior_runs={a['experiment_id'] for a in associations.values() if a['protocol_id'] in {p['id'] for p in previous}}
+        prior_runs=({plan['id']} if completed else set())|{a['experiment_id'] for a in associations.values() if a['protocol_id'] in {p['id'] for p in previous}}
         record['app_observations_already_recorded']=[e['id'] for e in _evidence(state['events']) if e['run_id'] in prior_runs]
         record['prior_protocol_ids']=[p['id'] for p in previous]
-        if state['seed']['schema_version'] in (5, 14):
+        if state['seed']['schema_version'] in (5, 14, 18):
             from .argument_import import source_references
-            record['source_refs']=source_references(state,main,[plan],payload['plan_id'])
+            record['source_refs']=source_references(state,main,[] if completed else [plan],target_id(payload))
         else:record['source_refs']=[]
+        if completed:
+            record['new_input_origin']=command['contribution_origin']
+            associations[association_id].update(origin=payload['origin'],new_input_origin=command['contribution_origin'],source_refs=deepcopy(record['source_refs']))
     elif kind=='associate-experiment':
         protocol=state.get('protocols',{}).get(payload['protocol_id'])
         if not protocol:raise ContractError('Unknown registered protocol')
+        if 'experiment_id' in protocol and kind=='associate-experiment':raise ContractError('Completed protocol already has its explicit experiment association')
         if any(p['supersedes_id']==protocol['id'] for p in state.get('protocols',{}).values()):raise ContractError('Superseded protocol cannot receive a new association or rule amendment')
         plan=main['changes'].get(protocol['plan_id'])
         if plan is None or payload['expected_plan_digest']!=protocol['expected_plan_digest'] or plan_digest(plan)!=payload['expected_plan_digest']:raise ContractError('Current plan differs from registered rules; explicitly register a new protocol revision')
@@ -73,6 +122,8 @@ def apply_protocol(state,command):
         experiment=state['experiments'].get(payload['experiment_id'])
         if not experiment:raise ContractError('Association requires a recorded experiment; this does not execute it')
         record['experiment_snapshot']=deepcopy(experiment)
+        if experiment.get('metric') is None or any(value is None for value in experiment['metric'].values()):
+            raise ContractError('Experiment metric is not recorded completely; cannot compare it with the registered plan')
         record['metric_differs_from_registered_plan']=experiment['metric']!=plan['body']['metric']
         record['app_observations_already_recorded']=[e['id'] for e in _evidence(state['events']) if e['run_id']==experiment['id']]
         record['app_observations_known_before_registration']=[key for key,run in protocol['observations_known_at_registration'].items() if run==experiment['id']]
@@ -82,8 +133,7 @@ def apply_protocol(state,command):
         protocol=state.get('protocols',{}).get(payload['protocol_id'])
         if not protocol:raise ContractError('Unknown registered protocol')
         if any(p['supersedes_id']==protocol['id'] for p in state.get('protocols',{}).values()):raise ContractError('Superseded protocol cannot receive a new association or rule amendment')
-        plan=main['changes'].get(protocol['plan_id'])
-        if plan is None or plan_digest(plan)!=protocol['expected_plan_digest']:raise ContractError('Current plan differs from registered rules; explicitly register a new protocol revision')
+        if not target_matches(state,protocol):raise ContractError('Current plan differs from registered rules; explicitly register a new protocol revision')
         record['observations_known_at_amendment']={e['id']:e['run_id'] for e in _evidence(state['events'])}
         rule=current_rules(state,protocol).get(payload['gate_id'])
         if not rule or rule['id']!=payload['expected_rule_id']:raise ContractError('Stale or unknown gate rule revision')
@@ -125,7 +175,10 @@ def apply_protocol(state,command):
             record['validity_verified']=False
     records[key]=record
     origins={record.get('origin',command.get('contribution_origin','human'))}|set().union(*(reference_origins(ref) for ref in record.get('source_refs',[])))
-    for branch in state['branches'].values():branch.setdefault('protocol_origins',{})[key]=sorted(origins)
+    if kind=='register-experiment-protocol':origins.add(command['contribution_origin'])
+    for branch in state['branches'].values():
+        branch.setdefault('protocol_origins',{})[key]=sorted(origins)
+        if kind=='register-experiment-protocol':branch['protocol_origins'][payload['association_id']]=sorted(origins)
     # A rule/assessment changes review context without rewriting values or claim status.
     main['head']=command['id']
 
@@ -157,15 +210,15 @@ def protocol_context(view):
         elif change['kind']=='interpretation':incoming.setdefault(change['id'],[]).extend(body['observation_ids'])
         elif change['kind']=='experiment-plan':incoming.setdefault(body['claim_id'],[]).append(change['id'])
     result={}
-    roots={c['id'] for c in view['claims']}|set(evidence)|{i['id'] for i in view['interpretations']}|{c['id'] for c in view['experiment_plans']}
+    roots={e['id'] for e in view['experiments']}|{c['id'] for c in view['claims']}|set(evidence)|{i['id'] for i in view['interpretations']}|{c['id'] for c in view['experiment_plans']}
     for root in sorted(roots):
         pending=deque([root]);seen=set()
         while pending:
             node=pending.popleft()
             if node in seen:continue
             seen.add(node);pending.extend(incoming.get(node,[]))
-        runs={evidence[n]['run_id'] for n in seen if n in evidence}
-        selected={a['protocol_id'] for a in associations.values() if a['experiment_id'] in runs}|{p['id'] for p in protocols.values() if p['plan_id'] in seen}
+        runs={evidence[n]['run_id'] for n in seen if n in evidence}|{e['id'] for e in view['experiments'] if e['id'] in seen}
+        selected={a['protocol_id'] for a in associations.values() if a['experiment_id'] in runs}|{p['id'] for p in protocols.values() if target_id(p) in seen}
         if not selected:continue
         contexts=[]
         for protocol in protocols.values():
@@ -176,18 +229,26 @@ def protocol_context(view):
             for assessment in outcomes+gates:
                 assessment['rule_differs_from_current']=any(rule_id not in {r['id'] for r in current_rules(state,protocol).values()} for rule_id in assessment.get('rule_ids',[assessment.get('rule_id')]))
                 assessment['basis_stale']=any(r['observation_id'] not in evidence or evidence[r['observation_id']]['history'][-1]['event_id']!=r['event_id'] or evidence[r['observation_id']]['status'] not in ('confirmed','corrected') for r in assessment['observation_revisions'])
-            plan=next((c for c in view['changes'] if c['id']==protocol['plan_id']),None)
+            completed='experiment_id' in protocol
+            plan=next((c for c in (view['experiments'] if completed else view['changes']) if c['id']==target_id(protocol)),None)
             amendments=[deepcopy(a) for a in state['gate_amendments'].values() if a['protocol_id']==protocol['id']]
             conflicts={key for a in associations.values() if a['id'] in related for key in a.get('amendment_disclosure_conflicts',[])}
             for amendment in amendments:amendment['later_association_disclosure_conflict']=amendment['id'] in conflicts
-            main_digest=view.get('protocol_plan_digests',{}).get(protocol['plan_id'])
-            contexts.append(dict(protocol=deepcopy(protocol),view_plan_matches_registration=None if plan is None else plan_digest(plan)==protocol['expected_plan_digest'],plan_visibility='not-in-this-reasoning-view' if plan is None else 'available',
-                plan_changed_since_registration=None if main_digest is None else main_digest!=protocol['expected_plan_digest'],
+            main_digest=view.get('protocol_experiment_digests' if completed else 'protocol_plan_digests',{}).get(target_id(protocol))
+            expected=protocol['expected_experiment_digest' if completed else 'expected_plan_digest']
+            contexts.append(dict(protocol=deepcopy(protocol),view_plan_matches_registration=None if plan is None else (experiment_digest(plan) if completed else plan_digest(plan))==expected,plan_visibility='not-in-this-reasoning-view' if plan is None else 'available',
+                plan_changed_since_registration=None if main_digest is None else main_digest!=expected,
                 current_rules=current_rules(state,protocol),original_and_amended_rules=rule_versions(state,protocol),
                 associations=[deepcopy(a) for a in associations.values() if a['id'] in related],outcomes=outcomes,gate_results=gates,
                 amendments=amendments,
                 superseded_by=[p['id'] for p in protocols.values() if p['supersedes_id']==protocol['id']],global_registry=True,
                 registry_scope='Global at the requested history prefix; episode views retain current global evidence/rules.',
                 confirmatory_provenance='source-claimed' if protocol['inspected_before_registration']=='unseen' else 'exploratory-disclosed' if protocol['inspected_before_registration']=='seen' else 'unknown',chronology_verified=False))
+        for context in contexts:
+            if 'experiment_id' in context['protocol']:
+                context['target_kind']='completed-experiment'
+                context['experiment_changed_since_registration']=context.pop('plan_changed_since_registration')
+                context['view_experiment_matches_registration']=context.pop('view_plan_matches_registration')
+                context['experiment_visibility']=context.pop('plan_visibility')
         result[root]=contexts
     return result

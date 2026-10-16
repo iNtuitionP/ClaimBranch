@@ -276,13 +276,13 @@ class ArgumentImportEntryTests(unittest.TestCase):
         self.assertEqual(json.loads(output), json.loads(process.stdout))
         self.assertEqual(before, self.path.read_bytes()); self.assertEqual(names, set(self.root.iterdir()))
 
-    def test_public_plain_preview_contains_originals_and_disabled_registration_refuses(self):
+    def test_public_plain_preview_is_bounded_and_missing_registration_options_refuse(self):
         code, output, error = self.run_cli('--dry-run')
-        self.assertEqual(0, code, error); self.assertIn('COMPLETE ORIGINAL JSON', output)
-        self.assertIn('banned_terms', output); self.assertIn('"contributor": "unknown"', output)
+        self.assertEqual(0, code, error); self.assertIn('Source original:', output)
+        self.assertNotIn('banned_terms', output); self.assertIn("'unknown': 5", output)
         with patch('claimbranch.application.project_commands.os.open', side_effect=AssertionError('must refuse before reads')):
             code, _, error = self.run_cli()
-        self.assertEqual(1, code); self.assertIn('registration is not yet available', error)
+        self.assertEqual(1, code); self.assertIn('--directory', error)
 
     def test_private_regular_input_required_before_preview(self):
         self.path.chmod(0o644)
@@ -299,9 +299,9 @@ class ArgumentImportEntryTests(unittest.TestCase):
         os.close(slave)
         output = b''; deadline = time.monotonic() + 10
         try:
-            while b'next page / q' not in output and time.monotonic() < deadline:
+            while b'Review: details / q: leave preview: ' not in output and time.monotonic() < deadline:
                 if select.select([master], [], [], 0.2)[0]: output += os.read(master, 16384)
-            self.assertIn(b'next page / q', output)
+            self.assertIn(b'Review: details / q: leave preview: ', output)
             os.write(master, b'q\n')
             self.assertEqual(0, process.wait(timeout=5))
             self.assertEqual(['argument.json'], [path.name for path in self.root.iterdir()])
@@ -317,9 +317,9 @@ class ArgumentImportEntryTests(unittest.TestCase):
                                     '--input', str(self.path), '--dry-run'], stdin=slave, stdout=slave, stderr=slave)
         os.close(slave); output = b''; deadline = time.monotonic() + 10
         try:
-            while b'next page / q' not in output and time.monotonic() < deadline:
+            while b'Review: details / q: leave preview: ' not in output and time.monotonic() < deadline:
                 if select.select([master], [], [], 0.2)[0]: output += os.read(master, 16384)
-            self.assertIn(b'next page / q', output); os.write(master, b'q\n')
+            self.assertIn(b'Review: details / q: leave preview: ', output); os.write(master, b'q\n')
             self.assertEqual(1, process.wait(timeout=5))
         finally:
             if process.poll() is None: process.kill(); process.wait()
@@ -344,7 +344,10 @@ class ArgumentImportEntryTests(unittest.TestCase):
             def isatty(self): return True
         for raised, expected in ((EOFError, 1), (KeyboardInterrupt, 130)):
             output = TTY()
-            with patch('sys.stdout', output), patch('sys.stdin.isatty', return_value=True), patch('builtins.input', side_effect=raised) as prompt:
+            with patch('sys.stdout', output), patch('sys.stdin.isatty', return_value=True), patch('claimbranch.application.import_review.ReviewInput') as reader:
+                from contextlib import nullcontext
+                prompt=__import__('unittest.mock',fromlist=['Mock']).Mock(side_effect=raised)
+                reader.return_value=nullcontext(prompt)
                 code = main(['project', 'import-argument', '--input', str(self.path), '--dry-run'])
             self.assertEqual(expected, code)
             self.assertEqual(1, prompt.call_count)

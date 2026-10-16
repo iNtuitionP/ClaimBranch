@@ -125,7 +125,7 @@ class CoReportTests(unittest.TestCase):
         self.assertIn('Grouped sensitivity',output.getvalue());self.assertEqual(before,(self.work/'personal.cbp').read_bytes())
         with patch('sys.stdin.isatty',return_value=True),patch('sys.stdout.isatty',return_value=True),patch('builtins.input',return_value=''),patch('builtins.print'):self.assertEqual(0,main(args))
         self.assertEqual(before,(self.work/'personal.cbp').read_bytes())
-        def answer(prompt):return 'record' if prompt.startswith('Type record') else ''
+        def answer(prompt):return 'record' if prompt.startswith('Type record') else 'continue'
         with patch('sys.stdin.isatty',return_value=True),patch('sys.stdout.isatty',return_value=True),patch('builtins.input',side_effect=answer),patch('builtins.print'):self.assertEqual(0,main(args))
         with PersonalProjectStore(self.work) as store:self.assertEqual(2,len(store.load().work.history.view('main')['interpretations']))
 
@@ -241,8 +241,9 @@ class CoReportTests(unittest.TestCase):
                         except OSError:break
                         output+=chunk;pending+=chunk
                         if record:
-                            if b'Enter: next page' in pending:os.write(master,b'\n');pending=b''
-                            elif b'Type record to keep' in pending:os.write(master,b'record\n');pending=b''
+                            if b'Review: details / continue' in pending:os.write(master,b'continue\n');pending=b''
+                            elif b'Enter: next page' in pending:os.write(master,b'\n');pending=b''
+                            elif b'Type record to save' in pending:os.write(master,b'record\n');pending=b''
                         elif b'ClaimBranch' in output and not quit_sent:os.write(master,b'q');quit_sent=True
                 self.assertEqual(0,process.wait(timeout=5),output[-3000:].decode(errors='replace'))
                 if record:self.assertIn(b'Co-reported readings saved',output)
@@ -286,7 +287,7 @@ class CoReportTests(unittest.TestCase):
         def answer(prompt):
             if prompt.startswith('Type record'):
                 path.write_bytes(path.read_bytes()+b'\n');return 'record'
-            return ''
+            return 'continue'
         with patch('sys.stdin.isatty',return_value=True),patch('sys.stdout.isatty',return_value=True),patch('builtins.input',side_effect=answer),patch('builtins.print'):
             self.assertNotEqual(0,main(['project','co-report','--directory',str(self.work),'--input',str(path)]))
         self.assertEqual(before,(self.work/'personal.cbp').read_bytes())
@@ -357,3 +358,18 @@ class CoReportTests(unittest.TestCase):
         old=PaperService(project.work.history).query('main',at_operation=preview['operation']['id'])
         self.assertEqual('0.5',next(n['content']['value'] for n in old['nodes'] if n['id']=='O'))
         self.assertEqual('0.5',base.work.history.view('main')['evidence'][0]['value'])
+
+
+class CoReportConnectionMeaningTests(unittest.TestCase):
+    setUp=CoReportTests.setUp
+
+    def test_new_reading_connections_are_distinct_from_prior_evidence_edges(self):
+        from claimbranch.application.paper_service import PaperService
+        helper=CoReportTests();helper.setUp();self.addCleanup(helper.doCleanups)
+        base=helper.base();request=helper.request();changed,_=prepare_co_report(base,request)
+        def triples(project):return {(e['source_id'],e['target_id'],e['type']) for e in PaperService(project.work.history).query('main')['relations'] if e['scientific']}
+        old=triples(base);added=triples(changed)-old
+        self.assertEqual(2,len(added));self.assertEqual({'primary','sensitivity'},{source for source,target,kind in added})
+        existing=next(c for c in base.work.history.view('main')['changes'] if c['kind']=='scientific-edge')
+        request['candidates'][0]['edge_id']=existing['id']
+        with self.assertRaisesRegex(ContractError,'aliases'):prepare_co_report(base,request)

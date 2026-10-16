@@ -27,7 +27,7 @@ def current_source(project):
 def prepare_measurement(project,request,*,contribution_origin=None):
     from .paper_service import PaperService
     history=project.work.history
-    if history.schema_version not in (4, 5, 14):raise ContractError('Structured measurements require a personal paper profile')
+    if history.schema_version not in (4, 5, 14, 18):raise ContractError('Structured measurements require a personal paper profile')
     request=normalize(request,INPUT,profile='paper');view=history.view('main')
     if view['episode_id'] is None:raise ContractError('Open a question before measurement review')
     command=dict(schema_version=9,id='measurement-'+secrets.token_hex(12),project_id=project.project_id,episode_id=view['episode_id'],
@@ -144,11 +144,8 @@ def run_measurement_command(args):
             raw=_read_argument_input(args.input);request=decode(raw,purpose='project');candidate,result=prepare_measurement(project,request,contribution_origin=args.origin)
             if not args.dry_run:
                 if not sys.stdin.isatty() or not sys.stdout.isatty():raise ContractError('Measurement recording requires an interactive terminal; use --dry-run')
-                lines=clean(json.dumps(result,ensure_ascii=False,indent=2)).splitlines()
-                for start in range(0,len(lines),60):
-                    print('\n'.join(lines[start:start+60]),flush=True)
-                    if start+60<len(lines) and input('Enter: next page / q: cancel: ').strip().lower()=='q':return 0
-                if input('Type record to save this measurement operation, or Enter to cancel: ').strip()!='record':return 0
+                from .import_review import confirm_operation
+                if not confirm_operation(result,'record'):return 0
                 if _read_argument_input(args.input)!=raw:raise ContractError('Measurement input changed; preview again')
                 recheck_measurement(store.load(),result);store.verify_unchanged();recheck_measurement(project,result);store.save(candidate)
                 print('Measurement operation saved. Earlier evidence retained; manuscript unchanged.');return 0

@@ -40,7 +40,7 @@ def unpack(chunks):
 
 
 def fingerprint(history):
-    if history.schema_version in (4, 5, 14):
+    if history.schema_version in (4, 5, 14, 18):
         from claimbranch.core.paper_capacity import encode, decode as paper_decode
         return hashlib.sha256(encode({'seed':paper_decode(history.seed,purpose='history'),
             'commands':[paper_decode(c,purpose='history') for c in history.commands]},purpose='project')).hexdigest()

@@ -27,7 +27,7 @@ class SourceArtifactTests(unittest.TestCase):
             self.assertEqual(first.read_bytes(), second.read_bytes())
             with zipfile.ZipFile(first) as archive:
                 names = archive.namelist()
-                self.assertEqual(163, len(names))
+                self.assertEqual(166, len(names))
                 self.assertEqual((ROOT / "LICENSE").read_bytes(), archive.read("LICENSE"))
                 self.assertEqual(len(names), len(set(names)))
                 self.assertFalse(any(name.startswith(("scripts/", "tests/", ".git/")) or "__pycache__" in name for name in names))
@@ -54,9 +54,9 @@ class SourceArtifactTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as directory:
             root=Path(directory); package=root/'claimbranch'; package.mkdir()
             (root / 'LICENSE').write_bytes((ROOT / 'LICENSE').read_bytes())
-            # 161 runtime modules plus START-HERE, LICENSE and manifest exceed
-            # the explicitly supported 163-member artifact by one.
-            for index in range(161):
+            # 164 runtime modules plus START-HERE, LICENSE and manifest exceed
+            # the explicitly supported 166-member artifact by one.
+            for index in range(164):
                 (package/f'module_{index}.py').write_text('# bounded source\n',encoding='utf-8')
             target=root/'oversized-inventory.zip'
             with patch('scripts.build_source.check_resources'), self.assertRaisesRegex(ValueError,'inventory'):
@@ -139,3 +139,34 @@ runpy.run_module('claimbranch', run_name='__main__')
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class CompactSchemaTests(unittest.TestCase):
+    def test_new_schema_definitions_expand_to_the_same_closed_contract(self):
+        from scripts.export_research_schema import compact_schema
+        from claimbranch.application.project_work import project_work_schema
+        from claimbranch.application.paper_work_store import work_schema
+        for raw in (work_schema(28),project_work_schema(24),work_schema(29),project_work_schema(25),work_schema(30),project_work_schema(26),work_schema(31),project_work_schema(27),work_schema(32),project_work_schema(28)):
+            compact=compact_schema(raw,inline_single_use=raw['$id'] in ('urn:claimbranch:paper-work:v31','urn:claimbranch:project-work:v27','urn:claimbranch:paper-work:v32','urn:claimbranch:project-work:v28'));definitions=compact['$defs'];prefix=raw['$id']+'#/$defs/'
+            def expand(node):
+                if isinstance(node,list):return [expand(child) for child in node]
+                if not isinstance(node,dict):return node
+                if '$ref' in node:
+                    self.assertTrue(node['$ref'].startswith(prefix))
+                    target=expand(definitions[node['$ref'][len(prefix):]])
+                    return {**target,**{key:expand(child) for key,child in node.items() if key!='$ref'}}
+                return {key:expand(child) for key,child in node.items()}
+            expanded=expand({k:v for k,v in compact.items() if k!='$defs'})
+            # Root metadata and every validation keyword are unchanged.
+            self.assertEqual(raw,expanded)
+            self.assertLess(len(json.dumps(compact)),len(json.dumps(raw))//5)
+
+
+    def test_single_use_inline_preserves_literal_ref_data_and_root_metadata(self):
+        from scripts.export_research_schema import compact_schema
+        literal={'$ref':'urn:claimbranch:synthetic-schema#/$defs/not-a-reference','nested':{'const':True}}
+        schema={'$id':'urn:claimbranch:synthetic-schema','$schema':'https://json-schema.org/draft/2020-12/schema','$comment':'Keep this metadata.',
+            'type':'object','properties':{'literal':{'const':literal}},'required':['literal'],'additionalProperties':False}
+        compact=compact_schema(schema,inline_single_use=True)
+        self.assertEqual(literal,compact['properties']['literal']['const'])
+        self.assertEqual(schema['$comment'],compact['$comment']);self.assertEqual(schema['$id'],compact['$id'])

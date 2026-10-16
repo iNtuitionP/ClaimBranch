@@ -7,7 +7,7 @@ from datetime import datetime,timezone
 from claimbranch.core.canonical import ContractError
 from claimbranch.core.paper_capacity import encode,decode
 from claimbranch.core.research_schema import normalize
-from claimbranch.core.protocols import INPUT,protocol_context,plan_digest
+from claimbranch.core.protocols import input_schema,protocol_context,plan_digest,experiment_digest
 from .typed_observations import current_source
 from .manuscript_anchors import source_statuses
 from .paper_work_store import PaperWork
@@ -16,10 +16,11 @@ from .paper_work_store import PaperWork
 def prepare_protocol(project,request,*,contribution_origin=None):
     from .paper_service import PaperService
     history=project.work.history
-    if history.schema_version not in (4, 5, 14):raise ContractError('Protocols require a personal paper profile')
-    request=normalize(request,INPUT,profile='paper');view=history.view('main')
+    if history.schema_version not in (4, 5, 14, 18):raise ContractError('Protocols require a personal paper profile')
+    version=2 if request.get('schema')=='claimbranch.protocol-input/v2' else 1
+    request=normalize(request,input_schema(version),profile='paper');view=history.view('main')
     if view['episode_id'] is None:raise ContractError('Open a question before protocol review')
-    command=dict(schema_version=10,id='protocol-'+secrets.token_hex(12),project_id=project.project_id,episode_id=view['episode_id'],
+    command=dict(schema_version=19 if request['operation_type'] in ('register-experiment-protocol','record-observation-replacement') else 10,id='protocol-'+secrets.token_hex(12),project_id=project.project_id,episode_id=view['episode_id'],
         created_at=datetime.now(timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ'),operation_type=request['operation_type'],
         expected_heads=dict(history.heads),evidence_watermark=history.watermark,payload=request['payload'])
     from .metadata_batch import origin_command
@@ -52,17 +53,14 @@ def run_protocol_command(args):
             view=project.work.history.view('main');context=protocol_context(view)
             if args.node and args.node not in context:raise ContractError('No registered protocol dependency at this node')
             plans=[dict(id=c['id'],digest=plan_digest(c),body=c['body']) for c in view['experiment_plans']]
-            result=dict(available_plans=plans,context={args.node:context[args.node]} if args.node else context,
-                records={name:view.get(name,{}) for name in ('protocols','experiment_associations','gate_amendments','gate_results','outcome_assessments')} if not args.node else {},chronology_verified=False,write_available=False)
+            result=dict(available_experiments=[dict(id=e['id'],digest=experiment_digest(e),body=e) for e in view['experiments']],available_plans=plans,context={args.node:context[args.node]} if args.node else context,
+                records={name:view.get(name,{}) for name in ('protocols','experiment_associations','gate_amendments','gate_results','outcome_assessments','observation_replacements')} if not args.node else {},chronology_verified=False,write_available=False)
         else:
             raw=_read_argument_input(args.input);candidate,result=prepare_protocol(project,decode(raw,purpose='project'),contribution_origin=args.origin)
             if not args.dry_run:
                 if not sys.stdin.isatty() or not sys.stdout.isatty():raise ContractError('Protocol recording requires an interactive terminal; use --dry-run')
-                lines=clean(json.dumps(result,ensure_ascii=False,indent=2)).splitlines()
-                for start in range(0,len(lines),60):
-                    print('\n'.join(lines[start:start+60]),flush=True)
-                    if start+60<len(lines) and input('Enter: next page / q: cancel: ').strip().lower()=='q':return 0
-                if input('Type record to save this protocol operation, or Enter to cancel: ').strip()!='record':return 0
+                from .import_review import confirm_operation
+                if not confirm_operation(result,'record'):return 0
                 if _read_argument_input(args.input)!=raw:raise ContractError('Protocol input changed; preview again')
                 recheck_protocol(store.load(),result);store.verify_unchanged();recheck_protocol(project,result);store.save(candidate)
                 print('Protocol operation saved. Original rules/results retained; measured values and manuscript unchanged.');return 0

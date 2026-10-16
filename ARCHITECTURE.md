@@ -178,6 +178,41 @@ the broader release checks and their coverage. It grants no additional
 provider or manuscript capability; see the
 [registration workflow](docs/development/workflow.md#extended-metadata-registration).
 
+The conditional-aware read-only association subset under
+[ADR0028](docs/architecture/decisions/0028-conditional-aware-manuscript-selectors.md)
+uses selector v2/source binding v3, command17/work28/project24 and private frame16.
+Existing source bindings keep their original lexer until an explicit same-label
+refresh. Metadata-batch/v2 selects labels without widening older formats; no TeX
+execution or manuscript writer is introduced. The
+[label workflow](docs/development/workflow.md#existing-latex-labels-without-manuscript-edits)
+owns supported syntax and actual controls.
+
+The precise-source subset under
+[ADR0029](docs/architecture/decisions/0029-versioned-original-source-comparisons.md)
+uses opt-in argument-import/v3, source-manifest/v2 and resolver/v2. Exact nested
+source replay keeps compact scientific seed14/command14 unchanged; mandatory
+work29/project25 and private frame17 prevent older formats acquiring new resolver
+meaning. Shared-audit/conditional-label operations compose without format downgrade.
+The [comparison workflow](docs/development/workflow.md#precise-source-comparison-and-markdown-sections)
+owns narrow numeric, line and Markdown-section semantics; none verifies science.
+
+Partial historical import under
+[ADR0030](docs/architecture/decisions/0030-source-faithful-partial-historical-records.md)
+uses separate seed18/ordinary command18 and work30/project26/private frame18.
+[ADR0031](docs/architecture/decisions/0031-completed-experiment-protocols-and-result-replacements.md)
+adds completed-target protocols and explicit observation replacements, carried by
+command19 or exact nested import5, through work31/project27/private frame19.
+Replacement is read-only scientific context until a separate evidence review;
+its link origin is separate from numerical origin. Old prefixes stay unchanged.
+[ADR0032](docs/architecture/decisions/0032-iterative-preparation-and-proportional-metadata-review.md)
+adds private iterative preparation, proportional metadata review and scoped lexical
+acknowledgements via command20/work32/project28/frame20, without scientific approval.
+It retains source-bound compact nulls/absence pointers, collision-checked original
+labels and independent declarations without widening older contracts. Shared-auditv2
+and selected canonical-sharev3 carry honest missing fields through private/public
+projections respectively; source originals remain private. No new authority or
+manuscript capability follows from successful replay or saving.
+
 ## System context
 
     Researcher on the supported local workstation

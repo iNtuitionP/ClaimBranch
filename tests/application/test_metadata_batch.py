@@ -57,7 +57,7 @@ class MetadataBatchTests(unittest.TestCase):
         def cancel(prompt):return 'q'
         with patch('sys.stdin.isatty',return_value=True),patch('sys.stdout.isatty',return_value=True),patch('builtins.input',side_effect=cancel),patch('builtins.print'):self.assertEqual(0,main(args))
         self.assertEqual(before,(self.work/'personal.cbp').read_bytes())
-        def accept(prompt):return 'register' if prompt.startswith('Type register') else ''
+        def accept(prompt):return 'register' if prompt.startswith('Type register') else 'continue'
         with patch('sys.stdin.isatty',return_value=True),patch('sys.stdout.isatty',return_value=True),patch('builtins.input',side_effect=accept),patch('builtins.print'):self.assertEqual(0,main(args))
         with PersonalProjectStore(self.work) as store:self.assertEqual(2,len(store.load().work.history.view('main')['metadata_origins']))
     def test_legacy_command_bytes_are_not_rewritten_by_new_origin_entry(self):
@@ -76,20 +76,19 @@ class MetadataBatchTests(unittest.TestCase):
     def test_all_invalid_schema_entries_are_reported_without_candidate(self):
         request=self.batch();request['entries'][0]['request'].pop('grade');request['entries'][1]['request'].pop('rationale')
         candidate,preview=prepare_batch(self.project,encode(request,purpose='project'));self.assertIsNone(candidate)
-        self.assertEqual(2,preview['error_count']);self.assertEqual({'/entries/0','/entries/1'},{e['pointer'] for e in preview['errors']})
+        self.assertEqual(2,preview['error_count']);self.assertEqual({'/entries/0/request/grade','/entries/1/request/rationale'},{e['pointer'] for e in preview['errors']})
 
     def test_new_registration_invalidates_source_bound_review(self):
         from claimbranch.application.metadata_batch import recheck_batch
         raw=encode(self.batch(),purpose='project');candidate,preview=prepare_batch(self.project,raw)
         with self.assertRaises(ContractError):recheck_batch(candidate,preview)
 
-    def test_tui_confirmation_requires_complete_review_and_literal_word(self):
+    def test_tui_confirmation_is_separate_from_scrolling_and_requires_literal_word(self):
         from types import SimpleNamespace
         from claimbranch.application.tui_metadata import MetadataUI
         term=SimpleNamespace(app=SimpleNamespace(),modal='metadata-preview',screen=SimpleNamespace(getmaxyx=lambda:(40,140)))
         ui=MetadataUI(term);ui.candidate=object();ui.review={'valid':True};ui.seen_end=False;ui.key('r')
-        self.assertEqual('metadata-preview',term.modal)
-        ui.seen_end=True;ui.key('r');self.assertEqual('metadata-confirm',term.modal)
+        self.assertEqual('metadata-confirm',term.modal)
         ui.key('r');ui.key('e');self.assertEqual('re',ui.confirmation.text)
         ui.key('escape');self.assertIsNone(term.modal);self.assertIsNone(ui.candidate)
     def test_input_origin_does_not_infer_human_from_source_record_origin(self):
@@ -187,3 +186,43 @@ class MetadataBatchTests(unittest.TestCase):
             ui.dispatch('enter');self.assertIsNone(term.modal)
             self.assertEqual(2,len(store.load().work.history.view('main')['metadata_origins']))
             self.assertEqual(store.load().work.history.commands,app.paper.history.commands)
+
+
+class MetadataIterationTests(unittest.TestCase):
+    setUp=MetadataBatchTests.setUp
+    policy=MetadataBatchTests.policy
+
+    def test_new_capture_can_be_linked_in_one_batch_without_private_original_in_review(self):
+        from application.test_critiques import CritiqueTests,SECRET,ORIGINAL
+        request=dict(schema='claimbranch.metadata-batch/v4',entries=[dict(id='new-question',kind='critique',origin='mixed',request=CritiqueTests.request(self)),
+            dict(id='connect-question',kind='critique-link',origin='human',request=dict(id='question-link',critique_entry_id='new-question',relation='questions',target_id='C',consequence_operation_id=None,rationale='Test the claim scope.'))],selected_ids=['new-question','connect-question'])
+        candidate,preview=prepare_batch(self.project,encode(request,purpose='project'));self.assertTrue(preview['valid'],preview)
+        view=candidate.work.history.view('main');self.assertEqual(next(iter(view['critiques'])),view['critique_links']['question-link']['critique_id'])
+        self.assertNotIn(SECRET,str(preview));self.assertNotIn(ORIGINAL,str(preview));self.assertEqual(1,len(decode(candidate.payload,purpose='project')['critique_sources']));self.assertEqual(candidate.payload,split_personal_backup(personal_backup(candidate)).payload)
+        request['selected_ids']=['connect-question'];candidate,preview=prepare_batch(self.project,encode(request,purpose='project'))
+        self.assertIsNone(candidate);self.assertIn('earlier selected',preview['errors'][0]['message'])
+
+    def test_operation_reader_is_summary_first_and_detail_exit_does_not_cancel(self):
+        from claimbranch.application.import_review import review_operation,operation_summary
+        candidate,preview=prepare_batch(self.project,encode(MetadataBatchTests.batch(self),purpose='project'))
+        self.assertLess(len(operation_summary(preview)),40)
+        answers=iter(['full','q','continue','register'])
+        with patch('builtins.print'):self.assertTrue(review_operation(preview,'register',read=lambda _:next(answers)))
+        with patch('builtins.print'):self.assertFalse(review_operation(preview,'register',read=lambda _:'cancel'))
+        with patch('builtins.print'):self.assertFalse(review_operation(preview,'register',read=lambda _:''))
+        with patch('builtins.print'):self.assertFalse(review_operation(preview,'register',read=lambda _:'\x1b'))
+        answers=iter(['continue','\x1b','cancel'])
+        with patch('builtins.print'):self.assertFalse(review_operation(preview,'register',read=lambda _:next(answers)))
+
+    def test_discriminator_fast_path_preserves_oneof_precedence(self):
+        from claimbranch.core.research_schema import _check
+        child=dict(oneOf=[dict(const='accepted')],const='ignored-by-legacy-oneof')
+        schema=dict(type='object',properties=dict(version=child),required=['version'])
+        _check(dict(version='accepted'),schema)
+        for value in ('ignored-by-legacy-oneof','invalid',None):
+            with self.assertRaises(ContractError):_check(dict(version=value),schema)
+
+    def test_prerequisite_reason_and_exact_field_are_reported(self):
+        request=MetadataBatchTests.batch(self);request['entries']=[dict(id='context',kind='set-anchor-context',origin='human',request=dict(anchor_id='missing',placement='main',paragraphs=[],rationale='Declare a paragraph.'))];request['selected_ids']=['context']
+        candidate,preview=prepare_batch(self.project,encode(request,purpose='project'));self.assertIsNone(candidate)
+        self.assertIn('registered manuscript anchor',preview['errors'][0]['message'])

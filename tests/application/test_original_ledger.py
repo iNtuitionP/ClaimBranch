@@ -1,6 +1,7 @@
 """Original maintained ledgers, never private research or a provider request."""
 from copy import deepcopy
 import json
+import sys
 import unittest
 from claimbranch.core.canonical import ContractError
 from claimbranch.core.paper_capacity import encode, source_record, source_bytes
@@ -240,7 +241,7 @@ class OriginalLedgerEntryTests(unittest.TestCase):
         import tempfile,os,subprocess,sys,zipfile
         from pathlib import Path
         from scripts.build_source import build_source
-        with tempfile.TemporaryDirectory(dir='/private/tmp') as tmp:
+        with tempfile.TemporaryDirectory(dir='/private/tmp' if sys.platform=='darwin' else None) as tmp:
             root=Path(tmp);sources=root/'paper';sources.mkdir();output=root/'private';output.mkdir(mode=0o700)
             value=fixture();manifest=deepcopy(value);manifest['schema']='claimbranch.argument-source-manifest/v1'
             for file in manifest['files']:
@@ -263,7 +264,7 @@ class OriginalLedgerEntryTests(unittest.TestCase):
         import tempfile
         from pathlib import Path
         from claimbranch.application.argument_preparation import prepare
-        with tempfile.TemporaryDirectory(dir='/private/tmp') as tmp:
+        with tempfile.TemporaryDirectory(dir='/private/tmp' if sys.platform=='darwin' else None) as tmp:
             root=Path(tmp);value=fixture();manifest=deepcopy(value);manifest['schema']='claimbranch.argument-source-manifest/v1'
             file=manifest['files'][0];raw=source_bytes(file.pop('source'));(root/'claims.md').write_bytes(raw);file['path']='claims.md'
             good,_=prepare(encode(manifest,purpose='project'),root);self.assertTrue(preview_import(good)['valid'])
@@ -280,7 +281,7 @@ class OriginalLedgerEntryTests(unittest.TestCase):
         import tempfile,io,os
         from pathlib import Path
         from claimbranch.application.argument_preparation import run_prepare
-        with tempfile.TemporaryDirectory(dir='/private/tmp') as tmp:
+        with tempfile.TemporaryDirectory(dir='/private/tmp' if sys.platform=='darwin' else None) as tmp:
             root=Path(tmp);root.chmod(0o700);sources=root/'sources';sources.mkdir();out=root/'private';out.mkdir(mode=0o700)
             value=fixture();value['schema']='claimbranch.argument-source-manifest/v1'
             for file in value['files']:
@@ -296,18 +297,385 @@ class OriginalLedgerEntryTests(unittest.TestCase):
     def test_actual_terminal_can_cancel_v2_preview_without_creating_a_project(self):
         import os,subprocess,sys,tempfile,time,select
         from pathlib import Path
-        with tempfile.TemporaryDirectory(dir='/private/tmp') as tmp:
+        with tempfile.TemporaryDirectory(dir='/private/tmp' if sys.platform=='darwin' else None) as tmp:
             root=Path(tmp);source=root/'argument.json';source.write_bytes(encode(fixture(),purpose='project'));source.chmod(0o600)
             master,slave=os.openpty();process=subprocess.Popen([sys.executable,'-m','claimbranch','project','import-argument','--input',str(source),'--dry-run'],stdin=slave,stdout=slave,stderr=slave);os.close(slave)
             output=b'';deadline=time.monotonic()+10
             try:
-                while b'next page / q' not in output and time.monotonic()<deadline:
+                while b'Review: details / q' not in output and time.monotonic()<deadline:
                     if select.select([master],[],[],0.2)[0]:output+=os.read(master,16384)
-                self.assertIn(b'next page / q',output);os.write(master,b'q\n')
+                self.assertIn(b'Review: details / q',output);os.write(master,b'q\n')
                 self.assertEqual(0,process.wait(timeout=5));self.assertEqual(['argument.json'],[file.name for file in root.iterdir()])
             finally:
                 if process.poll() is None:process.kill();process.wait()
                 os.close(master)
 
 
+
+
+class SourceV3Tests(unittest.TestCase):
+    def mapped(self, raw, expected, policy, locator=None, media='json'):
+        value=fixture();value['schema']='claimbranch.argument-import/v3'
+        value['records']=value['records'][:1];value['selected_ids']=['T']
+        value['files'][0].update(media=media,source=source_record(raw))
+        record=value['records'][0];record['body']['statement']=expected
+        record['mappings'][0][0].update(locator=locator or dict(kind='json-pointer',pointer='/x'),normalization=policy)
+        return value
+
+    def test_json_decimal_bridge_preserves_precision_sign_and_exponent(self):
+        cases=[('0.0108','0.0108',True),('1e-3','0.001',True),('1.230','1.230',True),
+            ('1.230','1.23',False),('1.0e3','1000',False),('-0','-0',True),('-0','0',False),
+            ('-0.00','-0.00',True),('-0.00','0.00',False),('true','1',False)]
+        for number,target,valid in cases:
+            with self.subTest(number=number,target=target):
+                value=self.mapped(('{"x":'+number+'}').encode(),target,'json-number-decimal-v1')
+                result=preview_import(encode(value,purpose='project'))
+                self.assertEqual(valid,result['valid'],result.get('errors'))
+                if valid:self.assertEqual('normalized-exact',result['records'][0]['coverage'][0]['state'])
+
+    def test_boolean_policy_is_separate_and_explicit(self):
+        for source,target,valid in [('true','true',True),('false','false',True),('true','True',False),('1','true',False)]:
+            with self.subTest(source=source,target=target):
+                value=self.mapped(('{"x":'+source+'}').encode(),target,'json-boolean-text-v1')
+                self.assertEqual(valid,preview_import(encode(value,purpose='project'))['valid'])
+
+    def test_signed_numeric_grouping_is_narrow_and_precision_is_retained(self):
+        for source,target,valid in [('−0.668','-0.668',True),('+0.668','0.668',True),
+            ('1\u2009234.50','1234.50',True),('−1\u202f234.50','-1234.50',True),
+            ('1 234.50','1234.50',False),('12\u200934.50','1234.50',False),
+            ('−0.668','0.668',False),('−0.668','-0.67',False),('1.230','1.23',False)]:
+            with self.subTest(source=source,target=target):
+                raw=source.encode();value=self.mapped(raw,target,'numeric-sign-v1',dict(kind='span',start=0,end=len(raw)),media='text')
+                self.assertEqual(valid,preview_import(encode(value,purpose='project'))['valid'])
+
+    def test_line_trim_removes_exactly_one_terminal_newline_only_for_lines(self):
+        for raw,target,end,valid in [(b'hello\r\n','hello',1,True),(b'hello\n','hello',1,True),
+            (b'hello\n\n','hello',2,False),(b'hello \n','hello',1,False)]:
+            value=self.mapped(raw,target,'line-trim-v1',dict(kind='lines',start=1,end=end),media='text')
+            self.assertEqual(valid,preview_import(encode(value,purpose='project'))['valid'])
+        value=self.mapped(b'hello\n','hello','line-trim-v1',dict(kind='span',start=0,end=6),media='text')
+        self.assertFalse(preview_import(encode(value,purpose='project'))['valid'])
+
+    def test_markdown_section_occurrences_and_exact_crlf_span(self):
+        raw='# Log\r\n## Decision\r\n첫 판단\r\n### Detail\r\nreason\r\n## Decision\r\nsecond\r\n# End\r\n'.encode()
+        locator=dict(kind='markdown-section',heading=['Log','Decision'],occurrence=1)
+        expected='## Decision\r\n첫 판단\r\n### Detail\r\nreason\r\n'
+        value=self.mapped(raw,expected,'literal-v1',locator,media='markdown')
+        result=preview_import(encode(value,purpose='project'));self.assertTrue(result['valid'],result.get('errors'))
+        coverage=result['records'][0]['coverage'][0]
+        self.assertEqual(expected.encode(),raw[coverage['resolved']['start']:coverage['resolved']['end']])
+        self.assertEqual('exact',coverage['state']);self.assertEqual('mixed',result['records'][0]['effective_origin']['contributor'])
+        value['records'][0]['mappings'][0][0]['locator'].pop('occurrence')
+        self.assertFalse(preview_import(encode(value,purpose='project'))['valid'])
+
+    def test_old_v2_contract_stays_closed(self):
+        value=self.mapped(b'{"x":0.0108}','0.0108','json-number-decimal-v1')
+        value['schema']='claimbranch.argument-import/v2'
+        self.assertFalse(preview_import(encode(value,purpose='project'))['valid'])
+
+    def test_markdown_sections_ignore_fenced_indented_and_commented_headings(self):
+        from claimbranch.core.argument_sources import SourceResolver
+        raw=b'# Log\nStart\n```md\n# Fake\n```\n    # Code\n<!--\n# Hidden\n-->\nChild\n-----\nbody\n# End\n'
+        resolver=SourceResolver(raw,'markdown',version=2)
+        selected,span=resolver.resolve(dict(kind='markdown-section',heading=['Log']))
+        self.assertEqual(raw[:raw.index(b'# End')].decode(),selected)
+        self.assertEqual(0,span['start'])
+        child,_=resolver.resolve(dict(kind='markdown-section',heading=['Log','Child']))
+        self.assertEqual('Child\n-----\nbody\n',child)
+        for heading in (['Fake'],['Hidden'],['Log','Code']):
+            with self.assertRaises(ContractError):resolver.resolve(dict(kind='markdown-section',heading=heading))
+
+    def test_new_section_and_cell_share_one_bounded_index(self):
+        from unittest.mock import patch
+        from claimbranch.core import argument_sources as sources
+        raw=source_bytes(fixture()['files'][0]['source'])
+        for section_first in (False,True):
+            with patch.object(sources,'_markdown_index',wraps=sources._markdown_index) as scan:
+                resolver=sources.SourceResolver(raw,'markdown',version=2)
+                locators=[dict(kind='markdown-section',heading=['Argument']),dict(kind='markdown-cell',heading=['Argument'],row='T',column='Claim')]
+                for locator in locators if section_first else reversed(locators):resolver.resolve(locator)
+                self.assertEqual(1,scan.call_count)
+
+    def test_sections_are_byte_bound_and_changed_snapshot_changes_commitment(self):
+        value=self.mapped(b'# Only\nBody\n','# Only\nBody\n','literal-v1',dict(kind='markdown-section',heading=['Only']),media='markdown')
+        first=preview_import(encode(value,purpose='project'));self.assertTrue(first['valid'])
+        value['files'][0]['source']=source_record(b'# Only\nDifferent\n')
+        self.assertFalse(preview_import(encode(value,purpose='project'))['valid'])
+        value['records'][0]['body']['statement']='# Only\nDifferent\n'
+        second=preview_import(encode(value,purpose='project'));self.assertTrue(second['valid'])
+        self.assertNotEqual(first['preview_digest'],second['preview_digest'])
+        value['files'][0]['source']=source_record(b'# Only\n'+b'x'*16384)
+        self.assertFalse(preview_import(encode(value,purpose='project'))['valid'])
+
+    def test_decimal_expansion_and_invalid_exponents_fail_bounded(self):
+        for number in ('1e-20000','1e99999999999999999999999'):
+            value=self.mapped(('{"x":'+number+'}').encode(),'1','json-number-decimal-v1')
+            result=preview_import(encode(value,purpose='project'));self.assertFalse(result['valid'])
+            self.assertTrue(result['errors'])
+
+    def test_precision_loss_can_only_be_a_declared_transformation(self):
+        value=self.mapped(b'{"x":1.230}','1.23','json-number-decimal-v1')
+        value['records'][0]['mappings'][0][0]['transformation']='Source precision deliberately reduced for this display.'
+        result=preview_import(encode(value,purpose='project'));self.assertTrue(result['valid'],result.get('errors'))
+        coverage=result['records'][0]['coverage'][0]
+        self.assertEqual('transformed',coverage['state']);self.assertEqual('1.230',coverage['normalized'])
+        self.assertEqual({'source_decimal':'1.230'},coverage['original'])
+
+    def test_multiline_setext_is_refused_in_new_resolver_without_changing_old_cells(self):
+        from claimbranch.core.argument_sources import SourceResolver
+        raw=b'# Log\nFirst title line\nSecond title line\n---\nbody\n'
+        with self.assertRaisesRegex(ContractError,'setext'):
+            SourceResolver(raw,'markdown',version=2).resolve(dict(kind='markdown-section',heading=['Log']))
+        # Old resolver retains its literal table indexing behavior.
+        table=b'| ID | Claim |\n| --- | --- |\n| T | Old cell |\n'
+        selected,_=SourceResolver(raw+table,'markdown').resolve(dict(kind='markdown-cell',heading=['Log','Second title line'],row='T',column='Claim'))
+        self.assertEqual(' Old cell ',selected)
+
+    def test_empty_atx_heading_ends_a_section_in_new_resolver(self):
+        from claimbranch.core.argument_sources import SourceResolver
+        raw=b'# Log\nBody\n#\nOther text\n'
+        value,_=SourceResolver(raw,'markdown',version=2).resolve(dict(kind='markdown-section',heading=['Log']))
+        self.assertEqual('# Log\nBody\n',value)
+
+    def test_v2_preview_commitment_is_unchanged(self):
+        result=preview_import(encode(fixture(),purpose='project'))
+        self.assertEqual('eacd0762861fac80894af42be15bcd7251f24fc13dfbc15c5f918c4aef753c7f',result['preview_digest'])
+
+    def test_canonical_exponent_rendering_retains_tuple_in_text_but_cannot_claim_expansion(self):
+        value=self.mapped(b'{"x":1.0e3}','1.0E+3','json-number-decimal-v1')
+        result=preview_import(encode(value,purpose='project'));self.assertTrue(result['valid'])
+        coverage=result['records'][0]['coverage'][0]
+        self.assertEqual('normalized-exact',coverage['state'])
+        self.assertEqual({'source_decimal':'1.0E+3'},coverage['original'])
+        value['records'][0]['body']['statement']='1000'
+        self.assertFalse(preview_import(encode(value,purpose='project'))['valid'])
+
+    def test_ambiguous_markdown_continuations_do_not_invent_sections(self):
+        from claimbranch.core.argument_sources import SourceResolver
+        cases=[b'| not a table\nTitle\n---\nbody\n',b'para\n    more\nTitle\n---\n',
+            b'- item\n---\n',b'1. item\n---\n',b'> quote\nTitle\n---\n',b'- item\nTitle\n---\n',
+            b'| standalone pipe\n---\n',b'<div>\n# Hidden\n</div>\n']
+        for body in cases:
+            with self.subTest(body=body),self.assertRaisesRegex(ContractError,'span locator'):
+                SourceResolver(b'# Log\n'+body,'markdown',version=2).resolve(dict(kind='markdown-section',heading=['Log']))
+
+    def test_hash_only_atx_and_thematic_breaks_do_not_invent_named_sections(self):
+        from claimbranch.core.argument_sources import SourceResolver
+        for empty in (b'## ##',b'## ###',b'# #'):
+            resolver=SourceResolver(b'# Log\nBody\n'+empty+b'\nOther\n','markdown',version=2)
+            with self.subTest(empty=empty),self.assertRaises(ContractError):
+                resolver.resolve(dict(kind='markdown-section',heading=['Log','##']))
+        raw=b'# Log\nBody\n\n---\n---\nAfter\n'
+        selected,_=SourceResolver(raw,'markdown',version=2).resolve(dict(kind='markdown-section',heading=['Log']))
+        self.assertEqual(raw.decode(),selected)
+
+    def test_new_cell_resolver_refuses_ambiguous_setext_while_v1_keeps_old_path(self):
+        from claimbranch.core.argument_sources import SourceResolver
+        raw=b'# Log\nFirst\nSecond\n---\n| ID | Claim |\n| --- | --- |\n| T | Cell |\n'
+        locator=dict(kind='markdown-cell',heading=['Log','Second'],row='T',column='Claim')
+        self.assertEqual(' Cell ',SourceResolver(raw,'markdown').resolve(locator)[0])
+        with self.assertRaisesRegex(ContractError,'setext'):SourceResolver(raw,'markdown',version=2).resolve(locator)
+
+    def test_signed_markdown_cell_trims_only_its_declared_boundaries(self):
+        raw='# Results\n| ID | Value |\n| --- | --- |\n| O | −1\u202f234.50 |\n'.encode()
+        value=self.mapped(raw,'-1234.50','numeric-sign-v1',dict(kind='markdown-cell',heading=['Results'],row='O',column='Value'),media='markdown')
+        result=preview_import(encode(value,purpose='project'));self.assertTrue(result['valid'],result.get('errors'))
+        self.assertEqual('normalized-exact',result['records'][0]['coverage'][0]['state'])
+
+    def test_v2_locator_stays_closed_even_with_legacy_policy(self):
+        value=self.mapped(b'# Only\nBody\n','# Only\nBody\n','literal-v1',dict(kind='markdown-section',heading=['Only']),media='markdown')
+        value['schema']='claimbranch.argument-import/v2'
+        self.assertFalse(preview_import(encode(value,purpose='project'))['valid'])
+
+
+class HistoricalImportV4Tests(unittest.TestCase):
+    def fixture(self):
+        value=fixture();value['schema']='claimbranch.argument-import/v4';value['structural_defaults']=['claim','experiment','observation','historical-decision']
+        value['records'][1]['mappings'][0]=[m for m in value['records'][1]['mappings'][0] if m['target']!='/basis_ids']
+        return value
+
+    def preview(self,value):return preview_import(encode(value,purpose='project'))
+
+    def test_only_declared_bookkeeping_defaults_avoid_repeated_maps(self):
+        result=self.preview(self.fixture());self.assertTrue(result['valid'],result.get('errors'))
+        coverage=result['records'][1]['coverage'];self.assertIn(dict(target='/basis_ids',state='structural-default'),coverage)
+        value=self.fixture();value['records'][1]['mappings'][0]=[m for m in value['records'][1]['mappings'][0] if m['target']!='/scope']
+        self.assertFalse(self.preview(value)['valid'])
+
+    def test_sourceless_new_input_has_own_origin_and_no_dummy_file(self):
+        value=self.fixture();record=value['records'][1]
+        record['mappings'][0][0]=dict(target='/statement',source_silent=True,origin=dict(contributor='ai',detail='New suggestion.'),transformation='New wording, not copied from the ledger.')
+        record['joint_origin']=dict(contributor='mixed',detail='Ledger and new suggestion.')
+        result=self.preview(value);self.assertTrue(result['valid'],result.get('errors'))
+        coverage=result['records'][1]['coverage'][0];self.assertEqual('declared-without-source',coverage['state']);self.assertNotIn('file_id',coverage)
+        self.assertTrue(result['records'][1]['effective_origin']['ai'])
+        record['origin']=dict(contributor='human',detail='Present confirming actor.')
+        self.assertTrue(self.preview(value)['records'][1]['effective_origin']['ai'])
+
+    def test_incomplete_experiment_original_label_and_day_precision_survive_replay(self):
+        from claimbranch.core.argument_import import history_from_import
+        value=self.fixture();value['files'].append(dict(id='experiment',name='experiment.md',media='text',source=source_record(b'What explains the gap?')))
+        value['records'].append(dict(id='expA ModelB',kind='experiment',body=dict(question='What explains the gap?'),recorded_at='2026-10-12',display_label='expA ModelB',mappings=[[dict(target='/question',file_id='experiment',locator=dict(kind='span',start=0,end=22),normalization='literal-v1',transformation=None)]]))
+        value['selected_ids'].append('expA ModelB')
+        result=self.preview(value);self.assertTrue(result['valid'],result.get('errors'))
+        history=history_from_import(encode(value,purpose='project'),anchor_id='anchor')
+        run=history.view('main')['experiments'][0]
+        self.assertIsNone(run['metric']);self.assertIsNone(run['method']);self.assertIn('/metric',run['not_recorded'])
+        self.assertEqual('expA ModelB',run['display_label'])
+        self.assertEqual('2026-10-12',run['recorded_at'])
+        self.assertEqual(history.manifest(),type(history)(history.seed,history.commands).manifest())
+
+    def test_invalid_day_and_original_identity_collisions_are_refused(self):
+        value=self.fixture();value['records'][0]['recorded_at']='2026-02-31'
+        self.assertFalse(self.preview(value)['valid'])
+        value=self.fixture();value['records'][1]['display_label']='T'
+        self.assertFalse(self.preview(value)['valid'])
+
+    def test_independent_unspecified_origin_stays_unknown_beside_known_ai(self):
+        value=self.fixture();record=value['records'][1]
+        record['mappings'][0][0]=dict(target='/statement',source_silent=True,transformation='New wording of uncertain authorship.')
+        result=self.preview(value);self.assertTrue(result['valid'],result.get('errors'))
+        flags=result['records'][1]['effective_origin'];self.assertTrue(flags['ai']);self.assertTrue(flags['unknown'])
+
+    def test_display_aliases_cannot_name_another_record_even_with_its_own_label(self):
+        value=self.fixture();value['records'][0]['display_label']='C';value['records'][1]['display_label']='Other'
+        self.assertFalse(self.preview(value)['valid'])
+
+    def test_independent_only_record_cannot_drop_source_or_joint_assertions(self):
+        value=self.fixture();value['records']=value['records'][:1];value['selected_ids']=['T']
+        record=value['records'][0];record['mappings']=[[dict(target='/statement',source_silent=True,origin=dict(contributor='ai',detail=None),transformation='Proposed working thesis.')]]
+        record['source_origins']=[dict(file_id='ledger',origin=dict(contributor='ai',detail=None))]
+        self.assertFalse(self.preview(value)['valid']);record.pop('source_origins')
+        record['joint_origin']=dict(contributor='human',detail='Cannot erase the declared AI.')
+        self.assertFalse(self.preview(value)['valid'])
+        record['joint_origin']['contributor']='mixed'
+        result=self.preview(value);self.assertTrue(result['valid'],result.get('errors'))
+        self.assertTrue(result['records'][0]['effective_origin']['ai'])
+
+    def test_file_origin_is_a_replaceable_default_but_independent_ai_is_not(self):
+        value=self.fixture();value['files'][0]['origin_default']=dict(contributor='ai',detail='File default, with explicit record exceptions.')
+        value['records'][0]['origin']=dict(contributor='human',detail='This particular statement was written by the researcher.')
+        result=self.preview(value);self.assertTrue(result['valid'],result.get('errors'))
+        self.assertFalse(result['records'][0]['effective_origin']['ai'])
+
+    def test_joint_human_label_cannot_override_independent_ai_with_file_inputs(self):
+        value=self.fixture();value['origin_default']=dict(contributor='human',detail=None)
+        record=value['records'][1];record['joint_origin']=dict(contributor='human',detail='Inconsistent joint assertion.')
+        record['mappings'][0][0]=dict(target='/statement',source_silent=True,origin=dict(contributor='ai',detail=None),transformation='New proposed wording.')
+        self.assertFalse(self.preview(value)['valid'])
+
+
 if __name__=='__main__':unittest.main()
+
+
+class PreparationIterationTests(unittest.TestCase):
+    def setUp(self):
+        import tempfile,sys
+        from pathlib import Path
+        self.tmp=tempfile.TemporaryDirectory(dir='/private/tmp' if sys.platform=='darwin' else None);self.addCleanup(self.tmp.cleanup);self.root=Path(self.tmp.name)
+        self.output=self.root/'prepared.json';self.value=fixture();self.raw=encode(self.value,purpose='project')
+
+    def test_replace_requires_exact_reviewed_identity_and_keeps_old_on_failure(self):
+        import hashlib
+        from claimbranch.application.argument_preparation import publish_prepared
+        publish_prepared(self.raw,self.output,protected=[])
+        old=self.output.read_bytes();digest=hashlib.sha256(old).hexdigest()
+        changed=deepcopy(self.value);changed['title']='New synthetic preparation';raw=encode(changed,purpose='project')
+        with self.assertRaises(ContractError):publish_prepared(raw,self.output,protected=[])
+        with self.assertRaises(ContractError):publish_prepared(raw,self.output,protected=[],expected_sha256='0'*64)
+        from unittest.mock import patch
+        with patch('claimbranch.application.argument_preparation.os.replace',side_effect=OSError('replace refused')):
+            with self.assertRaises(OSError):publish_prepared(raw,self.output,protected=[],expected_sha256=digest)
+        self.assertEqual(old,self.output.read_bytes())
+        publish_prepared(raw,self.output,protected=[],expected_sha256=digest);self.assertEqual(raw,self.output.read_bytes())
+
+    def test_originals_unrecognized_files_links_and_second_save_as_collision_are_refused(self):
+        from claimbranch.application.argument_preparation import publish_prepared
+        import hashlib,os
+        self.output.write_bytes(self.raw);self.output.chmod(0o600);digest=hashlib.sha256(self.raw).hexdigest()
+        with self.assertRaises(ContractError):publish_prepared(self.raw,self.output,protected=[self.output],expected_sha256=digest)
+        self.output.write_bytes(b'original ledger');digest=hashlib.sha256(self.output.read_bytes()).hexdigest()
+        with self.assertRaises(ContractError):publish_prepared(self.raw,self.output,protected=[],expected_sha256=digest)
+        valid=self.root/'valid.json';valid.write_bytes(self.raw);valid.chmod(0o600)
+        other=self.root/'alias.json';os.symlink(valid,other)
+        with self.assertRaises((ContractError,OSError)):publish_prepared(self.raw,other,protected=[],expected_sha256=digest)
+        new=self.root/'new.json';publish_prepared(self.raw,new,protected=[])
+        with self.assertRaises(ContractError):publish_prepared(self.raw,new,protected=[])
+        self.assertEqual(b'original ledger',self.output.read_bytes())
+
+
+    def test_world_readable_valid_envelope_and_concurrent_edit_are_refused(self):
+        from claimbranch.application.argument_preparation import publish_prepared
+        import hashlib
+        publish_prepared(self.raw,self.output,protected=[]);digest=hashlib.sha256(self.raw).hexdigest();self.output.chmod(0o644)
+        with self.assertRaises(ContractError):publish_prepared(self.raw,self.output,protected=[],expected_sha256=digest)
+        self.output.chmod(0o600)
+        def change():self.output.write_bytes(b'changed outside preparation')
+        with self.assertRaises(ContractError):publish_prepared(self.raw,self.output,protected=[],expected_sha256=digest,recheck=change)
+        self.assertEqual(b'changed outside preparation',self.output.read_bytes())
+
+    def test_published_cleanup_failure_reports_uncertainty_and_closes_directory(self):
+        from claimbranch.application.argument_preparation import publish_prepared
+        from unittest.mock import patch
+        import os
+        real_close=os.close;real_open=os.open;directory_fds=[]
+        def opened(path,flags,*args,**kwargs):
+            fd=real_open(path,flags,*args,**kwargs)
+            if path==self.root and flags&os.O_DIRECTORY:directory_fds.append(fd)
+            return fd
+        with patch('claimbranch.application.argument_preparation.os.open',side_effect=opened),patch('claimbranch.application.argument_preparation.os.unlink',side_effect=OSError('cleanup refused')),patch('claimbranch.application.argument_preparation.os.close',wraps=real_close) as close:
+            with self.assertRaisesRegex(ContractError,'may be published; cleanup is uncertain'):
+                publish_prepared(self.raw,self.output,protected=[])
+            descriptors=[call.args[0] for call in close.call_args_list]
+        self.assertEqual(self.raw,self.output.read_bytes())
+        self.assertTrue(directory_fds)
+        for fd in directory_fds:
+            self.assertIn(fd,descriptors)
+            with self.assertRaises(OSError):os.fstat(fd)
+
+    def test_failed_initial_temp_identity_closes_fd_and_names_uncertain_temp(self):
+        from claimbranch.application.argument_preparation import publish_prepared
+        from unittest.mock import patch
+        import os
+        opened=[];real_open=os.open;real_fstat=os.fstat
+        def opening(path,*args,**kwargs):
+            fd=real_open(path,*args,**kwargs)
+            if str(path).startswith('.argument-prepare-'):opened.append(fd)
+            return fd
+        def fstat(fd):
+            if fd in opened:raise OSError('identity read refused')
+            return real_fstat(fd)
+        with patch('claimbranch.application.argument_preparation.os.open',side_effect=opening),patch('claimbranch.application.argument_preparation.os.fstat',side_effect=fstat):
+            with self.assertRaisesRegex(ContractError,'temporary cleanup is uncertain: .argument-prepare-'):
+                publish_prepared(self.raw,self.output,protected=[])
+        self.assertFalse(self.output.exists());self.assertEqual(1,len(opened))
+        with self.assertRaises(OSError):real_fstat(opened[0])
+
+    def test_cleanup_failure_does_not_hide_primary_unpublished_failure(self):
+        from claimbranch.application.argument_preparation import publish_prepared
+        from unittest.mock import patch
+        def refuse():raise ContractError('Source changed; prepare again')
+        with patch('claimbranch.application.argument_preparation.os.unlink',side_effect=OSError('cleanup refused')):
+            with self.assertRaisesRegex(ContractError,'Source changed; prepare again') as caught:
+                publish_prepared(self.raw,self.output,protected=[],recheck=refuse)
+        self.assertIn('Temporary cleanup is uncertain',caught.exception.__notes__[0]);self.assertFalse(self.output.exists())
+
+    def test_flush_failure_preserves_old_and_postpublication_failure_is_uncertain(self):
+        from claimbranch.application.argument_preparation import publish_prepared
+        from unittest.mock import patch
+        import hashlib,os
+        publish_prepared(self.raw,self.output,protected=[])
+        old=self.output.read_bytes();digest=hashlib.sha256(old).hexdigest()
+        changed=deepcopy(self.value);changed['title']='New preparation';raw=encode(changed,purpose='project')
+        with patch('claimbranch.application.argument_preparation.os.fsync',side_effect=OSError('flush refused')):
+            with self.assertRaises(OSError):publish_prepared(raw,self.output,protected=[],expected_sha256=digest)
+        self.assertEqual(old,self.output.read_bytes())
+        real_fsync=os.fsync
+        def sync(fd):
+            import stat
+            if stat.S_ISDIR(os.fstat(fd).st_mode):raise OSError('directory sync refused')
+            return real_fsync(fd)
+        with patch('claimbranch.application.argument_preparation.os.fsync',side_effect=sync):
+            with self.assertRaisesRegex(ContractError,'may be published'):
+                publish_prepared(raw,self.output,protected=[],expected_sha256=digest)
+        self.assertEqual(raw,self.output.read_bytes())

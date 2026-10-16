@@ -101,18 +101,20 @@ def project_workspace(project):
         restore(app, project.work)
     else:
         app.message = 'Press ";" for Add a claim or Draft a result. No evidence or judgment was supplied for you.'
-    if project.work.history.schema_version in (4, 5, 14):
+    if project.work.history.schema_version in (4, 5, 14, 18):
         resources = project.work.history.capacity()["resources"]
         app.message = app.message + " Paper capacity: " + ", ".join("%s %s/%s" % (key,resources[key]["used"],resources[key]["limit"]) for key in ("claims","observations","experiments","edges","episodes")) + ". Close TUI and use project status for complete headroom."
-    if project.work.history.schema_version == 14:
+    if project.work.history.schema_version in (14,18):
         from claimbranch.core.argument_import_v2 import unpack_snapshot, preview_import
         from claimbranch.core.paper_capacity import decode as paper_decode
         snapshot = paper_decode(project.work.history.seed, purpose='history')['initial_argument']['snapshot']
         raw_original = unpack_snapshot(snapshot)
         def original_source(record_id):
             result = preview_import(raw_original)
-            record = next((r for r in result['records'] if r['id'] == record_id), None)
-            if record is None: return None
+            record = next((r for r in result['records'] if r.get('internal_id',r['id']) == record_id), None)
+            if record is None:
+                link=next((link for link in result.get('replacement_links',[]) if link['id']==record_id),None)
+                return json.dumps(link,ensure_ascii=False,indent=2) if link is not None else None
             # Private record/mapping reader; public graph and providers never receive files.
             return json.dumps(record, ensure_ascii=False, indent=2)
         app.imported_original_source = original_source
@@ -196,7 +198,7 @@ def setup_preview(args):
         fields[name] = value
     label=getattr(args,'label',None)
     if label and getattr(args,'profile',None)!='paper':raise ContractError('Label connection requires --profile paper')
-    preview = preview_association(args.paper_root, args.manuscript, args.anchor, args.directory,selector=dict(schema='claimbranch.tex-selector/v1',kind='label',value=label) if label else None)
+    preview = preview_association(args.paper_root, args.manuscript, args.anchor, args.directory,selector=dict(schema='claimbranch.tex-selector/v'+str(getattr(args,'label_version',2)),kind='label',value=label) if label else None)
     if label:
         from .paper_profile_project import new_paper_project
         project=new_paper_project(preview,args.project_id,fields['title'],fields['thesis'],fields['question'])

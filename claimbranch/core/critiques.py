@@ -19,7 +19,7 @@ INPUT={'oneOf':[obj(schema={'const':'claimbranch.critique-input/v1'},operation_t
 
 def apply_critique(state,command):
     from .research_history import _record_ids
-    if state['seed']['schema_version'] not in (4, 5, 14) or state['active_episode'] is None:raise ContractError('Critiques require an active personal paper episode')
+    if state['seed']['schema_version'] not in (4, 5, 14, 18) or state['active_episode'] is None:raise ContractError('Critiques require an active personal paper episode')
     kind=command['operation_type'];payload=command['payload'];questions=state.setdefault('critiques',{});links=state.setdefault('critique_links',{})
     if kind=='record-critique':
         if len(questions)>=128:raise ContractError(f'capacity critiques: {len(questions)+1} / 128')

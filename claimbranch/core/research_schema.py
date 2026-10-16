@@ -14,6 +14,7 @@ from .canonical import ContractError, bounded_text, canonical_bytes, decode
 ID = {"type": "string", "minLength": 1, "maxLength": 128,
       "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$"}
 TEXT = {"type": "string", "minLength": 1, "maxLength": 16384, "x-utf8-maxBytes": 16384}
+ROOT_JSON_POINTER = {"type": "string", "maxLength": 4096}
 HASH = {"type": "string", "pattern": "^[0-9a-f]{64}$", "minLength": 64, "maxLength": 64}
 NULL = {"type": "null"}
 
@@ -71,8 +72,11 @@ PAPER_SERIES_SEED = obj(schema_version={"type": "integer", "const": 3}, project_
 
 
 def seed_schema(version):
-    if type(version) is not int or version not in (1, 2, 3, 4, 5, 14):
+    if type(version) is not int or version not in (1, 2, 3, 4, 5, 14, 18):
         raise ContractError("unknown research contract version")
+    if version == 18:
+        from .historical_argument import seed_schema as historical_seed_schema
+        return historical_seed_schema()
     if version == 14:
         from .argument_import_v2 import seed_schema as original_seed_schema
         return original_seed_schema()
@@ -84,7 +88,7 @@ def seed_schema(version):
 
 def paper_payloads(version=3):
     from .paper_capacity import LIMITS
-    limits = LIMITS if version in (4, 5, 14) else PAPER_LIMITS
+    limits = LIMITS if version in (4, 5, 14, 18) else PAPER_LIMITS
     bodies = deepcopy(BODIES)
     bodies["claim"] = obj(role={"enum": ["main", "subclaim"]}, statement=TEXT, scope=TEXT,
                           parent_ids=array(ID, 3, 1, True))
@@ -98,12 +102,12 @@ def paper_payloads(version=3):
     payloads["record-evidence-event"]["required"].append("value")
     payloads["record-interpretation"] = obj(changes=array(change, limits["changes"], 1), judgment=JUDGMENT)
     payloads["apply-selected-merge"]["properties"]["selected_ids"] = array(ID, limits["changes"], 1, True)
-    if version in (5, 14):
+    if version in (5, 14, 18):
         from .argument_import import imported_reference_schema
         payloads['create-imported-reasoning-branch'] = obj()
         for old, new in (('record-interpretation', 'record-imported-interpretation'), ('apply-selected-merge', 'apply-imported-merge')):
             payloads[new] = deepcopy(payloads[old])
-            payloads[new]['properties'].update(source_node_id=ID, source_refs=array(imported_reference_schema(2 if version == 14 else 1), 2048))
+            payloads[new]['properties'].update(source_node_id=ID, source_refs=array(imported_reference_schema(2 if version in (14,18) else 1), 2048))
             payloads[new]['required'].extend(['source_node_id', 'source_refs'])
     return payloads
 
@@ -136,6 +140,11 @@ COMPANION = obj(id=ID, target_id=ID, companion_id=ID, scope={'enum':['anchor','p
 ANCHOR_CONTEXT = obj(anchor_id=ID, placement={'enum':['main','appendix','abstract','unknown']},
     paragraphs=array(obj(index={'type':'integer','minimum':1,'maximum':256},
         expresses=array(ID,64,unique=True),plots=array(ID,256,unique=True)),256), rationale=TEXT)
+MANUSCRIPT_SOURCE_V3=deepcopy(MANUSCRIPT_SOURCE_V2)
+MANUSCRIPT_SOURCE_V3['properties']['selector']=selector_schema(2)
+ANCHOR_V3=deepcopy(ANCHOR_V2)
+ANCHOR_V3['properties']['source']=MANUSCRIPT_SOURCE_V3
+
 REVISION_PAYLOADS = {'set-claim-wording':WORDING_POLICY,'set-claim-companion':COMPANION,'set-anchor-context':ANCHOR_CONTEXT}
 
 CO_READING = obj(id=ID, statement=TEXT, scope=TEXT, observation_ids=array(ID,256,1,True),
@@ -146,25 +155,33 @@ CO_REPORT = obj(id=ID,candidates=array(CO_READING,4,2),selected_ids=array(ID,4,2
     disposition={'enum':['not-required','answered','deferred']},answers=array(TEXT,3,unique=True))
 
 def command_schema(version=1):
-    if version not in (6,7,8,9,10,11,12,13,15,16): seed_schema(version)
+    if version not in (6,7,8,9,10,11,12,13,15,16,17,19,20): seed_schema(version)
     if version == 11:
         from .critiques import PAYLOADS as CRITIQUE_PAYLOADS
     if version == 10:
         from .protocols import PAYLOADS as PROTOCOL_PAYLOADS
     if version == 9:
         from .typed_observations import PAYLOADS as MEASUREMENT_PAYLOADS
-    payloads = {} if version == 12 else CRITIQUE_PAYLOADS if version == 11 else PROTOCOL_PAYLOADS if version == 10 else MEASUREMENT_PAYLOADS if version == 9 else {"record-co-report":CO_REPORT} if version == 8 else REVISION_PAYLOADS if version == 7 else {"register-manuscript-anchor":ANCHOR} if version == 6 else PAYLOADS if version == 1 else paper_payloads(version)
+    payloads = {} if version in (12,19,20) else CRITIQUE_PAYLOADS if version == 11 else PROTOCOL_PAYLOADS if version == 10 else MEASUREMENT_PAYLOADS if version == 9 else {"record-co-report":CO_REPORT} if version == 8 else REVISION_PAYLOADS if version == 7 else {"register-manuscript-anchor":ANCHOR} if version == 6 else PAYLOADS if version == 1 else paper_payloads(version)
     if version == 12:
         from .critiques import PAYLOADS as C
         from .protocols import PAYLOADS as P
         from .typed_observations import PAYLOADS as M
         payloads={**C,**P,**M,**REVISION_PAYLOADS,'register-manuscript-anchor':ANCHOR,'record-co-report':CO_REPORT}
+    if version == 20:
+        from .wording_policy import WORDING_ACK
+        payloads={'acknowledge-wording-warning':WORDING_ACK}
+    if version == 19:
+        from .protocols import COMPLETED_PROTOCOL
+        from .observation_lineage import REPLACEMENT
+        payloads={'register-experiment-protocol':COMPLETED_PROTOCOL,'record-observation-replacement':REPLACEMENT}
     if version == 13:
         from .graph_edits import payload_schema
         payloads={'revise-graph':payload_schema()}
     if version == 16:payloads={'set-audit-encoding':obj(encoding={'const':'shared-values/v1'})}
+    if version == 17:payloads={'register-manuscript-anchor':ANCHOR_V3}
     if version == 15:payloads={'register-manuscript-anchor':ANCHOR_V2}
-    if 3 <= version <= 5 or version==14:
+    if 3 <= version <= 5 or version in (14,18):
         payloads.update({"open-episode": obj(title=TEXT, question=TEXT), "close-episode": obj()})
     return deepcopy({
         "$schema": "https://json-schema.org/draft/2020-12/schema",
@@ -176,8 +193,8 @@ def command_schema(version=1):
             created_at={"type": "string", "format": "date-time", "minLength": 20, "maxLength": 20,
                         "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$"},
             operation_type={"const": kind}, expected_heads=HEADS,
-            **({"contribution_origin":{"enum":["human","ai","mixed","unknown"]}} if version in (12,15) else {}),
-            evidence_watermark={"type": "integer", "minimum": 0, "maximum": 6 if version == 1 else (1024 if version in (4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16) else PAPER_LIMITS["events"])}, payload=payload)
+            **({"contribution_origin":{"enum":["human","ai","mixed","unknown"]}} if version in (12,15,17,19,20) else {}),
+            evidence_watermark={"type": "integer", "minimum": 0, "maximum": 6 if version == 1 else (1024 if version in (4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20) else PAPER_LIMITS["events"])}, payload=payload)
             for kind, payload in payloads.items()]})
 
 
@@ -203,6 +220,13 @@ def _check(value, schema):
     if kind == "object":
         if set(value) - set(schema["properties"]) or not set(schema.get("required", [])).issubset(value):
             raise ContractError("unknown or missing field")
+        # Closed variants must reject their discriminator before traversing a
+        # large work/history. Validation and canonical values stay unchanged.
+        for name,child in schema['properties'].items():
+            if name in value and 'const' in child and 'oneOf' not in child:
+                expected=child['const']
+                if type(value[name]) is not type(expected) or value[name]!=expected:
+                    raise ContractError('unknown constant or version')
         for name in value:
             _check(value[name], schema["properties"][name])
     elif kind == "array":
@@ -214,9 +238,9 @@ def _check(value, schema):
             raise ContractError("duplicate collection item")
     elif kind == "string":
         limit = schema.get("x-utf8-maxBytes", schema.get("maxLength", 16384))
-        # Only schemas explicitly admitting empty draft text relax nonblank
-        # validation. Existing scientific fields keep their required content.
-        if schema.get("minLength", 1) != 0:
+        # Preserve published schema bytes and every other implicit nonblank rule.
+        # Only the existing artifact root-pointer contract admits implicit empty.
+        if schema.get("minLength", 1) != 0 and not (value == "" and schema == ROOT_JSON_POINTER):
             bounded_text(value, limit=limit)
         elif len(value.encode("utf-8")) > limit:
             raise ContractError("text exceeds its UTF-8 limit")

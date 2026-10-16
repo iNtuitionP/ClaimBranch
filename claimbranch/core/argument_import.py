@@ -109,6 +109,7 @@ def source_references(state, branch, changes, source_node_id):
     initial = state['seed']['initial_argument']
     records = {record['id']:record for record in initial['records']}
     pointers = sum(initial['unresolved_source_pointers'], [])
+    replacement_pointers={link['source_pointer'] for link in state.get('observation_replacements',{}).values() if link.get('origin_kind')=='imported-declaration'}
     lineage = branch.get('source_lineages', {})
     found, pending, seen = {}, [source_node_id], set()
     for item in changes:
@@ -125,8 +126,8 @@ def source_references(state, branch, changes, source_node_id):
         if key in records:
             record = records[key]; pointer = record['source_pointer']
             found[key] = dict(record_id=key, source_sha256=initial['source_sha256'], contributor=record['origin']['contributor'],
-                unresolved_count=sum(not pointer or p == pointer or p.startswith(pointer + '/') for p in pointers))
-            if state['seed']['schema_version'] == 14:
+                unresolved_count=sum((not pointer or p == pointer or p.startswith(pointer + '/')) and p not in replacement_pointers for p in pointers))
+            if state['seed']['schema_version'] in (14,18):
                 found[key].update(schema='claimbranch.imported-source-reference/v2',source_digest_scope='argument-envelope/v2',origin_flags=deepcopy(record['origin_flags']))
             original = record['body']
             pending.extend(original.get('parent_ids', [])); pending.extend(original.get('basis_ids', []))
@@ -135,6 +136,13 @@ def source_references(state, branch, changes, source_node_id):
             if dependency['status']=='active' and dependency['target_id']==key:
                 pending.append(dependency['companion_id'])
                 for ref in dependency['source_refs']:found[ref['record_id']]=ref
+        for link in state.get('observation_replacements',{}).values():
+            if key in (link['previous_id'],link['replacement_id']):
+                pending.extend((link['previous_id'],link['replacement_id']))
+                for ref in link.get('source_refs',[]):found[ref['record_id']]=ref
+                if link.get('origin_kind')=='imported-declaration':
+                    from .observation_lineage import imported_reference
+                    found[link['id']]=imported_reference(state,link)
         policy=state.get('wording_policies',{}).get(key)
         if policy:
             for ref in policy['source_refs']:found[ref['record_id']]=ref
@@ -164,7 +172,7 @@ def _history_from_import(raw, anchor_id, registered_at):
     result = preview_import(raw)
     if not result['valid']:
         raise ContractError('invalid selected argument: registration refused before any append')
-    if result['schema'] == 'claimbranch.argument-import-preview/v2':
+    if result['schema'] in ('claimbranch.argument-import-preview/v2','claimbranch.argument-import-preview/v3','claimbranch.argument-import-preview/v4','claimbranch.argument-import-preview/v5'):
         from .argument_import_v2 import make_history
         return make_history(raw, anchor_id, registered_at)
     thesis = next(item for item in result['records'] if item['kind'] == 'thesis')
@@ -180,7 +188,7 @@ def _history_from_import(raw, anchor_id, registered_at):
 def initialize_imported_state(state):
     """Initialize a source-claimed current graph; no prior command/judgment is created."""
     seed = state['seed']; initial = seed['initial_argument']; records = initial['records']
-    if seed['schema_version']==14:
+    if seed['schema_version'] in (14,18):
         from .argument_import_v2 import validate_initial
         state['condition_vocabulary']={item['key']:item for item in validate_initial(seed)}
     by_id = {record['id']: record for record in records}
@@ -201,7 +209,7 @@ def initialize_imported_state(state):
     for record in records:
         key, kind, body = record['id'], record['kind'], deepcopy(record['body'])
         if kind == 'experiment':
-            state['experiments'][key] = {'id': key, **body}
+            state['experiments'][key] = {'id': key, **body, **({k:deepcopy(record[k]) for k in ('display_label','external_id','recorded_at','not_recorded')} if seed['schema_version']==18 else {})}
         elif kind == 'observation':
             if by_id.get(body['experiment_id'], {}).get('kind') != 'experiment':
                 raise ContractError('imported observation requires its completed experiment')
@@ -227,6 +235,9 @@ def initialize_imported_state(state):
         _capacity(state, resource, count)
     if sum(record['kind'] == 'historical-decision' for record in records) > 256:
         raise ContractError('capacity historical-decisions: exceeds 256')
+    if seed['schema_version']==18:
+        from .observation_lineage import initialize
+        initialize(state)
     state['branches']['main']['watermark'] = len(state['events'])
 
 
@@ -306,6 +317,42 @@ def _original(raw):
 
 def _errors(value, schema, path, output):
     """Collect field failures across records without treating any failed record as valid."""
+    if "oneOf" in schema:
+        try:
+            _check(value, schema)
+            return
+        except ContractError:
+            pass
+        options = schema['oneOf']
+        # Diagnose the declared closed variant; never admit a failed union.
+        selected = []
+        if type(value) is dict:
+            for discriminator in ('kind', 'type','operation_type','schema'):
+                selected = [option for option in options
+                    if discriminator in value and option.get('properties', {}).get(discriminator, {}).get('const') == value[discriminator]]
+                if selected:
+                    break
+                allowed = [option.get('properties', {}).get(discriminator, {}).get('const') for option in options]
+                if discriminator in value and all(item is not None for item in allowed):
+                    output.append({'pointer':path+'/'+discriminator, 'error':'unknown variant; expected one of '+', '.join(map(str, allowed))})
+                    return
+            if not selected and ('measurement' in value) != ('value' in value):
+                key = 'measurement' if 'measurement' in value else 'value'
+                selected = [option for option in options if key in option.get('required', [])]
+        else:
+            primitive = {str:'string', int:'integer', type(None):'null', list:'array'}.get(type(value))
+            selected = [option for option in options if primitive and option.get('type') == primitive]
+        if len(selected)>1 and type(value) is dict:
+            compatible=[option for option in selected if not set(value)-set(option.get('properties',{}))]
+            if len(compatible)==1:selected=compatible
+        if len(selected) == 1:
+            _errors(value, selected[0], path, output)
+        elif type(value) is dict and {key for option in options for key in option.get('required', [])} >= {'measurement', 'value'}:
+            for key in ('measurement', 'value'):
+                output.append({'pointer':path+'/'+key, 'error':'choose exactly one observation representation: measurement or value'})
+        else:
+            output.append({"pointer": path, "error": "value does not match exactly one closed schema"})
+        return
     kind = schema.get("type")
     if kind == "object" and type(value) is dict:
         fields = schema["properties"]
@@ -335,7 +382,7 @@ def _errors(value, schema, path, output):
 def preview_import(raw):
     """Complete selected graph/coverage preview; errors prohibit registration, not inspection."""
     value = decode(raw, purpose="project")
-    if type(value) is dict and value.get('schema') == 'claimbranch.argument-import/v2':
+    if type(value) is dict and value.get('schema') in ('claimbranch.argument-import/v2','claimbranch.argument-import/v3','claimbranch.argument-import/v4','claimbranch.argument-import/v5'):
         from .argument_import_v2 import preview_import as preview_v2
         return preview_v2(raw)
     schema = import_schema()

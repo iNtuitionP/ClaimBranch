@@ -20,7 +20,10 @@ from claimbranch.application.tui_work_recovery import snapshot_value
 
 
 class ManuscriptAnchorTests(unittest.TestCase):
-    setUp = imported_tests.ImportedProjectTests.setUp
+    def setUp(self):
+        imported_tests.ImportedProjectTests.setUp(self)
+        reader=self.enterContext(patch('claimbranch.application.import_review.ReviewInput'))
+        reader.return_value.__enter__.return_value=lambda prompt:input(prompt)
 
     def register(self, name, kind='text', expresses=('C',), plots=(), parents=(), project=None):
         filename=name+'.tex'
@@ -182,13 +185,14 @@ class ManuscriptAnchorTests(unittest.TestCase):
         with patch('sys.stdin',TTY()),patch('sys.stdout',TTY()),patch('builtins.input',return_value=''):
             self.assertEqual(0,main(args))
         self.assertEqual(previous,(self.work/'personal.cbp').read_bytes())
-        def answer(_):
+        def answer(prompt):
+            if not prompt.startswith('Type register'):return 'continue'
             path=self.paper/'abstract.tex';path.write_text(path.read_text().replace('Synthetic','Changed'))
             return 'register'
         with patch('sys.stdin',TTY()),patch('sys.stdout',TTY()),patch('sys.stderr',TTY()),patch('builtins.input',side_effect=answer):
             self.assertEqual(1,main(args))
         self.assertEqual(previous,(self.work/'personal.cbp').read_bytes())
-        with patch('sys.stdin',TTY()),patch('sys.stdout',TTY()),patch('builtins.input',return_value='register'):
+        with patch('sys.stdin',TTY()),patch('sys.stdout',TTY()),patch('builtins.input',side_effect=lambda prompt:'register' if prompt.startswith('Type register') else 'continue'):
             self.assertEqual(0,main(args))
         output=io.StringIO()
         with patch('sys.stdout',output):self.assertEqual(0,main(['project','anchor-impact','--directory',str(self.work),'--nodes','C']))
@@ -210,7 +214,8 @@ class ManuscriptAnchorTests(unittest.TestCase):
                         except OSError:break
                         output+=chunk;pending+=chunk
                         if registration:
-                            if b'Enter: next page' in pending:os.write(master,b'\n');pending=b''
+                            if b'Review: details / continue' in pending:os.write(master,b'continue\n');pending=b''
+                            elif b'Enter: next page' in pending:os.write(master,b'\n');pending=b''
                             elif b'Type register to save' in pending:os.write(master,b'register\n');pending=b''
                         elif b'ClaimBranch' in output and not quit_sent:os.write(master,b'q');quit_sent=True
                 self.assertEqual(0,process.wait(timeout=5),output[-3000:].decode(errors='replace'))

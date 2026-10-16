@@ -16,6 +16,13 @@ LOCATOR = {'oneOf': [
     obj(kind={'const': 'markdown-cell'}, heading=array(TEXT, 8), row=TEXT, column=TEXT),
 ]}
 NORMALIZATIONS = ['literal-v1', 'cell-trim-v1', 'prose-nfc-v1']
+# New policies are opt-in through envelope v3; legacy schema objects stay closed.
+LOCATOR_V2 = {'oneOf': [*LOCATOR['oneOf'], {
+    **obj(kind={'const':'markdown-section'}, heading=array(TEXT,8,1),
+          occurrence={'type':'integer','minimum':1,'maximum':65536}),
+    'required':['kind','heading']} ]}
+NORMALIZATIONS_V2 = NORMALIZATIONS + ['json-number-decimal-v1',
+    'json-boolean-text-v1', 'numeric-sign-v1', 'line-trim-v1']
 
 
 def text(raw):
@@ -29,7 +36,7 @@ def _span(raw, start, end):
     if not 0 <= start <= end <= len(raw):
         raise ContractError('Source span is outside the retained file')
     if end-start > 16384:
-        raise ContractError('Source extraction exceeds 16384 bytes; select a smaller explicit span')
+        raise ContractError('Source extraction exceeds 16384 bytes; use a smaller explicit span locator')
     # Reject boundaries inside multibyte UTF-8 characters.
     if (start < len(raw) and raw[start] & 0xc0 == 0x80) or (end < len(raw) and raw[end] & 0xc0 == 0x80):
         raise ContractError("Source span splits a UTF-8 character")
@@ -49,17 +56,25 @@ def _cells(line):
     return [(a+1,b) for a,b in zip(delimiters,delimiters[1:])]
 
 
-def _markdown_index(raw, budget):
+def _markdown_index(raw, budget, *, sections=None):
     """One linear scan, bounded cell index and O(1) positive/negative lookups."""
     if b'\r' in raw.replace(b'\r\n',b''):raise ContractError('Bare-CR Markdown is unsupported; use explicit source spans')
     parts=raw.split(b'\n');lines=[text(part).rstrip('\r') for part in parts]
     offsets=[];offset=0
     for part in parts:offsets.append(offset);offset+=len(part)+1
-    headings=[];occurrences={():1};cells={};errors={};fence=None;comment=False;i=0
-    def enter(rank,title):
+    active_sections=[];headings=[];occurrences={():1};cells={};errors={};fence=None;comment=False;i=0;previous_plain=None;container=False
+    def enter(rank,title,start):
+        if sections is not None:
+            while active_sections and active_sections[-1]['rank']>=rank:
+                active_sections.pop()['end']=start
+            budget['markdown_sections']=budget.get('markdown_sections',0)+1
+            if budget['markdown_sections']>65536:raise ContractError('capacity indexed-markdown-sections: exceeds 65536')
         while headings and headings[-1][0]>=rank:headings.pop()
         headings.append((rank,title));path=tuple(title for _,title in headings)
         occurrences[path]=occurrences.get(path,0)+1
+        if sections is not None:
+            section=dict(path=path,rank=rank,start=start,end=None)
+            sections.append(section);active_sections.append(section)
     def store(path,row,column,span):
         key=(path,row,column)
         # Two are sufficient to preserve ambiguity without unbounded duplicate lists.
@@ -69,6 +84,7 @@ def _markdown_index(raw, budget):
         if budget['markdown_cells']>131072:raise ContractError('capacity indexed-markdown-cells: exceeds 131072')
     while i<len(lines):
         line=lines[i];path=tuple(title for _,title in headings)
+        prior_plain=previous_plain;previous_plain=None
         marker=re.match(r'^ {0,3}(`{3,}|~{3,})(.*)$',line)
         if fence:
             if marker and marker[1][0]==fence[0] and len(marker[1])>=len(fence) and not marker[2].strip():fence=None
@@ -76,20 +92,39 @@ def _markdown_index(raw, budget):
         if comment:
             if '-->' in line:comment=False
             i+=1;continue
-        if line.startswith(('    ','\t')):i+=1;continue
+        if line.startswith(('    ','\t')):
+            if sections is not None and prior_plain==i-1:previous_plain=i
+            i+=1;continue
         if marker and not (marker[1][0]=='`' and '`' in marker[2]):
             fence=marker[1];i+=1;continue
         if re.match(r'^ {0,3}<!--',line):
             comment='-->' not in line.split('<!--',1)[1];i+=1;continue
+        if sections is not None:
+            if not line.strip():container=False
+            if re.match(r'^ {0,3}</?[A-Za-z][A-Za-z0-9-]*(?:[ \t/>]|$)',line):
+                raise ContractError('Unsupported HTML block in Markdown; use an explicit span locator')
+            if re.fullmatch(r' {0,3}(?:(?:-[ \t]*){3,}|(?:\*[ \t]*){3,}|(?:_[ \t]*){3,})',line):
+                container=False;i+=1;continue
+        empty=re.fullmatch(r' {0,3}(#{1,6})(?:[ \t]+#*)?[ \t]*',line) if sections is not None else None
+        if empty:enter(len(empty[1]),'',offsets[i]);container=False;i+=1;continue
         heading=re.match(r'^ {0,3}(#{1,6})[ \t]+(.+?)[ \t]*$',line)
         if heading:
-            enter(len(heading[1]),re.sub(r'[ \t]+#+[ \t]*$','',heading[2]));i+=1;continue
+            enter(len(heading[1]),re.sub(r'[ \t]+#+[ \t]*$','',heading[2]),offsets[i]);container=False;i+=1;continue
+        if sections is not None and re.match(r'^ {0,3}(?:>|[-+*][ \t]|[0-9]+[.)][ \t])',line):container=True
+        if sections is not None and line.strip() and i+1<len(lines) and re.fullmatch(r' {0,3}(=+|-+)[ \t]*',lines[i+1]) and (container or line.lstrip().startswith('|')):
+            raise ContractError('Ambiguous container/pipe setext heading; use an explicit span locator')
         if line.strip() and not line.lstrip().startswith(('|','>')) and i+1<len(lines) and re.fullmatch(r' {0,3}(=+|-+)[ \t]*',lines[i+1]):
-            enter(1 if lines[i+1].lstrip().startswith('=') else 2,line.strip());i+=2;continue
-        if not line.lstrip().startswith('|') or i+1>=len(lines):i+=1;continue
+            if sections is not None and prior_plain==i-1:
+                raise ContractError('Ambiguous multiline setext heading; use an explicit span locator')
+            enter(1 if lines[i+1].lstrip().startswith('=') else 2,line.strip(),offsets[i]);i+=2;continue
+        if not line.lstrip().startswith('|') or i+1>=len(lines):
+            if line.strip() and not re.match(r'^ {0,3}(?:>|<!--|[-+*][ \t]|[0-9]+[.)][ \t]|(?:[-*_][ \t]*){3,}$)',line):previous_plain=i
+            i+=1;continue
         try:
             header=_cells(line);separator=_cells(lines[i+1])
-            if not all(re.fullmatch(r'\s*:?-{3,}:?\s*',lines[i+1][a:b]) for a,b in separator):i+=1;continue
+            if not all(re.fullmatch(r'\s*:?-{3,}:?\s*',lines[i+1][a:b]) for a,b in separator):
+                if sections is not None:previous_plain=i
+                i+=1;continue
             names=[line[a:b].strip(' \t') for a,b in header]
             if len(names)!=len(separator) or len(names)!=len(set(names)) or len(names)>128:
                 raise ContractError('Unsupported or ambiguous Markdown table columns')
@@ -106,20 +141,25 @@ def _markdown_index(raw, budget):
                 errors[path]='Unsupported Markdown table continuation; use an explicit source span'
         except ContractError as error:
             if 'capacity ' in str(error):raise
+            if sections is not None:previous_plain=i
             errors[path]=str(error);i+=1
+    if sections is not None:
+        for section in active_sections:section['end']=len(raw)
     return occurrences,cells,errors
 
 
 class SourceResolver:
     """One bounded read-only resolver/cache per retained file and preview."""
-    def __init__(self, raw, media, budget=None):
+    def __init__(self, raw, media, budget=None, *, version=1):
+        if version not in (1,2):raise ContractError('Unknown source resolver version')
+        self.version=version;self.sections=None
         text(raw)
         self.raw=raw;self.media=media;self.markdown=None;self.markdown_error=None;self.json=None;self.json_error=None;self.lines=None
         self.budget=budget if budget is not None else {}
 
     def resolve(self, locator):
         from .research_schema import _check
-        _check(locator, LOCATOR)
+        _check(locator, LOCATOR if self.version==1 else LOCATOR_V2)
         raw,media=self.raw,self.media
         kind=locator['kind']
         if kind=='json-pointer':
@@ -137,7 +177,11 @@ class SourceResolver:
                     return result
                 def reject(_):raise ContractError('Nonfinite source JSON number')
                 try:
-                    parsed=json.loads(text(raw),object_pairs_hook=pairs,parse_float=Decimal,parse_constant=reject)
+                    try:
+                        parsed=json.loads(text(raw),object_pairs_hook=pairs,parse_float=Decimal,parse_int=(lambda token: Decimal(token) if token=='-0' else int(token)) if self.version==2 else int,parse_constant=reject)
+                    except ArithmeticError as error:
+                        if self.version==1:raise
+                        raise ContractError('Source JSON decimal exponent is unsupported') from error
                     leaves={}
                     for pointer,value in _leaves(parsed):
                         self.budget['json_leaves']=self.budget.get('json_leaves',0)+1
@@ -153,11 +197,30 @@ class SourceResolver:
             if isinstance(value,(dict,list)) and value:raise ContractError('JSON source mappings require scalar or empty-container leaves')
             if isinstance(value,str) and len(value.encode('utf-8'))>16384:raise ContractError('Source extraction exceeds 16384 bytes')
             return value,{'pointer':locator['pointer']}
+        if kind=='markdown-section':
+            if media!='markdown':raise ContractError('Markdown sections require a Markdown source')
+            if self.markdown_error:raise ContractError(self.markdown_error)
+            if self.sections is None:
+                sections=[]
+                try:self.markdown=_markdown_index(raw,self.budget,sections=sections)
+                except ContractError as error:self.markdown_error=str(error);raise
+                self.sections={}
+                for section in sections:self.sections.setdefault(section['path'],[]).append((section['start'],section['end']))
+            spans=self.sections.get(tuple(locator['heading']),[])
+            occurrence=locator.get('occurrence')
+            if occurrence is None and len(spans)!=1:raise ContractError('Markdown heading path is absent or ambiguous; specify occurrence')
+            index=(occurrence or 1)-1
+            if not 0<=index<len(spans):raise ContractError('Markdown section occurrence is absent')
+            return _span(raw,*spans[index])
         if kind=='markdown-cell':
             if media!='markdown':raise ContractError('Markdown cells require a Markdown source')
             if self.markdown_error:raise ContractError(self.markdown_error)
             if self.markdown is None:
-                try:self.markdown=_markdown_index(raw,self.budget)
+                try:
+                    if self.version==1:self.markdown=_markdown_index(raw,self.budget)
+                    else:
+                        sections=[];self.markdown=_markdown_index(raw,self.budget,sections=sections);self.sections={}
+                        for section in sections:self.sections.setdefault(section['path'],[]).append((section['start'],section['end']))
                 except ContractError as error:
                     self.markdown_error=str(error);raise
             occurrences,cells,errors=self.markdown;path=tuple(locator['heading'])
@@ -183,9 +246,39 @@ def resolve(raw,media,locator):
     return SourceResolver(raw,media).resolve(locator)
 
 
-def normalized(value, policy, locator):
+def normalized(value, policy, locator, *, version=1):
+    if policy not in (NORMALIZATIONS if version==1 else NORMALIZATIONS_V2):
+        raise ContractError('Unknown source normalization version')
     if policy == 'literal-v1': return value
+    if policy == 'json-number-decimal-v1':
+        if locator['kind']!='json-pointer' or type(value) not in (int,Decimal):
+            raise ContractError('JSON decimal normalization requires a JSON number')
+        number=Decimal(value)
+        # Positive exponents cannot be expanded without changing the tuple's
+        # declared scale. Huge negative exponents refuse before allocation.
+        if number.as_tuple().exponent>0:return str(number)
+        if max(len(number.as_tuple().digits),-number.as_tuple().exponent)+3>16384:
+            raise ContractError('Normalized decimal exceeds 16384 bytes')
+        rendered=format(number,'f')
+        if Decimal(rendered).as_tuple()!=number.as_tuple():
+            raise ContractError('Decimal rendering lost precision or sign')
+        return rendered
+    if policy == 'json-boolean-text-v1':
+        if locator['kind']!='json-pointer' or type(value) is not bool:
+            raise ContractError('Boolean normalization requires a JSON boolean')
+        return 'true' if value else 'false'
     if not isinstance(value, str): raise ContractError('Text normalization requires text')
+    if policy == 'numeric-sign-v1':
+        candidate=(value.strip(' \t') if locator['kind']=='markdown-cell' else value).replace('−','-')
+        separator='\u2009' if '\u2009' in candidate else '\u202f' if '\u202f' in candidate else None
+        integer=r'[0-9]+' if separator is None else r'[0-9]{1,3}(?:'+separator+r'[0-9]{3})+'
+        if not re.fullmatch(r'[+-]?'+integer+r'(?:\.[0-9]+)?',candidate):
+            raise ContractError('Numeric sign policy requires a decimal with optional three-digit thin-space groups')
+        if separator:candidate=candidate.replace(separator,'')
+        return candidate.removeprefix('+')
+    if policy == 'line-trim-v1':
+        if locator['kind']!='lines':raise ContractError('Line trim requires a lines locator')
+        return value[:-2] if value.endswith('\r\n') else value[:-1] if value.endswith('\n') else value
     if policy == 'cell-trim-v1':
         if locator['kind'] != 'markdown-cell': raise ContractError('Cell trim requires a Markdown cell')
         return value.strip(' \t')
