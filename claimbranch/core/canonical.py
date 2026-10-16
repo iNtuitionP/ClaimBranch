@@ -47,7 +47,7 @@ def integer(value, low=0, high=2**53 - 1):
     return value
 
 
-def _normalize(value, depth=0, *, collection_limit=128):
+def _normalize(value, depth=0, *, collection_limit=128, _memo=None):
     if depth > 16:
         raise ContractError("JSON nesting limit exceeded")
     if value is None or type(value) is bool:
@@ -65,18 +65,27 @@ def _normalize(value, depth=0, *, collection_limit=128):
     if type(value) in (list, tuple):
         if len(value) > collection_limit:
             raise ContractError("JSON collection limit exceeded")
-        return [_normalize(item, depth + 1, collection_limit=collection_limit) for item in value]
+        if _memo is not None:
+            key=(id(value),depth)
+            if key in _memo:return _memo[key]
+        result=[_normalize(item, depth + 1, collection_limit=collection_limit,_memo=_memo) for item in value]
+        if _memo is not None:_memo[key]=result
+        return result
     if type(value) is dict:
         if len(value) > collection_limit:
             raise ContractError("JSON object limit exceeded")
+        if _memo is not None:
+            key=(id(value),depth)
+            if key in _memo:return _memo[key]
         result = {}
         for key, item in value.items():
             if not isinstance(key, str):
                 raise ContractError("object keys must be text")
-            normalized = _normalize(key, depth + 1, collection_limit=collection_limit)
+            normalized = _normalize(key, depth + 1, collection_limit=collection_limit,_memo=_memo)
             if normalized in result:
                 raise ContractError("normalized object keys collide")
-            result[normalized] = _normalize(item, depth + 1, collection_limit=collection_limit)
+            result[normalized] = _normalize(item, depth + 1, collection_limit=collection_limit,_memo=_memo)
+        if _memo is not None:_memo[(id(value),depth)]=result
         return result
     raise ContractError("unsupported JSON value")
 

@@ -507,7 +507,7 @@ def graph(frame, app, x, y, width, height):
             put(box.x + box.width - 3, box.y + box.height - 1, '✎', style)
         copy = overview_copy(app, key) if compact else None
         lines = list(copy) if copy else wrap(app.caption(key), box.width - 4)
-        if not copy and app.nodes[key]["kind"] == "observation":
+        if not copy and app.nodes[key]["kind"] == "observation" and "value" in app.nodes[key]["content"]:
             content = app.nodes[key]["content"]
             unit = "pp" if content["metric"]["unit"] == "percentage points" else content["metric"]["unit"]
             lines = wrap(content["value"] + " " + unit, box.width - 4) + lines

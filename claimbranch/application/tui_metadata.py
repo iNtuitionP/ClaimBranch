@@ -13,7 +13,7 @@ class MetadataUI:
     def open(self):
         from .personal_project import PersonalProjectRecovery
         from .tui_project_source import exact_path_buffer
-        if not isinstance(self.terminal.app.recovery,PersonalProjectRecovery) or self.terminal.app.paper.history.schema_version not in (4,5):
+        if not isinstance(self.terminal.app.recovery,PersonalProjectRecovery) or self.terminal.app.paper.history.schema_version not in (4, 5, 14):
             raise ContractError('Extended records require a saved personal paper profile')
         self.path=exact_path_buffer('');self.notice='Choose an existing owner-private metadata-batch/v1 JSON file. Origins belong to each entry.'
         self.candidate=self.review=None;self.terminal.modal='metadata-input'

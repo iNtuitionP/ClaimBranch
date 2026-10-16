@@ -20,7 +20,7 @@ INPUT=obj(schema={'const':'claimbranch.co-report/v1'},id=ID,candidates=array(CO_
 def prepare_co_report(project,request,*,contribution_origin=None):
     from .paper_service import PaperService
     history=project.work.history
-    if history.schema_version not in (4,5):raise ContractError('Co-report requires a personal paper profile')
+    if history.schema_version not in (4, 5, 14):raise ContractError('Co-report requires a personal paper profile')
     request=normalize(request,INPUT,profile='paper');view=history.view('main')
     if view['episode_id'] is None:raise ContractError('Open a question before co-report review')
     selected=[r for r in request['candidates'] if r['id'] in request['selected_ids']]

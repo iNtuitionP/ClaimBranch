@@ -34,7 +34,7 @@ def editable_record(project,key):
 
 def prepare_edits(project,edits,rationale,origin='human',proposal_source=None):
     history=project.work.history
-    if history.schema_version not in (4,5):raise ContractError('Use a saved personal paper profile for direct editing')
+    if history.schema_version not in (4, 5, 14):raise ContractError('Use a saved personal paper profile for direct editing')
     command=dict(schema_version=13,id='graph-'+secrets.token_hex(12),project_id=project.project_id,
         episode_id=history.view('main')['episode_id'],created_at=datetime.now(timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ'),
         operation_type='revise-graph',expected_heads=dict(history.heads),evidence_watermark=history.watermark,

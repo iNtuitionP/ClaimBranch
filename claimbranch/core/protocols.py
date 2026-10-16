@@ -1,4 +1,5 @@
 """Personal registered rules and assessments; no evaluator or execution."""
+from .argument_import import reference_origins
 from copy import deepcopy
 import hashlib
 from .canonical import ContractError
@@ -37,7 +38,7 @@ def basis_identity(references):
 
 def apply_protocol(state,command):
     from .research_history import _record_ids,_evidence
-    if state['seed']['schema_version'] not in (4,5) or state['active_episode'] is None:raise ContractError('Protocol work requires an active personal paper episode')
+    if state['seed']['schema_version'] not in (4, 5, 14) or state['active_episode'] is None:raise ContractError('Protocol work requires an active personal paper episode')
     kind=command['operation_type'];payload=command['payload'];key=payload['id'];main=state['branches']['main']
     bucket={'register-protocol':'protocols','associate-experiment':'experiment_associations','amend-gate-rule':'gate_amendments','record-gate-result':'gate_results','record-outcome':'outcome_assessments'}[kind]
     records=state.setdefault(bucket,{})
@@ -58,7 +59,7 @@ def apply_protocol(state,command):
         prior_runs={a['experiment_id'] for a in associations.values() if a['protocol_id'] in {p['id'] for p in previous}}
         record['app_observations_already_recorded']=[e['id'] for e in _evidence(state['events']) if e['run_id'] in prior_runs]
         record['prior_protocol_ids']=[p['id'] for p in previous]
-        if state['seed']['schema_version']==5:
+        if state['seed']['schema_version'] in (5, 14):
             from .argument_import import source_references
             record['source_refs']=source_references(state,main,[plan],payload['plan_id'])
         else:record['source_refs']=[]
@@ -123,7 +124,7 @@ def apply_protocol(state,command):
             record['gate_validity']='failed-gate' if any(g['status']=='failed' for g in gates) else 'incomplete-gate-assessment' if missing else 'unknown-gate-result' if any(g['status']=='unknown' for g in gates) else 'reported-gates-passed' if gates else 'no-gates-declared'
             record['validity_verified']=False
     records[key]=record
-    origins={record.get('origin',command.get('contribution_origin','human'))}|{ref['contributor'] for ref in record.get('source_refs',[])}
+    origins={record.get('origin',command.get('contribution_origin','human'))}|set().union(*(reference_origins(ref) for ref in record.get('source_refs',[])))
     for branch in state['branches'].values():branch.setdefault('protocol_origins',{})[key]=sorted(origins)
     # A rule/assessment changes review context without rewriting values or claim status.
     main['head']=command['id']

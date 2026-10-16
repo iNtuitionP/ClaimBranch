@@ -56,7 +56,7 @@ def validate_table(table,vocabulary):
 
 def apply_measurement(state,command):
     from .research_history import _record_ids,_append_evidence,_evidence
-    if state['seed']['schema_version'] not in (4,5) or state['active_episode'] is None:raise ContractError('Measurements require an active personal paper episode')
+    if state['seed']['schema_version'] not in (4, 5, 14) or state['active_episode'] is None:raise ContractError('Measurements require an active personal paper episode')
     payload=command['payload'];vocabulary=state.setdefault('condition_vocabulary',{})
     if command['operation_type']=='declare-condition':
         key=payload['key']

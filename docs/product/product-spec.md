@@ -2,7 +2,7 @@
 kind: product-spec
 status: draft
 owners: maintainers
-last_reviewed: 2026-10-15
+last_reviewed: 2026-10-16
 canonical_for: intended product behavior and boundaries
 ---
 
@@ -209,6 +209,38 @@ share/provider context by default. Selected sharing now implements this boundary
 and private return are available under the import boundary above. The
 [issue implementation plan](../plans/active/2026-08-04-claimbranch-v1-and-gpu-systems.md#real-paper-migration-implementation-plan)
 owns their sequence and verification.
+
+The original-ledger v2 subset now prepares exact multi-file text/Markdown/LaTeX/
+JSON snapshots and previews source spans/cells, origin defaults/overrides and
+scalar-or-table mappings. It distinguishes extraction equality from unresolved
+transformation and scientific validity; original bytes remain private. This is
+preparation plus reviewed registration: exact historical tables and declared vocabulary
+enter together without a fabricated scalar or fresh evidence confirmation; cell
+corrections and private return preserve originals. Scoped origin review now keeps
+known AI influence and unknown authorship independently, including together.
+Unknown-only dependencies expose the explanation/later choice; one judgment
+reviews its grouped dependencies without an import-wide waiver. Current partial
+writing remains separate from the immutable recorded choice through corrections
+and return. The [versioned retention contract](../development/workflow.md#original-ledger-text-preview-v2)
+keeps old formats unchanged. Read-only existing-label association now connects
+standard LaTeX sections and figures/tables with captions without manuscript edits;
+ambiguous or unsupported structure remains unresolved. Internal graph identities,
+source freshness and declared scientific uses stay separate. The
+[label workflow](../development/workflow.md#existing-latex-labels-without-manuscript-edits)
+states the supported literal subset and private return. Explicit optional
+[shared-audit encoding](../development/workflow.md#opt-in-shared-audit-representation)
+preserves full logical audit content and older prefixes within unchanged stored
+bounds. It requires reviewed import opt-in or explicit conversion; current
+writing refreshes its context while earlier causes retain their original bindings.
+The combined synthetic430-record/5,400-cell qualification now retains30 anchors,
+40 partial comparisons and one new personal judgment through clean-source
+registration/open/backup/restore within60s per operation. This verifies that bounded
+continued-work fixture; actual private-source fidelity, researcher benefit and
+release remain separate and unverified.
+This is the last outcome in the
+[original-ledger plan](../plans/active/2026-08-04-claimbranch-v1-and-gpu-systems.md#original-ledger-migration-implementation-plan).
+The [text-preview workflow](../development/workflow.md#original-ledger-text-preview-v2)
+states current format and limits. Existing v1 imports retain their saved-work path.
 
 The personal origin/batch implementation separates confirming actor from new-input origin
 and registers explicitly reviewed typed extensions together. Its

@@ -28,6 +28,13 @@ alternatives, and consequences. Use the [ADR template](../../_meta/templates/adr
 | [0021](0021-external-proposal-import.md) | accepted | Import explicitly unverified external AI responses and review locally without another inference |
 | [0022](0022-contextual-advice-and-explicit-edits.md) | accepted | Separate readable contextual advice from explicit, human-selected graph-edit proposals |
 | [0023](0023-personal-argument-import-and-sharing.md) | accepted | Register reviewed prior personal records in one batch, preserve unmapped source, and share only explicitly selected content |
+| [0024](0024-bounded-original-ledger-retention.md) | accepted | Retain exact original-ledger inputs in a bounded private snapshot with source-checked compact science |
+
+| [0025](0025-scoped-import-review-retention.md) | accepted | Retain bounded scoped import reviews with independent AI/unknown influence and no blanket deferral |
+
+| [0026](0026-literal-label-manuscript-associations.md) | accepted | Connect read-only labeled LaTeX spans through versioned private bindings while preserving marker contracts |
+
+| [0027](0027-opt-in-shared-audit-manifests.md) | accepted | Explicitly opt into lossless shared audit values without changing old prefixes or stored limits |
 
 Numbers are never reused. A proposed ADR may change during review. After
 acceptance, repair only wording, links, metadata, or explicit supersession;

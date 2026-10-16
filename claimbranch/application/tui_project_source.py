@@ -31,7 +31,7 @@ def prepare_source_change(project, directory, kind, *, paper_root=None, manuscri
         paper_root, manuscript = before['paper_root'], before['manuscript']
     elif not paper_root or not Path(paper_root).is_absolute() or not manuscript:
         raise ContractError('Enter an absolute paper Git root and a relative manuscript path.')
-    preview = preview_association(paper_root, manuscript, before['anchor_id'], directory)
+    preview = preview_association(paper_root, manuscript, before['anchor_id'], directory,selector=before.get('selector'))
     review = preview_source_refresh(project, preview) if kind == 'refresh' else None
     candidate = project.refresh_source(review) if review else project.relocate(preview)
     return SourceChange(project.payload, candidate, preview, review, before, candidate.source_location(), kind)

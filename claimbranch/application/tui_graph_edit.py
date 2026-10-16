@@ -23,7 +23,7 @@ class GraphEditUI:
     def open(self,record_id=None,*,proposal=None,proposal_source=None):
         from .personal_project import PersonalProjectRecovery
         app=self.terminal.app
-        if not isinstance(app.recovery,PersonalProjectRecovery) or app.paper.history.schema_version not in (4,5):
+        if not isinstance(app.recovery,PersonalProjectRecovery) or app.paper.history.schema_version not in (4, 5, 14):
             raise ContractError('Direct recording requires a saved personal paper profile; manual candidate creation remains available')
         if app.ref!='main' or app.view['episode']['status']!='active':raise ContractError('Choose active main before recording a revision')
         app.recovery.save(app)

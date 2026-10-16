@@ -20,14 +20,14 @@ from .manuscript_anchors import source_statuses
 def current_source(project):
     from .project_work import _source,_path
     source=decode(project.payload,purpose='project')['associations'][-1]
-    try:return dict(source=_source(_path(source['root']),_path(source['manuscript'],relative=True),source['anchor_id']),status='available')
+    try:return dict(source=_source(_path(source['root']),_path(source['manuscript'],relative=True),source['anchor_id'],selector=source.get('selector')),status='available')
     except (ContractError,OSError):return dict(source=None,status='unavailable-or-unsupported')
 
 
 def prepare_measurement(project,request,*,contribution_origin=None):
     from .paper_service import PaperService
     history=project.work.history
-    if history.schema_version not in (4,5):raise ContractError('Structured measurements require a personal paper profile')
+    if history.schema_version not in (4, 5, 14):raise ContractError('Structured measurements require a personal paper profile')
     request=normalize(request,INPUT,profile='paper');view=history.view('main')
     if view['episode_id'] is None:raise ContractError('Open a question before measurement review')
     command=dict(schema_version=9,id='measurement-'+secrets.token_hex(12),project_id=project.project_id,episode_id=view['episode_id'],

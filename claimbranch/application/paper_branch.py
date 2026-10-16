@@ -51,7 +51,7 @@ def continue_judgment(source, draft):
 
 
 def build_branch(history, request, judgment, *, operation_id, created_at, source_node_id=None):
-    if history.schema_version == 5:
+    if history.schema_version in (5, 14):
         from claimbranch.core.paper_capacity import encode, decode
         candidate, raw = _imported_branch(history, encode(request, purpose='history'), judgment, operation_id, created_at, source_node_id)
         return candidate, decode(raw, purpose='manifest')
@@ -92,9 +92,9 @@ def _build_branch(history, request, judgment, *, operation_id, created_at, sourc
 
     candidate = history
     if not has_branch:
-        candidate = candidate.append(command(candidate, "create-imported-reasoning-branch" if history.schema_version==5 else "create-reasoning-branch", {}, operation_id + "-branch"))
+        candidate = candidate.append(command(candidate, "create-imported-reasoning-branch" if history.schema_version in (5, 14) else "create-reasoning-branch", {}, operation_id + "-branch"))
     payload = {"changes": selected, "judgment": asdict(joined)}
-    if history.schema_version == 5:
+    if history.schema_version in (5, 14):
         payload.update(source_node_id=domain['source_node_id'], source_refs=domain['imported_sources'])
-    candidate = candidate.append(command(candidate, "record-imported-interpretation" if history.schema_version==5 else "record-interpretation", payload, operation_id))
+    candidate = candidate.append(command(candidate, "record-imported-interpretation" if history.schema_version in (5, 14) else "record-interpretation", payload, operation_id))
     return candidate, domain

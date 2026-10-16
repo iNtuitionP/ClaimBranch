@@ -8,7 +8,7 @@ import zipfile
 
 from scripts.export_runtime_resources import ROOT, check_resources, require_unlinked
 
-MAX_SOURCE_MEMBERS = 160
+MAX_SOURCE_MEMBERS = 163
 
 README = """ClaimBranch experimental personal terminal alpha
 
@@ -121,7 +121,10 @@ work is refused and your writing stays readable. Try disposable work first.
 For a paper lifecycle, choose project init --profile paper: 64 claims, 256
 observations, 256 experiments, 512 scientific edges, 32 episodes, 64 manuscript
 anchors and 2048 commands. Existing episode projects retain their original bounds.
-project import-argument previews and explicitly registers selected existing
+project prepare-import now prepares exact original text/Markdown source snapshots
+for private v2 preview and reviewed scalar-or-table registration. Exact originals
+and cells survive private reopen and backup/restore. Both v1 and v2 import-argument
+preview and explicitly register selected existing
 records, preserving original sources, dates, unknown origins and unresolved fields.
 project import-metadata --directory /path/to/private-work --input /path/to/private-batch.json
 adds ordered typed extensions after complete preview and the literal register.

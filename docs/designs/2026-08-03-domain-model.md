@@ -2,7 +2,7 @@
 kind: design
 status: draft
 owners: maintainers
-last_reviewed: 2026-10-14
+last_reviewed: 2026-10-16
 canonical_for: proposed finite F0 domain records relationships operations states and resource bounds
 ---
 
@@ -872,6 +872,13 @@ Only identity mappings count as covered; declared transformations stay unresolve
 Views/nodes expose source-claimed status, origin, original body and paged unresolved
 pointers; graph/workspace budgets are checked before publication. Private save,
 writing, independent evidence/correction and backup return preserve these fields.
+Read-only label sources now have a separate selector/file/span binding under
+[ADR0026](../architecture/decisions/0026-literal-label-manuscript-associations.md).
+Command15 retains explicit anchor uses and origin in work26/project22/frame14,
+without changing legacy markers, scientific capacities or protected replacement.
+Figure/table kind matches the literal environment; section boundaries preserve
+hierarchy. Missing, duplicate and unsupported structure remains unresolved.
+
 V5 adds explicit create-imported-reasoning-branch, record-imported-interpretation
 and apply-imported-merge operations. Their exact source subject and dependency
 references (source digest, declared contributor and unresolved count) are
@@ -880,7 +887,12 @@ rewriting; omitted independent candidates add no origin. Foreign AI/mixed/unknow
 sources are separate from actual local human Contributions. Known AI influence
 and unknown authorship require an explicit personal explanation choice; this
 does not certify understanding. Up to 32 recorded explanation consequences and
-64 partial causal writings survive return. Legacy semantic operations remain
+64 partial causal writings survive return in seed5. Seed14 now uses the
+[ADR 0025 retention envelope](../architecture/decisions/0025-scoped-import-review-retention.md):
+128 distinct causes across recorded/current partial entries, without raising
+scientific episode/merge or serialized-byte limits. Independent H/A/U source
+flags reach branch, co-report, protocol and selected-share review; uncertainty
+is not cleared by known AI or current human writing. Legacy semantic operations remain
 refused on v5 so they cannot bypass this origin contract. Public provider/context
 and protected authority remain unavailable. Later revision/sharing types are
 planned. Immutable prefix/cause/branch calculations have bounded 16-entry caches;
@@ -1627,6 +1639,24 @@ The product specification owns the visible copy and ordering. Model-based tests
 own exhaustive transition reachability.
 
 ## 16. Projection, import, and migration
+
+The implemented original-ledger v2 is a separate interchange contract; it does
+not change saved seed-v5 or old command semantics. New private saved registration
+uses seed/ordinary command v14, workspace v16, work v24, project v20 and frame 12. Its generated
+[envelope](../../schemas/argument-import-v2.json) and
+[preparation manifest](../../schemas/argument-source-manifest-v1.json) own exact
+file identities/digests, source locators, paged leaf mappings and declared origin
+defaults/overrides. [The operator reference](../development/workflow.md#original-ledger-text-preview-v2)
+owns supported locators, normalization and finite input bounds. Coverage concerns
+only the declared extraction; unsupported source remains retained without a
+semantic completeness claim. Existing typed-table validation can preview a
+historical table without inventing scalar evidence. Its reviewed registration
+initializes condition vocabulary and exact table import events; append-only cell
+corrections name that import revision. The purpose-bound lossless snapshot and
+source-checked compact record design is specified by
+[ADR 0024](../architecture/decisions/0024-bounded-original-ledger-retention.md). Shared graph consistency validation is independent of both
+source formats; neither source bytes nor generated validation data confer authority.
+
 
 Current, historical, search, context, and UI projections rebuild from canonical
 operations plus retained non-authoritative trace references. Rebuild writes

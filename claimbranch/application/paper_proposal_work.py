@@ -4,6 +4,7 @@ Only a live owner can stage a compared dependency batch. Serialized attempts
 are reading material, never consent or a restored incorporation capability.
 The terminal's existing checkpoint supplies the aggregate storage boundary.
 """
+from claimbranch.core.argument_import import reference_origins
 from copy import deepcopy
 from dataclasses import asdict, replace
 from functools import lru_cache
@@ -96,12 +97,13 @@ PROPOSALS_V6['properties']['origins']['items']['properties']['lineages']['items'
 PROPOSALS_V6['properties']['recorded']['items']['properties']['lineages']['items'] = LINEAGE_V3
 
 
-def imported_proposals_schema():
+def imported_proposals_schema(version=1):
+    if type(version) is not int or version not in (1,2):raise ContractError('Unsupported imported retention version')
     from claimbranch.core.paper_capacity import lifecycle_schema
     result = lifecycle_schema(PROPOSALS_V6)
-    result['properties']['recorded']['maxItems'] = 32
+    result['properties']['recorded']['maxItems'] = 128 if version == 2 else 32
     result['properties']['recorded']['items']['properties']['source_judgments']['maxItems'] = 32
-    result['properties']['explanations']['maxItems'] = 64
+    result['properties']['explanations']['maxItems'] = 128 if version == 2 else 64
     return result
 
 
@@ -223,6 +225,20 @@ def _check_codex_outcome(entry):
             raise ContractError('Failed Codex return cannot supply proposal content')
 
 
+def consequence_limit(history):
+    return 128 if history.schema_version == 14 else 32 if history.schema_version == 5 else 8
+
+
+def check_retained_causes(history, proposals):
+    if history.schema_version != 14:return
+    from .paper_storage_codec import encode as storage_bytes
+    import hashlib
+    causes={hashlib.sha256(storage_bytes(row['cause'])).digest()
+            for key in ('recorded','explanations') for row in proposals[key]}
+    if len(causes)>128:
+        raise ContractError(f'capacity retained-review-causes: {len(causes)} / 128; earlier causes and writing remain preserved')
+
+
 def proposal_snapshot(workspace, *, origins=None, entries=None, recorded=None):
     origins = origins or {}
     return {'attempts': deepcopy(workspace._proposal_entries if entries is None else entries),
@@ -234,6 +250,7 @@ def proposal_snapshot(workspace, *, origins=None, entries=None, recorded=None):
 
 def check_capacity(workspace, proposals, *, records=None, selected=None, unfinished=None, allow_eviction=True):
     """Check prospective complete writing before publishing an atomic batch."""
+    check_retained_causes(workspace.history, proposals)
     _check_import_limits(proposals['attempts'])
     app = workspace._checkpoint_app
     if app is None:
@@ -242,11 +259,11 @@ def check_capacity(workspace, proposals, *, records=None, selected=None, unfinis
         version = workspace.history.schema_version
         from .paper_storage_codec import encode as storage_bytes, decode as storage_decode
         from claimbranch.core.paper_capacity import lifecycle_schema
-        normalize(proposals, imported_proposals_schema() if version == 5 else lifecycle_schema(PROPOSALS_V6) if version == 4 else PROPOSALS_V6,
-                  profile='paper' if version in (4, 5) else 'episode')
+        normalize(proposals, imported_proposals_schema(2 if version == 14 else 1) if version in (5,14) else lifecycle_schema(PROPOSALS_V6) if version == 4 else PROPOSALS_V6,
+                  profile='paper' if version in (4, 5, 14) else 'episode')
         value = {'seed': storage_decode(workspace.history.seed), 'commands': [storage_decode(c) for c in workspace.history.commands],
                  'proposals': proposals, 'candidates': list((records or {}).values()), 'unfinished':list((unfinished or {}).values())}
-        if version in (4, 5): value['schema_version'] = version
+        if version in (4, 5, 14): value['schema_version'] = version
         storage_bytes(value)
         return
     from .tui_work_recovery import snapshot_value
@@ -338,7 +355,7 @@ def mark_saved(workspace, value):
 def _prefix(history, source, owner):
     if source['commands'] > len(history.commands):
         raise ContractError('Proposal source is outside retained history')
-    if history.schema_version == 5:
+    if history.schema_version in (5, 14):
         return _imported_prefix(history.seed, history.commands[:source['commands']], source['digest'], tuple(owner))
     original = ResearchHistory.replay(history.seed, history.commands[:source['commands']])
     view = PaperService(original).query(owner[1], episode_id=owner[0])
@@ -350,10 +367,17 @@ def _prefix(history, source, owner):
 @lru_cache(maxsize=16)
 def _imported_prefix(seed, commands, source_digest, owner):
     original = ResearchHistory.replay(seed, commands)
-    view = PaperService(original).query(owner[1], episode_id=owner[0])
+    view = _imported_source_service(original).query(owner[1], episode_id=owner[0])
     if view['digest'] != source_digest or owner[2] not in {node['id'] for node in view['nodes']}:
         raise ContractError('Proposal original owner/context differs from replayed source')
     return original
+
+
+@lru_cache(maxsize=2)
+def _imported_source_service(history):
+    # Only exact immutable, freshly replayed history values can share a reader.
+    # query() returns detached data; neither reviews nor consent live here.
+    return PaperService(history)
 
 
 def _bundle(history, entry):
@@ -424,8 +448,9 @@ def _origin_check(history, origin, attempts):
 def restore_proposals(workspace, value, *, unfinished=None):
     from .provider_profile import check_retained_provider_request, check_retained_codex_request
     from claimbranch.core.paper_capacity import lifecycle_schema
-    schema = imported_proposals_schema() if workspace.history.schema_version==5 else lifecycle_schema(PROPOSALS_V6) if workspace.history.schema_version==4 else PROPOSALS_V6
-    value = normalize(value,schema, profile="paper" if workspace.history.schema_version in (4, 5) else "episode")
+    schema = imported_proposals_schema(2 if workspace.history.schema_version == 14 else 1) if workspace.history.schema_version in (5, 14) else lifecycle_schema(PROPOSALS_V6) if workspace.history.schema_version==4 else PROPOSALS_V6
+    value = normalize(value,schema, profile="paper" if workspace.history.schema_version in (4, 5, 14) else "episode")
+    check_retained_causes(workspace.history,value)
     _check_import_limits(value['attempts'])
     attempts = {}
     for entry in value['attempts']:
@@ -518,7 +543,7 @@ def restore_proposals(workspace, value, *, unfinished=None):
         if key in seen or command is None or command['operation_type'] not in ('apply-selected-merge','apply-imported-merge'):
             raise ContractError('Recorded item origin requires its unique personal consequence')
         seen.add(key)
-        science = cause_science(workspace.history, record['cause'])
+        science = _cause_validation(workspace.history, record['cause'])
         if command['episode_id'] != record['cause']['owner'][0] or command['payload']['selected_ids'] != sorted(
                 set(science['selection']['selected']) | set(science['selection']['required'])):
             raise ContractError('Recorded origin selection differs from its cause')
@@ -533,7 +558,7 @@ def restore_proposals(workspace, value, *, unfinished=None):
         branch_command = commands[index-1]
         from .paper_branch import judgment_value
         rebuilt, branch = PaperService(original).branch_candidate(cause['request'], judgment_value(cause['judgment']),
-            operation_id=branch_command['id'], created_at=branch_command['created_at'], source_node_id=cause['owner'][2] if workspace.history.schema_version==5 else None)
+            operation_id=branch_command['id'], created_at=branch_command['created_at'], source_node_id=cause['owner'][2] if workspace.history.schema_version in (5, 14) else None)
         if ([storage_decode(c) for c in rebuilt.commands[start:]] != commands[start:index]
                 or command['payload']['judgment'] != branch_command['payload']['judgment']
                 or record['source_judgments'] != science['provenance'].get('source_judgments', [])):
@@ -550,7 +575,7 @@ def restore_proposals(workspace, value, *, unfinished=None):
             _origin_check(workspace.history, origin, attempts)
             if origin.amendment['id'] in included and included[origin.amendment['id']] != origin.amendment:
                 raise ContractError('Recorded item differs from its selected contribution')
-        validate_explanation(record['cause'], science, record['explanation'])
+        _validate_explanation_topics(science['topics'], record['explanation'])
         ai = (judgment_value(cause['judgment']).ai_influenced or science['provenance']['ai_influenced']
               or science['provenance'].get('origin_uncertain', False) or any(o.ai_influenced for o in lineages))
         explanation = record['explanation']
@@ -558,8 +583,8 @@ def restore_proposals(workspace, value, *, unfinished=None):
             raise ContractError('Recorded AI influence requires an explicit personal explanation choice')
         inherited = rebuilt.view('alternative', episode_id=cause['owner'][0])
         judgment_ai = any(c['contributor']=='ai' for j in inherited['judgments'] for c in j['history'])
-        if workspace.history.schema_version==5:
-            judgment_ai |= any(r['contributor'] in ('ai','mixed','unknown') for r in command['payload']['source_refs'])
+        if workspace.history.schema_version in (5, 14):
+            judgment_ai |= any(bool(reference_origins(r) & {'ai','mixed','unknown'}) for r in command['payload']['source_refs'])
         disposition = ('deferred' if explanation['state']=='leave-for-later' else 'answered') if judgment_ai else 'not-required'
         answers = [e['text'] if e['text'].strip() else cause['judgment']['rationale'] for e in explanation['entries']] if judgment_ai and explanation['state']=='reviewed' else []
         if command['payload']['disposition'] != disposition or command['payload']['answers'] != answers:
@@ -570,8 +595,8 @@ def restore_proposals(workspace, value, *, unfinished=None):
         if identity in seen:
             raise ContractError('Partial explanation context must be unique')
         seen.add(identity)
-        science = cause_science(workspace.history, entry['cause'])
-        validate_explanation(entry['cause'], science, entry['explanation'])
+        science = _cause_validation(workspace.history, entry['cause'])
+        _validate_explanation_topics(science['topics'], entry['explanation'])
     workspace._proposal_entries = value['attempts']
     workspace._recorded_origins = value['recorded']
     workspace._personal_explanations = value['explanations']
@@ -580,19 +605,34 @@ def restore_proposals(workspace, value, *, unfinished=None):
 
 def cause_science(history, cause):
     original = _prefix(history, cause['source'], cause['owner'])
-    if history.schema_version == 5:
+    if history.schema_version in (5, 14):
         from claimbranch.core.paper_capacity import encode, decode
         return decode(_imported_cause_science(original, encode(cause, purpose='history')), purpose='manifest')
     from .paper_branch import judgment_value
-    return PaperService(original).preview_changes(cause['request'], judgment_value(cause['judgment']), source_node_id=cause['owner'][2] if history.schema_version==5 else None)
+    return PaperService(original).preview_changes(cause['request'], judgment_value(cause['judgment']), source_node_id=cause['owner'][2] if history.schema_version in (5, 14) else None)
 
 
-@lru_cache(maxsize=16)
+def _cause_validation(history, cause):
+    if history.schema_version not in (5,14):
+        science=cause_science(history,cause)
+        return {**science,'topics':explanation_topics(cause,science)}
+    from claimbranch.core.paper_capacity import encode,decode
+    original=_prefix(history,cause['source'],cause['owner'])
+    return decode(_imported_cause_validation(original,encode(cause,purpose='history')),purpose='manifest')
+
+
+@lru_cache(maxsize=128)
+def _imported_cause_validation(original,raw):
+    from claimbranch.core.paper_capacity import encode,decode
+    return encode(_imported_source_service(original)._causal_validation(decode(raw,purpose='history')),purpose='manifest')
+
+
+@lru_cache(maxsize=128)
 def _imported_cause_science(original, raw):
     from claimbranch.core.paper_capacity import encode, decode
     from .paper_branch import judgment_value
     cause = decode(raw, purpose='history')
-    return encode(PaperService(original).preview_changes(cause['request'], judgment_value(cause['judgment']),
+    return encode(_imported_source_service(original).preview_changes(cause['request'], judgment_value(cause['judgment']),
                   source_node_id=cause['owner'][2]), purpose='manifest')
 
 
@@ -603,8 +643,11 @@ def explanation_topics(cause, science):
 
 
 def validate_explanation(cause, science, explanation):
+    return _validate_explanation_topics(explanation_topics(cause, science),explanation)
+
+
+def _validate_explanation_topics(topics, explanation):
     explanation = normalize(explanation, EXPLANATION)
-    topics = explanation_topics(cause, science)
     ids = [t['id'] for t in topics]
     entries = explanation['entries']
     if len({e['topic_id'] for e in entries}) != len(entries) or any(e['topic_id'] not in ids for e in entries):
@@ -635,7 +678,7 @@ def record_provenance(workspace, work, science, request, judgment):
              'request': deepcopy(request), 'judgment': asdict(judgment), 'origin_digests': sorted(o.digest for o in origins.values())}
     ai = judgment.ai_influenced or science['provenance']['ai_influenced'] or science['provenance'].get('origin_uncertain', False) or any(o.ai_influenced for o in origins.values())
     from claimbranch.core.paper_capacity import lifecycle_schema
-    return normalize(cause,lifecycle_schema(CAUSE) if workspace.history.schema_version in (4, 5) else CAUSE, profile="paper" if workspace.history.schema_version in (4, 5) else "episode"), lineages, ai
+    return normalize(cause,lifecycle_schema(CAUSE) if workspace.history.schema_version in (4, 5, 14) else CAUSE, profile="paper" if workspace.history.schema_version in (4, 5, 14) else "episode"), lineages, ai
 
 
 class PaperProposalWork:

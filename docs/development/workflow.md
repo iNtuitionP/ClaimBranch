@@ -2,7 +2,7 @@
 kind: development
 status: active
 owners: maintainers
-last_reviewed: 2026-10-15
+last_reviewed: 2026-10-16
 canonical_for: repository-local validation commands and documentation enforcement
 ---
 
@@ -3664,6 +3664,67 @@ registrations; older readers refuse the newer frame without overwriting it.
 All manuscript files remain read-only. The paper profile's provider/protected
 operations remain under their existing separate gates.
 
+### Existing LaTeX labels without manuscript edits
+
+Manual `paper` projects and prior-argument imports can start from an existing
+literal label, with a separate internal anchor ID:
+
+```sh
+python3.13 -m claimbranch project init --profile paper \
+  --directory /path/to/private-work --paper-root /path/to/paper \
+  --manuscript paper.tex --anchor argument --label sec:argument
+```
+
+Or add `--label sec:argument` to `project import-argument` registration. Keep the
+existing preview, exact `create`/`import` confirmation and fresh private destination.
+To register another explicit use of a figure/table:
+
+```sh
+python3.13 -m claimbranch project anchor-register \
+  --directory /path/to/private-work --manuscript paper.tex \
+  --anchor quality-figure --label fig:quality --kind figure \
+  --expresses claim-id --plots observation-id --origin human \
+  --reason 'This figure displays the observations used by this claim.' --dry-run
+```
+
+Replace IDs with existing records. Inspect the full preview, then omit `--dry-run`
+and type `register` to retain that exact read-only association. No support is
+inferred from a label or figure; `expresses` and `plots` are your declarations.
+`project anchors` reports freshness; `anchor-impact --nodes ...` lists declared
+reach from claims/observations. The existing source-connection action can refresh
+changed bytes or relocate the same manuscript, retaining the selector and earlier
+writing. Missing/ambiguous labels remain unresolved; no automatic rebind occurs.
+
+Supported selectors are literal labels outside braces in `figure`, `figure*`,
+`table`, `table*`, or labels immediately after standard sectioning commands.
+Figure/table spans include captions. A section includes its subsections until the
+next same-or-higher rank, or `\end{document}`. A label can move without changing
+its internal anchor ID; unchanged span bytes keep the span digest, while the
+full-file freshness changes. Duplicate label values, labels inside subfigures or
+unsupported nested structures refuse. Several distinct figure labels may point
+to the same span. Caption-only slices still use marker blocks.
+
+Comments, `\verb`, delimiter-form `\lstinline`, and bounded verbatim/listing/
+minted/comment environments are excluded. Literal environments must have an exact
+standalone closing line; `comment` closes at column zero. Other inline-code forms,
+conditional/dynamic TeX, structural command redefinition and ambiguous groups
+refuse. No macro expansion, TeX execution, graphics check or include traversal
+occurs. Inspecting a literal label is not a typesetting or scientific-validity
+verdict. UTF-8 LF/CRLF span bytes are exact; file/span limits remain2 MiB/64 KiB,
+with overflow refused instead of truncated. The backend also supports a bounded
+`abstract` selector; there is no separate public abstract switch.
+
+The new source binding/association preview/refresh versions retain selector,
+file identity, full-file digest and span digest. Command15 and work26/project22/
+personal+backup frame14 retain label registrations. Old marker schemas and
+LF-exact replacement previews stay unchanged. New personal formats support manual
+seed4 and imported seed5/14 with their existing science/origin/retention limits;
+the episode profile still requires markers. Older builds refuse the newer frame.
+Keep a private backup **before** registration/first save if older-build rollback
+is needed. [ADR0026](../architecture/decisions/0026-literal-label-manuscript-associations.md)
+owns the versioning decision. Manuscript files remain read-only; public provider
+support and protected authority are unchanged.
+
 ### Prior argument mapping preview
 
 Prior-argument import supplies private preview and foreground-confirmed
@@ -3674,8 +3735,9 @@ personally** in the existing terminal. Its preview shows selected/required/omitt
 changes and imported source dependencies. Known AI/mixed influence stays distinct
 from unknown authorship and from your new human writing. When source influence is
 AI or unknown, choose reviewed explanation or explicitly leave it for later;
-reading/importing alone asserts no understanding. These origins and up to 32
-recorded explanation consequences survive restart and backup. Legacy low-level
+reading/importing alone asserts no understanding. Origins and scoped explanation
+writing survive restart and backup. The v1/seed5 format retains its 32 recorded /
+64 partial limits; original-ledger v2/seed14 uses the newer retention contract below. Legacy low-level
 reasoning operations cannot bypass this source-aware path. The new profile’s
 provider context and protected authority remain unavailable.
 
@@ -3755,6 +3817,225 @@ preview without registering anything. Noninteractive output prints all pages.
 The JSON output includes raw source chunks: keep it private. Selected, required
 and omitted scope plus source/envelope/preview digests are inspection commitments,
 not authorization tokens. These previews are never passed to a provider.
+
+#### Original-ledger text preview (v2)
+
+The original-ledger path supplies **preparation, preview and reviewed saved
+registration**, including scalar-or-table observations. Existing v1 import/save behavior above is
+unchanged. The [v2 envelope](../../schemas/argument-import-v2.json) and
+[source manifest](../../schemas/argument-source-manifest-v1.json) admit up to
+32 explicitly named UTF-8 Markdown/text/LaTeX/JSON files, at most 4 MiB combined.
+The originals remain byte-identical, including CRLF and Unicode spelling.
+Files may be read from the paper's Git tree; the manifest and generated envelope
+are private files outside Git. No extractor output replaces the maintained source.
+
+For example, a ledger `claims.md` can contain:
+
+```markdown
+# Argument
+
+| ID | Claim |
+| --- | --- |
+| T | Rubric score is not writing quality. |
+```
+
+A private manifest for that one selected thesis is:
+
+```json
+{
+  "schema": "claimbranch.argument-source-manifest/v1",
+  "profile": "paper", "project_id": "my-paper", "title": "Writing quality",
+  "origin_default": {"contributor": "mixed", "detail": null},
+  "files": [{"id": "ledger", "name": "claims.md", "media": "markdown", "path": "claims.md"}],
+  "condition_vocabulary": [],
+  "records": [{
+    "id": "T", "kind": "thesis", "recorded_at": null,
+    "body": {"statement": "Rubric score is not writing quality."},
+    "mappings": [[{
+      "target": "/statement", "file_id": "ledger",
+      "locator": {"kind": "markdown-cell", "heading": ["Argument"], "row": "T", "column": "Claim"},
+      "normalization": "cell-trim-v1", "transformation": null
+    }]]
+  }],
+  "selected_ids": ["T"]
+}
+```
+
+Choose the actual source origin; `mixed` here is an example, not an inferred
+label. Make the manifest owner-private (`chmod 600` on Unix), then run:
+
+```sh
+python3.13 -m claimbranch project prepare-import \
+  --manifest /path/to/private/manifest.json --source-root /path/to/paper \
+  --output /path/to/private/argument-v2.json
+python3.13 -m claimbranch project import-argument \
+  --input /path/to/private/argument-v2.json --dry-run
+```
+
+`prepare-import --dry-run` validates without creating output. An output requires
+an existing owner-private directory outside Git and a new filename; existing
+files are never replaced. Preparation writes and flushes a private temporary
+file, then publishes the final filename atomically without replacing an existing
+name. Only explicit manifest paths are read, with no symbolic/hard links or case-insensitive `.git` components,
+parent traversal, recursive discovery, TeX execution or network access. The
+envelope retains the exact snapshot read during preparation. Later ledger edits
+are not synchronized. JSON preview includes private original chunks; it is not
+a sharing export. The plain preview pages records and originals; `q` leaves it.
+To register, use a fresh private work directory and a compatible marked manuscript:
+
+```sh
+python3.13 -m claimbranch project import-argument \
+  --input /path/to/private/argument-v2.json \
+  --directory /path/to/new-private-work --paper-root /path/to/paper \
+  --manuscript paper.tex --question "What should be tested next?"
+```
+
+Read all preview pages, inspect capacities, then type `import`; Enter cancels.
+Input/source/destination changes refuse publication. Existing projects refuse
+re-import. Imported status/dates remain historical source claims; only the first
+new local question becomes a command, with no fabricated past approvals. The
+node source reader shows mapped extraction details; complete originals remain
+in the input preview and private retained snapshot.
+Save/restart and ordinary private backup/restore preserve the same input and cells.
+The original files on disk are not modified or synchronized.
+
+The preview's `valid` means extraction/graph validation, while
+`registration_available` means the estimated complete seed fits. A
+`registration_failure` names a failed size bound. Full project, graph and archive
+preflight remains mandatory before confirmation. The private snapshot stores a
+lossless compressed exact envelope, raw digest/length and compact source-checked
+science: seed/manifest/project limits remain 4/8/16 MiB, raw envelope 16 MiB,
+compressed snapshot at most 4 MiB. Poorly compressible inputs may fail earlier.
+`registered_at` is candidate preparation time before interactive review, not the
+exact disk commit time. Full private export/backup includes retained originals;
+use selected canonical sharing for public output. See
+[ADR 0024](../architecture/decisions/0024-bounded-original-ledger-retention.md).
+
+Markdown cell indexing supports LF/CRLF and refuses bare CR; explicit text
+spans still retain those original bytes. Text spans use half-open **UTF-8 byte** offsets; line ranges are one-based,
+inclusive, separated by LF with original CRLF bytes retained. JSON pointers select
+scalar leaves. Markdown cell selectors use an exact ATX heading path, a unique
+first-column row key and unique column name, with explicit outer pipes/header
+separator. Fenced/indented code and HTML comments are excluded; ATX/setext headings are indexed
+once per source. Only escaped pipes are protected, including inside inline code, following the
+[GFM table rule](https://github.github.com/gfm/#tables-extension-). Unescaped pipes
+inside backticks still split cells; irregular rows refuse rather than guessing. Duplicate headings/rows/columns refuse instead of guessing.
+Non-outer-pipe table continuations are unsupported and refuse that heading’s
+cell selectors; they cannot create a second apparent table. Unsupported Markdown
+can use an explicit byte span. One extraction is at most
+16 KiB; preview excerpts above 1 KiB show their length/digest and truncation,
+while the complete original remains retained and available in the preview.
+
+`literal-v1`, `cell-trim-v1` (cell-edge spaces/tabs) and `prose-nfc-v1` are narrow,
+versioned comparisons. Prose normalization refuses code/math delimiters. An exact
+or normalized-exact field is only a checked extraction, never verified science.
+Changed/rounded values need a declared transformation and remain unresolved;
+there is no percentage of source meaning covered. A closed `structure-v1`
+mapping may supply table/row/cell/column identities; derived cell-column bindings
+must preserve declared column order (other bindings require source mapping),
+never scientific endpoints,
+statements, quantities, scope,
+scientific status or relation type. A mapping explicitly marked `source_silent`
+requires its declaration reason, is displayed as `declared-without-source` and
+cannot manufacture historical confirmed/supported status. Other declared semantic
+transformations remain unresolved rather than claiming scientific truth. Mappings are pages of at most 1,024 entries,
+32 pages per record and 65,536 checks for the whole input; envelope limit is
+16 MiB. JSON indexing keeps collection/depth/pointer bounds and at most 65,536
+leaves / 8 MiB pointer text for all sources. Markdown indexes at most 131,072
+cells; successful and failed lookups do not rescan the files. Table previews use the existing exact-cell/unit/condition contract;
+condition vocabulary is a declared present-day taxonomy, not a verified past
+registration. The table and declared condition vocabulary register together. Table-only observations
+have no measured scalar; cell corrections append against the initial import
+event. Artifact references remain declared/unverified.
+
+Origin precedence is record override, then file default, then bundle default;
+absence is unknown. Explicit `source_origins` assertions remain separate from
+fallback defaults. Conflicting contributing origins require `joint_origin`;
+its declaration cannot clear retained AI influence. Human, AI and unknown flags
+are combined independently, so mixed sources stay mixed and AI plus uncertainty
+shows both. Preview retains declarations and contributing file hashes. This
+creates no per-record explanation obligation or import-group blanket deferral.
+Command v14 freezes source-reference v2 with explicit envelope digest scope and
+H/A/U flags. Consequential review preserves combined known AI/human and unknown
+influence without inventing local AI Contributions. Its source summary and
+inspectable list stay inside the current judgment. Unknown-only sources expose
+`1 explain` / `2 later` too: read the complete preview with `End`, choose, then
+read the freshly prepared comparison before recording. Reuse of the existing
+reason is explicit. This choice covers only the selected consequence; a later
+claim/status/wording/companion change still receives its own applicable review.
+
+For seed14, workspace17/work25/project21 and personal/backup frame13 retain at
+most **128 distinct causal contexts** across recorded choices and current partial
+explanations, with each array also bounded at 128. One cause in both counts once;
+the immutable choice and newer partial text remain separate and both consume
+bytes. The 129th distinct cause refuses with count/limit before publication;
+earlier writing is not pruned. The existing 4/8/16 MiB history/manifest/project
+bounds still apply. 32 episodes, one selected merge per episode and 2,048 commands
+remain unchanged: this is retention capacity, not 128 available merges.
+
+Old frame12/project20/work24/workspace16 remains readable at its original limits.
+Read-only open preserves old bytes. Saving seed14 work writes frame13, which an
+older build refuses; create a private backup **before saving** if you need to
+return to that build. Restore that backup into a fresh directory using its
+compatible build. This alpha format advance creates no protected authority.
+See [ADR 0025](../architecture/decisions/0025-scoped-import-review-retention.md).
+
+The original flat audit still refuses the combined430-record/5,400-cell workload:
+30 label anchors produce a5,552,683-byte initial audit, and its first comparison
+needs8,570,177bytes against the unchanged8MiB bound. No partial comparison is saved
+in that failed fixture. Use the explicit shared-audit option below for the
+qualified bounded synthetic continued-work path; it does not silently convert
+existing projects or establish actual private-source fidelity. The
+[original measured failure](../plans/active/2026-08-04-claimbranch-v1-and-gpu-systems.md#i04-result-review-and-i05-capacity-stop)
+remains recorded.
+
+### Opt-in shared audit representation
+
+For original-ledger v2 imports only, `project import-argument --shared-audit`
+includes a lossless shared audit format in the ordinary full import preview.
+Complete the existing exact `import` confirmation; source/selection/destination
+checks remain unchanged. Without this flag, existing encoding remains selected.
+The combined synthetic qualification now passes with430 source records/5,400
+cells,30 anchors,40 retained partial comparisons and one new personal judgment:
+registration/open/backup/fresh-folder restore each finish within60s in separate
+extracted-runtime processes. Both graph entries, deterministic replay and selected
+sharing/privacy checks pass in the same journey. Prior failed runs remain in the
+execution record. This is bounded synthetic evidence, not actual-paper source
+verification, a guarantee for every paper or permission to publish. See the
+[measured result and remaining real-use validation](../plans/active/2026-08-04-claimbranch-v1-and-gpu-systems.md#i05-isolated-connected-qualification).
+
+For a saved seed14 project with an active research question, close the TUI,
+create a private backup first, then inspect and convert explicitly:
+
+```sh
+python3.13 -m claimbranch project enable-shared-audit \
+  --directory /path/to/private-work --dry-run
+python3.13 -m claimbranch project enable-shared-audit \
+  --directory /path/to/private-work
+```
+
+Read the before/after project commitments and manifest byte counts, then type
+`convert` to save that exact candidate, or Enter to cancel. Originals, scientific
+heads, claims/values, prior command prefixes, judgment reasons and unfinished
+writing remain unchanged. One new format-selection command is appended; it
+cannot be repeated or applied to another profile. Earlier source/cause manifests
+remain byte-identical. Exact pending save reviews cannot transfer to new history.
+
+Work27/project23 and personal/backup frame15 require this build or newer; older
+builds refuse them. For rollback, restore the pre-conversion backup into a fresh
+private directory with its compatible build. No automatic migration, authority
+upgrade, manuscript write, provider transmission or additional encryption occurs.
+
+The private `shared-audit-manifest/v1` encodes large repeated view fields once and
+uses checked references. Stored audit remains8MiB; full logical expansion has a
+separate16MiB transient bound. `core.paper_capacity.expand_shared_audit` checks
+canonical references, exact length/digest and pre-allocation size; the separate
+`verify_shared_audit` also reconstructs source-checked history and compares exact
+replay. Both are contributor APIs, not evidence of scientific fidelity or a
+public sharing/export permission. Graph readers remain normal expanded views.
+The [encoding decision](../architecture/decisions/0027-opt-in-shared-audit-manifests.md)
+owns this boundary. Positive stored headroom does not promise every later
+operation will fit.
 
 ### Personal terminal alpha source
 

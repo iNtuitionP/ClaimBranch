@@ -11,7 +11,7 @@ ORIGIN={'enum':['human','ai','mixed','unknown']}
 
 
 def origin_command(command, origin=None):
-    return {**command,'schema_version':12,'contribution_origin':origin or 'unknown'}
+    return {**command,'schema_version':15 if command.get('schema_version')==15 else 12,'contribution_origin':origin or 'unknown'}
 
 
 def batch_schema():

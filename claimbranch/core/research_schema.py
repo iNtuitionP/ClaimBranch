@@ -71,8 +71,11 @@ PAPER_SERIES_SEED = obj(schema_version={"type": "integer", "const": 3}, project_
 
 
 def seed_schema(version):
-    if type(version) is not int or version not in (1, 2, 3, 4, 5):
+    if type(version) is not int or version not in (1, 2, 3, 4, 5, 14):
         raise ContractError("unknown research contract version")
+    if version == 14:
+        from .argument_import_v2 import seed_schema as original_seed_schema
+        return original_seed_schema()
     if version == 5:
         from .argument_import import imported_seed_schema
         return imported_seed_schema()
@@ -81,7 +84,7 @@ def seed_schema(version):
 
 def paper_payloads(version=3):
     from .paper_capacity import LIMITS
-    limits = LIMITS if version in (4, 5) else PAPER_LIMITS
+    limits = LIMITS if version in (4, 5, 14) else PAPER_LIMITS
     bodies = deepcopy(BODIES)
     bodies["claim"] = obj(role={"enum": ["main", "subclaim"]}, statement=TEXT, scope=TEXT,
                           parent_ids=array(ID, 3, 1, True))
@@ -95,12 +98,12 @@ def paper_payloads(version=3):
     payloads["record-evidence-event"]["required"].append("value")
     payloads["record-interpretation"] = obj(changes=array(change, limits["changes"], 1), judgment=JUDGMENT)
     payloads["apply-selected-merge"]["properties"]["selected_ids"] = array(ID, limits["changes"], 1, True)
-    if version == 5:
+    if version in (5, 14):
         from .argument_import import imported_reference_schema
         payloads['create-imported-reasoning-branch'] = obj()
         for old, new in (('record-interpretation', 'record-imported-interpretation'), ('apply-selected-merge', 'apply-imported-merge')):
             payloads[new] = deepcopy(payloads[old])
-            payloads[new]['properties'].update(source_node_id=ID, source_refs=array(imported_reference_schema(), 2048))
+            payloads[new]['properties'].update(source_node_id=ID, source_refs=array(imported_reference_schema(2 if version == 14 else 1), 2048))
             payloads[new]['required'].extend(['source_node_id', 'source_refs'])
     return payloads
 
@@ -116,6 +119,14 @@ MANUSCRIPT_SOURCE = obj(root=ANCHOR_PATH,root_identity=ANCHOR_IDENTITY,
 ANCHOR = obj(id=ID,kind={'enum':['text','figure','table','caption']},source=MANUSCRIPT_SOURCE,
     block_digest=HASH,block=array({'type':'string','minLength':1,'maxLength':10924,'pattern':'^[A-Za-z0-9+/]+={0,2}$'},8),
     expresses=array(ID,64,unique=True),plots=array(ID,256,unique=True),parents=array(ID,4,unique=True),rationale=TEXT)
+
+from .marked_text import selector_schema
+MANUSCRIPT_SOURCE_V2 = deepcopy(MANUSCRIPT_SOURCE)
+MANUSCRIPT_SOURCE_V2['properties']['selector']=selector_schema()
+MANUSCRIPT_SOURCE_V2['properties']['span_digest']=HASH
+MANUSCRIPT_SOURCE_V2['required']+=['selector','span_digest']
+ANCHOR_V2=deepcopy(ANCHOR)
+ANCHOR_V2['properties']['source']=MANUSCRIPT_SOURCE_V2
 
 WORDING_POLICY = obj(claim_id=ID, grade=TEXT, limitation=TEXT,
     allowed_wording=array(TEXT,16,unique=True), required_caveats=array(TEXT,16,unique=True),
@@ -135,7 +146,7 @@ CO_REPORT = obj(id=ID,candidates=array(CO_READING,4,2),selected_ids=array(ID,4,2
     disposition={'enum':['not-required','answered','deferred']},answers=array(TEXT,3,unique=True))
 
 def command_schema(version=1):
-    if version not in (6,7,8,9,10,11,12,13): seed_schema(version)
+    if version not in (6,7,8,9,10,11,12,13,15,16): seed_schema(version)
     if version == 11:
         from .critiques import PAYLOADS as CRITIQUE_PAYLOADS
     if version == 10:
@@ -151,7 +162,9 @@ def command_schema(version=1):
     if version == 13:
         from .graph_edits import payload_schema
         payloads={'revise-graph':payload_schema()}
-    if 3 <= version <= 5:
+    if version == 16:payloads={'set-audit-encoding':obj(encoding={'const':'shared-values/v1'})}
+    if version == 15:payloads={'register-manuscript-anchor':ANCHOR_V2}
+    if 3 <= version <= 5 or version==14:
         payloads.update({"open-episode": obj(title=TEXT, question=TEXT), "close-episode": obj()})
     return deepcopy({
         "$schema": "https://json-schema.org/draft/2020-12/schema",
@@ -163,8 +176,8 @@ def command_schema(version=1):
             created_at={"type": "string", "format": "date-time", "minLength": 20, "maxLength": 20,
                         "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$"},
             operation_type={"const": kind}, expected_heads=HEADS,
-            **({"contribution_origin":{"enum":["human","ai","mixed","unknown"]}} if version==12 else {}),
-            evidence_watermark={"type": "integer", "minimum": 0, "maximum": 6 if version == 1 else (1024 if version in (4, 5, 6, 7, 8, 9, 10, 11, 12, 13) else PAPER_LIMITS["events"])}, payload=payload)
+            **({"contribution_origin":{"enum":["human","ai","mixed","unknown"]}} if version in (12,15) else {}),
+            evidence_watermark={"type": "integer", "minimum": 0, "maximum": 6 if version == 1 else (1024 if version in (4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16) else PAPER_LIMITS["events"])}, payload=payload)
             for kind, payload in payloads.items()]})
 
 
@@ -188,10 +201,10 @@ def _check(value, schema):
     if kind and type(value) is not {"string": str, "integer": int, "object": dict, "array": list, "null": type(None)}[kind]:
         raise ContractError("incorrect primitive type")
     if kind == "object":
-        if set(value) != set(schema["properties"]):
+        if set(value) - set(schema["properties"]) or not set(schema.get("required", [])).issubset(value):
             raise ContractError("unknown or missing field")
-        for name, child in schema["properties"].items():
-            _check(value[name], child)
+        for name in value:
+            _check(value[name], schema["properties"][name])
     elif kind == "array":
         if not schema["minItems"] <= len(value) <= schema["maxItems"]:
             raise ContractError("collection outside finite bounds")

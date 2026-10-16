@@ -2,7 +2,7 @@
 kind: design
 status: in-review
 owners: maintainers
-last_reviewed: 2026-10-15
+last_reviewed: 2026-10-16
 ---
 
 # Design: a research judgment that remains understandable
@@ -22,6 +22,28 @@ and its unfinished consequences. The graph is the primary workspace under
 The product's [PG-1 through PG-5](../product/product-spec.md#7-interaction-and-visual-character)
 are user requirements; the interaction mechanisms proposed below remain in
 review. A rendered screen does not establish understanding or live product value.
+
+## Imported-source judgment review
+
+The current seed14 personal review presents one dependency summary/list inside
+the selected judgment, with separate known AI and unknown-authorship indicators.
+Unknown-only sources expose the same explanation/later keys as known AI. Read
+all pages before choosing, and read the newly prepared comparison before
+recording. No individual explanation form per source or import-wide waiver is
+added. Existing reason reuse remains explicit. Returning to saved partial writing
+shows its original/current basis and preserves a separately recorded choice;
+neither reading nor return restores approval. The
+[operator contract](../development/workflow.md#original-ledger-text-preview-v2)
+owns retention, format and rollback details.
+
+Read-only paper connections can now use an existing literal LaTeX label at
+initial setup and explicit registration. The source-connection action preserves
+that selector during refresh/relocation; freshness and original writing remain
+separate. Figure/table spans include captions but create no scientific support
+implicitly. Unsupported structure stays unresolved. The
+[label workflow](../development/workflow.md#existing-latex-labels-without-manuscript-edits)
+owns the supported subset. Full-paper continuation remains subject to the
+[combined-workload blocker](../plans/active/2026-08-04-claimbranch-v1-and-gpu-systems.md#i04-result-review-and-i05-capacity-stop).
 
 ## Foldable two-entry graph and direct editing
 
