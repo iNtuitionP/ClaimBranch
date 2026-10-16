@@ -288,6 +288,7 @@ class PaperService:
         self._history = history
         self._pending_work = None
         self._query_cache = {}
+        self._causal_basis = None
 
     def _bytes(self, value):
         from claimbranch.core.paper_capacity import encode
@@ -530,13 +531,27 @@ class PaperService:
             raise ContractError('scientific change review is stale or belongs to another paper')
         domain=self._history._paper_changes_value(request['ref'],request['amendments'],request['selected_ids'],
             judgment_value(cause['judgment']),episode_id=request['episode_id'],source_node_id=cause['owner'][2])
-        # Project precisely the same normalized value the public byte round-trip
-        # would expose, parsing those bytes without re-normalizing them again.
+        # Match the public canonical round-trip while retaining exact sizing
+        # facts only for this synchronous private read-only projection.
         from claimbranch.core.paper_capacity import encoding_value
-        domain=encoding_value(domain,purpose='manifest')
+        if self._history.schema_version in (14,18):
+            # The history-owned preview basis is immutable and never exposed
+            # through query()/preview_changes(). Retain only this exact basis,
+            # not mutable request/amendment values or a completed review.
+            basis=domain['before']
+            basis_key=(self._history.seed,self._history.commands,request['ref'],request['episode_id'])
+            cached=self._causal_basis
+            if cached is None or cached[0]!=basis_key or cached[1] is not basis:
+                source_memo={};source_sizes={}
+                encoding_value(basis,purpose='manifest',_memo=source_memo,_checked=source_sizes)
+                cached=(basis_key,basis,source_memo,source_sizes)
+                self._causal_basis=cached
+            checked=cached[3].copy();memo=cached[2].copy()
+        else:checked={};memo={}
+        domain=encoding_value(domain,purpose='manifest',_checked=checked,_memo=memo)
         return self._project_changes(domain,view,schema="claimbranch.paper-changes/v1",
             identity={"draft_id":request['draft_id'],"draft_revision":request['draft_revision']},
-            _validation_cause=cause)
+            _validation_cause=cause,_checked=checked)
 
     def preview_merge(self, selected_ids, *, episode_id):
         """Read the active recorded alternative, never caller-supplied graph rows."""
@@ -564,8 +579,17 @@ class PaperService:
             "commands": [self._decode(raw) for raw in candidate.commands[len(self._history.commands):]],
             "candidate_history_digest": hashlib.sha256(candidate.manifest()).hexdigest()}
 
-    def _project_changes(self, domain, view, *, schema, identity, _validation_cause=None):
+    def _project_changes(self, domain, view, *, schema, identity, _validation_cause=None, _checked=None):
         seed = self._decode(self._history.seed)
+        if (_validation_cause is not None and self._history.schema_version in (14,18)
+                and seed.get('initial_argument') is not None
+                and domain['before'].get('imported_records')==seed['initial_argument']['records']):
+            # This exact-history view retains the same source records. Borrow
+            # its already normalized private tree instead of reparsing the same
+            # measurement bodies into unrelated graph annotations. Neither graph
+            # construction nor sizing mutates these nested source containers.
+            seed={**seed,'initial_argument':{**seed['initial_argument'],
+                  'records':domain['before']['imported_records']}}
         graphs = {phase: {"schema": "claimbranch.paper-change-graph/v1", "phase": phase,
                          "source_view_digest": view["digest"], "authority": "unaccepted-preview",
                          "authorization_verified": False, **_graph(seed, domain[phase],_borrow_payloads=_validation_cause is not None)}
@@ -589,7 +613,7 @@ class PaperService:
         if _validation_cause is not None:
             from claimbranch.core.paper_capacity import encoded_size,MANIFEST_BYTES
             from .paper_understanding import contextual_topics
-            size=encoded_size(value,purpose='manifest')
+            size=encoded_size(value,purpose='manifest',_checked=_checked)
             # cause_science also encodes the digest-bearing full return. Keep
             # that second boundary without walking the whole preview twice.
             size+=len(b',"digest":"'+b'0'*64+b'"')
@@ -597,8 +621,10 @@ class PaperService:
                 raise ContractError('capacity manifest-bytes: %s / %s'%(size,MANIFEST_BYTES))
             topics=contextual_topics({'original':{**graphs['after'],'digest':digest(_validation_cause)},
                 'work':{'selection':domain['selection'],**impact}})
-            return dict(selection=value['selection'],amendments=value['amendments'],
-                provenance=value['provenance'],topics=topics)
+            # Keep even future history-derived carriers detached from the
+            # persistent read-only basis before returning any mutable value.
+            return deepcopy(dict(selection=value['selection'],amendments=value['amendments'],
+                provenance=value['provenance'],topics=topics))
         raw=self._bytes(value)
         if self._history.schema_version in (5,14,18):
             from claimbranch.core.paper_capacity import MANIFEST_BYTES

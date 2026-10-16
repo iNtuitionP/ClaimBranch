@@ -42,7 +42,7 @@ same evidence and unfinished work later.
 > on demand, then explicitly register. Keep partial historical records without
 > inventing methods, measurements or dates. [Import guide](docs/development/workflow.md#original-ledger-text-preview-v2).
 >
-> Large-paper operations pass locally at45–48s against the unchanged60s target.
+> Large-paper operations pass locally at30–34s against the unchanged60s target.
 > Hosted CI and actual private-paper fidelity are separate checks; see the
 > [qualification record](docs/plans/active/2026-08-04-claimbranch-v1-and-gpu-systems.md#im06-backup-performance-correction-and-qualification).
 > The [alpha.5 hosted failure](https://github.com/iNtuitionP/ClaimBranch/releases/tag/v0.1.0-alpha.5) remains recorded.

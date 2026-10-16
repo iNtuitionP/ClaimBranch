@@ -1403,12 +1403,89 @@ contract checks pass, but its1,605 application checks finish with one failure an
 four errors in2090.898s: cold registration66.568s exceeds the unchanged60s
 limit, and four `OriginalLedgerEntryTests` use the nonexistent Linux path
 `/private/tmp`. Harness/whitespace and later security/artifact steps in that
-failed job are not run. Mac portable-runtime is still running at this observation.
+failed job are not run. Mac also finishes1,605 application checks in2228.959s with one failure: cold
+backup65.102s/60s. Both failed jobs stop before harness/whitespace and the later
+security/artifact steps.
 The duplicate push-triggered run`38893941718` was cancelled in favor of the
 same-head PR run, not counted green. No merge, public tag or published prerelease
-is claimed. The owner is asked whether to correct/qualify performance first or
-explicitly authorize a new experimental release with failures disclosed;
-alpha.5's exception is not automatically reused.
+is claimed. The owner explicitly selects **performance correction and CI pass
+before publication** on2026-10-16. There is no known-failure release exception.
+The test-root correction and blocked-release record are pushed as
+`a25c8776391beb0a2f3f14f2a2e3acfda6cba084`; its redundant push/PR runs
+`38898490097`/`38898499372` are cancelled because they do not include the required
+performance correction, not counted as passing.
+
+Performance-repair plan review: keep the exact430-record/5,400-cell/30-anchor/
+40-draft/new-judgment fixture, all source replay and60s bound. Profiling identifies
+repeated normalization/order/size walks of the same private read-only projection,
+not disk I/O, as the main repeated cost. Combine normalization, canonical order
+and exact byte/relative-height calculation in one traversal, then reuse facts
+only for those exact detached containers during that same synchronous causal
+projection. Preserve primitive/NFC/collection/depth/byte rejection, count every
+serialized appearance. The single-traversal-only version did not provide enough
+wall-time margin, so retain one normalized **history-owned immutable before-view**
+basis per source service, keyed by exact seed/commands/ref/episode and original
+basis identity. Build its strong-reference memo/facts once, copy them per causal
+projection and discard all newly normalized mutable request/amendment entries
+after that projection. Public query/preview and compact returns must not expose
+mutable pool containers. The existing history-service LRU remains bounded at2;
+changing the basis resets this one pool. No caller-owned mutable value or review
+authority is cached across requests. Use exact-equal original source records from
+the normalized view for private graph annotations, with a seed fallback when
+membership/order differs. Public previews, schema bytes, authority and historical meaning
+remain unchanged. Compare against the existing canonical/full-preview oracles,
+then run cold extracted registration/open/backup/restore, pinned Opus review and
+applicable regressions before new hosted CI. Only a passing final head may merge
+and publish; private scientific fidelity remains owner-checked.
+
+Performance repair in progress: `core/paper_capacity.py` supplies exact
+normalization/order/size/height facts; `application/paper_service.py` owns the
+private basis and read-only projection; `test_migration_journey.py` compares
+canonical encoding and actual complete projection bytes.20 focused tests pass
+in6.537s after immutable-basis reuse. The seeded300-tree oracle,14/18 actual
+projection-size/read-only checks, source-list fallback and NFC-expansion case
+retain the previous encoder/graph behavior. A local full cold run of the earlier
+single-traversal-only version passes register46.485s/open46.685s/backup47.589s/
+restore44.308s, exact project/manifest agreement, both graph entries, share/privacy
+and unchanged manuscript in345.209s. This is **not** final-basis-pool qualification.
+Final source-load instrumentation is21.372s versus37.356s before this repair;
+41 causal checks are5.357s versus19.907s. Timings are local measurements only.
+
+Actual first-party`claude-opus-5-5` first reviews46,353 public bytes, SHA-256
+`c4ead7de273505001f8bcec25c48dcfa88953515c1b9ef2434ad70cddc24c2d9`.
+Its seed-record assumption is replaced with an equality/fallback guard; actual
+projection-byte/nonmutation tests are added and read-only impact helpers checked.
+NFC expansion also cannot bypass the second encoding stage. A final59,466-byte
+public-source/test packet, SHA-256
+`2274349ee24f135e621ac974f1179caf73b66698689f55955f6435cf5e312701`,
+completes with`is_error=false`, tools/customizations/hooks/MCP/persistence off.
+It raises possible compact-return aliases and asks for a warm sizing oracle.
+The hypothesized corruption is not claimed reproduced; unconditional detached
+compact return now enforces the boundary even for future carriers. The14/18
+oracle deep-mutates every nested returned dict/list, asserts the same basis
+pool is reused, then verifies unchanged result, full bytes and original basis.
+All20 focused tests pass in7.014s, including exact-depth16/17 boundaries.
+A final14,435-byte bounded return-fix packet, SHA-256
+`e12cbb71a2dd95a45e14764995e491b2d4adaddf8084f25a7ae4cb0580e5af44`,
+completes with`is_error=false`; both raised return/warm-oracle findings are
+resolved and no concrete remaining defect is identified in the shown change.
+209 contract checks,142 related app checks in263.294s, final20 focused checks
+in7.014s,22 security checks, current schemas/resources, original fixture and
+explicit docs/harness/whitespace pass. Hosted qualification remains pending.
+
+The final extracted-runtime full-case test passes in259.486s with exactly the
+same430 records,5,400 cells,30 anchors,40 partial drafts and one new judgment.
+Cold register30.408s/open30.834s/backup33.949s/restore31.316s meet the unchanged60s
+bound; replay3.112s meets30s and maximum RSS534,937,600 bytes meets2GiB. All four
+project payloads are1,745,685 bytes/SHA-256
+`0d2d9c7917c917fa137947e3b0f4a8030a1419462600529081ac76fe15b9b4de`;
+all manifests/replay agree at
+`b343d0e9eff4ed8cdac9fe2fccbf5acfe386a5881f55fa423b36de2fca622952`.
+Both graph entries, selected share/private exclusion and unchanged manuscript
+checks pass. The initial hosted failures remain failures; only a successful
+new exact-head PR CI can authorize merge/publication under the owner's choice. The
+existing draft ZIP is the **old runtime** and must be replaced with a newly built
+and independently verified final artifact before publication.
 
 The test-only path correction keeps`/private/tmp` on Darwin and uses Python's
 configured temporary directory elsewhere, matching the existing portable journey.
@@ -3175,13 +3252,21 @@ on research data, implementation or publication claim.
 
 ## Progress
 
+- [x] 2026-10-16 KST — Alpha.6 performance repair passes final local full cold
+  case: register30.408s/open30.834s/backup33.949s/restore31.316s, exact returned
+  project/manifest agreement, unchanged60s/2GiB limits.20 focused/142 related/
+  209 contract/22 security checks pass; pinned Opus follow-up confirms return
+  detachment and warm sizing-oracle findings resolved. New hosted CI and
+  publication are still pending; failed initial runs are preserved. See
+  [alpha.6 evidence](#alpha6-publication-order).
+
 - [ ] 2026-10-16 KST — Owner-authorized alpha.6 merge/publication prepared as
   PR #25 and draft prerelease with exact checked ZIP and draft-download dry-run.
   Hosted Ubuntu rejects registration66.568s/60s and four Mac-only test paths.
   Portable test paths corrected; four local checks and pinned Opus review pass,
-  but no Linux rerun/whole-CI pass is claimed. Mac CI remains running.
-  Merge/publication paused pending failure repair or a new owner-scoped release
-  exception. See [publication evidence](#alpha6-publication-order).
+  but no Linux rerun/whole-CI pass is claimed. Mac backup also fails65.102s/60s.
+  Owner selects performance correction and passingCI before publication; repair
+  is in progress, with no release exception. See [publication evidence](#alpha6-publication-order).
 
 - [x] 2026-10-16 KST — IM06 backup performance correction and qualification complete.
   Remove full measurement copies used only for eligibility and full graph copies

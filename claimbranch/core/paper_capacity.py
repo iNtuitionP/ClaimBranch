@@ -75,22 +75,65 @@ def encode(value, *, purpose):
     return _encoding(value,purpose=purpose)[1]
 
 
-def encoding_value(value, *, purpose):
-    """Owned, canonically ordered projection input under all encoding checks.
+def encoding_value(value, *, purpose, _checked=None, _memo=None):
+    """Detached canonical tree, with exact bounds, in one traversal.
 
-    Shared subvalues belong only to this detached validation tree. Its caller
-    treats nested values as read-only and serializes any externally returned data.
+    Optional sizing facts belong only to the synchronous private projection
+    using this tree. Keep its containers read-only until that projection ends;
+    no caller-owned mutable input may inherit their validation. A private memo
+    may be retained only for an immutable exact-history basis; its entries hold
+    the original container alive and are never returned through public readers.
     """
-    normalized,_=_encoding(value,purpose=purpose);seen=set()
-    def order(item):
-        if type(item) not in (dict,list) or id(item) in seen:return
-        seen.add(id(item))
+    from .canonical import integer
+    memo={} if _memo is None else _memo;strings={}
+    def walk(item,depth):
+        if depth>16:raise ContractError('JSON nesting limit exceeded')
+        if item is None:return None,4,0,True
+        if type(item) is bool:return item,4 if item else 5,0,True
+        if type(item) is int:
+            integer(item,-(2**53-1));return item,len(str(item)),0,True
+        if isinstance(item,str):
+            if type(item) is str and item in strings:return strings[item]
+            if len(item.encode('utf-8'))>16384:raise ContractError('JSON string limit exceeded')
+            text=unicodedata.normalize('NFC',item)
+            length=len(json.dumps(text,ensure_ascii=False).encode('utf-8'))
+            safe=len(text.encode('utf-8'))<=16384
+            result=(text,length,0,safe)
+            if type(item) is str and len(item)<=256 and len(strings)<2048:strings[item]=result
+            return result
+        if type(item) not in (dict,list,tuple):raise ContractError('unsupported JSON value')
+        key=id(item)
+        if key in memo:
+            original,result,length,height,safe=memo[key]
+            if original is item:
+                if depth+height>16:raise ContractError('JSON nesting limit exceeded')
+                return result,length,height,safe
+        if len(item)>2048:raise ContractError('JSON collection limit exceeded')
+        length=2+max(0,len(item)-1);height=0;safe=True
         if type(item) is dict:
-            pairs=sorted(item.items());item.clear();item.update(pairs)
-            children=item.values()
-        else:children=item
-        for child in children:order(child)
-    order(normalized)
+            result={}
+            for name,child in item.items():
+                if not isinstance(name,str):raise ContractError('object keys must be text')
+                name,name_size,_,name_safe=walk(name,depth+1)
+                if name in result:raise ContractError('normalized object keys collide')
+                child,child_size,child_height,child_safe=walk(child,depth+1)
+                result[name]=child;length+=name_size+1+child_size
+                height=max(height,1+child_height);safe=safe and name_safe and child_safe
+            result=dict(sorted(result.items()))
+        else:
+            result=[]
+            for child in item:
+                child,child_size,child_height,child_safe=walk(child,depth+1)
+                result.append(child);length+=child_size;height=max(height,1+child_height);safe=safe and child_safe
+        memo[key]=(item,result,length,height,safe)
+        # NFC can expand a string past the next encoder's input limit.
+        # Such normalized subtrees must be checked again, never bypassed.
+        if _checked is not None and safe:_checked[id(result)]=(result,length,height)
+        return result,length,height,safe
+    try:normalized,length,_,_=walk(value,0)
+    except UnicodeError as error:raise ContractError('invalid Unicode') from error
+    maximum={'history':HISTORY_BYTES,'manifest':MANIFEST_BYTES,'project':PROJECT_BYTES}[purpose]
+    if length>maximum:raise ContractError('capacity %s-bytes: %s / %s'%(purpose,length,maximum))
     return normalized
 
 
@@ -125,7 +168,7 @@ def decode(raw, *, purpose):
         raise ContractError('invalid personal-paper JSON') from error
 
 
-def encoded_size(value, *, purpose):
+def encoded_size(value, *, purpose, _checked=None):
     """Exact canonical size/bounds without allocating repeated JSON payloads.
 
     The memo belongs to this synchronous traversal only. It retains no trust or
@@ -147,6 +190,11 @@ def encoded_size(value, *, purpose):
             if type(item) is str and len(item)<=256 and len(strings)<2048:strings[item]=total
             return total
         if type(item) not in (dict,list,tuple):raise ContractError('unsupported JSON value')
+        if _checked is not None:
+            known=_checked.get(id(item))
+            if known is not None and known[0] is item:
+                if depth+known[2]>16:raise ContractError('JSON nesting limit exceeded')
+                return known[1]
         key=(id(item),depth)
         if key in memo:return memo[key]
         if len(item)>2048:raise ContractError('JSON collection limit exceeded')
