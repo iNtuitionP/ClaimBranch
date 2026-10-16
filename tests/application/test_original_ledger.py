@@ -1,6 +1,7 @@
 """Original maintained ledgers, never private research or a provider request."""
 from copy import deepcopy
 import json
+import sys
 import unittest
 from claimbranch.core.canonical import ContractError
 from claimbranch.core.paper_capacity import encode, source_record, source_bytes
@@ -240,7 +241,7 @@ class OriginalLedgerEntryTests(unittest.TestCase):
         import tempfile,os,subprocess,sys,zipfile
         from pathlib import Path
         from scripts.build_source import build_source
-        with tempfile.TemporaryDirectory(dir='/private/tmp') as tmp:
+        with tempfile.TemporaryDirectory(dir='/private/tmp' if sys.platform=='darwin' else None) as tmp:
             root=Path(tmp);sources=root/'paper';sources.mkdir();output=root/'private';output.mkdir(mode=0o700)
             value=fixture();manifest=deepcopy(value);manifest['schema']='claimbranch.argument-source-manifest/v1'
             for file in manifest['files']:
@@ -263,7 +264,7 @@ class OriginalLedgerEntryTests(unittest.TestCase):
         import tempfile
         from pathlib import Path
         from claimbranch.application.argument_preparation import prepare
-        with tempfile.TemporaryDirectory(dir='/private/tmp') as tmp:
+        with tempfile.TemporaryDirectory(dir='/private/tmp' if sys.platform=='darwin' else None) as tmp:
             root=Path(tmp);value=fixture();manifest=deepcopy(value);manifest['schema']='claimbranch.argument-source-manifest/v1'
             file=manifest['files'][0];raw=source_bytes(file.pop('source'));(root/'claims.md').write_bytes(raw);file['path']='claims.md'
             good,_=prepare(encode(manifest,purpose='project'),root);self.assertTrue(preview_import(good)['valid'])
@@ -280,7 +281,7 @@ class OriginalLedgerEntryTests(unittest.TestCase):
         import tempfile,io,os
         from pathlib import Path
         from claimbranch.application.argument_preparation import run_prepare
-        with tempfile.TemporaryDirectory(dir='/private/tmp') as tmp:
+        with tempfile.TemporaryDirectory(dir='/private/tmp' if sys.platform=='darwin' else None) as tmp:
             root=Path(tmp);root.chmod(0o700);sources=root/'sources';sources.mkdir();out=root/'private';out.mkdir(mode=0o700)
             value=fixture();value['schema']='claimbranch.argument-source-manifest/v1'
             for file in value['files']:
@@ -296,7 +297,7 @@ class OriginalLedgerEntryTests(unittest.TestCase):
     def test_actual_terminal_can_cancel_v2_preview_without_creating_a_project(self):
         import os,subprocess,sys,tempfile,time,select
         from pathlib import Path
-        with tempfile.TemporaryDirectory(dir='/private/tmp') as tmp:
+        with tempfile.TemporaryDirectory(dir='/private/tmp' if sys.platform=='darwin' else None) as tmp:
             root=Path(tmp);source=root/'argument.json';source.write_bytes(encode(fixture(),purpose='project'));source.chmod(0o600)
             master,slave=os.openpty();process=subprocess.Popen([sys.executable,'-m','claimbranch','project','import-argument','--input',str(source),'--dry-run'],stdin=slave,stdout=slave,stderr=slave);os.close(slave)
             output=b'';deadline=time.monotonic()+10

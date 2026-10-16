@@ -168,7 +168,8 @@ Passing the retrospective fixture means `foundation validated`, not product
 success. Do not call the product v1.0 before the live-paper gate passes.
 
 Current follow-up: [actual-paper import usability](#actual-paper-import-usability-implementation-plan),
-2/6 outcomes complete; four remain, next precise normalization/Markdown sections.
+6/6 implementation outcomes complete. The [alpha.6 publication order](#alpha6-publication-order)
+owns the authorized delivery; the researcher’s actual-paper dry-run follows.
 
 ## Original-ledger migration implementation plan
 
@@ -1392,9 +1393,45 @@ publication or reuse of alpha.5's known-failure release exception.
    doctor/import entry; record actual PR/commit/tag/asset/CI results here. The
    person's own private-paper dry-run remains theirs.
 
-Publication is in progress; no merged commit, public asset or green hosted-CI
-claim is recorded yet. The local qualification and prior failed broad run remain
-in [IM06 evidence](#im06-backup-performance-correction-and-qualification).
+Publication is **blocked by observed hosted failures**, not complete.
+[PR #25](https://github.com/iNtuitionP/ClaimBranch/pull/25) initially contains110
+reviewed paths at`af8e9ed5191c86fed3e2f76e87d384b4f950215f`.
+The unrelated demo files/ignore/index edits remain excluded.
+The [PR CI](https://github.com/iNtuitionP/ClaimBranch/actions/runs/38893948301)
+passes docs/fixture/skills, Windows validation and Mac relay checks. Ubuntu's209
+contract checks pass, but its1,605 application checks finish with one failure and
+four errors in2090.898s: cold registration66.568s exceeds the unchanged60s
+limit, and four `OriginalLedgerEntryTests` use the nonexistent Linux path
+`/private/tmp`. Harness/whitespace and later security/artifact steps in that
+failed job are not run. Mac portable-runtime is still running at this observation.
+The duplicate push-triggered run`38893941718` was cancelled in favor of the
+same-head PR run, not counted green. No merge, public tag or published prerelease
+is claimed. The owner is asked whether to correct/qualify performance first or
+explicitly authorize a new experimental release with failures disclosed;
+alpha.5's exception is not automatically reused.
+
+The test-only path correction keeps`/private/tmp` on Darwin and uses Python's
+configured temporary directory elsewhere, matching the existing portable journey.
+All four affected tests pass locally in8.906s. This is a Mac observation, not a
+Linux rerun; the Ubuntu branch and PTY body must still be exercised there.
+Actual first-party`claude-opus-5-5` reviews the4,135-byte fixed public-code packet,
+SHA-256`f3343ff7a7a2be9a0d6255a10b7a3d852d86bd12ea9cf3ad6cbc54f8ddbfc9b1`,
+with tools/customizations/hooks/MCP/persistence disabled and`is_error=false`.
+No concrete diff regression is found; Linux verification and temporary-root
+placement remain explicit limits, and this test fix does not repair performance.
+
+The initial clean detached commit passes85-document/harness22/whitespace checks,
+the original fixture, current schemas/resources and22 security checks. Its
+independent ZIP checker passes all12 declared doctor/replay/example/PTY/recovery
+entries. A draft prerelease contains the2,564,237-byte166-member ZIP and SHA-256
+sidecar; SHA-256`4e1d6ce4330a197a9c898d3e9c5f89c3ba137f6bb4a7a44d5faa7b424eaf4eb6`
+matches the prior locally qualified runtime. Authenticated draft download,
+sidecar/hash, extracted doctor, manifest4 preparation and import5 summary dry-run
+pass; prepared synthetic bytes equal the existing owned fixture. No private
+research is read or registered. Draft notes now disclose the Ubuntu failures;
+draft upload is not public distribution. The local qualification and prior
+failed broad run remain in
+[IM06 evidence](#im06-backup-performance-correction-and-qualification).
 
 ### Alpha.5 publication order
 
@@ -3137,6 +3174,14 @@ required from the owner. This planning task makes no commit, provider inference
 on research data, implementation or publication claim.
 
 ## Progress
+
+- [ ] 2026-10-16 KST — Owner-authorized alpha.6 merge/publication prepared as
+  PR #25 and draft prerelease with exact checked ZIP and draft-download dry-run.
+  Hosted Ubuntu rejects registration66.568s/60s and four Mac-only test paths.
+  Portable test paths corrected; four local checks and pinned Opus review pass,
+  but no Linux rerun/whole-CI pass is claimed. Mac CI remains running.
+  Merge/publication paused pending failure repair or a new owner-scoped release
+  exception. See [publication evidence](#alpha6-publication-order).
 
 - [x] 2026-10-16 KST — IM06 backup performance correction and qualification complete.
   Remove full measurement copies used only for eligibility and full graph copies
