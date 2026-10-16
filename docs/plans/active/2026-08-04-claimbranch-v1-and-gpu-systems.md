@@ -1393,7 +1393,37 @@ publication or reuse of alpha.5's known-failure release exception.
    doctor/import entry; record actual PR/commit/tag/asset/CI results here. The
    person's own private-paper dry-run remains theirs.
 
-Publication is **blocked by observed hosted failures**, not complete.
+Publication completed2026-10-16 KST: [PR #25](https://github.com/iNtuitionP/ClaimBranch/pull/25)
+merges as`ff70f30cd6255b14a75a79dd2e248ecbc79564eb`, whose complete tree equals
+qualified candidate`d3dbf4d9fba354227002fd85e98da94a45269764`.
+[Final PR CI](https://github.com/iNtuitionP/ClaimBranch/actions/runs/38907270333)
+passes all five jobs, including1,609 application tests/209 contracts on each
+portable host, harness/security and all12 independent artifact checks. Both
+hosts reproduce the exact runtime ZIP. Final cold register/open/backup/restore
+are28.287/28.657/32.101/29.989s on Mac and46.135/47.834/50.608/50.332s on Ubuntu;
+all60s/30s/2GiB gates pass and project/manifest hashes agree within each host.
+The initial failures and45m cancellation remain historical failures/incomplete
+coverage; the final complete55m-allocation run passes without changing product
+timing limits, tests or order.
+
+[v0.1.0-alpha.6](https://github.com/iNtuitionP/ClaimBranch/releases/tag/v0.1.0-alpha.6)
+is a public experimental prerelease, published2026-10-16T14:08:13Z. Its tag
+resolves to that merge commit. The2,569,150-byte166-member ZIP has SHA-256
+`5be63468f4cb85c44eb70d561f6cc41db8a83bd8ba7ca5760aa54297a39163d8`, with a
+matching sidecar. Anonymous public HTTP download matches that digest. A separate
+published download passes extracted doctor, manifest4 preparation, plain/JSON
+import5 dry-runs: zero errors, valid/registration_available true,31 summary lines
+and prepared bytes identical to the owned synthetic fixture. No private research
+is read or registered. Actual private-paper fidelity and benefit remain the
+researcher's next dry-run, not a claimed release check.
+
+The merge/tag trigger separate same-tree CI; main run`38913269992` is running,
+and duplicate tag run`38913335423` is cancelled in favor of main, not called green.
+This later delivery record changes documentation only; the passing final PR run
+is the qualification evidence for the released runtime. Unrelated demo/ignore/
+development-index work remains excluded and preserved.
+
+The initial publication attempt was **blocked by observed hosted failures**.
 [PR #25](https://github.com/iNtuitionP/ClaimBranch/pull/25) initially contains110
 reviewed paths at`af8e9ed5191c86fed3e2f76e87d384b4f950215f`.
 The unrelated demo files/ignore/index edits remain excluded.
@@ -1407,8 +1437,8 @@ failed job are not run. Mac also finishes1,605 application checks in2228.959s wi
 backup65.102s/60s. Both failed jobs stop before harness/whitespace and the later
 security/artifact steps.
 The duplicate push-triggered run`38893941718` was cancelled in favor of the
-same-head PR run, not counted green. No merge, public tag or published prerelease
-is claimed. The owner explicitly selects **performance correction and CI pass
+same-head PR run, not counted green. At that initial stop no merge, public tag
+or published prerelease had occurred. The owner explicitly selects **performance correction and CI pass
 before publication** on2026-10-16. There is no known-failure release exception.
 The test-root correction and blocked-release record are pushed as
 `a25c8776391beb0a2f3f14f2a2e3acfda6cba084`; its redundant push/PR runs
@@ -1438,7 +1468,7 @@ then run cold extracted registration/open/backup/restore, pinned Opus review and
 applicable regressions before new hosted CI. Only a passing final head may merge
 and publish; private scientific fidelity remains owner-checked.
 
-Performance repair in progress: `core/paper_capacity.py` supplies exact
+Performance repair result: `core/paper_capacity.py` supplies exact
 normalization/order/size/height facts; `application/paper_service.py` owns the
 private basis and read-only projection; `test_migration_journey.py` compares
 canonical encoding and actual complete projection bytes.20 focused tests pass
@@ -1471,7 +1501,7 @@ completes with`is_error=false`; both raised return/warm-oracle findings are
 resolved and no concrete remaining defect is identified in the shown change.
 209 contract checks,142 related app checks in263.294s, final20 focused checks
 in7.014s,22 security checks, current schemas/resources, original fixture and
-explicit docs/harness/whitespace pass. Hosted qualification remains pending.
+explicit docs/harness/whitespace pass. Hosted qualification subsequently passes as recorded above.
 
 The final extracted-runtime full-case test passes in259.486s with exactly the
 same430 records,5,400 cells,30 anchors,40 partial drafts and one new judgment.
@@ -1483,9 +1513,8 @@ all manifests/replay agree at
 `b343d0e9eff4ed8cdac9fe2fccbf5acfe386a5881f55fa423b36de2fca622952`.
 Both graph entries, selected share/private exclusion and unchanged manuscript
 checks pass. The initial hosted failures remain failures; only a successful
-new exact-head PR CI can authorize merge/publication under the owner's choice. The
-existing draft ZIP is the **old runtime** and must be replaced with a newly built
-and independently verified final artifact before publication.
+new exact-head PR CI can authorize merge/publication under the owner's choice. At that point the initial draft ZIP still held the **old runtime**; it was later
+replaced with the independently verified final ZIP recorded above.
 
 Final reviewed candidate`40e8421cc7ce0927755352af6a7bac876aa4df64` is pushed
 to PR #25. Its [new exact-head PR CI](https://github.com/iNtuitionP/ClaimBranch/actions/runs/38901239843)
@@ -1499,8 +1528,7 @@ its independent artifact checker passes all12 declared entries. This replaces
 the initial draft ZIP/sidecar and targets40e8421. Authenticated draft download,
 exact digest/sidecar, extracted doctor, manifest4 preparation and import5 plain/
 JSON dry-runs pass: valid/registration_available true, zero errors,31 summary
-lines and prepared bytes identical to the earlier owned fixture. This is draft
-verification, not yet a public download; no merge or public release has occurred.
+lines and prepared bytes identical to the earlier owned fixture. This was draft verification; the separate public download is recorded above.
 
 Hosted40e8421 results: Mac completes every job successfully, including209
 contracts,1,609 app checks in2004.677s,22 harness/security checks and all12
@@ -1513,7 +1541,7 @@ security checks, with cold register48.759s/open49.785s/backup54.168s/restore51.2
 and replay5.102s. Returned project/manifest hashes match across its operations;
 peak RSS665,272KiB is below2GiB. However, the45-minute **whole CI job allocation**
 cancels its final independent artifact step, so the overall run is cancelled,
-not green, and publication remains blocked. This is separate from the product's
+not green, and publication stayed blocked until the subsequent complete run. This is separate from the product's
 60s cold-performance gate, which now passes on both hosts.
 
 CI-allocation correction plan review: retain every check, its order, per-check
@@ -1533,7 +1561,14 @@ workflow/result packet, SHA-256
 with tools/customizations/hooks/MCP/persistence off and`is_error=false`. It finds
 no concrete defect and confirms this is runner allocation, not product-gate
 relaxation. The allowance applies to both Mac/Ubuntu matrix legs; both must
-finish all checks on the final head before release. New CI remains to be run.
+finish all checks on the final head before release. Final candidate
+`d3dbf4d9fba354227002fd85e98da94a45269764` changes only workflow allocation
+and this execution record after40e8421. Its [full PR CI](https://github.com/iNtuitionP/ClaimBranch/actions/runs/38907270333)
+completes successfully; duplicate same-head push`38907265594` was cancelled,
+not counted green.
+Clean85-document/22-harness/whitespace checks pass; a fresh clean source build
+is byte-identical at5be63468… and the draft targets this final head.
+The completed delivery above supersedes the earlier pending-publication state.
 
 The test-only path correction keeps`/private/tmp` on Darwin and uses Python's
 configured temporary directory elsewhere, matching the existing portable journey.
@@ -3300,21 +3335,31 @@ on research data, implementation or publication claim.
 
 ## Progress
 
+- [x] 2026-10-16 KST — Alpha.6 merged and publicly released after all five final
+  PR CI jobs pass. PR #25 merges as`ff70f30`; tag`v0.1.0-alpha.6` points there.
+  Both hosted1,609-app/209-contract suites,60s cold gates and independent artifact
+  checks pass. Public anonymous/checksum/extracted-doctor/prepare/import dry-runs
+  pass with zero errors and31 summary lines. Earlier failures/cancellation remain
+  recorded. Runtime/source release complete; actual private-paper dry-run is next.
+  See [delivery evidence](#alpha6-publication-order).
+
 - [x] 2026-10-16 KST — Alpha.6 performance repair passes final local full cold
   case: register30.408s/open30.834s/backup33.949s/restore31.316s, exact returned
   project/manifest agreement, unchanged60s/2GiB limits.20 focused/142 related/
   209 contract/22 security checks pass; pinned Opus follow-up confirms return
-  detachment and warm sizing-oracle findings resolved. New hosted CI and
-  publication are still pending; failed initial runs are preserved. See
+  detachment and warm sizing-oracle findings resolved. Hosted CI/publication
+  were pending at this checkpoint and subsequently complete above; failed
+  initial runs remain preserved. See
   [alpha.6 evidence](#alpha6-publication-order).
 
-- [ ] 2026-10-16 KST — Owner-authorized alpha.6 merge/publication prepared as
+- [x] 2026-10-16 KST — Initial alpha.6 merge/publication preparation (later resolved):
   PR #25 and draft prerelease with exact checked ZIP and draft-download dry-run.
   Hosted Ubuntu rejects registration66.568s/60s and four Mac-only test paths.
   Portable test paths corrected; four local checks and pinned Opus review pass,
   but no Linux rerun/whole-CI pass is claimed. Mac backup also fails65.102s/60s.
-  Owner selects performance correction and passingCI before publication; repair
-  is in progress, with no release exception. See [publication evidence](#alpha6-publication-order).
+  Owner selects performance correction and passingCI before publication. Repair
+  and complete final CI subsequently pass, followed by publication above; no
+  release exception is used. See [publication evidence](#alpha6-publication-order).
 
 - [x] 2026-10-16 KST — IM06 backup performance correction and qualification complete.
   Remove full measurement copies used only for eligibility and full graph copies
