@@ -24,7 +24,7 @@ def payload_schema():
 
 def apply_edits(state,cmd):
     from .research_history import _record_ids,_paper_changes,_evidence,_append_evidence,_register_anchor
-    if state['seed']['schema_version'] not in (4,5):raise ContractError('Graph editing requires a personal paper profile')
+    if state['seed']['schema_version'] not in (4, 5, 14):raise ContractError('Graph editing requires a personal paper profile')
     if state['active_episode'] is None:raise ContractError('Choose the active episode before editing')
     merged=any(m.get('episode_id')==state['active_episode'] for m in state['merges']) or any(d['episode_id']==state['active_episode'] for d in state.get('co_reports',{}).values())
     if 'alternative' in state['branches'] and not merged:raise ContractError('Finish the current alternative before revising main; your input is retained')

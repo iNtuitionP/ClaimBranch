@@ -8,7 +8,7 @@ from copy import deepcopy
 from datetime import datetime, timezone
 
 from claimbranch.core.canonical import ContractError
-from claimbranch.core.marked_text import marked_block
+from claimbranch.core.marked_text import selected_block
 from claimbranch.core.paper_capacity import decode, encode
 from .project_work import _source, _path, _identity
 from .paper_work_store import PaperWork
@@ -16,7 +16,7 @@ from .paper_work_store import PaperWork
 
 def read_binding(source):
     root, relative = _path(source['root']), _path(source['manuscript'], relative=True)
-    current = _source(root, relative, source['anchor_id'], maximum=2097152)
+    current = _source(root, relative, source['anchor_id'], maximum=2097152,selector=source.get('selector'))
     from contextlib import ExitStack
     with ExitStack() as held:
         def opened(name,parent=None,directory=False):
@@ -38,9 +38,9 @@ def read_binding(source):
         for owner,name,fd in entries:
             if _identity(os.stat(name,dir_fd=owner,follow_symlinks=False))!=_identity(os.fstat(fd)):
                 raise ContractError('anchor path changed during read')
-    if len(raw)>2097152 or hashlib.sha256(raw).hexdigest()!=current['source_digest'] or _source(root,relative,source['anchor_id'],maximum=2097152)!=current:
+    if len(raw)>2097152 or hashlib.sha256(raw).hexdigest()!=current['source_digest'] or _source(root,relative,source['anchor_id'],maximum=2097152,selector=source.get('selector'))!=current:
         raise ContractError('anchor source changed during inspection')
-    return current, marked_block(raw,source['anchor_id'])
+    return current, selected_block(raw,source['anchor_id'],source.get('selector'))
 
 
 def inspect_anchor(anchor):
@@ -60,18 +60,20 @@ def source_statuses(history):
     return {key:inspect_anchor(anchor) for key,anchor in history.view('main').get('manuscript_anchors',{}).items()}
 
 
-def prepare_registration(project, *, manuscript, anchor_id, kind, expresses=(), plots=(), parents=(), rationale, contribution_origin=None):
+def prepare_registration(project, *, manuscript, anchor_id, kind, expresses=(), plots=(), parents=(), rationale, contribution_origin=None, selector=None):
     history=project.work.history
-    if history.schema_version not in (4,5):
+    if history.schema_version not in (4, 5, 14):
         raise ContractError('Multiple anchors require a paper profile; convert into a fresh paper-profile destination first.')
     source=decode(project.payload,purpose='project')['associations'][-1]
-    provisional={**source,'manuscript':os.fsencode(manuscript).hex(),'anchor_id':anchor_id}
+    provisional={k:v for k,v in source.items() if k not in ('selector','span_digest')}
+    if selector is not None:provisional['selector']=selector
+    provisional={**provisional,'manuscript':os.fsencode(manuscript).hex(),'anchor_id':anchor_id}
     current,block=read_binding(provisional)
     payload=dict(id=anchor_id,kind=kind,source=current,block_digest=hashlib.sha256(block).hexdigest(),
         block=[base64.b64encode(block[i:i+8192]).decode() for i in range(0,len(block),8192)],
         expresses=sorted(expresses),plots=sorted(plots),parents=sorted(parents),rationale=rationale)
     import secrets
-    cmd=dict(schema_version=6,id='anchor-register-'+secrets.token_hex(12),project_id=project.project_id,
+    cmd=dict(schema_version=15 if selector is not None else 6,id='anchor-register-'+secrets.token_hex(12),project_id=project.project_id,
         episode_id=history.view('main')['episode_id'],created_at=datetime.now(timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ'),
         operation_type='register-manuscript-anchor',expected_heads=dict(history.heads),evidence_watermark=history.watermark,payload=payload)
     from .metadata_batch import origin_command
@@ -91,6 +93,7 @@ def prepare_registration(project, *, manuscript, anchor_id, kind, expresses=(), 
     return result,dict(project_digest=hashlib.sha256(project.payload).hexdigest(),registration=payload,
         before=history.view('main').get('manuscript_anchors',{}).get(anchor_id),
         marked_text=block.decode('utf-8'),write_available=False,source_fidelity_verified=False,
+        result_project_schema=decode(result.payload,purpose='project')['schema'],older_build_rollback='Keep a private backup before registration; label formats require this build or newer.',
         coverage='Explicit registered blocks only; includes, graphics, unregistered passages and scientific fidelity are outside coverage.')
 
 
@@ -115,7 +118,7 @@ def run_anchor_command(args):
             value=PaperService(project.work.history).anchor_impact(args.nodes,at_operation=args.before)
         else:
             result,value=prepare_registration(project,manuscript=args.manuscript,anchor_id=args.anchor,
-                kind=args.kind,expresses=args.expresses or (),plots=args.plots or (),parents=args.parents or (),rationale=args.reason,contribution_origin=args.origin)
+                kind=args.kind,expresses=args.expresses or (),plots=args.plots or (),parents=args.parents or (),rationale=args.reason,contribution_origin=args.origin,selector=(dict(schema='claimbranch.tex-selector/v1',kind='label',value=args.label) if args.label else None))
             if not args.dry_run:
                 if not sys.stdin.isatty() or not sys.stdout.isatty(): raise ContractError('Anchor registration requires an interactive terminal; use --dry-run.')
                 from .tui_model import clean

@@ -2,7 +2,7 @@
 kind: validation-case
 status: active
 owners: maintainers
-last_reviewed: 2026-10-15
+last_reviewed: 2026-10-16
 canonical_for: saturation workflow acceptance criteria
 ---
 
@@ -1375,6 +1375,46 @@ record/open/quit independently. No lint writes the manuscript, changes support,
 creates confirmed evidence or closes manuscript/understanding work.
 
 #### Personal paper migration and revision acceptance (planned)
+
+The original-ledger follow-up currently adds an executable I01 preview boundary:
+four exact maintained Markdown originals totaling 1,468,006 bytes, 430 records,
+100 tables/5,400 cells, mixed defaults and ten human overrides. Required checks
+include deterministic preview, exact/normalized cell extraction, declared rewrites
+remaining unresolved, duplicate-locator and digest/Unicode failures, explicit
+multi-source origin conflicts and prohibited ancestry clearing, source-link/path
+refusal, create-only private preparation and independent source-artifact CLI
+preview. I02 adds a table-only 54-cell historical import, first append-only cell
+correction, condition query, private source/writing return, snapshot corruption/stream
+refusal, changed/cancelled/interrupted/duplicate registration and frame mismatch
+cases. Wide/narrow graph rendering and actual terminal reopen/exit are checked.
+Full-paper fresh-process registration/open/backup/restore compares manifest hashes.
+I03 adds compound AI/unknown and unknown-only scoped review, reason reuse,
+fresh review after correction, more than 128 source dependencies in one choice,
+128 saved partial causes and a lossless 129th refusal. Recorded choices/current
+partial writing remain independent; shared causes count once. Older formats keep
+their bounds. Actual terminal review/resize and fresh-process private return must
+pass; 40+ unaccepted comparisons are not claimed as 40 merged judgments in a
+32-episode model. I04 checks label-only initial setup/actual terminal return, section hierarchy,
+figure/table captions, CRLF fidelity, kind/span binding and refreshed private
+associations. Fake labels in comments/literal code, spaced duplicate labels,
+invalid literal closers, missing/duplicate/changed labels and byte overflow must
+refuse or remain unresolved with manuscript bytes unchanged. I05 additionally
+checks explicit shared-audit opt-in: full logical audit equality, unchanged old
+prefixes, source-checked replay, reference/forged-view rejection and expansion
+refusal before repeated allocation. Actual terminal conversion requires `convert`;
+cancel and dry-run preserve saved bytes. Existing partial writing and its original
+cause must survive conversion, further editing and backup return, with no restored
+review authority. The frozen combined fixture must still meet its original cold
+operation budgets; a codec pass alone is insufficient. A faster retained-cause
+reader must reproduce full-review selection/amendments/provenance and exact topic
+IDs, including co-report/companion and manuscript paths. Borrowed projection
+payloads must not mutate sources or escape as a review. A size-only validator
+must match the real canonical encoder's byte count and refusals, including NFC,
+escaping, aliases and all depth/collection/string/integer limits; the entire
+original preview ceiling still applies. Integrated source
+delivery remains I05; the private real-paper import remains unrun. See the
+[implementation ledger](../../plans/active/2026-08-04-claimbranch-v1-and-gpu-systems.md#original-ledger-migration-implementation-plan).
+
 
 These are next-version acceptance oracles for the owner's issue planning and
 [ADR 0023](../../architecture/decisions/0023-personal-argument-import-and-sharing.md).

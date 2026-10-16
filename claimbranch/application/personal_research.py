@@ -3,6 +3,7 @@
 This is ordinary local history, never protected acceptance or signed consent.
 Preview values stay in their live owner; a saved comparison cannot authorize.
 """
+from claimbranch.core.argument_import import reference_origins
 from copy import deepcopy
 from dataclasses import dataclass
 from datetime import datetime, timezone
@@ -45,7 +46,7 @@ def _binding(app):
 
 def _seal(preview):
     from claimbranch.core.paper_capacity import encode as paper_encode
-    encode = (lambda value: paper_encode(value,purpose="project")) if preview.history.schema_version in (4, 5) else canonical_bytes
+    encode = (lambda value: paper_encode(value,purpose="project")) if preview.history.schema_version in (4, 5, 14) else canonical_bytes
     return encode({'kind':preview.kind,'history':hashlib.sha256(preview.history.manifest()).hexdigest(),
         'episode':preview.episode_id,'ref':preview.ref,'node':preview.node_id,'fields':preview.fields,
         'display':preview.display,'graphs':preview.graphs,'expires':preview.expires_at,
@@ -175,7 +176,7 @@ class PersonalResearch:
                 display['judgment_reuse'] = 'Your judgment becomes an interpretation with no inferred observation links.'
             judgment = session._current_judgment()
             history, science = app.service.branch_candidate(request,judgment,
-                operation_id='record-'+secrets.token_hex(12), created_at=stamp, source_node_id=work.owner[2] if history.schema_version==5 else None)
+                operation_id='record-'+secrets.token_hex(12), created_at=stamp, source_node_id=work.owner[2] if history.schema_version in (5, 14) else None)
             recorded = history.view('alternative',episode_id=episode)
             selected = [a['id'] for a in science['preview']['amendments'] if a['disposition']!='omitted']
             from .paper_proposal_work import record_provenance, explanation_topics, validate_explanation
@@ -186,8 +187,8 @@ class PersonalResearch:
             explanation = validate_explanation(cause, science['preview'], explanation)
             recording_available = not inherited_ai or explanation['state'] in ('reviewed', 'leave-for-later')
             judgment_ai = any(c['contributor']=='ai' for j in recorded['judgments'] for c in j['history'])
-            if history.schema_version == 5:
-                judgment_ai |= any(r['contributor'] in ('ai','mixed','unknown') for r in science['preview']['provenance']['imported_sources'])
+            if history.schema_version in (5, 14):
+                judgment_ai |= any(bool(reference_origins(r) & {'ai','mixed','unknown'}) for r in science['preview']['provenance']['imported_sources'])
             if recording_available:
                 merge_payload = {'selected_ids':selected, 'judgment':recorded['judgment'],
                     # Item-level AI remains in the personal origin registry. The
@@ -197,21 +198,25 @@ class PersonalResearch:
                         if judgment_ai else 'not-required',
                     'answers': [e['text'] if e['text'].strip() else recorded['judgment']['rationale']
                                 for e in explanation['entries']] if judgment_ai and explanation['state']=='reviewed' else []}
-                if history.schema_version == 5:
+                if history.schema_version in (5, 14):
                     from claimbranch.core.argument_import import source_references
                     from claimbranch.core.research_history import _reduce, _preview
                     state = _reduce(history.seed, history.commands); branch = state['branches']['alternative']
                     closure = _preview(state, selected).selection.closure
                     subject = branch['source_node_id']
                     merge_payload.update(source_node_id=subject, source_refs=source_references(state, branch, [branch['changes'][key] for key in closure], subject))
-                append('apply-imported-merge' if history.schema_version==5 else 'apply-selected-merge', merge_payload)
+                append('apply-imported-merge' if history.schema_version in (5, 14) else 'apply-selected-merge', merge_payload)
             if inherited_ai or explanation_state is not None:
-                if len(app.paper._recorded_origins) >= (32 if history.schema_version==5 else 8):
-                    limit = 32 if history.schema_version == 5 else 8
-                    raise ContractError(f'This personal workspace retains {limit} origin/explanation consequences; earlier work and writing remain available. A new recorded consequence exceeds its bounded history.')
+                from .paper_proposal_work import consequence_limit
+                limit=consequence_limit(history)
+                if history.schema_version != 14 and len(app.paper._recorded_origins) >= limit:
+                    raise ContractError(f'capacity recorded-review-consequences: {len(app.paper._recorded_origins)+1} / {limit}; earlier work and writing remain available')
                 origin_record = {'operation_id': storage_decode(history.commands[-1])['id'] if recording_available else 'unrecorded-comparison', 'cause': cause, 'lineages': lineages,
                     'source_judgments': deepcopy(science['preview']['provenance'].get('source_judgments', [])),
                     'explanation': explanation}
+                if history.schema_version == 14 and recording_available:
+                    from .paper_proposal_work import check_retained_causes
+                    check_retained_causes(history,dict(recorded=[*app.paper._recorded_origins,origin_record],explanations=app.paper._personal_explanations))
             graphs = science['preview']['graphs']
             display.update(effect='Record the displayed selected reasoning in main; retain the alternative and omitted drafts.',
                 changes=science['preview']['amendments'], judgment=recorded['judgment'],
@@ -221,7 +226,7 @@ class PersonalResearch:
                 explanation_topics=explanation_topics(cause, science['preview']) if inherited_ai else [],
                 recording_available=not inherited_ai or explanation['state'] in ('reviewed', 'leave-for-later'),
                 follow_up='Manuscript follow-up remains open. No file is applied; any AI explanation remains unfinished.')
-            if history.schema_version == 5:
+            if history.schema_version in (5, 14):
                 from claimbranch.core.paper_changes import AmendmentLineage
                 known_ai = science['preview']['provenance']['ai_influenced'] or any(
                     AmendmentLineage.restore(canonical_bytes(lineage)).ai_influenced for lineage in lineages)
@@ -229,6 +234,13 @@ class PersonalResearch:
                     origin_uncertain=science['preview']['provenance']['origin_uncertain'],
                     ai_origin_retained=known_ai, origin_review_required=inherited_ai,
                     ai_origin_status='known-ai' if known_ai else 'unknown' if science['preview']['provenance']['origin_uncertain'] else 'no-known-ai')
+                if history.schema_version == 14:
+                    refs=display['imported_sources']
+                    display['source_review_summary']=dict(records=len(refs),
+                        known_ai=sum(bool(reference_origins(r)&{'ai','mixed'}) for r in refs),
+                        unknown_authorship=sum('unknown' in reference_origins(r) for r in refs),
+                        known_and_unknown=sum(bool(reference_origins(r)&{'human','ai','mixed'}) and 'unknown' in reference_origins(r) for r in refs),
+                        review='One current judgment; explanation or deferral applies only to this selected consequence, never all future use.')
             ref = 'main'
             from .paper_service import PaperService
             if node not in {n['id'] for n in PaperService(history).query(ref,episode_id=episode)['nodes']}:

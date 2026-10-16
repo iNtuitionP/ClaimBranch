@@ -101,9 +101,22 @@ def project_workspace(project):
         restore(app, project.work)
     else:
         app.message = 'Press ";" for Add a claim or Draft a result. No evidence or judgment was supplied for you.'
-    if project.work.history.schema_version in (4, 5):
+    if project.work.history.schema_version in (4, 5, 14):
         resources = project.work.history.capacity()["resources"]
         app.message = app.message + " Paper capacity: " + ", ".join("%s %s/%s" % (key,resources[key]["used"],resources[key]["limit"]) for key in ("claims","observations","experiments","edges","episodes")) + ". Close TUI and use project status for complete headroom."
+    if project.work.history.schema_version == 14:
+        from claimbranch.core.argument_import_v2 import unpack_snapshot, preview_import
+        from claimbranch.core.paper_capacity import decode as paper_decode
+        snapshot = paper_decode(project.work.history.seed, purpose='history')['initial_argument']['snapshot']
+        raw_original = unpack_snapshot(snapshot)
+        def original_source(record_id):
+            result = preview_import(raw_original)
+            record = next((r for r in result['records'] if r['id'] == record_id), None)
+            if record is None: return None
+            # Private record/mapping reader; public graph and providers never receive files.
+            return json.dumps(record, ensure_ascii=False, indent=2)
+        app.imported_original_source = original_source
+        app.message = 'Imported original ledgers: source-claimed history and exact table cells; no historical app approval. ' + app.message
     if project.work.history.schema_version == 5:
         from claimbranch.core.argument_import import _original, _at
         from claimbranch.core.paper_capacity import source_bytes, decode as paper_decode
@@ -181,8 +194,13 @@ def setup_preview(args):
                 raise ContractError('Supply --title, --thesis and --question for a noninteractive preview.')
             value = input(prompt + ': ')
         fields[name] = value
-    preview = preview_association(args.paper_root, args.manuscript, args.anchor, args.directory)
-    project = prepare_project(preview, project_id=args.project_id, **fields)
+    label=getattr(args,'label',None)
+    if label and getattr(args,'profile',None)!='paper':raise ContractError('Label connection requires --profile paper')
+    preview = preview_association(args.paper_root, args.manuscript, args.anchor, args.directory,selector=dict(schema='claimbranch.tex-selector/v1',kind='label',value=label) if label else None)
+    if label:
+        from .paper_profile_project import new_paper_project
+        project=new_paper_project(preview,args.project_id,fields['title'],fields['thesis'],fields['question'])
+    else:project = prepare_project(preview, project_id=args.project_id, **fields)
     result = {'kind': 'synthetic-project-preview', **preview.display(),
         'project_id': args.project_id, **fields,
         'initial_episode': decode(project.work.history.commands[-1])['episode_id'],

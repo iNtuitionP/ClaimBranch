@@ -1,0 +1,76 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "contributor": {
+      "enum": [
+        "human",
+        "ai",
+        "mixed",
+        "unknown"
+      ]
+    },
+    "origin_flags": {
+      "additionalProperties": false,
+      "properties": {
+        "ai": {
+          "enum": [
+            false,
+            true
+          ]
+        },
+        "human": {
+          "enum": [
+            false,
+            true
+          ]
+        },
+        "unknown": {
+          "enum": [
+            false,
+            true
+          ]
+        }
+      },
+      "required": [
+        "human",
+        "ai",
+        "unknown"
+      ],
+      "type": "object"
+    },
+    "record_id": {
+      "maxLength": 128,
+      "minLength": 1,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]*$",
+      "type": "string"
+    },
+    "schema": {
+      "const": "claimbranch.imported-source-reference/v2"
+    },
+    "source_digest_scope": {
+      "const": "argument-envelope/v2"
+    },
+    "source_sha256": {
+      "maxLength": 64,
+      "minLength": 64,
+      "pattern": "^[0-9a-f]{64}$",
+      "type": "string"
+    },
+    "unresolved_count": {
+      "maximum": 65536,
+      "minimum": 0,
+      "type": "integer"
+    }
+  },
+  "required": [
+    "record_id",
+    "source_sha256",
+    "contributor",
+    "unresolved_count",
+    "schema",
+    "source_digest_scope",
+    "origin_flags"
+  ],
+  "type": "object"
+}

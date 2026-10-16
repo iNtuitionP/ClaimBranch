@@ -902,6 +902,8 @@ class TerminalWorkspace:
         if imported:
             section('IMPORTED SOURCE / ' + imported['contributor'].upper(),
                 'Source-claimed authorship/date; no prior app approval. ' + (imported['recorded_at'] or 'Original date unknown.'), 'warning')
+            if imported.get('origin_flags'):
+                section('RETAINED SOURCE INFLUENCE', ', '.join(key.upper() for key,present in imported['origin_flags'].items() if present) + '. Authorship uncertainty is retained independently of known contribution.', 'warning')
             section('ORIGINAL MAPPED CONTENT', json.dumps(imported['original_body'], ensure_ascii=False, indent=2))
             unresolved = sum(imported['unresolved_pointer_pages'], [])
             if unresolved:
@@ -931,7 +933,7 @@ class TerminalWorkspace:
             return lines
         if mode == "provenance":
             judgment = self.view.get("judgment")
-            section("RECORDED EPISODE JUDGMENT", "Local episode history is separate from imported source decisions and your unfinished writing." if self.paper.history.schema_version == 5 else "Frozen example history; this is separate from your local node draft.", "muted")
+            section("RECORDED EPISODE JUDGMENT", "Local episode history is separate from imported source decisions and your unfinished writing." if self.paper.history.schema_version in (5, 14) else "Frozen example history; this is separate from your local node draft.", "muted")
             if judgment:
                 for index, entry in enumerate(judgment["history"], 1):
                     section(f"{index} / {entry['contributor'].upper()}", entry["text"])
@@ -939,7 +941,7 @@ class TerminalWorkspace:
                     if entry.get("proposal_id"):
                         section("PROPOSAL", entry["proposal_id"], "accent")
             else:
-                section("No recorded judgment", "Imported decisions remain source history; write your new judgment and review selected reasoning personally." if self.paper.history.schema_version == 5 else "The example has no judgment on this branch.")
+                section("No recorded judgment", "Imported decisions remain source history; write your new judgment and review selected reasoning personally." if self.paper.history.schema_version in (5, 14) else "The example has no judgment on this branch.")
             return lines
         if mode in ("draft", "writing"):
             if len(self.paper.work_nodes(self.full_context(self.work_key()))) > 1:
@@ -965,7 +967,7 @@ class TerminalWorkspace:
                     fromfile="selected-argument", tofile="your-session-draft", lineterm="")))
             return lines
         lines.append((self.node_label(self.selected_id) + " / " + self.kind(self.selected_id), "heading"))
-        if node["kind"] == "observation":
+        if node["kind"] == "observation" and "value" in content:
             lines.append((content["value"] + " " + content["metric"]["unit"] + " · " + content["metric"]["name"], "accent"))
         if content.get("conditions"):
             label = 'Run conditions: ' if node['kind'] == 'observation' else 'Conditions: '

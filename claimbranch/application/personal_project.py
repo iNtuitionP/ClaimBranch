@@ -22,6 +22,10 @@ from .paper_storage_codec import decode as storage_decode
 
 
 EDIT_PERSONAL_MAGIC=b'CBPP\x00\x0b'
+ORIGINAL_PERSONAL_MAGIC=b'CBPP\x00\x0c'
+RETAINED_PERSONAL_MAGIC=b'CBPP\x00\x0d'
+LABEL_PERSONAL_MAGIC=b'CBPP\x00\x0e'
+SHARED_PERSONAL_MAGIC=b'CBPP\x00\x0f'
 
 
 class _PersonalCodec:
@@ -29,6 +33,10 @@ class _PersonalCodec:
 
     def seal(self, raw):
         value = storage_decode(raw)
+        shared = value.get('schema') == 'claimbranch.project-work/v23'
+        labeled = value.get('schema') == 'claimbranch.project-work/v22'
+        retained = value.get('schema') == 'claimbranch.project-work/v21'
+        original = value.get('schema') == 'claimbranch.project-work/v20'
         edited = value.get('schema') == 'claimbranch.project-work/v19'
         metadata = value.get('schema') == 'claimbranch.project-work/v18'
         critique = value.get('schema') == 'claimbranch.project-work/v17'
@@ -38,16 +46,24 @@ class _PersonalCodec:
         wording = value.get('schema') == 'claimbranch.project-work/v13'
         anchored = value.get('schema') == 'claimbranch.project-work/v12'
         imported = value.get('schema') == 'claimbranch.project-work/v11'
-        paper = value.get('schema') in ('claimbranch.project-work/v10', 'claimbranch.project-work/v11', 'claimbranch.project-work/v12','claimbranch.project-work/v13','claimbranch.project-work/v14','claimbranch.project-work/v15','claimbranch.project-work/v16','claimbranch.project-work/v17','claimbranch.project-work/v18','claimbranch.project-work/v19')
+        paper = value.get('schema') in ('claimbranch.project-work/v10', 'claimbranch.project-work/v11', 'claimbranch.project-work/v12','claimbranch.project-work/v13','claimbranch.project-work/v14','claimbranch.project-work/v15','claimbranch.project-work/v16','claimbranch.project-work/v17','claimbranch.project-work/v18','claimbranch.project-work/v19','claimbranch.project-work/v20','claimbranch.project-work/v21','claimbranch.project-work/v22','claimbranch.project-work/v23')
         maximum = PROJECT_BYTES if paper else MAX_BYTES
         if len(raw) > maximum:
             raise ContractError('personal work exceeds its limit')
-        return (EDIT_PERSONAL_MAGIC if edited else METADATA_PERSONAL_MAGIC if metadata else CRITIQUE_PERSONAL_MAGIC if critique else PROTOCOL_PERSONAL_MAGIC if protocol else MEASUREMENT_PERSONAL_MAGIC if measurement else CO_REPORT_PERSONAL_MAGIC if co_report else WORDING_PERSONAL_MAGIC if wording else ANCHOR_PERSONAL_MAGIC if anchored else IMPORT_PERSONAL_MAGIC if imported else PAPER_PERSONAL_MAGIC if paper else PERSONAL_MAGIC) + raw
+        return (SHARED_PERSONAL_MAGIC if shared else LABEL_PERSONAL_MAGIC if labeled else RETAINED_PERSONAL_MAGIC if retained else ORIGINAL_PERSONAL_MAGIC if original else EDIT_PERSONAL_MAGIC if edited else METADATA_PERSONAL_MAGIC if metadata else CRITIQUE_PERSONAL_MAGIC if critique else PROTOCOL_PERSONAL_MAGIC if protocol else MEASUREMENT_PERSONAL_MAGIC if measurement else CO_REPORT_PERSONAL_MAGIC if co_report else WORDING_PERSONAL_MAGIC if wording else ANCHOR_PERSONAL_MAGIC if anchored else IMPORT_PERSONAL_MAGIC if imported else PAPER_PERSONAL_MAGIC if paper else PERSONAL_MAGIC) + raw
 
     def open(self, raw):
         if type(raw) is not bytes:
             raise ContractError('personal checkpoint requires bytes')
-        if raw.startswith(EDIT_PERSONAL_MAGIC):
+        if raw.startswith(SHARED_PERSONAL_MAGIC):
+            maximum, prefix = PROJECT_BYTES, SHARED_PERSONAL_MAGIC
+        elif raw.startswith(LABEL_PERSONAL_MAGIC):
+            maximum, prefix = PROJECT_BYTES, LABEL_PERSONAL_MAGIC
+        elif raw.startswith(RETAINED_PERSONAL_MAGIC):
+            maximum, prefix = PROJECT_BYTES, RETAINED_PERSONAL_MAGIC
+        elif raw.startswith(ORIGINAL_PERSONAL_MAGIC):
+            maximum, prefix = PROJECT_BYTES, ORIGINAL_PERSONAL_MAGIC
+        elif raw.startswith(EDIT_PERSONAL_MAGIC):
             maximum, prefix = PROJECT_BYTES, EDIT_PERSONAL_MAGIC
         elif raw.startswith(METADATA_PERSONAL_MAGIC):
             maximum, prefix = PROJECT_BYTES, METADATA_PERSONAL_MAGIC
@@ -75,7 +91,7 @@ class _PersonalCodec:
             raise ContractError('personal checkpoint exceeds its versioned limit')
         payload = raw[len(prefix):]
         value = storage_decode(payload)
-        expected = {'claimbranch.project-work/v19':EDIT_PERSONAL_MAGIC,'claimbranch.project-work/v10': PAPER_PERSONAL_MAGIC, 'claimbranch.project-work/v11': IMPORT_PERSONAL_MAGIC,'claimbranch.project-work/v12':ANCHOR_PERSONAL_MAGIC,'claimbranch.project-work/v13':WORDING_PERSONAL_MAGIC,'claimbranch.project-work/v14':CO_REPORT_PERSONAL_MAGIC,'claimbranch.project-work/v15':MEASUREMENT_PERSONAL_MAGIC,'claimbranch.project-work/v16':PROTOCOL_PERSONAL_MAGIC,'claimbranch.project-work/v17':CRITIQUE_PERSONAL_MAGIC,'claimbranch.project-work/v18':METADATA_PERSONAL_MAGIC}.get(value.get('schema'), PERSONAL_MAGIC)
+        expected = {'claimbranch.project-work/v23':SHARED_PERSONAL_MAGIC,'claimbranch.project-work/v22':LABEL_PERSONAL_MAGIC,'claimbranch.project-work/v21':RETAINED_PERSONAL_MAGIC,'claimbranch.project-work/v20':ORIGINAL_PERSONAL_MAGIC,'claimbranch.project-work/v19':EDIT_PERSONAL_MAGIC,'claimbranch.project-work/v10': PAPER_PERSONAL_MAGIC, 'claimbranch.project-work/v11': IMPORT_PERSONAL_MAGIC,'claimbranch.project-work/v12':ANCHOR_PERSONAL_MAGIC,'claimbranch.project-work/v13':WORDING_PERSONAL_MAGIC,'claimbranch.project-work/v14':CO_REPORT_PERSONAL_MAGIC,'claimbranch.project-work/v15':MEASUREMENT_PERSONAL_MAGIC,'claimbranch.project-work/v16':PROTOCOL_PERSONAL_MAGIC,'claimbranch.project-work/v17':CRITIQUE_PERSONAL_MAGIC,'claimbranch.project-work/v18':METADATA_PERSONAL_MAGIC}.get(value.get('schema'), PERSONAL_MAGIC)
         if prefix != expected:
             raise ContractError('personal checkpoint frame/profile mismatch')
         return payload
@@ -140,14 +156,27 @@ class PersonalProjectStore(ProjectAssociationStore, PaperWorkStore):
         return self
 
     def load(self):
-        if not self._known_project:
-            self._check_directory()
-            raw = self._read()
-            if raw is None:
-                raise ContractError('personal project is missing; no replacement was created')
-            project = ProjectWork(self._codec.open(raw))
-            self._project, self._known_project = project.project_id, True
-        return super().load()
+        try:
+            if not self._known_project:
+                self._check_directory()
+                raw = self._read()
+                if raw is None:
+                    raise ContractError('personal project is missing; no replacement was created')
+                # Select only a provisional ID. The base constructs and fully
+                # verifies the project once, checking that ID against its read.
+                value=storage_decode(self._codec.open(raw))
+                project_id=value.get('project_id') if type(value) is dict else None
+                identifier(project_id)
+                previous=self._project;self._project=project_id
+                try:project=super().load()
+                except BaseException:
+                    self._project=previous
+                    raise
+                self._known_project=True
+                return project
+            return super().load()
+        except OSError:
+            raise ContractError('work could not be read; original files retained') from None
 
     def backup(self):
         """Only the verified saved workspace, never newer live editor buffers."""

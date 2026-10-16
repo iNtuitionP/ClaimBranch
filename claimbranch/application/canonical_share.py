@@ -37,7 +37,7 @@ def selection(value):
 
 def _catalog(project):
     history = project.work.history
-    if history.schema_version not in (4, 5):
+    if history.schema_version not in (4, 5, 14):
         raise ContractError('Canonical sharing requires a saved paper profile with public ID mappings; legacy work is unchanged.')
     view = history.view('main')
     reviewed_dependencies=set()
@@ -71,9 +71,11 @@ def _catalog(project):
         origins = set()
         raw = original or {}
         for r in raw.get('source_refs', []) + view.get('imported_dependencies', {}).get(key, []):
-            origins.add(r['contributor'])
+            from claimbranch.core.argument_import import reference_origins
+            origins.update(reference_origins(r))
         mark = raw.get('imported_source', {})
         if mark.get('contributor'): origins.add(mark['contributor'])
+        origins.update(key for key, present in mark.get('origin_flags',{}).items() if present)
         if raw.get('origin'): origins.add(raw['origin'])
         # No missing origin becomes human. Conservative current judgment influence
         # is disclosed without exposing retained provider/source payloads.
@@ -105,6 +107,9 @@ def _catalog(project):
         c = fields(obs, ('statement', 'value', 'status')); c['experiment_id'] = public(obs['run_id'])
         c['revision_number'] = len(obs['history'])
         if 'measurement' in obs:
+            # The existing public contract uses null to disclose absent scalar.
+            # Do not manufacture a number or a presentation summary for table-only imports.
+            c.setdefault('value', None)
             table = obs['measurement']
             # Local indices preserve exact table joins without disclosing unmapped
             # user-chosen cell/column/row identifiers or allocating private IDs.
@@ -255,6 +260,12 @@ def _check_known_private(project, value):
     from claimbranch.core.paper_capacity import source_bytes
     saved = decode(project.payload, purpose='project')
     protected = set()
+    if project.work.history.schema_version == 14:
+        from claimbranch.core.argument_import_v2 import unpack_snapshot
+        seed=decode(project.work.history.seed,purpose='history')
+        retained=decode(unpack_snapshot(seed['initial_argument']['snapshot']),purpose='project')
+        for item in retained['files']:
+            protected.add(item['name']);protected.add(item['source']['sha256'])
     view=project.work.history.view('main')
     for run in view['experiments']:
         if run.get('source_ref'): protected.add(run['source_ref'])

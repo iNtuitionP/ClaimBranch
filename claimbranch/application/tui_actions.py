@@ -87,7 +87,7 @@ class ActionsUI:
         ] + ([
             Action('Edit this node title and content', 'graph-edit-node', 'Revise recorded fields and reason; compare exact history before recording. Esc keeps input.', 'PERSONAL HISTORY'),
             Action('Edit a recorded scientific connection', 'graph-edit-edge', 'Choose an incident scientific edge; edit its type, endpoints and rationale with history.', 'PERSONAL HISTORY'),
-            Action('Register extended records together', 'metadata-batch', 'Choose a private extended-record file here; compare graph effects and declared origins, then record the selected batch once.', 'PERSONAL HISTORY', unavailable='' if app.paper.history.schema_version in (4,5) else 'Use a paper-profile personal project.'),
+            Action('Register extended records together', 'metadata-batch', 'Choose a private extended-record file here; compare graph effects and declared origins, then record the selected batch once.', 'PERSONAL HISTORY', unavailable='' if app.paper.history.schema_version in (4, 5, 14) else 'Use a paper-profile personal project.'),
             Action('Record selected reasoning personally', 'personal:reasoning', 'Review chosen claims/relations and reuse this judgment/reason. Record main and retain the alternative; manuscript stays read-only.', 'PERSONAL HISTORY',
                    unavailable=personal_reason or ('' if all(draft.values()) else 'Write your judgment and reason first.')),
             Action('Start the next research question', 'personal:next', 'Preview a new question. Keep earlier evidence, writing, alternatives and unresolved manuscript work.', 'PERSONAL HISTORY', unavailable=branch_reason),

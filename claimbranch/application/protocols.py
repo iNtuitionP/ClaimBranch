@@ -16,7 +16,7 @@ from .paper_work_store import PaperWork
 def prepare_protocol(project,request,*,contribution_origin=None):
     from .paper_service import PaperService
     history=project.work.history
-    if history.schema_version not in (4,5):raise ContractError('Protocols require a personal paper profile')
+    if history.schema_version not in (4, 5, 14):raise ContractError('Protocols require a personal paper profile')
     request=normalize(request,INPUT,profile='paper');view=history.view('main')
     if view['episode_id'] is None:raise ContractError('Open a question before protocol review')
     command=dict(schema_version=10,id='protocol-'+secrets.token_hex(12),project_id=project.project_id,episode_id=view['episode_id'],

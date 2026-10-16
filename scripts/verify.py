@@ -40,6 +40,7 @@ ALPHA_APPLICATION_TARGETS = (
     'application.test_claim_wording',
     'application.test_manuscript_anchors',
     'application.test_argument_import',
+    'application.test_original_ledger', 'application.test_original_registration', 'application.test_origin_retention', 'application.test_label_anchors', 'application.test_migration_journey', 'application.test_shared_audit',
     'application.test_argument_registration',
     'application.test_paper_branch',
     'application.test_paper_candidates',

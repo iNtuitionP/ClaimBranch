@@ -65,7 +65,7 @@ def lint(history):
 
 def prepare_revision(project,kind,payload,*,contribution_origin=None):
     history=project.work.history
-    if history.schema_version not in (4,5):raise ContractError('Wording restrictions require a paper profile.')
+    if history.schema_version not in (4, 5, 14):raise ContractError('Wording restrictions require a paper profile.')
     command=dict(schema_version=7,id='wording-'+secrets.token_hex(12),project_id=project.project_id,
         episode_id=history.view('main')['episode_id'],created_at=datetime.now(timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ'),
         operation_type=kind,expected_heads=dict(history.heads),evidence_watermark=history.watermark,payload=payload)

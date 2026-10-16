@@ -2,7 +2,7 @@
 kind: exec-plan
 status: active
 owners: maintainers
-last_reviewed: 2026-10-15
+last_reviewed: 2026-10-16
 ---
 
 # ExecPlan: ClaimBranch graph contract to live-paper validation
@@ -15,6 +15,12 @@ is now published as alpha.4: all six G01–G06 outcomes are merged and released.
 See [publication evidence](#alpha4-publication-evidence); the next action is user
 feedback on the released graph/authoring workflow. Historical publication and
 migration sections below retain their original scope.
+The latest original-ledger preparation reports and their qualifications are in
+the [Markdown migration follow-up assessment](#markdown-migration-follow-up-assessment);
+this assessment is not a completed real-case migration. The owner-requested
+[original-ledger implementation plan](#original-ledger-migration-implementation-plan)
+has completed all five synthetic implementation outcomes (5/5); see the
+[isolated qualification and remaining real-use checks](#i05-isolated-connected-qualification).
 
 The filename is retained for link stability. The 2026-08-14 scope review
 removed GPU systems mastery and a full v1.0 build as co-equal outcomes. The
@@ -160,6 +166,1387 @@ This plan is complete when:
 
 Passing the retrospective fixture means `foundation validated`, not product
 success. Do not call the product v1.0 before the live-paper gate passes.
+
+## Original-ledger migration implementation plan
+
+Planned 2026-10-15 KST for [A/#13](https://github.com/iNtuitionP/ClaimBranch/issues/13),
+[B/#14](https://github.com/iNtuitionP/ClaimBranch/issues/14),
+[C/#15](https://github.com/iNtuitionP/ClaimBranch/issues/15) and
+[D/#16](https://github.com/iNtuitionP/ClaimBranch/issues/16). This is the next
+five-outcome plan after the completed ten bounded migration outcomes and
+published G01–G06; implementation is **5/5** for the bounded synthetic outcomes. Actual private-paper
+migration/fidelity, user benefit and release are separate and unverified. The [source assessment](#markdown-migration-follow-up-assessment)
+owns reproduced limitations, qualifications and earlier check evidence. The
+private whole-paper import has not run; reported sizes are not verified inputs.
+The owner subsequently authorized implementation. Only checked outcomes below
+are implemented; no private-paper import, provider request, manuscript edit or
+publication is implied.
+
+### Researcher outcome and settled choices
+
+A researcher brings their own Markdown ledgers into the argument workspace,
+checks original passages beside exact values and declared origins, registers
+one selected batch, forms the next judgment once and returns after restarting.
+Existing LaTeX labels identify affected passages without first editing the paper.
+This serves the [human outcome](../../product/product-spec.md#1-product-definition)
+and [original Dream](#0c---dream-state): fit existing research tools, preserve
+scientific lineage and ask the smallest useful review question. It does not
+replace meaningful scientific review with a coverage percentage.
+
+The owner selected B's narrower option on 2026-10-15: **origin defaults, existing
+judgment-scoped grouped review and the 32-consequence retention bottleneck**.
+Do not add a new import-group explanation-deferral record. Import alone creates
+no pending understanding work. AI/unknown influence on a later selected change
+still requires its current explanation choice, with one–three causal topics or
+explicit scoped deferral, and explicit reuse of the person's original reason.
+This is personal conditional work, not protected UnderstandingDebt closure.
+Authorship, confirming actor, source-claimed historical date and local ingestion
+time remain independent. No new product choice is pending for this plan.
+
+[ADR 0023](../../architecture/decisions/0023-personal-argument-import-and-sharing.md)
+still governs one reviewed batch, partial migration with exact originals,
+selected sharing and private critique originals. [ADR 0005](../../architecture/decisions/0005-human-authority-provenance-and-understanding-debt.md)
+still governs proportional review and retained influence. AI is optional and
+proposal-only; the entire journey must work offline. No native-key, Windows,
+provider validation or automatic paper write is introduced.
+
+### Five implementation outcomes and remaining count
+
+| Unit | Researcher-visible completion | Primary paths and dependency | Required evidence before counting done |
+|---|---|---|---|
+| I01 — original-source preparation and preview (A + B input) | Prepare a versioned multi-file import directly from original text/Markdown/LaTeX/JSON and a declarative mapping manifest. Inspect source spans, effective origin and unresolved meaning without writing a project. | `core/argument_import.py`, `core/paper_capacity.py`, import CLI/parser, schema generator; prerequisite for I02/I03. | Exact retained file bytes/digests; unique heading/table-cell selection; bounded deterministic normalization and honest coverage; origins/default conflicts; whole-journey capacity inventory and version audit frozen. |
+| I02 — one reviewed historical table import (A + C) | Register selected claims, experiments, scalar-or-table observations, relations and historical decisions once; inspect the graph, correct one cell, quit/reopen and restore the same saved work. | `core/typed_observations.py`, import replay/service, `application/project_work.py`, personal store/archive/codecs, graph/query/share readers; uses I01. | 54-cell result imported without an invented scalar/fresh evidence confirmation; per-cell mappings, conditions and artifacts retained; all-or-nothing/stale/cancel/retry tests; saved source and table lineage survive return. **First feedback checkpoint.** |
+| I03 — honest origin and proportional later review (B) | See defaults/overrides and AI/unknown influence, reuse one judgment's reason and continue beyond 32 retained review consequences without losing earlier work. | `application/personal_research.py`, proposal/understanding work, private retention/versioned schemas and TUI source/review readers; uses I01/I02. | Mixed default + ten overrides, multiple-source conflicts, >128 dependencies in one review and >32 consecutive retained consequences; old reasons/causes/partial writing survive reopen/backup; no group blanket consent. |
+| I04 — label-based read-only manuscript connection (D) | Start or connect a paper through an existing label, inspect figure/table captions and section spans, and see all explicitly related affected anchors. | `core/marked_text.py`, `application/manuscript_anchors.py`, `project_work._source`, init/registration/refresh commands, lint/impact and source-binding codecs. | Label-only initial setup; section hierarchy boundaries; moved/changed/deleted/duplicate labels; exact file/span freshness and read-only bytes; old markers and saved projects unchanged. |
+| I05 — connected migration qualification (A–D) | From a clean source artifact, prepare, preview/cancel/register, inspect both graph entries, make a later judgment, reopen/restore and explicitly share the selected science. | Integrated fixtures, actual PTY/source-artifact checks, `scripts/verify.py`, build inventory, canonical product/design/validation/workflow docs. | Measured representative workload within frozen bounds, old goldens/formats unchanged, negative/privacy/recovery cases, final actual Opus review and applicable regression. Ready for a separately authorized actual-paper dry-run; no claim of verified private fidelity. |
+
+- [x] I01 — original-source preparation/preview (2026-10-15 KST).
+- [x] I02 — atomic historical scalar-or-table registration and return (2026-10-16 KST).
+- [x] I03 — scoped origin review and bounded causal retention (2026-10-16 KST).
+- [x] I04 — existing-label manuscript connection and return (2026-10-16 KST).
+- [x] I05 — connected synthetic migration/continued judgment/return/share qualification (2026-10-16 KST). Isolated extracted-runtime operations pass55.25–58.33s/60s; see [complete evidence and regression qualifications](#i05-isolated-connected-qualification). Earlier failed runs remain recorded.
+
+Count these five outcomes only; do not add the completed ten migration or six
+graph units to the remaining total. Execute I01 → I02 → I03 → I04 → I05 in
+connected batches when implementation is requested, continuing without a new
+chat for every helper or test. Show the I02 running checkpoint before final
+qualification. Update this ledger after each completed outcome; a schema-only
+change is not an outcome completion.
+
+### I01 contract, locators and preparation
+
+Add a new closed import version while preserving v1 schema, readers and golden
+bytes. Each source file has an opaque ID, declared media/encoding, length,
+SHA-256 and exact original bytes; bundle raw source remains at most 4 MiB.
+The authoritative text locator is a digest-bound half-open UTF-8 byte span.
+Define line indexing, CRLF/LF and Unicode character/byte boundaries explicitly;
+reject split code points, invalid encoding and stale/out-of-range spans.
+JSON pointers remain supported. Markdown heading path plus unique table/row/
+column selectors resolve deterministically to original spans; duplicate headings,
+rows/columns and unsupported table syntax cannot select by guess. Include escaped
+pipes and inline code in parser fixtures. Unsupported syntax stays unresolved
+or requires an explicit span, rather than being silently misparsed.
+
+Coverage distinguishes exact extraction, narrowly normalized exact extraction,
+declared semantic transformation, unmapped and ambiguous source. Versioned
+cell-edge trimming and eligible prose NFC can establish normalized equality;
+show the original and normalized value. Preserve code/math literally by default.
+Rounding, rewritten caveats and changed quantities remain unresolved semantic
+transformations. Compact table/column/row mapping recipes may expand to bounded
+per-cell checks; every measured value, unit, condition and caveat still has an
+inspectable source basis. Separate a closed allowlist of application-derived
+structure (internal IDs/discriminators) from scientific leaves; derived structure
+cannot inflate fidelity counts or bypass status/value/scope mapping. Show selected
+record/dependency coverage separately from omitted source, with bounded diagnostic
+samples and the total error count. Coverage proves only the declared match.
+
+Proposed operator flow: a preparation entry (working name `project prepare-import`)
+reads explicitly selected sources plus a declarative manifest, writes a new private
+review envelope, then the existing `project import-argument --input ... --dry-run`
+previews it. This new preparation command is not available yet; freeze exact flags
+and generated help in I01. The person should not have to base64 originals or write
+a Markdown-to-JSON extractor. Preparation interprets no arbitrary code, AI output,
+Markdown instructions, network links or TeX includes. No recursive discovery or
+symlink/path escape. Read-only source files may be inside the paper's Git tree;
+private envelope/project destinations remain outside Git. Rechecking binds to the
+retained historical snapshot, not automatic synchronization with later ledger edits.
+
+Origins resolve record override → file default → bundle default; absent declarations
+remain unknown, never human. Retain the declaration source and all contributing
+file identities. A deliberate record override may replace a fallback file/bundle authorship label
+for that record; show both declarations so ten genuinely human exceptions to a
+mixed default remain possible. A default is not independently verified AI ancestry.
+A record derived from several sources cannot silently suppress independently
+retained AI/unknown influence through a human default or override. Require an
+explicit joint-source declaration for conflicting applicable sources, disclose
+overrides and preserve per-source influence flags.
+Use a closed distinction. Bundle/file defaults and absent declarations are fallback
+labels, replaceable by an explicit record override. Explicit record-level origin
+assertions on contributing records, prior imported references and existing local
+proposal/contribution chains are retained lineage. In this increment an explicit
+record-level unknown is retained uncertainty, not a fallback silently cleared by
+another source. Keeping these assertions proves recorded lineage, not their truth;
+a later reinterpretation may append a new reviewed assertion but cannot overwrite
+its historical source or silently remove its influence from already recorded work.
+
+A multi-source conflict means differing effective source labels after fallback/
+record overrides. Require an explicit joint-source declaration bound to those
+source IDs/digests. It selects a declared authorship label only for fallback-derived
+inputs; it cannot lower retained AI/unknown lineage. Without it, mark the record
+unresolved and refuse a selected batch requiring that record. A declaration that
+attempts to clear retained flags is invalid. Retain the joint declaration, its
+source and resolved inputs in the new reference version, never choose by file order.
+
+Presentation shows declared authorship separately from retained influence. Compute
+three independent flags: human contribution H, AI contribution A, uncertainty U.
+Effective human contributes H; ai contributes A; mixed contributes H+A; unknown
+contributes U. OR these with the corresponding retained-lineage flags. Display
+mixed when H+A, ai when A without H, unknown when U without A, and human-only
+only when H without A/U and no unresolved conflict. Always show U separately,
+including beside mixed/ai. This avoids relabeling multiple mixed sources as
+wholly AI. No override removes existing AI ancestry. Source declarations remain
+unverified authorship claims, independent of who confirms registration today.
+
+I01/I03 must test human override over an AI file default (both declarations
+inspectable), explicit AI in a second source resisting human relabeling, absent/
+invalid joint declarations refusing publication, mixed+mixed staying mixed,
+AI+unknown retaining both flags, explicit unknown versus absent fallback,
+lineage through later origin edits/reopen/backup, and unchanged v5 reference reads.
+
+Before coding persistence, audit actual seed/command/work/project/frame discriminants
+and dispatch guards, import hashes, source readers, generated schemas, privacy
+projections, backup and source-artifact inventory. Include persisted imported-source
+references and `apply-imported-merge` payloads: the new reference version retains
+resolved origin, declaration source, contributing file IDs and AI/unknown flags;
+v5 references remain readable. After explicit overrides resolve fallback labels,
+aggregate independently retained influence separately: known AI cannot become
+AI-free through a human label, and unknown stays visible. Only all-effective-human
+inputs with no retained AI/unknown ancestry may present as human-only. Preserve
+mixed versus wholly AI claims and the separate unknown
+flag when both occur, rather than flattening them to one misleading label. Select only necessary new
+versions; keep old bytes/limits and refuse unsupported newer writes. New source
+locators/defaults must not quietly change v1 interpretation. Replace v1 leaf,
+pointer-inventory and per-record mapping caps only for the new version with
+frozen finite bounds on compact recipes and their expanded scientific checks;
+keep v1 bounds unchanged.
+
+### I02 atomic registration and whole-journey budgets
+
+Permit a scalar or the existing typed measurement table for historical observations
+in the new import version. Reuse integer/decimal/text/missing-value semantics,
+raw/display units, estimand, stable rows/cells, artifact refs and condition vocabulary.
+Register vocabulary plus tables in the same reviewed selection. Do not coerce
+floating values, synthesize a researcher-supplied scalar or call fresh confirmation
+to simulate historical acceptance. An application-derived caption is presentation,
+not a measured number. Preserve source-claimed status/chronology and present-day
+registration separately. Initialize the reviewed condition vocabulary in the
+imported state; preflight its 32-key limit and the existing 256 KiB/table and
+2,048-cell/table limits. The initial table event must project the evidence/history
+shape used by `_evidence` and cell correction: the first correction names that
+import event as `expected_revision`. Audit all seed `(4,5)` / `==5` feature guards,
+including measurement/anchor dispatch, `ProjectWork`, personal recording and
+`paper_proposal_work.record_provenance`; admit the new seed purpose explicitly
+without bypassing active-episode rules for subsequent new operations. Historical decisions remain source records, not local
+past receipts or automatically active episodes.
+
+Every selected required typed field, endpoint, uniqueness, vocabulary and capacity
+failure refuses the entire selected batch before publication. Declared semantic
+transformations stay visibly unresolved; an explicitly selected supported subset
+may proceed with the rest retained source-only. Unsupported dependent operations
+still refuse. Source/project/selection changes invalidate confirmation. Reuse exact
+`import` confirmation and create-only fresh destination; retries refuse duplicates
+or return the same registration, never append the argument twice. Interruptions
+leave a verified complete project or no usable partially published project.
+
+Audit total retention, not raw bytes alone. Current v1 has 128 mappings/record,
+8,192 original leaves and a 1 MiB pointer inventory; one existing 18×3 table
+has 362 traversed leaves. Current source/history/manifest/project limits are
+4/4/8/16 MiB, and `ProjectWork.create` also applies the 4 MiB `source_record`
+limit to the whole retained import envelope, although dry-run input can be 16 MiB.
+Compact/deduplicate retained sources, locators and mapping recipes in new purpose-bound
+codecs; do not globally raise legacy `source_record` or truncate originals/reasons.
+Preflight the complete prepared input → seed/history → saved work → project →
+checkpoint → archive → restore envelope, including the next correction/reasoning
+headroom. Report each used/limit and predicted serialization failure before save.
+If declared budgets cannot support the frozen fixture, profile/revise the new
+encoding first; any changed product capacity promise is an explicit decision,
+not an automatic limit increase. Initial engineering bounds must be recorded at
+I01 before claiming I02 fits.
+
+Reuse append-only cell corrections, condition filters, graph identity, impact and
+selected canonical-share allowlists. Artifact hashes are declared/unverified unless
+the person explicitly runs the existing file check. Keep exact private originals
+and mappings through restart/backup; default public/provider output must not leak
+raw ledgers, critique identities, private paths or unmapped fields through labels,
+origins, errors or identifiers. This profile gains no new live AI capability.
+
+### I03 review retention without a new blanket deferral
+
+Keep the existing selected-change dependency aggregation and original reason.
+Explain defaults and relevant unknown/AI sources in the source/review reader,
+not a separate confirmation for each imported record. Reviewed/deferred choices
+remain attached to their exact consequence and current science; changed claim
+status, wording or companion still receives fresh review. Earlier source approval
+never asserts understanding or supplies consent for a later change.
+
+Replace the accidental 32-retained-consequence stop only in the new version with
+a finite bound derived from the existing 2,048-command and serialized-byte budgets.
+Select it by the new imported seed version; existing v5 projects retain 32 and
+legacy non-imported projects retain 8 until explicit compatible conversion. The
+40-consequence check therefore uses the new imported project. Account for each
+retained `CAUSE` request/context copy, references and partial writing when deriving
+the byte bound, rather than counting only small disposition labels. Freeze its
+numeric value and refusal diagnostics after the I01 size audit; test
+at least 40 distinct saved unaccepted causal comparisons and the exact new
+boundary, with actual recorded judgments checked separately. Forty merged
+judgments cannot be claimed within the unchanged 32-episode contract. Do not raise
+the separate 32-episode limit, discard old completed explanations or silently
+archive causes to make room. Preserve old-project behavior and explicitly reviewed
+conversion into a fresh destination if needed. Partial explanation text and its
+original basis survive corrections and fresh open without reviving old review.
+
+### I04 bounded label resolution and source freshness
+
+Add a versioned selector alternative to markers: unique literal LaTeX labels in
+supported figure/table environments (caption included), and standard section/
+subsection labels. Section spans end at the next same-or-higher-rank section,
+not the first subsection. Declare supported starred environments, ordinary label
+placement, multiple-label/subfigure handling and comments/verbatim exclusion.
+Unsupported macros/nesting/ambiguity are explicit unresolved states. No TeX
+execution, macro expansion or automatic file inclusion; optional abstract support
+must use the same bounded scanner and cannot delay label/section completion.
+
+Separate stable internal anchor IDs from labels. Retain selector/version, source
+identity/full-file digest and exact resolved span digest. Moving an unchanged
+figure keeps logical identity and span digest (not byte offsets) but surfaces
+changed-file freshness; changed
+captions change the span; missing/duplicate labels become visibly unresolved.
+No silent rebind or restored consent. Maintain current 2 MiB file / 64 KiB span
+bounds and report overflow without truncation; test large sections explicitly.
+Define CRLF and LF label scanning against exact original bytes while preserving
+LF-exact legacy marker behavior. Version association/seed source-binding schemas
+and `_validate_source` / `_source` selector dispatch, retaining internal anchor ID
+separately from labels such as `fig:routes`. Cover initial project association as well as later anchor registration/refresh,
+impact/lint and private save/restore. Existing marker source parsing and protected
+replacement-preview semantics retain their original path; this feature grants no
+manuscript writer. Associations express declared `plots`/`expresses` relations,
+never inferred scientific support from file structure.
+
+### I05 acceptance workload, failure matrix and check cadence
+
+Freeze a deterministic, private-data-free fixture in I01 before tuning budgets:
+40 total claims (one thesis), 100 observations with 18×3 exact measurement cells
+each, 41 completed experiment records, 150 scientific edges, 15 unrun plans and
+84 inert historical decisions: **430 mapped records and 5,400 measurement cells**.
+Use at least four maintained Markdown/text files totaling 1.4 MiB, a mixed origin
+default plus ten overrides and original unresolved grade/caveat/source material.
+These are proposed engineering inputs derived from the report, not measured
+private-paper counts. Inventory IDs are retained references, not invented runs.
+Add about 30 labeled/marked LaTeX anchors and a separate 40-saved-causal-comparison
+sequence; importing 84 past decisions must not create 84 explanation obligations.
+
+Proposed per-operation targets on the named test host: prepare, dry-run and replay
+each ≤30 s; register/open/backup/restore each ≤60 s; peak RSS ≤2 GiB; first graph
+frame ≤20 s. Record host/Python, fixture and source hashes, output sizes, wall time,
+peak RSS and iteration count. These targets are unmeasured; an exceeded bound
+is recorded and profiled, not relabeled a pass or enlarged during the benchmark.
+Use fresh processes for open/backup/restore timings, including retained-input
+revalidation: `ProjectWork.__post_init__` currently reconstructs the import through
+`history_from_import`. Prefer that full verification initially; any cheaper
+digest-bound replacement requires an explicit equivalent-tamper-detection oracle
+and versioned design review. A warm in-process cache cannot satisfy this benchmark.
+Exercise exact configured boundaries separately from the representative workload.
+
+Acceptance includes: same semantic records as honest manual authoring apart from
+explicit historical origin/registration metadata; v1–v3 goldens and existing schemas
+byte-identical; same input deterministic replay; malformed/stale/over-limit input
+leaves no append; duplicates refused; cancel/failed save/interruption preserves
+originals; changed/deleted/ambiguous sources remain honest; corrections preserve
+prior cells; >32 consequences retain causes; two graph entries preserve shared
+identity; private source and critique text absent from selected share/provider
+output; restore reproduces saved history without approval. Verify actual wide/
+narrow PTY review and return, clean-source extraction and packaging inventory
+(including its current 160-member cap) after adding any module/resource.
+
+For each integrated outcome follow **plan review → implementation → result review
+→ actual pinned Opus cross-review → confirmed repairs and affected rechecks**.
+Use focused synthetic checks per increment, docs/whitespace every stopping point,
+then `python3.13 scripts/verify.py --scope alpha --scope harness --temp-root /private/tmp`
+at the connected milestone. Add affected security tests; skipped coverage is
+incomplete. Verify returned Opus model/provider on a fixed public-code/synthetic
+packet, tools/hooks/plugins/MCP/persistence disabled; missing review is reported.
+Run no native GUI/key tests or new provider request for this offline work.
+
+Implementation documentation impact: update product/domain contracts, affected
+validation cases and user/developer commands with their implementing units;
+update generated schemas through their generator and the living UI design only
+where source/review interaction changes. Record significant durable choices in
+a new ADR if the version/retention design introduces one; do not rewrite accepted
+ADRs. This planning-only change updates this ExecPlan and its index links.
+
+Stop the affected dependency and report if required source meaning cannot be
+represented honestly, new bounds still prevent the agreed fixture, source checks
+cannot establish a safe publication, or an unchosen authority/privacy trade-off
+is necessary. Routine parser details or unavailable private data are not blockers
+for synthetic engineering. Do not weaken a semantic gate or enlarge the program
+without a decision. Keep independent authorized work moving. At I05 finish,
+report 5/5 only if engineering checks pass, and separately invite the actual
+researcher to preview their own original files; actual source fidelity, research
+benefit, publication and protected-product readiness remain distinct observations.
+
+### Planning review evidence
+
+Actual first-party `claude-opus-5-5` reviewed a fixed 104,248-byte public
+plan/source packet (SHA-256
+`b6c1067fcb9a45c274392981ea7e6391f1854309beaf1343e4194d85aeda800d`), with
+tools/hooks/plugins/MCP and persistence disabled. Its verdict was changes required.
+Adopted six concrete corrections: persisted origin-reference/command versioning,
+new-seed retention selection and copied-cause byte cost, table-event/vocabulary/
+feature-guard integration, explicit expanded mapping bounds, fresh-process import
+revalidation benchmarks, and selector/association schema plus CRLF/span-digest
+semantics. The proposed reduction to only two Opus reviews is rejected because
+the owner requires one after every implementation outcome. A second actual Opus
+review of a fixed 29,618-byte revised-plan/prior-findings packet (SHA-256
+`f32260ee3dc34460e0a51cb3f80410c4e7177a3dfbf477c6e30ae2562124efb2`) accepts
+those corrections but requests precise multi-source origin classification, conflict
+failure/retention, aggregate presentation and tests. These are now explicit above.
+Its suggested “all inputs carry AI → ai” shortcut is replaced by H/A/U flags:
+several mixed inputs must stay mixed. A final narrow first-party
+`claude-opus-5-5` review of the 7,477-byte origin/prior-findings packet (SHA-256
+`090ed6e56960f13b05ce5c0d23a5f2a6ab4d0ce5627349b601ec1f2fff7faf02`), with
+the same disabled capabilities, returns **PASS for planning** and explicitly
+closes B1–B4, recognizing the corrected mixed-input aggregation. All three runtime
+results identify canonical model `claude-opus-5-5`, provider `firstParty`, and
+`is_error=false`. Final documentation/whitespace scope passes (77 Markdown
+files); no runtime or benchmark success is claimed.
+
+
+### I01 implementation evidence and persistence audit
+
+I01 completed 2026-10-15 KST; 1/5 outcomes complete, four remain. Actual Opus
+findings are corrected and affected checks pass. Public `project prepare-import` now reads a private declarative
+manifest and exact explicit original files, and publishes a new private v2 envelope.
+`project import-argument --dry-run` previews it; v2 saved registration still refuses
+in both CLI and core. Legacy v1 schema/seed/commands remain unchanged. Generated
+v2 envelope/manifest schemas and the [operator reference](../../development/workflow.md#original-ledger-text-preview-v2)
+state implemented bounds and declarations. The shared schema validator now honors
+explicit optional properties while retaining closed field sets; legacy schemas
+still require all their existing fields.
+
+The frozen synthetic workload has 430 records, 5,400 cells, four exact Markdown
+sources totaling 1,468,006 bytes, mixed default and ten human overrides. After
+review corrections its canonical envelope is 8,510,337 bytes (SHA-256
+`251937db12a0b50870e8460b323484aecfe1893fd3b643d85b16fa4a8e143e7a`), with
+38,119 explicit leaf mappings. On macOS 26.5.1 arm64 / Python 3.13.15, one fresh
+process previews it in 1.083 s; `/usr/bin/time -l` reports maximum RSS 189,808,640
+bytes. This passes only the proposed I01 preview time/memory targets, not private
+fidelity, persistent replay, saved-open, backup/restore or later judgment targets.
+Determinism is checked by two previews with literal same-result assertions.
+
+Freeze new input bounds at 32 files / 4 MiB original bytes, 16 MiB envelope,
+32×1,024 mappings per record / 65,536 total, 16 KiB per extraction and 1 KiB
+preview excerpts. JSON source indexes retain depth 16 / 2,048-item collections,
+at most 65,536 leaves / 8 MiB pointer inventory; Markdown indexes at most 131,072
+cells across the bundle. These are new v2 limits; v1 caps are unchanged.
+
+The persistence audit confirms three independent old-format obstacles: the
+whole envelope exceeds the 4 MiB input-source codec; full mapped records alone
+are 6,548,654 bytes and exceed the 4 MiB seed; expanded retained references need
+new command/cause readers. A private lossless encoding spike round-trips all
+8,510,337 exact input bytes through a 451,360-byte level-9 zlib stream. This is
+feasibility evidence, **not a production codec or storage-fit pass**. I02 should
+use a new purpose-bound lossless source representation with explicit raw digest/
+length, bounded decompression (16 MiB), compressed-size limit (4 MiB), no trailing/
+concatenated streams and no restored authority; do not widen legacy source codecs.
+Derive the imported records from that verified source or retain compact references,
+not repeated full mappings in every cause. Keep history/manifest/project caps at
+4/8/16 MiB and measure their complete actual serialization before publication.
+If the chosen representation fails these targets, revise its encoding before
+changing capacity promises. Raw original-file budget remains 4 MiB.
+
+Reserve distinct next-purpose contracts for I02/I03: imported seed v14,
+source-reference v2 / command v14, workspace v16, work v24, project v20 and
+personal/backup frame 12. These are planned, not readable/writable implemented
+formats yet. Seed v14 aligns normal command emission with the new command
+purpose; v6 is already an anchor-command discriminator and must not be silently
+reinterpreted as ordinary imported reasoning. Audit dispatch/seed checks in research schema/history, typed evidence,
+anchors/metadata, source-reference and personal record-provenance handling,
+workspace snapshot/recovery, work/project codecs, personal checkpoint/archive,
+source readers, graph queries and canonical sharing. The source artifact now
+explicitly permits 163 members (the prior 160 plus three runtime modules);
+over-limit rejection and independent extraction remain checked. Add the new test
+module to the explicit alpha dependency set, not only standalone discovery.
+For I03 use a finite target of 128 retained consequences, bounded additionally
+by real serialized bytes and the existing 2,048-command cap. Include copied
+`CAUSE` requests and source references; no automatic pruning or episode-limit
+increase. This engineering target still needs I03's 40-consequence/boundary tests.
+
+Actual first-party `claude-opus-5-5` reviewed an 86,400-byte fixed public-source/
+synthetic-test packet (SHA-256
+`4a56075189407e135cfac8bab753e8a5c202ed130e39c75e2cc035729aa31282`), with
+tools/hooks/plugins/MCP/persistence disabled. It did not pass the first version.
+Confirmed corrections replace repeated Markdown/JSON scans with bounded indexes,
+cache failures, atomically publish prepared output, refuse `.git` case variants/
+hard links and separate source-silent assertions from extraction coverage.
+Scientific endpoints no longer qualify as derived structure. LF, proper fenced
+code, setext headings, per-source declarations and versioned preview digests
+are corrected/tested. The suggestion to blanket-refuse every transformed status
+is not adopted: explicit source-bound semantic mapping remains an unresolved
+source claim under ADR 0023, not automatic scientific validity. Explicitly
+source-silent historical status manufacture is refused. The second fixed 76,359-byte packet (SHA-256
+`5e164c30341aad460d0943c577c5df26334fb55ba0f94adb2a1201454f803dd3`)
+accepts the main corrections but finds two real locator-fidelity faults: comments
+inside code affect fence state, and inline backticks incorrectly protect pipes.
+Both are reproduced/fixed; the primary GFM table specification confirms escaping
+is required even inside code spans. A final 16,602-byte narrow packet (SHA-256
+`f40b5c174c7c8e296a3534633c371f42e5f3ae4b278061dfd91221eb8f0d0102`)
+returns **PASS for the implemented parser fixes**. Its extra table-termination
+counterexample is also reproduced/fixed with an explicit unsupported-continuation
+refusal and regression. All review runtime results identify first-party canonical
+`claude-opus-5-5`, no tool capabilities/persistence and no tool error.
+
+Observed verification: 209 portable contract tests pass (14.679 s); all 20 existing
+argument-registration tests pass (170.452 s); final 47 original-ledger/legacy-import
+tests pass (10.422 s), including 21 new cases, actual PTY cancellation and fresh
+source-artifact preparation/preview. An earlier 66-case combined import/registration/
+source-artifact run passed (227.441 s) before later parser repairs; affected cases
+were rerun rather than presenting that earlier run as final broad coverage.
+Generated schemas, original truth packet, documentation and whitespace checks pass.
+Verification-runner scope passes all 22 harness tests (1.180 s), documentation
+checks all 77 Markdown files and whitespace passes. Final source-root Git-metadata
+and bare-CR guards rerun all 21 new original-ledger tests (6.556 s). No complete
+alpha/native suite or I02
+saved-work/restore success is claimed by these targeted checks.
+
+### I02 implementation evidence and remaining scope
+
+I02 completes 2026-10-16 KST: **2/5 outcomes; I03–I05 remain**. One reviewed v2
+registration now retains selected original records, exact scalar-or-table
+observations and condition vocabulary. It creates source-claimed import events,
+not new experiment confirmations or fabricated past decisions. Public CLI keeps
+exact `import`, current input/source/destination checks and create-only publication.
+Full candidate, graph and checkpoint/archive round-trip preflight precede approval.
+Cancel, interruption, stale input and duplicate destination preserve original work.
+
+[ADR 0024](../../architecture/decisions/0024-bounded-original-ledger-retention.md)
+owns the bounded lossless snapshot and compact source-checked seed. Seed/ordinary
+command14, source-reference2, workspace16, work24, project20 and frame12 are now
+implemented; old generated schemas remain byte-identical. New reference2 records
+freeze envelope digest scope, H/A/U flags and 65,536 unresolved-count capacity
+before I03, avoiding a later incompatible change to command14. Seed5 still emits
+ref1; seed5/command14 and seed14/command5 refuse. I03 still owns compound-origin
+consequence review and retention beyond 32. Known+unknown combined influences
+are retained in seeds/readers but consequential traversal explicitly refuses until
+that integration; no blanket deferral or silent authorship relabeling is added.
+
+The private source reader returns mappings/extractions on demand. Table-only graph
+reading/rendering no longer assumes a scalar. Exact cells support condition queries
+and first append-only correction against the import event. Original cells, notes,
+new reasoning, origins and exact snapshot survive restart/backup/restore. Artifact
+hashes remain declared/unverified. Selected sharing uses the existing nullable
+public scalar field as null when absent; no summary quantity is fabricated.
+Snapshots, mappings and raw filenames/digests are omitted, and known source names/
+hashes are checked against selected prose. Provider context continues to refuse
+imported profiles before transport. Full private export/backup is not public sharing.
+
+Final fixed workload input is unchanged from I01 (8,510,337 bytes; SHA-256
+`251937db12a0b50870e8460b323484aecfe1893fd3b643d85b16fa4a8e143e7a`). Fresh processes
+on macOS 26.5.1 arm64/Python 3.13.15 register it in 13.363 s, open in 11.055 s,
+backup in 9.818 s and restore in 13.393 s; maximum observed RSS 228,851,712 bytes.
+Exact seed/manifest/project are 1,610,771 / 5,464,500 / 1,646,511 bytes (project
+includes random opaque public identities and local file association). Restored
+manifest hash matches. These satisfy the frozen I02 timing/memory targets, not
+scientific fidelity, actual private migration or unfamiliar-user comprehension.
+The benchmark initially miscounted graph nodes by treating edges as nodes; that
+assertion was corrected before these fresh runs, without changing the fixture.
+
+Review/result sequence: initial first-party `claude-opus-5-5` packet 215,023 bytes,
+SHA-256 `c882e4a70ed07c06e643cce38e6994f3de8dfafa848d121f38408587bcd538fb`,
+finds derived cell-column swaps and misleading seed-fit preview. Both are
+reproduced/corrected: derived bindings must match declared column order; source-
+mapped alternatives remain explicitly checked. Preview separates valid extraction
+from seed fit and names capacity failure; full save preflight is separate. Its
+suggestion to prohibit explicit origin-default overrides is rejected as contrary
+to the settled owner-selected policy. The 80,671-byte follow-up packet (SHA-256
+`0cbbbc3e5bd5b6749254be9728650e0b01c283ae6f49c40f0b954da06439ff5b`)
+finds an extra-cell IndexError in the new guard. Bounded diagnostics now catch it;
+missing-thesis refusal is explicit and DATE's fixed 20-character upper bound is
+verified. A final 58,827-byte packet (SHA-256
+`8cf60e3db6d528b96647c5e190be0665cf5421f1ca41278b4a41aff75ce6edda`)
+returns scoped PASS. Reference-format freeze receives another bounded 27,902-byte
+review (SHA-256 `6d4a6d883c6e90183a9ae8a6e48bf419a259770b10de4e07740c4f38918af0d4`):
+scoped PASS conditional on discriminator alignment, 512×128 pointer bound and
+policy/companion reference provenance. Code inspection and focused positive,
+tampered-reference and cross-version tests confirm those conditions. All runtime
+results identify canonical `claude-opus-5-5`, provider `firstParty`, `is_error=false`;
+tools/hooks/plugins/MCP/persistence are disabled. A final result audit also repairs
+a graph-source projection that omitted core H/A/U flags. Seed14 graph marks now
+retain independent flags/digest scope, with a separate TUI influence section;
+legacy marks remain unchanged. An actual 14,888-byte fixed audit packet (SHA-256
+`ca51eddd4aaf38d81f4d870e9aae8e140dc7ec209689ccd64eafad4b00446397`)
+returns scoped PASS for these repairs. Added assertions check legacy key absence,
+compound human/unknown display and digest scope. All-false flags cannot originate
+from a valid source-checked seed. Raw review transcripts are not project documentation.
+
+Verification before the final reference freeze: 209 portable contracts pass
+(17.503 s), 72 existing registration/measurement/sharing tests pass (242.132 s),
+and 34 original-ledger/registration tests pass (23.331 s). Actual wide/narrow PTY
+open/resize/clean-exit and private table/correction return pass. Final reference-freeze affected checks pass 35 cases (24.021 s); subsequent actual
+PTY table registration passes (2.483 s), and the source-reader repair plus artifact
+hash retention passes 36 cases (26.482 s). New checks cover exact ref2 shape and
+tampering, preserved literal ref1 bytes and cross-seed command refusal. Generated
+schemas are current, the original truth packet verifies, and no tracked legacy
+schema changes appear. Docs/whitespace pass all 78 Markdown files and all 22
+harness tests (1.150 s). Final affected tests, including artifact-reference retention,
+legacy graph-key absence, correct episode setup and compound TUI flags, pass all
+36 cases (26.338 s). One added legacy graph assertion initially queried before
+opening an episode; the fixture was corrected rather than weakening that gate.
+
+The completed `python3.13 scripts/verify.py --scope alpha --scope harness --temp-root
+/private/tmp` exits 0: original fixture, generated schemas/resources, 209 portable
+contracts (16.923 s), 1,449 alpha/application cases (1,500.337 s), 22 harness cases
+(1.236 s) and whitespace all pass without skips/expected failures. This broad run
+loaded the earlier I02 integration revision before final ref2/graph-flag repairs;
+the final 36-case affected rerun covers those changed paths. Its late clean-source
+extraction/launch checks use the current runtime. Do not describe this as a second
+whole-alpha run on a final committed head. Final documentation checks 78 files.
+Native/protected, actual private import, I03 retention and I04 label gates remain
+unverified. Large-preview human usability and complete final source qualification
+remain I05; synthetic scripted paging does not prove a person can review it easily.
+
+### I03 implementation evidence and remaining scope
+
+2026-10-16 KST: I03 completed; **3/5 outcomes complete, I04–I05 remain**.
+Plan review keeps one selected merge per episode and 32 episodes. Forty genuine
+merged judgments therefore cannot be a valid fixture without an unchosen domain
+expansion. Test 40+ saved, explicitly unaccepted causal comparisons and actual
+recorded judgments separately. The new retention bound is storage headroom,
+not a 128-merge workflow. This corrects the original test wording without raising
+scientific capacity or inventing accepted operations.
+
+The researcher can now inspect compound known-AI/unknown and human/unknown
+influence in one selected judgment, explicitly reuse its original reason or leave
+explanation for later, and return to original/current science plus partial writing.
+Ref2 H/A/U flags reach branch review, co-report, protocol and selected sharing;
+foreign origins never become fabricated local Contributions. Unknown-only sources
+now expose `1 explain` / `2 later` and an explicit uncertainty line, including on
+legacy seed5. Import approval grants no blanket later review or understanding.
+
+[ADR 0025](../../architecture/decisions/0025-scoped-import-review-retention.md)
+records workspace17/work25/project21/frame13 for seed14: at most 128 unique causes
+across immutable choices/current partial entries, each physical array bounded128,
+all copies consuming unchanged byte budgets. Same-cause copies count once and
+both survive. The 129th refuses with count/limit before publishing; no cause or
+writing is pruned. Existing payload fitting can discard only eligible never-saved
+optional response payloads. Old workspace16/work24/project20/frame12 remains
+readable with old limits; read-only load preserves bytes, saving seed14 advances
+the format. Take a private pre-save backup for older-build rollback. New formats
+refuse mismatched frames/profiles. Seed5 retains32 recorded/64 partial; other
+legacy capacities remain unchanged. Every previously generated schema hash,
+including I02 formats, remains byte-identical; v25/v21 schemas are newly added.
+
+Observed verification on macOS26.5.1 (25F80), arm64, Python3.13.15:
+
+- 209 portable contracts pass (21.413s); 126 affected legacy application tests
+  pass (320.068s). Final affected original-import/origin suite:24 tests pass
+  (71.451s), excluding only the separately exercised slow128-case and actualPTY.
+- The full ordinary keep-writing path stores128 distinct partial causes,
+  checkpoints/restores all writing, leaves science unchanged and refuses129
+  without changing prior writing/checkpoint. Its three-case run passes488.020s;
+  this is cumulative test time, not cold opening latency. Shared-cause accounting,
+  prepare-before-append refusal, oldwork24 overflow, reviewed-reason reuse,
+  correction/partial return and a fresh next review are separately checked.
+- More than128 dependent source records with a mixed default/ten human overrides
+  share one consequence and at most three contextual topics (15.118s). AI and
+  uncertainty persist after personal recording and private backup return.
+- Actual Mac PTY wide→80×24 review, Korean kept judgment, explanation-later,
+  record, save/return and restored shell pass (11.808s). Earlier PTY test failures
+  came from queued input during the deliberate first-paint flush and an incorrect
+  expected message. The fixed test waits for the newly prepared first-page footer
+  before more input; no authority/reading gate is weakened. An earlier missing
+  fake-screen test fixture was also repaired. These are not human IME/SSH tests.
+- Cold-process synthetic128-cause fixture:190,898 project bytes /190,904 checkpoint
+  bytes. Fresh open20.787s, backup21.648s, restore18.724s; project SHA-256 matches
+  `1021c1ecc302b126ad983aa9940513183b3d64f5ef7c3436cb2cae595dc8cb53` in all three.
+  RSS is67,092,480 /68,485,120 /68,304,896 bytes. The named synthetic fixture uses
+  individually valid prepared causes, assembled then fully validated as one saved
+  project; build66.470s is fixture generation, not measured import/registration.
+  It contains one episode,128 partials and **zero recorded merges**. The separate
+  end-to-end128 test above covers normal incremental keeping. These numbers do
+  not claim a combined430-record+128-review workload; I05 retains its own bounds.
+
+Actual first-party `claude-opus-5-5` reviews a fixed159,243-byte public packet
+(SHA-256 `6dfb67e19d134fb3d52e864fe11c5f2661a36c0dfd899f11cc3c3790f304ab27`),
+tools/hooks/plugins/MCP/persistence disabled. Scoped PASS requires explicit
+legacy unknown-authorship rendering; that repair and its regression pass.
+A second actual review of the98,664-byte fixed follow-up packet (SHA-256
+`55e1b5bbdf2a34eb591e41a2b817aa5bd878c16b58308d4971baf7efda9e1316`) returns
+**scoped PASS**, explicitly closing all five prior should-fix items: uncertainty
+row/keys, union-cap diagnostics, no causal eviction, shared/old-limit tests and
+rollback documentation. Runtime identifies canonical model`claude-opus-5-5`,
+provider`firstParty`, `is_error=false`. Its terminal gate was pending in that
+snapshot; the finalized actual PTY pass is reported independently above.
+Nonblocking notes remain: first-save upgrade notice relies on documentation,
+cause count uses the current canonical codec, and the PTY footer barrier is tied
+to its fixed viewport. Cardinality's artificial-row unit test does not establish
+semantic validity; real128-cause checks do. No blocker remains for this increment.
+
+Schema freshness, original truth packet, docs/harness and whitespace checks pass;
+22 harness tests pass1.335s. All six source-artifact tests pass60.645s, including
+reproducible inventory, independent launch, tamper/path refusal and missing-curses
+diagnostics. Complete alpha/source delivery remains an I05
+milestone; this focused result is not a whole-alpha pass, private-source fidelity,
+scientific benefit or release authorization. No live research request, native
+presence, Notion write, commit, push or publication is performed. Next: I04's
+bounded label-based read-only initial connection and anchor refresh/impact, then
+I05's connected regression/source-delivery qualification.
+
+### I04 result review and I05 capacity stop
+
+2026-10-16 KST: I04 completed; **4/5 complete, I05 blocked**. Actual Opus
+findings are reproduced, repaired and checked; final closure review confirms the
+last inline-code finding resolved, with no further scoped scanner finding. Existing literal labels
+now work for initial paper/import association, registered figure/table/section
+uses and personal-source refresh. New command15/work26/project22/frame14 and
+source/association/refresh versions preserve old schema bytes and marker paths.
+[ADR0026](../../architecture/decisions/0026-literal-label-manuscript-associations.md)
+and the [operator reference](../../development/workflow.md#existing-latex-labels-without-manuscript-edits)
+record the exact supported subset and rollback. Label-only public init, real
+Mac PTY80×24 return, refresh/save and private backup pass. The existing personal
+refresh placement probe erroneously selected encrypted-store identity; use a
+placement-only probe while keeping actual open/save exclusivity intact.
+
+Actual Opus first review (138,180bytes, SHA-256
+`881c48bcc42bbb55aa1aa529341a65dfd7feea7d003a15f2ca1ec3b1cd64537b`)
+requires spaced-label duplicate recognition, inert-code masking, end-document
+section boundaries and exact def-token boundaries. Those are reproduced/fixed.
+Its seed5 exclusion follows an overly narrow review prompt, not an owner policy:
+new project22 intentionally supports compatible seed5 alongside4/14 without
+changing old seed/schema/origin capacities. Follow-ups identify spaced literal
+closers and a begin-line slice falsely counting as a new line; exact standalone
+closing and explicit opening-tail handling now refuse these cases. No TeX
+execution or package-rendering validity is claimed. Final12 affected tests pass7.525s (scanner, initial CLI/PTY, registration/refresh,
+kind/span refusal); all40 anchor/source tests pass44.989s before the final
+two-line inline-code repair, whose new12-case run passes. Selected-share
+label/manuscript privacy passes2.950s; initial20 tests pass23.177s, broader association/source suites51 tests
+pass54.102s. A PTY test's incorrect expected uppercase experiment text was fixed
+for the legitimate empty-experiment state. No production reading gate is weakened.
+
+**I05 blocked before publication; do not count5/5 or declare release readiness.**
+The new executable combined workload has430 prior records,5,400 cells,30 label
+anchors and intends40 retained unaccepted comparisons plus one actual scoped
+judgment, followed by clean-artifact cold return/sharing. At the *first comparison preparation (partial #0)*,
+`create-imported-reasoning-branch` triggers manifest serialization refusal:
+**8,570,177 /8,388,608 bytes**. The run fails in107.851s during candidate
+preparation. No personal store exists yet at that point: this proves candidate
+refusal, not an exercised persisted-save rollback. Original source bytes and
+seed remain intact. Forty comparisons, the actual judgment and new
+cold/archive/share assertions are **NOT REACHED**. I02/I03 smaller/separate
+passes are not evidence of this combined capacity. The failing integration test
+stays enabled as the exact reproduction.
+
+Per the owner's material-blocker rule, stop I05 implementation. Do not enlarge
+its frozen8MiB bound, drop anchors/tables, manufacture an aggregate scalar or
+claim partial source fidelity to obtain a pass. The current audit manifest
+materializes full branch views, each repeating imported scientific/source/table
+metadata. Read-only measurement confirms main-only manifest5,552,683bytes;
+the same exact input is8,510,337bytes/SHA-256
+`251937db12a0b50870e8460b323484aecfe1893fd3b643d85b16fa4a8e143e7a`.
+All430 retained record pointers are nonempty. In the refused state, seed is
+1,610,771bytes, commands44,623 and global evidence879,841. Main/alternative views
+are3,017,160/3,017,193bytes; each repeats1,794,733bytes of evidence and999,901bytes
+of imported records. The remaining222,526/222,559bytes are other view fields
+and JSON framing. Unresolved pointers are8,144/view within those other fields;
+per-row pointer pages total7,773/view nested inside the reported row fields, not
+an additional top-level byte cost. This rules out the review's suspected empty-pointer
+fan-out for this fixture and measures the repeated evidence/imported data cost.
+The initial manifest fits; its new comparison does not. Inspect/design a versioned
+lossless shared-reference projection before any optimization. Preserve original seed/source bytes and old manifests;
+a new source-checked encoding must prove equivalent replay/tamper detection and
+fit the frozen workload before resuming. This is an engineering diagnosis and
+recommended next repair, not an implemented encoding or a new capacity promise.
+
+Actual first-party`claude-opus-5-5` reviews the29,312-byte I05 public reproduction/
+analysis packet (SHA-256`82ce3136f44080cf33bb1727a4e2fa89cb04e76318eb57d2b23491fa944af08d`).
+It agrees the stop is justified and requests precise first-comparison/no-store
+wording plus measured byte/pointer diagnostics. These are corrected above;
+synthetic script-generated origins/deferral are not owner research judgments.
+The synthetic failure traceback SHA-256 is
+`360e2db4d93ab8aa8951335549683dde53f4ae9caa20ce19afa860d10b0c5aa3`; no
+raw source or review transcript is copied into docs.
+
+Final I04 review packet is a25,794-byte fixed public scanner/test snapshot
+(SHA-256`d6307a7dc9731065969bb60812d32ee6214db26768c6386e778ca0d9033c840e`); actual model is
+`claude-opus-5-5`, provider`firstParty`, `is_error=false`, with tools/hooks/plugins/
+MCP/persistence disabled throughout. Successive concrete parser findings remain
+recorded as corrected failures, not invented first-pass success. The final inline
+newline guard is checked by both verb/lstinline duplicate regressions; the final
+review explicitly confirms closure without runtime or release claims. Docs/
+harness/whitespace scope passes, including22 harness tests1.501s. All six source-artifact checks pass69.853s, retaining
+163 runtime members, independent extraction/launch and tamper refusal. Existing
+tracked schema files remain unchanged; new15/26/22 schemas are additive.
+
+A final actual first-party`claude-opus-5-5` diagnosis review (1,517-byte fixed
+measured report, SHA-256`232aeee4c2ecba542fa351db72b1a974203515bc04ae21ab667ba06d9d899595`,
+`is_error=false`, same disabled capabilities) confirms diagnostic gaps closed for
+stop purposes and the material stop justified. Its remaining wording corrections
+are applied: explicitly label the view remainder, keep nested pointer counters
+separate from top-level sizes, and describe repeated *per-view* data without an
+unmeasured overlap claim about global evidence events. No code repair is selected.
+
+The broad alpha+harness attempt passes initial docs/truth/schema/resource and
+209 portable contracts, then is deliberately interrupted in its application
+suite after this material blocker is confirmed. It is **incomplete**, not a
+whole-alpha pass; final harness/source-delivery gates are NOT RUN in that attempt.
+Independent affected I04 checks and final docs/whitespace may finish while the
+I05 dependency stays stopped. No live provider, native key, Notion, commit, push
+or publication occurs. Actual private migration/source fidelity remains unrun.
+
+### I05 resumed repair plan: explicit shared audit encoding
+
+2026-10-16 KST: owner requests the next implementation, authorizing repair of the
+reported capacity stop. Remain4/5 until connected qualification passes. Preserve
+the old failure and measurements. No record, scalar, byte limit, source assertion,
+judgment rule or provider permission changes.
+
+Implement opt-in command16 `set-audit-encoding` on seed14 only. The command retains
+old seed/command bytes and all earlier prefix manifests. It changes no scientific
+head or data; its appended history invalidates exact saved-state reviews normally.
+A new versioned audit envelope keeps seed/commands/global events/selected merges,
+while each large (at least1KiB canonical) view field references one shared value
+by SHA-256. All field values are losslessly recoverable. Stored manifest remains
+8MiB; explicit transient expanded JSON is bounded by the existing16MiB project
+codec and per-value NFC/depth/collection limits. Closed wrapper/ref tags avoid
+user-data collisions. Reject missing/unused/duplicate/tampered references,
+noncanonical choices, expanded length/digest mismatch and replay mismatch.
+A checked reader reconstructs the entire original logical audit, then verifies
+it against source-checked seed/command replay; it grants no authority.
+
+Use additive work27/project23/personal+backup frame15 for opted-in seed14; prior
+formats remain byte-identical and reject new commands/frames. New imports may
+select `--shared-audit` inside the ordinary full import preview. Existing work
+uses explicit `project enable-shared-audit --dry-run` then foreground confirmation;
+retain current writing, originals and old causal contexts. No silent conversion
+or background save. Backup-before-conversion remains the older-build rollback.
+Keep shared views as a private full-audit encoding, excluded from public sharing
+and provider context; normal graph/view APIs remain expanded and unchanged.
+
+Validate literal original logical audit equivalence, old-prefix/golden bytes,
+tamper/false-view rejection, deterministic encoding and bounded refusals before
+append. Re-run the frozen430/5400/30-anchor+40-partial+one-scripted-judgment fixture
+through clean-runtime return under the same time/memory/byte targets. Use affected
+checks and actual pinned Opus review for the encoding, then applicable alpha/
+harness and final connected qualification. Further substantive blockers stop the
+affected dependency and are reported; never relabel a reduced fixture a pass.
+
+### I05 shared audit implementation checkpoint
+
+2026-10-16 KST: repair implemented, qualification pending; still4/5.
+[ADR0027](../../architecture/decisions/0027-opt-in-shared-audit-manifests.md)
+records command16/work27/project23/frame15. `pack_shared_audit` keeps all logical
+audit fields, sharing only large per-view values. `expand_shared_audit` predicts
+expanded bytes before repeated materialization, checks canonical references and
+whole expanded bytes/digest. `verify_shared_audit` additionally rebuilds the
+source-checked history and compares its exact encoded audit. Stored bound stays
+8MiB, transient full logical audit stays within the16MiB project codec.
+Old prefixes/goldens/seed/work schemas are unchanged; conversion is explicit.
+
+Eight focused tests pass8.117s: exact logical and old-prefix equality, deterministic
+replay, malformed references, correctly hashed unused values, forged view rejection,
+actual >16MiB predicted expansion refusal, Unicode/literal wrapper keys, old/new
+frame mismatch, actual terminal convert cancel/confirm and import flag confirmation.
+New import's final capacity report uses the converted candidate. Old workspace
+writing is reused without changing scientific context or reviving consent.
+
+Actual first-party`claude-opus-5-5` reviews a fixed54,784-byte public source/test
+packet (SHA-256`9201ce330df7f5df3208bb858103f24b4db895ad3aeaf964a402544a5b03cd0c`),
+tools/hooks/plugins/MCP/persistence disabled. Confirmed repairs: final capacity
+summary previously used the old history, the pool now has an explicit named2048
+bound, operation16/version are pinned together, and test gaps now cover genuine
+unused-ref/expansion limits. Its primary "conversion cannot rescue fixture"
+finding confuses the8.57MiB *new-comparison* state with the5,552,683-byte initial
+main-only state. Reject an unbounded measuring encoder: the initial state fits
+and opt-in happens before comparison; arbitrary oversized initial histories still
+refuse honestly. Distinct registration-preparation/audit-command times are real
+separate local events, not manufactured historical dates. Final confirmation
+already binds SHA-256 of the converted candidate subsequently saved after exact
+input/source/destination rechecks.
+
+The follow-up fixed60,102-byte packet (SHA-256
+`5bd39d328a68e7c4667a40a4d86339600c98c1f12345f9065417bd92b7a05df5`)
+passes codec/replay/version/frame/confirmation scope. Its alleged work27 omission
+of command14 is false: the supplied union contains14 and16. An independent
+work-schema normalisation test proves that inclusion and rejects an unknown
+encoding. The final17,315-byte closure packet (SHA-256
+`3455d793db9ff5ae5d976e41028830bc0735d28f25d5f0c90ef6ca9ab6bbf3c7`)
+elicits an explicit correction of that review finding and scoped PASS. The1024
+event watermark remains the existing paper limit, not a newly raised bound.
+
+A saved-writing regression then finds a real conversion defect: copying the old
+workspace leaves its current session digest bound to the earlier manifest, so
+restoration refuses. Use the standard append-only `_install`/`update_history`
+path before snapshotting. Current session bindings/revisions advance; original
+causes, text, notes, origin and all other persisted fields remain unchanged.
+Eleven affected tests pass15.987s, including exact whole-workspace comparison
+apart from those two current-session fields, subsequent editing on the original
+partial cause, a second backup/return, and actual subprocess dry-run preserving
+every saved file. The initial invocation using the wrong unittest import root
+fails discovery; rerun with the repository's `PYTHONPATH=tests:.` succeeds.
+No runtime check is waived.
+
+Actual first-party`claude-opus-5-5` reviews this repair on8,791 public bytes
+(SHA-256`69945f5a50913851b3f2bdaee5598a6fab11402bf33cea414fa2df4452fab1ff`)
+and confirms the approach, requesting stronger writing/dry-run assertions.
+The15,098-byte follow-up (SHA-256
+`e3f2fae75c6e9b60d0eff5cec3e02bd01cfdd258e36c749c3ab475bacc43acd5`)
+confirms those concerns closed with no concrete remaining scoped defect. Both
+have`is_error=false` and the same disabled capabilities. Historical causes stay
+historical; personal explanation closure is always unavailable by design, so no
+new protected-closure scenario is invented for the test.
+
+The frozen combined journey is running separately, with opt-in appended after
+all30 anchors and before the first comparison; all430 records/5,400 cells and
+original sources remain unchanged. Full alpha+harness is running as the connected
+milestone, not yet a pass. New runtime code uses existing modules, preserving the
+163-member source artifact inventory. Do not close I05 until cold operation and
+applicable regression/actual review evidence exists; the old red result remains
+historical evidence, not erased by the encoding repair.
+
+### I05 capacity repair result and cold-return stop
+
+2026-10-16 KST: **4/5 complete; I05 remains blocked, now by return performance.**
+The explicit shared-audit repair passes the focused codec/conversion/writing
+checks and actual scoped Opus reviews above. The unchanged combined430-record/
+5,400-cell/30-anchor fixture now prepares40 distinct unaccepted causal
+comparisons and saves them together. Its first saved checkpoint is1,745,955bytes,
+SHA-256`20ae2d75ebce10e05dc4448beb3f290598e35e5649a4608223fae27ec29df4b7`.
+These are scripted synthetic comparisons, not40 merges or owner research reasons.
+This crosses the old first-comparison capacity failure; it does not yet prove
+completed whole-paper use. The old flat encoding still refuses that state.
+
+A separate fresh Python3.13.15 process on macOS26.5.1 arm64 reads that exact
+saved checkpoint, constructs `ProjectWork(raw[6:])` and then intends to call
+`project_workspace`. At123s elapsed /121.95s CPU it is still constructing
+`ProjectWork`. Deliberately interrupt it and retain the stack: **observed
+completion latency is greater than123s**, not a completed123s measurement.
+This exceeds the frozen60s open target before the new scripted judgment is
+confirmed. It is a source-checkout pre-judgment diagnostic, not the final clean
+artifact benchmark; no final peak-RSS or archive/restore timing is claimed.
+The diagnostic reads a private copy of this synthetic checkpoint and does not
+write project/manuscript state.
+
+At interruption, `ProjectWork` → `PaperWork` → `validate_workspace` →
+`restore_proposals` → `cause_science` → `_imported_cause_science` →
+`PaperService.preview_changes` → `_project_changes` → `_graph` is building
+source-marked graph nodes and copying original imported observation bodies.
+The restore loop requests a full before/after preview for each distinct retained
+cause. This identifies an active repeated-work path, **not a quantitative
+profile proving the dominant hotspot**. Warm per-cause memoization cannot satisfy
+the cold target. Snapshot/cause data and the full diagnostic remain local;
+the interrupt-stack SHA-256 is recorded after its review below.
+
+Stop the affected implementation as requested for material blockers. The main
+integration run is deliberately interrupted at28m35s after its initial save;
+the broad alpha application process at26m01s is also interrupted. Neither is a
+pass or a completed failing-budget assertion. The new scripted judgment's save,
+final clean-runtime registration/open/backup/restore, graph and selected-share
+checks are **NOT CONFIRMED/NOT REACHED** in that run. Earlier isolated tests do
+not substitute for them. Initial docs/truth/schema/resource and209 contracts
+pass in the broad attempt; application coverage is incomplete. Latest conversion
+repair tests run separately after their code change. Final harness/docs/schema
+checks are independent of that incomplete alpha attempt.
+
+Next bounded repair: profile cold retained-cause restoration using this exact
+workload, separate repeated source validation from derived graph materialization,
+and remove redundant work while preserving every original cause, exact rationale,
+origin, current partial text, source-bound replay and all tamper refusals. Require
+equivalence to the existing full preview/topic/selection results before changing
+validation. Do not open unverified work lazily, trust a persisted cache, weaken
+source checks, increase budgets, prune writing or shrink the fixture. Then rerun
+the same connected cold checks, actual Opus review and applicable regression.
+No extra product choice, live AI request, native key or manuscript edit is needed
+for that diagnosis. Actual private-paper migration/fidelity, benefit and release
+remain unverified; no commit, push or publication occurs.
+
+Actual first-party`claude-opus-5-5` reviews the11,407-byte public-code/synthetic
+diagnosis packet (SHA-256
+`7328a67b36eb46f473416d176234a76fbb96fa3e14d3e8531b3aac207146ce47`),
+`is_error=false`, tools/hooks/plugins/MCP/persistence disabled. It agrees the
+lower-bound latency justifies the stop, confirms the constructor/preview path
+and requires precise incomplete-run language. Its requested exception/count
+details are checked locally: full6,764-byte stack ends in`KeyboardInterrupt`,
+SHA-256`6ba9ed1a47effc4b12938013cb10eb2b5187fbf37afe4b4e3bb2fd5619986a8c`;
+the frozen checkpoint contains40 partial explanations,0 recorded consequences
+and32 commands in work27/project23. There is no measured final latency/RSS.
+
+Treat its further cost hypotheses as hypotheses. In particular, `_prefix` already
+uses a16-entry value-keyed cache and `ResearchHistory` is a frozen value dataclass;
+do not assert that identical prefixes are replayed40 times merely because each
+cause calls `_prefix`. Distinct causes do miss the per-cause cache on a cold load.
+The next profile must count actual cache hits/misses, source validations, graph
+builds and workspace restorations. A single sampled `deepcopy` stack is not
+enough to select an optimization. Keep exact old/full per-cause outputs and
+tamper failures as the equivalence oracle. A separate uncapped or scaled
+diagnostic can be useful if needed; it is not an additional release gate or
+permission to reduce the qualification fixture.
+
+Final independent checks:11 affected audit/conversion tests pass15.987s; schema
+generator `--check` reports current schemas; all previously tracked schema files
+have no diff; docs pass81 files; explicit harness scope passes22 tests1.476s and
+whitespace. The broad attempt's209 contracts pass15.937s, but alpha application
+exits130 after deliberate interruption and is **incomplete**. No whole-alpha,
+final source artifact or connected archive/share pass is claimed for this repair.
+
+### I05 resumed cold-return repair
+
+2026-10-16 KST: owner authorizes the next repair. Keep4/5 until the unchanged
+combined qualification passes. Profile a one-cause diagnostic subset of the exact
+frozen checkpoint before changing code; the reduced subset is not qualification.
+Its instrumented construction takes46.880s/227,495,916 calls: recursive canonical
+normalisation26.934s cumulative;109 schema-version accesses repeatedly decode
+the1.6MiB seed (16.791s cumulative); cause reconstruction17.833s, including
+full preview12.957s. These overlapping cumulative times must not be added.
+
+First remove redundant immutable-byte version decoding through a bounded two-key
+pure cache; canonical seed/source/command validation remains in construction.
+Then reuse a bounded source reader for exact replayed imported histories, allowing
+its existing detached-query cache to serve distinct retained causes sharing the
+same basis. Never cache an approval or trust a persisted projection. Measure the
+full40-cause cold checkpoint after each relevant change, prove full result/topic
+equality and tamper rejection, then run actual Opus review and the original
+combined source/return qualification. No schema, bound or source meaning changes
+are intended. If more work is needed, select it from the next profile.
+
+The first cache-only diagnostic still takes118.094s construction/151.680s return.
+Five-cause phase timing measures15.244s in cause reconstruction, including6.274s
+domain preview and3.145s projection (overlapping cumulative measurements). Extract
+the existing validated domain calculation without changing its public bytes;
+public preview hashes its single encoded payload rather than encoding twice.
+
+A trial traversal-only restoration reaches46.580s construction/50.967s return
+at256,458,752-byte peak RSS. **This is an intermediate diagnostic, not a final
+qualification pass.** Actual first-party`claude-opus-5-5` reviews77,015 public
+bytes (SHA-256`e3c98673db712800c8a662781746b0b92f947cd1f01324800b22a85794a3cd33`),
+`is_error=false`, tools/hooks/plugins/MCP/persistence disabled. It finds that
+the trial omits the full UI-preview byte guard, and that reduced node contents
+would make equality-based impact fields wrong if reused. Reproduce the coverage
+difference by inspection and repair it rather than adopt a policy exception.
+
+Remove the traversal-only graph mode. Validation now computes the **same complete
+graph fields, protocol context, impact, annotation counts and preview value** as
+normal review, borrowing nested content only from its privately owned detached
+domain. All containers mutated by projection are fresh; borrowed graphs never
+escape. `encoded_size` checks exactly the same canonical NFC/key-collision,
+escaping, integer, string, collection, depth and full-preview byte limits without
+allocating the large serialized UI JSON. A call-local identity/depth memo and a
+bounded2048-entry short-string cache avoid repeated counting; nothing persists
+or bypasses source replay. Only detached canonical selection/amendments/provenance/
+topics leave the validation helper. Full UI comparison/consent is still separate.
+This retains both previous resource refusals and source/semantic checks.
+
+The initial exact-size guard diagnostic takes68.162s construction/72.427s return,
+so it is not accepted as a performance pass. Short repeated-key/string accounting
+is then optimized without changing the counted value; final timing is pending.
+Size-oracle tests compare actual encoder lengths for escaping, NFC, Unicode,
+aliases and primitive types and require matching refusal for bad Unicode,
+normalized-key collision, floating/overflow numbers, depth/collection/string and
+whole-byte overflow. Actual cached-prefix validation is compared with full review
+for three scientific edge types, plans and figure/caption uses; co-report and
+companion traversal compare entire graph dictionaries and leave the source view
+unchanged. Changed source/request/owner/judgment/amendments/selection still refuse;
+caller mutation cannot poison a shared result. Decomposed Unicode is covered:
+`digest(cause)` itself canonical-normalizes, so the causal topic binding matches.
+
+The connected430/5400/30-anchor/40-partial test is running, not yet a pass.
+Do not relax frozen budgets, reduce that workload or claim5/5 from the smaller
+diagnostics. No actual private data, provider request, native key or publication
+is introduced.
+
+Further actual first-party`claude-opus-5-5` reviews on73,250bytes/SHA-256
+`1dfba9346f4dfe5320f148ad6fa4830f5d99feb94352bfe331573064043ad8d1`
+and61,753bytes/SHA-256
+`f5985fe46970f1b34328c51694f1880c70c79c22b89897d0b221e6d960309c1f`
+confirm the size counter/borrowing and identify a canonical handoff risk:
+normalised dictionaries must have the same iteration order as public sorted
+JSON. The final owned normalisation tree is recursively sorted and detached from
+the caller; only private read-only payloads share subvalues. Canonical encoder
+oracles compare full bytes with the previous non-memoised normaliser and compare
+ordered JSON against the ordinary decode/encode roundtrip. The same review raises
+store-object cache ownership concerns; **remove that trial optimization entirely**.
+Every file load retains the prior safety checks and fresh project object.
+
+A36,986-byte review/SHA-256
+`095f099c9a669f3b0445a98c0c8f6184780ff4bfbd374558654497ea854cbde2`
+finds the remaining76-byte digest-bearing return boundary. Both imported public
+review and retained-cause validation now enforce it without a second full walk;
+tests exercise the exact limit and its failing band. Source-copy guards still
+apply before the digest. Forking no longer adds an episode `branches` key;
+active/archived/no-owned-map/alias behavior matches eager deepcopy. The actual
+caller resolves the episode before the fork and rejects an empty history first.
+
+The original long setup attempt is interrupted, not passed. Constructive fixture
+assembly now obtains one real owned comparison template and makes40 distinct
+synthetic historical requests/readings/judgments/reasons. Every cause passes the
+same full domain, topic, source and rendered-size validation before saving, and
+all are revalidated in cold extracted runtimes. This changes only test setup;
+all430 source records,5,400 cells,30 anchors,40 retained causes and one new scripted
+personal judgment remain. It claims no40 live UI operations, merges or approvals.
+The exact frozen import envelope is unchanged. An indentation error in this test
+edit is corrected before running; no runtime gate is waived.
+
+The first complete new-judgment register attempt fails at91.087s (331.936s overall),
+then86.463s (266.288s overall). Neither is a pass. The second saved candidate is
+1,745,685bytes/SHA-256
+`956546e3b1377909f8af3a49d02a87cc7b56270a87b795c4725075f673bc421a`.
+Phase diagnosis reads that synthetic candidate separately: constructor67.198s,
+register69.818s and workspace86.777s. Successful pure workspace validation is now
+cached only for work27, with two exact immutable history/workspace-byte keys and
+`None` results. Fresh processes still validate all sources/causes; changed writing,
+selection or history cannot reuse a validation or a session. Cache tests confirm
+a fresh replay, a same-bytes hit, a changed-note miss, malformed-selection refusal
+and no returned owner. This is not a persisted trust or session cache.
+
+Further diagnosis narrows repeated source-table copying/normalisation. Reasoning
+previews share unchanged global evidence/experiments/imported records only inside
+their privately owned input tree; after-phase annotation bounds remain checked.
+Canonical normalisation uses an optional call-local identity/depth memo only in
+the paper encoder; default normalisation is unchanged and all external values
+are detached. Core caches retain at most four exact source/create/record/merge
+prefixes and two private read-only preview bases, avoiding measured eviction.
+Byte/resource/scientific limits stay unchanged. A pre-final basis diagnosis
+reaches49.615s constructor/51.547s register/60.039s workspace: still **not** a
+<=60s pass. Duplicate merge-preview encoding/global copies are then removed under
+the same byte-equivalence oracle. Final67 affected tests pass16.544s, and the
+fixed source snapshot's actual Opus/whole-source/alpha+harness checks are running.
+Earlier broad attempts stopped after their old integrated failure are incomplete;
+their isolated green tests do not count as final qualification.
+
+### I05 cold-return repair result
+
+2026-10-16 KST. **4/5 outcomes complete; I05 remains open.** The performance
+repair changes neither original source/scientific meaning nor storage schemas,
+capacities, explanation choice or approval. Existing manuscript bytes remain
+read-only; no provider request, device key, remote write or publication occurs.
+
+Private canonical computation now shares unchanged global evidence only within
+owned read-only preview trees. Public results remain detached. Full-byte oracle
+checks preserve old canonical encoding, dictionary order, rendered byte limits,
+causal topics, provenance, impact and tamper refusal. Read-only seed14 queries
+may reuse four exact immutable history/scope keys containing encoded bytes;
+returned values are freshly decoded. No approval, session or project owner is
+cached. First personal load validates the typed project once after provisional
+ID selection, retains all filesystem checks and restores the earlier ID if full
+validation fails. Prelude I/O errors retain the existing ContractError guidance.
+Scientific identity inventory reads validated reduced state and resolves the same
+default episode and exact head refs as the former full-view traversal, without
+copying every measurement merely to enumerate IDs. Legacy paths are unchanged.
+
+The fixed workload retains430 source records,5,400 cells,30 anchors,40 distinct
+synthetic unaccepted partial causal comparisons and one new scripted personal
+judgment. The last extracted-source run reaches a cold open of60.701897s,
+peak RSS425,476,096bytes, and fails the unchanged60s bound. The earlier run
+failed backup at61.045628s. Those failures are not rounded into passes. The
+last run's project is1,745,685bytes; all original import input bytes and limits
+remain unchanged. The later episode/head-selection correction has focused
+coverage; a final connected run after it is still required.
+
+Separate checkout diagnosis reached48.581s construction/50.455s register/57.416s
+workspace with703,266,816-byte peak RSS. It is **diagnostic only**: its source
+paper directory no longer exists, and it does not replace the clean-source
+four-operation/replay/share qualification. Some timing runs overlapped broad
+regression; no claim separates contention from intrinsic cost. Next run that
+unchanged workload alone after other verification processes exit before choosing
+another optimization. Preserve <=60s per operation, <=30s scientific replay,
+<=20s graph composition and <=2GiB peak RSS; do not shrink the fixture or waive
+source/cause checks to complete the ledger.
+
+Actual first-party `claude-opus-5-5` reviews the67,332-byte packet/SHA-256
+`4e515fd223fffcd8a4153e33319894792c8dbd3222c7910be6d9dabb6c9dfd8b`
+and36,332-byte closure/SHA-256
+`a54a29d30722c16bbe8d5a6bca4eff1699625aa065765071fa322a7ea7d03778`.
+Both report `is_error=false`, with tools/hooks/plugins/MCP/persistence disabled.
+No definite canonical primitive bug is found. Strengthen alias tests by taking
+source/basis snapshots before operations, bypassing the optimized basis cache in
+the eager reference, mutating public nested source/amendment results and checking
+all rereads. Compare new query results with the old query implementation directly.
+The closure identifies provisional-ID rollback and initial I/O translation;
+both are fixed and exercised with invalid identity mappings and read failures.
+
+A final25,206-byte static review/SHA-256
+`432476147b264ebc405f1227fd2502d921ac5c91ac6e0376ef30d74b606ef51e`
+uses the same actual model/provider/settings and confirms both load fixes.
+Its branch-selection question is resolved by following its proposed exact
+head-ref/default-episode traversal; a regression covers an archived episode with
+a distinct branch map and an unlisted branch. Its uncached-reduce hypothesis is
+not a defect: `_reduce` dispatches seed14 to the bounded cached `_paper_reduce`.
+No reviewer runtime claim substitutes for the failing measured integration.
+
+The pre-selection-fix focused suite passes56 tests in34.953s. After the exact
+episode/head selection repair, all57 affected canonical/causal/read-only/query/
+identity/load/share/import tests pass33.996s. Docs pass81 Markdown files and
+tracked-diff whitespace is clean. Independent explicit harness scope
+passes22 tests in1.557s; schema generator reports current schemas. The broad
+alpha/harness attempt began before the last fixes:209 contracts pass16.515s;
+1,500 application tests finish1963.582s with exactly one failure, cold backup
+61.583080s/60s (peak RSS556,154,880bytes). Its source ZIP inventory/extraction,
+terminal, storage and other application checks pass. Runner exits1 and marks
+harness/whitespace NOT RUN; the independent harness/docs/schema checks above
+remain separate evidence. This is not a final-tree whole-alpha pass. An unchanged
+connected qualification is then started alone after that process exits; result
+pending, with no simultaneous repository test workload.
+Actual private-paper migration, source fidelity, scientific benefit and release
+remain unverified. Stop completion claims at this measured boundary; preserve
+all implementation for the isolated benchmark and required final regression.
+
+### I05 isolated connected qualification
+
+2026-10-16 KST. After the broad regression process exits, the unchanged connected
+journey passes alone in387.127s from a fresh extracted source runtime. It retains
+all430 records/5,400 cells/30 anchors/40 synthetic unaccepted partial causal
+comparisons and one new scripted personal judgment. The original v2 import
+input is unchanged. Each operation uses its own fresh interpreter; no persisted
+cache, approval or scientific validation bypass is introduced.
+
+| Operation | Seconds | Peak RSS bytes | Bound |
+|---|---:|---:|---|
+| Register saved project | 55.247108 | 528,154,624 | <=60s /2GiB |
+| Open | 55.414823 | 513,835,008 | <=60s /2GiB |
+| Backup | 58.326982 | 499,367,936 | <=60s /2GiB |
+| Restore into new folder | 56.745493 | 509,837,312 | <=60s /2GiB |
+| Scientific replay | 3.157771 | 192,036,864 | <=30s /2GiB |
+
+All four returned project payloads are1,745,685bytes/SHA-256
+`32e1ae0659668f89556c2e6f0c3f3ee936c692c9c608925edb24f438d77f8e60`;
+all four manifests and cold replay match SHA-256
+`ebe9b386b88552a0346651e3828bb5adfde9a90ca58f2cee2b51c961f121638e`.
+The same test passes exact old-view identity-inventory comparison, both graph
+entry compositions within20s,100 globally shared observations, selected-share
+verification/privacy exclusions and unchanged manuscript bytes. Timings are
+marginal rather than generous; earlier concurrent failures remain failed runs,
+not erased or relabelled. The measurement does not establish unlimited paper fit.
+
+Actual first-party `claude-opus-5-5` reviews the9,685-byte result/code packet,
+SHA-256`2bf6ba1031f180bf7a1943ff425f20437ba341600a51e54b1d87dd043c0d8861`,
+`is_error=false`, tools/hooks/plugins/MCP/persistence disabled. It confirms load
+fixes and the evidence wording, while asking whether full views use a different
+episode/metadata source. Check the actual `_view` and public wrapper: they use
+exactly `_episode_branches` and whole-state maps/events; there is no per-head
+metadata filter. Add its missing-ref guard using the same `ContractError('unknown
+reasoning ref')` as `_view`, and test refusal. This last change affects only the
+malformed-ref path; the valid measured workload and its code path are unchanged.
+The mock regression is scoped to supplied refs/default-episode selection, not
+proof that an arbitrary divergent map is a constructible real history. The
+unmocked representative equality above remains the positive integration oracle.
+
+Applicable regression evidence is composed, not a new all-green runner result:
+209 contracts and1499 other application checks pass in the earlier broad run;
+its one failed connected timing case passes in the isolated rerun above. Final
+affected checks, independent22-test harness, docs81/schema/whitespace checks and
+actual static review cover the later repairs. No new complete alpha invocation
+on the final snapshot is claimed. Keep this limitation with the qualification;
+publishing requires a separately authorized delivery action and its checks.
+
+Final guard checks pass57 tests in33.386s. Actual first-party
+`claude-opus-5-5` reviews16,447 public-code/result bytes, SHA-256
+`b6909b0fdb5f969a7b3d7f201f947e42c4c9f02c2b982cc3f85b2b2560367f0e`,
+`is_error=false`, same tools/hooks/plugins/MCP/persistence-disabled settings.
+It closes the conditional branch/map/dispatch/load questions and finds no concrete
+unresolved correctness defect. Check its final skipped-view-bound hypothesis
+locally: every `ResearchHistory.__post_init__` calls `self.manifest()`;
+`_manifest_value` renders every current branch via `_view`, including source-view
+byte checks and protocol digests before an identity inventory is possible.
+`_evidence` uses exactly event target IDs and retains each measurement event;
+validated amendment maps retain the same record IDs as their keys. The faster
+inventory therefore removes repeated rendering after those checks, not the
+checks themselves. No new full integration is claimed after the malformed-ref
+error-only guard. **I01–I05 synthetic outcomes are complete (5/5).**
+
+Actual private whole-paper dry-run, original-source scientific fidelity, real
+researcher benefit and release remain unrun. The next user outcome is to preview
+the actual anonymized import and inspect uncovered/changed fields, not build more
+synthetic capacity or return to device-key work. No additional AI send, native
+presence or manuscript editing is necessary for that local preview.
+
+### Alpha.5 publication order
+
+2026-10-16 KST: owner explicitly authorizes merge and distribution so they can
+run the actual-paper dry-run from the downloaded build. Publish
+`v0.1.0-alpha.5` as an experimental prerelease, preserving all private-source,
+scientific-benefit, provider and protected-authority qualifications above.
+
+1. Snapshot the89 reviewed implementation/document/schema/test paths into
+   `codex/original-ledger-alpha5` from current main; exclude the independent
+   promotional demo, its ignore changes and its development-index link.
+2. Validate documentation/schema/resources, build a create-only reproducible
+   runtime ZIP and execute the independent extracted-artifact checker. Run the
+   existing PR CI, retaining any failures and repairing concrete regressions.
+3. Merge the reviewed PR after applicable checks, target the release tag at that
+   main commit and upload the exact checked ZIP with its SHA-256 sidecar.
+4. Verify the published tag/asset digests and give the owner the private
+   preparation/import dry-run commands. This action does not run their private
+   migration, send research to AI or require native keys.
+
+Publication/remote CI/asset confirmation is pending at this initial preparation
+checkpoint. The original dirty checkout and unrelated demo work are preserved.
+
+## Markdown migration follow-up assessment
+
+2026-10-15 KST, after alpha.4 publication. The owner supplies four anonymized
+preparation reports (A–D) and authorizes GitHub issue creation plus a #10 tracker
+comment. This is source/schema assessment with owned synthetic probes, not an
+actual private-paper dry-run, source-fidelity verification, completed migration,
+or authorization to implement the proposed policies. Reported ~1.4 MiB of text
+and 300–400 records are the reporter's current preparation estimates, distinct
+from the earlier ~570 KiB corpus described in #10. No private files are read.
+The reported PR/release attribution is clarified: #11 supplies migration in
+alpha.3; #12 supplies graph folding/direct editing in alpha.4.
+
+### Findings and issue disposition
+
+| Report | Source-confirmed status | Recommended direction; not implemented |
+|---|---|---|
+| [A / #13](https://github.com/iNtuitionP/ClaimBranch/issues/13) — text/Markdown sources | `core/argument_import.py::_original` calls `json.loads`; `_at` admits JSON pointers only. Coverage adds only unchanged mapped source leaves. Raw Markdown is rejected. Extractor JSON can be identity-covered against itself, so "every extraction is unresolved" is not universally true; the missing guarantee is fidelity to the original maintained ledger. | Versioned multi-file import with exact original bytes/digests, bounded text spans and ambiguity-refusing Markdown locators. Separate extraction fidelity from semantic/scientific completeness. |
+| [B / #14](https://github.com/iNtuitionP/ClaimBranch/issues/14) — origin burden | Every record must declare origin. No source/file defaults or import-group acknowledgement exist. However import alone creates zero commands/pending items, unknown influence cannot choose `not-required`, and one existing regression carries >128 imported source refs through one reasoning review and one explanation consequence. Hundreds of automatic per-record debts are not current behavior. | Prioritize explicit origin defaults/overrides and clearer existing per-change aggregation. Treat recurring review burden as a real-use hypothesis; a new source-group deferral policy requires a separate decision and must not become blanket permission for future changes. |
+| [C / #15](https://github.com/iNtuitionP/ClaimBranch/issues/15) — table-first import | v1 observation has no measurement field and active observations with null scalar are refused. Typed observations already have a fresh table-confirmation path; the missing capability is historical table import in the same reviewed batch. | Reuse the exact typed table/condition/artifact contract through a versioned scalar-or-table import, with cell mapping, source-claimed historical status and no invented scalar or local confirmation. |
+| [D / #16](https://github.com/iNtuitionP/ClaimBranch/issues/16) — existing LaTeX selectors | `marked_block` requires exact LF marker pairs, and anchor `read_binding` calls it. A label-only figure fails. Manual marker setup is friction, not an app write or literal violation of the no-write promise. | Add bounded, read-only selector alternatives with stable logical IDs, explicit file/span hashes and unsupported/ambiguous states. Preserve marker compatibility and current source-review invalidation. |
+
+The [tracker comment](https://github.com/iNtuitionP/ClaimBranch/issues/10#issuecomment-6189082903) connects all four. The public issues preserve the reporter's assessment and attach these
+qualifications; titles/priorities remain reporter proposals, not proven outage
+severity. #10's old checklist remains open until actual real-case results and
+its acceptance conditions are reconciled. Do not relabel all four reports
+runtime-reproduced defects or reopen the ten already delivered migration units.
+
+### Philosophy and authority alignment
+
+The [product outcome](../../product/product-spec.md#1-product-definition) is a
+researcher who can form a judgment once, inspect its basis and return without
+maintaining a second narrative. [ADR 0023](../../architecture/decisions/0023-personal-argument-import-and-sharing.md)
+explicitly selects one reviewed batch, original-source retention and partial
+migration; it rejects per-item reconfirmation and invented human authorship.
+A and C repair important composition gaps between that goal and the currently
+separate import/measurement paths. D reduces setup work in the person's existing
+editor. B's origin default proposal supports honest disclosure, while
+[ADR 0005](../../architecture/decisions/0005-human-authority-provenance-and-understanding-debt.md)
+requires contribution, authorization and understanding to stay independent and
+review effort to follow actual impact. AI involvement alone is not a reason for
+hundreds of repeated narratives, nor is past human approval proof of authorship
+or present understanding.
+
+Recommended import-preview states are exact extraction, normalized exact
+extraction, declared semantic transformation, unmapped and ambiguous/unresolved.
+Names remain proposals. "Covered" must identify what is matched; it cannot mean
+that the science, parser or all source meaning is verified. Keep the original
+bytes, locator, transformation/normalization version, target value and effective
+origin inspectable. Rounding, rewritten caveats or changed numbers cannot become
+covered through broad whitespace/numeric normalization. Already declared
+semantic transformations remain unresolved; required invalid typed records refuse
+the batch. Selecting a supported subset does not silently erase the rest.
+
+A versioned source model should use opaque file IDs plus immutable byte digests
+and explicit spans; line/heading/row/column locators are human-readable selection
+helpers resolved against those exact bytes. Define LF/CRLF, UTF-8 and byte versus
+character offsets; duplicate headings or rows must not choose a match by guess.
+Preserve math/code spans verbatim by default. Use narrow, versioned normalization
+(for example cell-edge trimming/NFC for eligible prose), retain
+the exact source before it, and expose differences. Avoid executing Markdown,
+LaTeX or source instructions. Do not follow paths/includes or transmit the new
+raw-source bundle implicitly; existing critique/share/provider exclusions remain.
+
+Source/file origin defaults should be explicit, with per-record overrides and
+visible effective values; absent authorship never defaults to human. Retain
+which declaration supplied the effective label. Human confirming actor, date and
+content origin remain separate. If a new group deferral is selected, bind its
+exact member IDs, source/revision hashes, reason and deferred disposition, with
+membership/version changes surfaced. It cannot claim explanation completion,
+close protected UnderstandingDebt or authorize future claim/status/wording/
+companion changes. Those still require a current consequence-scoped review;
+reuse the original human reason and show relevant earlier deferral, instead of
+N repeated explanations. A separate existing hard bound is 32 retained origin/explanation consequences
+per schema-5 workspace, including reviewed and deferred choices. The 84 source
+historical decisions do not automatically consume that capacity. Future actual
+new-change counts must be measured; this bound is not a per-imported-record quiz.
+The current personal alpha's conditional work is not
+protected accepted debt. Do not weaken existing review on the strength of an
+unrun 300-record workflow.
+
+Table-first import must include condition declarations, exact value strings,
+units/estimand, row/cell identity and declared artifact refs in the same exact
+preview and atomic publication. Imported historical observations remain source
+claims; do not create fresh local confirmations or fabricate registration dates.
+Keep append-only per-cell correction, invalidation, graph/query, canonical-share,
+save/reopen and private backup semantics. Artifact hash retention does not prove
+that the file was opened or scientifically verified. If a genuine original scalar exists, importing it before a later table
+transformation is legitimate but still two steps. Without one, do not invent it.
+A deliberate present-day typed confirmation is a new human action, not imported
+historical app approval. A human-readable table caption is presentation metadata,
+not an invented measured scalar.
+
+For D, first propose literal unique labels within supported figure/table
+structures, including caption bytes. Keep arbitrary markers. A bounded scanner
+must exclude comments/verbatim, reject duplicates/unsupported macros and nesting,
+and never execute TeX or implicitly expand includes. Separate source selector
+from stable internal anchor identity. Moving an unchanged environment may keep
+its identity/span digest while marking file freshness changed; it cannot silently
+refresh a past source binding or consent. Deleted labels become unresolved;
+caption changes alter the span digest. Existing limits are 64 KiB per resolved
+block and up to 2 MiB for the explicit anchor file; section selectors must audit
+these bounds and refuse overflow, never truncate. Explain multiple labels and
+subfigure boundaries without rejecting normal labels after captions. Define section boundaries by same-or-higher
+section rank before adding that selector; "next command" otherwise truncates a
+section at its first subsection. Initial project association is marker-bound too,
+so later anchor registration alone does not solve label-only onboarding.
+
+### Coupled budgets, sequencing and evidence
+
+The retained-source 4 MiB, seeded-history 4 MiB, manifest 8 MiB and project
+16 MiB caps are distinct. The seed includes selected bodies, origins, mappings
+and unresolved-pointer inventory; it is not merely the 1.4 MiB raw ledger.
+The reported ~40 claims fit the 64-total-claim budget (one thesis plus up to 63
+other claims); the cross-review's hypothetical >63 claim-table rows are not a
+measured blocker in this case.
+Current v1 also has 128 mappings per record, 8,192 original source leaves and
+1 MiB pointer inventory. The existing synthetic 18-row × 3-column table contains
+54 cells and 362 leaves under the current mapping traversal. Thus one such
+full-table mapping exceeds 128, and 100 tables contain 36,200 leaves before
+other records. These are owned synthetic counts, not measurements of the private
+paper. Merely adding fields or retaining 1.4 MiB of Markdown does not establish
+that the envelope, seeded science, saved project and backup fit. Budget compact
+source locators, mappings/cells and replay explicitly; fail before publication,
+never truncate source/origin. Do not turn this assessment into an unbounded
+importer or universal Markdown/LaTeX ontology.
+
+Recommended next implementation order, subject to an actual plan request:
+A and C as one complete original-ledger-to-typed-graph journey; B's input-origin
+defaults alongside the source manifest, while measuring the existing grouped
+review before selecting new group-deferral policy; D's bounded label resolver
+and label-only project setup next. Confirm a minimal anonymized source fixture
+and distinguish completed experiment records from inventory IDs. Preserve the
+published alpha/old format bytes and use explicit new schema versions. Test
+preview/cancel/errors/selection, atomic registration, correction, source drift,
+restart/backup and sharing rather than only schema acceptance. No native-key,
+Windows participation, provider request or manuscript write is a prerequisite.
+
+Observed checks: read-only synthetic probes reject raw Markdown, omitted origin,
+null active scalar, an unknown measurement field and a label-only figure. An
+imported synthetic seed has zero commands and zero pending work. Three affected
+existing tests pass (0.375 s); the >128-source one-consequence registration/
+backup regression passes (11.896 s). The zero-pending-work check is a direct synthetic API probe using
+`history_from_import` and `PaperService.pending_work`, not a claim inferred from
+an unavailable service implementation. No real-case counts, performance of the
+future formats or proposed 300-record acceptance is claimed. Runtime/schema
+files are unchanged; documentation impact is execution assessment/index navigation,
+not a new accepted product contract. Actual first-party `claude-opus-5-5` assessment used a fixed 100,972-byte public
+source/anonymized-report packet (SHA-256
+`8ecb9b6a519532913665f225a16e884d3290908f2d94bd7c122f5fcc1c124d82`), tools,
+hooks/plugins/MCP and persistence disabled. It requested corrections, not a clean
+pass. Adopted corrections include closure-specific coverage/container limits,
+the 32-consequence cap, explicit condition/table budgets and derived captions,
+section-span bounds, and preserving existing freshness states. The suggested
+claim-capacity escalation is not adopted: the reported ~40 claims fit. Its
+initial-association concern is checked directly in `project_work._source`, which
+calls marker validation for both supported file-size modes. No existing policy
+is relaxed based on that review.
+
 
 ## Foldable two-entry graph implementation plan
 
@@ -632,6 +2019,64 @@ required from the owner. This planning task makes no commit, provider inference
 on research data, implementation or publication claim.
 
 ## Progress
+
+- [x] 2026-10-16 KST — Complete I05 bounded synthetic connected qualification:
+  clean source registration/open/backup/restore55.25–58.33s, deterministic cold
+  replay3.16s, both graph entries, selected sharing and original writing/source
+  retention pass. Final57 affected tests, independent22-test harness/docs/schema
+  and actual pinned Opus closure pass. Earlier broad run has1499/1500 application
+  passes plus one timing failure; that case passes alone, with no new complete
+  final-alpha run claimed. **5/5 synthetic outcomes complete; actual private-paper
+  dry-run/fidelity/benefit and release remain unverified.** See
+  [isolated final evidence](#i05-isolated-connected-qualification).
+
+- [ ] 2026-10-16 KST — I05 shared-audit repair passes scoped checks/Opus and saves
+  all40 partial comparisons. Fresh return is still incomplete at123s, exceeding
+  the60s target. Stop the affected implementation; combined alpha qualification
+  is interrupted/incomplete. **4/5; one outcome remains.** See
+  [capacity repair and current stop](#i05-capacity-repair-result-and-cold-return-stop).
+
+- [x] 2026-10-16 KST — I04 completes read-only existing-label initial connection,
+  explicit span uses, personal refresh and private return. Final scoped Opus
+  finding is repaired and12 affected tests pass. **4/5 complete; I05 blocked** by
+  the measured first-comparison audit size. See
+  [connected result review](#i04-result-review-and-i05-capacity-stop).
+
+- [ ] 2026-10-16 KST — I05 combined migration reaches a material manifest-capacity
+  blocker before a new judgment can be prepared (8,570,177 /8,388,608bytes).
+  Stop the affected implementation; preserve the failing fixture and original
+  bounds. See [I04 checks and I05 stop](#i04-result-review-and-i05-capacity-stop).
+
+- [x] 2026-10-16 KST — Complete I03 scoped origin review, independent AI/unknown
+  propagation and bounded lossless causal retention. Actual Opus repairs/review,
+  affected tests, cold return and actual terminal pass. **3/5 complete; I04–I05
+  remain.** See [I03 evidence](#i03-implementation-evidence-and-remaining-scope).
+
+- [x] 2026-10-16 KST — Complete I02 reviewed original-ledger scalar/table import,
+  append-only cell correction and source/writing/graph private return. Actual Opus
+  findings are reproduced/fixed and scoped follow-up passes. Two of five current
+  outcomes complete; I03–I05 remain. See
+  [I02 evidence and remaining scope](#i02-implementation-evidence-and-remaining-scope).
+
+- [x] 2026-10-15 KST — Complete I01 original-ledger preparation/preview, versioned
+  schemas, exact-source locators, origins and bounded workload. Actual Opus
+  findings are reproduced/corrected and final focused review/checks pass.
+  I02–I05 remain unimplemented; v2 registration refuses rather than using v1.
+  See [I01 evidence and format audit](#i01-implementation-evidence-and-persistence-audit).
+
+- [x] 2026-10-15 KST — Draft the five-outcome original-ledger follow-up plan
+  for #13–#16. Owner selects source defaults, existing grouped review and
+  retention improvement for B; no new import-group deferral. Runtime 0/5;
+  actual pinned Opus findings are addressed, final focused review passes for
+  planning, and docs/whitespace scope passes. See the
+  [current implementation order](#original-ledger-migration-implementation-plan).
+
+- [x] 2026-10-15 KST — Assess and file original-ledger feedback A–D as #13–#16,
+  link them in #10, and distinguish confirmed format/locator gaps from the
+  unrun real-case workflow and corrected origin-obligation assumptions. See
+  [assessment and evidence](#markdown-migration-follow-up-assessment). Owned
+  probes/four affected tests and actual Opus cross-review inform recommendations;
+  no runtime/schema or accepted policy changes are made.
 
 - [x] 2026-10-15 KST — Merge G01–G06 through PR #12 and publish
   `v0.1.0-alpha.4` with source ZIP/checksum after clean final Ubuntu/macOS CI.
@@ -5045,6 +6490,29 @@ The executable milestone names used throughout this plan are:
 
 ## Surprises & Discoveries
 
+- 2026-10-16: The combined430-record/30-anchor workload cannot yet form its first
+  new reasoning branch: duplicated audit views exceed the8MiB manifest bound.
+  Separate import/retention checks missed this connected limit. I05 remains red;
+  do not substitute reduced data or an enlarged bound for the agreed workload.
+
+- 2026-10-16: Review controls were gated only by known AI, leaving unknown-only
+  consequences unable to choose explanation/later. Reproduced and corrected in
+  I03, with legacy source warning, focused tests and actual terminal return.
+  The forty-merge test wording also conflicts with32 episodes; retain the domain
+  limit and distinguish unaccepted saved comparisons from actual recorded merges.
+
+- 2026-10-15: Table-only import exposed scalar assumptions in terminal readers
+  and public sharing. Preserve absence in private science and use explicit null
+  only for the existing nullable public contract; never invent a measured summary.
+  Review also finds derived-column swaps and an extra-cell diagnostic crash;
+  both are reproduced/fixed in I02.
+
+- 2026-10-15: Original-ledger planning confirms that import preview acceptance
+  alone does not prove durable fit: `ProjectWork.create` retains the full import
+  through a 4 MiB source codec, and reopening reconstructs the import. The
+  [new plan](#original-ledger-migration-implementation-plan) audits expanded table
+  mappings, full saved envelopes, copied review causes and cold revalidation.
+
 - 2026-10-15: Maximum-paper routing initially exceeded the declared 20 s bound.
   Per-axis overlap integration preserves route scores while reducing expanded
   frames to about 0.33 s; cold episode-scoped folded review is about 3.51 s.
@@ -6074,6 +7542,36 @@ The executable milestone names used throughout this plan are:
 
 ## Decision Log
 
+- 2026-10-16 KST — I04 adds source2/command15/work26/project22/frame14 under
+  ADR0026, preserving old marker/protected contracts. Stop I05 on the measured
+  combined8MiB manifest failure rather than alter its bound/data. A later repair
+  must first establish a versioned lossless shared-reference design and equivalent
+  source/replay/tamper checks; no repair or capacity expansion is selected here.
+
+- 2026-10-16 KST — Retain128 unique seed14 causal contexts with separate immutable
+  choices/current writing and unchanged byte/episode limits, in new formats under
+  ADR0025. Preserve known/unknown flags through one current grouped review; no
+  import-wide deferral. Preserve old formats/limits and document pre-save backup
+  for rollback rather than silently widening their schemas.
+
+- 2026-10-15 KST — Implement the source-checked compact seed and bounded lossless
+  input design under ADR 0024 without widening legacy codecs. Freeze reference2
+  in new command14 now; I03 retains compound-origin review and 128-consequence
+  integration. Existing defaults remain overridable, independent assertions remain
+  retained, and compound consequential use refuses until its reader is qualified.
+
+- 2026-10-15 KST — I01 delivers a separate v2 read-only preparation/preview
+  while v1 persistence remains unchanged. Storage audit reserves seed/command
+  v14 for the next saved path rather than reinterpreting existing anchor command
+  v6. A lossless private-input spike fits the benchmark but confers no codec or
+  saved-work guarantee; I02 must enforce bounded decoding and complete preflight.
+
+- 2026-10-15 KST — Owner selects B/#14 option “기본값·기존 묶음 검토·보관 한도 개선”.
+  Keep existing per-change explanation/deferral; add source/file defaults and
+  improve finite retained-consequence capacity. Do not introduce an import-group
+  blanket deferral. The [five-outcome plan](#original-ledger-migration-implementation-plan)
+  combines A/C into one original-source-to-table journey before label onboarding.
+
 - 2026-10-15: Owner selects folding in both `1` and `2`, semantic one-line
   titles with secondary IDs, predefined editable node/edge kinds and direct
   title/content editing. Use two projections over one source graph; accepted
@@ -7015,6 +8513,36 @@ The executable milestone names used throughout this plan are:
   AI and graph machinery remain visibly attributable but visually secondary.
 
 ## Outcomes & Retrospective
+
+- 2026-10-16: I04 supports existing literal LaTeX labels without source edits;
+  **4/5 original-ledger outcomes complete**. I05's combined fixture exposes a
+  genuine first-comparison capacity failure that separate import/retention checks
+  missed. The stop, exact reproduction and measured data breakdown remain visible;
+  release readiness/private scientific fidelity are not claimed.
+
+- 2026-10-16: I03 completes honest source-aware scoped judgment and durable partial
+  explanation retention. Current sequence is3/5, two remain. This addresses B's
+  repeated-origin friction without replacing consequential human review. Actual
+  private migration, LaTeX selectors and full source-delivery qualification remain
+  separate from synthetic/backend/PTY evidence.
+
+- 2026-10-16: I02 reaches the first original-ledger feedback checkpoint: one
+  reviewed historical table import, exact correction, new judgment and durable
+  private return. Current work is 2/5; source-faithful real-paper use and complete
+  release qualification are not demonstrated by synthetic engineering passes.
+
+- 2026-10-15: I01 now prepares exact original ledgers and previews table/scalar
+  mapping with honest origin and extraction states. Follow-up implementation is
+  1/5; v2 saved import and return remain I02. The saved-format audit explains why
+  passing the 1.4 MiB source preview is insufficient for the 8.5 MiB exact envelope.
+  See [I01 evidence](#i01-implementation-evidence-and-persistence-audit).
+
+- 2026-10-15: The original-ledger follow-up is planned as five connected outcomes
+  [I01–I05](#original-ledger-migration-implementation-plan), with the owner-selected
+  narrower B scope and an early original-source/table/save-return checkpoint.
+  Runtime implementation remains 0/5; actual-paper fidelity is unobserved.
+  Actual Opus planning corrections are incorporated and the final focused review
+  passes for planning; documentation-only checks pass, with no runtime claim.
 
 - 2026-10-15: The next graph UX/authoring work is planned as six outcomes,
   [G01–G06](#foldable-two-entry-graph-implementation-plan). Neither spatial

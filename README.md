@@ -18,7 +18,7 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/iNtuitionP/ClaimBranch/releases/tag/v0.1.0-alpha.4">Download alpha</a> ·
+  <a href="https://github.com/iNtuitionP/ClaimBranch/releases/tag/v0.1.0-alpha.5">Download alpha</a> ·
   <a href="#quick-start">Quick start</a> ·
   <a href="#your-own-paper">Your own paper</a> ·
   <a href="#what-works-today">Features</a> ·
@@ -89,8 +89,19 @@ remain unverified. [Setup and support details →](docs/development/workflow.md#
 
 ## Your own paper
 
-Use an existing local Git paper with a UTF-8 `.tex` source. Add one marked block
-yourself in your editor; ClaimBranch reads it without changing your manuscript:
+Use an existing local Git paper with a UTF-8 `.tex` source. In the current
+checkout, a paper profile can connect through an existing label such as
+`\label{sec:argument}` without editing the manuscript:
+
+```sh
+python3.13 -m claimbranch project init --profile paper \
+  --directory "$HOME/claimbranch-work" --paper-root /path/to/your-paper \
+  --manuscript paper.tex --anchor argument --label sec:argument
+```
+
+Create the private directory as described below before running init.
+[Supported label forms and limits →](docs/development/workflow.md#existing-latex-labels-without-manuscript-edits)
+The existing episode profile uses a marked block you add yourself in your editor:
 
 ```tex
 % claimbranch:start id=anchor
@@ -175,6 +186,7 @@ unrestricted process running as the same user.
 | Direct node titles/content and typed edge editing | Personal paper profile; exact reviewed revisions |
 | Result capture, explicit confirmation and append-only correction | Available |
 | Exact value tables, condition queries and cell corrections | Opt-in personal paper profile |
+| Original Markdown/text ledgers | Current checkout: [preparation, reviewed import and private return](docs/development/workflow.md#original-ledger-text-preview-v2) |
 | Original predictions, gate failures and reviewed rule amendments | Opt-in personal paper profile |
 | Private critiques, neutral questions and research references | Opt-in personal paper profile; private originals retained |
 | Scoped co-reported readings and reporting companions | Opt-in personal paper profile |
@@ -194,6 +206,15 @@ episode profile retains 8 episodes/runs and 16 observations. An opt-in manual
 retain several readings together; legacy alternative operations keep their bounds.
 [Capacity, headroom and conversion →](docs/development/workflow.md#personal-paper-lifecycle-capacity)
 The larger profile’s public AI connection remains unavailable.
+The current original-ledger checkout has a known combined-workload limit:
+430 prior records plus30 anchors fit initial storage, but preparing their first
+new reasoning comparison in the original flat format exceeds the8MiB audit-manifest
+limit and safely refuses. An [explicit shared-audit repair](docs/development/workflow.md#opt-in-shared-audit-representation)
+is available in this checkout. The full synthetic430-record/5,400-cell workload,
+30 anchors,40 partial comparisons and one new personal judgment now pass independent
+source-runtime save/open/backup/restore within60s per operation. Actual private-paper
+migration, source fidelity and user benefit remain unverified.
+[Measured qualification and remaining work →](docs/plans/active/2026-08-04-claimbranch-v1-and-gpu-systems.md#i05-isolated-connected-qualification)
 [Prior-argument import](docs/development/workflow.md#prior-argument-mapping-preview)
 now registers an exact-reviewed selection in a fresh project and preserves source
 origins/unresolved fields through return. New personally reviewed reasoning keeps

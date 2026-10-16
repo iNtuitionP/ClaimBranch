@@ -35,7 +35,7 @@ def anchor_commitment(anchor):
 
 
 def apply_revision(state, command):
-    if state['seed']['schema_version'] not in (4,5):
+    if state['seed']['schema_version'] not in (4, 5, 14):
         raise ContractError('wording restrictions require a personal paper profile')
     kind=command['operation_type']; payload=normalize(command['payload'],REVISION_PAYLOADS[kind],profile='paper')
     text_fields=[payload['rationale']]
@@ -79,7 +79,7 @@ def apply_revision(state, command):
     current=state.setdefault(name,{})
     if key not in current and len(current)+1>maximum: raise ContractError(f'capacity {name}: {len(current)+1} / {maximum}')
     refs={}
-    if state['seed']['schema_version']==5:
+    if state['seed']['schema_version'] in (5, 14):
         from .argument_import import source_references
         for subject in subjects:
             for ref in source_references(state,main,[],subject): refs[ref['record_id']]=ref

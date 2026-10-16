@@ -42,7 +42,7 @@ def read_original(project,critique_id):
 def prepare_critique(project,request,*,original_input=None,contribution_origin=None):
     from .paper_service import PaperService
     h=project.work.history
-    if h.schema_version not in (4,5):raise ContractError('Critiques require a personal paper profile')
+    if h.schema_version not in (4, 5, 14):raise ContractError('Critiques require a personal paper profile')
     request=normalize(request,INPUT,profile='paper');view=h.view('main')
     if view['episode_id'] is None:raise ContractError('Open a question before recording a critique')
     source=None;kind=request['operation_type'];payload=request['payload']

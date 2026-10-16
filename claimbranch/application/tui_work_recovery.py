@@ -61,8 +61,8 @@ def snapshot_value(app, active=None, *, proposals=True):
             value['proposals'] = retained
             from .paper_proposal_work import fit_new_payloads
             value = fit_new_payloads(app, value)
-    if app.paper.history.schema_version in (4, 5):
-        value['schema'] = 'claimbranch.paper-workspace/v15' if app.paper.history.has_manuscript_anchors else 'claimbranch.paper-workspace/v14' if app.paper.history.schema_version == 5 else 'claimbranch.paper-workspace/v13'
+    if app.paper.history.schema_version in (4, 5, 14):
+        value['schema'] = 'claimbranch.paper-workspace/v17' if app.paper.history.schema_version == 14 else 'claimbranch.paper-workspace/v15' if app.paper.history.has_manuscript_anchors else 'claimbranch.paper-workspace/v14' if app.paper.history.schema_version in (5, 14) else 'claimbranch.paper-workspace/v13'
     return value
 
 

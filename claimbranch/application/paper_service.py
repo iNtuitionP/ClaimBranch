@@ -5,6 +5,7 @@ answers tied to exact history/ref content, never a second scientific log.
 """
 from collections import deque
 from copy import deepcopy
+from functools import lru_cache
 import hashlib
 
 from claimbranch.core.canonical import ContractError, canonical_bytes, decode, digest, identifier
@@ -27,9 +28,11 @@ def scenario_schema():
             "$id": "urn:claimbranch:paper-scenario:v1", **deepcopy(SCENARIO)}
 
 
-def _graph(seed, view):
+def _graph(seed, view, *, _borrow_payloads=False):
     """One projection for current views and explicitly unaccepted overlays."""
     nodes, relations = [], []
+    # Private validation owns the domain and never returns these borrowed values.
+    copy_value = (lambda v: v.copy() if type(v) in (dict,list) else v) if _borrow_payloads else deepcopy
     from claimbranch.core.protocols import protocol_context
     registered_context=protocol_context(view)
     initial = seed.get('initial_argument')
@@ -37,51 +40,56 @@ def _graph(seed, view):
     unresolved = sum(initial['unresolved_source_pointers'], []) if initial else []
     annotation_bytes = 0
 
-    def source_mark(record):
+    def source_pointers(record):
         nonlocal annotation_bytes
         pointer = record['source_pointer']
         pointers = [p for p in unresolved if not pointer or p == pointer or p.startswith(pointer + '/')]
         annotation_bytes += sum(len(p.encode('utf-8')) + 4 for p in pointers)
         if annotation_bytes > 8388608:
             raise ContractError('capacity import-source-graph-bytes: %s / 8388608; narrow source record pointers' % annotation_bytes)
-        return dict(authority='imported-source-claim', transport='imported', contributor=record['origin']['contributor'],
+        return pointers
+
+    def source_mark(record):
+        pointer = record['source_pointer']
+        pointers = source_pointers(record)
+        return dict(**({'origin_flags':copy_value(record['origin_flags']), 'source_digest_scope':'argument-envelope/v2'} if seed.get('schema_version') == 14 else {}), authority='imported-source-claim', transport='imported', contributor=record['origin']['contributor'],
             detail=record['origin']['detail'], recorded_at=record['recorded_at'],
             source_digest=initial['source_sha256'], source_pointer=pointer,
-            original_body=deepcopy(record['body']),
+            original_body=copy_value(record['body']),
             unresolved_pointer_pages=[pointers[i:i+128] for i in range(0, len(pointers), 128)])
 
     def node(record_id, kind, content):
-        content = deepcopy(content)
-        if record_id in registered_context:content['protocol_context']=deepcopy(registered_context[record_id])
+        content = copy_value(content)
+        if record_id in registered_context:content['protocol_context']=copy_value(registered_context[record_id])
         record = imported.get(record_id)
         if record:
             content['imported_source'] = source_mark(record)
         dependencies = view.get('imported_dependencies', {}).get(record_id, [])
         if dependencies:
-            content['imported_dependencies'] = deepcopy(dependencies)
+            content['imported_dependencies'] = copy_value(dependencies)
         if initial and record_id == seed['claim_id']:
-            content['historical_decisions'] = [deepcopy(r) for r in initial['records'] if r['kind'] == 'historical-decision']
+            content['historical_decisions'] = [copy_value(r) for r in initial['records'] if r['kind'] == 'historical-decision']
         if record_id in view.get('titles',{}):content['title']=view['titles'][record_id]
         edits=[r for r in view.get('graph_revisions',[]) if any(e['id']==record_id or e['replaces']==record_id for e in r['edits'])]
-        if edits:content['graph_revisions']=deepcopy(edits);content['review_required']=True
+        if edits:content['graph_revisions']=copy_value(edits);content['review_required']=True
         nodes.append({'id': record_id, 'kind': kind, 'content': content})
 
     def relation(source, target, kind, *, record_id=None, rationale=None, scientific=False):
         value = {"source_id": source, "target_id": target, "type": kind,
                  "record_id": record_id, "rationale": rationale, "scientific": scientific}
         revisions=[r for r in view.get('graph_revisions',[]) if any(e['id']==record_id for e in r['edits'])]
-        if revisions:value['graph_revisions']=deepcopy(revisions);value['review_required']=True
+        if revisions:value['graph_revisions']=copy_value(revisions);value['review_required']=True
         relation_key = "relation-" + digest(value)
-        if record_id in imported: value["imported_source"] = source_mark(imported[record_id])
+        if record_id in imported:value["imported_source"] = source_mark(imported[record_id])
         dependencies = view.get('imported_dependencies', {}).get(record_id, [])
-        if dependencies: value['imported_dependencies'] = deepcopy(dependencies)
+        if dependencies: value['imported_dependencies'] = copy_value(dependencies)
         relations.append({"key": relation_key, **value})
 
     for claim in view["claims"]:
-        content=deepcopy(claim)
+        content=copy_value(claim)
         policy=view.get('wording_policies',{}).get(claim['id'])
-        if policy:content['wording_policy']=deepcopy(policy)
-        companions=[deepcopy(d) for d in view.get('companion_dependencies',{}).values() if d['target_id']==claim['id']]
+        if policy:content['wording_policy']=copy_value(policy)
+        companions=[copy_value(d) for d in view.get('companion_dependencies',{}).values() if d['target_id']==claim['id']]
         if companions:content['companion_dependencies']=companions
         node(claim["id"], "claim", content)
         for parent in claim["parent_ids"]:
@@ -104,7 +112,7 @@ def _graph(seed, view):
             matches=[d for d in view.get('co_reports',{}).values() if key in d['selected_ids']]
             if matches:
                 decision=matches[-1];reading=next(r for r in decision['readings'] if r['id']==key)
-                content={**content,'scope':reading['scope'],'co_report':deepcopy(decision),'declared_origin':reading['origin']}
+                content={**content,'scope':reading['scope'],'co_report':copy_value(decision),'declared_origin':reading['origin']}
             node(key, kind, content)
             for observation in body["observation_ids"]:
                 relation(key, observation, "interprets")
@@ -112,7 +120,7 @@ def _graph(seed, view):
             node(key, kind, body)
             relation(key, body["claim_id"], "tests")
     for key,question in view.get('critiques',{}).items():
-        node(key,'critique-question',dict(statement=question['question'],question_origin=question['question_origin'],source_origin=question['source_origin'],source_kind=question['source_kind'],classification=question['classification'],revision_id=question['revision_id'],resolution='unresolved',original_available=True,anonymity_verified=False,revisions=deepcopy(question['revisions']),rationale=question.get('rationale'),associations=[deepcopy(l) for l in view.get('critique_links',{}).values() if l['critique_id']==key]))
+        node(key,'critique-question',dict(statement=question['question'],question_origin=question['question_origin'],source_origin=question['source_origin'],source_kind=question['source_kind'],classification=question['classification'],revision_id=question['revision_id'],resolution='unresolved',original_available=True,anonymity_verified=False,revisions=copy_value(question['revisions']),rationale=question.get('rationale'),associations=[copy_value(l) for l in view.get('critique_links',{}).values() if l['critique_id']==key]))
     available={n['id'] for n in nodes}
     for link in view.get('critique_links',{}).values():
         if link['target_id'] in available:relation(link['critique_id'],link['target_id'],link['relation'],record_id=link['id'],rationale=link['rationale'],scientific=False)
@@ -157,7 +165,7 @@ def _graph(seed, view):
         if item['id'] in review_subjects:item['content']['review_required']=True
     for item in nodes:
         declared=[r for r in view.get('metadata_origins',{}).values() if item['id'] in r['subject_ids']]
-        if declared:item['content']['metadata_contributions']=deepcopy(declared)
+        if declared:item['content']['metadata_contributions']=copy_value(declared)
     return {**({"reporting_dependencies_outside_view":sorted(unrepresented)} if unrepresented else {}), "nodes": sorted(nodes, key=lambda item: item["id"]),
             "relations": sorted(relations, key=lambda item: item["key"])}
 
@@ -238,9 +246,34 @@ def _anchor_reach(graph, roots, phase):
     return witnesses
 
 
+def _review_impact(graphs, domain, *, registered):
+    impact = _change_impact(graphs, domain["amendments"])
+    if registered:
+        witnesses=[]
+        for phase,graph in graphs.items():
+            roots=[]
+            for amendment in domain['amendments']:
+                record=amendment[phase]
+                if record is None or amendment['disposition']=='omitted':continue
+                if record['kind']=='scientific-edge':roots.extend((record['body']['source_id'],record['body']['target_id']))
+                else:roots.append(record['body'].get('claim_id',record['id']))
+            witnesses.extend(_anchor_reach(graph,roots,phase))
+        impact['potentially_affected_anchor_ids']=sorted({w['anchor_id'] for w in witnesses})
+        impact['anchor_witness_paths']=witnesses
+        impact['outside_impact_anchor_ids']=sorted({n['id'] for n in graphs['after']['nodes'] if n['kind']=='manuscript-anchor'}-set(impact['potentially_affected_anchor_ids']))
+        impact['coverage']='Explicit registered relationships only; includes/graphics and unregistered passages are outside coverage.'
+    return impact
+
+
+@lru_cache(maxsize=4)
+def _imported_query_bytes(history,ref,at_operation,episode_id):
+    service=PaperService(history)
+    return service._bytes(service._query(ref,at_operation=at_operation,episode_id=episode_id))
+
+
 class PaperService:
     def __init__(self, history):
-        if not isinstance(history, ResearchHistory) or history.schema_version not in (2, 3, 4, 5):
+        if not isinstance(history, ResearchHistory) or history.schema_version not in (2, 3, 4, 5, 14):
             raise ContractError("paper service requires a versioned paper history")
         self._history = history
         self._pending_work = None
@@ -248,11 +281,11 @@ class PaperService:
 
     def _bytes(self, value):
         from claimbranch.core.paper_capacity import encode
-        return encode(value, purpose='manifest') if self._history.schema_version in (4, 5) else canonical_bytes(value)
+        return encode(value, purpose='manifest') if self._history.schema_version in (4, 5, 14) else canonical_bytes(value)
 
     def _decode(self, raw):
         from claimbranch.core.paper_capacity import decode as paper_decode
-        return paper_decode(raw, purpose='manifest') if self._history.schema_version in (4, 5) else decode(raw)
+        return paper_decode(raw, purpose='manifest') if self._history.schema_version in (4, 5, 14) else decode(raw)
 
     def _digest(self, value):
         return hashlib.sha256(self._bytes(value)).hexdigest()
@@ -380,7 +413,17 @@ class PaperService:
 
     def query(self, ref="main", *, at_operation=None, episode_id=None):
         key=(ref,at_operation,episode_id)
-        if self._history.schema_version in (4, 5) and key in self._query_cache:
+        if self._history.schema_version==14 and key not in self._query_cache:
+            # Different fresh UI/validation owners may read the exact same
+            # immutable revision. Cache bytes only; each read is detached.
+            value=self._decode(_imported_query_bytes(self._history,ref,at_operation,episode_id))
+            if len(self._query_cache)<64:self._query_cache[key]=deepcopy(value)
+            return value
+        return self._query(ref,at_operation=at_operation,episode_id=episode_id)
+
+    def _query(self, ref="main", *, at_operation=None, episode_id=None):
+        key=(ref,at_operation,episode_id)
+        if self._history.schema_version in (4, 5, 14) and key in self._query_cache:
             return deepcopy(self._query_cache[key])
         history = self._history
         view = history.view(ref, at_operation=at_operation, episode_id=episode_id)
@@ -398,7 +441,7 @@ class PaperService:
                  **_graph(seed, view),
                  "judgment": view["judgment"], "authority": "unverified-candidate",
                  "authorization_verified": False}
-        if history.schema_version == 5:
+        if history.schema_version in (5, 14):
             value['historical_decisions'] = deepcopy(view['historical_decisions'])
             value['import_source_digest'] = view['import_source_digest']
             value['unresolved_source_pointers'] = deepcopy(view['unresolved_source_pointers'])
@@ -408,7 +451,7 @@ class PaperService:
         # advance a reasoning head. A matching UI layout is not freshness proof.
         value["history_digest"] = hashlib.sha256(history.manifest()).hexdigest()
         result = {**value, "digest": self._digest(value)}
-        if self._history.schema_version in (4, 5) and len(self._query_cache)<64:
+        if self._history.schema_version in (4, 5, 14) and len(self._query_cache)<64:
             self._query_cache[key]=deepcopy(result)
         return result
 
@@ -455,6 +498,29 @@ class PaperService:
         return self._project_changes(domain, view, schema="claimbranch.paper-changes/v1",
                                      identity={"draft_id": request["draft_id"], "draft_revision": request["draft_revision"]})
 
+    def _causal_validation(self, cause):
+        """Revalidate saved writing without copying/serializing full UI payloads.
+
+        Never returned as a change preview or an authorization. The normal
+        full preview remains the only public comparison path.
+        """
+        from .paper_branch import judgment_value
+        if self._history.schema_version not in (5,14):
+            raise ContractError('causal validation requires an imported personal history')
+        request=normalize(cause['request'],changes_request_schema())
+        view=self.query(request['ref'],episode_id=request['episode_id'])
+        if any(request[k]!=view[k] for k in ('project_id','episode_id')) or request['view_digest']!=view['digest']:
+            raise ContractError('scientific change review is stale or belongs to another paper')
+        domain=self._history._paper_changes_value(request['ref'],request['amendments'],request['selected_ids'],
+            judgment_value(cause['judgment']),episode_id=request['episode_id'],source_node_id=cause['owner'][2])
+        # Project precisely the same normalized value the public byte round-trip
+        # would expose, parsing those bytes without re-normalizing them again.
+        from claimbranch.core.paper_capacity import encoding_value
+        domain=encoding_value(domain,purpose='manifest')
+        return self._project_changes(domain,view,schema="claimbranch.paper-changes/v1",
+            identity={"draft_id":request['draft_id'],"draft_revision":request['draft_revision']},
+            _validation_cause=cause)
+
     def preview_merge(self, selected_ids, *, episode_id):
         """Read the active recorded alternative, never caller-supplied graph rows."""
         view = self.query("main", episode_id=episode_id)
@@ -481,27 +547,13 @@ class PaperService:
             "commands": [self._decode(raw) for raw in candidate.commands[len(self._history.commands):]],
             "candidate_history_digest": hashlib.sha256(candidate.manifest()).hexdigest()}
 
-    def _project_changes(self, domain, view, *, schema, identity):
+    def _project_changes(self, domain, view, *, schema, identity, _validation_cause=None):
         seed = self._decode(self._history.seed)
         graphs = {phase: {"schema": "claimbranch.paper-change-graph/v1", "phase": phase,
                          "source_view_digest": view["digest"], "authority": "unaccepted-preview",
-                         "authorization_verified": False, **_graph(seed, domain[phase])}
+                         "authorization_verified": False, **_graph(seed, domain[phase],_borrow_payloads=_validation_cause is not None)}
                   for phase in ("before", "after")}
-        impact = _change_impact(graphs, domain["amendments"])
-        if self._history.has_manuscript_anchors:
-            witnesses=[]
-            for phase,graph in graphs.items():
-                roots=[]
-                for amendment in domain['amendments']:
-                    record=amendment[phase]
-                    if record is None or amendment['disposition']=='omitted':continue
-                    if record['kind']=='scientific-edge':roots.extend((record['body']['source_id'],record['body']['target_id']))
-                    else:roots.append(record['body'].get('claim_id',record['id']))
-                witnesses.extend(_anchor_reach(graph,roots,phase))
-            impact['potentially_affected_anchor_ids']=sorted({w['anchor_id'] for w in witnesses})
-            impact['anchor_witness_paths']=witnesses
-            impact['outside_impact_anchor_ids']=sorted({n['id'] for n in graphs['after']['nodes'] if n['kind']=='manuscript-anchor'}-set(impact['potentially_affected_anchor_ids']))
-            impact['coverage']='Explicit registered relationships only; includes/graphics and unregistered passages are outside coverage.'
+        impact = _review_impact(graphs,domain,registered=self._history.has_manuscript_anchors)
 
         value = {"schema": schema, "project_id": view["project_id"],
                  "episode_id": view["episode_id"], "ref": view["ref"], "view_digest": view["digest"],
@@ -517,11 +569,30 @@ class PaperService:
         if 'imported_sources' in domain:
             value['provenance'].update(imported_sources=domain['imported_sources'], source_node_id=domain['source_node_id'],
                                        origin_uncertain=domain['origin_uncertain'])
-        return {**value, "digest": self._digest(value)}
+        if _validation_cause is not None:
+            from claimbranch.core.paper_capacity import encoded_size,MANIFEST_BYTES
+            from .paper_understanding import contextual_topics
+            size=encoded_size(value,purpose='manifest')
+            # cause_science also encodes the digest-bearing full return. Keep
+            # that second boundary without walking the whole preview twice.
+            size+=len(b',"digest":"'+b'0'*64+b'"')
+            if size>MANIFEST_BYTES:
+                raise ContractError('capacity manifest-bytes: %s / %s'%(size,MANIFEST_BYTES))
+            topics=contextual_topics({'original':{**graphs['after'],'digest':digest(_validation_cause)},
+                'work':{'selection':domain['selection'],**impact}})
+            return dict(selection=value['selection'],amendments=value['amendments'],
+                provenance=value['provenance'],topics=topics)
+        raw=self._bytes(value)
+        if self._history.schema_version in (5,14):
+            from claimbranch.core.paper_capacity import MANIFEST_BYTES
+            size=len(raw)+len(b',"digest":"'+b'0'*64+b'"')
+            if size>MANIFEST_BYTES:
+                raise ContractError('capacity manifest-bytes: %s / %s'%(size,MANIFEST_BYTES))
+        return {**value, "digest": hashlib.sha256(raw).hexdigest()}
 
     def compile_context(self, request):
         if self._history.has_critiques:raise ContractError('Private critique context is not qualified for provider projection; continue locally')
-        if self._history.schema_version == 5:
+        if self._history.schema_version in (5, 14):
             raise ContractError('Imported-origin provider context is not yet qualified; inspect the graph and continue manually.')
         """Project explicit fields from this reader, never caller-supplied rows.
 

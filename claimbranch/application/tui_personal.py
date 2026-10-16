@@ -131,7 +131,7 @@ class PersonalUI:
                 graph.selected_path = graph._paths[graph.selected_id]
                 self.graphs[phase] = graph
             self.phase = 'after'; t.modal = 'personal-graph'
-        elif event in ('1','2') and self.preview.kind=='reasoning' and self.preview.display['ai_origin_retained']:
+        elif event in ('1','2') and self.preview.kind=='reasoning' and self.preview.display.get('origin_review_required',self.preview.display['ai_origin_retained']):
             if not self.painted or not self.seen_end:
                 self.notice = 'Read the complete consequence first; End reaches its last page.'
                 return
@@ -317,7 +317,7 @@ class PersonalUI:
         self.painted = True
         self.seen_end |= self.scroll+count>=len(rows)
         frame.put(h-3,2,self.notice or f'{self.scroll+1}–{min(len(rows),self.scroll+count)}/{len(rows)} · manuscript unchanged','top_muted',w-4)
-        frame.put(h-2,2,('1 explain · 2 later · ' if self.preview.kind=='reasoning' and self.preview.display['ai_origin_retained'] else '')+'Enter record · G graph · End read · Esc cancel','top_accent',w-4)
+        frame.put(h-2,2,('1 explain · 2 later · ' if self.preview.kind=='reasoning' and self.preview.display.get('origin_review_required',self.preview.display['ai_origin_retained']) else '')+'Enter record · G graph · End read · Esc cancel','top_accent',w-4)
         return frame
 
     def rows(self,width):
@@ -337,7 +337,7 @@ class PersonalUI:
             add('ORIGINAL / CURRENT CONTEXT',display['current_context'])
             if 'previous' in display:
                 previous=display['previous']
-                add('EARLIER OBSERVATION / retained',previous['statement']+'\nValue: '+previous['value'])
+                add('EARLIER OBSERVATION / retained',previous['statement']+('\nValue: '+previous['value'] if 'value' in previous else '\nStructured measurement table; original cells retained.'))
             if 'question' in display: add('EXPERIMENT QUESTION',display['question'])
             if 'confirmation_note' in display: add('RECORDED CONFIRMATION / LIMITATIONS',display['confirmation_note'])
             for f,v in display.get('tentative_writing',{}).items():
@@ -359,9 +359,15 @@ class PersonalUI:
                 add(title,'\n'.join(nodes.get(key,{}).get('content',{}).get('statement') or nodes.get(key,{}).get('content',{}).get('objective') or key
                                     for key in display['impact'][field]) or 'None')
             add('POTENTIALLY AFFECTED WRITING', ', '.join(display['impact']['potentially_affected_anchor_ids']) or 'None')
+            if 'source_review_summary' in display:
+                add('IMPORTED SOURCE INFLUENCE / one current judgment',json.dumps(display['source_review_summary'],ensure_ascii=False,indent=2))
+                from claimbranch.core.argument_import import reference_origins
+                add('IMPORTED BASIS / inspect without per-record answers', '\n'.join(r['record_id']+': '+', '.join(sorted(reference_origins(r)))+'; unresolved fields '+str(r['unresolved_count']) for r in display['imported_sources']))
+            if display.get('origin_uncertain'):
+                add('SOURCE AUTHORSHIP / uncertainty retained','At least one contributing source has unknown authorship, independently of any known AI contribution.')
             add('AI ORIGIN', 'Retained AI influence in judgment and/or chosen items.'
                 if display['ai_origin_retained'] else 'No AI influence recorded in this selection.')
-            if display['ai_origin_retained']:
+            if display.get('origin_review_required',display['ai_origin_retained']):
                 add('PERSONAL EXPLANATION / separate choice',display['explanation']['state']+'; no comprehension verdict or accepted debt.')
                 for entry in display['explanation']['entries']:
                     add('PARTIAL TOPIC / '+entry['topic_id'],entry['text']+ ('\nExplicit reuse of original reason.' if entry['reuse_rationale'] else ''))

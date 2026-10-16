@@ -3,6 +3,7 @@ import argparse
 import json
 from pathlib import Path
 
+from claimbranch.core.paper_capacity import shared_audit_schema
 from claimbranch.core.research_schema import seed_schema
 from claimbranch.core.research_history import command_schema
 from claimbranch.core.research_schema import PAPER_SEED, PAPER_SERIES_SEED
@@ -26,7 +27,7 @@ from claimbranch.application.mac_review_signing import signing_request_schema
 from claimbranch.application.mac_worker import worker_schema
 from claimbranch.application.mac_enrollment import enrollment_schema
 from claimbranch.application.project_initialization import initialization_schema
-from claimbranch.core.argument_import import import_schema
+from claimbranch.core.argument_import import import_schema, imported_reference_schema
 from claimbranch.application.co_report import INPUT as CO_REPORT_INPUT
 from claimbranch.core.typed_observations import INPUT as MEASUREMENT_INPUT
 from claimbranch.core.protocols import INPUT as PROTOCOL_INPUT
@@ -40,7 +41,8 @@ def main():
     parser.add_argument("--check", action="store_true")
     args = parser.parse_args()
     root = Path(__file__).resolve().parents[1] / "schemas"
-    schemas = {"metadata-batch-v1.json": batch_schema(),"canonical-share-v1.json": share_schema(),"canonical-share-v2.json": share_schema(2),"critique-input-v1.json": {"$schema":"https://json-schema.org/draft/2020-12/schema", "$id":"urn:claimbranch:critique-input:v1", **CRITIQUE_INPUT},"protocol-input-v1.json": {"$schema":"https://json-schema.org/draft/2020-12/schema", "$id":"urn:claimbranch:protocol-input:v1", **PROTOCOL_INPUT},"measurement-input-v1.json": {"$schema":"https://json-schema.org/draft/2020-12/schema", "$id":"urn:claimbranch:measurement-input:v1", **MEASUREMENT_INPUT}, "co-report-input-v1.json": {"$schema":"https://json-schema.org/draft/2020-12/schema", "$id":"urn:claimbranch:co-report-input:v1", **CO_REPORT_INPUT}, "argument-import-v1.json": import_schema(), "research-command-v1.json": command_schema(), "research-command-v2.json": command_schema(2),
+    from claimbranch.core.argument_import_v2 import import_schema as ledger_schema, manifest_schema
+    schemas = {"shared-audit-manifest-v1.json":shared_audit_schema(),"research-command-v16.json":command_schema(16), "paper-work-v27.json":work_schema(27), "project-work-v23.json":project_work_schema(23),"research-command-v15.json":command_schema(15), "paper-work-v26.json":work_schema(26), "project-work-v22.json":project_work_schema(22),"paper-work-v25.json":work_schema(25), "project-work-v21.json":project_work_schema(21),"imported-source-reference-v2.json": {"$schema":"https://json-schema.org/draft/2020-12/schema", **imported_reference_schema(2)},"paper-seed-v14.json": {"$schema":"https://json-schema.org/draft/2020-12/schema", **seed_schema(14)}, "research-command-v14.json":command_schema(14), "paper-work-v24.json":work_schema(24), "project-work-v20.json":project_work_schema(20),"argument-import-v2.json":ledger_schema(),"argument-source-manifest-v1.json":manifest_schema(),"metadata-batch-v1.json": batch_schema(),"canonical-share-v1.json": share_schema(),"canonical-share-v2.json": share_schema(2),"critique-input-v1.json": {"$schema":"https://json-schema.org/draft/2020-12/schema", "$id":"urn:claimbranch:critique-input:v1", **CRITIQUE_INPUT},"protocol-input-v1.json": {"$schema":"https://json-schema.org/draft/2020-12/schema", "$id":"urn:claimbranch:protocol-input:v1", **PROTOCOL_INPUT},"measurement-input-v1.json": {"$schema":"https://json-schema.org/draft/2020-12/schema", "$id":"urn:claimbranch:measurement-input:v1", **MEASUREMENT_INPUT}, "co-report-input-v1.json": {"$schema":"https://json-schema.org/draft/2020-12/schema", "$id":"urn:claimbranch:co-report-input:v1", **CO_REPORT_INPUT}, "argument-import-v1.json": import_schema(), "research-command-v1.json": command_schema(), "research-command-v2.json": command_schema(2),
                "research-command-v3.json": command_schema(3),
                "research-command-v4.json": command_schema(4),
                "research-command-v5.json": command_schema(5),

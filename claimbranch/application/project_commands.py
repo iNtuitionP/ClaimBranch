@@ -23,14 +23,21 @@ def add_personal_project_commands(commands):
     extended.add_argument('--directory',required=True)
     extended.add_argument('--input',required=True)
     extended.add_argument('--dry-run',action='store_true')
+    preparation=actions.add_parser('prepare-import',help='Retain exact original ledger files and mappings in a new private preview envelope; no project registration')
+    preparation.add_argument('--manifest',required=True,help='Owner-private argument-source-manifest/v1 JSON')
+    preparation.add_argument('--source-root',required=True,help='Explicit local source directory; only manifest paths are read')
+    preparation.add_argument('--output',help='Create-only file in an existing private directory outside Git')
+    preparation.add_argument('--dry-run',action='store_true',help='Validate sources/mappings without creating a file')
     argument = actions.add_parser('import-argument', help='Review and register a prior argument in a fresh private project; source origins retained')
-    argument.add_argument('--input', required=True, help='Owner-private regular argument-import/v1 JSON envelope; maximum 16 MiB')
+    argument.add_argument('--input', required=True, help='Owner-private regular argument-import/v1 or v2 JSON envelope; maximum 16 MiB')
     argument.add_argument('--dry-run', action='store_true', help='Read-only mapping/graph preview; creates no project')
     argument.add_argument('--json', action='store_true', help='Complete private preview including original source chunks; not a share export')
     argument.add_argument('--directory', help='Fresh owner-private destination outside Git; required to register')
     argument.add_argument('--paper-root', help='Existing paper Git root, read-only')
     argument.add_argument('--manuscript', help='Relative marked TeX source, read-only')
     argument.add_argument('--anchor', default='anchor')
+    argument.add_argument('--label',help='Existing literal LaTeX label for the initial read-only connection')
+    argument.add_argument('--shared-audit',action='store_true',help='Review opt-in lossless shared audit encoding for v2 original ledgers')
     argument.add_argument('--question', help='New unresolved question after migration; not a historical decision')
     for name in ('critique','critiques','critique-original','critique-references'):
         action=actions.add_parser(name,help='Private sourced question or explicit local original; close TUI first')
@@ -87,6 +94,7 @@ def add_personal_project_commands(commands):
             action.add_argument('--retire',action='store_true')
         else:
             action.add_argument('--anchor',required=True)
+            if name=='anchor-register':action.add_argument('--label',help='Existing literal LaTeX label; source stays read-only')
             action.add_argument('--placement',choices=('main','appendix','abstract','unknown'),required=True)
             action.add_argument('--paragraphs',help='Private JSON list of index/expresses/plots declarations; original registered block indices')
     for name in ('anchor-register','anchors','anchor-impact'):
@@ -95,6 +103,7 @@ def add_personal_project_commands(commands):
         if name=='anchor-register':
             action.add_argument('--manuscript',required=True)
             action.add_argument('--anchor',required=True)
+            if name=='anchor-register':action.add_argument('--label',help='Existing literal LaTeX label; source stays read-only')
             action.add_argument('--kind',choices=('text','figure','table','caption'),required=True)
             action.add_argument('--expresses',nargs='*',default=[])
             action.add_argument('--plots',nargs='*',default=[])
@@ -110,6 +119,9 @@ def add_personal_project_commands(commands):
     imported.add_argument('--project-id')
     imported.add_argument('--input', required=True, help='Private regular JSON file containing the explicit external proposal envelope')
     imported.add_argument('--dry-run', action='store_true')
+    audit=actions.add_parser('enable-shared-audit',help='Review lossless shared audit encoding; preserve originals and scientific state')
+    audit.add_argument('--directory',required=True)
+    audit.add_argument('--dry-run',action='store_true')
     converted = actions.add_parser('convert-profile', help='Preview legacy personal work conversion into a fresh paper-profile destination; original retained')
     converted.add_argument('--directory', required=True, help='Existing legacy personal project; close TUI first')
     converted.add_argument('--destination', required=True, help='Separate existing fresh owner-private directory outside Git')
@@ -125,6 +137,7 @@ def add_personal_project_commands(commands):
             action.add_argument('--paper-root', required=True, help='Existing local Git paper; source stays read-only')
             action.add_argument('--manuscript', required=True, help='Relative marked .tex source')
             action.add_argument('--anchor', default='anchor')
+            action.add_argument('--label',help='Existing literal LaTeX label; requires --profile paper')
             action.add_argument('--title', help='Paper title; prompts when omitted')
             action.add_argument('--thesis', help='Human working thesis; prompts when omitted')
             action.add_argument('--question', help='First unresolved question; prompts when omitted')
@@ -157,7 +170,7 @@ def add_personal_project_commands(commands):
 def saved_summary(project,kind):
     return {'kind':kind,'project_id':project.project_id,
         'saved_digest':hashlib.sha256(project.payload).hexdigest(),
-        'capacity': {**project.work.history.capacity(), 'project_bytes': {'used':len(project.payload), 'limit':16777216 if project.work.history.schema_version in (4, 5) else 262144, 'remaining':(16777216 if project.work.history.schema_version in (4, 5) else 262144)-len(project.payload)}},
+        'capacity': {**project.work.history.capacity(), 'project_bytes': {'used':len(project.payload), 'limit':16777216 if project.work.history.schema_version in (4, 5, 14) else 262144, 'remaining':(16777216 if project.work.history.schema_version in (4, 5, 14) else 262144)-len(project.payload)}},
         'episodes':len(project.work.history.episodes()),'evidence_events':project.work.history.watermark,
         'source_status':project.source_status(),'source_fidelity_verified':False,
         'encrypted':False,'authorization_verified':False,'ai':'off',
@@ -310,10 +323,13 @@ def _preview_argument(args, *, raw=None, require_complete=False):
     if args.json:
         print(json.dumps(result, ensure_ascii=False, sort_keys=True))
     else:
-        display = {key: child for key, child in result.items() if key != 'source'}
+        display = {key: child for key, child in result.items() if key not in ('source','files')}
         text = 'PRIOR ARGUMENT / private read-only preview; no records registered.\n' + json.dumps(display, ensure_ascii=False, indent=2)
         if 'source' in result:
             text += '\nCOMPLETE ORIGINAL JSON / retained source claims, not verified science\n' + source_bytes(result['source']).decode('utf-8')
+        if 'files' in result:
+            for file in result['files']:
+                text += '\nCOMPLETE ORIGINAL TEXT / '+file['id']+' / '+file['source']['sha256']+'\n'+source_bytes(file['source']).decode('utf-8')
         lines = clean(text).splitlines()
         for index in range(0, len(lines), 40):
             print('\n'.join(lines[index:index+40]), flush=True)
@@ -338,24 +354,31 @@ def _register_argument(args):
     if not sys.stdin.isatty() or not sys.stdout.isatty():
         raise ContractError('Registration requires an interactive terminal; use --dry-run to inspect.')
     raw = _read_argument_input(args.input)
-    if len(raw) > 4194304:
-        raise ContractError('capacity import-input-bytes: %s / 4194304; no project registered. Preview remains available with --dry-run.' % len(raw))
     inspected = preview_import(raw)
+    if inspected['schema'] == 'claimbranch.argument-import-preview/v1' and len(raw) > 4194304:
+        raise ContractError('capacity import-input-bytes: %s / 4194304; no project registered. Preview remains available with --dry-run.' % len(raw))
     if not inspected['valid']:
         preview_args = type('PreviewArgs', (), dict(dry_run=True, json=args.json, input=args.input))()
         _preview_argument(preview_args, raw=raw)
         return 1
-    preview = preview_association(args.paper_root, args.manuscript, args.anchor, args.directory)
+    preview = preview_association(args.paper_root, args.manuscript, args.anchor, args.directory,selector=dict(schema='claimbranch.tex-selector/v1',kind='label',value=args.label) if args.label else None)
     identity = _workspace(args.directory)[1]
     now = datetime.now(timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ')
     history = history_from_import(raw, anchor_id=args.anchor, registered_at=now)
     # This is the first local question, not a fabricated earlier judgment round.
     token = secrets.token_hex(16)
-    history = history.append(dict(schema_version=5, id='open-import-'+token,
+    history = history.append(dict(schema_version=history.schema_version, id='open-import-'+token,
         project_id=inspected['project_id'], episode_id='after-import-'+token, created_at=now,
         operation_type='open-episode', expected_heads=dict(history.heads), evidence_watermark=history.watermark,
         payload=dict(title=inspected['title'], question=args.question)))
     candidate = ProjectWork.create(PaperWork.create(history), preview, import_input=raw)
+    if args.shared_audit:
+        candidate,audit_preview=prepare_shared_audit(candidate)
+        print(clean(json.dumps(dict(audit_encoding_review=audit_preview),ensure_ascii=False,indent=2)),flush=True)
+    from .personal_archive import personal_backup, split_personal_backup
+    archive = personal_backup(candidate)
+    if split_personal_backup(archive).payload != candidate.payload:
+        raise ContractError('Import backup/restore preflight differs; no project registered')
     # A saved candidate must also open under the actual graph/workspace budgets.
     project_workspace(candidate)
     preview_args = type('PreviewArgs', (), dict(dry_run=True, json=args.json, input=args.input))()
@@ -364,9 +387,9 @@ def _register_argument(args):
         print('Registration review stopped; no project registered.')
         return 0 if preview_code == 2 else preview_code
     print(clean(json.dumps(dict(destination=str(args.directory), registered_at=now,
-        first_local_question=args.question, saved_bytes=len(candidate.payload),
+        first_local_question=args.question, saved_bytes=len(candidate.payload), capacity=candidate.work.history.capacity(),
         result_sha256=hashlib.sha256(candidate.payload).hexdigest(), source_status=candidate.source_status(),
-        history_version=5, encrypted=False, authorization_verified=False), ensure_ascii=False, indent=2)), flush=True)
+        archive_bytes=len(archive), history_version=history.schema_version, encrypted=False, authorization_verified=False), ensure_ascii=False, indent=2)), flush=True)
     try:
         answer = input('Type import to register this exact selection in the fresh personal project; Enter cancels: ')
     except (EOFError, KeyboardInterrupt) as error:
@@ -395,6 +418,9 @@ def run_personal_project_command(args):
     saving = False
     connection = None
     try:
+        if args.project_action == 'prepare-import':
+            from .argument_preparation import run_prepare
+            return run_prepare(args)
         if args.project_action in ('critique','critiques','critique-original','critique-references'):
             from .critiques import run_critique_command
             return run_critique_command(args)
@@ -416,6 +442,7 @@ def run_personal_project_command(args):
         if args.project_action == 'import-argument':
             saving = not args.dry_run
             return _preview_argument(args) if args.dry_run else _register_argument(args)
+        if args.project_action == 'enable-shared-audit':return _enable_shared_audit(args)
         if args.project_action == 'convert-profile': return _convert_profile(args)
         if args.project_action == 'import-proposal': return _import_external(args)
         if args.project_action=='import-metadata':
@@ -471,12 +498,12 @@ def run_personal_project_command(args):
                 return run_terminal(app.paper.history, workspace=app)
         with PersonalProjectStore(args.directory, project_id=args.project_id) as store:
             project = store.load()
-            if project.work.history.schema_version in (4, 5) and getattr(args,'provider_directory',None):
+            if project.work.history.schema_version in (4, 5, 14) and getattr(args,'provider_directory',None):
                 raise ContractError("Personal-paper provider context is not qualified; reopen without a provider profile.")
             if getattr(args,'provider_directory',None):
                 from .provider_commands import PersonalProviderConnection
                 connection = PersonalProviderConnection(args.provider_directory).__enter__()
-            if project.work.history.schema_version in (4, 5):
+            if project.work.history.schema_version in (4, 5, 14):
                 print("Capacity: "+json.dumps(project.work.history.capacity(),sort_keys=True),flush=True)
             if not project.work.history.episodes():
                 project = first_episode_prompt(project, personal=True)
@@ -499,6 +526,8 @@ def run_personal_project_command(args):
             guidance='Preserve any sharing output and verify-export before retrying into a new file; private work was not written.'
         elif args.project_action in ('backup','export'):
             guidance='Copy may be incomplete at '+str(args.archive_directory)+'. Preserve it; retry in a new private archive directory.'
+        elif args.project_action=='prepare-import':
+            guidance='Inspect any prepared output before retrying with a new filename; originals and project history are unchanged.'
         else:
             guidance='Reopen the personal project to inspect saved writing.'
         print('Interrupted. '+ (clean(error)+' ' if str(error) else '') + clean(guidance), file=sys.stderr)
@@ -508,6 +537,7 @@ def run_personal_project_command(args):
         status = 'Saving is not confirmed. ' if uncertain else ''
         guidance=('Inspect restore destination '+str(args.directory)+' with project open; preserve the backup and do not overwrite this destination.'
                   if uncertain and args.project_action=='restore' else 'Reopen to inspect saved work; no manuscript was written.')
+        if args.project_action=='prepare-import':guidance='Inspect any prepared output; originals and project history are unchanged. Retry with a new output filename.'
         print('Project unavailable: ' + clean(error) + '\n' + status +
               clean(guidance), file=sys.stderr)
         return 1
@@ -515,3 +545,44 @@ def run_personal_project_command(args):
         if connection and not connection.close():
             print(clean(connection.cleanup_notice()),file=sys.stderr)
             return 2
+
+
+def prepare_shared_audit(project):
+    """Opt-in physical audit representation; preserve science and old prefixes."""
+    from datetime import datetime,timezone
+    from .paper_storage_codec import decode
+    history=project.work.history
+    if history.schema_version!=14:raise ContractError('Shared audit requires an original-ledger v2 imported project.')
+    before=history.manifest()
+    candidate=history.append(dict(schema_version=16,id='audit-encoding-'+secrets.token_hex(12),
+        project_id=project.project_id,episode_id=history.view('main')['episode_id'],
+        created_at=datetime.now(timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ'),
+        operation_type='set-audit-encoding',expected_heads=dict(history.heads),evidence_watermark=history.watermark,
+        payload=dict(encoding='shared-values/v1')))
+    workspace=decode(project.work.payload).get('workspace')
+    if workspace is not None:
+        from .personal_research import _install
+        app=project_workspace(project)
+        _install(app,candidate,app.episode_id,app.ref,app.selected_id)
+        workspace=snapshot_value(app)
+    result=project.with_work(PaperWork.create(candidate,workspace=workspace))
+    return result,dict(before_project_sha256=hashlib.sha256(project.payload).hexdigest(),
+        after_project_sha256=hashlib.sha256(result.payload).hexdigest(),
+        before_manifest_bytes=len(before),after_manifest_bytes=len(candidate.manifest()),
+        manifest_limit=8388608,added_commands=1,command_limit=2048,source_seed_unchanged=history.seed==candidate.seed,
+        prior_commands_unchanged=history.commands==candidate.commands[:-1],science_changed=False,
+        authority='personal unprotected history',format='shared-values/v1',result_schema='claimbranch.project-work/v23',
+        rollback='Keep a private backup before conversion; older builds refuse the new format.')
+
+
+def _enable_shared_audit(args):
+    with PersonalProjectStore(args.directory) as store:
+        project=store.load();candidate,display=prepare_shared_audit(project)
+        print(clean(json.dumps(display,ensure_ascii=False,indent=2)),flush=True)
+        if args.dry_run:return 0
+        if not sys.stdin.isatty() or not sys.stdout.isatty():raise ContractError('Audit conversion needs an interactive terminal; use --dry-run.')
+        if input('Type convert to save this exact shared audit format, or Enter to cancel: ')!='convert':
+            print('Cancelled. Original saved work retained.');return 0
+        store.verify_unchanged()
+        if hashlib.sha256(store.load().payload).hexdigest()!=display['before_project_sha256']:raise ContractError('Project changed; preview conversion again')
+        store.save(candidate);print('Shared audit format saved. Science, originals and earlier writing retained.');return 0

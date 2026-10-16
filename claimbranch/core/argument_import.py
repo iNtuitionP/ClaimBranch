@@ -79,9 +79,23 @@ def imported_seed_schema():
     return result
 
 
-def imported_reference_schema():
-    return obj(record_id=ID, source_sha256=HASH, contributor={'enum':['human','ai','mixed','unknown']},
+def imported_reference_schema(version=1):
+    result=obj(record_id=ID, source_sha256=HASH, contributor={'enum':['human','ai','mixed','unknown']},
                unresolved_count={'type':'integer','minimum':0,'maximum':8192})
+    if version == 1:return result
+    if version != 2:raise ContractError('Unsupported imported source reference version')
+    result['properties'].update(schema={'const':'claimbranch.imported-source-reference/v2'},
+        source_digest_scope={'const':'argument-envelope/v2'},
+        origin_flags=obj(human={'enum':[False,True]},ai={'enum':[False,True]},unknown={'enum':[False,True]}))
+    result['properties']['unresolved_count']['maximum']=65536
+    result['required']=list(result['properties']);return result
+
+
+def reference_origins(reference):
+    """Retained contribution labels and uncertainty, with unchanged v1 meaning."""
+    labels={reference['contributor']}
+    labels.update(key for key in ('human','ai','unknown') if reference.get('origin_flags',{}).get(key))
+    return labels
 
 
 def source_references(state, branch, changes, source_node_id):
@@ -112,6 +126,8 @@ def source_references(state, branch, changes, source_node_id):
             record = records[key]; pointer = record['source_pointer']
             found[key] = dict(record_id=key, source_sha256=initial['source_sha256'], contributor=record['origin']['contributor'],
                 unresolved_count=sum(not pointer or p == pointer or p.startswith(pointer + '/') for p in pointers))
+            if state['seed']['schema_version'] == 14:
+                found[key].update(schema='claimbranch.imported-source-reference/v2',source_digest_scope='argument-envelope/v2',origin_flags=deepcopy(record['origin_flags']))
             original = record['body']
             pending.extend(original.get('parent_ids', [])); pending.extend(original.get('basis_ids', []))
             pending.extend(original[name] for name in ('claim_id','source_id','target_id','experiment_id') if name in original)
@@ -148,6 +164,9 @@ def _history_from_import(raw, anchor_id, registered_at):
     result = preview_import(raw)
     if not result['valid']:
         raise ContractError('invalid selected argument: registration refused before any append')
+    if result['schema'] == 'claimbranch.argument-import-preview/v2':
+        from .argument_import_v2 import make_history
+        return make_history(raw, anchor_id, registered_at)
     thesis = next(item for item in result['records'] if item['kind'] == 'thesis')
     seed = dict(schema_version=5, profile='paper', project_id=result['project_id'],
         paper_title=result['title'], claim_id=thesis['id'], claim_statement=thesis['body']['statement'],
@@ -161,6 +180,9 @@ def _history_from_import(raw, anchor_id, registered_at):
 def initialize_imported_state(state):
     """Initialize a source-claimed current graph; no prior command/judgment is created."""
     seed = state['seed']; initial = seed['initial_argument']; records = initial['records']
+    if seed['schema_version']==14:
+        from .argument_import_v2 import validate_initial
+        state['condition_vocabulary']={item['key']:item for item in validate_initial(seed)}
     by_id = {record['id']: record for record in records}
     if len(by_id) != len(records) or seed['anchor_id'] in by_id:
         raise ContractError('import identities collide with each other or the manuscript anchor')
@@ -185,7 +207,8 @@ def initialize_imported_state(state):
                 raise ContractError('imported observation requires its completed experiment')
             state['events'].append(dict(event_id=internal_id('import-event-', key), target_id=key,
                 run_id=body['experiment_id'], action='import', imported_status=body['status'],
-                statement=body['statement'], value=body['value'], rationale=None, supersedes_id=None))
+                statement=body['statement'], value=body.get('value'), rationale=None, supersedes_id=None,
+                **({'measurement':body['measurement']} if 'measurement' in body else {})))
         elif kind == 'claim':
             status, basis = body.pop('status'), body.pop('basis_ids')
             changes[key] = dict(id=key, kind='claim', body=body)
@@ -291,7 +314,8 @@ def _errors(value, schema, path, output):
         for key, child in fields.items():
             pointer = path + "/" + _escape(key)
             if key not in value:
-                output.append({"pointer": pointer, "error": "missing field"})
+                if key in schema.get("required", []):
+                    output.append({"pointer": pointer, "error": "missing field"})
             else:
                 _errors(value[key], child, pointer, output)
     elif kind == "array" and type(value) is list:
@@ -311,6 +335,9 @@ def _errors(value, schema, path, output):
 def preview_import(raw):
     """Complete selected graph/coverage preview; errors prohibit registration, not inspection."""
     value = decode(raw, purpose="project")
+    if type(value) is dict and value.get('schema') == 'claimbranch.argument-import/v2':
+        from .argument_import_v2 import preview_import as preview_v2
+        return preview_v2(raw)
     schema = import_schema()
     skeleton = deepcopy(schema)
     skeleton["properties"]["records"]["items"] = {}  # Report each closed record below.
@@ -365,7 +392,31 @@ def preview_import(raw):
         for missing in sorted(set(expected) - targets):
             errors.append({"pointer": path + "/body" + missing, "error": "missing explicit source mapping"})
 
-    selected = set(value["selected_ids"])
+    selected, closure, included, counts, limits = graph_consistency(value["selected_ids"], by_id, indexes, errors)
+    covered = set().union(*(coverage[key] for key in closure))
+    unresolved = [key for key, _ in leaves if key not in covered]
+    result = {"schema": "claimbranch.argument-import-preview/v1", "valid": not errors, **errors.fields(),
+        "registration_available": False, "writes": False, "source_fidelity_verified": False,
+        "envelope_sha256": hashlib.sha256(raw).hexdigest(), "source_sha256": value["source"]["sha256"],
+        "source_bytes": len(original), "project_id": value["project_id"], "title": value["title"],
+        "selected": sorted(selected), "required": sorted(closure - selected), "omitted": sorted(set(by_id) - closure),
+        "counts": {kind: {"used": count, "limit": limits[kind]} for kind, count in counts.items()},
+        "records": included, "source": value['source'],
+        "unresolved_source_pointers": [unresolved[i:i+128] for i in range(0, len(unresolved), 128)],
+        "unresolved_source_leaf_count": len(unresolved),
+        "source_leaf_count": len(leaves), "mapped_source_leaf_count": len(covered),
+        "boundary": "Read-only mapping preview. Historical dates/origins are unverified source claims; no science or prior app approvals created."}
+    # The exact input hash binds every source byte/mapping; do not duplicate a
+    # near-limit envelope into another saved-project-sized hash input.
+    commitment = {key: result[key] for key in ('schema', 'envelope_sha256', 'source_sha256',
+                  'selected', 'required', 'omitted', 'counts', 'valid', 'error_count')}
+    result["preview_digest"] = hashlib.sha256(encode(commitment, purpose="project")).hexdigest()
+    return result
+
+
+def graph_consistency(selected_ids, by_id, indexes, errors):
+    """Shared graph semantics; no source extraction, normalization or retention."""
+    selected = set(selected_ids)
     for key in sorted(selected - set(by_id)):
         errors.append({"pointer": "/selected_ids", "record_id": key, "error": "selected record absent or malformed"})
     closure, pending = set(), sorted(selected & set(by_id))
@@ -422,7 +473,7 @@ def preview_import(raw):
             if start in claims: scientific.setdefault(start, set()).add(end)
         elif kind == "observation" and by_id.get(body["experiment_id"], {}).get("kind") != "experiment":
             errors.append({"pointer": where + "/experiment_id", "error": "observation requires an experiment record, not inventory ID"})
-        elif kind == 'observation' and body['status'] in ('confirmed', 'corrected') and body['value'] is None:
+        elif kind == 'observation' and body['status'] in ('confirmed', 'corrected') and body.get('value') is None and 'measurement' not in body:
             errors.append({'pointer': where + '/value', 'error': 'mapped active observation needs its measured scalar value; retain source-only when typed tables are not yet supported'})
         elif kind == "experiment-plan" and body["claim_id"] not in claims:
             errors.append({"pointer": where + "/claim_id", "error": "plan requires a claim"})
@@ -443,22 +494,4 @@ def preview_import(raw):
     for kind, count in counts.items():
         if count > limits[kind]:
             errors.append({"pointer": "/records", "error": "capacity %s: %s / %s" % (kind, count, limits[kind])})
-    covered = set().union(*(coverage[key] for key in closure))
-    unresolved = [key for key, _ in leaves if key not in covered]
-    result = {"schema": "claimbranch.argument-import-preview/v1", "valid": not errors, **errors.fields(),
-        "registration_available": False, "writes": False, "source_fidelity_verified": False,
-        "envelope_sha256": hashlib.sha256(raw).hexdigest(), "source_sha256": value["source"]["sha256"],
-        "source_bytes": len(original), "project_id": value["project_id"], "title": value["title"],
-        "selected": sorted(selected), "required": sorted(closure - selected), "omitted": sorted(set(by_id) - closure),
-        "counts": {kind: {"used": count, "limit": limits[kind]} for kind, count in counts.items()},
-        "records": included, "source": value['source'],
-        "unresolved_source_pointers": [unresolved[i:i+128] for i in range(0, len(unresolved), 128)],
-        "unresolved_source_leaf_count": len(unresolved),
-        "source_leaf_count": len(leaves), "mapped_source_leaf_count": len(covered),
-        "boundary": "Read-only mapping preview. Historical dates/origins are unverified source claims; no science or prior app approvals created."}
-    # The exact input hash binds every source byte/mapping; do not duplicate a
-    # near-limit envelope into another saved-project-sized hash input.
-    commitment = {key: result[key] for key in ('schema', 'envelope_sha256', 'source_sha256',
-                  'selected', 'required', 'omitted', 'counts', 'valid', 'error_count')}
-    result["preview_digest"] = hashlib.sha256(encode(commitment, purpose="project")).hexdigest()
-    return result
+    return selected, closure, included, counts, limits

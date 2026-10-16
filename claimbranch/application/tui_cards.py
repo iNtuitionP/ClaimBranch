@@ -37,6 +37,7 @@ def overview_copy(app, node_id):
                 'Applied' if content.get('applied') else 'Not applied')
     result = CAPTIONS.get((node['kind'], app.title(node_id)))
     if result and node['kind'] == 'observation':
+        if 'value' not in content: return None
         # A changed value/metric must not retain a frozen measurement caption.
         unit = content['metric']['unit']
         if unit != 'percentage points' or content['metric']['name'] != 'classification accuracy loss':

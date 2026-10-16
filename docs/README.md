@@ -18,6 +18,12 @@ in-progress material visibly different.
   The [per-issue paper migration plan](plans/active/2026-08-04-claimbranch-v1-and-gpu-systems.md#real-paper-migration-implementation-plan)
   owns the 2026-10-13 next-version import/capacity/revision planning and confirmed
   personal import/sharing choices under ADR 0023.
+  The [original-ledger implementation plan](plans/active/2026-08-04-claimbranch-v1-and-gpu-systems.md#original-ledger-migration-implementation-plan)
+  defines five next outcomes for original text sources, one-pass table import,
+  proportional origin review/retention and label-based manuscript connections.
+  The [Markdown migration follow-up assessment](plans/active/2026-08-04-claimbranch-v1-and-gpu-systems.md#markdown-migration-follow-up-assessment)
+  checks the later A–D source/origin/table/LaTeX reports, including corrected
+  assumptions and dependencies; the actual private import remains unrun.
   For the requested next LLM capability, read the
   [optional AI follow-up proposal](plans/active/2026-08-04-claimbranch-v1-and-gpu-systems.md#optional-ai-follow-up-implementation-plan);
   it preserves the completed manual alpha and separates portable preparation
