@@ -3998,7 +3998,8 @@ checks remain unchanged. Without this flag, existing encoding remains selected.
 The combined synthetic qualification now passes with430 source records/5,400
 cells,30 anchors,40 retained partial comparisons and one new personal judgment:
 registration/open/backup/fresh-folder restore each finish within60s in separate
-extracted-runtime processes. Both graph entries, deterministic replay and selected
+extracted-runtime processes on the named local Mac. Hosted macOS CI later exceeds
+that target; alpha.5 is explicitly published with that known failure disclosed. Both graph entries, deterministic replay and selected
 sharing/privacy checks pass in the same journey. Prior failed runs remain in the
 execution record. This is bounded synthetic evidence, not actual-paper source
 verification, a guarantee for every paper or permission to publish. See the

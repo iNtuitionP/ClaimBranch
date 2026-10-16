@@ -1386,8 +1386,39 @@ scientific-benefit, provider and protected-authority qualifications above.
    preparation/import dry-run commands. This action does not run their private
    migration, send research to AI or require native keys.
 
-Publication/remote CI/asset confirmation is pending at this initial preparation
-checkpoint. The original dirty checkout and unrelated demo work are preserved.
+Publication completed2026-10-16 KST after the owner explicitly selected
+**experimental distribution with performance limitation and CI failure disclosed**.
+The60s requirement is unchanged and the failing result remains a failure.
+
+- [PR #17](https://github.com/iNtuitionP/ClaimBranch/pull/17) merges at
+  `d4855289e298ac52ed5a41772a3cf214cb3feca9`; tag
+  `v0.1.0-alpha.5` resolves to that same commit.
+- [Public prerelease](https://github.com/iNtuitionP/ClaimBranch/releases/tag/v0.1.0-alpha.5)
+  publishes at2026-10-16T04:10:58Z with2,462,707-byte runtime ZIP,163 files,
+  SHA-256`9803ceb97df211e834caf3b586de33ccb94b04feec5c00e744785e1c3900aacb`,
+  and SHA-256 sidecar. GitHub asset digest matches the checked local build.
+- Full independent ZIP checker passes doctor, original replay, paper/draft/
+  episode/provider examples, synthetic loopback and personal/paper-profile PTY
+  save/recovery. Downloading the uploaded ZIP reproduces the exact digest;
+  extracted doctor/help and a new synthetic Markdown prepare/shared-audit
+  import dry-run pass without project registration or actual research access.
+- [PR CI](https://github.com/iNtuitionP/ClaimBranch/actions/runs/38845794514)
+  passes documentation/fixture/skills, Windows contracts and Mac relay checks.
+  Hosted macOS runs1503 application tests in2140.719s:1502 pass, one fails
+  registering the large fixture at77.351943s/60s, peak RSS696,827,904bytes.
+  Harness/whitespace and later security/artifact steps are NOT RUN in that job;
+  retain independent local evidence separately. Ubuntu is still running at
+  this publication checkpoint. Neither pending nor failed coverage is green.
+- The earlier duplicate push-triggered run is cancelled after the equivalent
+  PR run starts; it is not counted as passing evidence. Merge/main-triggered CI
+  is separate and is not assumed complete from the PR result.
+
+This is the owner's explicitly approved known-limitation alpha, not a changed
+performance contract, clean full-CI claim, verified private migration or v1.0.
+Remote performance remains open for follow-up; next is the owner's actual-paper
+prepare/import dry-run. Main README/workflow distinguish the named local pass
+from hosted failure. The original dirty checkout and unrelated demo work are
+preserved; only already-delivered owned changes may be synchronized to main.
 
 ## Markdown migration follow-up assessment
 
@@ -2019,6 +2050,13 @@ required from the owner. This planning task makes no commit, provider inference
 on research data, implementation or publication claim.
 
 ## Progress
+
+- [x] 2026-10-16 KST — Owner explicitly approves publication with hosted CI
+  performance failure disclosed. Merge #17 and publish alpha.5 at the exact
+  merge commit; uploaded/downloaded ZIP digest and synthetic dry-run pass.
+  Hosted macOS77.35s/60s remains failed; Ubuntu pending. See
+  [publication evidence](#alpha5-publication-order). Actual private dry-run
+  and fidelity remain unverified.
 
 - [x] 2026-10-16 KST — Complete I05 bounded synthetic connected qualification:
   clean source registration/open/backup/restore55.25–58.33s, deterministic cold

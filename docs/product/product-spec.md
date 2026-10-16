@@ -234,7 +234,7 @@ bounds. It requires reviewed import opt-in or explicit conversion; current
 writing refreshes its context while earlier causes retain their original bindings.
 The combined synthetic430-record/5,400-cell qualification now retains30 anchors,
 40 partial comparisons and one new personal judgment through clean-source
-registration/open/backup/restore within60s per operation. This verifies that bounded
+registration/open/backup/restore within60s per operation on the named local Mac. This verifies that bounded
 continued-work fixture; actual private-source fidelity, researcher benefit and
 release remain separate and unverified.
 This is the last outcome in the

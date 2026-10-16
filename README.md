@@ -38,6 +38,10 @@ same evidence and unfinished work later.
 > work. The Mac Codex connection is a release candidate undergoing final live validation.
 > Manuscript files stay read-only.
 
+> **alpha.5 known performance limit:** hosted macOS CI registered the large synthetic
+> project in77.35s against the unchanged60s target. This experimental feedback
+> release ships with that CI failure disclosed. [Release details](https://github.com/iNtuitionP/ClaimBranch/releases/tag/v0.1.0-alpha.5).
+
 <p align="center">
   <img src="docs/assets/terminal-preview.svg" alt="Actual synthetic terminal snapshot: thesis, main claims, shared evidence, a run and an unrun experiment plan. AI is off." width="100%">
 </p>
@@ -212,7 +216,7 @@ new reasoning comparison in the original flat format exceeds the8MiB audit-manif
 limit and safely refuses. An [explicit shared-audit repair](docs/development/workflow.md#opt-in-shared-audit-representation)
 is available in this checkout. The full synthetic430-record/5,400-cell workload,
 30 anchors,40 partial comparisons and one new personal judgment now pass independent
-source-runtime save/open/backup/restore within60s per operation. Actual private-paper
+source-runtime save/open/backup/restore within60s per operation on the named local Mac. Actual private-paper
 migration, source fidelity and user benefit remain unverified.
 [Measured qualification and remaining work →](docs/plans/active/2026-08-04-claimbranch-v1-and-gpu-systems.md#i05-isolated-connected-qualification)
 [Prior-argument import](docs/development/workflow.md#prior-argument-mapping-preview)
