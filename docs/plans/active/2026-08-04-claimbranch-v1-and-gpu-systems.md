@@ -1487,6 +1487,54 @@ new exact-head PR CI can authorize merge/publication under the owner's choice. T
 existing draft ZIP is the **old runtime** and must be replaced with a newly built
 and independently verified final artifact before publication.
 
+Final reviewed candidate`40e8421cc7ce0927755352af6a7bac876aa4df64` is pushed
+to PR #25. Its [new exact-head PR CI](https://github.com/iNtuitionP/ClaimBranch/actions/runs/38901239843)
+passes docs/fixture/skills, Windows validation, relay and the entire Mac
+portable job. Ubuntu later cancels at the whole-job45m budget during final
+artifact checks; its prior tests pass as recorded below. Duplicate same-head push run`38901234439` is cancelled,
+not counted green. Clean detached85-document/22-harness/whitespace checks pass.
+New clean166-member runtime ZIP is2,569,150 bytes/SHA-256
+`5be63468f4cb85c44eb70d561f6cc41db8a83bd8ba7ca5760aa54297a39163d8`;
+its independent artifact checker passes all12 declared entries. This replaces
+the initial draft ZIP/sidecar and targets40e8421. Authenticated draft download,
+exact digest/sidecar, extracted doctor, manifest4 preparation and import5 plain/
+JSON dry-runs pass: valid/registration_available true, zero errors,31 summary
+lines and prepared bytes identical to the earlier owned fixture. This is draft
+verification, not yet a public download; no merge or public release has occurred.
+
+Hosted40e8421 results: Mac completes every job successfully, including209
+contracts,1,609 app checks in2004.677s,22 harness/security checks and all12
+independent artifact checks. Its build reproduces the exact5be63468… runtime ZIP.
+Cold register33.765s/open32.756s/backup36.176s/restore34.378s and replay3.494s
+meet the unchanged bounds, with matching returned project/manifest hashes.
+
+Ubuntu also passes209 contracts,1,609 app checks in2503.414s,22 harness and22
+security checks, with cold register48.759s/open49.785s/backup54.168s/restore51.277s
+and replay5.102s. Returned project/manifest hashes match across its operations;
+peak RSS665,272KiB is below2GiB. However, the45-minute **whole CI job allocation**
+cancels its final independent artifact step, so the overall run is cancelled,
+not green, and publication remains blocked. This is separate from the product's
+60s cold-performance gate, which now passes on both hosts.
+
+CI-allocation correction plan review: retain every check, its order, per-check
+timeouts and cold60s/30s/2GiB gates. Allocate55m to the portable CI job so the
+observed41.7m Linux app suite plus startup and independent artifact checks can
+finish. This changes runner scheduling allowance only, not runtime behavior or
+acceptance limits. No tests are removed, skipped, relaxed or relabeled. Review
+the tiny workflow diff with Opus, run docs/harness checks and observe the new
+exact-head PR CI through all final artifact checks. Runtime ZIP bytes must remain
+5be63468… because only CI/docs change. No user research or provider request.
+
+The check-run annotation explicitly reports “The job has exceeded the maximum
+execution time of45m0s.” The55m allocation correction passes docs/harness22/
+whitespace checks. Actual first-party`claude-opus-5-5` reviews the1,581-byte
+workflow/result packet, SHA-256
+`04c8858b78592672bb9d3ff9470d2afef0fce379d4f1ab526a1c8ed70d0e7bc3`,
+with tools/customizations/hooks/MCP/persistence off and`is_error=false`. It finds
+no concrete defect and confirms this is runner allocation, not product-gate
+relaxation. The allowance applies to both Mac/Ubuntu matrix legs; both must
+finish all checks on the final head before release. New CI remains to be run.
+
 The test-only path correction keeps`/private/tmp` on Darwin and uses Python's
 configured temporary directory elsewhere, matching the existing portable journey.
 All four affected tests pass locally in8.906s. This is a Mac observation, not a
