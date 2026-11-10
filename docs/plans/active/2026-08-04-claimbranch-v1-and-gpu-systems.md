@@ -3589,8 +3589,11 @@ introducer, and a resize after bare Escape no longer erases the Escape.
 Three input regressions failed before correction; the affected18 checks then
 passed. Strengthen changed-screen terminal/artifact transitions to await the
 observed destination instead of assuming a fixed200ms delay. The early CI gate
-now runs the whole actual-PTY class with the same tests import path as alpha,
+now selects its portable actual-PTY/input/artifact cases from `alpha_suite`,
 before the full unchanged regression and independent source qualification.
+An initial whole-class selection also included native/encrypted tests and
+Linux skips; that configuration was replaced with the existing alpha exclusions
+and `run_suite`'s skip refusal. It establishes no new device-key release gate.
 Actual first-party Opus5.5 reviewed25,899 bytes, SHA256
 `33d6a95b8c339135852828954be54acf9d5aee2b9f942b3ee606cf572a997765`,
 with no blocking findings. Its recommendation to await observable transitions
