@@ -630,7 +630,9 @@ class Terminal:
                 if not isinstance(part, str):
                     if part == getattr(c, 'KEY_MOUSE', -1) and getattr(self, 'mouse', None):
                         return self.mouse.read()
-                    return keys.get(part)
+                    # After bare ESC this is an Alt-modified key, not the
+                    # ordinary backspace/navigation/confirmation command.
+                    return keys.get(part) if suffix or part == c.KEY_RESIZE else None
                 suffix += part
                 self.screen.timeout(max(1, int(1000 * max(0, deadline - time.monotonic()))))
                 if time.monotonic() >= deadline:

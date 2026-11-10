@@ -3557,6 +3557,21 @@ Linux/macOS, documentation/Windows and owned-relay checks before merge. Exact
 commit/run evidence belongs in the PR's verification record. No branch-protection
 bypass, new release tag, device-key ceremony or live provider send is needed.
 
+The initial [PR28 CI](https://github.com/iNtuitionP/ClaimBranch/actions/runs/42782152641)
+caught an additional regression before the full suite: bare ESC followed by a
+curses-decoded Alt+Backspace/Left was dispatched as the ordinary key. Both
+platforms reproduced it. Suppress keyboard integers after bare ESC, retain
+nonempty-prefix recovery, and route asynchronous resize/mouse separately.
+Extend the unchanged modifier regression to Delete/Enter and timeout restoration;
+retain resumed-prefix navigation coverage.19 focused input/actual-PTY tests
+passed in3.712s before the additional assertion-only coverage. Actual first-party
+Opus5.5 reviewed the12,332-byte correction packet, SHA256
+`ea74ea75935944154fbf461a282db21dfe35a737ddee25f6a47e879e37e34f7a`,
+and found no blocking defect in this fix. Existing conservative bare ESC+control
+handling is unchanged. The superseded isolated full run was stopped; final checks
+must use the corrected commit. The failed CI remains visible, not relabeled a
+successful validation.
+
 ### Fixed outcome ledger and execution order
 
 Each outcome follows **plan check → implementation → result review → actual

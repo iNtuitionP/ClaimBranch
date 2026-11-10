@@ -490,15 +490,19 @@ class EscapeSuffixTests(unittest.TestCase):
                  'KEY_ENTER KEY_RESIZE').split()
         keys = SimpleNamespace(error=TimeoutError,
                                **{name: index + 1000 for index, name in enumerate(names)})
-        for suffix in (keys.KEY_BACKSPACE, keys.KEY_LEFT):
+        for suffix in (keys.KEY_BACKSPACE, keys.KEY_LEFT, keys.KEY_DC, keys.KEY_ENTER):
             with self.subTest(suffix=suffix):
                 terminal = Terminal.__new__(Terminal)
                 terminal.curses, terminal.pending, terminal.discard_sequence = keys, deque(), False
                 terminal.screen = SimpleNamespace(timeout=Mock(),
                     get_wch=Mock(side_effect=['\x1b', suffix, '\x13']))
                 self.assertIsNone(terminal.read())
+                terminal.screen.timeout.assert_called_with(100)
                 self.assertEqual('keep', terminal.read())
 
+        terminal.screen.get_wch = Mock(side_effect=['\x1b', keys.KEY_RESIZE])
+        self.assertEqual('resize', terminal.read())
+        terminal.screen.timeout.assert_called_with(100)
         terminal.screen.get_wch = Mock(side_effect=['\x1b', TimeoutError()])
         self.assertEqual('escape', terminal.read())
 

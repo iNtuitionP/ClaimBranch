@@ -101,7 +101,8 @@ class ResponsiveReadingTests(unittest.TestCase):
         self.terminal.curses = SimpleNamespace(error=TimeoutError,
             **{name: i + 1000 for i, name in enumerate(names)})
         for control, expected in (('\x03', 'interrupt'), ('\n', 'enter'), ('\x13', 'keep'),
-                                  (self.terminal.curses.KEY_RESIZE, 'resize')):
+                                  (self.terminal.curses.KEY_RESIZE, 'resize'),
+                                  (self.terminal.curses.KEY_LEFT, 'left')):
             self.terminal.pending, self.terminal.discard_sequence = deque(), False
             self.terminal._paste_prefix = '[2'
             self.terminal.screen = SimpleNamespace(timeout=Mock(), get_wch=Mock(side_effect=[TimeoutError(), control]))
