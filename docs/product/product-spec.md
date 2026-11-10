@@ -2,7 +2,7 @@
 kind: product-spec
 status: draft
 owners: maintainers
-last_reviewed: 2026-10-16
+last_reviewed: 2026-11-10
 canonical_for: intended product behavior and boundaries
 ---
 
@@ -788,6 +788,19 @@ selection adapts their presentation while preserving scientific meaning:
 | PG-4 | Focusing a node reveals its typed connections and related content, with keyboard access to those nodes and a return path. Emphasis must preserve readable scientific content and orientation. A graphical view may additionally provide hover/touch behavior. |
 | PG-5 | Show the possible reach of a follow-up experiment and the affected/outside-path parts of a judgment alongside the argument structure. Marks and relationship paths must remain inspectable without relying only on a separate prose report, and must not imply that reach determines scientific truth. |
 
+The 2026-11-10 UI feedback refines these existing goals:
+use available terminal width for readable cards and connection spacing, keep
+node content compact without empty relationship bands, provide responsive
+trackpad/keyboard scrolling, present structured research as labeled fields and
+tables, and make `?` a concise contextual key guide. Both entry views keep their
+folds, exact typed relations and return context. Human-readable presentation
+must retain missing information, exact values, origin and unresolved obligations;
+neither shortened help nor folded detail authorizes a change. The
+[responsive reading design](../designs/2026-09-22-episode-review.md#responsive-terminal-reading-refinement)
+owns the current layout and replacement of the older header-band presentation.
+Local reader/graph/key checks and isolated Herdr wheel routing are distinct from
+physical trackpad, outer-terminal painting and live-user validation.
+
 The owner-selected 2026-10-15 follow-up requires foldable spatial graphs in both
 entry views: `1` starts from the paper thesis; `2` starts from a selected
 experiment or observation and exposes its recorded result-to-claim uses.
@@ -919,12 +932,12 @@ bright; other nodes and edges remain readable with subdued contrast. Focus
 does not propagate transitively or move/filter the graph. Selecting a
 relationship concentrates emphasis on its two endpoints and exact edge, and
 reveals its type and rationale. Crossed lines are not new
-nodes or inferred relations. Full directional relationship phrases belong in
-connected node headers beside the title, readable without a code key or color;
-words must not compete with crossing lines. Parallel types have separate
-phrases. Wording that cannot fit beside the title continues in a reserved
-header band above source text. Selection must not resize cards or displace their
-source preview.
+nodes or inferred relations. Connected cards use canonical type/direction cues
+on their lower border; the selected-node strip and exact relation reader retain
+full endpoints, parallel types and reasons. Source text starts immediately below
+the title without an empty relationship band. Selection does not resize cards.
+Available pane width expands source text and rank spacing; insufficient room
+retains panning or a readable selected-source fallback.
 Inspecting one relation reveals its actual type and prioritizes that trace.
 Visual occlusion cannot delete a relation or replace its recorded direction. Full graph, contextual reading and
 an outline alternative retain the same selection, drafts and hypothetical state.

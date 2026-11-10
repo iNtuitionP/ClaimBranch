@@ -145,6 +145,7 @@ class TerminalGraphTests(unittest.TestCase):
         scene = self.scene()
         frame = Frame(220, 100)
         graph(frame, self.app, 0, 0, frame.width, frame.height)
+        scene = self.scene()  # geometry derives from the actual graph pane
         # Locate each actual card from its unique rounded corner, independent of
         # the panel's padding; all scene cards fit this viewport.
         first = min(scene.boxes.values(), key=lambda box: (box.x, box.y))

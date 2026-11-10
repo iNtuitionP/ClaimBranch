@@ -11,6 +11,8 @@ from .tui_model import TerminalWorkspace, cell_width, char_width, clean, clip, w
 from .tui_graph import graph, graph_scene, move_graph
 from .tui_work_recovery import enabled as encrypted_judgments, excluded_work, save_failure_message
 from .tui_retention import recovery_copy, personal
+from .tui_input import Mouse, Wheel, sgr_wheel
+from .tui_help import READ_VIEWS, ENTRY_VIEWS, help_ui
 
 
 class Frame:
@@ -244,28 +246,24 @@ def relationships(frame, app, x, y, width, height):
 
 def inspector(frame, app, x, y, width, height):
     title = {"detail": "READ", "draft": "YOUR JUDGMENT", "impact": "WHAT IF",
-             "writing": "WRITING", "provenance": "CONTRIBUTIONS", "work": "WORK / REVIEW"}[app.mode]
+             "writing": "WRITING", "provenance": "CONTRIBUTIONS", "work": "WORK / REVIEW", "raw": "ORIGINAL RECORD / AUDIT"}[app.mode]
     relation = app.reading_relation and app.mode == "detail"
     x, y, width, height = frame.panel(
         x, y, width, height, "CONNECTION" if relation else title, app.focus == "detail")
     measure = min(72, width - 6)
     inset = max(3, (width - measure) // 2)
-    content = app.relationship_detail() if relation else app.detail(include_links=False, width=measure)
-    lines = []
-    for index, (text, style) in enumerate(content):
-        if style == "heading":
-            style = node_style(app, app.selected_id) if index == 0 and app.mode == "detail" and not relation else "heading"
-        elif index == 1 and style == "body":
-            style = "lead"
-        preview = (not relation and any(text.startswith(kind + " → ") for kind in
-                                       ("supports", "challenges", "qualifies", "inconclusive")))
-        lines.extend((line, style) for line in ([clip(text, measure)] if preview else wrap(text, measure)))
-    visible = height - 5
-    app.scroll = max(0, min(app.scroll, max(0, len(lines) - visible)))
-    for index, (text, style) in enumerate(lines[app.scroll:app.scroll + visible]):
+    from .tui_reading import reader
+    document = reader(app, measure)
+    visible = max(1, height - 5)
+    app._reader_size = (measure, visible)
+    app.scroll = document.clamp(app.scroll, visible)
+    for index, (text, style) in enumerate(document.rows[app.scroll:app.scroll + visible]):
+        if app.scroll + index == 0 and style == 'heading' and app.mode == 'detail' and not relation:
+            style = node_style(app, app.selected_id)
         frame.put(y + index + 3, x + inset, text, style, measure)
+    total = str(len(document.rows)) if document.done else str(len(document.rows)) + '+'
     frame.put(y + height - 1, x + 2,
-              f"{app.scroll + 1}–{min(len(lines), app.scroll + visible)} / {len(lines)}   PgUp/PgDn",
+              f"{app.scroll + 1}–{min(len(document.rows), app.scroll + visible)} / {total}   PgUp/PgDn",
               "muted", width - 4)
 
 
@@ -562,10 +560,11 @@ class Terminal:
             except c.error:
                 pass  # Monochrome retains the same text and focus cues.
 
-        for name in ("supports", "challenges", "qualifies", "accent"):
+        for name in ("supports", "challenges", "qualifies", "inconclusive", "accent"):
             self.styles["relation_" + name] = self.styles[name] & ~c.A_BOLD
 
-    def read(self):
+    def read(self, timeout=100):
+        self.screen.timeout(timeout)
         c = self.curses
         controls = {"\n": "enter", "\r": "enter", "\t": "tab", "\x7f": "backspace", "\b": "backspace",
                     "\x03": "interrupt", "\x13": "keep", "\x0c": "redraw",
@@ -573,17 +572,28 @@ class Terminal:
         if self.pending:
             event = self.pending.popleft()
             return controls.get(event, event)
-        try:
-            event = self.screen.get_wch()
-        except c.error:
-            return None
+        prefix = getattr(self, '_paste_prefix', '')
+        if prefix:
+            event = '\x1b'
+        else:
+            try:
+                event = self.screen.get_wch()
+            except c.error:
+                return None
         keys = {c.KEY_UP: "up", c.KEY_DOWN: "down", c.KEY_LEFT: "left", c.KEY_RIGHT: "right",
                 c.KEY_HOME: "home", c.KEY_END: "end", c.KEY_BACKSPACE: "backspace", c.KEY_DC: "delete",
                 c.KEY_NPAGE: "page-down", c.KEY_PPAGE: "page-up", c.KEY_BTAB: "backtab",
                 c.KEY_ENTER: "enter", c.KEY_RESIZE: "resize"}
         if isinstance(event, int):
+            if event == getattr(c, "KEY_MOUSE", -1) and getattr(self, "mouse", None):
+                return self.mouse.read()
             return keys.get(event)
+        if self.discard_sequence and getattr(self, 'discard_sgr', False) and event not in '0123456789;Mm':
+            self.discard_sequence = False
         if self.discard_sequence:
+            if event in controls:
+                self.discard_sequence = False
+                return controls[event]
             if event == "\x03":
                 self.discard_sequence = False
                 return "interrupt"
@@ -596,19 +606,49 @@ class Terminal:
             return controls.get(event, event)
         # Decode bracketed paste as a single text event: its contents must never
         # become navigation keys, a scenario selection or an exit command.
-        suffix = ""
-        received_suffix = False
-        # curses already waited ESCDELAY to distinguish a bare Escape. Drain
-        # buffered suffixes immediately; only an actual prefix needs a wait.
-        self.screen.timeout(0)
+        suffix = prefix
+        self._paste_prefix = ''
+        received_suffix = bool(prefix)
+        deadline = time.monotonic() + .035
+        # With keypad enabled ncurses already waits ESCDELAY before returning
+        # bare Escape. Drain its buffered suffix without a second wait that
+        # could swallow the user's next key as Alt. An established fragmented
+        # introducer still gets a bounded continuation window.
+        self.screen.timeout(35 if prefix else 0)
         try:
             for _ in range(64):
                 part = self.screen.get_wch()
                 received_suffix = True
+                if part == '\x1b':
+                    # A fresh sequence supersedes an incomplete introducer.
+                    # Never append its '[' as the old sequence's final byte.
+                    suffix, received_suffix = '', False
+                    self.screen.timeout(0)
+                    deadline = time.monotonic() + .035
+                    continue
+                # A fragmented introducer may survive idle reads to keep late
+                # pasted text from becoming shortcuts. It must never swallow a
+                # subsequent control or a curses-decoded navigation event.
+                if isinstance(part, str) and part in controls:
+                    return controls[part] if suffix else None
                 if not isinstance(part, str):
-                    break
+                    if part == c.KEY_RESIZE or (part == getattr(c, 'KEY_MOUSE', -1) and getattr(self, 'mouse', None)):
+                        event = 'resize' if part == c.KEY_RESIZE else self.mouse.read()
+                        if suffix:
+                            # An asynchronous event cannot terminate a paste
+                            # introducer and expose its later body as commands.
+                            self._paste_prefix = suffix
+                            return event
+                        if event is not None:
+                            self.pending.append(event)
+                        return 'escape'
+                    # After bare ESC this is an Alt-modified key, not the
+                    # ordinary backspace/navigation/confirmation command.
+                    return keys.get(part) if suffix else None
                 suffix += part
-                self.screen.timeout(100)
+                self.screen.timeout(max(1, int(1000 * max(0, deadline - time.monotonic()))))
+                if time.monotonic() >= deadline:
+                    break
                 if len(suffix) == 1 and part not in "[O":
                     break
                 if len(suffix) > 1 and ((suffix[0] in "[O" and "@" <= part <= "~") or
@@ -617,8 +657,14 @@ class Terminal:
         except c.error:
             pass
         finally:
-            self.screen.timeout(100)
+            self.screen.timeout(timeout)
+        if suffix and suffix != '[200~' and '[200~'.startswith(suffix):
+            # Retain a fragmented paste introducer across reads. Discarding
+            # only its final '~' would execute the pasted body as shortcuts.
+            self._paste_prefix = suffix
+            return None
         if suffix == "[200~":
+            self.screen.timeout(100)
             data, ending, deadline = [], "", time.monotonic() + 5
             while time.monotonic() < deadline:
                 try:
@@ -630,28 +676,37 @@ class Terminal:
                 deadline = time.monotonic() + 5
                 ending += part
                 if ending.endswith("\x1b[201~"):
+                    self.screen.timeout(timeout)
                     return ("paste", "".join(data))
                 while ending and not "\x1b[201~".startswith(ending):
                     if len(data) < 24000:
                         data.append(ending[0])
                     ending = ending[1:]
+            self.screen.timeout(timeout)
             self.app.message = "Paste interrupted; received text stays in the active input."
             return ("paste", "".join(data))
         decoded = {"[A": "up", "[B": "down", "[C": "right", "[D": "left", "[H": "home", "[F": "end",
                    "[5~": "page-up", "[6~": "page-down", "[3~": "delete", "[Z": "backtab",
                    "OA": "up", "OB": "down", "OC": "right", "OD": "left", "OH": "home", "OF": "end"}
+        if suffix.startswith("[<"):
+            self.discard_sequence = not (len(suffix) > 2 and suffix[-1] in "Mm")
+            self.discard_sgr, self.discard_deadline = True, time.monotonic() + .1
+            mouse = getattr(self, "mouse", None)
+            return sgr_wheel(suffix) if mouse and mouse.enabled and mouse.owner == "sgr" else None
         if suffix in decoded:
             return decoded[suffix]
         if suffix.startswith(("[", "O")):
             # An overlong or truncated sequence can finish on a later read.
             # Its trailing letters still belong to that key, not to q/s/etc.
             self.discard_sequence = len(suffix) < 2 or not "@" <= suffix[-1] <= "~"
+            self.discard_sgr, self.discard_deadline = False, time.monotonic() + .1
             return None  # Unknown terminal sequences are one key, never application shortcuts.
         # Alt/Option arrives as ESC + a character. Replaying that character as
         # a command could cancel editing, switch branch or quit unintentionally.
         return None if received_suffix else "escape"
 
     def draw_modal(self, frame):
+        if self.modal == "help": return help_ui(self).draw(frame)
         if self.modal.startswith('graph-edit-'):
             from .tui_graph_edit import graph_edit_ui
             return graph_edit_ui(self).draw(frame)
@@ -860,6 +915,7 @@ class Terminal:
         self.screen.refresh()
 
     def modal_key(self, event):
+        if self.modal == "help": return help_ui(self).key(event)
         if self.modal.startswith('graph-edit-'):
             from .tui_graph_edit import graph_edit_ui
             graph_edit_ui(self).dispatch(event)
@@ -1040,8 +1096,36 @@ class Terminal:
                 self.modal = None
         return None
 
+    def wheel(self, event):
+        if not getattr(self.app, 'mouse_scroll', False):
+            return
+        # Modal wheel input never becomes a key/selection or escapes to the
+        # graph behind an editor/confirmation. Read-only help owns its scroll.
+        if self.modal:
+            if self.modal == 'help' and event.dy:
+                help_ui(self).wheel(event.dy)
+            return
+        height, width = self.screen.getmaxyx()
+        for pane, x, y, w, h in panes(self.app, width, height):
+            if not (x <= event.x < x + w and y <= event.y < y + h):
+                continue
+            if pane == 'detail' and event.dy:
+                from .tui_reading import scroll
+                scroll(self.app, 3 * event.dy)
+            elif pane == 'outline' and self.app.navigation == 'graph':
+                scene = graph_scene(self.app)
+                px, py = self.app.graph_pan
+                vw, vh = self.app.graph_size
+                self.app.graph_pan = (max(0, min(max(0, scene.width - vw), px + 4 * event.dx)),
+                                      max(0, min(max(0, scene.height - vh), py + 3 * event.dy)))
+                self.app.graph_follow = False
+            break
+
     def key(self, event):
         app = self.app
+        if isinstance(event, Wheel):
+            self.wheel(event)
+            return None
         if event == "interrupt":
             return 130
         if event == "suspend":
@@ -1057,6 +1141,7 @@ class Terminal:
             if not self.checkpoint():
                 return None
             self.curses.def_prog_mode()
+            if getattr(self, "mouse", None): self.mouse.set(False)
             sys.stdout.write("\x1b[?2004l")
             sys.stdout.flush()
             self.curses.endwin()
@@ -1065,6 +1150,7 @@ class Terminal:
             os.killpg(os.getpgrp(), signal.SIGSTOP)
             self.curses.reset_prog_mode()
             self.curses.raw()
+            if getattr(self, "mouse", None): self.mouse.set(app.mouse_scroll)
             sys.stdout.write("\x1b[?2004h")
             sys.stdout.flush()
             self.screen.clearok(True)
@@ -1115,7 +1201,7 @@ class Terminal:
             from .tui_view_ui import view_ui
             view_ui(self).open()
         elif event == "?":
-            self.modal = "help"
+            help_ui(self).open()
         elif event == "U":
             self.recovery_items = sorted(set(app.unfinished) | set(app.review.unfinished))
             self.recovery_index, self.modal = 0, "recovery"
@@ -1145,9 +1231,14 @@ class Terminal:
                 app.link_index = max(0, min(len(app.display_links()) - 1, app.link_index + amount))
                 app.reading_relation, app.mode, app.scroll = True, "detail", 0
             else:
-                app.scroll = max(0, app.scroll + amount)
+                from .tui_reading import scroll
+                scroll(app, amount)
         elif event in ("page-up", "page-down"):
-            app.scroll = max(0, app.scroll + (-10 if event == "page-up" else 10))
+            from .tui_reading import scroll
+            scroll(app, (-1 if event == "page-up" else 1) * getattr(app, "_reader_size", (0, 10))[1])
+        elif event in ("home", "end") and app.focus == "detail":
+            from .tui_reading import scroll
+            scroll(app, home=event == "home", end=event == "end")
         elif event in ("home", "end") and app.focus == "outline":
             rows = ([row for row in app.graph_rows() if row.node_id in app.graph_ids()]
                     if app.navigation == "graph" else app.rows())
@@ -1205,12 +1296,12 @@ class Terminal:
             app.graph_follow = False
         elif event == "g":
             app.jump_to_original()
-        elif event in ("1", "2"):
+        elif event in ENTRY_VIEWS:
             if event == '2' and app.lens == 'evidence':
                 from .tui_view_ui import graph_browse_ui
                 graph_browse_ui(self).open('roots')
             else:
-                app.switch_lens("argument" if event == "1" else "evidence")
+                app.switch_lens(ENTRY_VIEWS[event])
         elif event in ("[", "]"):
             app.cycle_evidence(-1 if event == "[" else 1)
         elif event == "escape":
@@ -1239,8 +1330,12 @@ class Terminal:
                 app.reading_relation, app.mode, app.scroll = True, "detail", 0
             else:
                 app.message = "Select evidence to inspect its direct claim uses. 2 opens evidence view."
-        elif event in ("d", "i", "m", "p"):
-            app.open_view(mode={"d": "detail", "i": "impact", "m": "writing", "p": "provenance"}[event])
+        elif event == 'raw-reader':
+            relation = app.reading_relation
+            app.open_view(mode='raw')
+            app.reading_relation = relation
+        elif event in READ_VIEWS:
+            app.open_view(mode=READ_VIEWS[event][1])
             app.reading_relation = False
         elif event == "s":
             plans = [node for node in app.view["nodes"] if node["kind"] == "experiment-plan"]
@@ -1327,37 +1422,66 @@ class Terminal:
         self.screen.scrollok(False)
         self.screen.keypad(True)
         self.screen.timeout(100)
-        sys.stdout.write("\x1b[?2004h")
-        sys.stdout.flush()
+        self.stopping = None
+        def terminate(signum, _frame):
+            self.stopping = 128 + signum
+        handlers = {sig: signal.getsignal(sig) for sig in (signal.SIGTERM, signal.SIGHUP)}
+        self.mouse = None
         try:
+            for sig in handlers: signal.signal(sig, terminate)
+            sys.stdout.write("\x1b[?2004h")
+            sys.stdout.flush()
+            self.mouse = Mouse(self.curses)
+            self.app.mouse_scroll = bool(self.mouse.owner)
+            self.mouse.set(self.app.mouse_scroll)
             self.paint()
             last_checkpoint = time.monotonic()
             while True:
+                if self.stopping is not None: return self.stopping
                 event = self.read()
-                if self.app.review.poll():
-                    self.paint()
-                if hasattr(self, '_proposals_ui') and self._proposals_ui.poll():
-                    self.paint()
+                if self.stopping is not None: return self.stopping
+                changed = self.app.review.poll()
+                if hasattr(self, '_proposals_ui'):
+                    changed = self._proposals_ui.poll() or changed
                 if event is None:
                     previous = getattr(self.app, "recovery_error", None)
-                    if self.app.recovery and (not encrypted_judgments(self.app) or time.monotonic() - last_checkpoint >= 1):
+                    if self.app.recovery and (not self.discard_sequence or time.monotonic() > getattr(self, 'discard_deadline', 0)) and time.monotonic() - last_checkpoint >= 1:
                         self.checkpoint()
                         last_checkpoint = time.monotonic()
-                        if bool(previous) != bool(getattr(self.app, "recovery_error", None)):
-                            self.paint()
+                        changed = changed or bool(previous) != bool(getattr(self.app, "recovery_error", None))
+                    if changed: self.paint()
                     continue
-                if (not self.modal and isinstance(event, str) and event not in
-                        {"interrupt", "suspend", "redraw", "resize", "tab", "backtab", "up", "down", "left", "right",
-                         "page-up", "page-down", "home", "end", "enter", "escape", *"q?jk ofHJKLg12[]vzbru dimpsenNEU/Pla+-=wAcRyxGBtWCM,;*"}):
-                    continue
-                code = self.key(event)
-                if code is not None:
-                    return code
-                if event in ("keep", "escape") or (not encrypted_judgments(self.app) and time.monotonic() - last_checkpoint >= .25):
-                    self.checkpoint()
-                    last_checkpoint = time.monotonic()
-                if encrypted_judgments(self.app):
-                    last_checkpoint = time.monotonic()
+                # Dispatch in arrival order; no prefetched Python queue can
+                # cross a modal's freshly painted confirmation barrier.
+                deadline = time.monotonic() + .012
+                for _ in range(32):
+                    if self.stopping is not None: return self.stopping
+                    if (not self.modal and isinstance(event, str) and event not in
+                            {"interrupt", "suspend", "redraw", "resize", "tab", "backtab", "up", "down", "left", "right",
+                             "page-up", "page-down", "home", "end", "enter", "escape", "keep",
+                             *"q?jk ofHJKLg12[]vzbru dimpsenNEU/Pla+-=wAcRyxGBtWCM,;*"}):
+                        break
+                    before = (self.modal, self.app.focus, self.app.mode)
+                    code = self.key(event)
+                    if code is not None:
+                        return code
+                    if event in ("keep", "escape") or (not encrypted_judgments(self.app) and time.monotonic() - last_checkpoint >= .25):
+                        self.checkpoint()
+                        last_checkpoint = time.monotonic()
+                    if encrypted_judgments(self.app):
+                        last_checkpoint = time.monotonic()
+                    # Only navigation batches. Each wheel keeps its direction
+                    # and clamp; keyboard events are never collapsed into wheel.
+                    if (self.modal or before != (self.modal, self.app.focus, self.app.mode)
+                            or time.monotonic() >= deadline
+                            or not (isinstance(event, Wheel) or event in
+                                    ('up', 'down', 'left', 'right', 'page-up', 'page-down'))):
+                        break
+                    if _ == 31:
+                        break
+                    event = self.read(0)
+                    if event is None:
+                        break
                 self.paint()
         finally:
             try:
@@ -1366,6 +1490,8 @@ class Terminal:
                 finally:
                     self.checkpoint()
             finally:
+                for sig, handler in handlers.items(): signal.signal(sig, handler)
+                if self.mouse: self.mouse.set(False)
                 sys.stdout.write("\x1b[?2004l")
                 sys.stdout.flush()
 

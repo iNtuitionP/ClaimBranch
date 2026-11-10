@@ -8,6 +8,10 @@ index and keep its progress current.
   — active execution from canonical scope lock through finite H0/H1 evidence
   and preregistered V0 live-paper validation. Next resume at the
   [alpha feedback and publication sequence](2026-08-04-claimbranch-v1-and-gpu-systems.md#alpha-feedback-and-publication-sequence).
+  Current UX implementation and qualification follow the
+  [responsive terminal reading plan](2026-08-04-claimbranch-v1-and-gpu-systems.md#responsive-terminal-reading-implementation-plan)
+  after alpha.6 feedback; its four-outcome ledger separates measured defects,
+  Herdr host hypotheses and implementation acceptance.
   The [foldable two-entry graph plan](2026-08-04-claimbranch-v1-and-gpu-systems.md#foldable-two-entry-graph-implementation-plan)
   links its [alpha.4 publication evidence](2026-08-04-claimbranch-v1-and-gpu-systems.md#alpha4-publication-evidence)
   for thesis/experiment entry, typed folding, direct editing and private view return.

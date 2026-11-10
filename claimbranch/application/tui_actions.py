@@ -82,6 +82,7 @@ class ActionsUI:
             Action('Choose an experiment or observation', 'browse:roots', 'Search content-first titles; experiments with no results stay selectable.', 'GRAPH'),
             Action('Read defined edge types', 'browse:legend', 'Canonical relation names, directions and definitions.', 'GRAPH'),
             Action('Unfold all records in this view', 'fold:all', 'Explicit full inspection; large maps may need panning.', 'GRAPH'),
+            Action('Original record / audit', 'raw-reader', 'Read complete retained fields, original mappings and earlier values. This does not approve or change research.', 'READ'),
             Action('Paper connection', 'project-source', 'Inspect the saved paper; preview relocation or source refresh while retaining earlier writing.',
                    unavailable='' if hasattr(app, 'project_source_status') else 'Open a selected project with demo project open first.'),
         ] + ([

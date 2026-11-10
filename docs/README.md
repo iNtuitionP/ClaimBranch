@@ -12,6 +12,11 @@ in-progress material visibly different.
   [UI/UX harness](development/uiux-harness.md) for design exploration and review.
 - Current scope and sequencing: [active execution plans](plans/active/README.md)
   -> [alpha feedback and publication sequence](plans/active/2026-08-04-claimbranch-v1-and-gpu-systems.md#alpha-feedback-and-publication-sequence).
+  Current UI feedback is scoped by the
+  [responsive terminal reading plan](plans/active/2026-08-04-claimbranch-v1-and-gpu-systems.md#responsive-terminal-reading-implementation-plan):
+  Herdr trackpad input, available-width graphs, content-bearing cards, readable
+  structured details and concise contextual help; local implementation and remaining
+  host observations are recorded separately.
   The owner-requested UX/authoring implementation is recorded in the
   [foldable two-entry graph plan](plans/active/2026-08-04-claimbranch-v1-and-gpu-systems.md#foldable-two-entry-graph-implementation-plan):
   thesis and experiment/result entry, content-first titles and direct TUI edits.

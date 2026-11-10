@@ -2,7 +2,7 @@
 kind: validation-case
 status: active
 owners: maintainers
-last_reviewed: 2026-10-16
+last_reviewed: 2026-11-10
 canonical_for: saturation workflow acceptance criteria
 ---
 
@@ -952,6 +952,46 @@ authority and P0 remain prerequisites for real research. Successful automated
 or browser checks make the information observable; they do not certify a
 researcher's understanding or establish V0 value.
 
+### Responsive terminal reading feedback oracle
+
+The [2026-11-10 responsive reading plan](../../plans/active/2026-08-04-claimbranch-v1-and-gpu-systems.md#responsive-terminal-reading-implementation-plan)
+owns implementation order and diagnostic timings. These additional checks are
+implemented and locally checked with qualification limits in the linked plan;
+they are not part of the existing alpha.6 release:
+
+- Over the same long Korean/English claim/result content, increasing the graph
+  pane from a standard to a wide terminal gives visible text and rank spacing
+  more room. Narrow screens expose overflow/folding rather than erasing scientific
+  detail. Selecting nodes leaves geometry stable; resizing preserves identity.
+- Cards have no empty selection-only relationship band. Their visible content
+  identifies subject and relevant source condition/value without an ID lookup;
+  truncated text is marked and complete source remains reachable. Typed
+  source→target relationships, shared identity, parallel edges and folded
+  challenge/qualification/companion obligations remain inspectable in both views.
+- A bounded wheel burst at the bottom, direction reversal and interleaved
+  Korean typing/paste/resize preserve event order and editor contents. No scrolling
+  activates a record or confirmation. Shell/mouse/cursor modes restore after
+  quit/interruption/suspend. Observe actual Herdr/trackpad separately from PTY
+  protocol injection and timestamps; disclose the outer terminal/version.
+  Check reporting-off selection/copy and distinguish actual wheel reports from
+  host-generated arrows. A buffered approval behind an opening preview cannot
+  pass its fresh-input barrier; buffered typing into an ordinary editor survives.
+- Typed observation tables expose every original cell, unit, condition and
+  correction without changing precision or inventing aggregates. Protocols,
+  wording, source claims, AI/unknown influence and unresolved work retain their
+  meanings. Explicit paged raw reading reaches retained details; default reading
+  does not dump application objects. Original authored JSON text remains text.
+- `?` first-page navigation/read/edit/fold/return help fits80×24 and matches
+  dispatch. Full topics and capability explanations remain accessible. Closing
+  help restores the selected record, view and exact editor state.
+- Repeat a claim→result→judgment and experiment→result→claim journey, then
+  save/quit/reopen. Manifests, origin and kept/unfinished text survive; manuscript
+  bytes, CLI canonical JSON and confirmation requirements remain unchanged.
+
+Frame timing proves responsiveness prerequisites, not scientific understanding.
+Use the plan's instrumented cold/warm targets without treating dropped input or
+hidden scientific fields as an improvement.
+
 ### 10.3 Terminal prototype oracle
 
 For proposal replacement, compare the current human judgment and reason with the
@@ -1200,7 +1240,7 @@ remain separate from production authority and the full paper-workspace gates.
 | Choose explicit local scope | E1's one-hop view has five unique nodes, all fitting at 80 × 26; at 80 × 24, clipped nodes stay counted and reachable. Selecting a neighbor keeps that root and layout; changing depth is explicit. Counts distinguish clipped cards from hidden nodes/edges. Home/End stay in scope. Following an outside edge reveals its target; Esc restores the prior scope and a returns to all nodes in the current lens |
 | Read shared evidence on a short screen | At 80 × 24, E1's first reader viewport exposes its recorded value/unit, conditions and both named scientific destinations before scrolling. Source, note and full relation rationale remain accessible. Compact framing does not change a relation or silently abbreviate its target identity |
 | Distinguish overlaps and offscreen context | Independent route strokes never combine into a false tee or crossing X. Exact-edge selection takes drawing priority through crossings while every route remains available in the reader. Only first legs sharing an actual port may show a common fork; an unlinked node reports no connections. Incomplete cards are omitted and offscreen direct-neighbor aliases remain inspectable through the relation picker |
-| Read edge types without a code key | Connected card headers show full directional phrases relative to the selected node, such as `supported by E1`, `challenged by E1` and `produced E1`. Parallel scientific/structural relations occupy separate rows; exact-edge focus shows only its own phrase. A fitting phrase shares the title line (`R1 RUN · produced E1`) in regular weight; long or parallel phrases continue directly below the title. Text stays in the reserved header band, never over source previews, notes, borders, arrowheads or route lanes. Long aliases wrap within preallocated space; changing selection leaves geometry fixed. Meaning remains readable without color. Wide 144×42 and 120×32 ten-node overviews and the 80×26 five-node local view retain complete cards |
+| Read edge types without a code key | Connected cards show canonical type/direction cues (`← supports`, `→ produced`), with additional parallel count; `r` retains each exact source/type/target and rationale. Source starts immediately below the title. Selection leaves geometry fixed; wider panes expand cards/spacing.220×52/280×52 ten-node views retain all cards; narrower views disclose overflow and preserve selected content through panning or explicit reading fallback. Meaning remains readable without color. |
 | Tune graph presentation and retain vertical arrows | Directly stacked connected cards leave at least three route cells, including upward challenges; an actual arrowhead has a visible shaft and selection never changes geometry. A short viewport reports clipping instead of collapsing the connector. `,` opens view settings; spacing/detail/pinning preview live, Enter keeps and Esc restores the prior settings/viewport without altering notes, judgments, source or reviews. Defaults also preview until kept. Resize preserves the selected setting; below 48×18 a visible cancel hint replaces controls and changes/keep pause until resizing. A pin toggle roundtrip preserves an existing fullscreen view, manual pan/follow restores on cancel, paste/unused keys cannot invoke actions, and comparison graphs inherit spacing/detail. Spacious changes layout after caching; returning to Balanced matches a fresh scene. Visible/hidden counts and `r follows` stay readable on short screens |
 | Compare graph and outline | `o` changes navigation over the same Argument/Evidence view, retaining the evidence identity, selected occurrence, draft and hypothetical state. No graph fold or placement writes a scientific relationship |
 | Read the argument hierarchy | The example's sole outline root is its thesis; claims, evidence, recorded experiments, interpretation, follow-up plans and writing connections appear beneath recorded links. Unfolding covers every relation key, including parallel scientific/structural links; no implicit support is added |

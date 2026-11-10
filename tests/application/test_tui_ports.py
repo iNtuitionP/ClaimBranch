@@ -1,4 +1,4 @@
-"""Full relationship phrases remain inside cards, separate from route lanes."""
+"""Typed relation cues and full readers stay separate from source and route lanes."""
 import unittest
 
 from claimbranch.application.tui import compose
@@ -41,7 +41,8 @@ class PortTests(unittest.TestCase):
         rows = relation_lines(self.app, scene, 'claim-pruning', focused)
         self.assertIn('supported by C3', [text for text, style in rows])
         self.assertIn('contains C3', [text for text, style in rows])
-        self.assertGreaterEqual(scene.boxes['claim-pruning'].relation_rows, len(rows))
+        self.assertEqual(0, scene.boxes['claim-pruning'].relation_rows)
+        self.assertIn('← supports +1', compose(self.app, 144, 42).plain())
         for route in scene.routes:
             if route.edge['source_id'] == 'claim-pruning-detail' and route.edge['target_id'] == 'claim-pruning':
                 exact = relation_lines(self.app, scene, 'claim-pruning', {route.edge['key']})
@@ -51,11 +52,11 @@ class PortTests(unittest.TestCase):
 
     def test_neighbor_cards_explain_relations_without_a_code_key(self):
         self.app.select('obs-1')
-        frame = compose(self.app, 144, 42)
+        frame = compose(self.app, 220, 52)
         text = frame.plain()
-        self.assertIn('supported by E1', text)
-        self.assertIn('produced E1', text)
-        self.assertIn('interprets E1', text)
+        self.assertIn('← supports', text)
+        self.assertIn('→ produced', text)
+        self.assertIn('→ interprets', text)
         self.assertNotIn('S supports', text)
         self.assertNotIn('╳', text)
         self.assertEqual(self.history.manifest(), self.app.paper.history.manifest())
@@ -63,15 +64,15 @@ class PortTests(unittest.TestCase):
         for box in scene.boxes.values():
             self.assertGreaterEqual(box.height - box.relation_rows - 2, 2)
 
-    def test_run_relation_is_beside_title_and_source_stays_below_header(self):
+    def test_run_relation_is_in_footer_and_source_starts_below_title(self):
         self.app.select('obs-1')
-        frame = compose(self.app, 144, 42)
+        frame = compose(self.app, 220, 52)
         lines = frame.plain().splitlines()
         heading = next(index for index, text in enumerate(lines) if 'R1 RUN' in text)
-        self.assertIn('produced E1', lines[heading])
         self.assertIn('Prune / 8-bit', lines[heading + 1])
-        self.assertNotIn('produced E1', lines[heading + 1])
-        self.assertTrue(any(style == 'relation_accent' and char.isalpha() for char, style in frame.cells[heading]))
+        self.assertIn('→ produced', lines[heading + 3])
+        self.assertNotIn('→ produced', lines[heading + 1])
+        self.assertTrue(any(style == 'relation_accent' and char.isalpha() for char, style in frame.cells[heading + 3]))
 
     def test_header_fallback_preserves_full_parallel_phrases(self):
         from claimbranch.application.tui_graph import header_relations
@@ -83,7 +84,7 @@ class PortTests(unittest.TestCase):
         app = TerminalWorkspace(replay_example('recorded', series=True))
         app.collapsed.clear()
         app.select('obs-1')
-        self.assertIn('challenged by E1', compose(app, 144, 42).plain())
+        self.assertIn('← challenges', compose(app, 144, 42).plain())
 
     def test_vertical_routes_keep_a_visible_shaft_at_wide_and_narrow_sizes(self):
         for size, local in (((144, 42), False), ((120, 30), False), ((80, 24), True)):
@@ -151,8 +152,13 @@ class PortTests(unittest.TestCase):
         positions = header_relations(node_heading(self.app, 'claim-comparison'), rows, 24)
         self.assertGreater(len(positions), 1)
         for key, box in scene.boxes.items():
-            self.assertLessEqual(max((dy for _, dy, _, _ in header_relations(node_heading(self.app, key), relation_lines(self.app, scene, key, focused), box.width - 2)), default=0), box.relation_rows)
-            self.assertEqual(2, box.height - box.relation_rows - 2)
+            self.assertEqual(0, box.relation_rows)
+            self.assertGreaterEqual(box.height - 2, 2)
+        self.app.reading_relation = True
+        self.app.link_index = next(i for i, link in enumerate(self.app.display_links()) if link.target_id == 'claim-comparison')
+        reader = '\n'.join(text for text, _ in self.app.relationship_detail())
+        self.assertIn('E112345678901234567890', reader)
+        self.assertIn('SUPPORTS', reader)
 
     def test_live_resize_uses_the_same_geometry_as_a_fresh_frame(self):
         compose(self.app, 120, 32)

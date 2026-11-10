@@ -169,6 +169,30 @@ def _track_overlap(index,cache,fixed,low,high):
     return integral(high+1)-integral(low)
 
 
+def card_lines(app, key, width):
+    compact = app.density == 'compact'
+    copy = overview_copy(app, key) if compact else None
+    content = app.nodes[key]['content']
+    lines = list(copy) if copy else wrap(app.caption(key), width - 4)
+    source_rows = (4 if compact else 6) - bool(app.note(key).strip() and not compact)
+    extra = None
+    if not copy:
+        metric = content.get('metric') or {}
+        if app.nodes[key]['kind'] == 'observation' and content.get('value') is not None:
+            extra = str(content['value']) + (' ' + metric['unit'] if metric.get('unit') else ' · unit not recorded')
+        elif content.get('measurement'):
+            table = content['measurement']
+            extra = f"{len(table.get('rows', []))} rows × {len(table.get('columns', []))} columns · d read"
+        elif content.get('conditions'):
+            extra = content['conditions']
+    limit = source_rows - bool(extra)
+    if len(lines) > limit:
+        lines[limit - 1] = clip(lines[limit - 1], width - 5, ellipsis=False).rstrip() + "…"
+    lines = lines[:limit]
+    if extra: lines.append(clip(extra, width - 4))
+    return lines
+
+
 def graph_scene(app):
     rows = app.graph_rows()
     allowed = app.graph_ids()
@@ -189,37 +213,32 @@ def graph_scene(app):
     available_w, available_h = app.graph_size
     extra_gap = 2 if app.graph_spacing == 'spacious' else 0
     minimum_vertical_gap = 3 + extra_gap
-    if app.density == 'compact':
-        # Reserve readable relation text inside cards, keeping route lanes clear.
-        count = max(1, len(columns))
-        gap_x = 8
-        card_w = max(18, min(26, (available_w - (count - 1) * gap_x - 2) // count))
-        card_h = 4
-    else:
-        card_w, card_h, gap_x = 26, 6, 12
+    count = max(1, len(columns))
+    # Allocate reading width first, then spread rank columns. Overflow remains
+    # pannable rather than shrinking scientific content to ID-sized cards.
+    card_w = max(28, min(48, (available_w - (count - 1) * 8 - 2) // count))
+    gap_x = (max(8, min(16, (available_w - count * card_w - 2) // (count - 1)))
+             if count > 1 else 8)
+    card_h = 6 if app.density == 'compact' else 8
     labels = {key: app.node_label(key) for key in ranks}
     headings = {key: node_heading(app, key) for key in ranks}
     # Canonical type/draft labels are never clipped to force a nominal fit.
     # The readability floor depends on content, never on selected/focused state.
-    card_w = max(card_w, max((cell_width(text) + 3 for text in headings.values()), default=0))
-    scene_key = (tuple(ranks.items()), card_w, card_h, gap_x, available_h, app.graph_spacing, tuple(labels.items()), tuple(headings.items()),
+    card_w = max(card_w, min(48, max((cell_width(text) + 3 for text in headings.values()), default=0)))
+    heights = {key: max(4, 2 + len(card_lines(app, key, card_w)) +
+                           bool(app.note(key).strip() and app.density != 'compact')) for key in ranks}
+    scene_key = (tuple(heights.items()), tuple(ranks.items()), card_w, card_h, gap_x, available_h, app.graph_spacing, tuple(labels.items()), tuple(headings.items()),
                  tuple((key, id(edge), edge['source_id'], edge['target_id'], edge['type'], edge['scientific'])
                        for key, edge in records.items()))
     if getattr(app, '_scene_key', None) == scene_key:
         return app._scene
-    neighbors = {key: {} for key in ranks}
-    for edge in sorted(records.values(), key=lambda edge: (not edge['scientific'], edge['key'])):
-        for key, other in ((edge['source_id'], edge['target_id']), (edge['target_id'], edge['source_id'])):
-            neighbors[key].setdefault(other, []).append((relation_phrase(edge, key, labels[other]), ''))
-    reserved = {key: max((row for phrases in groups.values()
-                         for _, row, _, _ in header_relations(headings[key], phrases, card_w - 2)), default=0)
-                for key, groups in neighbors.items()}
+    reserved = dict.fromkeys(ranks, 0)
     stacked_pairs = {frozenset((edge['source_id'], edge['target_id'])) for edge in records.values()
                      if edge['source_id'] != edge['target_id'] and ranks[edge['source_id']] == ranks[edge['target_id']]}
     def between(first, second, gap):
         return max(gap, minimum_vertical_gap) if frozenset((first, second)) in stacked_pairs else gap
     def group_height(keys, gap, *, bound=False):
-        base = sum(card_h + reserved[key] for key in keys)
+        base = sum(heights[key] for key in keys)
         if bound:
             # Alignment may reorder a column; reserve enough room before its
             # neighbors are placed, without changing geometry on selection.
@@ -241,7 +260,7 @@ def graph_scene(app):
         group_h = group_height(keys, gap_y)
         next_y = (1 if area_h + 2 <= available_h else 0) + (area_h - group_h) // 2
         for index, key in enumerate(keys):
-            node_h = card_h + reserved[key]
+            node_h = heights[key]
             boxes[key] = Box(1 + rank * (card_w + gap_x), next_y, card_w, node_h, reserved[key])
             next_y += node_h + (between(key, keys[index + 1], gap_y) if index + 1 < len(keys) else 0)
 
@@ -319,13 +338,16 @@ def graph_scene(app):
                     else:
                         low,high=sorted((first[1],last[1]));vertical_overlap+=_track_overlap(vertical_tracks,v_cache,first[0],low,high)
                 return horizontal, vertical_overlap, len(candidate), sum(abs(x - middle) for x, _ in candidate[1:-1])
+            lanes = list(range(low + 1, high))
+            if len(lanes) > 8:
+                lanes = sorted({lanes[round(i * (len(lanes) - 1) / 7)] for i in range(8)})
             choices = [(start, (column, start[1]), (column, end[1]), end)
-                       for column in range(low + 1, high)]
+                       for column in lanes]
             path = min(choices, key=congestion)
             if congestion(path)[0] and abs(start[1] - end[1]) > 1:
                 middle_y = (start[1] + end[1]) // 2
                 detours = [(start, (sx, start[1]), (sx, middle_y), (tx, middle_y), (tx, end[1]), end)
-                           for sx in range(low + 1, high) for tx in range(low + 1, high) if sx != tx]
+                           for sx in lanes for tx in lanes if sx != tx]
                 path = min([path, *detours], key=congestion)
             label_x = min(source.x, target.x) + card_w + 1
             label_width = gap_x - 2
@@ -387,6 +409,12 @@ def graph(frame, app, x, y, width, height):
         frame.put(y + 2, x + 2, 'No matching records in this scope. Esc returns; / changes search.', 'muted', width - 4)
         return
     chosen = scene.boxes[app.selected_id]
+    if chosen.width > visible_w or chosen.height > visible_h:
+        frame.put(top, left, app.node_label(app.selected_id) + ' / ' + app.kind(app.selected_id), 'heading', visible_w)
+        for row, line in enumerate(wrap(app.title(app.selected_id), visible_w)[:max(1, visible_h - 3)], 1):
+            frame.put(top + row, left, line, 'body', visible_w)
+        frame.put(y + height - 2, left, 'Map needs more room · d read · , view · Esc back', 'warning', visible_w)
+        return
     px, py = app.graph_pan
     if app.graph_follow:
         gutter = min(6, max(0, (visible_w - chosen.width) // 2))
@@ -505,26 +533,23 @@ def graph(frame, app, x, y, width, height):
             put(box.x + 1, box.y + box.height - 1, badge, 'warning' if flags or statuses else style)
         if compact and note:
             put(box.x + box.width - 3, box.y + box.height - 1, '✎', style)
-        copy = overview_copy(app, key) if compact else None
-        lines = list(copy) if copy else wrap(app.caption(key), box.width - 4)
-        if not copy and app.nodes[key]["kind"] == "observation" and "value" in app.nodes[key]["content"]:
-            content = app.nodes[key]["content"]
-            unit = "pp" if content["metric"]["unit"] == "percentage points" else content["metric"]["unit"]
-            lines = wrap(content["value"] + " " + unit, box.width - 4) + lines
-        source_rows = box.height - 2 - box.relation_rows - bool(note and not compact)
-        if len(lines) > source_rows:
-            lines[source_rows - 1] = clip(lines[source_rows - 1], box.width - 5, ellipsis=False).rstrip() + "…"
-        for dy, line in enumerate(lines[:source_rows], 1 + box.relation_rows):
+        for dy, line in enumerate(card_lines(app, key, box.width), 1):
             put(box.x + 2, box.y + dy, clip(line, box.width - 4), body)
         if note and not compact:
             note_style = "selected_meta" if selected else "accent" if key in focused_nodes else "graph_dim"
             put(box.x + 2, box.y + box.height - 2, clip("✎ " + note, box.width - 4), note_style)
 
-        phrases = relation_lines(app, scene, key, focused_edges)
-        for dx, dy, text, relation_style in header_relations(heading, phrases, box.width - 2):
-            put(box.x + 1 + dx, box.y + dy, text, 'relation_' + relation_style)
+        if key != app.selected_id and not (key in app.collapsed and app.children(key)) and (compact or not note):
+            connected = [r.edge for r in scene.routes if r.edge['key'] in focused_edges
+                         and key in (r.edge['source_id'], r.edge['target_id'])]
+            if connected:
+                edge = connected[0]
+                cue = ('→ ' if edge['source_id'] == key else '← ') + edge['type']
+                if len(connected) > 1: cue += ' +' + str(len(connected) - 1)
+                put(box.x + 1, box.y + box.height - 1, clip(cue, box.width - 2 - (2 if compact and note else 0)),
+                    'relation_' + (edge['type'] if edge['scientific'] else 'accent'))
 
-    # Arrowheads remain on recorded targets; words stay in the header band.
+    # Arrowheads remain on recorded targets; full types stay in the relation reader.
     for route in sorted(scene.routes, key=lambda route: (route.edge['key'] in focused_edges,
                                                         route.edge['key'] == selected_edge)):
         edge = route.edge
