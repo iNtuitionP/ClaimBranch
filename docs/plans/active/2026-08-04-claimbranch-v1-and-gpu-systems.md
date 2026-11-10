@@ -3572,6 +3572,36 @@ handling is unchanged. The superseded isolated full run was stopped; final check
 must use the corrected commit. The failed CI remains visible, not relabeled a
 successful validation.
 
+Delivery regression follow-up: isolated `abe7ec7` full alpha/harness passed209
+contract +1,628 application +22 harness tests (1,859), but its
+[PR CI](https://github.com/iNtuitionP/ClaimBranch/actions/runs/42782923164)
+passed Linux and failed macOS with13 terminal failures and one extracted-artifact
+failure, mostly on the command after standalone Escape. Do not equate the local
+pass with final cross-platform qualification. The same lost Down/Enter transition
+reproduced locally with supported `ESCDELAY=185` (7.868s failure). ncurses had
+already waited to distinguish Escape; the extra application35ms suffix wait
+swallowed the next key. Drain the already-buffered suffix without another wait;
+retain timed continuation for an established fragment. The exact reproduction
+then passed in2.636s. This demonstrates that mechanism, not the unmeasured hosted
+runner scheduling cause. Asynchronous resize/mouse now preserve a partial paste
+introducer, and a resize after bare Escape no longer erases the Escape.
+
+Three input regressions failed before correction; the affected18 checks then
+passed. Strengthen changed-screen terminal/artifact transitions to await the
+observed destination instead of assuming a fixed200ms delay. The early CI gate
+now runs the whole actual-PTY class with the same tests import path as alpha,
+before the full unchanged regression and independent source qualification.
+Actual first-party Opus5.5 reviewed25,899 bytes, SHA256
+`33d6a95b8c339135852828954be54acf9d5aee2b9f942b3ee606cf572a997765`,
+with no blocking findings. Its recommendation to await observable transitions
+is applied to the stressed claim journey and extracted personal journey.
+The suggested stale-resize-during-paste issue does not establish stale layout:
+`paint` reconciles actual terminal dimensions after the paste, independent of a
+queued resize notification. In-paste mouse events intentionally cannot navigate
+or authorize. Existing truncated-prefix and same-stream Alt ambiguity limits
+remain; this is not physical-host certification. Final commit/CI evidence belongs
+in PR28; merge still requires every applicable final job to pass.
+
 ### Fixed outcome ledger and execution order
 
 Each outcome follows **plan check → implementation → result review → actual

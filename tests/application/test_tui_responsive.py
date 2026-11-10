@@ -101,7 +101,6 @@ class ResponsiveReadingTests(unittest.TestCase):
         self.terminal.curses = SimpleNamespace(error=TimeoutError,
             **{name: i + 1000 for i, name in enumerate(names)})
         for control, expected in (('\x03', 'interrupt'), ('\n', 'enter'), ('\x13', 'keep'),
-                                  (self.terminal.curses.KEY_RESIZE, 'resize'),
                                   (self.terminal.curses.KEY_LEFT, 'left')):
             self.terminal.pending, self.terminal.discard_sequence = deque(), False
             self.terminal._paste_prefix = '[2'
@@ -130,6 +129,13 @@ class ResponsiveReadingTests(unittest.TestCase):
         self.terminal._paste_prefix = '['
         self.terminal.screen.get_wch = Mock(side_effect=[2000])
         self.assertEqual(Wheel(4, 5, dy=-1), self.terminal.read(0))
+        self.assertEqual('[', self.terminal._paste_prefix)
+        self.terminal._paste_prefix = '[200'
+        self.terminal.screen.get_wch = Mock(side_effect=[self.terminal.curses.KEY_RESIZE,
+            '~', *'qM;12', *'\x1b[201~'])
+        self.assertEqual('resize', self.terminal.read(0))
+        self.assertEqual('[200', self.terminal._paste_prefix)
+        self.assertEqual(('paste', 'qM;12'), self.terminal.read(0))
         for control in ('\r', '\t', '\x13', '\x7f'):
             self.terminal.screen.get_wch = Mock(side_effect=['\x1b', control])
             self.assertIsNone(self.terminal.read(0), 'Alt+control must not become an unmodified command')

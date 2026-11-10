@@ -686,24 +686,27 @@ class TerminalProcessTests(unittest.TestCase):
         self.assert_restored(0)
 
     def test_manual_claim_creation_and_draft_graph_in_real_terminal(self):
-        self.launch(navigation='graph', ai_off=True)
+        # Leave enough ncurses discrimination time to expose an accidental
+        # second suffix wait. This used to swallow the next Down as Alt+Down.
+        with patch.dict(os.environ, {'ESCDELAY': '185'}):
+            self.launch(navigation='graph', ai_off=True)
         self.expect('AI OFF')
         self.send(';\x1b[B\x1b[B\n', 'WRITE A CLAIM')
         self.send('\n\n', 'Main claim')
         self.send('\x1b[B\n\n', 'Parent in the argument')
         self.send('\x1b[B\n', 'CLAIM STATEMENT')
         self.send('\x1b[200~다른 mask는 아직 측정하지 않았다.\x1b[201~')
-        self.send('\x1b')
+        self.send('\x1b', 'WRITE A CLAIM')
         self.send('\x1b[B\n', 'SCOPE / CONDITIONS')
         self.send('\x1b[200~Only the measured mask.\x1b[201~')
-        self.send('\x1b')
+        self.send('\x1b', 'WRITE A CLAIM')
         self.send('\x13', 'YOUR ARGUMENT DRAFTS')
         self.send('g', 'DRAFT GRAPH')
         self.expect('D1 DRAFT MAIN')
         self.resize(80, 24)
         self.send('\x0c', 'DRAFT GRAPH')
-        self.send('\x1b')
-        self.send('\x1b')
+        self.send('\x1b', 'YOUR ARGUMENT DRAFTS')
+        self.send('\x1b', 'ARGUMENT GRAPH')
         self.send('q', 'LEAVE SESSION?')
         self.send('y')
         self.assert_restored(0)

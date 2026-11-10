@@ -610,9 +610,11 @@ class Terminal:
         self._paste_prefix = ''
         received_suffix = bool(prefix)
         deadline = time.monotonic() + .035
-        # A drain may see Escape before its suffix. Allow a bounded continuation
-        # window; never replay delayed CSI suffixes as application commands.
-        self.screen.timeout(35)
+        # With keypad enabled ncurses already waits ESCDELAY before returning
+        # bare Escape. Drain its buffered suffix without a second wait that
+        # could swallow the user's next key as Alt. An established fragmented
+        # introducer still gets a bounded continuation window.
+        self.screen.timeout(35 if prefix else 0)
         try:
             for _ in range(64):
                 part = self.screen.get_wch()
@@ -621,6 +623,8 @@ class Terminal:
                     # A fresh sequence supersedes an incomplete introducer.
                     # Never append its '[' as the old sequence's final byte.
                     suffix, received_suffix = '', False
+                    self.screen.timeout(0)
+                    deadline = time.monotonic() + .035
                     continue
                 # A fragmented introducer may survive idle reads to keep late
                 # pasted text from becoming shortcuts. It must never swallow a
@@ -628,11 +632,19 @@ class Terminal:
                 if isinstance(part, str) and part in controls:
                     return controls[part] if suffix else None
                 if not isinstance(part, str):
-                    if part == getattr(c, 'KEY_MOUSE', -1) and getattr(self, 'mouse', None):
-                        return self.mouse.read()
+                    if part == c.KEY_RESIZE or (part == getattr(c, 'KEY_MOUSE', -1) and getattr(self, 'mouse', None)):
+                        event = 'resize' if part == c.KEY_RESIZE else self.mouse.read()
+                        if suffix:
+                            # An asynchronous event cannot terminate a paste
+                            # introducer and expose its later body as commands.
+                            self._paste_prefix = suffix
+                            return event
+                        if event is not None:
+                            self.pending.append(event)
+                        return 'escape'
                     # After bare ESC this is an Alt-modified key, not the
                     # ordinary backspace/navigation/confirmation command.
-                    return keys.get(part) if suffix or part == c.KEY_RESIZE else None
+                    return keys.get(part) if suffix else None
                 suffix += part
                 self.screen.timeout(max(1, int(1000 * max(0, deadline - time.monotonic()))))
                 if time.monotonic() >= deadline:

@@ -118,8 +118,8 @@ def run_personal_smoke(*, profile="episode"):
                 t.send('\x1b[H'+'\x1b[B'*3+'\n','Ctrl+S returns')
                 t.send('\x1b[200~'+reason+'\x1b[201~\x13','WRITE A SCIENTIFIC CHANGE')
                 t.send('\x13','YOUR ARGUMENT DRAFTS')
-            t.send('\x1b'); t.send(';\x1b[F\x1b[A\x1b[A\n','PERSONAL RECORD PREVIEW')
-            t.send('G','PERSONAL COMPARISON'); t.send('\t\x0c','BEFORE'); t.send('\x1b')
+            t.send('\x1b','ARGUMENT GRAPH'); t.send(';\x1b[F\x1b[A\x1b[A\n','PERSONAL RECORD PREVIEW')
+            t.send('G','PERSONAL COMPARISON'); t.send('\t\x0c','BEFORE'); t.send('\x1b','PERSONAL RECORD PREVIEW')
             t.send('\x1b[F\x0c','Enter record'); t.send('\n','Personal research recorded and saved')
             t.send(';'+ '\x1b[B'*5+'\n','DRAFT A RESULT')
             for i,value in ((0,'보정 후 지연은 23 ms였다.'),(6,'23'),(11,'Timer offset was 1 ms.')):

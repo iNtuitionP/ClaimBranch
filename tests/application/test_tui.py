@@ -501,10 +501,36 @@ class EscapeSuffixTests(unittest.TestCase):
                 self.assertEqual('keep', terminal.read())
 
         terminal.screen.get_wch = Mock(side_effect=['\x1b', keys.KEY_RESIZE])
+        self.assertEqual('escape', terminal.read())
         self.assertEqual('resize', terminal.read())
         terminal.screen.timeout.assert_called_with(100)
         terminal.screen.get_wch = Mock(side_effect=['\x1b', TimeoutError()])
         self.assertEqual('escape', terminal.read())
+
+    def test_curses_completed_escape_does_not_wait_for_a_new_key(self):
+        from collections import deque
+        from types import SimpleNamespace
+        from claimbranch.application.tui import Terminal
+
+        names = ('KEY_UP KEY_DOWN KEY_LEFT KEY_RIGHT KEY_HOME KEY_END '
+                 'KEY_BACKSPACE KEY_DC KEY_NPAGE KEY_PPAGE KEY_BTAB '
+                 'KEY_ENTER KEY_RESIZE').split()
+        curses = SimpleNamespace(error=TimeoutError,
+            **{name: index + 1000 for index, name in enumerate(names)})
+        terminal = Terminal.__new__(Terminal)
+        terminal.curses, terminal.pending, terminal.discard_sequence = curses, deque(), False
+        state = {'first': True, 'timeout': 100}
+        def read():
+            if state['first']:
+                state['first'] = False
+                return '\x1b'  # ncurses has already spent ESCDELAY.
+            if not state['timeout']:
+                raise curses.error()
+            return 'q'  # A new key arrives only if another wait is introduced.
+        terminal.screen = SimpleNamespace(get_wch=read,
+            timeout=lambda delay: state.update(timeout=delay))
+        self.assertEqual('escape', terminal.read())
+        self.assertEqual('q', terminal.read())
 
 
 if __name__ == "__main__":
