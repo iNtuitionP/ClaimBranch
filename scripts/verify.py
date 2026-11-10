@@ -73,6 +73,7 @@ ALPHA_APPLICATION_TARGETS = (
     'application.test_provider_profile',
     'application.test_provider_transport',
     'application.test_tui',
+    'application.test_tui_responsive',
     'application.test_tui_actions',
     'application.test_tui_authoring_recovery',
     'application.test_tui_branch',

@@ -299,7 +299,13 @@ with PersonalProjectStore(sys.argv[1]) as store:
         self.assertNotIn('encrypted recovery', text)
         terminal.modal = 'help'; terminal.help_scroll = 0
         text = terminal.draw_modal(Frame(132, 38)).plain()
+        self.assertIn('KEYS', text)
+        terminal.modal_key('tab')
+        text = terminal.draw_modal(Frame(132, 38)).plain()
         self.assertIn('PERSONAL WRITING', text)
+        terminal.modal_key('enter')
+        text = terminal.draw_modal(Frame(132, 38)).plain()
+        self.assertIn('Local files have no', text)
         self.assertEqual('encrypted samples are a scientific condition', app.note())
 
     def test_changed_missing_source_preserves_prior_context_and_writing(self):

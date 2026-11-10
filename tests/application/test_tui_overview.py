@@ -18,7 +18,7 @@ class OverviewTests(unittest.TestCase):
         self.terminal.app, self.terminal.modal = self.app, None
 
     def test_explicit_full_map_shows_all_ten_nodes_at_research_terminal_sizes(self):
-        for width, height in ((144, 42), (120, 32)):
+        for width, height in ((220, 52), (280, 52)):
             for selected in ('thesis', 'obs-1'):
                 with self.subTest(size=(width, height), selected=selected):
                     self.app.select(selected)
@@ -65,7 +65,7 @@ class OverviewTests(unittest.TestCase):
         self.app.scroll = 4
         before = self.app._navigation()
         self.terminal.key('f')
-        frame = render_snapshot(self.app, 144, 42)
+        frame = render_snapshot(self.app, 220, 52)
         self.assertIn('10/10 visible', frame)
         self.assertEqual((0, 0), self.app.graph_pan)
         self.terminal.key('escape')
@@ -161,10 +161,10 @@ class OverviewTests(unittest.TestCase):
         self.terminal.key('l')
         small = render_snapshot(self.app, 80, 24)
         # Readable vertical shafts take priority over fitting a short screen.
-        self.assertEqual(4, small.count('╭'))
-        self.assertIn('4/5 visible', small)
+        self.assertEqual(3, small.count('╭'))
+        self.assertIn('3/5 visible', small)
         self.assertIn('Offscreen:', small)
-        taller = render_snapshot(self.app, 80, 26)
+        taller = render_snapshot(self.app, 220, 42)
         self.assertEqual(5, taller.count('╭'))
         self.assertIn('5/5 visible', taller)
         self.terminal.key('+')
@@ -180,8 +180,8 @@ class OverviewTests(unittest.TestCase):
         from claimbranch.application.tui import compose
         self.app.select('obs-1')
         frame = compose(self.app, 120, 30)
-        self.assertIn('supported by E1', frame.plain())
-        self.assertIn('produced E1', frame.plain())
+        self.assertIn('← supports', frame.plain())
+        self.assertIn('produced ← R1', frame.plain())
         self.assertIn('supports → C1,C3', frame.plain())
         self.terminal.key('r')
         keys = {link.key for link in self.app.display_links()}

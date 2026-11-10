@@ -2,7 +2,7 @@
 kind: design
 status: in-review
 owners: maintainers
-last_reviewed: 2026-10-16
+last_reviewed: 2026-11-10
 ---
 
 # Design: a research judgment that remains understandable
@@ -73,6 +73,172 @@ File-coverage notices remain distinct from unsupported selected spans. The
 and [known hosted-CI limit](../plans/active/2026-08-04-claimbranch-v1-and-gpu-systems.md#alpha5-publication-order)
 remain distinct from the subsequently reported
 [actual registration-review barrier](../plans/active/2026-08-04-claimbranch-v1-and-gpu-systems.md#alpha5-actual-dry-run-feedback-assessment).
+
+## Responsive terminal reading refinement
+
+Implementation brief, 2026-11-10; locally implemented and checked, with host/release
+limits recorded in the linked plan. The owner reports crowded graphs,
+delayed/burst input near the bottom of trackpad scrolling, empty card rows,
+insufficient visible scientific content, JSON in normal reading and lengthy `?`
+help. They confirmed local Mac execution inside Herdr with a trackpad. The
+installed CLI reports Herdr 0.9.1; the active outer terminal and running Herdr
+process version have not been observed. The three referenced images were not
+available in this task, so no pixel-level match or visual inspection of those
+images is claimed. The [four-outcome plan](../plans/active/2026-08-04-claimbranch-v1-and-gpu-systems.md#responsive-terminal-reading-implementation-plan)
+owns reproductions, code paths, sequencing and checks.
+
+**Researcher action:** recognize a claim/result from its card, follow the exact
+connection, read a measurement or caveat, write once, and return without losing
+position or input. The existing PG-1–PG-5 and human-owned judgment contracts apply.
+These are presentation and responsiveness repairs, not new science, a framework
+selection, or a new provider/storage milestone.
+
+### Composition choice
+
+| Candidate over the same source and viewport | Benefit | Decision |
+| --- | --- | --- |
+| Adaptive content-bearing cards, stable typed relation strip and on-demand reader | Uses wider terminals; keeps scientific subject and argument path together | Recommended implementation baseline |
+| Every field expanded inside large graph cards | Complete local detail | Do not use as default: tables/provenance overwhelm topology; offer explicit reading instead |
+| Tiny ID cards with all meaning in an inspector | Small geometry | Reject as baseline: repeats the owner's PG-1 failure and requires opening every node |
+
+Retain the current curses medium and folded graph. Compare the recommended
+composition at 80×24, 144×42 and 220×52 with the same non-demo-caption sources;
+48×18/tiny screens exercise safe fallback, not a claim of complete spatial fit.
+
+### Width, cards and exact relationships
+
+- Derive layout from the **graph pane's** available width after reader/gutters,
+  not the whole terminal or a fixed 26-cell upper bound. Allocate readable text
+  width first, then distribute remaining space between rank columns. Prototype
+  roughly 30–48-cell cards and 8–16-cell column gaps as tuning ranges, not fixed
+  acceptance thresholds. A single column keeps a readable measure; a multi-rank
+  graph expands across the pane. When it cannot fit at the legibility floor,
+  preserve pan/folding/local scope and disclose offscreen content.
+- Make source-grounded title/statement the first meaningful card text, wrapping
+  over 2–3 lines where needed. Follow with 1–2 kind-specific source fields:
+  observation value/unit/condition; experiment question/method; planned test
+  question and unrun status; claim scope/limitation. These are initial density
+  hypotheses. Compact means little wasted padding, not two abbreviated words.
+  Stable ID, kind and relevant status remain secondary and accessible.
+- An explicit authored title wins; otherwise show a faithful source excerpt.
+  Do not remove leading conditions merely because a sentence starts with
+  “On”/“With”, fabricate a summary, select a favorable table cell, or imply an
+  aggregate. Tables show their recorded metric/conditions and dimensions until
+  opened. Missing context stays named; truncation is marked and the full text
+  remains reachable. A title edit follows the existing reviewed editing path.
+- Remove unused relation-only rows above the body. Reserve card geometry from
+  content, independent of selection. Replace the earlier selection-dependent
+  header continuation band with short canonical type/direction cues plus a
+  **stable relation strip** beside/below the graph and the exact `r` reader.
+  The strip names the selected relation's source, canonical type and target;
+  multiple/parallel relations have an explicit count and chooser. Whole type
+  labels, directions and rationale remain reachable, without invented verbs.
+  Important folded challenge/qualification/companion/status indicators remain
+  visible; aggregate counts are never evidence strength.
+- Selection highlights without moving/resizing cards. Resize, explicit folding
+  and density changes may reflow around the same selected identity; preserve
+  back navigation, reader position and writing. Both `1 Argument` and
+  `2 Experiments` obey this rule. Single shared evidence, cycles, crossings and
+  reciprocal/parallel edges retain their existing meaning and inspectability.
+
+This replaces the proposed header-band *presentation*, not the accepted typed
+edge or human-authority contract. Product/workflow copy and old geometry tests
+must be reconciled in the implementation; do not quietly freeze old pixel counts.
+
+### Trackpad and reading behavior
+
+Scroll the pane under the pointer where actual wheel coordinates are available;
+wheel over a graph pans without selecting/expanding nodes, wheel over a reader
+scrolls its content, and wheel in a modal stays within that modal. Writing focus
+and cursor do not move to another pane because of a wheel event. Arrow keys
+retain selection/editing semantics. Page keys use the visible page height;
+Home/End work in readers. At either end, further scrolling is an idempotent
+no-op, including no repeated layout/wrapping. Resizing or changing source resets
+the relevant scroll bounds; returning restores a valid prior position.
+
+The initial policy is mouse/SGR scrolling enabled when the host path is
+qualified, with a discoverable view-setting toggle to return mouse ownership to
+the terminal. Explain text selection/copy beside that setting; verify the host's
+modifier-based selection instead of assuming one universal modifier. Do not add
+drag selection to ClaimBranch in this increment. When reporting is off and the
+host converts a wheel to arrows, those events remain keyboard events: they
+cannot safely be distinguished, compressed or promised to pan the graph.
+
+Input and rendering are scheduled separately: process ordered events within a
+small work budget and redraw once for the resulting state. Adjacent wheel events
+may be compressed only within the same pane, modal and geometry generation,
+preserving direction changes and boundary clamping. Never merge across text,
+paste, selection, resize or confirmation events. Existing fresh exact-confirmation
+barriers stay in force. Do not drop typing or blindly flush the input queue to
+improve a benchmark. Keep all curses calls on its owning thread. Unsupported
+mouse encodings cannot leak suffixes into commands; keyboard fallback stays.
+Restore mouse/paste/cursor modes on normal exit, interruption and suspend/resume.
+End input batches on mode transitions. For a consequential confirmation, paint
+its exact current preview and enforce the existing fresh-input barrier before
+admitting confirmation; a prefetched Python queue must not bypass a curses flush.
+Ordinary editor transitions retain queued typing rather than applying a global
+confirmation-style discard. Input waiting and nonblocking draining have explicit
+timeout ownership; parsing Escape must not silently restore a blocking100ms wait.
+
+Avoid whole-document JSON conversion/wrapping per scroll. Use bounded reusable
+read projections and visible slices; invalidate by actual source/work revision,
+node/relation, mode and width. Changes to drafts, origin, metadata, selection or
+current source freshness must not reuse stale scientific text. A no-change view
+must not trigger a full research checkpoint; inspect actual saves before choosing
+any background writer. Retain flush-on-keep/quit, failed-save visibility and
+the existing atomic/conflict checks. No new asynchronous durability claim is
+selected by this plan.
+
+### Structured readers and short help
+
+Default readers show statement/scope, values and units, conditions, uses and
+relevant caveats before audit detail. Measurements use bounded tables with named
+columns and row identities, exact recorded decimal text, units/estimand,
+conditions, source references and corrections. One row-detail reader handles
+narrow terminals without silently omitting cells; horizontal column paging is
+deferred. Protocols show
+original rule, outcome, gate and later changes separately; wording shows allowed
+wording/caveats/companions; imported records show source-claimed status and
+mapping coverage. AI/unknown origin, stale basis and open obligations have a
+short visible summary even when their full history is folded.
+
+App-generated dictionaries/lists must not be the normal research view. Use
+dedicated presenters for measurements, imported records and protocols; use one
+labeled field/tree presenter for the other supported metadata, with a coverage
+check so newly added metadata does not disappear. Preserve original strings
+verbatim where they contain JSON as *research content*; never guess that arbitrary
+authored text is a structured record. An explicit raw/audit reader remains
+available, sanitized for terminal control characters and paged on demand. CLI
+JSON exports, canonical bytes, full review effects and outbound-consent previews
+retain their existing contracts. Nicer presentation creates no new export or AI
+access to retained originals/private critiques.
+
+`?` opens a short key/action grid for the current context: navigation, reading,
+editing, view and return. Default graph help should fit 80×24 without paging;
+wide screens use columns, small screens group/reflow. Show at most roughly
+12–16 relevant bindings on that first page, including the distinction between
+Enter on a folded card and `d` reading. A separate topic list exposes complete
+feature help and unavailable-capability explanations. Reuse action/key metadata
+and test it against dispatch so displayed shortcuts do what they say. Retain
+existing bindings; `Esc` closes to the identical view/editor. Help never sends
+AI, records science or consumes a prior confirmation.
+
+### Reference board and limits
+
+Primary sources inspected 2026-11-10. Borrow interaction mechanisms, not assets
+or a replacement application framework:
+
+| Reference | Borrow for ClaimBranch | Boundary |
+| --- | --- | --- |
+| [React Flow layout guide](https://reactflow.dev/learn/layouting/layouting) and [layout playground](https://xyflow.com/labs/react-flow-playground) | Measure node dimensions separately from spacing/direction; compare the same graph under layout parameters | Browser layout does not prove terminal readability; no new JS/ELK dependency selected |
+| [Bubbles help implementation](https://raw.githubusercontent.com/charmbracelet/bubbles/master/help/help.go) | Short bindings and grouped full help, constrained by available width and enabled actions | Keep necessary limitations in their actual action/review, not paragraphs on the first help page |
+| [Textual workers](https://textual.textualize.io/guide/workers/) | Long handler work delays subsequent input; keep interaction processing responsive and reject stale results | No framework rewrite or background scientific writer; curses calls remain serialized |
+| [Herdr 0.9.1 scroll routing](https://github.com/herdrdev/herdr/blob/065ef9d6a531c49fb8bee7e818ef837065b21ee9/src/server/pane_input.rs) and [mode selection](https://github.com/herdrdev/herdr/blob/065ef9d6a531c49fb8bee7e818ef837065b21ee9/src/pane/terminal.rs) | Distinguish child mouse reporting, alternate-screen scroll input and host scrollback; qualify the exact nested host path | Source inspection plus installed version is not a reproduction of the user's cursor/trackpad failure |
+| [Python curses](https://docs.python.org/3.13/library/curses.html) | Mouse event decoding, bounded input wait, screen updates and terminal restoration | PTY checks do not certify physical trackpad, IME or screen-reader behavior |
+
+The implementation should make technical defects reproducible on owned data,
+then collect one short actual Herdr reading/scrolling observation. Human
+comprehension and host behavior remain separate from frame timings and CI.
 
 ## Foldable two-entry graph and direct editing
 
@@ -2155,7 +2321,8 @@ the screen is not evidence that it meets PG-1. The existing offscreen legend
 names only hidden direct neighbors, not every hidden node; total counts alone
 do not explain how much of the paper is currently visible.
 
-**Implemented overview.** The user authorized this direction after the review.
+**Earlier overview baseline (superseded by the responsive refinement above).**
+The user authorized this direction after the review.
 The map now starts full width with compact cards, two source-preview rows and
 reserved header continuation rows, selected-source
 context and grouped typed destinations below it. Authored captions distinguish
@@ -2203,12 +2370,16 @@ disconnected copies and checks bounds/identity. A new connected 50-node/83-edge
 projection adds root bridges and cross-branch shared evidence; it checks scope,
 counts and identities, not paper-scale legibility. Horizontal legs
 participate in route reservation; a detour can separate one route's source
-leg from another's target leg. Relationship words occupy the reserved card header band;
-they do not overwrite route strokes. Human task completion and
+leg from another's target leg. Current relationship cues occupy the lower card
+border and exact relation strip; they do not overwrite source or route strokes. Human task completion and
 actual SSH/tmux remain separate from deterministic rendering and model critique.
 The execution record owns independent review and check evidence.
 
 ### Read connection types at node contacts
+
+Historical 2026-09-26 presentation. The [responsive refinement](#responsive-terminal-reading-refinement)
+replaces its reserved header rows with canonical border cues and the existing
+exact relation reader; the direction/identity/crossing rules remain in force.
 
 The user found mid-route words and repeated crossing X marks unreadable on
 2026-09-26, then rejected the replacement S/C/Q codes because the map required

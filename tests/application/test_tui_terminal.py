@@ -63,6 +63,55 @@ class TerminalProcessTests(unittest.TestCase):
                                         cwd=ROOT, env=env, stdin=self.slave, stdout=self.slave, stderr=self.slave,
                                         **({'start_new_session': True} if no_job_control else {'process_group': 0}))
 
+    def test_fragmented_paste_prefix_does_not_dispatch_pasted_shortcuts(self):
+        self.launch(navigation='graph', ai_off=True)
+        self.expect('ARGUMENT GRAPH')
+        self.send('\x1b[200')
+        time.sleep(.15)
+        self.send('~qM;12\x1b[201~', 'Pasted text does not run shortcuts')
+        self.send('q')
+        self.assert_restored(0)
+
+    def test_term_signal_restores_mouse_and_terminal_modes(self):
+        self.launch(navigation='graph', ai_off=True)
+        self.expect('ARGUMENT GRAPH')
+        self.process.send_signal(signal.SIGTERM)
+        self.expect('\x1b[?1006l')
+        deadline = time.monotonic() + 5
+        while self.process.poll() is None and time.monotonic() < deadline:
+            if select.select([self.master], [], [], .01)[0]:
+                self.output += os.read(self.master, 65536)
+        self.assertEqual(143, self.process.wait(timeout=5))
+        self.assertIn(b'\x1b[?1000l', self.output)
+        os.write(self.master, b'restored\n')
+        self.assertTrue(select.select([self.slave], [], [], 1)[0])
+        self.assertEqual(b'restored\n', os.read(self.slave, 1024))
+        self.assertEqual(self.original, termios.tcgetattr(self.slave))
+
+    def test_wheel_burst_then_unicode_editor_preserves_order_and_restores_modes(self):
+        self.resize(80, 24)
+        self.launch(navigation='graph', ai_off=True)
+        self.expect('ARGUMENT GRAPH')
+        self.send('d', 'READ')
+        payload = ('\x1b[<65;20;10M' * 200 + '\x1b[<64;20;10M' + 'n' +
+                   '\x1b[200~트랙패드 다음 입력\x1b[201~').encode()
+        os.set_blocking(self.master, False)
+        deadline = time.monotonic() + 10
+        while payload and time.monotonic() < deadline:
+            readable, writable, _ = select.select([self.master], [self.master], [], .01)
+            if readable: self.output += os.read(self.master, 65536)
+            if writable:
+                try: payload = payload[os.write(self.master, payload[:512]):]
+                except BlockingIOError: pass
+        os.set_blocking(self.master, True)
+        self.assertFalse(payload, 'PTY peer must drain output while injecting input')
+        self.expect('트랙패드 다음 입력')
+        self.send('\x13', 'Note kept')
+        self.send('qy')
+        self.assert_restored(0)
+        self.assertIn(b'\x1b[?1006l', self.output)
+        self.assertIn(b'\x1b[?1000l', self.output)
+
     def test_direct_title_revision_kind_chooser_and_restart_in_actual_terminal(self):
         from application import test_graph_edits as prior
         from claimbranch.application.personal_project import PersonalProjectStore
@@ -991,7 +1040,7 @@ class TerminalProcessTests(unittest.TestCase):
     def test_view_settings_keep_cancel_and_resize_in_a_real_terminal(self):
         self.launch(navigation='graph', series=True)
         self.expect('ARGUMENT GRAPH')
-        self.send('/obs-1\r', 'challenged by E1')
+        self.send('/obs-1\r', 'challenges')
         self.send(',', 'VIEW SETTINGS')
         self.send(' ', 'Spacious')
         self.resize(80, 24)
@@ -1106,7 +1155,7 @@ class TerminalProcessTests(unittest.TestCase):
     def check_full_relationships(self, monochrome):
         self.launch(navigation='graph', series=True, monochrome=monochrome)
         self.expect('ARGUMENT GRAPH')
-        self.send('/obs-1\r', 'challenged by E1')
+        self.send('/obs-1\r', 'challenges')
         self.assertNotIn('╳'.encode(), self.output)
         if monochrome:
             self.assertNotIn(b'38;5;', self.output)
@@ -1146,7 +1195,7 @@ class TerminalProcessTests(unittest.TestCase):
     def test_unfinished_review_resumes_after_context_change_and_resize(self):
         self.launch(navigation='graph', series=True)
         self.expect('ARGUMENT GRAPH')
-        self.send('/obs-1\r', 'challenged by E1')
+        self.send('/obs-1\r', 'challenges')
         self.send('e', 'YOUR JUDGMENT')
         self.send('Limit to measured conditions.\tOnly one split.\x13', 'Draft kept')
         self.send('w', 'WORK / REVIEW')
@@ -1204,7 +1253,7 @@ class TerminalProcessTests(unittest.TestCase):
         # independently verify PageDown advanced the first displayed line.
         position = len(self.output)
         self.send("\x1b[6~\x0c", "POSSIBLE REVIEW PATH")
-        self.expect("11–", after=position)
+        self.expect("14–", after=position)  # one 13-row reader viewport
         self.resize(132, 38)
         self.send("q", "UNSAVED DRAFTS")
         self.send("y")
@@ -1314,6 +1363,7 @@ class TerminalProcessTests(unittest.TestCase):
         self.assert_restored(0)
 
     def test_visual_graph_navigation_edge_reading_resize_and_draft(self):
+        self.resize(220, 52)
         self.launch(navigation="graph", monochrome=True)
         self.expect("ARGUMENT GRAPH")
         self.expect('ARGUMENT GRAPH')
@@ -1344,6 +1394,7 @@ class TerminalProcessTests(unittest.TestCase):
         self.assert_restored(0)
 
     def test_overview_local_scope_pin_fit_and_return_in_real_terminal(self):
+        self.resize(220, 52)
         self.launch(navigation='graph')
         self.expect('ARGUMENT GRAPH')
         self.send('*', '10/10 visible')
@@ -1355,7 +1406,7 @@ class TerminalProcessTests(unittest.TestCase):
         self.send('\n', 'READ')
         self.send('P', 'Reader pinned')
         self.send('\x1b')
-        self.resize(144, 42)
+        self.resize(220, 52)
         self.send('\x0c', 'READ')
         self.send('P\x0c', '1 pane')
         self.send('a\x0c', '10/10 visible')
@@ -1369,7 +1420,8 @@ class TerminalProcessTests(unittest.TestCase):
         with patch.dict(os.environ, {"LINES": "60", "COLUMNS": "200"}):
             self.launch(navigation="graph")
         self.expect('ARGUMENT GRAPH')
-        self.send('*', '10/10 visible · 15 edges')
+        self.send('*', '/10 visible')
+        self.expect('15 edges')
         addresses = [(int(y), int(x)) for y, x in re.findall(rb"\x1b\[(\d+);(\d+)H", self.output)]
         self.assertTrue(addresses)
         self.assertTrue(all(y <= 38 and x <= 132 for y, x in addresses), addresses)
@@ -1380,6 +1432,7 @@ class TerminalProcessTests(unittest.TestCase):
         self.assert_restored(0)
 
     def test_unknown_terminal_sequences_do_not_run_shortcuts_and_redraw_recovers(self):
+        self.resize(220, 52)
         self.launch(navigation="graph")
         self.expect('ARGUMENT GRAPH')
         self.send('*', '10/10 visible · 15 edges')

@@ -128,7 +128,8 @@ class ProtocolTests(unittest.TestCase):
         base,_=self.gate(self.associated());project,_=self.amendment(base)
         graph=PaperService(project.work.history).query('main');claim=next(n for n in graph['nodes'] if n['id']=='T')
         self.assertIn('failed',str(claim['content']['protocol_context']));self.assertIn('wider tolerance',str(claim['content']['protocol_context']))
-        app=project_workspace(project);app.select('T');self.assertIn('REGISTERED RULES',str(app.detail()));self.assertIn('chronology_verified',str(app.detail()))
+        app=project_workspace(project);app.select('T');self.assertIn('REGISTERED RULES',str(app.detail()));self.assertIn('Chronology verified: No',str(app.detail()))
+        self.assertIn('failed',str(app.detail()));self.assertIn('wider tolerance',str(app.detail()))
 
     def test_save_restart_backup_keep_notes_rules_originals_and_no_live_provider(self):
         from claimbranch.application.tui_work_recovery import snapshot_value

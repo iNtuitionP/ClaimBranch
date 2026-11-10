@@ -2,7 +2,7 @@
 kind: development
 status: active
 owners: maintainers
-last_reviewed: 2026-10-16
+last_reviewed: 2026-11-10
 canonical_for: repository-local validation commands and documentation enforcement
 ---
 
@@ -5147,20 +5147,12 @@ the map without clearing that preference; `Esc` restores the preceding view and
 node/pan before returning along previous node visits.
 Arrowheads point to recorded targets, including incoming and parallel relations.
 The selected node, its direct neighbors and incident edges stay bright; other
-cards and connections dim without moving or disappearing. Connected cards spell
-out their recorded relationship to the selected node beside their title when
-the whole phrase fits, for example `R1 RUN · produced E1`. Longer phrases and
-additional parallel relations continue immediately below the title, above the
-source preview. These header labels retain semantic colors with regular weight;
-terminal font size is unchanged.
-For example, selecting E1 shows `supported by E1` on a supported claim,
-`challenged by E1` on a challenged claim, and `produced E1` on its run.
-Selecting a claim instead shows `supports C1` on evidence directed toward it.
-Parallel relations have separate full phrases; structural `contains C3` and
-scientific `supported by C3` are never collapsed into a mixed code. Each card
-reserves enough header continuation rows for its largest group of links to one
-neighbor, including wrapped wording. Selection therefore does not resize or move boxes. Source
-preview rows and personal-note markers keep their own space.
+cards and connections dim without moving or disappearing. A connected card's
+lower border shows the recorded type and direction (`← supports`, `→ produced`);
+`+N` discloses additional parallel relations. The selected-source strip and `r`
+reader retain every exact source/type/target and rationale. No free-form edge
+categories or inferred connections are created. Source content starts immediately
+below the title; there is no empty relationship-only band.
 
 There are no mid-route words, crossing X marks or route-count digits. At a
 crossing the inspected edge is drawn over other strokes, then direct incident
@@ -5171,9 +5163,8 @@ every route identity and endpoint remains in the relation picker. `r` opens
 that picker, arrows choose an exact edge, and Tab reads its complete FROM/TO,
 type and rationale. A selected relation outside the lens remains explicit.
 Incoming and outgoing routes use separate ports; reciprocal pairs keep their
-actual target arrows. Relationship text stays in the card header band, away from
-source text, route lanes and arrowheads. Exact-edge focus shows only that relationship's
-phrase. The footer keeps the selected node's named relationships and directions;
+actual target arrows. Relationship cues stay away from source text and route
+lanes. Exact-edge focus shows only that relationship's cue. The footer keeps the selected node's named relationships and directions;
 full endpoint/type/rationale details remain in the reader. The same phrases and
 target arrows work without color and require no code key.
 
@@ -5486,16 +5477,42 @@ Scientific-change and branch/merge comparison graphs inherit spacing/detail.
 
 Balanced keeps at least three cells between directly stacked connected cards;
 Spacious raises that minimum to five and increases other gaps. A short screen pans/clips instead of
-collapsing an arrow to one cell. The original ten-node example fits at 144×42
-and 120×32; its five-node E1 local scope fits at 80×26. At 120×30 and 80×24 some
-cards are offscreen. Visible/hidden counts and `r follows` precede less urgent
-footer metadata; `l`, HJKL and the relation reader keep clipped records reachable.
+collapsing an arrow to one cell. The ten-node example fits at220×52 and280×52;
+smaller panes retain their readable card floor and disclose offscreen records.
+Visible/hidden counts and `r follows` precede less urgent footer metadata;
+`l`, HJKL and the relation reader keep clipped records reachable. A pane too
+small for even the selected card shows its source with an enlarge/read hint.
 
-The graph defaults to compact cards with two source-preview rows plus reserved
-header continuation rows; `z` switches to/from larger
-source cards with note previews. Compact width/gaps adapt to the available
-graph viewport down to a readable minimum; source cards remain deliberately
-larger. The outline starts comfortable and also responds to `z`. Shorter
+Cards use the actual graph pane's width, normally28–48 cells, with8–16 cells
+between rank columns. Content determines height: Brief permits up to four body
+rows, Source up to six, without empty selection-dependent bands. Authored titles
+win; fallback source excerpts retain leading experimental conditions. Missing
+metric/unit information remains named. Notes do not replace scientific source.
+
+The reader presents exact measurement tables (row detail when narrow), protocols,
+wording limits, source influence and unresolved mappings as labeled fields.
+Decimal strings retain precision; display units are labels, not conversions.
+`;` → **Original record / audit** opens original fields and retained history for
+the selected record or connection. This may contain JSON intentionally; ordinary
+reading does not require it. Authored text that happens to be JSON stays text.
+PgUp/PgDn uses the visible page; Home/End moves to the first/last page. A `+` on
+the row count means more rows remain unwrapped. Reading and scrolling confer no
+approval or understanding.
+
+`?` opens a short contextual key grid. Tab opens the complete topic list, Enter
+reads the chosen topic, and Esc returns. `;` retains named actions and reasons
+for unavailable ones. `,` also exposes **Trackpad / wheel**: App scroll captures
+wheel reports for graph panning or the reader under the pointer; Host / copy
+turns capture off for host selection/copy. Keyboard focus does not move with the
+pointer. Supported ncurses/terminfo combinations enable capture; unknown ones
+leave it off. Modal input stays inside its modal. Quit, interrupts, handled
+TERM/HUP and job-control suspend restore mouse modes. Physical trackpad and
+outer-emulator behavior still require user observation. Large changed personal
+checkpoints can still pause input, including automatic saves while editing;
+the large synthetic fixture measured about5s. Saves remain synchronous and
+verified. This is separate from the cached reader's scrolling latency.
+
+The outline starts comfortable and also responds to `z`. Shorter
 screens reduce framing. The 256-color view uses dark panel
 surfaces and distinct type/relation colors, with an eight-color fallback. Fonts
 and physical line height remain terminal settings; the app changes no terminal

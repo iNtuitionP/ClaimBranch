@@ -265,8 +265,10 @@ class ImportedProjectTests(unittest.TestCase):
 
     def test_original_uninterpreted_values_are_readable_without_entering_science(self):
         app = project_workspace(self.project)
-        app.select('C'); self.assertIn('guarantees', str(app.detail()))
-        app.select('O'); self.assertIn('seed1', str(app.detail()))
+        app.select('C'); self.assertIn('UNRESOLVED SOURCE FIELDS', str(app.detail()))
+        self.assertIn('guarantees', str(app.detail(mode='raw')))
+        app.select('O'); self.assertIn('Original record / audit', str(app.detail()))
+        self.assertIn('seed1', str(app.detail(mode='raw')))
         self.assertNotIn('values', app.nodes['O']['content'].get('value', ''))
 
     def test_cached_imported_reasoning_returns_detached_science_and_preserves_source_binding(self):

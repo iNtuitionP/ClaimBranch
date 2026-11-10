@@ -2,13 +2,20 @@
 kind: exec-plan
 status: active
 owners: maintainers
-last_reviewed: 2026-10-16
+last_reviewed: 2026-11-10
 ---
 
 # ExecPlan: ClaimBranch graph contract to live-paper validation
 
 This is a living plan. Keep `Progress`, `Surprises & Discoveries`, `Decision
 Log`, and `Outcomes & Retrospective` current as work proceeds.
+
+Current task, 2026-11-10: alpha.6 user feedback now drives the
+[responsive terminal reading implementation plan](#responsive-terminal-reading-implementation-plan).
+The owner subsequently authorized implementing this bounded four-outcome UX
+follow-up. Runtime implementation and local verification are complete, with
+qualification limits recorded below. The owner now requests follow-up issues and
+merge after fresh checks; no new tagged release is requested.
 
 The [foldable two-entry graph implementation plan](#foldable-two-entry-graph-implementation-plan)
 is now published as alpha.4: all six G01–G06 outcomes are merged and released.
@@ -3333,7 +3340,471 @@ does not block manual folding/editing. No new product choice is currently
 required from the owner. This planning task makes no commit, provider inference
 on research data, implementation or publication claim.
 
+## Responsive terminal reading implementation plan
+
+Status: **4/4 runtime outcomes implemented and locally checked; physical host feedback and fresh release CI remain separate**. The earlier
+IM01–IM06 and released alpha.6 remain complete. This ledger does not reopen
+native keys, live AI, protected-product work or the ten migration outcomes.
+The [living design](../../designs/2026-09-22-episode-review.md#responsive-terminal-reading-refinement)
+owns requirements, reference selection and the proposed visual composition.
+
+### Baseline and philosophy review
+
+Reviewed product definition, provenance/understanding independence, PG-1–PG-5,
+terminal ADR0012, personal alpha ADR0017 boundary, current release evidence,
+the design harness and the original Dream state. Improve reading an argument
+and forming a judgment once; force neither repeated prose nor knowledge of JSON.
+Source content, exact scientific relationships, AI/unknown influence and pending
+obligations must remain recognizable. Reading, scrolling and layout changes do
+not demonstrate understanding or authorize acceptance. Ordinary private project
+files and read-only manuscripts remain the baseline.
+
+Owner confirmed: local Mac, inside Herdr, trackpad scrolling. Installed
+`herdr --version` returns0.9.1; this does not identify the running frontend or
+its outer terminal. No private project or existing user terminal was opened,
+driven or changed. Image #1–#3 were referenced but unavailable to this task.
+Use the written requirements and owned snapshots; do not claim the absent images
+were inspected. Exact visual alignment can follow when images are available,
+without blocking code-grounded planning.
+
+Observed baseline at `cbaf54c` on local Python3.13.15:
+
+| Report | Evidence and scope | Implication |
+| --- | --- | --- |
+| Graph stays crowded when wider | `tui_graph.graph_scene`: compact card width caps at26, horizontal gap8; comfortable mode26/gap12. Actual composed manual fixture at144/220/280 columns has graph-pane widths130/206/266 but identical130-cell scene and26-cell cards | Width increase centers an unchanged map; allocate width to text and rank spacing |
+| Empty space above card content | Geometry reserves worst-case `header_relations` continuation rows, but `relation_lines` emits only focused connections and none for the selected node. Owned220-column snapshot has1–2 unused rows in many cards; compact body remains2 rows | Remove selection-only blank bands without making focus resize/reflow cards |
+| Raw JSON and slow reader | `tui_model.detail` explicitly JSON-dumps measurement/imported original/metadata before `inspector` wraps everything. Owned430-record/5,400-cell/30-anchor fixture produces227 graph nodes; O0 detail has279,568 characters and3 JSON sections | Presentation defect, not evidence of malformed saved JSON; typed/lazy readers are needed |
+| Inputs can queue while reading | At220×52, graph composition first/warm0.0598/0.0067s; observation reader first/warm1.6700/1.6132s. Loop reads one event and paints synchronously. Bottom scroll clamps during painting **after** full wrapping, then repaints again | A concrete large-reader bottleneck is reproduced. Exact Herdr cursor/freeze incident remains unproven |
+| Checkpoint contribution uncertain | Same synthetic fixture with no personal writing: `checkpoint_input`0.0003s; unchanged recovery check with no-op store0.0001s, excluding actual disk I/O | Do not blame persistence or design a background writer without profiling populated writing and real saves |
+| Host wheel path absent | ClaimBranch `read` handles keyboard/CSI/paste, not `KEY_MOUSE`/wheel setup. Pinned Herdr0.9.1 source selects MouseReport / AlternateScroll / HostScroll according to child modes | Inspect and qualify wheel negotiation, alternate screen and outer host; do not assume every wheel event reaches ClaimBranch |
+| Help is a manual rather than a key guide | Current HELP has32 sections and187 wrapped lines at92-cell measure, before the personal-mode introduction | Replace first page with context-specific bindings; move full explanations into topics |
+
+These are diagnostic samples, not p95/end-to-end benchmarks or proof of physical
+trackpad behavior. Large-fixture assembly took38.764s and is excluded from render
+times. No history/capacity limits were changed. Baseline actual-PTY regressions
+`test_unknown_terminal_sequences_do_not_run_shortcuts_and_redraw_recovers` and
+`test_resize_bracketed_unicode_draft_and_return_to_shell` both passed (2 tests,
+3.431s). They cover input safety/resize/paste, not the reported Herdr incident.
+
+### U01 implementation checkpoint — 2026-11-10
+
+Lazy selected-reader projection, linear wide-character wrapping, viewport-sized
+paging/Home/End and pre-paint boundary clamps now remove repeated full wrapping.
+A bounded ordered navigation drain paints once and never prefetches across a
+modal. SGR and ncurses mouse owners are capability-selected; wheel pans/reads
+without selecting. View settings exposes capture/copy choice; quit, interrupt,
+job-control suspend and handled TERM/HUP restore capture. This is local work,
+not included in alpha.6.
+
+Observed owned430-record/5,400-cell/30-anchor fixture at220×52: first reader
+1.497s (original/audit construction still pending U03), warm100-frame p50
+6.09ms / p95 6.34ms / max6.44ms. These are compose timings, not physical host
+input-to-paint. Real personal changed save5.103s; unchanged10-save median2.55ms,
+max2.81ms. Keep changed-save latency visible as a remaining performance limit;
+no asynchronous writer or weakened durability has been added.
+
+U01 affected checks:89 tests passed in217.741s (workspace, settings, reader and
+actual terminal suite); six additional reader/SGR/actual-PTY wheel-burst checks
+passed in1.709s. The old fixed10-line page assertion now expects the actual
+13-row viewport. The PTY burst peer drains output while writing, avoiding a
+harness deadlock unrelated to a real terminal's concurrent output consumption.
+
+Actual first-party Claude Opus5.5 reviewed a fixed115,690-byte packet,
+SHA256 `71e1abd9a5baf5b800a0de95169a078c3d934eb063ae54fe8ed3832bba4894f3`.
+Resolved: add TERM/HUP cleanup, bounded incomplete-CSI discard, explicit episode
+cache identity, reuse volatile reader within one painted input batch. The
+conditional relation-freshness concern does not reproduce: relationship_detail
+reads recorded source/target/rationale, not manuscript freshness; direct anchor
+readers remain uncached. Runtime review made no test-execution claim. Follow-up
+checks and isolated host observation continue before U01 is marked complete.
+
+Isolated Herdr0.9.1 client/server with separate XDG config/state/socket,
+owned non-login shell and background update checks disabled received an injected
+outer SGR wheel at70,15 and delivered `ESC[<65;44;14M` to the owned raw child.
+The coordinate translation matches the pane offset. Its private server was
+stopped afterward. This verifies host routing/negotiation, not a physical
+trackpad or the user's outer emulator/copy modifier. No user sessions changed.
+The direct graph-edit confirmation additionally clears queued input on its
+first draw; an ordinary editor still keeps queued text.
+
+### U02–U04 implementation checkpoints — 2026-11-10
+
+U02 now derives28–48-cell cards and8–16-cell rank spacing from the actual pane,
+uses content-dependent heights without empty relationship bands, retains source
+conditions/missing units, and gives oversized selected cards a readable fallback.
+Canonical type/direction border cues plus the existing relation picker preserve
+parallel relationships. Wide-gap routing samples at most8 lanes (64 detour pairs).
+The ten-node all-fit tests moved from120/144 columns to220/280; small views must
+now disclose overflow rather than shrink the reading floor. Exact edge, shared
+identity, cycle, reciprocal direction, focus and viewport tests remain.
+71 affected tests passed in3.212s; subsequent review-fix33 tests passed in3.103s.
+Opus5.5 first-party reviewed60,642 bytes, SHA256
+`3c33dbebe5e7070e0410031314539324bf57dfb6b65089ed16463139c9590c9d`.
+Resolved selected-card overflow, missing relation style, delayed-CSI suffix
+safety, signal exit at loop boundary, relation text wrapping and protected setup
+cleanup. Canonical raw type names in cues are intentional owner-requested finite
+vocabulary, not a new free-text relation. Literal incomplete SGR tails remain
+quarantined until a terminator/non-SGR key; idle persistence resumes after the
+short continuation interval. No late suffix becomes a command.
+
+U03 renders current science first; typed tables keep decimal strings, unit labels,
+row/column identity and explicit missing reasons. Narrow/text cells use row detail.
+Source origins, unknown influence, unresolved pointers and qualified metadata
+stay labeled; original mapping/ledger and complete node/edge history require the
+explicit audit reader. Other metadata uses a labeled recursive fallback. Normal
+reading no longer loads retained original ledgers. On the same large fixture,
+first reader130.4ms, warm100 frames p50 6.49ms / p95 6.76ms / max7.15ms, with
+3,671 normal-detail characters instead of279,568. These are local compose samples,
+not a claim of physical host latency.54 affected tests passed in3.056s.
+Opus5.5 first-party reviewed54,382 bytes, SHA256
+`49ee4f29600e92a91a76218da199542384d32fd39c6fafd4fe0123c0cf0d2da9`.
+Resolved lost semantic caveats, text/missing-value ambiguity, unit/identity headers,
+preformatted table alignment, empty JSON pointer presentation, original statement
+under an edited title, raw-source access and shared reader clipping. Null units,
+duplicate/missing cells and arbitrary table extras are refused by the existing
+closed measurement schema, not made valid by a presenter fallback.
+
+U04 short contextual help now has14 or fewer key/action rows at80×24, wide
+columns, opt-in complete topics and shared read/entry dispatch metadata. The
+personal source inventory grows166→170 for four runtime modules; source artifact
+and alpha scope include the new reader checks. Action ordering preserves the
+existing authoring journey. Final Opus review, alpha regression and
+source-artifact results are recorded below; no merge/push/release is authorized.
+
+Final local qualification checkpoint: the owned430-record/5,400-cell fixture
+at220×52 in an actual PTY measured first detail21.69ms;100 alternating navigation
+events had input→completed-refresh p50 8.35ms, p95 8.80ms, maximum10.99ms.
+After200 down wheels, one reverse wheel and a Korean-note paste, the final
+refresh occurred280.02ms after the last input write; all305 dispatched events
+(including prior navigation) were retained. Project opening and recovery saves
+were outside this measurement. It establishes local decoder/dispatch/refresh
+latency, not physical trackpad or outer-emulator painting. The separately
+measured5.103s changed personal save remains a synchronous limitation, including
+automatic checkpoints while editing; this implementation does not eliminate
+every possible input pause or change durability.
+
+Actual first-party Opus5.5 U04 review:48,857 bytes, SHA256
+`70bb2552bcf94056cf2ca76f830c098d42f9abc4dbfb3987e36027807f8642e9`.
+Its split paste-introducer finding was reproduced and fixed with retained parser
+state. Follow-up input SHA256
+`c1bbee64b6aa3119c9f0c7fdf5fee41af26fd85f3d6ce5bdc4195fa41380ba83`
+identified swallowed controls after an incomplete prefix. Final source reviews
+covered32,506 bytes / SHA256
+`b260700e4799cba6ee88d4084b34b3d20f088d87894851a68085637f69457408`
+and13,605 bytes / SHA256
+`bd3dd8fcb8c42397fa8c0a25cb44c5ce0ee1c5a5bbf0fe0fcfc5e5de1dec1afb`.
+Resolved fresh-ESC restart, controls after partial prefixes, ncurses mouse routing,
+Alt+control suppression and consistent relation-index clamping. Prefixes remain
+quarantined across idle reads: expiring them would allow late pasted text to run
+as shortcuts. A literal unfinished CSI/Alt+[ can consume its next continuation;
+Escape/control resumes normal input. Complete pasted text stays one text event.
+The review's absent-table-cell/all-false-origin hypotheses are outside the checked
+source schemas; the private original reader returns retained string-or-None data,
+not arbitrary bytes or external files. Semicolon in reader guidance names the
+actual actions key. No claim that Opus ran tests is made.
+
+Regression review restored the critique non-evidence disclaimer and independent
+compound H/A/U warning. Ordinary protocol checks now assert readable chronology
+and retained failed/amended gates. Original-ledger tests enter the explicit audit
+reader; direct-edit tests draw the fresh confirmation before typing. Raw relation
+inspection now retrieves the exact original by its record identity on demand.
+The affected159-test metadata/graph/reader regression passed in82.731s; final
+parser/real-PTY17 checks passed in2.242s. Final alpha results follow; the initial
+full run's failures are not reported as a clean pass.
+
+Final help review used actual first-party Opus5.5,7,916 bytes, SHA256
+`9dc996ad77ec837c7f371b1c7e604778bfbcd91866b9754653a4c9733504939b`.
+Footer actions match dispatch; personal storage guidance remains an explicit
+first topic. The small-screen heading now identifies keys versus topics.
+`personal(app)` requires a personal recovery object, so the suggested save-label
+predicate conflict does not reproduce; non-personal encrypted recovery retains
+its separate help. Personal help/note preservation and the direct actions route
+passed targeted checks. Multiline unit labels now choose row detail instead of
+malformed preformatted tables.
+
+Final verification,2026-11-10: `verify.py --scope alpha --temp-root /private/tmp`
+passed docs, fixture, generated schemas/resources and209 contract tests. Its
+1,624 application tests ran in1,815.733s with16 failures: eight reader/confirmation/
+help cases and eight actual-PTY cases tied to the old full-fit/header wording.
+The first eight passed after correction (4.425s); the eight PTY journeys passed
+after updating expectations to readable220-column full fit and canonical edge
+types (17.355s). The132-column stale-environment test still checks every cursor
+address against its actual bounds and now permits disclosed offscreen nodes.
+No endpoint, direction, navigation, writing retention or exit assertion was
+removed. The full run's source-artifact extraction/launch/manual-journey checks
+passed. Native/encrypted features remain explicitly outside alpha scope.
+The final responsive/personal-help17 tests passed in0.649s; harness22 tests
+passed in1.981s; documentation86 files and separate whitespace checks passed.
+There are no unresolved observed failures. This is a full initial regression plus
+targeted correction evidence, **not a green final full-alpha invocation**; no
+second30-minute full run was performed. A merge/release must run fresh CI on its
+final revision. Physical Herdr trackpad/outer-terminal observation and the
+documented synchronous changed-save pause remain limitations, not new UI units.
+
+User feedback action: run this checkout in the user's Herdr session for feedback on both
+graph entries, card readability and scrolling; use `,` for mouse/copy mode and
+`;` for exact original records. Implementation changes need a new process to take
+effect. No device-key verification, provider request or manuscript mutation is
+needed. The subsequent owner instruction authorizes filing follow-ups and merging
+this UI change after fresh checks. Save latency is tracked in
+[#26](https://github.com/iNtuitionP/ClaimBranch/issues/26); physical Herdr behavior
+is tracked in [#27](https://github.com/iNtuitionP/ClaimBranch/issues/27). Keep both
+open after merging: rendering/decoder checks do not resolve those limitations.
+The delivery includes only this UI work; unrelated demo-video tooling and its
+documentation/ignore changes remain outside it. Run the final alpha/harness
+scope from an isolated committed checkout and require the final PR's portable
+Linux/macOS, documentation/Windows and owned-relay checks before merge. Exact
+commit/run evidence belongs in the PR's verification record. No branch-protection
+bypass, new release tag, device-key ceremony or live provider send is needed.
+
+### Fixed outcome ledger and execution order
+
+Each outcome follows **plan check → implementation → result review → actual
+pinned Opus cross-review**, resolving reproduced findings before advancing.
+Do not create extra completion units for tests/review or a discovered sub-fix.
+U01 is the first usable checkpoint; do not wait for all visual refinements to
+show the responsiveness improvement. U02/U03 may share the read-projection helper
+introduced by U01, but their user outcomes remain separately checked.
+
+| Unit | Researcher outcome and implementation | Acceptance / dependencies | State |
+| --- | --- | --- | --- |
+| U01 | Scroll/type without accumulating freezes: instrument event→dispatch→compose→refresh; bound/cache selected reader work; no-op boundary scrolling; ordered bounded input batches; negotiate/decode vertical/horizontal wheel events and target the pane; keep keyboard and save semantics | Owned large-table fixture plus small manual project; bottom/reverse/interleaved typing/paste/resize; exact-confirmation barriers; real PTY and isolated Herdr path. Implement before aesthetic expansion | Complete locally; physical trackpad observation remains |
+| U02 | Understand a compact card and see its connections across available width: adaptive per-rank geometry, source-grounded title/body, no blank relation band, stable exact relation strip, unchanged dual-entry folding | 80/144/220/280-column comparison on non-caption Korean/English sources, shared evidence/cycles/parallel edges; selected-node anchoring and no focus-induced layout movement; uses U01 responsiveness budget | Complete locally |
+| U03 | Read measurements and qualifications as research: typed statement/metric/table/protocol/wording/origin/history presenters, bounded cell/row detail, explicit raw reader | Every supported field represented or explicitly reachable; exact decimals/units/missing fields/AI-unknown/staleness; paging/correction/return and CLI JSON unchanged; builds on U01 read slicing | Complete locally |
+| U04 | Find the next action immediately: contextual `?` grid and complete topics, shared action/key labels, then connected saved-project qualification | First graph help page fits80×24; current capabilities only; help open/close preserves view/editor; full both-entry reading/edit/save/reopen journey; affected regression, Opus and docs. No automatic release | Complete locally; final release CI separate |
+
+### Implementation boundaries by unit
+
+**U01 — input/rendering.** Execute internally in this order: (a) isolated
+Herdr raw-event/mode probe with owned data, (b) lazy reader projection and scroll
+bounds, (c) bounded event drain/redraw, (d) mouse reporting and restoration.
+Do not log private typing. Stage(b) is the first feedback checkpoint for the
+measured delay; physical-host access does not block independent reader repairs.
+The probe distinguishes received SGR/X10 reports, host-generated arrow bytes and
+no child input. Record running client/server version and outer terminal separately.
+Never infer a wheel from an arrow byte or compress keyboard arrows.
+
+Inspect `claimbranch/application/tui.py` (`read`,
+`key`, `paint`, `loop`, `inspector`), `tui_model.py` (`detail`/selection) and
+`tui_project.py`/`tui_view_state.py` checkpoint callers. Add a small disposable
+read-model/paging helper if it avoids rebuilding the entire object on every
+scroll; do not duplicate domain validation. Bound cache size and key it by
+source/work revision, selected record/relation, mode, width and freshness.
+Test invalidation on note/title/evidence/metadata/origin edits and changed
+manuscript state. Do not put unverified source freshness behind an immortal cache.
+The read model owns clamped scroll bounds independently of painting. Use lazy
+section wrapping and a bounded visible slice; if total wrapped rows are not yet
+known, show a lower-bound/unknown total instead of wrapping the whole audit just
+to print a footer. End jumps to the final section/page through its index, not
+repeated next-page rendering. Reuse the same projection behind help/other overlays.
+
+Retain ordered dispatch, a finite per-turn event/time budget and one redraw for
+the changed view. Compress only adjacent compatible wheel runs; preserve every
+direction reversal and per-event boundary clamp. Never reduce a down-then-up
+sequence to zero at the bottom. Cross-mode/resize/editor/consent transitions
+terminate the batch. Queued pre-review input and bracketed paste must still be
+unable to approve/save scientific operations. Do not invoke `flushinp` globally.
+For consequential confirmation: stop batch → render exact preview → preserve its
+fresh-input barrier → admit only fresh confirmation. Existing personal/proposal/
+source-association readers flush in their first preview draw; a prefetched Python
+queue must be included in that barrier rather than surviving it. Ordinary editor
+transitions preserve queued typing. Test both cases explicitly. `read()` must
+restore caller-owned wait/drain timing, not force `timeout(100)` after an Escape
+sequence. Retain partial Escape/CSI input in a parser state with a
+short monotonic continuation deadline (the configured Escape distinction budget),
+then restore the caller's wait/drain mode. Nonblocking drain must not turn a
+fragmented arrow/mouse/paste prefix into standalone Escape/cancel. Check split
+input on either side of the deadline, genuine bare Escape and incomplete/unknown
+sequences; preserve cancellation responsiveness without leaking suffix commands.
+Consequential transitions include personal recording/explanation disposition,
+proposal send/adoption, source-association apply and direct graph-edit recording;
+new confirmation surfaces must join these queue/barrier tests. Ordinary editor
+open/close remains in the separate lossless-typing case.
+Normalize typed wheel events through admission and dispatch; the current string
+allowlist/tuple-as-paste paths must not discard or misroute them.
+Share supported binding metadata with help without building a command framework.
+Combine review/provider completion redraw requests with the event batch's redraw
+instead of painting up to three times in one loop.
+At scroll limits no expensive compose is needed, but pending async completion,
+save/error and freshness changes still redraw.
+
+Use one normalized wheel event with a tested decoding owner per input path:
+consume ncurses `KEY_MOUSE` via `getmouse`, or decode SGR only when returned as
+raw escape input. Never process one report through both. Local Python reports
+ncurses6.0 (20150808), `kmous=ESC[M`, and no `BUTTON5_PRESSED`; direct SGR may be
+needed here, while other terminfo entries may consume SGR into `KEY_MOUSE`.
+Qualify both protocol owners before assuming that raw-SGR-only works everywhere.
+One terminal input adapter owns all mouse mode writes and parser choice. Its
+startup decision uses a tested capability tuple (terminfo `kmous`, ncurses event
+support and required button masks), never just a Herdr executable name/version.
+Use ncurses ownership only where both directions/negotiated encodings pass; the
+raw-SGR owner requires SGR input to remain raw under that terminfo configuration.
+Only an explicitly tested tuple defaults on; unknown/ambiguous tuples default
+off with a visible manual toggle and keyboard fallback. An unsupported tuple
+cannot silently switch ownership midway through a gesture. Run the200-event
+burst on each supported owner and reporting-off fallback. Host mode application
+still needs actual observation; capability metadata alone is not proof.
+Consume unrecognized/truncated protocols safely. Wheel
+is viewport motion, not record selection or an edit. Horizontal gestures must
+not become text/commands. Test mouse enable/disable, alternate screen, cursor
+visibility and suspend/exit restoration. Do not change Herdr/user settings or
+touch another live terminal. For qualified hosts, enable mouse scrolling with
+an obvious view-setting off switch and adjacent selection/copy guidance; test
+the host's copy modifier instead of assuming it. Reporting-off mode preserves
+keyboard navigation and host mouse ownership, with no promise to distinguish
+wheel-generated arrows. Disable reporting before suspend, re-enable the selected
+setting on resume, and restore modes in every exit path. No custom drag-selection
+implementation is added. An isolated host reproduction may be created with
+owned fixture data; record host version and outer terminal separately. Profile
+idle no-change `verify_unchanged` against the real temporary personal store as
+well as populated writing and changed saves, separately from the fake-store
+diagnostic. Retain current synchronous durability unless a
+measured blocker requires a separately specified ordered immutable-snapshot save.
+
+**U02 — layout/content.** Reuse `tui_graph.py`, `tui_cards.py`, `tui_model.py`,
+`tui_view_ui.py` and existing view-state scope. Include graph-pane width and
+measured content geometry in scene invalidation. Prefer bounded content widths
+and proportional gutters to stretching every card; do not brute-force unbounded
+edge-routing choices as gaps widen. Use the same content for old/new snapshots,
+including a non-demo imported source: frozen fixture captions must not conceal
+generic-title truncation. Check all `caption()` callers before removing its
+On/With heuristic. Test missing observation metric/unit/value without KeyError
+or a fabricated substitute. Reuse `display_links`, `link_index` and the existing
+relationship reader for the strip; do not add a second chooser state. Test
+short canonical neighbor type/direction cues replacing the old header band,
+and relationship-strip navigation and full labels
+alongside graph-edge geometry. Older tests asserting all10 demo nodes fit may
+need intentional revision: readability and disclosed overflow take priority,
+while all scientific connections must remain reachable. Retain old tests that
+guard identity, direction, shared ports and safe crossings.
+
+**U03 — typed reading.** Factor presenters from `tui_model.detail`,
+`relationship_detail`, `tui_subject.py` and the reader adapter. Start with
+measurement/imported content (the measured bottleneck), then protocols. Use one
+labeled field/tree fallback for replacement, wording/companions, origins/revisions,
+anchor freshness and critique associations, with explicit semantics and field
+coverage tests. Use one narrow row-detail route; defer horizontal column paging.
+Current research appears before full retained mapping/audit. No new scientific
+summary, inferred result or hidden correction; chronological distinctions remain.
+Raw view is explicit, sanitized and paged, not removed. Keep exact request/review
+content and source/share privacy boundaries. Cover normal and absent historical
+fields, source text that itself contains JSON and supported future metadata
+fallback; an unknown presenter must not silently display an empty record.
+
+**U04 — help and connected review.** Replace paragraph-first `HELP` rendering
+with context-aware bindings using `tui_actions.py`/existing dispatch knowledge;
+add one small binding description model if needed, not a new command framework.
+Separate topic reading from executing actions. Show the real Enter/fold/read
+behavior, keep keys stable and expose disabled-action reasons on demand.
+Reconcile product/design/workflow help and remove obsolete header-band claims
+when U02 is implemented. Preserve the historical observation text as history.
+
+### Reproducible acceptance and performance targets
+
+Use repository-owned fixtures only. Baseline small fixture:
+`replay_example('manual', paper=True)`; realistic text comes from current
+original-ledger fixtures, and stress from
+`tests/application/test_migration_journey.py:prepared_workload(shared=True)`.
+Keep fixture preparation/open outside interaction timing. Use both folded
+and deliberately expanded entry views, long Korean/English text, a typed table,
+shared evidence, conflicting/qualifying relations and an unrun plan.
+
+Proposed interaction targets, **not measured improvements**: warm local PTY
+input→completed refresh p95≤100ms over≥100 navigation/reader events; first selected
+detail visible within500ms after an already-open project **after U01+U03**
+(U01 alone qualifies warm scrolling and lazy section access, not the final typed
+reader's cold target); a200 identified-wheel-event burst
+followed by an ordinary typing/return sentinel drains within500ms after the last
+event. Report cold/warm separately, host/size/fixture and p50/p95/max, without
+counting dropped events as faster. Existing60s operation and graph-entry gates
+are unchanged and do not qualify interactive latency. Calibrate tests to record
+results rather than creating noisy per-keystroke wall-clock assertions. Exact
+event ordering, boundary no-ops, preserved text and no extra mutation are hard
+regressions. Actual Herdr trackpad and outer-emulator paint remain separate
+observations; PTY refresh timestamps cannot prove either.
+
+Minimum journeys:
+
+1. Expand a claim, follow its exact supports/qualifies/challenges relation to a
+   table, scroll to bottom, continue scrolling, reverse, type/edit a Korean note,
+   cancel/resume and return. Input stays ordered; no shell/cursor leakage.
+2. Enter through an experiment with `2`, inspect multiple observations and shared
+   claim uses, fold/unfold, resize and return to the same root/view. No node/edge
+   identity, direction, counts or status changes from presentation.
+3. Read exact values, units, missing fields, gates, imported origin, corrections
+   and a required companion using the normal reader. Every audit/raw field is
+   reachable without being printed by default. Compare against literal fixtures.
+4. Open `?`, find read/edit/fold/return within one screen, enter full topics and
+   return to the identical note/selection. Save, quit and fresh-open the personal
+   project; kept/unfinished writing, origins and scientific manifest survive.
+
+Implementation checks from repository root (current Python3.13, `PYTHONPATH=.:tests`):
+affected `test_tui_graph`, `test_tui_overview`, `test_tui_folding`, `test_tui_view`,
+`test_tui_view_state`, terminal process, personal/recovery and new reader/input
+cases selected by dependencies. Run `python3.13 scripts/verify.py --scope docs`
+each completed outcome; run `--scope alpha --temp-root /private/tmp` and source
+artifact checks at final delivery qualification. Complete host-specific CI before
+a new release claim. No native key window or provider request is required.
+
+### Decisions, rollback and review disposition
+
+No new owner policy is required for this plan: compact content, width-aware
+layout, readable fields, concise help and safe input implement expressed intent.
+Routine density/spacing defaults are hypotheses to tune in U02. Missing images
+and outer-host details limit observation, not independent repairs. If a solution
+would alter saved scientific meaning, exact approval, disclosure of origin/debt,
+or writing durability, stop that dependent change and present the concrete tradeoff.
+
+Keep history/backup/export formats stable; presentation caches are disposable.
+Existing view-sidecar values remain valid or fall back to safe defaults without
+changing science/writing. Roll back the UI change by reverting its code, not
+migrating the user's project. No user manuscript edits, package installation,
+framework rewrite, automatic commit/push, new AI send or journal entry.
+
+Actual first-party **Claude Opus5.5** plan review completed with tools, skills,
+hooks, plugins and MCP disabled, no session persistence and no model fallback.
+Result `is_error=false`, actual/canonical model`claude-opus-5-5`, provider
+`firstParty`; fixed public-source/synthetic packet68,174 bytes, SHA-256
+`d84b8ed70219eafa6a5d30856d4fd51104ef3ec11bfa4f4154fe7f62f9d6a6f8`.
+Review found six pre-implementation omissions, now incorporated: actual wheel
+byte classification; mouse/copy ownership and off switch; loop event admission;
+parser timeout ownership; lazy scroll bounds and cold/warm gate separation; and
+fresh-confirmation barriers across prefetched batches. It also recommended real
+store no-change profiling, coalesced redraw, existing relation-state reuse,
+missing-metric tests and fewer bespoke presenters, incorporated above.
+
+Independent source check confirms `read()`'s forced100ms timeout, the loop's
+allowlist/tuple-as-paste paths and three possible paints, and first-draw flushing
+in `tui_personal.py`, `tui_proposals.py` and `tui_project_source.py`. The proposed
+raw-SGR-only decoder is **not adopted universally**: local terminfo/ncurses
+metadata does not qualify other terminals, so exactly one tested owner decodes
+each event. Likewise confirmation-style queue disposal applies only to protected
+confirmation transitions, not ordinary editor typing. These are explicit review
+dispositions, not assertions that a host bug or missing-metric crash was reproduced.
+Raw review packets remain outside Git. Opus review cannot replace physical-host,
+user-comprehension or runtime verification.
+
+Bounded follow-up review also succeeded with actual/canonical
+`claude-opus-5-5`, firstParty, `is_error=false`: packet21,333 bytes, SHA-256
+`7c2b1709b9174e0ac7d05dfe6a131655315c541f065981e872b6a6990603cc49`.
+It found all six prior gaps covered and no implementation-wide blocker. Two
+nonblocking clarifications are now specified above: one runtime mode/decoder
+owner selected by tested capabilities (unknown defaults off), and finite
+fragmented-Escape continuation during nonblocking drain. Confirmation surface
+coverage is explicitly enumerated. These final textual clarifications were
+checked locally against the review; no third Opus pass or runtime fix is claimed.
+U01's eventual report must distinguish synthetic/PTY or isolated Herdr protocol
+qualification from any still-unobserved physical trackpad/outer-emulator behavior.
+
 ## Progress
+
+- [x] 2026-11-10 KST — Reviewed alpha.6 feedback against canonical human outcome,
+  graph/terminal requirements and code. Reproduced unused wide-screen space,
+  reserved blank card rows, paragraph help and a1.6s large-detail redraw; user
+  confirmed Herdr/local Mac/trackpad. Wrote the four-outcome UX follow-up; actual
+  Opus5.5 initial and bounded follow-up reviews completed; all six identified
+  plan omissions addressed, with decoder/partial-Escape clarifications retained.
+  Documentation checks pass; runtime0/4. No implementation or release in this turn.
 
 - [x] 2026-10-16 KST — Alpha.6 merged and publicly released after all five final
   PR CI jobs pass. PR #25 merges as`ff70f30`; tag`v0.1.0-alpha.6` points there.
@@ -7929,6 +8400,11 @@ The executable milestone names used throughout this plan are:
 
 ## Surprises & Discoveries
 
+- 2026-11-10 KST — A warm graph frame is6.7ms in the owned large fixture, but
+  its selected table reader takes1.6132s because it builds/wraps279,568 characters
+  before viewport slicing. Source capacity/open qualification did not establish
+  interactive reading latency. See the [UX baseline](#baseline-and-philosophy-review).
+
 - 2026-10-16 KST — Initial backup's63.223s path spends49.733s in opening validation,
   while actual backup construction takes3.225s.41 retained-cause validations copy
   complete measurements and cached graphs even when only eligibility/scalar
@@ -8995,6 +9471,11 @@ The executable milestone names used throughout this plan are:
 
 ## Decision Log
 
+- 2026-11-10 KST — Plan four bounded reading/input outcomes using current curses
+  and source contracts. Replace unused relation header bands with stable typed
+  relation inspection, preserve exact source content and explicit review; do not
+  select a background writer or host/framework rewrite from the symptom alone.
+
 - 2026-10-16 KST — On owner-authorized continuation, repair the measured IM06
   backup bottleneck inside the existing eligibility/causal readers. No new schema,
   source reduction, authority boundary or relaxed time target. Reuse prepared
@@ -9983,6 +10464,10 @@ The executable milestone names used throughout this plan are:
   AI and graph machinery remain visibly attributable but visually secondary.
 
 ## Outcomes & Retrospective
+
+- 2026-11-10 KST — Alpha.6 feedback planning identifies reproducible UI defects
+  without reopening completed release work. Four runtime outcomes remain; this
+  documentation task claims no input fix, visual implementation or Herdr cure.
 
 - 2026-10-16: I04 supports existing literal LaTeX labels without source edits;
   **4/5 original-ledger outcomes complete**. I05's combined fixture exposes a

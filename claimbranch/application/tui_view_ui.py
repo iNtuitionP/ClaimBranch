@@ -9,6 +9,8 @@ OPTIONS = (
      'Brief keeps small cards; Source shows longer excerpts.'),
     ('graph_pinned', 'Reading panel', (False, True), ('On demand', 'Pinned'),
      'Pinned stays beside the graph at 140+ columns.'),
+    ('mouse_scroll', 'Trackpad / wheel', (False, True), ('Host / copy', 'App scroll'),
+     'App scroll captures the mouse. Turn off to select/copy in the host.'),
 )
 
 
@@ -24,6 +26,7 @@ class ViewUI:
     def open(self):
         self.before = self.app._navigation()
         self.preferences = self.app.graph_spacing, self.app.graph_pinned
+        self.mouse_before = self.app.mouse_scroll
         self.index = 0
         self.usable = True
         self.terminal.modal = 'view-settings'
@@ -32,6 +35,8 @@ class ViewUI:
         if event == 'escape':
             self.app._restore_navigation(self.before)
             self.app.graph_spacing, self.app.graph_pinned = self.preferences
+            self.app.mouse_scroll = self.mouse_before
+            if hasattr(self.terminal, 'mouse'): self.terminal.mouse.set(self.mouse_before)
             self.terminal.modal = None
             self.app.message = 'View settings cancelled; previous view restored.'
         elif not self.usable:
@@ -45,6 +50,9 @@ class ViewUI:
             field, _, values, _, _ = OPTIONS[self.index]
             current = values.index(getattr(self.app, field))
             setattr(self.app, field, values[(current + (-1 if event == 'left' else 1)) % len(values)])
+            if field == 'mouse_scroll' and hasattr(self.terminal, 'mouse'):
+                self.terminal.mouse.set(self.app.mouse_scroll)
+                self.app.mouse_scroll = self.terminal.mouse.enabled
             if field == 'graph_pinned':
                 self.app.graph_fullscreen = self.before['graph_fullscreen'] if self.app.graph_pinned == self.preferences[1] else False
             self.app.graph_follow = True
@@ -59,12 +67,12 @@ class ViewUI:
             frame.put(2, 0, 'VIEW SETTINGS · resize to 48 × 18', 'top_accent', frame.width)
             frame.put(3, 0, 'Esc cancel · controls paused', 'top_muted', frame.width)
             return frame
-        w, h = min(frame.width - 2, 66), min(frame.height - 2, 20)
+        w, h = min(frame.width - 2, 66), min(frame.height - 2, 22)
         x, y = (frame.width - w) // 2, (frame.height - h) // 2
         frame.box(x, y, w, h, 'VIEW SETTINGS', True)
         frame.put(y + 2, x + 2, 'Live preview · session only', 'muted', w - 4)
         for index, (field, label, values, names, description) in enumerate(OPTIONS):
-            row = y + 4 + index * 3
+            row = y + 3 + index * 3
             chosen = index == self.index
             frame.put(row, x + 2, ('› ' if chosen else '  ') + label + ' · ' + names[values.index(getattr(self.app, field))],
                       'selected_meta' if chosen else 'heading', w - 4)

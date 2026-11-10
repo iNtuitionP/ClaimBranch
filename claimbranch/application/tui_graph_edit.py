@@ -150,8 +150,9 @@ class GraphEditUI:
             elif event=='e':term.modal='graph-edit-fields';self.candidate=None
             elif event=='r':
                 if not self.seen_end:self.notice='Read the complete comparison with PgDn/End before recording';return
-                self.confirmation=exact_path_buffer('');term.modal='graph-edit-confirm'
+                self.confirmation=exact_path_buffer('');self.fresh_confirmation=False;term.modal='graph-edit-confirm'
         elif mode=='graph-edit-confirm':
+            if not getattr(self,'fresh_confirmation',False):return
             if event=='enter':
                 if self.confirmation.text!='record':self.notice='Type record exactly; Esc retains input';return
                 app.recovery.save(app);recheck_edits(app.recovery.project,self.review);app.recovery.store.verify_unchanged()
@@ -190,6 +191,11 @@ class GraphEditUI:
                 if value in self.terminal.app.nodes:label=self.terminal.app.title(value)+' / '+value
                 out.put(3+i-start,2,('> ' if i==self.option else '  ')+label,'accent' if i==self.option else 'body',w-4)
         elif mode=='graph-edit-confirm':
+            if not getattr(self,'fresh_confirmation',False):
+                term=self.terminal
+                if hasattr(term,'pending'):term.pending.clear()
+                if hasattr(term,'curses'):term.curses.flushinp()
+                self.fresh_confirmation=True
             out.put(3,2,'Type record to save this exact revision. Esc retains input.','heading',w-4)
             out.put(5,2,self.confirmation.text,'body',w-4)
         else:

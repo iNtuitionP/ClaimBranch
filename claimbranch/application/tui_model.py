@@ -50,19 +50,26 @@ def wrap(text, width):
     width = max(2, width)
     lines = []
     for paragraph in clean(text).split("\n"):
-        current = ""
+        current, used = "", 0
         for word in paragraph.split():
-            if current and cell_width(current + " " + word) <= width:
+            sizes = [char_width(char) for char in word]
+            size = sum(sizes)
+            if current and used + 1 + size <= width:
                 current += " " + word
+                used += 1 + size
                 continue
             if current:
                 lines.append(current)
-                current = ""
-            while cell_width(word) > width:
-                chunk = clip(word, width, ellipsis=False)
-                lines.append(chunk)
-                word = word[len(chunk):]
-            current = word
+            start = 0
+            while size > width:
+                end, consumed = start, 0
+                while end < len(word) and consumed + sizes[end] <= width:
+                    consumed += sizes[end]
+                    end += 1
+                lines.append(word[start:end])
+                start = end
+                size -= consumed
+            current, used = word[start:], size
         lines.append(current)
     return lines or [""]
 
@@ -106,6 +113,7 @@ class TerminalWorkspace:
         self.layout = layout
         self.navigation = navigation
         self.graph_view = "overview"
+        self.mouse_scroll = False
         self.graph_pinned = False
         self.graph_spacing = "balanced"
         self.graph_fullscreen = False
@@ -188,8 +196,6 @@ class TerminalWorkspace:
         """A visibly abbreviated source excerpt, never an inferred proposition."""
         title = self.title(node_id)
         if self.nodes[node_id]["content"].get("title"):return title
-        if title.startswith(("On ", "With ")) and ", " in title:
-            return "…" + title.split(", ", 1)[1]
         return title
 
     def evidence_ids(self):
@@ -826,6 +832,7 @@ class TerminalWorkspace:
         return ""
 
     def relationship_detail(self):
+        from .tui_presenters import fields
         links = self.display_links()
         if not links:
             return [("NO CLAIM USES" if self.link_scope == "uses" else "NO CONNECTIONS", "heading"),
@@ -837,14 +844,18 @@ class TerminalWorkspace:
         lines = []
         record = next((edge for edge in self.view['relations'] if edge['key'] == link.key), {})
         if record.get('graph_revisions'):
-            lines.extend([('RELATION REVISIONS / FRESH REVIEW REQUIRED','heading'),(json.dumps(record['graph_revisions'],ensure_ascii=False,indent=2),'warning')])
+            lines.extend([('RELATION REVISIONS / FRESH REVIEW REQUIRED','heading'),('Retained revisions: ' + str(len(record['graph_revisions'])) + ' · Original record / audit in actions','warning')])
         imported = record.get('imported_source')
         if imported:
             lines.extend([('IMPORTED RELATION / ' + imported['contributor'].upper(), 'heading'),
-                ('Source-claimed origin; no prior app approval. ' + (imported['recorded_at'] or 'Original date unknown.'), 'warning'),
-                ('ORIGINAL RELATION', 'heading'), (json.dumps(imported['original_body'], ensure_ascii=False), 'body')])
+                ('Source-claimed origin; no prior app approval. ' + (imported.get('recorded_at') or 'Original date unknown.'), 'warning'),
+                ('ORIGINAL RELATION', 'heading'), *list(fields(imported['original_body']))])
+            if imported.get('origin_flags'):
+                lines.extend([('RETAINED SOURCE INFLUENCE', 'warning'),
+                    (', '.join(key.upper() for key, present in imported['origin_flags'].items() if present), 'warning')])
             pointers = sum(imported['unresolved_pointer_pages'], [])
             if pointers: lines.extend([('UNRESOLVED SOURCE FIELDS', 'heading'), ('\n'.join(pointers), 'warning')])
+            lines.append(('Original mappings and ledger: ; actions → Original record / audit.', 'muted'))
         return lines + [(link.kind.upper() + (' / DRAFT' if link.draft else ''), "heading"),
                 ("Reporting obligation · not scientific support" if link.kind in ("must-co-report","co-reported-with") else "Scientific relation" if link.scientific else "Structural reference · not scientific support", "muted"),
                 ("", "body"), ("FROM / " + self.node_label(source), "heading"), (self.title(source), "body"),
@@ -855,6 +866,18 @@ class TerminalWorkspace:
 
     def detail(self, mode=None, *, include_links=True, width=72):
         mode = mode or self.mode
+        if mode == 'raw' and self.reading_relation:
+            links = self.display_links()
+            if not links:return [('NO CONNECTIONS', 'heading')]
+            link = links[max(0, min(self.link_index, len(links) - 1))]
+            record = next((edge for edge in self.view['relations'] if edge['key'] == link.key), {})
+            lines = [('ORIGINAL CONNECTION / AUDIT', 'heading'), (json.dumps(record, ensure_ascii=False, indent=2), 'body')]
+            reader = getattr(self, 'imported_original_source', None)
+            if record.get('imported_source') and record.get('record_id') and reader:
+                original = reader(record['record_id'])
+                lines.extend([('RETAINED ORIGINAL / UNINTERPRETED', 'heading'),
+                    (original if original is not None else 'Original source unavailable for this connection.', 'warning')])
+            return lines
         if mode == 'work':
             return self.review.lines(width)
         node = self.nodes[self.selected_id]
@@ -864,61 +887,62 @@ class TerminalWorkspace:
         def section(title, body, style="body"):
             lines.extend([(title, "heading"), (str(body), style), ("", "body")])
 
-        if node['kind']=='manuscript-anchor' and 'block' in content:
-            import base64
-            from .manuscript_anchors import inspect_anchor
-            section('REGISTERED MANUSCRIPT / READ ONLY', b''.join(base64.b64decode(part) for part in content['block']).decode('utf-8'))
-            section('SOURCE FRESHNESS / NOT SCIENTIFIC FIDELITY', json.dumps(inspect_anchor(content),ensure_ascii=False,indent=2), 'warning')
-            section('COVERAGE', 'Explicit associations only; no recursive includes or graphics verification.', 'muted')
-        if node['kind']=='critique-question':
-            section('SOURCED RESEARCH QUESTION / NOT EMPIRICAL EVIDENCE',content['statement'])
-            section('QUESTION REVISIONS / RETAINED REASONS',json.dumps(dict(current_reason=content.get('rationale'),earlier=content.get('revisions',[])),ensure_ascii=False,indent=2))
-            section('OWNER-ASSOCIATED WORK / NOT PROOF OF MOTIVATION',json.dumps(content.get('associations',[]),ensure_ascii=False,indent=2))
-            section('PRIVATE ORIGINAL', 'Excluded from this graph. Close TUI and use explicit project critique-original to read it locally.', 'muted')
-            section('COVERAGE', 'A question or addressed-by link proves no resolution, confidentiality or anonymity.', 'warning')
-        if content.get('replacement_context'):
-            section('RESULT REPLACEMENTS / STATUS UNCHANGED',json.dumps(content['replacement_context'],ensure_ascii=False,indent=2),'warning')
-        if content.get('protocol_context'):
-            section('REGISTERED RULES / ORIGINAL RESULTS AND AMENDMENTS',json.dumps(content['protocol_context'],ensure_ascii=False,indent=2),'warning')
-            section('CHRONOLOGY', 'Source-claimed or unknown; app record order cannot prove that external results were unseen.', 'muted')
-        if content.get('measurement'):
-            section('EXACT MEASUREMENT TABLE / APPEND-ONLY',json.dumps(content['measurement'],ensure_ascii=False,indent=2))
-            section('MEASUREMENT REVISION',content['measurement_revision'])
-            section('ARTIFACT REFERENCES', 'Declared hashes and paths; not automatically opened or scientifically verified.', 'warning')
-        if content.get('co_report'):
-            section('SCOPED READING',content['scope'])
-            section('CO-REPORTED / SHARED REASON AND ORIGINS',json.dumps(content['co_report'],ensure_ascii=False,indent=2),'warning')
-        if content.get('graph_revisions'):
-            section('RECORDED REVISIONS / FRESH REVIEW REQUIRED',json.dumps(content['graph_revisions'],ensure_ascii=False,indent=2),'warning')
-        if content.get('title'):
-            section('FULL SOURCE CONTENT',json.dumps({k:v for k,v in content.items() if k in ('statement','objective','question','conditions','metric','value')},ensure_ascii=False,indent=2))
-        if content.get('metadata_contributions'):
-            section('DECLARED CONTENT ORIGIN / CONFIRMING ACTOR IS SEPARATE',json.dumps(content['metadata_contributions'],ensure_ascii=False,indent=2),'warning')
-        if content.get('wording_policy'):
-            section('HUMAN WORDING LIMITS / SEPARATE FROM CLAIM STATUS',json.dumps(content['wording_policy'],ensure_ascii=False,indent=2),'warning')
-        if content.get('companion_dependencies'):
-            section('REPORTING COMPANIONS / NOT SCIENTIFIC SUPPORT',json.dumps(content['companion_dependencies'],ensure_ascii=False,indent=2),'warning')
-        if content.get('reporting_context'):
-            section('DECLARED MANUSCRIPT PLACEMENT / PARAGRAPHS',json.dumps(content['reporting_context'],ensure_ascii=False,indent=2))
-        imported = content.get('imported_source')
-        if imported:
-            section('IMPORTED SOURCE / ' + imported['contributor'].upper(),
-                'Source-claimed authorship/date; no prior app approval. ' + (imported['recorded_at'] or 'Original date unknown.'), 'warning')
-            if imported.get('origin_flags'):
-                section('RETAINED SOURCE INFLUENCE', ', '.join(key.upper() for key,present in imported['origin_flags'].items() if present) + '. Authorship uncertainty is retained independently of known contribution.', 'warning')
-            section('ORIGINAL MAPPED CONTENT', json.dumps(imported['original_body'], ensure_ascii=False, indent=2))
-            unresolved = sum(imported['unresolved_pointer_pages'], [])
-            if unresolved:
-                section('UNRESOLVED SOURCE FIELDS', '\n'.join(unresolved) + '\nPreserved privately; not validated scientific fields.', 'warning')
+        if mode == 'raw':
+            if node['kind']=='manuscript-anchor' and 'block' in content:
+                import base64
+                from .manuscript_anchors import inspect_anchor
+                section('REGISTERED MANUSCRIPT / READ ONLY', b''.join(base64.b64decode(part) for part in content['block']).decode('utf-8'))
+                section('SOURCE FRESHNESS / NOT SCIENTIFIC FIDELITY', json.dumps(inspect_anchor(content),ensure_ascii=False,indent=2), 'warning')
+                section('COVERAGE', 'Explicit associations only; no recursive includes or graphics verification.', 'muted')
+            if node['kind']=='critique-question':
+                section('SOURCED RESEARCH QUESTION / NOT EMPIRICAL EVIDENCE',content['statement'])
+                section('QUESTION REVISIONS / RETAINED REASONS',json.dumps(dict(current_reason=content.get('rationale'),earlier=content.get('revisions',[])),ensure_ascii=False,indent=2))
+                section('OWNER-ASSOCIATED WORK / NOT PROOF OF MOTIVATION',json.dumps(content.get('associations',[]),ensure_ascii=False,indent=2))
+                section('PRIVATE ORIGINAL', 'Excluded from this graph. Close TUI and use explicit project critique-original to read it locally.', 'muted')
+                section('COVERAGE', 'A question or addressed-by link proves no resolution, confidentiality or anonymity.', 'warning')
+            if content.get('replacement_context'):
+                section('RESULT REPLACEMENTS / STATUS UNCHANGED',json.dumps(content['replacement_context'],ensure_ascii=False,indent=2),'warning')
+            if content.get('protocol_context'):
+                section('REGISTERED RULES / ORIGINAL RESULTS AND AMENDMENTS',json.dumps(content['protocol_context'],ensure_ascii=False,indent=2),'warning')
+                section('CHRONOLOGY', 'Source-claimed or unknown; app record order cannot prove that external results were unseen.', 'muted')
+            if content.get('measurement'):
+                section('EXACT MEASUREMENT TABLE / APPEND-ONLY',json.dumps(content['measurement'],ensure_ascii=False,indent=2))
+                section('MEASUREMENT REVISION',content.get('measurement_revision', 'Not recorded'))
+                section('ARTIFACT REFERENCES', 'Declared hashes and paths; not automatically opened or scientifically verified.', 'warning')
+            if content.get('co_report'):
+                section('SCOPED READING',content['scope'])
+                section('CO-REPORTED / SHARED REASON AND ORIGINS',json.dumps(content['co_report'],ensure_ascii=False,indent=2),'warning')
+            if content.get('graph_revisions'):
+                section('RECORDED REVISIONS / FRESH REVIEW REQUIRED',json.dumps(content['graph_revisions'],ensure_ascii=False,indent=2),'warning')
+            if content.get('title'):
+                section('FULL SOURCE CONTENT',json.dumps({k:v for k,v in content.items() if k in ('statement','objective','question','conditions','metric','value')},ensure_ascii=False,indent=2))
+            if content.get('metadata_contributions'):
+                section('DECLARED CONTENT ORIGIN / CONFIRMING ACTOR IS SEPARATE',json.dumps(content['metadata_contributions'],ensure_ascii=False,indent=2),'warning')
+            if content.get('wording_policy'):
+                section('HUMAN WORDING LIMITS / SEPARATE FROM CLAIM STATUS',json.dumps(content['wording_policy'],ensure_ascii=False,indent=2),'warning')
+            if content.get('companion_dependencies'):
+                section('REPORTING COMPANIONS / NOT SCIENTIFIC SUPPORT',json.dumps(content['companion_dependencies'],ensure_ascii=False,indent=2),'warning')
+            if content.get('reporting_context'):
+                section('DECLARED MANUSCRIPT PLACEMENT / PARAGRAPHS',json.dumps(content['reporting_context'],ensure_ascii=False,indent=2))
+            imported = content.get('imported_source')
+            if imported:
+                section('IMPORTED SOURCE / ' + imported['contributor'].upper(),
+                    'Source-claimed authorship/date; no prior app approval. ' + (imported.get('recorded_at') or 'Original date unknown.'), 'warning')
+                if imported.get('origin_flags'):
+                    section('RETAINED SOURCE INFLUENCE', ', '.join(key.upper() for key,present in imported['origin_flags'].items() if present) + '. Authorship uncertainty is retained independently of known contribution.', 'warning')
+                section('ORIGINAL MAPPED CONTENT', json.dumps(imported['original_body'], ensure_ascii=False, indent=2))
+                unresolved = sum(imported['unresolved_pointer_pages'], [])
+                if unresolved:
+                    section('UNRESOLVED SOURCE FIELDS', '\n'.join(unresolved) + '\nPreserved privately; not validated scientific fields.', 'warning')
                 reader = getattr(self, 'imported_original_source', None)
                 if reader:
                     section('RETAINED ORIGINAL / UNINTERPRETED', reader(node['id']), 'warning')
-        if content.get('imported_dependencies'):
-            section('IMPORTED REASONING BASIS / ORIGIN RETAINED',
-                json.dumps(content['imported_dependencies'], ensure_ascii=False, indent=2), 'warning')
-        if content.get('historical_decisions'):
-            section('HISTORICAL SOURCE DECISIONS / NOT LOCAL EPISODES',
-                json.dumps(content['historical_decisions'], ensure_ascii=False, indent=2), 'muted')
+            if content.get('imported_dependencies'):
+                section('IMPORTED REASONING BASIS / ORIGIN RETAINED',
+                    json.dumps(content['imported_dependencies'], ensure_ascii=False, indent=2), 'warning')
+            if content.get('historical_decisions'):
+                section('HISTORICAL SOURCE DECISIONS / NOT LOCAL EPISODES',
+                    json.dumps(content['historical_decisions'], ensure_ascii=False, indent=2), 'muted')
 
         if mode == "impact":
             if not self.scenario:
@@ -972,7 +996,7 @@ class TerminalWorkspace:
         if node["kind"] == "observation" and content.get("value") is not None and content.get("metric") and content["metric"].get("unit") and content["metric"].get("name"):
             lines.append((content["value"] + " " + content["metric"]["unit"] + " · " + content["metric"]["name"], "accent"))
         elif node["kind"]=="observation" and content.get("value") is not None:
-            lines.append((content["value"]+" · metric not recorded in this import","accent"))
+            lines.append((content["value"]+" · metric name or unit not recorded","accent"))
         if content.get("experiment_not_recorded"):section("EXPERIMENT FIELDS NOT RECORDED",", ".join(content["experiment_not_recorded"]),"warning")
         if content.get("conditions"):
             label = 'Run conditions: ' if node['kind'] == 'observation' else 'Conditions: '
@@ -988,7 +1012,9 @@ class TerminalWorkspace:
             if not uses:
                 lines.extend([("No direct scientific claim uses recorded.", "muted"), ("", "body")])
         lines.append(("", "body"))
-        section('DRAFT STATEMENT / NOT ACCEPTED' if node.get('draft') else "SOURCE STATEMENT", self.title(self.selected_id))
+        if content.get('title'):section('TITLE', content['title'])
+        section('DRAFT STATEMENT / NOT ACCEPTED' if node.get('draft') else "SOURCE STATEMENT",
+                content.get('statement') or content.get('objective') or content.get('question') or self.title(self.selected_id))
         if self.note().strip():
             section("MY NOTE · n edit", self.note())
         elif not getattr(self, 'projection_only', False):
@@ -1001,11 +1027,11 @@ class TerminalWorkspace:
             section("METHOD", content["method"])
         if content.get("metric"):
             metric = content["metric"]
-            section("MEASUREMENT / " + (metric["name"] or "not recorded"), metric["definition"] or "not recorded")
-            section("UNIT", metric["unit"] or "not recorded")
-            section("COMPARISON", metric["comparison"] or "not recorded")
+            section("MEASUREMENT / " + (metric.get("name") or "not recorded"), metric.get("definition") or "not recorded")
+            section("UNIT", metric.get("unit") or "not recorded")
+            section("COMPARISON", metric.get("comparison") or "not recorded")
         if content.get("source_ref"):
-            section("SOURCE REFERENCE", content["source_ref"] + " (example reference; no artifact opened)", "muted")
+            section("SOURCE REFERENCE", content["source_ref"] + " (declared reference; no artifact opened)", "muted")
         if node["kind"] == "experiment-plan":
             section("NOT RUN", ("No measured result. Scenarios on this draft graph are unavailable."
                                if getattr(self, 'projection_only', False) else
@@ -1020,4 +1046,9 @@ class TerminalWorkspace:
         if not include_links:
             section("CONNECTIONS", f"{len(self.links())} typed connections · r to inspect their direction and rationale.", "muted")
         section("RECORD", self.selected_id + recovery_copy(self, " / synthetic, unverified candidate"), "muted")
+        if mode == 'detail':
+            from .tui_presenters import metadata
+            lines.extend(metadata(self, width))
+        if mode == 'raw':
+            section('COMPLETE NODE CONTENT / SOURCE DATA', json.dumps(content, ensure_ascii=False, indent=2))
         return lines
